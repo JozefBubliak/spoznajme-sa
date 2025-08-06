@@ -1,26 +1,175 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Primary colors - warm and inviting */
+    --primary: 260 100% 67%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 280 100% 80%;
+    
+    /* Secondary colors */
+    --secondary: 210 40% 98%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    
+    /* Muted colors */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    /* Accent colors */
+    --accent: 320 65% 80%;
+    --accent-foreground: 222.2 84% 4.9%;
+    
+    /* Background */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    
+    /* Card */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    
+    /* Border */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    
+    /* Ring */
+    --ring: 260 100% 67%;
+    
+    /* Radius */
+    --radius: 0.75rem;
+    
+    /* Success */
+    --success: 142 76% 36%;
+    --success-foreground: 355.7 100% 97.3%;
+    
+    /* Warning */
+    --warning: 45 93% 47%;
+    --warning-foreground: 26 83% 14%;
+    
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-warm: linear-gradient(135deg, hsl(320 65% 80%), hsl(280 100% 80%));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(210 40% 98%));
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    --shadow-warm: 0 8px 25px -8px hsl(320 65% 80% / 0.4);
+    --shadow-soft: 0 4px 15px -4px hsl(210 40% 50% / 0.1);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 260 100% 67%;
+    --primary-foreground: 222.2 84% 4.9%;
+    
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 260 100% 67%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .card-elegant {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-elegant);
+    transition: var(--transition-smooth);
+  }
+  
+  .card-elegant:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-warm);
+  }
+  
+  .btn-primary {
+    background: var(--gradient-primary);
+    color: hsl(var(--primary-foreground));
+    border: none;
+    transition: var(--transition-bounce);
+  }
+  
+  .btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-elegant);
+  }
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
 }
