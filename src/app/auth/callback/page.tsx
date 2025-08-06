@@ -20,7 +20,7 @@ export default function AuthCallback() {
       console.log('[CALLBACK] Session:', session)
       console.log('[CALLBACK] User:', user)
 
-      if (user && ADMIN_EMAILS.includes(user.email)) {
+      if (user && user.email && ADMIN_EMAILS.includes(user.email)) {
         router.push('/admin')
       } else {
         router.push('/app')
