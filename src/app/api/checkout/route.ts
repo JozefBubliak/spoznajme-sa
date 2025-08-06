@@ -1,7 +1,8 @@
+
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe("sk_test_51Ro77dAciFxB09IeiOU1ulLk0JlI4YY35WnkdqJ4XLLMb8x18tbqm2jb3Et90bv2MZrWazw1ej2KFox6JCBfqqcY00tT8svLfQ", {
   apiVersion: '2025-06-30.basil',
 })
 
@@ -12,12 +13,12 @@ export async function POST() {
       mode: 'payment',
       line_items: [
         {
-          price: process.env.STRIPE_PRICE_ID!,
+          price: "price_1Ro7WUAciFxB09IepKSBrNMB",
           quantity: 1,
         },
       ],
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/thank-you`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/upgrade`,
+      success_url: `https://spoznajmesa-kappa.vercel.app/thank-you`,
+      cancel_url: `https://spoznajmesa-kappa.vercel.app/upgrade`,
     })
 
     return NextResponse.json({ url: session.url })
