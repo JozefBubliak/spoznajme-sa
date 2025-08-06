@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -76,8 +77,8 @@ export default function AppPage() {
     ) || []
 
     setFavoritesList(filteredFavorites)
-    if (filteredFavorites.length > 0 && filteredFavorites[0].questions) {
-      // Fix: filteredFavorites[0].questions is a single question object, not an array
+    if (filteredFavorites.length > 0 && filteredFavorites[0]?.questions) {
+      // The questions property should be a single question object, not an array
       setCurrentQuestion(filteredFavorites[0].questions)
       setCurrentFavoriteIndex(0)
     } else {
