@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
 import { BrainIcon, Share2, Heart } from 'lucide-react'
+import Layout from '@/components/Layout'
 
 const groupOptions = ['partneri', 'kamarati', 'rodina', 'rodic_dieta'] as const
 type GroupKey = (typeof groupOptions)[number]
@@ -70,72 +71,106 @@ export default function FreePage() {
   )
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-      <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-xl w-full transition-all">
-        <h1 className="text-3xl font-bold flex justify-center items-center gap-2">
-          <BrainIcon className="text-pink-500" /> Spoznajme sa
-        </h1>
+    <Layout>
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
+          <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6">
+            <h1 className="text-2xl md:text-3xl font-bold">
+              {group ? groupLabels[group] : 'Spoznajme sa - Zadarmo'}
+            </h1>
+            <p className="text-purple-100 mt-2">Bezplatné otázky pre lepšie spoznanie</p>
+          </div>
 
-        {!group ? (
-          <>
-            <p className="text-gray-600">S kým sa chcete lepšie spoznať?</p>
-            <div className="grid grid-cols-2 gap-2">
-              {groupOptions.map(option => (
-                <Button
-                  key={option}
-                  onClick={() => setGroup(option)}
-                  disabled={shownIds.length >= FREE_IDS[option].length}
-                  className={`${
-                    shownIds.length >= FREE_IDS[option].length
-                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-purple-600 hover:bg-purple-700 text-white'
-                  }`}
-                >
-                  {option.charAt(0).toUpperCase() + option.slice(1).replace('_', ' –')}
-                </Button>
-              ))}
-            </div>
-          </>
-        ) : questionText !== null ? (
-          <>
-            <p className="text-lg font-medium text-gray-800">{questionText}</p>
+          <div className="p-6 md:p-8">
+            {!group ? (
+              <>
+                <p className="text-gray-600 text-center text-lg mb-6">
+                  S kým sa chceš lepšie spoznať?
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {groupOptions.map(option => (
+                    <Button
+                      key={option}
+                      onClick={() => setGroup(option)}
+                      disabled={shownIds.length >= FREE_IDS[option].length}
+                      className={`h-16 text-lg ${
+                        shownIds.length >= FREE_IDS[option].length
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
+                      }`}
+                    >
+                      {option.charAt(0).toUpperCase() + option.slice(1).replace('_', ' –')}
+                    </Button>
+                  ))}
+                </div>
+              </>
+            ) : questionText !== null ? (
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="bg-gray-50 rounded-lg p-6 md:p-8">
+                    <p className="text-lg md:text-xl font-medium text-gray-800 leading-relaxed">
+                      {questionText}
+                    </p>
+                  </div>
+                </div>
 
-            <div className="flex justify-center gap-4 mt-4">
-              <Button onClick={handleNext}>Ďalšia otázka</Button>
-              <Button variant="outline" onClick={() => setGroup(null)}>
-                Zmeniť skupinu
-              </Button>
-            </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Button onClick={handleNext} className="bg-purple-600 hover:bg-purple-700">
+                    Ďalšia otázka
+                  </Button>
+                  <Button variant="outline" onClick={() => setGroup(null)}>
+                    Zmeniť skupinu
+                  </Button>
+                </div>
 
-            <div className="flex justify-center gap-4 mt-4 text-sm text-blue-600 underline">
-              <button onClick={() => navigator.clipboard.writeText(questionText)}>
-                <Share2 size={16} className="inline mr-1" /> Skopírovať otázku
-              </button>
-              <span className="opacity-50 cursor-not-allowed">
-                <Heart size={16} className="inline mr-1" /> Len pre prihlásených
-              </span>
-            </div>
-          </>
-        ) : hasSeenAllInGroup ? (
-          <>
-            <p className="text-gray-800">
-              Zobrazil si všetky otázky pre skupinu{' '}
-              <span className="font-semibold">{group.replace('_', ' –')}</span>.
-            </p>
-            <p className="text-sm text-gray-500">
-              Chceš skúsiť inú skupinu alebo odomknúť všetky otázky?
-            </p>
-            <div className="flex justify-center gap-4 mt-4">
-              <Button variant="outline" onClick={() => setGroup(null)}>
-                Iná skupina
-              </Button>
-              <Button onClick={() => navigate('/login')}>Získať plný prístup</Button>
-            </div>
-          </>
-        ) : (
-          <p className="text-sm text-gray-400">Načítavam...</p>
-        )}
+                <div className="flex justify-center gap-4 mt-4 text-sm">
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(questionText)}
+                    className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                  >
+                    <Share2 size={16} /> Skopírovať otázku
+                  </button>
+                  <button 
+                    onClick={() => navigate('/login')}
+                    className="text-gray-500 hover:text-gray-700 flex items-center gap-1"
+                  >
+                    <Heart size={16} /> Označiť ako obľúbenú
+                  </button>
+                </div>
+              </div>
+            ) : hasSeenAllInGroup ? (
+              <div className="text-center space-y-6">
+                <div className="mb-6">
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                    Všetky bezplatné otázky videné!
+                  </h3>
+                  <p className="text-gray-600">
+                    Zobrazil si všetky otázky pre skupinu{' '}
+                    <span className="font-semibold">{group.replace('_', ' –')}</span>.
+                  </p>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Button variant="outline" onClick={() => setGroup(null)}>
+                    Iná skupina
+                  </Button>
+                  <Button 
+                    onClick={() => navigate('/login')}
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  >
+                    Získať plný prístup
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center">
+                <p className="text-gray-400">Načítavam...</p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+    </Layout>
   )
 }

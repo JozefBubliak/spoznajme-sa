@@ -1,5 +1,4 @@
 
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import HomePage from './app/(unauth)/landing/page'
 import FreePage from './app/free/page'
@@ -33,4 +32,3 @@ function App() {
 }
 
 export default App
-

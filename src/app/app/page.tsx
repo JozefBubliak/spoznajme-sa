@@ -1,138 +1,404 @@
+
 'use client'
 
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { supabase } from '@/lib/supabaseClient'
+import { useAuth } from '@/hooks/useAuth'
+import { useQuestions } from '@/hooks/useQuestions'
 import { Button } from '@/components/ui/button'
-import { Brain } from 'lucide-react'
+import { Brain, Heart, ChevronLeft, ChevronRight, BarChart3 } from 'lucide-react'
+import Layout from '@/components/Layout'
 
 const groupOptions = ['partneri', 'kamarati', 'rodina', 'rodic_dieta'] as const
+type GroupKey = typeof groupOptions[number]
+
+const groupLabels: Record<GroupKey, string> = {
+  partneri: '💑 Partneri',
+  kamarati: '👫 Kamaráti', 
+  rodina: '👨‍👩‍👧‍👦 Rodina',
+  rodic_dieta: '👨‍👧 Rodič–dieťa'
+}
 
 export default function AppPage() {
   const navigate = useNavigate()
-  const [user, setUser] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [group, setGroup] = useState<typeof groupOptions[number] | null>(null)
-  const [question, setQuestion] = useState<string | null>(null)
-  const [questionCount, setQuestionCount] = useState<number>(0)
-  const [isPaid, setIsPaid] = useState<boolean>(false)
+  const { user, isPaid, loading } = useAuth()
+  const { 
+    currentQuestion, 
+    setCurrentQuestion, 
+    favorites, 
+    dailyCount, 
+    fetchQuestion, 
+    toggleFavorite, 
+    getQuestionCounts, 
+    canViewMore 
+  } = useQuestions()
+
+  const [group, setGroup] = useState<GroupKey | null>(null)
+  const [favoritesMode, setFavoritesMode] = useState(false)
+  const [favoritesList, setFavoritesList] = useState<any[]>([])
+  const [currentFavoriteIndex, setCurrentFavoriteIndex] = useState(0)
+  const [questionCounts, setQuestionCounts] = useState({ total: 0, remaining: 0 })
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-
-      if (user) {
-        setUser(user)
-        const paid = localStorage.getItem('paid') === 'true'
-        setIsPaid(paid)
-      } else {
-        navigate('/login')
-      }
-
-      setIsLoading(false)
+    if (group && !favoritesMode) {
+      loadQuestionCounts()
     }
-
-    getUser()
-  }, [navigate])
+  }, [group, isPaid])
 
   useEffect(() => {
-    if (!isPaid) {
-      const today = new Date().toISOString().slice(0, 10)
-      const lastUsed = localStorage.getItem('last_use_date')
-      if (lastUsed !== today) {
-        localStorage.setItem('last_use_date', today)
-        localStorage.setItem('question_count', '0')
-      }
-      const count = parseInt(localStorage.getItem('question_count') || '0')
-      setQuestionCount(count)
+    if (favoritesMode && group) {
+      loadFavorites()
     }
-  }, [isPaid])
+  }, [favoritesMode, group, favorites])
 
-  useEffect(() => {
-    if (group) {
-      fetchQuestion()
-    }
-  }, [group])
-
-  const fetchQuestion = async () => {
+  const loadQuestionCounts = async () => {
     if (!group) return
+    const counts = await getQuestionCounts(group)
+    setQuestionCounts(counts)
+  }
 
-    if (!isPaid && questionCount >= 2) {
-      alert('Pre dnešok si už použil 2 otázky. Odomkni plnú verziu.')
-      return
-    }
+  const loadFavorites = async () => {
+    if (!group || !user) return
 
-    const { data, error } = await supabase
-      .from('questions')
-      .select('text')
-      .eq(group, true)
+    const { data } = await supabase
+      .from('user_favorites')
+      .select(`
+        question_id,
+        questions (
+          id, text, ${group}
+        )
+      `)
+      .eq('user_id', user.id)
 
-    if (error) {
-      console.error('Chyba pri načítaní otázky:', error)
-      return
-    }
+    const filteredFavorites = data?.filter(
+      item => item.questions && item.questions[group]
+    ) || []
 
-    if (data && data.length > 0) {
-      const randomIndex = Math.floor(Math.random() * data.length)
-      setQuestion(data[randomIndex].text)
-
-      if (!isPaid) {
-        const count = questionCount + 1
-        localStorage.setItem('question_count', count.toString())
-        setQuestionCount(count)
-      }
-    } else {
-      setQuestion('Žiadne otázky pre túto skupinu.')
+    setFavoritesList(filteredFavorites)
+    if (filteredFavorites.length > 0) {
+      setCurrentQuestion(filteredFavorites[0].questions)
+      setCurrentFavoriteIndex(0)
     }
   }
 
-  if (isLoading) {
-    return <div className="text-center p-10 text-gray-500">Načítavam...</div>
+  const handleNextQuestion = async () => {
+    if (!group) return
+
+    try {
+      setIsLoading(true)
+      
+      if (favoritesMode) {
+        const nextIndex = (currentFavoriteIndex + 1) % favoritesList.length
+        setCurrentFavoriteIndex(nextIndex)
+        setCurrentQuestion(favoritesList[nextIndex].questions)
+      } else {
+        const question = await fetchQuestion(group)
+        if (question) {
+          setCurrentQuestion(question)
+          await loadQuestionCounts()
+        } else {
+          if (!user) {
+            // All free questions seen
+            setCurrentQuestion(null)
+          } else if (!isPaid && dailyCount >= 2) {
+            alert('Denný limit otázok dosiahnutý. Odomkni plný prístup pre viac otázok!')
+          } else {
+            alert('Videl si už všetky otázky v tejto skupine!')
+          }
+        }
+      }
+    } catch (error: any) {
+      alert(error.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handlePrevQuestion = () => {
+    if (!favoritesMode || favoritesList.length === 0) return
+    
+    const prevIndex = currentFavoriteIndex > 0 
+      ? currentFavoriteIndex - 1 
+      : favoritesList.length - 1
+    setCurrentFavoriteIndex(prevIndex)
+    setCurrentQuestion(favoritesList[prevIndex].questions)
+  }
+
+  const handleGroupSelect = async (selectedGroup: GroupKey) => {
+    setGroup(selectedGroup)
+    setFavoritesMode(false)
+    setCurrentQuestion(null)
+
+    try {
+      setIsLoading(true)
+      const question = await fetchQuestion(selectedGroup)
+      setCurrentQuestion(question)
+    } catch (error: any) {
+      alert(error.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleFavoritesToggle = () => {
+    if (!user) {
+      alert('Pre obľúbené otázky sa musíš prihlásiť!')
+      navigate('/login')
+      return
+    }
+    setFavoritesMode(!favoritesMode)
+    setCurrentQuestion(null)
+  }
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="text-center">
+            <Brain className="animate-spin h-8 w-8 mx-auto mb-4 text-purple-600" />
+            <p className="text-gray-600">Načítavam...</p>
+          </div>
+        </div>
+      </Layout>
+    )
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-      <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-xl w-full">
-        <h1 className="text-3xl font-bold flex justify-center items-center gap-2">
-          <Brain className="text-pink-500" /> Spoznajme sa
-        </h1>
-
-        {!group ? (
-          <>
-            <p className="text-gray-600">Vyber si skupinu:</p>
-            <div className="grid grid-cols-2 gap-2">
-              {groupOptions.map(option => (
-                <Button
-                  key={option}
-                  onClick={() => setGroup(option)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white"
-                >
-                  {option.charAt(0).toUpperCase() + option.slice(1).replace('_', '–')}
-                </Button>
-              ))}
+    <Layout>
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold mb-2">
+                  {group ? groupLabels[group] : 'Vyber si skupinu'}
+                </h1>
+                {user && (
+                  <div className="text-purple-100 text-sm">
+                    {isPaid ? (
+                      <div className="flex items-center gap-4">
+                        <span>✨ Plný prístup</span>
+                        {group && !favoritesMode && (
+                          <span className="flex items-center gap-1">
+                            <BarChart3 className="h-4 w-4" />
+                            Zostáva: {questionCounts.remaining}/{questionCounts.total}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <span>🆓 Denné otázky: {dailyCount}/2</span>
+                    )}
+                  </div>
+                )}
+              </div>
+              
+              {group && (
+                <div className="flex gap-2">
+                  {user && (
+                    <Button
+                      variant={favoritesMode ? "secondary" : "outline"}
+                      size="sm"
+                      onClick={handleFavoritesToggle}
+                      className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+                    >
+                      <Heart className="h-4 w-4 mr-1" />
+                      Obľúbené
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setGroup(null)
+                      setCurrentQuestion(null)
+                      setFavoritesMode(false)
+                    }}
+                    className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+                  >
+                    Zmeniť skupinu
+                  </Button>
+                </div>
+              )}
             </div>
-          </>
-        ) : (
-          <>
-            <p className="text-lg font-medium text-gray-800">{question || 'Načítavam otázku...'}</p>
+          </div>
 
-            <div className="flex justify-center gap-4 mt-6">
-              <Button onClick={fetchQuestion}>Ďalšia otázka</Button>
-              <Button variant="outline" onClick={() => setGroup(null)}>
-                Zmeniť skupinu
-              </Button>
-            </div>
+          {/* Content */}
+          <div className="p-6 md:p-8">
+            {!group ? (
+              // Group Selection
+              <div className="space-y-6">
+                <p className="text-gray-600 text-center text-lg">
+                  S kým sa chceš lepšie spoznať?
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {groupOptions.map(option => (
+                    <Button
+                      key={option}
+                      onClick={() => handleGroupSelect(option)}
+                      className="h-16 text-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                      disabled={isLoading}
+                    >
+                      {groupLabels[option]}
+                    </Button>
+                  ))}
+                </div>
 
-            {!isPaid && (
-              <p className="text-sm text-gray-500 mt-2">
-                {questionCount}/2 otázok dnes zdarma. Viac odomkneš po platbe.
-              </p>
+                {!user && (
+                  <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h3 className="font-semibold text-blue-900 mb-2">💡 Tip</h3>
+                    <p className="text-blue-800 text-sm">
+                      Prihlás sa a získaj každý deň 2 nové otázky zo každej skupiny ZADARMO! 
+                      Plus možnosť označiť si obľúbené otázky.
+                    </p>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="mt-2"
+                      onClick={() => navigate('/login')}
+                    >
+                      Prihlásiť sa
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ) : currentQuestion ? (
+              // Question Display
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="bg-gray-50 rounded-lg p-6 md:p-8">
+                    <p className="text-lg md:text-xl font-medium text-gray-800 leading-relaxed">
+                      {currentQuestion.text}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Navigation Controls */}
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  {favoritesMode && favoritesList.length > 1 ? (
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handlePrevQuestion}
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                      </Button>
+                      <span className="text-sm text-gray-600 px-3">
+                        {currentFavoriteIndex + 1} / {favoritesList.length}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleNextQuestion}
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button 
+                      onClick={handleNextQuestion}
+                      disabled={isLoading || (!user && !canViewMore)}
+                      className="bg-purple-600 hover:bg-purple-700"
+                    >
+                      {isLoading ? 'Načítavam...' : 'Ďalšia otázka'}
+                    </Button>
+                  )}
+
+                  {user && currentQuestion && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => toggleFavorite(currentQuestion.id)}
+                      className={`flex items-center gap-2 ${
+                        favorites.includes(currentQuestion.id) 
+                          ? 'text-red-600 border-red-300' 
+                          : 'text-gray-600'
+                      }`}
+                    >
+                      <Heart 
+                        className={`h-4 w-4 ${
+                          favorites.includes(currentQuestion.id) ? 'fill-red-600' : ''
+                        }`} 
+                      />
+                      {favorites.includes(currentQuestion.id) ? 'Obľúbené' : 'Pridať k obľúbeným'}
+                    </Button>
+                  )}
+                </div>
+
+                {/* Progress/Status Info */}
+                {!user && (
+                  <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <p className="text-yellow-800 text-sm">
+                      🎁 Vidíš otázky zadarmo! Pre viac funkcií sa 
+                      <Button 
+                        variant="link" 
+                        size="sm" 
+                        className="text-yellow-800 underline px-1"
+                        onClick={() => navigate('/login')}
+                      >
+                        prihlás
+                      </Button>
+                      alebo
+                      <Button 
+                        variant="link" 
+                        size="sm" 
+                        className="text-yellow-800 underline px-1"
+                        onClick={() => navigate('/upgrade')}
+                      >
+                        kúp plný prístup
+                      </Button>.
+                    </p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              // No more questions
+              <div className="text-center space-y-6">
+                <div className="mb-6">
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                    {favoritesMode ? 'Žiadne obľúbené otázky' : 'Všetky otázky videné!'}
+                  </h3>
+                  <p className="text-gray-600">
+                    {favoritesMode 
+                      ? 'V tejto skupine nemáš zatiaľ žiadne obľúbené otázky.'
+                      : user && isPaid 
+                        ? 'Prebral si všetky otázky v tejto skupine.'
+                        : !user
+                          ? 'Videl si všetky bezplatné otázky v tejto skupine.'
+                          : 'Dosiahol si denný limit otázok.'
+                    }
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setGroup(null)
+                      setFavoritesMode(false)
+                    }}
+                  >
+                    Vybrať inú skupinu
+                  </Button>
+                  
+                  {!isPaid && (
+                    <Button 
+                      onClick={() => navigate('/upgrade')}
+                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                    >
+                      🔓 Odomknúť všetky otázky
+                    </Button>
+                  )}
+                </div>
+              </div>
             )}
-          </>
-        )}
+          </div>
+        </div>
       </div>
-    </div>
+    </Layout>
   )
 }
