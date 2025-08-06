@@ -1,4 +1,3 @@
-
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -80,6 +79,8 @@ export default function AppPage() {
     if (filteredFavorites.length > 0) {
       setCurrentQuestion(filteredFavorites[0].questions)
       setCurrentFavoriteIndex(0)
+    } else {
+      setCurrentQuestion(null)
     }
   }
 
