@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:dev": "vite build --mode development",
     "start": "next start",
+    "preview": "vite preview",
     "lint": "next lint"
   },
   "dependencies": {
@@ -28,6 +30,8 @@
     "eslint": "^9",
     "eslint-config-next": "15.4.2",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite": "^5",
+    "@vitejs/plugin-react": "^4"
   }
 }
