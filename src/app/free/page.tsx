@@ -1,3 +1,4 @@
+
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -9,6 +10,13 @@ import Layout from '@/components/Layout'
 
 const groupOptions = ['partneri', 'kamarati', 'rodina', 'rodic_dieta'] as const
 type GroupKey = (typeof groupOptions)[number]
+
+const groupLabels: Record<GroupKey, string> = {
+  partneri: '💑 Partneri',
+  kamarati: '👫 Kamaráti',
+  rodina: '👨‍👩‍👧‍👦 Rodina',
+  rodic_dieta: '👨‍👧 Rodič – Dieťa'
+}
 
 const FREE_IDS: Record<GroupKey, number[]> = {
   partneri: [1365, 7458, 6537, 7809, 5297, 2820, 4177, 5448, 6328, 7058],
@@ -66,9 +74,6 @@ export default function FreePage() {
   }
 
   const hasSeenAllInGroup = group ? shownIds.length >= FREE_IDS[group].length : false
-  const seenAllGroups = groupOptions.every(gr =>
-    shownIds.length >= FREE_IDS[gr as GroupKey].length
-  )
 
   return (
     <Layout>
@@ -99,7 +104,7 @@ export default function FreePage() {
                           : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
                       }`}
                     >
-                      {option.charAt(0).toUpperCase() + option.slice(1).replace('_', ' –')}
+                      {groupLabels[option]}
                     </Button>
                   ))}
                 </div>
@@ -145,9 +150,13 @@ export default function FreePage() {
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">
                     Všetky bezplatné otázky videné!
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 mb-4">
                     Zobrazil si všetky otázky pre skupinu{' '}
-                    <span className="font-semibold">{group.replace('_', ' –')}</span>.
+                    <span className="font-semibold">{group ? groupLabels[group] : ''}</span>.
+                  </p>
+                  <p className="text-gray-700 text-lg">
+                    Chceš pokračovať a získať prístup k ďalším otázkam zdarma každý deň? 
+                    <strong> Prihlás sa alebo si kúp plný prístup.</strong>
                   </p>
                 </div>
                 
@@ -158,6 +167,12 @@ export default function FreePage() {
                   <Button 
                     onClick={() => navigate('/login')}
                     className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  >
+                    Prihlásiť sa zdarma
+                  </Button>
+                  <Button 
+                    onClick={() => navigate('/upgrade')}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
                   >
                     Získať plný prístup
                   </Button>

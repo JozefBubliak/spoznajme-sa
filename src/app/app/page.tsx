@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { useQuestions } from '@/hooks/useQuestions'
+import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
 import { Brain, Heart, ChevronLeft, ChevronRight, BarChart3 } from 'lucide-react'
 import Layout from '@/components/Layout'
@@ -72,7 +73,7 @@ export default function AppPage() {
       .eq('user_id', user.id)
 
     const filteredFavorites = data?.filter(
-      item => item.questions && item.questions[group]
+      (item: any) => item.questions && item.questions[group]
     ) || []
 
     setFavoritesList(filteredFavorites)
