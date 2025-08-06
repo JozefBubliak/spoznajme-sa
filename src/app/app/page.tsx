@@ -1,4 +1,3 @@
-
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -16,7 +15,7 @@ type GroupKey = typeof groupOptions[number]
 const groupLabels: Record<GroupKey, string> = {
   partneri: '💑 Partneri',
   kamarati: '👫 Kamaráti', 
-  rodina: '👨‍👩‍👧‍👦 Rodina',
+  rodina: '👨‍👩‍👦 Rodina',
   rodic_dieta: '👨‍👧 Rodič–dieťa'
 }
 
@@ -73,13 +72,13 @@ export default function AppPage() {
       .eq('user_id', user.id)
 
     const filteredFavorites = data?.filter(
-      (item: any) => item.questions && item.questions[group]
+      (item: any) => item.questions && Array.isArray(item.questions) && item.questions.length > 0 && item.questions[0][group]
     ) || []
 
     setFavoritesList(filteredFavorites)
-    if (filteredFavorites.length > 0 && filteredFavorites[0]?.questions) {
-      // The questions property should be a single question object, not an array
-      setCurrentQuestion(filteredFavorites[0].questions)
+    if (filteredFavorites.length > 0 && filteredFavorites[0]?.questions?.[0]) {
+      // Fix: questions is an array from Supabase join, so we need the first element
+      setCurrentQuestion(filteredFavorites[0].questions[0])
       setCurrentFavoriteIndex(0)
     } else {
       setCurrentQuestion(null)
@@ -95,8 +94,8 @@ export default function AppPage() {
       if (favoritesMode) {
         const nextIndex = (currentFavoriteIndex + 1) % favoritesList.length
         setCurrentFavoriteIndex(nextIndex)
-        if (favoritesList[nextIndex]?.questions) {
-          setCurrentQuestion(favoritesList[nextIndex].questions)
+        if (favoritesList[nextIndex]?.questions?.[0]) {
+          setCurrentQuestion(favoritesList[nextIndex].questions[0])
         }
       } else {
         const question = await fetchQuestion(group)
@@ -128,8 +127,8 @@ export default function AppPage() {
       ? currentFavoriteIndex - 1 
       : favoritesList.length - 1
     setCurrentFavoriteIndex(prevIndex)
-    if (favoritesList[prevIndex]?.questions) {
-      setCurrentQuestion(favoritesList[prevIndex].questions)
+    if (favoritesList[prevIndex]?.questions?.[0]) {
+      setCurrentQuestion(favoritesList[prevIndex].questions[0])
     }
   }
 
