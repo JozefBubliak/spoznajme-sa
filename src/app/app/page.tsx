@@ -66,7 +66,7 @@ export default function AppPage() {
       .select(`
         question_id,
         questions (
-          id, text, ${group}
+          id, text, partneri, kamarati, rodina, rodic_dieta
         )
       `)
       .eq('user_id', user.id)
@@ -76,7 +76,7 @@ export default function AppPage() {
     ) || []
 
     setFavoritesList(filteredFavorites)
-    if (filteredFavorites.length > 0) {
+    if (filteredFavorites.length > 0 && filteredFavorites[0].questions) {
       setCurrentQuestion(filteredFavorites[0].questions)
       setCurrentFavoriteIndex(0)
     } else {
@@ -93,7 +93,9 @@ export default function AppPage() {
       if (favoritesMode) {
         const nextIndex = (currentFavoriteIndex + 1) % favoritesList.length
         setCurrentFavoriteIndex(nextIndex)
-        setCurrentQuestion(favoritesList[nextIndex].questions)
+        if (favoritesList[nextIndex]?.questions) {
+          setCurrentQuestion(favoritesList[nextIndex].questions)
+        }
       } else {
         const question = await fetchQuestion(group)
         if (question) {
@@ -124,7 +126,9 @@ export default function AppPage() {
       ? currentFavoriteIndex - 1 
       : favoritesList.length - 1
     setCurrentFavoriteIndex(prevIndex)
-    setCurrentQuestion(favoritesList[prevIndex].questions)
+    if (favoritesList[prevIndex]?.questions) {
+      setCurrentQuestion(favoritesList[prevIndex].questions)
+    }
   }
 
   const handleGroupSelect = async (selectedGroup: GroupKey) => {
