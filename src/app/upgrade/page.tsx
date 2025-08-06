@@ -1,12 +1,12 @@
-// src/app/upgrade/page.tsx
+
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { BrainIcon } from 'lucide-react'
 
 export default function UpgradePage() {
-  const router = useRouter()
+  const navigate = useNavigate()
 
   const handleUpgrade = () => {
     window.location.href = 'https://buy.stripe.com/test_bJefZg2BJbQ3dzv4L34Vy00'
@@ -26,7 +26,7 @@ export default function UpgradePage() {
           Odomknúť za 6,99 €
         </Button>
 
-        <Button variant="outline" onClick={() => router.push('/')}>
+        <Button variant="outline" onClick={() => navigate('/')}>
           Naspäť
         </Button>
       </div>

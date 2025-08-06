@@ -1,14 +1,14 @@
+
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '@/lib/supabaseClient'
 
 const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
 
 export default function AuthCallback() {
-  const router = useRouter()
-  const supabase = createBrowserSupabaseClient()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleRedirect = async () => {
@@ -21,14 +21,14 @@ export default function AuthCallback() {
       console.log('[CALLBACK] User:', user)
 
       if (user && user.email && ADMIN_EMAILS.includes(user.email)) {
-        router.push('/admin')
+        navigate('/admin')
       } else {
-        router.push('/app')
+        navigate('/app')
       }
     }
 
     handleRedirect()
-  }, [router])
+  }, [navigate])
 
   return <p className="text-center p-10 text-gray-500">Prihlasovanie...</p>
 }

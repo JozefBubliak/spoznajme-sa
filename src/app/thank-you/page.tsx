@@ -1,13 +1,13 @@
-// src/app/thank-you/page.tsx
+
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { BrainIcon } from 'lucide-react'
 
 export default function ThankYouPage() {
-  const router = useRouter()
+  const navigate = useNavigate()
 
   useEffect(() => {
     localStorage.setItem('paid', 'true')
@@ -23,7 +23,7 @@ export default function ThankYouPage() {
           Tvoja plná verzia je aktívna. Môžeš teraz využívať všetky otázky a funkcie bez obmedzení.
         </p>
 
-        <Button onClick={() => router.push('/app')} className="mt-4 w-full">
+        <Button onClick={() => navigate('/app')} className="mt-4 w-full">
           Pokračovať do aplikácie
         </Button>
       </div>

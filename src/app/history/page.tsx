@@ -1,13 +1,14 @@
+
 'use client'
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Clock } from 'lucide-react'
 
 export default function HistoryPage() {
-  const router = useRouter()
+  const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
   const [history, setHistory] = useState<{ id: number; text: string }[]>([])
 
@@ -18,7 +19,7 @@ export default function HistoryPage() {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser()
       if (!data.user) {
-        router.push('/login')
+        navigate('/login')
       } else {
         setUser(data.user)
         fetchHistory(mockHistoryIds)
@@ -37,7 +38,7 @@ export default function HistoryPage() {
     }
 
     getUser()
-  }, [router])
+  }, [navigate])
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
@@ -58,7 +59,7 @@ export default function HistoryPage() {
           </ul>
         )}
 
-        <Button variant="outline" onClick={() => router.push('/app')}>
+        <Button variant="outline" onClick={() => navigate('/app')}>
           Naspäť do aplikácie
         </Button>
       </div>

@@ -1,12 +1,11 @@
+
 'use client'
 
 import { Button } from '@/components/ui/button'
 import { Brain } from 'lucide-react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { supabase } from '@/lib/supabaseClient'
 
 export default function LoginPage() {
-  const supabase = createClientComponentClient()
-
   const loginWithGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
