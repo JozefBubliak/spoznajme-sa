@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
 import { Brain, Heart, ChevronLeft, ChevronRight, BarChart3 } from 'lucide-react'
 import Layout from '@/components/Layout'
+import GroupCompletionContent from '@/components/GroupCompletionContent'
 
 const groupOptions = ['partneri', 'kamarati', 'rodina', 'rodic_dieta'] as const
 type GroupKey = typeof groupOptions[number]
@@ -175,7 +176,6 @@ export default function AppPage() {
     <Layout>
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
-          {/* Header */}
           <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -231,10 +231,8 @@ export default function AppPage() {
             </div>
           </div>
 
-          {/* Content */}
           <div className="p-6 md:p-8">
             {!group ? (
-              // Group Selection
               <div className="space-y-6">
                 <p className="text-gray-600 text-center text-lg">
                   S kým sa chceš lepšie spoznať?
@@ -272,7 +270,6 @@ export default function AppPage() {
                 )}
               </div>
             ) : currentQuestion ? (
-              // Question Display
               <div className="space-y-6">
                 <div className="text-center">
                   <div className="bg-gray-50 rounded-lg p-6 md:p-8">
@@ -282,7 +279,6 @@ export default function AppPage() {
                   </div>
                 </div>
 
-                {/* Navigation Controls */}
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   {favoritesMode && favoritesList.length > 1 ? (
                     <div className="flex items-center gap-2">
@@ -335,7 +331,6 @@ export default function AppPage() {
                   )}
                 </div>
 
-                {/* Progress/Status Info */}
                 {!user && (
                   <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                     <p className="text-yellow-800 text-sm">
@@ -362,46 +357,14 @@ export default function AppPage() {
                 )}
               </div>
             ) : (
-              // No more questions
-              <div className="text-center space-y-6">
-                <div className="mb-6">
-                  <div className="text-6xl mb-4">🎉</div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    {favoritesMode ? 'Žiadne obľúbené otázky' : 'Všetky otázky videné!'}
-                  </h3>
-                  <p className="text-gray-600">
-                    {favoritesMode 
-                      ? 'V tejto skupine nemáš zatiaľ žiadne obľúbené otázky.'
-                      : user && isPaid 
-                        ? 'Prebral si všetky otázky v tejto skupine.'
-                        : !user
-                          ? 'Videl si všetky bezplatné otázky v tejto skupine.'
-                          : 'Dosiahol si denný limit otázok.'
-                    }
-                  </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setGroup(null)
-                      setFavoritesMode(false)
-                    }}
-                  >
-                    Vybrať inú skupinu
-                  </Button>
-                  
-                  {!isPaid && (
-                    <Button 
-                      onClick={() => navigate('/upgrade')}
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                    >
-                      🔓 Odomknúť všetky otázky
-                    </Button>
-                  )}
-                </div>
-              </div>
+              group && (
+                <GroupCompletionContent 
+                  group={group} 
+                  setGroup={setGroup} 
+                  user={user} 
+                  isPaid={isPaid} 
+                />
+              )
             )}
           </div>
         </div>
