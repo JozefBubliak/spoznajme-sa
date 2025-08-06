@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
 import { Brain } from 'lucide-react'
@@ -9,7 +9,7 @@ import { Brain } from 'lucide-react'
 const groupOptions = ['partneri', 'kamarati', 'rodina', 'rodic_dieta'] as const
 
 export default function AppPage() {
-  const router = useRouter()
+  const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [group, setGroup] = useState<typeof groupOptions[number] | null>(null)
@@ -28,14 +28,14 @@ export default function AppPage() {
         const paid = localStorage.getItem('paid') === 'true'
         setIsPaid(paid)
       } else {
-        router.replace('/login')
+        navigate('/login')
       }
 
       setIsLoading(false)
     }
 
     getUser()
-  }, [router])
+  }, [navigate])
 
   useEffect(() => {
     if (!isPaid) {

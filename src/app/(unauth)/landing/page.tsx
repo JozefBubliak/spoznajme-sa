@@ -1,11 +1,12 @@
+
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Brain } from 'lucide-react'
 
 export default function HomePage() {
-  const router = useRouter()
+  const navigate = useNavigate()
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-purple-50 p-4">
@@ -27,7 +28,7 @@ export default function HomePage() {
         <div className="space-y-4 mt-6">
           <Button
             className="bg-purple-600 hover:bg-purple-700 w-full text-white"
-            onClick={() => router.push('/free')}
+            onClick={() => navigate('/free')}
           >
             Vyskúšať zdarma
           </Button>
@@ -35,7 +36,7 @@ export default function HomePage() {
           <Button
             variant="outline"
             className="w-full"
-            onClick={() => router.push('/login')}
+            onClick={() => navigate('/login')}
           >
             Prihlásiť sa a získať 2 otázky denne
           </Button>
@@ -43,7 +44,7 @@ export default function HomePage() {
           <Button
             variant="secondary"
             className="w-full"
-            onClick={() => router.push('/upgrade')}
+            onClick={() => navigate('/upgrade')}
           >
             Odomknúť všetko za 6,99 €
           </Button>

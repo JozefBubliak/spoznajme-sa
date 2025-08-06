@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
 import { BrainIcon, Share2, Heart } from 'lucide-react'
@@ -20,7 +20,7 @@ export default function FreePage() {
   const [group, setGroup] = useState<GroupKey | null>(null)
   const [questionText, setQuestionText] = useState<string | null>(null)
   const [shownIds, setShownIds] = useState<number[]>([])
-  const router = useRouter()
+  const navigate = useNavigate()
 
   const MAX_QUESTIONS = 10
 
@@ -129,7 +129,7 @@ export default function FreePage() {
               <Button variant="outline" onClick={() => setGroup(null)}>
                 Iná skupina
               </Button>
-              <Button onClick={() => router.push('/login')}>Získať plný prístup</Button>
+              <Button onClick={() => navigate('/login')}>Získať plný prístup</Button>
             </div>
           </>
         ) : (
