@@ -1,2 +1,6 @@
 // src/app/page.tsx
-export { default } from './(marketing)/page'
+import { redirect } from 'next/navigation'
+
+export default function RootPage() {
+  redirect('/(marketing)')
+}
