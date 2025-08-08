@@ -1,0 +1,3091 @@
+=== C:\Users\bubli\spoznajme-sa\next.config.js ===
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+}
+
+module.exports = nextConfig
+
+
+=== C:\Users\bubli\spoznajme-sa\next.config.ts ===
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+
+
+=== C:\Users\bubli\spoznajme-sa\package.json ===
+{
+  "name": "spoznajmesa2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "build:dev": "vite build --mode development",
+    "start": "next start",
+    "preview": "vite preview",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/supabase-js": "^2.53.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "class-variance-authority": "^0.7.1",
+    "lovable-tagger": "^1.1.9",
+    "lucide-react": "^0.525.0",
+    "next": "15.4.2",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-router-dom": "^7.7.1",
+    "stripe": "^18.3.0",
+    "tailwind-merge": "^3.3.1",
+    "vite": "^7.0.6"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.2",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vite": "^5"
+  }
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\postcss.config.js ===
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+
+=== C:\Users\bubli\spoznajme-sa\README.md ===
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+=== C:\Users\bubli\spoznajme-sa\tailwind.config.ts ===
+
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  darkMode: "class",
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+          glow: "hsl(var(--primary-glow))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "monospace"],
+      },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-warm": "var(--gradient-warm)",
+        "gradient-subtle": "var(--gradient-subtle)",
+      },
+      boxShadow: {
+        elegant: "var(--shadow-elegant)",
+        warm: "var(--shadow-warm)",
+        soft: "var(--shadow-soft)",
+      },
+      transitionTimingFunction: {
+        smooth: "var(--transition-smooth)",
+        bounce: "var(--transition-bounce)",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+};
+
+export default config;
+
+
+=== C:\Users\bubli\spoznajme-sa\tsconfig.json ===
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\globals.css ===
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary colors - warm and inviting */
+    --primary: 260 100% 67%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 280 100% 80%;
+    
+    /* Secondary colors */
+    --secondary: 210 40% 98%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    
+    /* Muted colors */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    /* Accent colors */
+    --accent: 320 65% 80%;
+    --accent-foreground: 222.2 84% 4.9%;
+    
+    /* Background */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    
+    /* Card */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    
+    /* Border */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    
+    /* Ring */
+    --ring: 260 100% 67%;
+    
+    /* Radius */
+    --radius: 0.75rem;
+    
+    /* Success */
+    --success: 142 76% 36%;
+    --success-foreground: 355.7 100% 97.3%;
+    
+    /* Warning */
+    --warning: 45 93% 47%;
+    --warning-foreground: 26 83% 14%;
+    
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-warm: linear-gradient(135deg, hsl(320 65% 80%), hsl(280 100% 80%));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(210 40% 98%));
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    --shadow-warm: 0 8px 25px -8px hsl(320 65% 80% / 0.4);
+    --shadow-soft: 0 4px 15px -4px hsl(210 40% 50% / 0.1);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 260 100% 67%;
+    --primary-foreground: 222.2 84% 4.9%;
+    
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 260 100% 67%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .card-elegant {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-elegant);
+    transition: var(--transition-smooth);
+  }
+  
+  .card-elegant:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-warm);
+  }
+  
+  .btn-primary {
+    background: var(--gradient-primary);
+    color: hsl(var(--primary-foreground));
+    border: none;
+    transition: var(--transition-bounce);
+  }
+  
+  .btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-elegant);
+  }
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\layout.tsx ===
+// src/app/layout.tsx
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Spoznajme sa",
+  description: "Zábavné a hlboké otázky pre každého.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="sk">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {children}
+      </body>
+    </html>
+  );
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\page.tsx ===
+// src/app/page.tsx
+export { default } from './(marketing)/page'
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\(marketing)\ClientLayout.tsx ===
+'use client'
+
+import { I18nProvider } from '@/i18n'
+
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
+  return <I18nProvider>{children}</I18nProvider>
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\(marketing)\layout.tsx ===
+import { Metadata } from 'next'
+import ClientLayout from './ClientLayout'
+import { MarketingHeader } from '@/components/MarketingHeader'
+import { MarketingFooter } from '@/components/MarketingFooter'
+
+export const metadata: Metadata = {
+  title: 'DeepTalks – Questions that connect deeply',
+  description: 'DeepTalks helps partners, friends and families connect through meaningful, guided questions.',
+  alternates: {
+    canonical: 'https://deeptalks.eu/',
+  },
+}
+
+export default function MarketingLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <ClientLayout>
+      <div className="min-h-screen flex flex-col bg-background text-foreground">
+        <MarketingHeader />
+        <main className="flex-1">{children}</main>
+        <MarketingFooter />
+      </div>
+    </ClientLayout>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\(marketing)\page.tsx ===
+'use client'
+
+import MarketingHomePage from '@/components/MarketingHomePage'
+
+export default function Page() {
+  return <MarketingHomePage />
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\(marketing)\about\page.tsx ===
+'use client'
+
+import { useI18n } from '@/i18n'
+
+
+
+export default function AboutPage() {
+  const { t } = useI18n()
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-16 space-y-4">
+      <h1 className="text-3xl font-bold">{t('about.title')}</h1>
+      <p className="text-muted-foreground">{t('about.body')}</p>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\(marketing)\contact\page.tsx ===
+'use client'
+
+import { useI18n } from '@/i18n'
+
+
+
+export default function ContactPage() {
+  const { t } = useI18n()
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-16 space-y-6">
+      <h1 className="text-3xl font-bold">{t('contact.title')}</h1>
+      <p className="text-muted-foreground">{t('contact.social')}</p>
+      <a href="mailto:hello@deeptalks.eu" className="underline">{t('contact.email')}</a>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\(marketing)\pricing\page.tsx ===
+'use client'
+
+import { useI18n } from '@/i18n'
+
+
+
+export default function PricingPage() {
+  const { t } = useI18n()
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-16">
+      <h1 className="text-3xl font-bold mb-2">{t('pricing.title')}</h1>
+      <p className="text-muted-foreground mb-8">{t('pricing.subtitle')}</p>
+      <div className="grid md:grid-cols-2 gap-6">
+        {[0,1].map((i) => (
+          <div key={i} className="rounded-xl border p-6 bg-card">
+            <h2 className="text-xl font-semibold mb-2">{t(`pricing.plans.${i}.name`)}</h2>
+            <div className="text-2xl font-bold mb-4">{t(`pricing.plans.${i}.price`)}</div>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              {[0,1,2].map((f) => (
+                <li key={f}>• {t(`pricing.plans.${i}.features.${f}`)}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\(marketing)\privacy\page.tsx ===
+'use client'
+
+
+export default function PrivacyPage() {
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-16 space-y-4">
+      <h1 className="text-3xl font-bold">Privacy</h1>
+      <p className="text-muted-foreground">Coming soon.</p>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\(marketing)\terms\page.tsx ===
+'use client'
+
+
+export default function TermsPage() {
+  return (
+    <div className="mx-auto max-w-3xl px-4 py-16 space-y-4">
+      <h1 className="text-3xl font-bold">Terms</h1>
+      <p className="text-muted-foreground">Coming soon.</p>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\(unauth)\landing\page.tsx ===
+
+'use client'
+
+import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { Brain } from 'lucide-react'
+
+export default function HomePage() {
+  const navigate = useNavigate()
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-purple-50 p-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-md w-full">
+        <h1 className="text-3xl font-bold flex justify-center items-center gap-2 text-purple-700">
+          <Brain className="text-pink-500" /> Spoznajme sa
+        </h1>
+
+        <p className="text-gray-700">
+          Otázky, ktoré prehlbujú vzťahy. S partnerom, rodinou aj priateľmi.
+        </p>
+
+        <div className="text-sm text-gray-600 space-y-1">
+          <p>🎯 10 otázok zadarmo – bez registrácie</p>
+          <p>🗓️ 2 nové otázky denne – po prihlásení</p>
+          <p>🔓 8000+ otázok a extra funkcie – po jednorazovej úhrade</p>
+        </div>
+
+        <div className="space-y-4 mt-6">
+          <Button
+            className="bg-purple-600 hover:bg-purple-700 w-full text-white"
+            onClick={() => navigate('/free')}
+          >
+            Vyskúšať zdarma
+          </Button>
+
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => navigate('/login')}
+          >
+            Prihlásiť sa a získať 2 otázky denne
+          </Button>
+
+          <Button
+            variant="secondary"
+            className="w-full"
+            onClick={() => navigate('/upgrade')}
+          >
+            Odomknúť všetko za 6,99 €
+          </Button>
+        </div>
+
+        <p className="text-xs text-gray-400 pt-2">
+          Jednorazová platba, neobmedzený prístup. Navždy.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\admin\page.tsx ===
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabaseClient'
+import { Button } from '@/components/ui/button'
+import { Brain } from 'lucide-react'
+
+const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
+
+const groupLabels = {
+  partneri: '🟣 Partneri',
+  kamarati: '🔵 Kamaráti',
+  rodina: '🟢 Rodina',
+  rodic_dieta: '🟠 Rodič–dieťa',
+}
+
+type GroupKey = keyof typeof groupLabels
+
+export default function AdminPage() {
+  const router = useRouter()
+  const [user, setUser] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [question, setQuestion] = useState<any>(null)
+  const [groupState, setGroupState] = useState<Record<GroupKey, boolean>>({
+    partneri: false,
+    kamarati: false,
+    rodina: false,
+    rodic_dieta: false,
+  })
+  const [status, setStatus] = useState<1 | 2 | 3 | null>(null)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      let tries = 0
+      let session = null
+
+      while (!session && tries < 5) {
+        const result = await supabase.auth.getSession()
+        session = result.data.session
+        if (!session) {
+          await new Promise(resolve => setTimeout(resolve, 300))
+          tries++
+        }
+      }
+
+      const user = session?.user
+      if (!user) {
+        router.replace('/login')
+      } else if (!user.email || !ADMIN_EMAILS.includes(user.email)) {
+        router.replace('/')
+      } else {
+        setUser(user)
+      }
+
+      setIsLoading(false)
+    }
+
+    fetchUser()
+  }, [router])
+
+  useEffect(() => {
+    fetchNextQuestion()
+  }, [])
+
+  const fetchNextQuestion = async () => {
+    setStatus(null)
+
+    const { data, error } = await supabase
+      .from('questions')
+      .select('*')
+      .is('admin_status', null)
+      .order('id', { ascending: true })
+      .limit(1)
+
+    if (!error && data && data.length > 0) {
+      const q = data[0]
+      console.log('[DEBUG] Načítaná otázka:', q.id, q.text)
+      setQuestion(q)
+      setGroupState({
+        partneri: q.partneri,
+        kamarati: q.kamarati,
+        rodina: q.rodina,
+        rodic_dieta: q.rodic_dieta,
+      })
+    } else {
+      setQuestion(null)
+    }
+  }
+
+  const handleSaveAndNext = async () => {
+    if (!question) return
+
+    const updateData = {
+      ...groupState,
+      admin_status: status ?? 3, // ak nič neklikneš, berieme ako OK
+    }
+
+    console.log('[DEBUG] Ukladám otázku:', question.id)
+    console.log('[DEBUG] Dáta:', updateData)
+
+    const { error } = await supabase
+      .from('questions')
+      .update(updateData)
+      .eq('id', question.id)
+
+    if (!error) {
+      setStatus(null)
+      fetchNextQuestion()
+    } else {
+      console.error('Chyba pri ukladaní:', error)
+    }
+  }
+
+  if (isLoading) {
+    return <div className="p-10 text-center text-gray-500">Načítavam používateľa...</div>
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
+      <div className="bg-white shadow-lg rounded-xl p-8 space-y-6 max-w-2xl w-full">
+        <h1 className="text-3xl font-bold flex items-center gap-2 text-purple-700">
+          <Brain className="text-pink-500" /> Admin rozhranie
+        </h1>
+
+        {question ? (
+          <>
+            <p className="text-sm text-gray-500">ID otázky: <strong>{question.id}</strong></p>
+            <p className="text-lg font-medium text-gray-800">{question.text}</p>
+
+            <div className="grid grid-cols-2 gap-4 text-left">
+              {Object.keys(groupLabels).map((key) => {
+                const groupKey = key as GroupKey
+                return (
+                  <label key={groupKey} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={groupState[groupKey]}
+                      onChange={() =>
+                        setGroupState(prev => ({ ...prev, [groupKey]: !prev[groupKey] }))
+                      }
+                    />
+                    <span>{groupLabels[groupKey]}</span>
+                  </label>
+                )
+              })}
+            </div>
+
+            <div className="flex gap-4 pt-4">
+              <Button
+                variant={status === 1 ? 'destructive' : 'outline'}
+                onClick={() => setStatus(1)}
+              >
+                ❌ Potrebné upraviť
+              </Button>
+
+              <Button
+                variant={status === 2 ? 'destructive' : 'outline'}
+                onClick={() => setStatus(2)}
+              >
+                🗑️ Označiť na zmazanie
+              </Button>
+
+              <Button
+                variant={status === 3 ? 'default' : 'outline'}
+                onClick={() => setStatus(3)}
+              >
+                ✅ Text v poriadku
+              </Button>
+            </div>
+
+            <div className="pt-4">
+              <Button onClick={handleSaveAndNext} className="w-full">
+                Uložiť a ďalšia otázka
+              </Button>
+            </div>
+          </>
+        ) : (
+          <p className="text-gray-500 text-center">
+            Žiadne ďalšie otázky na spracovanie.
+          </p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\admin\update-question\route.ts ===
+
+import { NextResponse } from 'next/server'
+import { supabase } from '@/lib/supabaseAdmin'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+
+const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
+
+export async function POST(req: Request) {
+  try {
+    // Get the user's session with proper arguments
+    const supabaseServer = createServerComponentClient({ cookies })
+    const { data: { session }, error: sessionError } = await supabaseServer.auth.getSession()
+
+    if (sessionError || !session?.user?.email) {
+      return NextResponse.json({ error: 'Unauthorized: No valid session' }, { status: 401 })
+    }
+
+    // Verify admin access
+    if (!ADMIN_EMAILS.includes(session.user.email)) {
+      return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 403 })
+    }
+
+    const body = await req.json()
+    const { id, groups, status } = body
+
+    // Validate input data
+    if (!id || typeof id !== 'number') {
+      return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 })
+    }
+
+    if (!status || ![1, 2, 3].includes(status)) {
+      return NextResponse.json({ error: 'Invalid status value' }, { status: 400 })
+    }
+
+    // Update the question with proper validation
+    const updateData = {
+      partneri: Boolean(groups?.partneri),
+      kamarati: Boolean(groups?.kamarati),
+      rodina: Boolean(groups?.rodina),
+      rodic_dieta: Boolean(groups?.rodic_dieta),
+      admin_status: status,
+    }
+
+    const { error } = await supabase
+      .from('questions')
+      .update(updateData)
+      .eq('id', id)
+
+    if (error) {
+      console.error('Database update error:', error)
+      return NextResponse.json({ error: 'Failed to update question' }, { status: 500 })
+    }
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Server error:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\admin\update-question\route.tsx ===
+// src/app/api/admin/update-question/route.ts
+import { NextResponse } from 'next/server'
+import { supabase } from '@/lib/supabaseAdmin'
+
+export async function POST(req: Request) {
+  const body = await req.json()
+  const { id, groups, status } = body
+
+  const { error } = await supabase
+    .from('questions')
+    .update({
+      ...groups,
+      admin_status: status,
+    })
+    .eq('id', id)
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json({ success: true })
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\api\checkout\route.ts ===
+
+import { NextResponse } from 'next/server'
+import Stripe from 'stripe'
+
+const stripe = new Stripe("sk_test_51Ro77dAciFxB09IeiOU1ulLk0JlI4YY35WnkdqJ4XLLMb8x18tbqm2jb3Et90bv2MZrWazw1ej2KFox6JCBfqqcY00tT8svLfQ", {
+  apiVersion: '2025-06-30.basil',
+})
+
+export async function POST() {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'payment',
+      line_items: [
+        {
+          price: "price_1Ro7WUAciFxB09IepKSBrNMB",
+          quantity: 1,
+        },
+      ],
+      success_url: `https://spoznajmesa-kappa.vercel.app/thank-you`,
+      cancel_url: `https://spoznajmesa-kappa.vercel.app/upgrade`,
+    })
+
+    return NextResponse.json({ url: session.url })
+  } catch (error) {
+    console.error('Stripe Checkout error:', error)
+    return NextResponse.json({ error: 'Stripe error' }, { status: 500 })
+  }
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\api\questions\[id]\route.ts ===
+
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\app\page.tsx ===
+'use client'
+
+import LegacyApp from '@/components/LegacyApp'
+
+export default function AppPage() {
+  return <LegacyApp />
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\auth\callback\page.tsx ===
+
+'use client'
+
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '@/lib/supabaseClient'
+
+const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
+
+export default function AuthCallback() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const handleRedirect = async () => {
+      await new Promise(resolve => setTimeout(resolve, 1000)) // počkaj na session
+
+      const { data: { session } } = await supabase.auth.getSession()
+      const user = session?.user
+
+      console.log('[CALLBACK] Session:', session)
+      console.log('[CALLBACK] User:', user)
+
+      if (user && user.email && ADMIN_EMAILS.includes(user.email)) {
+        navigate('/admin')
+      } else {
+        navigate('/app')
+      }
+    }
+
+    handleRedirect()
+  }, [navigate])
+
+  return <p className="text-center p-10 text-gray-500">Prihlasovanie...</p>
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\favorites\page.tsx ===
+
+'use client'
+
+import { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabaseClient'
+import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { Heart } from 'lucide-react'
+
+export default function FavoritesPage() {
+  const navigate = useNavigate()
+  const [user, setUser] = useState<any>(null)
+  const [favorites, setFavorites] = useState<{ id: number; text: string }[]>([])
+
+  // Zatiaľ pevne dané ID otázok (mock), neskôr načítame z tabuľky `favorites`
+  const mockFavoriteIds = [1, 2, 3, 4]
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser()
+      if (!data.user) {
+        navigate('/login')
+      } else {
+        setUser(data.user)
+        fetchFavorites(mockFavoriteIds)
+      }
+    }
+
+    const fetchFavorites = async (ids: number[]) => {
+      const { data, error } = await supabase
+        .from('questions')
+        .select('id, text')
+        .in('id', ids)
+
+      if (!error && data) {
+        setFavorites(data)
+      }
+    }
+
+    getUser()
+  }, [navigate])
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-xl w-full">
+        <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
+          <Heart className="text-pink-500" /> Obľúbené otázky
+        </h1>
+
+        {favorites.length === 0 ? (
+          <p className="text-gray-500">Nemáš zatiaľ žiadne obľúbené otázky.</p>
+        ) : (
+          <ul className="text-left space-y-3 text-gray-800">
+            {favorites.map(q => (
+              <li key={q.id} className="border-b pb-2">
+                {q.text}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <Button variant="outline" onClick={() => navigate('/app')}>
+          Naspäť do aplikácie
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\free\page.tsx ===
+
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '@/lib/supabaseClient'
+import { Button } from '@/components/ui/button'
+import { BrainIcon, Share2, Heart } from 'lucide-react'
+import Layout from '@/components/Layout'
+
+const groupOptions = ['partneri', 'kamarati', 'rodina', 'rodic_dieta'] as const
+type GroupKey = (typeof groupOptions)[number]
+
+const groupLabels: Record<GroupKey, string> = {
+  partneri: '💑 Partneri',
+  kamarati: '👫 Kamaráti',
+  rodina: '👨‍👩‍👧‍👦 Rodina',
+  rodic_dieta: '👨‍👧 Rodič – Dieťa'
+}
+
+const FREE_IDS: Record<GroupKey, number[]> = {
+  partneri: [1365, 7458, 6537, 7809, 5297, 2820, 4177, 5448, 6328, 7058],
+  kamarati: [1910, 7999, 187, 1560, 3922, 6945, 4879, 2400, 5267, 1457],
+  rodina: [4393, 2844, 8874, 2100, 2863, 5500, 1417, 1425, 7494, 7674],
+  rodic_dieta: [1160, 27, 3350, 3587, 5715, 1225, 3599, 2253, 4116, 2356],
+}
+
+export default function FreePage() {
+  const [group, setGroup] = useState<GroupKey | null>(null)
+  const [questionText, setQuestionText] = useState<string | null>(null)
+  const [shownIds, setShownIds] = useState<number[]>([])
+  const navigate = useNavigate()
+
+  const MAX_QUESTIONS = 10
+
+  useEffect(() => {
+    if (group) {
+      setShownIds([])
+      setQuestionText(null)
+      fetchNextQuestion(group, [])
+    }
+  }, [group])
+
+  const fetchNextQuestion = async (group: GroupKey, used: number[]) => {
+    const availableIds = FREE_IDS[group].filter(id => !used.includes(id))
+
+    if (availableIds.length === 0) {
+      setQuestionText(null)
+      return
+    }
+
+    const randomId = availableIds[Math.floor(Math.random() * availableIds.length)]
+
+    const { data, error } = await supabase
+      .from('questions')
+      .select('id, text')
+      .eq('id', randomId)
+      .single()
+
+    if (error || !data) {
+      console.error('Chyba pri načítaní otázky:', error)
+      setQuestionText('Nepodarilo sa načítať otázku.')
+      return
+    }
+
+    setShownIds(prev => [...prev, data.id])
+    setQuestionText(data.text)
+  }
+
+  const handleNext = () => {
+    if (group) {
+      fetchNextQuestion(group, shownIds)
+    }
+  }
+
+  const hasSeenAllInGroup = group ? shownIds.length >= FREE_IDS[group].length : false
+
+  return (
+    <Layout>
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
+          <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6">
+            <h1 className="text-2xl md:text-3xl font-bold">
+              {group ? groupLabels[group] : 'Spoznajme sa - Zadarmo'}
+            </h1>
+            <p className="text-purple-100 mt-2">Bezplatné otázky pre lepšie spoznanie</p>
+          </div>
+
+          <div className="p-6 md:p-8">
+            {!group ? (
+              <>
+                <p className="text-gray-600 text-center text-lg mb-6">
+                  S kým sa chceš lepšie spoznať?
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {groupOptions.map(option => (
+                    <Button
+                      key={option}
+                      onClick={() => setGroup(option)}
+                      disabled={shownIds.length >= FREE_IDS[option].length}
+                      className={`h-16 text-lg ${
+                        shownIds.length >= FREE_IDS[option].length
+                          ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
+                      }`}
+                    >
+                      {groupLabels[option]}
+                    </Button>
+                  ))}
+                </div>
+              </>
+            ) : questionText !== null ? (
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="bg-gray-50 rounded-lg p-6 md:p-8">
+                    <p className="text-lg md:text-xl font-medium text-gray-800 leading-relaxed">
+                      {questionText}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Button onClick={handleNext} className="bg-purple-600 hover:bg-purple-700">
+                    Ďalšia otázka
+                  </Button>
+                  <Button variant="outline" onClick={() => setGroup(null)}>
+                    Zmeniť skupinu
+                  </Button>
+                </div>
+
+                <div className="flex justify-center gap-4 mt-4 text-sm">
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(questionText)}
+                    className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                  >
+                    <Share2 size={16} /> Skopírovať otázku
+                  </button>
+                  <button 
+                    onClick={() => navigate('/login')}
+                    className="text-gray-500 hover:text-gray-700 flex items-center gap-1"
+                  >
+                    <Heart size={16} /> Označiť ako obľúbenú
+                  </button>
+                </div>
+              </div>
+            ) : hasSeenAllInGroup ? (
+              <div className="text-center space-y-6">
+                <div className="mb-6">
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                    Všetky bezplatné otázky videné!
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    Zobrazil si všetky otázky pre skupinu{' '}
+                    <span className="font-semibold">{group ? groupLabels[group] : ''}</span>.
+                  </p>
+                  <p className="text-gray-700 text-lg">
+                    Chceš pokračovať a získať prístup k ďalším otázkam zdarma každý deň? 
+                    <strong> Prihlás sa alebo si kúp plný prístup.</strong>
+                  </p>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Button variant="outline" onClick={() => setGroup(null)}>
+                    Iná skupina
+                  </Button>
+                  <Button 
+                    onClick={() => navigate('/login')}
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  >
+                    Prihlásiť sa zdarma
+                  </Button>
+                  <Button 
+                    onClick={() => navigate('/upgrade')}
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+                  >
+                    Získať plný prístup
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center">
+                <p className="text-gray-400">Načítavam...</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </Layout>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\history\page.tsx ===
+
+'use client'
+
+import { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabaseClient'
+import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { Clock } from 'lucide-react'
+
+export default function HistoryPage() {
+  const navigate = useNavigate()
+  const [user, setUser] = useState<any>(null)
+  const [history, setHistory] = useState<{ id: number; text: string }[]>([])
+
+  // Na testovanie: pevne zadané ID otázok
+  const mockHistoryIds = [5, 6, 7, 8]
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser()
+      if (!data.user) {
+        navigate('/login')
+      } else {
+        setUser(data.user)
+        fetchHistory(mockHistoryIds)
+      }
+    }
+
+    const fetchHistory = async (ids: number[]) => {
+      const { data, error } = await supabase
+        .from('questions')
+        .select('id, text')
+        .in('id', ids)
+
+      if (!error && data) {
+        setHistory(data)
+      }
+    }
+
+    getUser()
+  }, [navigate])
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-xl w-full">
+        <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
+          <Clock className="text-blue-500" /> História otázok
+        </h1>
+
+        {history.length === 0 ? (
+          <p className="text-gray-500">Zatiaľ si nevidel žiadne otázky.</p>
+        ) : (
+          <ul className="text-left space-y-3 text-gray-800">
+            {history.map(q => (
+              <li key={q.id} className="border-b pb-2">
+                {q.text}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <Button variant="outline" onClick={() => navigate('/app')}>
+          Naspäť do aplikácie
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\login\page.tsx ===
+
+'use client'
+
+import { Button } from '@/components/ui/button'
+import { Brain } from 'lucide-react'
+import { supabase } from '@/lib/supabaseClient'
+
+export default function LoginPage() {
+  const loginWithGoogle = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    })
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-md w-full">
+        <h1 className="text-3xl font-bold flex justify-center items-center gap-2 text-purple-700">
+          <Brain className="text-pink-500" /> Prihlás sa a odomkni viac otázok
+        </h1>
+
+        <p className="text-gray-600">
+          Získaj každý deň nové otázky zdarma a bonusové otázky v každej skupine.
+        </p>
+
+        <ul className="text-left text-sm text-gray-700 space-y-1">
+          <li>🎁 10 otázok navyše v každej skupine</li>
+          <li>📆 2 nové otázky denne zdarma</li>
+          <li>❤️ Možnosť označiť obľúbené</li>
+          <li>🔒 Bezpečné prihlásenie cez Google</li>
+        </ul>
+
+        <Button
+          onClick={loginWithGoogle}
+          className="bg-purple-600 hover:bg-purple-700 w-full text-white"
+        >
+          Pokračovať cez Google
+        </Button>
+
+        <p className="text-xs text-gray-400">
+          Prihlásenie je bezplatné. Neposielame spam. Odhlásiš sa kedykoľvek.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\thank-you\page.tsx ===
+
+'use client'
+
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { BrainIcon } from 'lucide-react'
+
+export default function ThankYouPage() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    localStorage.setItem('paid', 'true')
+  }, [])
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+      <div className="bg-white rounded-xl shadow-xl p-10 text-center space-y-4 max-w-xl w-full">
+        <h1 className="text-3xl font-bold text-green-600 flex justify-center gap-2 items-center">
+          <BrainIcon /> Ďakujeme za podporu!
+        </h1>
+        <p className="text-gray-700">
+          Tvoja plná verzia je aktívna. Môžeš teraz využívať všetky otázky a funkcie bez obmedzení.
+        </p>
+
+        <Button onClick={() => navigate('/app')} className="mt-4 w-full">
+          Pokračovať do aplikácie
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\app\upgrade\page.tsx ===
+
+'use client'
+
+import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { BrainIcon } from 'lucide-react'
+
+export default function UpgradePage() {
+  const navigate = useNavigate()
+
+  const handleUpgrade = () => {
+    window.location.href = 'https://buy.stripe.com/test_bJefZg2BJbQ3dzv4L34Vy00'
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
+      <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-xl w-full">
+        <h1 className="text-3xl font-bold flex items-center justify-center gap-2 text-purple-700">
+          <BrainIcon /> Odomkni plnú verziu
+        </h1>
+        <p className="text-gray-600">
+          Získaj <strong>8000+ otázok</strong>, možnosť ukladať obľúbené a históriu – bez limitov.
+        </p>
+
+        <Button onClick={handleUpgrade} className="bg-purple-600 text-white hover:bg-purple-700 w-full">
+          Odomknúť za 6,99 €
+        </Button>
+
+        <Button variant="outline" onClick={() => navigate('/')}>
+          Naspäť
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\components\GroupCompletionContent.tsx ===
+import { Button } from '@/components/ui/button'
+import { useNavigate } from 'react-router-dom'
+
+type GroupKey = 'partneri' | 'kamarati' | 'rodina' | 'rodic_dieta'
+
+interface GroupCompletionContentProps {
+  group: GroupKey
+  setGroup: (group: GroupKey | null) => void
+  user: any
+  isPaid: boolean
+}
+
+const groupContent: Record<GroupKey, {
+  emoji: string
+  title: string
+  subtitle: string
+  description: string
+  benefits: string[]
+}> = {
+  partneri: {
+    emoji: '💕',
+    title: 'Láska je rozhovor – ten pravý začína tu.',
+    subtitle: 'Dokázali ste spolu prejsť všetky otázky pre partnerov – krásna cesta!',
+    description: 'Ale tie najhlbšie témy ešte len prídu.',
+    benefits: [
+      'Otázky, ktoré prehlbujú intimitu a dôveru',
+      'Hlboké diskusie o hodnotách, túžbach, strachoch',
+      'Zábavné a provokatívne témy, ktoré vás zbližujú'
+    ]
+  },
+  kamarati: {
+    emoji: '👫',
+    title: 'Skutočné priateľstvo sa pozná v hlbokých rozhovoroch.',
+    subtitle: 'Zvládol si všetky otázky pre kamarátov – skvelý začiatok!',
+    description: 'Ale tie najzaujímavejšie diskusie ešte len čakajú.',
+    benefits: [
+      'Otázky o snoch, ambíciách a hodnotách',
+      'Témy, ktoré odhaľujú skutočnú osobnosť',
+      'Spomienky a plány do budúcnosti'
+    ]
+  },
+  rodina: {
+    emoji: '👨‍👩‍👦',
+    title: 'Rodina je miesto, kde sa učíme počúvať.',
+    subtitle: 'Prešli ste otázky pre rodinu – a to je len začiatok.',
+    description: 'Stovky ďalších ti pomôžu spoznať príbehy a postoje tvojich blízkych.',
+    benefits: [
+      'Otázky o detstve, vďačnosti, vzťahoch medzi generáciami',
+      'Témy, ktoré nikdy predtým nepadli',
+      'Spoločné spomienky aj nové prepojenia'
+    ]
+  },
+  rodic_dieta: {
+    emoji: '👨‍👧',
+    title: 'Porozumenie medzi rodičom a dieťaťom sa buduje slovami.',
+    subtitle: 'Zvládol(a) si všetky otázky v tejto skupine – výborne!',
+    description: 'Ale tie najcennejšie rozhovory ešte len čakajú.',
+    benefits: [
+      'Otázky pre lepšie pochopenie sveta dieťaťa',
+      'Bezpečný priestor pre emócie, sny, problémy',
+      'Spolu vytvorený most dôvery'
+    ]
+  }
+}
+
+export default function GroupCompletionContent({ group, setGroup, user, isPaid }: GroupCompletionContentProps) {
+  const navigate = useNavigate()
+  const content = groupContent[group]
+
+  return (
+    <div className="text-center space-y-6">
+      <div className="mb-6">
+        <div className="text-6xl mb-4">🎉</div>
+        <div className="text-4xl mb-4">{content.emoji}</div>
+        <h3 className="text-xl font-bold text-gray-800 mb-2">
+          {content.title}
+        </h3>
+        <p className="text-gray-700 mb-2 font-medium">
+          {content.subtitle}
+        </p>
+        <p className="text-gray-600 italic">
+          {content.description}
+        </p>
+      </div>
+
+      <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 text-left">
+        <h4 className="font-semibold text-purple-800 mb-3 text-center">
+          🧠 Chceš sa spoznať ešte hlbšie?
+        </h4>
+        <p className="text-gray-700 mb-4 text-center">
+          Spoznávanie nekončí! 🚀<br />
+          Získaj neobmedzený prístup k stovkám premyslených otázok, ktoré ti pomôžu:
+        </p>
+        
+        <ul className="space-y-2 text-gray-700 mb-4">
+          {content.benefits.map((benefit, index) => (
+            <li key={index} className="flex items-start gap-2">
+              <span className="text-purple-600 mt-1">•</span>
+              <span>{benefit}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg p-4 border border-amber-200">
+        <h4 className="font-semibold text-amber-800 mb-2">
+          🔥 Bonus pre nových členov:
+        </h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-amber-700">
+          <div className="flex items-center gap-2">
+            <span>🎁</span>
+            <span>Každý deň 2 otázky zadarmo z každej skupiny</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>💖</span>
+            <span>Možnosť ukladať obľúbené otázky</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>📈</span>
+            <span>Pokračuj tam, kde si skončil</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>🔓</span>
+            <span>Kedykoľvek si odomkni celý obsah navždy</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <h4 className="font-semibold text-gray-800">
+          🔘 Čo chceš spraviť teraz?
+        </h4>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Button
+            onClick={() => navigate('/upgrade')}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white h-12"
+          >
+            🔓 Chcem plný prístup
+          </Button>
+          
+          {!user && (
+            <Button
+              onClick={() => navigate('/login')}
+              className="bg-gray-100 text-gray-800 hover:bg-gray-200 h-12"
+            >
+              🆓 Registrovať sa a získať 2 otázky denne
+            </Button>
+          )}
+          
+          <Button
+            variant="outline"
+            onClick={() => setGroup(null)}
+            className="h-12"
+          >
+            🔁 Vybrať inú skupinu
+          </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\components\LanguageSwitcher.tsx ===
+'use client'
+
+import { SUPPORTED_LOCALES, useI18n } from '@/i18n'
+
+export function LanguageSwitcher() {
+  const { locale, setLocale } = useI18n()
+  return (
+    <select
+      aria-label="Language selector"
+      className="h-9 rounded-md border bg-background px-2 text-sm"
+      value={locale}
+      onChange={(e) => setLocale(e.target.value as any)}
+    >
+      {SUPPORTED_LOCALES.map((l) => (
+        <option key={l} value={l}>
+          {l.toUpperCase()}
+        </option>
+      ))}
+    </select>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\components\Layout.tsx ===
+
+import React, { useState } from 'react'
+import { useAuth } from '@/hooks/useAuth'
+import { Button } from '@/components/ui/button'
+import { Brain, Menu, X, User, LogOut, Heart, History, Settings } from 'lucide-react'
+import { useNavigate, useLocation } from 'react-router-dom'
+
+interface LayoutProps {
+  children: React.ReactNode
+}
+
+export default function Layout({ children }: LayoutProps) {
+  const { user, profile, signOut, isPaid } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const menuItems = [
+    { path: '/', label: 'Domov', icon: Brain },
+    { path: '/app', label: 'Otázky', icon: Brain },
+    ...(user ? [
+      { path: '/favorites', label: 'Obľúbené', icon: Heart },
+      { path: '/history', label: 'História', icon: History },
+    ] : []),
+  ]
+
+  const handleSignOut = async () => {
+    await signOut()
+    navigate('/')
+    setMobileMenuOpen(false)
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div 
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={() => navigate('/')}
+            >
+              <Brain className="text-pink-500 h-8 w-8" />
+              <span className="text-xl font-bold text-purple-700">Spoznajme sa</span>
+            </div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-6">
+              {menuItems.map((item) => (
+                <Button
+                  key={item.path}
+                  variant={location.pathname === item.path ? "default" : "ghost"}
+                  onClick={() => navigate(item.path)}
+                  className="flex items-center gap-2"
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.label}
+                </Button>
+              ))}
+            </nav>
+
+            {/* User Actions */}
+            <div className="hidden md:flex items-center gap-4">
+              {user ? (
+                <div className="flex items-center gap-3">
+                  <div className="text-sm">
+                    <div className="font-medium">{user.email}</div>
+                    <div className="text-gray-500">
+                      {isPaid ? '✨ Plný prístup' : '🆓 Základný'}
+                    </div>
+                  </div>
+                  <Button variant="outline" size="sm" onClick={handleSignOut}>
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={() => navigate('/login')}>
+                    Prihlásenie
+                  </Button>
+                  <Button onClick={() => navigate('/upgrade')}>
+                    Plný prístup
+                  </Button>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X /> : <Menu />}
+            </Button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white border-t">
+            <div className="px-4 py-2 space-y-2">
+              {menuItems.map((item) => (
+                <Button
+                  key={item.path}
+                  variant={location.pathname === item.path ? "default" : "ghost"}
+                  onClick={() => {
+                    navigate(item.path)
+                    setMobileMenuOpen(false)
+                  }}
+                  className="w-full justify-start flex items-center gap-2"
+                >
+                  <item.icon className="h-4 w-4" />
+                  {item.label}
+                </Button>
+              ))}
+              
+              <div className="border-t pt-2 mt-2">
+                {user ? (
+                  <div className="space-y-2">
+                    <div className="px-3 py-2 text-sm">
+                      <div className="font-medium">{user.email}</div>
+                      <div className="text-gray-500">
+                        {isPaid ? '✨ Plný prístup' : '🆓 Základný'}
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      onClick={handleSignOut}
+                      className="w-full justify-start"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Odhlásiť sa
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        navigate('/login')
+                        setMobileMenuOpen(false)
+                      }}
+                      className="w-full"
+                    >
+                      Prihlásenie
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        navigate('/upgrade')
+                        setMobileMenuOpen(false)
+                      }}
+                      className="w-full"
+                    >
+                      Plný prístup
+                    </Button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1">
+        {children}
+      </main>
+    </div>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\components\LegacyApp.tsx ===
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@/hooks/useAuth'
+import { useQuestions } from '@/hooks/useQuestions'
+import { supabase } from '@/lib/supabaseClient'
+import { Button } from '@/components/ui/button'
+import { Brain, Heart, ChevronLeft, ChevronRight, BarChart3 } from 'lucide-react'
+import Layout from '@/components/Layout'
+import GroupCompletionContent from '@/components/GroupCompletionContent'
+
+const groupOptions = ['partneri', 'kamarati', 'rodina', 'rodic_dieta'] as const
+type GroupKey = typeof groupOptions[number]
+
+const groupLabels: Record<GroupKey, string> = {
+  partneri: '💑 Partneri',
+  kamarati: '👫 Kamaráti',
+  rodina: '👨‍👩‍👦 Rodina',
+  rodic_dieta: '👨‍👧 Rodič–dieťa'
+}
+
+export default function LegacyApp() {
+  const navigate = useNavigate()
+  const { user, isPaid, loading } = useAuth()
+  const {
+    currentQuestion,
+    setCurrentQuestion,
+    favorites,
+    dailyCount,
+    fetchQuestion,
+    toggleFavorite,
+    getQuestionCounts,
+    canViewMore
+  } = useQuestions()
+
+  const [group, setGroup] = useState<GroupKey | null>(null)
+  const [favoritesMode, setFavoritesMode] = useState(false)
+  const [favoritesList, setFavoritesList] = useState<any[]>([])
+  const [currentFavoriteIndex, setCurrentFavoriteIndex] = useState(0)
+  const [questionCounts, setQuestionCounts] = useState({ total: 0, remaining: 0 })
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (group && !favoritesMode) {
+      loadQuestionCounts()
+    }
+  }, [group, isPaid])
+
+  useEffect(() => {
+    if (favoritesMode && group) {
+      loadFavorites()
+    }
+  }, [favoritesMode, group, favorites])
+
+  const loadQuestionCounts = async () => {
+    if (!group) return
+    const counts = await getQuestionCounts(group)
+    setQuestionCounts(counts)
+  }
+
+  const loadFavorites = async () => {
+    if (!group || !user) return
+
+    const { data } = await supabase
+      .from('user_favorites')
+      .select(`
+        question_id,
+        questions (
+          id, text, partneri, kamarati, rodina, rodic_dieta
+        )
+      `)
+      .eq('user_id', user.id)
+
+    const filteredFavorites = data?.filter(
+      (item: any) =>
+        item.questions &&
+        Array.isArray(item.questions) &&
+        item.questions.length > 0 &&
+        item.questions[0][group]
+    ) || []
+
+    setFavoritesList(filteredFavorites)
+    if (filteredFavorites.length > 0 && filteredFavorites[0]?.questions?.[0]) {
+      setCurrentQuestion(filteredFavorites[0].questions[0])
+      setCurrentFavoriteIndex(0)
+    } else {
+      setCurrentQuestion(null)
+    }
+  }
+
+  const handleNextQuestion = async () => {
+    if (!group) return
+
+    try {
+      setIsLoading(true)
+
+      if (favoritesMode) {
+        const nextIndex = (currentFavoriteIndex + 1) % favoritesList.length
+        setCurrentFavoriteIndex(nextIndex)
+        if (favoritesList[nextIndex]?.questions?.[0]) {
+          setCurrentQuestion(favoritesList[nextIndex].questions[0])
+        }
+      } else {
+        const question = await fetchQuestion(group)
+        if (question) {
+          setCurrentQuestion(question)
+          await loadQuestionCounts()
+        } else {
+          if (!user) {
+            setCurrentQuestion(null)
+          } else if (!isPaid && dailyCount >= 2) {
+            alert('Denný limit otázok dosiahnutý. Odomkni plný prístup pre viac otázok!')
+          } else {
+            alert('Videl si už všetky otázky v tejto skupine!')
+          }
+        }
+      }
+    } catch (error: any) {
+      alert(error.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handlePrevQuestion = () => {
+    if (!favoritesMode || favoritesList.length === 0) return
+
+    const prevIndex = currentFavoriteIndex > 0
+      ? currentFavoriteIndex - 1
+      : favoritesList.length - 1
+    setCurrentFavoriteIndex(prevIndex)
+    if (favoritesList[prevIndex]?.questions?.[0]) {
+      setCurrentQuestion(favoritesList[prevIndex].questions[0])
+    }
+  }
+
+  const handleGroupSelect = async (selectedGroup: GroupKey) => {
+    setGroup(selectedGroup)
+    setFavoritesMode(false)
+    setCurrentQuestion(null)
+
+    try {
+      setIsLoading(true)
+      const question = await fetchQuestion(selectedGroup)
+      setCurrentQuestion(question)
+    } catch (error: any) {
+      alert(error.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleFavoritesToggle = () => {
+    if (!user) {
+      alert('Pre obľúbené otázky sa musíš prihlásiť!')
+      navigate('/login')
+      return
+    }
+    setFavoritesMode(!favoritesMode)
+    setCurrentQuestion(null)
+  }
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="text-center">
+            <Brain className="animate-spin h-8 w-8 mx-auto mb-4 text-purple-600" />
+            <p className="text-gray-600">Načítavam...</p>
+          </div>
+        </div>
+      </Layout>
+    )
+  }
+
+  return (
+    <Layout>
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
+          <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold mb-2">
+                  {group ? groupLabels[group] : 'Vyber si skupinu'}
+                </h1>
+                {user && (
+                  <div className="text-purple-100 text-sm">
+                    {isPaid ? (
+                      <div className="flex items-center gap-4">
+                        <span>✨ Plný prístup</span>
+                        {group && !favoritesMode && (
+                          <span className="flex items-center gap-1">
+                            <BarChart3 className="h-4 w-4" />
+                            Zostáva: {questionCounts.remaining}/{questionCounts.total}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <span>🆓 Denné otázky: {dailyCount}/2</span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {group && (
+                <div className="flex gap-2">
+                  {user && (
+                    <Button
+                      variant={favoritesMode ? "secondary" : "outline"}
+                      size="sm"
+                      onClick={handleFavoritesToggle}
+                      className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+                    >
+                      <Heart className="h-4 w-4 mr-1" />
+                      Obľúbené
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setGroup(null)
+                      setCurrentQuestion(null)
+                      setFavoritesMode(false)
+                    }}
+                    className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+                  >
+                    Zmeniť skupinu
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="p-6 md:p-8">
+            {!group ? (
+              <div className="space-y-6">
+                <p className="text-gray-600 text-center text-lg">
+                  S kým sa chceš lepšie spoznať?
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {groupOptions.map(option => (
+                    <Button
+                      key={option}
+                      onClick={() => handleGroupSelect(option)}
+                      className="h-16 text-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                      disabled={isLoading}
+                    >
+                      {groupLabels[option]}
+                    </Button>
+                  ))}
+                </div>
+                {!user && (
+                  <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h3 className="font-semibold text-blue-900 mb-2">💡 Tip</h3>
+                    <p className="text-blue-800 text-sm">
+                      Prihlás sa a získaj každý deň 2 nové otázky zo každej skupiny ZADARMO!
+                      Plus možnosť označiť si obľúbené otázky.
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-2"
+                      onClick={() => navigate('/login')}
+                    >
+                      Prihlásiť sa
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ) : currentQuestion ? (
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="bg-gray-50 rounded-lg p-6 md:p-8">
+                    <p className="text-lg md:text-xl font-medium text-gray-800 leading-relaxed">
+                      {currentQuestion.text}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  {favoritesMode && favoritesList.length > 1 ? (
+                    <div className="flex items-center gap-2">
+                      <Button variant="outline" size="sm" onClick={handlePrevQuestion}>
+                        <ChevronLeft className="h-4 w-4" />
+                      </Button>
+                      <span className="text-sm text-gray-600 px-3">
+                        {currentFavoriteIndex + 1} / {favoritesList.length}
+                      </span>
+                      <Button variant="outline" size="sm" onClick={handleNextQuestion}>
+                        <ChevronRight className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <Button
+                      onClick={handleNextQuestion}
+                      disabled={isLoading || (!user && !canViewMore)}
+                      className="bg-purple-600 hover:bg-purple-700"
+                    >
+                      {isLoading ? 'Načítavam...' : 'Ďalšia otázka'}
+                    </Button>
+                  )}
+
+                  {user && currentQuestion && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => toggleFavorite(currentQuestion.id)}
+                      className={`flex items-center gap-2 ${
+                        favorites.includes(currentQuestion.id)
+                          ? 'text-red-600 border-red-300'
+                          : 'text-gray-600'
+                      }`}
+                    >
+                      <Heart
+                        className={`h-4 w-4 ${
+                          favorites.includes(currentQuestion.id) ? 'fill-red-600' : ''
+                        }`}
+                      />
+                      {favorites.includes(currentQuestion.id) ? 'Obľúbené' : 'Pridať k obľúbeným'}
+                    </Button>
+                  )}
+                </div>
+
+                {!user && (
+                  <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <p className="text-yellow-800 text-sm">
+                      🎁 Vidíš otázky zadarmo! Pre viac funkcií sa
+                      <Button
+                        variant="link"
+                        size="sm"
+                        className="text-yellow-800 underline px-1"
+                        onClick={() => navigate('/login')}
+                      >
+                        prihlás
+                      </Button>
+                      alebo
+                      <Button
+                        variant="link"
+                        size="sm"
+                        className="text-yellow-800 underline px-1"
+                        onClick={() => navigate('/upgrade')}
+                      >
+                        kúp plný prístup
+                      </Button>.
+                    </p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              group && (
+                <GroupCompletionContent
+                  group={group}
+                  setGroup={setGroup}
+                  user={user}
+                  isPaid={isPaid}
+                />
+              )
+            )}
+          </div>
+        </div>
+      </div>
+    </Layout>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\components\MarketingFooter.tsx ===
+'use client'
+
+import { useI18n } from '@/i18n'
+import Link from 'next/link'
+
+export function MarketingFooter() {
+  const { t } = useI18n()
+  const year = new Date().getFullYear()
+  return (
+    <footer className="border-t bg-background">
+      <div className="mx-auto max-w-6xl px-4 py-10 grid gap-6 sm:grid-cols-2">
+        <div className="space-y-2">
+          <div className="font-semibold">{t('meta.brand')}</div>
+          <p className="text-sm text-muted-foreground max-w-md">
+            {t('meta.description')}
+          </p>
+        </div>
+        <div className="flex items-center gap-4 text-sm">
+          <Link href="/terms" className="hover:underline">{t('footer.terms')}</Link>
+          <Link href="/privacy" className="hover:underline">{t('footer.privacy')}</Link>
+          <span className="ml-auto text-muted-foreground">© {year} {t('meta.brand')}. {t('footer.rights')}</span>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\components\MarketingHeader.tsx ===
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useI18n } from '@/i18n'
+import { Button } from '@/components/ui/button'
+import { LanguageSwitcher } from './LanguageSwitcher'
+
+export function MarketingHeader() {
+  const pathname = usePathname()
+  const { t } = useI18n()
+
+  const nav = [
+    { href: '/', label: t('nav.home') },
+    { href: '/about', label: t('nav.about') },
+    { href: '/pricing', label: t('nav.pricing') },
+    { href: '/contact', label: t('nav.contact') },
+    { href: '/app', label: t('nav.app') },
+  ]
+
+  return (
+    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
+        <Link href="/" className="font-semibold tracking-tight">
+          {t('meta.brand')}
+        </Link>
+        <nav className="hidden md:flex items-center gap-6">
+          {nav.slice(0,4).map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={
+                pathname === item.href
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-foreground transition-colors'
+              }
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+          <Link href="/app">
+            <Button size="sm">{t('nav.app')}</Button>
+          </Link>
+        </div>
+      </div>
+    </header>
+  )
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\components\ui\button.tsx ===
+// src/components/ui/button.tsx
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ring-offset-background",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "underline-offset-4 hover:underline text-primary",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, ...props }, ref) => {
+    return (
+      <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+    )
+  }
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+
+
+=== C:\Users\bubli\spoznajme-sa\src\hooks\useAuth.tsx ===
+
+import { useState, useEffect } from 'react'
+import { User, Session } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabaseClient'
+
+interface UserProfile {
+  id: string
+  email: string
+  paid_access: boolean
+  daily_questions_date: string | null
+  daily_questions_used: number
+}
+
+export function useAuth() {
+  const [user, setUser] = useState<User | null>(null)
+  const [session, setSession] = useState<Session | null>(null)
+  const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setSession(session)
+        setUser(session?.user ?? null)
+        
+        if (session?.user) {
+          // Fetch user profile
+          setTimeout(async () => {
+            const { data: profileData } = await supabase
+              .from('user_profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .single()
+            
+            setProfile(profileData)
+          }, 0)
+        } else {
+          setProfile(null)
+        }
+      }
+    )
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setUser(session?.user ?? null)
+      setLoading(false)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const signOut = async () => {
+    await supabase.auth.signOut()
+  }
+
+  return {
+    user,
+    session,
+    profile,
+    loading,
+    signOut,
+    isPaid: profile?.paid_access || false
+  }
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\hooks\useQuestions.tsx ===
+
+import { useState, useEffect } from 'react'
+import { supabase } from '@/lib/supabaseClient'
+import { useAuth } from '@/hooks/useAuth'
+
+type GroupKey = 'partneri' | 'kamarati' | 'rodina' | 'rodic_dieta'
+
+interface Question {
+  id: number
+  text: string
+  partneri: boolean
+  kamarati: boolean
+  rodina: boolean
+  rodic_dieta: boolean
+}
+
+const FREE_IDS: Record<GroupKey, number[]> = {
+  partneri: [1365, 7458, 6537, 7809, 5297, 2820, 4177, 5448, 6328, 7058],
+  kamarati: [1910, 7999, 187, 1560, 3922, 6945, 4879, 2400, 5267, 1457],
+  rodina: [4393, 2844, 8874, 2100, 2863, 5500, 1417, 1425, 7494, 7674],
+  rodic_dieta: [1160, 27, 3350, 3587, 5715, 1225, 3599, 2253, 4116, 2356],
+}
+
+export function useQuestions() {
+  const { user, profile, isPaid } = useAuth()
+  const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null)
+  const [viewedQuestions, setViewedQuestions] = useState<number[]>([])
+  const [favorites, setFavorites] = useState<number[]>([])
+  const [dailyCount, setDailyCount] = useState(0)
+
+  useEffect(() => {
+    if (user) {
+      fetchUserData()
+    }
+  }, [user])
+
+  const fetchUserData = async () => {
+    if (!user) return
+
+    // Fetch viewed questions
+    const { data: historyData } = await supabase
+      .from('user_question_history')
+      .select('question_id')
+      .eq('user_id', user.id)
+
+    if (historyData) {
+      setViewedQuestions(historyData.map(h => h.question_id))
+    }
+
+    // Fetch favorites
+    const { data: favData } = await supabase
+      .from('user_favorites')
+      .select('question_id')
+      .eq('user_id', user.id)
+
+    if (favData) {
+      setFavorites(favData.map(f => f.question_id))
+    }
+
+    // Check daily usage
+    if (profile) {
+      const today = new Date().toISOString().split('T')[0]
+      if (profile.daily_questions_date === today) {
+        setDailyCount(profile.daily_questions_used)
+      } else {
+        setDailyCount(0)
+        // Reset daily count
+        await supabase
+          .from('user_profiles')
+          .update({
+            daily_questions_date: today,
+            daily_questions_used: 0
+          })
+          .eq('id', user.id)
+      }
+    }
+  }
+
+  const fetchQuestion = async (group: GroupKey, favoritesOnly = false) => {
+    if (!user && !FREE_IDS[group]) return null
+
+    let availableIds: number[] = []
+
+    if (!user) {
+      // Non-authenticated users get free questions
+      availableIds = FREE_IDS[group]
+    } else if (favoritesOnly) {
+      // Show only favorites for authenticated users
+      availableIds = favorites
+    } else if (isPaid) {
+      // Paid users get all questions, excluding viewed ones
+      const { data: allQuestions } = await supabase
+        .from('questions')
+        .select('id')
+        .eq(group, true)
+        .eq('admin_status', 3)
+
+      if (allQuestions) {
+        availableIds = allQuestions
+          .map(q => q.id)
+          .filter(id => !viewedQuestions.includes(id))
+      }
+    } else {
+      // Free authenticated users get daily limit
+      if (dailyCount >= 2) {
+        throw new Error('Denný limit dosiahnutý')
+      }
+
+      const { data: randomQuestions } = await supabase
+        .from('questions')
+        .select('id')
+        .eq(group, true)
+        .eq('admin_status', 3)
+        .limit(50)
+
+      if (randomQuestions) {
+        availableIds = randomQuestions
+          .map(q => q.id)
+          .filter(id => !viewedQuestions.includes(id))
+          .slice(0, 2 - dailyCount)
+      }
+    }
+
+    if (availableIds.length === 0) return null
+
+    const randomId = availableIds[Math.floor(Math.random() * availableIds.length)]
+
+    const { data: question } = await supabase
+      .from('questions')
+      .select('*')
+      .eq('id', randomId)
+      .single()
+
+    if (question && user) {
+      // Mark as viewed
+      await supabase
+        .from('user_question_history')
+        .upsert({
+          user_id: user.id,
+          question_id: question.id
+        })
+
+      setViewedQuestions(prev => [...prev, question.id])
+
+      // Update daily count for non-paid users
+      if (!isPaid) {
+        const newCount = dailyCount + 1
+        setDailyCount(newCount)
+        
+        await supabase
+          .from('user_profiles')
+          .update({
+            daily_questions_used: newCount
+          })
+          .eq('id', user.id)
+      }
+    }
+
+    return question
+  }
+
+  const toggleFavorite = async (questionId: number) => {
+    if (!user) return
+
+    const isFavorite = favorites.includes(questionId)
+    
+    if (isFavorite) {
+      await supabase
+        .from('user_favorites')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('question_id', questionId)
+      
+      setFavorites(prev => prev.filter(id => id !== questionId))
+    } else {
+      await supabase
+        .from('user_favorites')
+        .insert({
+          user_id: user.id,
+          question_id: questionId
+        })
+      
+      setFavorites(prev => [...prev, questionId])
+    }
+  }
+
+  const getQuestionCounts = async (group: GroupKey) => {
+    if (!user || !isPaid) return { total: 0, remaining: 0 }
+
+    const { data: totalData } = await supabase
+      .from('questions')
+      .select('id', { count: 'exact' })
+      .eq(group, true)
+      .eq('admin_status', 3)
+
+    const total = totalData?.length || 0
+    const viewed = viewedQuestions.length
+    const remaining = Math.max(0, total - viewed)
+
+    return { total, remaining }
+  }
+
+  return {
+    currentQuestion,
+    setCurrentQuestion,
+    viewedQuestions,
+    favorites,
+    dailyCount,
+    fetchQuestion,
+    toggleFavorite,
+    getQuestionCounts,
+    canViewMore: !user || isPaid || dailyCount < 2
+  }
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\index.tsx ===
+'use client'
+
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import en from './locales/en.json'
+import sk from './locales/sk.json'
+import cz from './locales/cz.json'
+import de from './locales/de.json'
+import pl from './locales/pl.json'
+import fr from './locales/fr.json'
+import hu from './locales/hu.json'
+import es from './locales/es.json'
+import ua from './locales/ua.json'
+import ru from './locales/ru.json'
+
+export const SUPPORTED_LOCALES = [
+  'en', 'sk', 'cz', 'de', 'pl', 'fr', 'hu', 'es', 'ua', 'ru'
+] as const
+export type Locale = typeof SUPPORTED_LOCALES[number]
+export const DEFAULT_LOCALE: Locale = 'en'
+
+const dictionaries: Record<string, Record<string, any>> = {
+  en,
+  sk,
+  cz,
+  de,
+  pl,
+  fr,
+  hu,
+  es,
+  ua,
+  ru,
+}
+
+function get(obj: any, path: string) {
+  return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj)
+}
+
+interface I18nContextValue {
+  locale: Locale
+  setLocale: (l: Locale) => void
+  t: (key: string) => string
+}
+
+const I18nContext = createContext<I18nContextValue | null>(null)
+
+export function I18nProvider({ children }: { children: React.ReactNode }) {
+  const [locale, setLocale] = useState<Locale>(DEFAULT_LOCALE)
+
+  useEffect(() => {
+    const saved = typeof window !== 'undefined' ? (localStorage.getItem('locale') as Locale | null) : null
+    if (saved && SUPPORTED_LOCALES.includes(saved)) setLocale(saved)
+  }, [])
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = locale
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('locale', locale)
+    }
+  }, [locale])
+
+  const t = useMemo(() => {
+    return (key: string) => {
+      const current = dictionaries[locale] || {}
+      const fallback = dictionaries[DEFAULT_LOCALE] || {}
+      const val = get(current, key)
+      if (typeof val === 'string') return val
+      const fb = get(fallback, key)
+      return typeof fb === 'string' ? fb : key
+    }
+  }, [locale])
+
+  const value = useMemo(() => ({ locale, setLocale, t }), [locale, t])
+
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
+}
+
+export function useI18n() {
+  const ctx = useContext(I18nContext)
+  if (!ctx) throw new Error('useI18n must be used within I18nProvider')
+  return ctx
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\cz.json ===
+{}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\de.json ===
+{}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\en.json ===
+{
+  "meta": {
+    "title": "DeepTalks – Questions that connect deeply",
+    "description": "DeepTalks helps partners, friends and families connect through meaningful, guided questions.",
+    "brand": "DeepTalks"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "app": "Open App"
+  },
+  "hero": {
+    "badge": "Human-first conversations",
+    "title": "Questions that connect deeply",
+    "subtitle": "Psychology-based prompts to spark empathy, trust and understanding.",
+    "cta": "Start now"
+  },
+  "preview": {
+    "title": "See how it works",
+    "desc": "A lightweight, friendly interface guiding you through topics like values, emotions and memories.",
+    "alt": "DeepTalks app preview"
+  },
+  "how": {
+    "title": "How DeepTalks works",
+    "steps": [
+      { "title": "Pick a topic", "desc": "Choose from themes like values, emotions, past and more." },
+      { "title": "Answer together", "desc": "Take turns, listen actively and explore without pressure." },
+      { "title": "Save favorites", "desc": "Mark meaningful questions to revisit later." },
+      { "title": "Grow bonds", "desc": "Build empathy and understanding—conversation by conversation." }
+    ]
+  },
+  "audience": {
+    "title": "Who is it for?",
+    "items": [
+      { "title": "Partners", "desc": "Deepen intimacy and trust with gentle, thoughtful prompts." },
+      { "title": "Friends", "desc": "Go beyond small talk and share stories that matter." },
+      { "title": "Family", "desc": "Understand different generations and create shared memories." },
+      { "title": "Therapists & coaches", "desc": "A structured tool to support guided conversations." }
+    ]
+  },
+  "pricing": {
+    "title": "Simple pricing",
+    "subtitle": "Start free, unlock more when ready.",
+    "plans": [
+      { "name": "Free", "price": "$0", "features": ["10 starter questions", "No signup needed"] },
+      { "name": "Member", "price": "$6.99 one-time", "features": ["2 new questions daily", "Favorites & history", "All topics unlocked"] }
+    ]
+  },
+  "about": {
+    "title": "About DeepTalks",
+    "body": "We are a small team passionate about human connection. DeepTalks blends psychology and design to make meaningful conversations simple."
+  },
+  "contact": {
+    "title": "Get in touch",
+    "email": "hello@deeptalks.eu",
+    "social": "Follow us on social media"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "terms": "Terms",
+    "privacy": "Privacy"
+  }
+}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\es.json ===
+{}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\fr.json ===
+{}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\hu.json ===
+{}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\pl.json ===
+{}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\ru.json ===
+{}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\sk.json ===
+{}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\i18n\locales\ua.json ===
+{}
+
+
+=== C:\Users\bubli\spoznajme-sa\src\integrations\supabase\client.ts ===
+
+// This file is automatically generated. Do not edit it directly.
+import { createClient } from '@supabase/supabase-js';
+import type { Database } from './types';
+
+const SUPABASE_URL = "https://uoochdvpvjlcuxwlyhnb.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvb2NoZHZwdmpsY3V4d2x5aG5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMTk0NTEsImV4cCI6MjA2OTg5NTQ1MX0.jyq4HucMx_27DLaa6wN611VVMCXg2Z42VRJ1XDxqJHs";
+
+// Import the supabase client like this:
+// import { supabase } from "@/integrations/supabase/client";
+
+export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: {
+    storage: localStorage,
+    persistSession: true,
+    autoRefreshToken: true,
+  }
+});
+
+
+=== C:\Users\bubli\spoznajme-sa\src\integrations\supabase\types.ts ===
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+export type Database = {
+  // Allows to automatically instanciate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "13.0.4"
+  }
+  public: {
+    Tables: {
+      questions: {
+        Row: {
+          admin_status: number | null
+          hlavna_skupina: string | null
+          id: number
+          kamarati: boolean | null
+          partneri: boolean | null
+          podskupina: string | null
+          rodic_dieta: boolean | null
+          rodina: boolean | null
+          text: string
+          vyznam: string | null
+        }
+        Insert: {
+          admin_status?: number | null
+          hlavna_skupina?: string | null
+          id?: number
+          kamarati?: boolean | null
+          partneri?: boolean | null
+          podskupina?: string | null
+          rodic_dieta?: boolean | null
+          rodina?: boolean | null
+          text: string
+          vyznam?: string | null
+        }
+        Update: {
+          admin_status?: number | null
+          hlavna_skupina?: string | null
+          id?: number
+          kamarati?: boolean | null
+          partneri?: boolean | null
+          podskupina?: string | null
+          rodic_dieta?: boolean | null
+          rodina?: boolean | null
+          text?: string
+          vyznam?: string | null
+        }
+        Relationships: []
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      is_admin: {
+        Args: { user_email: string }
+        Returns: boolean
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+}
+
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
+
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+
+export type Tables<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
+    | { schema: keyof DatabaseWithoutInternals },
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
+    | { schema: keyof DatabaseWithoutInternals },
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof DatabaseWithoutInternals },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends {
+  schema: keyof DatabaseWithoutInternals
+}
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {},
+  },
+} as const
+
+
+=== C:\Users\bubli\spoznajme-sa\src\lib\supabase.ts ===
+// lib/supabase.ts
+import { createClient } from '@supabase/supabase-js'
+
+const SUPABASE_URL = "https://uoochdvpvjlcuxwlyhnb.supabase.co"
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvb2NoZHZwdmpsY3V4d2x5aG5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMTk0NTEsImV4cCI6MjA2OTg5NTQ1MX0.jyq4HucMx_27DLaa6wN611VVMCXg2Z42VRJ1XDxqJHs"
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: {
+    storage: localStorage,
+    persistSession: true,
+    autoRefreshToken: true,
+  }
+})
+
+
+=== C:\Users\bubli\spoznajme-sa\src\lib\supabaseAdmin.ts ===
+
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = "https://uoochdvpvjlcuxwlyhnb.supabase.co"
+const supabaseServiceKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvb2NoZHZwdmpsY3V4d2x5aG5iIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NDMxOTQ1MSwiZXhwIjoyMDY5ODk1NDUxfQ.ounpGBTdnpzrcmY9BGaS9MVcpwzz4ksJh4ChXgT_fTk"
+
+export const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
+
+=== C:\Users\bubli\spoznajme-sa\src\lib\supabaseClient.ts ===
+
+import { createClient } from '@supabase/supabase-js'
+
+const SUPABASE_URL = "https://uoochdvpvjlcuxwlyhnb.supabase.co"
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVvb2NoZHZwdmpsY3V4d2x5aG5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMTk0NTEsImV4cCI6MjA2OTg5NTQ1MX0.jyq4HucMx_27DLaa6wN611VVMCXg2Z42VRJ1XDxqJHs"
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: {
+    storage: localStorage,
+    persistSession: true,
+    autoRefreshToken: true,
+  }
+})
+
+
+=== C:\Users\bubli\spoznajme-sa\src\lib\utils.ts ===
+// src/lib/utils.ts
+import { clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: any[]) {
+  return twMerge(clsx(inputs))
+}
+
+

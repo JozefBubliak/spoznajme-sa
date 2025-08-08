@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import LegacyApp from '@/components/LegacyApp'
+import LegacyApp from '@/components/LegacyApp';
 
 export default function AppPage() {
-  return <LegacyApp />
+  return <LegacyApp />;
 }

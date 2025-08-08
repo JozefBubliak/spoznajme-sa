@@ -1,1 +1,8 @@
-{}
+{
+  "hero": {
+    "badge": "Novinka",
+    "title": "Spoznajme sa",
+    "subtitle": "Krátky úvodný text o tom, čo tu nájdeš.",
+    "cta": "Začať"
+  }
+}

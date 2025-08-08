@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { useQuestions } from '@/hooks/useQuestions'
 import { supabase } from '@/lib/supabaseClient'
@@ -21,7 +21,7 @@ const groupLabels: Record<GroupKey, string> = {
 }
 
 export default function LegacyApp() {
-  const navigate = useNavigate()
+const router = useRouter()
   const { user, isPaid, loading } = useAuth()
   const {
     currentQuestion,
@@ -154,7 +154,7 @@ export default function LegacyApp() {
   const handleFavoritesToggle = () => {
     if (!user) {
       alert('Pre obľúbené otázky sa musíš prihlásiť!')
-      navigate('/login')
+      router.push('/login')
       return
     }
     setFavoritesMode(!favoritesMode)
@@ -262,7 +262,7 @@ export default function LegacyApp() {
                       variant="outline"
                       size="sm"
                       className="mt-2"
-                      onClick={() => navigate('/login')}
+                      onClick={() => router.push('/login')}
                     >
                       Prihlásiť sa
                     </Button>
@@ -331,7 +331,7 @@ export default function LegacyApp() {
                         variant="link"
                         size="sm"
                         className="text-yellow-800 underline px-1"
-                        onClick={() => navigate('/login')}
+                        onClick={() => router.push('/login')}
                       >
                         prihlás
                       </Button>
@@ -340,7 +340,7 @@ export default function LegacyApp() {
                         variant="link"
                         size="sm"
                         className="text-yellow-800 underline px-1"
-                        onClick={() => navigate('/upgrade')}
+                        onClick={() => router.push('/upgrade')}
                       >
                         kúp plný prístup
                       </Button>.

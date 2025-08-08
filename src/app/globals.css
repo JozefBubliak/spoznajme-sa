@@ -33,7 +33,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
     
-    /* Border */
+    /* Border / Input */
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     
@@ -102,10 +102,17 @@
 }
 
 @layer base {
+  /* NAMIETO @apply border-border použijeme priamy CSS štýl
+     (je to identické správanie, ale bez rizika "unknown utility") */
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
   
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
