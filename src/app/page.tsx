@@ -1,2 +1,2 @@
 // src/app/page.tsx
-export { default } from './(unauth)/landing/page'
+export { default } from './(marketing)/page'
