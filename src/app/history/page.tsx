@@ -1,52 +1,42 @@
-
 'use client'
-
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Clock } from 'lucide-react'
-
 export default function HistoryPage() {
-  const navigate = useNavigate()
+  const router = useRouter()
   const [user, setUser] = useState<any>(null)
   const [history, setHistory] = useState<{ id: number; text: string }[]>([])
-
   // Na testovanie: pevne zadané ID otázok
   const mockHistoryIds = [5, 6, 7, 8]
-
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser()
       if (!data.user) {
-        navigate('/login')
+        router.push('/login')
       } else {
         setUser(data.user)
         fetchHistory(mockHistoryIds)
       }
     }
-
     const fetchHistory = async (ids: number[]) => {
       const { data, error } = await supabase
         .from('questions')
         .select('id, text')
         .in('id', ids)
-
       if (!error && data) {
         setHistory(data)
       }
     }
-
     getUser()
   }, [navigate])
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
       <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-xl w-full">
         <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
           <Clock className="text-blue-500" /> História otázok
         </h1>
-
         {history.length === 0 ? (
           <p className="text-gray-500">Zatiaľ si nevidel žiadne otázky.</p>
         ) : (
@@ -58,8 +48,7 @@ export default function HistoryPage() {
             ))}
           </ul>
         )}
-
-        <Button variant="outline" onClick={() => navigate('/app')}>
+        <Button variant="outline" onClick={() => router.push('/app')}>
           Naspäť do aplikácie
         </Button>
       </div>

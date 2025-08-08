@@ -1,12 +1,11 @@
-'use client'
-
-import { I18nProvider } from '@/i18n'            // ⬅ pridaj
+// src/app/(marketing)/page.tsx
 import MarketingHomePage from '@/components/MarketingHomePage'
 
+export const metadata = {
+  title: 'Spoznajme sa',
+  description: 'Zmysluplné otázky na prehĺbenie rozhovorov.',
+}
+
 export default function Page() {
-  return (
-    <I18nProvider /* ak treba, môžeš pridať: locale="sk" */>
-      <MarketingHomePage />
-    </I18nProvider>
-  )
+  return <MarketingHomePage />
 }
