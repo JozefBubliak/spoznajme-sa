@@ -2,11 +2,7 @@
 
 import { useI18n } from '@/i18n'
 
-export const metadata = {
-  title: 'Contact – DeepTalks',
-  description: 'Contact DeepTalks team',
-  alternates: { canonical: 'https://deeptalks.eu/contact' }
-}
+
 
 export default function ContactPage() {
   const { t } = useI18n()

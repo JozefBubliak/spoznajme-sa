@@ -1,10 +1,5 @@
 'use client'
 
-export const metadata = {
-  title: 'Privacy – DeepTalks',
-  description: 'Privacy policy',
-  alternates: { canonical: 'https://deeptalks.eu/privacy' }
-}
 
 export default function PrivacyPage() {
   return (

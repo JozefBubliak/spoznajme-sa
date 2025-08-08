@@ -1,10 +1,5 @@
 'use client'
 
-export const metadata = {
-  title: 'Terms – DeepTalks',
-  description: 'Terms of service',
-  alternates: { canonical: 'https://deeptalks.eu/terms' }
-}
 
 export default function TermsPage() {
   return (

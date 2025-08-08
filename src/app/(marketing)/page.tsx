@@ -5,11 +5,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/i18n'
 
-export const metadata = {
-  title: 'DeepTalks – Questions that connect deeply',
-  description: 'DeepTalks helps partners, friends and families connect through meaningful, guided questions.',
-  alternates: { canonical: 'https://deeptalks.eu/' }
-}
 
 export default function MarketingHomePage() {
   const { t } = useI18n()
