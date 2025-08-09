@@ -30,7 +30,7 @@ export default function AuthCallback() {
     }
 
     handleRedirect()
-  }, [])
+  }, [navigate])
 
   return <p className="text-center p-10 text-gray-500">Prihlasovanie...</p>
 }
