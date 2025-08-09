@@ -30,7 +30,7 @@ export default function FavoritesPage() {
       }
     }
     getUser()
-  }, [router])
+  }, [])
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
       <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-xl w-full">
