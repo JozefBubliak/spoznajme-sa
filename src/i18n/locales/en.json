@@ -1,65 +1,20 @@
 {
-  "meta": {
-    "title": "DeepTalks – Questions that connect deeply",
-    "description": "DeepTalks helps partners, friends and families connect through meaningful, guided questions.",
-    "brand": "DeepTalks"
+  "hero": {
+    "badge": "New",
+    "title": "DeepTalks",
+    "subtitle": "Short intro about what you will find here.",
+    "cta": "Get started"
   },
   "nav": {
     "home": "Home",
-    "about": "About",
-    "pricing": "Pricing",
-    "contact": "Contact",
-    "app": "Open App"
+    "app": "Questions",
+    "favorites": "Favorites",
+    "history": "History",
+    "login": "Log in",
+    "upgrade": "Full access"
   },
-  "hero": {
-    "badge": "Human-first conversations",
-    "title": "Questions that connect deeply",
-    "subtitle": "Psychology-based prompts to spark empathy, trust and understanding.",
-    "cta": "Start now"
-  },
-  "preview": {
-    "title": "See how it works",
-    "desc": "A lightweight, friendly interface guiding you through topics like values, emotions and memories.",
-    "alt": "DeepTalks app preview"
-  },
-  "how": {
-    "title": "How DeepTalks works",
-    "steps": [
-      { "title": "Pick a topic", "desc": "Choose from themes like values, emotions, past and more." },
-      { "title": "Answer together", "desc": "Take turns, listen actively and explore without pressure." },
-      { "title": "Save favorites", "desc": "Mark meaningful questions to revisit later." },
-      { "title": "Grow bonds", "desc": "Build empathy and understanding—conversation by conversation." }
-    ]
-  },
-  "audience": {
-    "title": "Who is it for?",
-    "items": [
-      { "title": "Partners", "desc": "Deepen intimacy and trust with gentle, thoughtful prompts." },
-      { "title": "Friends", "desc": "Go beyond small talk and share stories that matter." },
-      { "title": "Family", "desc": "Understand different generations and create shared memories." },
-      { "title": "Therapists & coaches", "desc": "A structured tool to support guided conversations." }
-    ]
-  },
-  "pricing": {
-    "title": "Simple pricing",
-    "subtitle": "Start free, unlock more when ready.",
-    "plans": [
-      { "name": "Free", "price": "$0", "features": ["10 starter questions", "No signup needed"] },
-      { "name": "Member", "price": "$6.99 one-time", "features": ["2 new questions daily", "Favorites & history", "All topics unlocked"] }
-    ]
-  },
-  "about": {
-    "title": "About DeepTalks",
-    "body": "We are a small team passionate about human connection. DeepTalks blends psychology and design to make meaningful conversations simple."
-  },
-  "contact": {
-    "title": "Get in touch",
-    "email": "hello@deeptalks.eu",
-    "social": "Follow us on social media"
-  },
-  "footer": {
-    "rights": "All rights reserved.",
-    "terms": "Terms",
-    "privacy": "Privacy"
+  "auth": {
+    "plan_full": "✨ Full access",
+    "plan_free": "🆓 Free"
   }
 }

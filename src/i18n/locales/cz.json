@@ -1,9 +1,20 @@
 {
   "hero": {
-    "badge": "Novinka",
-    "title": "Spoznajme sa",
-    "subtitle": "KrĂˇtky ĂşvodnĂ˝ text o tom, ÄŤo tu nĂˇjdeĹˇ.",
-    "cta": "ZaÄŤaĹĄ"
+    "badge": "New",
+    "title": "DeepTalks",
+    "subtitle": "Short intro about what you will find here.",
+    "cta": "Get started"
+  },
+  "nav": {
+    "home": "Home",
+    "app": "Questions",
+    "favorites": "Favorites",
+    "history": "History",
+    "login": "Log in",
+    "upgrade": "Full access"
+  },
+  "auth": {
+    "plan_full": "✨ Full access",
+    "plan_free": "🆓 Free"
   }
 }
-
