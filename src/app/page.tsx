@@ -1,2 +1,6 @@
 // src/app/page.tsx
-export { default } from './(marketing)/page'
+import MarketingHomePage from './(marketing)/page';
+
+export default function Home() {
+  return <MarketingHomePage />;
+}
