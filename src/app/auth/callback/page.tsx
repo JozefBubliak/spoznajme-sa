@@ -1,10 +1,7 @@
 'use client'
-import { useRouter } from 'next/navigation'
-
-'use client'
 
 import { useEffect } from 'react'
-
+import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 
 const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
@@ -14,15 +11,18 @@ export default function AuthCallback() {
 
   useEffect(() => {
     const handleRedirect = async () => {
-      await new Promise(resolve => setTimeout(resolve, 1000)) // počkaj na session
+      // krátka pauza, kým sa stihne vytvoriť session po návrate z OAuth
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      const { data: { session } } = await supabase.auth.getSession()
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
       const user = session?.user
 
       console.log('[CALLBACK] Session:', session)
       console.log('[CALLBACK] User:', user)
 
-      if (user && user.email && ADMIN_EMAILS.includes(user.email)) {
+      if (user?.email && ADMIN_EMAILS.includes(user.email)) {
         router.push('/admin')
       } else {
         router.push('/app')
@@ -30,7 +30,7 @@ export default function AuthCallback() {
     }
 
     handleRedirect()
-  }, [navigate])
+  }, [router])
 
   return <p className="text-center p-10 text-gray-500">Prihlasovanie...</p>
 }
