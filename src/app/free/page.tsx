@@ -1,10 +1,6 @@
-'use client'
+﻿'use client'
 import { useRouter } from 'next/navigation'
-
-'use client'
-
 import { useEffect, useState } from 'react'
-
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
 import { BrainIcon, Share2, Heart } from 'lucide-react'
@@ -14,10 +10,10 @@ const groupOptions = ['partneri', 'kamarati', 'rodina', 'rodic_dieta'] as const
 type GroupKey = (typeof groupOptions)[number]
 
 const groupLabels: Record<GroupKey, string> = {
-  partneri: '💑 Partneri',
-  kamarati: '👫 Kamaráti',
-  rodina: '👨‍👩‍👧‍👦 Rodina',
-  rodic_dieta: '👨‍👧 Rodič – Dieťa'
+  partneri: 'üíë Partneri',
+  kamarati: 'üë´ Kamar√°ti',
+  rodina: 'üë®‚Äçüë©‚Äçüëß‚Äçüë¶ Rodina',
+  rodic_dieta: 'üë®‚Äçüëß Rodiƒç ‚Äì Die≈•a'
 }
 
 const FREE_IDS: Record<GroupKey, number[]> = {
@@ -41,6 +37,7 @@ export default function FreePage() {
       setQuestionText(null)
       fetchNextQuestion(group, [])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [group])
 
   const fetchNextQuestion = async (group: GroupKey, used: number[]) => {
