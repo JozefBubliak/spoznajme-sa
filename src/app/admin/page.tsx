@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -61,6 +62,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     fetchNextQuestion()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchNextQuestion = async () => {
@@ -125,7 +127,9 @@ export default function AdminPage() {
 
         {question ? (
           <>
-            <p className="text-sm text-gray-500">ID otázky: <strong>{question.id}</strong></p>
+            <p className="text-sm text-gray-500">
+              ID otázky: <strong>{question.id}</strong>
+            </p>
             <p className="text-lg font-medium text-gray-800">{question.text}</p>
 
             <div className="grid grid-cols-2 gap-4 text-left">
