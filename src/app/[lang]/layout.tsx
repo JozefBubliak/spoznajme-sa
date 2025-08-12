@@ -1,26 +1,28 @@
-import type { Metadata } from 'next'
-import { MarketingHeader } from '@/components/MarketingHeader'
-import { MarketingFooter } from '@/components/MarketingFooter'
-import { buildHreflangAlternates, normalizeUrlLocale } from '@/lib/i18n-routing'
+﻿import { notFound } from 'next/navigation'
+import '../globals.css'
+import SiteHeader from '@/components/SiteHeader'
+import { IntlProvider } from '@/components/IntlProvider'
+import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config'
+import { getDictionary } from '@/i18n/server'
 
-export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
-  const lang = normalizeUrlLocale(params.lang)
-  return {
-    title: 'DeepTalks – Pomôcky a techniky',
-    description: 'Hub komunikačných pomôcok pre rôzne publikum a témy.',
-    alternates: {
-      canonical: `https://deeptalks.eu/${lang}`,
-      languages: buildHreflangAlternates(''),
-    },
-  }
-}
+export default async function LangLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: { lang: Locale }
+}) {
+  const { lang } = params
+  if (!SUPPORTED_LOCALES.includes(lang)) notFound()
+  const dict = await getDictionary(lang)
 
-export default function LangLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <MarketingHeader />
-      <main className="flex-1">{children}</main>
-      <MarketingFooter />
-    </div>
+    <IntlProvider lang={lang} dict={dict}>
+      <SiteHeader lang={lang} />
+      <main><div className="max-w-6xl mx-auto px-4 py-8">{children}</div></main>
+      <footer className="border-t">
+        <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-gray-500">© {new Date().getFullYear()} DeepTalks</div>
+      </footer>
+    </IntlProvider>
   )
 }

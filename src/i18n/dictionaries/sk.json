@@ -1,0 +1,38 @@
+{
+  "brand": "DeepTalks",
+  "nav": { "home": "Domov", "products": "Produkty", "tools": "Pomôcky", "blog": "Blog", "downloads": "Downloady" },
+  "home": {
+    "hero": {
+      "title": "Rozhovory, ktoré spájajú.",
+      "lead": "Pomôcky do každodenných situácií, otázky na spoznanie a párty hry. Pre rodič–dieťa, páry, kamarátov aj rodiny.",
+      "ctaTools": "Prejsť na pomôcky",
+      "ctaProducts": "Produkty a balíčky"
+    },
+    "what": {
+      "title": "Čo tu nájdete",
+      "toolsTitle": "Pomôcky do bežných situácií",
+      "toolsDesc": "Rýchle vety a kroky pre náročné momenty (úlohy, emócie, hranice, dohody o obrazovkách…).",
+      "packsTitle": "Otázky a balíčky na rozhovor",
+      "packsDesc": "Otvárače, hlbšie konverzácie, spomienky aj zábava – vždy príbehy.",
+      "gamesTitle": "Hry na oslavy a pre skupiny",
+      "gamesDesc": "Icebreakery, kvízy „Ako dobre ma poznáš?“, tímové módy.",
+      "eduTitle": "Vzdelávanie a články",
+      "eduDesc": "Blog, ebooky a videá (NVC, Gottman, CBT, ACT…). Prakticky a zrozumiteľne."
+    },
+    "audTitle": "Začať podľa publika",
+    "ctaBar": { "title": "Chceš začať hneď?", "lead": "Vyber tému a dostaň hotové vety a kroky.", "cta1": "Otvoriť pomôcky", "cta2": "Pozrieť produkty" }
+  },
+  "aud": { "parentChild": "Rodič–dieťa", "couples": "Páry", "friendsParty": "Kamaráti & party", "family": "Rodina" },
+  "topics": {
+    "openers": "Otvárače & rituály",
+    "emotions": "Emócie & regulácia",
+    "choices": "Voľby & motivácia",
+    "changes": "Zmeny & prechody",
+    "conflict": "Konflikt & spolupráca",
+    "strengths": "Vďačnosť & silné stránky",
+    "digital": "Digitálny život",
+    "school": "Škola & učenie",
+    "health": "Zdravie & ťažké témy",
+    "identity": "Identita & telo"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "brand": "DeepTalks",
+  "nav": { "home": "Home", "products": "Products", "tools": "Tools", "blog": "Blog", "downloads": "Downloads" },
+  "home": {
+    "hero": {
+      "title": "Conversations that bring people closer.",
+      "lead": "Practical tools for everyday moments, get-to-know-you questions and party games. Works for parent–child, couples, friends and families.",
+      "ctaTools": "Explore tools",
+      "ctaProducts": "See products"
+    },
+    "what": {
+      "title": "What you’ll find",
+      "toolsTitle": "Tools for everyday situations",
+      "toolsDesc": "Quick phrases and steps for tough moments (homework, emotions, limits, screen-time agreements…).",
+      "packsTitle": "Question packs & deep talks",
+      "packsDesc": "Openers, deeper conversations, memories and fun – always story-based.",
+      "gamesTitle": "Games for groups & parties",
+      "gamesDesc": "Icebreakers, “How well do you know me?” quizzes, team modes.",
+      "eduTitle": "Learning & articles",
+      "eduDesc": "Blog, ebooks and videos (NVC, Gottman, CBT, ACT…). Practical and clear."
+    },
+    "audTitle": "Start by audience",
+    "ctaBar": { "title": "Ready to start?", "lead": "Pick a topic to get ready-to-use phrases and steps.", "cta1": "Open tools", "cta2": "See products" }
+  },
+  "aud": { "parentChild": "Parent–Child", "couples": "Couples", "friendsParty": "Friends & Party", "family": "Family" },
+  "topics": {
+    "openers": "Openers & rituals",
+    "emotions": "Emotions & regulation",
+    "choices": "Choices & motivation",
+    "changes": "Changes & transitions",
+    "conflict": "Conflict & cooperation",
+    "strengths": "Gratitude & strengths",
+    "digital": "Digital life",
+    "school": "School & learning",
+    "health": "Health & tough topics",
+    "identity": "Identity & body"
+  }
+}
