@@ -2,12 +2,14 @@
 import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseAdmin' // server-side client (service role)
 
-export async function GET(_req: Request, context: any) {
-  try {
-    // bezpečne vytiahneme id aj keď TS/Next mení tvar 2. argumentu
-    const idRaw = context?.params?.id as string | undefined
+export const dynamic = 'force-dynamic'
 
-    const questionId = idRaw ? parseInt(idRaw, 10) : NaN
+export async function GET(req: Request) {
+  try {
+    const url = new URL(req.url)
+    const idFromPath = url.pathname.split('/').filter(Boolean).pop()
+    const questionId = idFromPath ? parseInt(idFromPath, 10) : NaN
+
     if (!Number.isFinite(questionId) || questionId <= 0) {
       return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 })
     }
@@ -27,7 +29,6 @@ export async function GET(_req: Request, context: any) {
       return NextResponse.json({ error: 'Question not found' }, { status: 404 })
     }
 
-    // ak nechceš vracať neschválené otázky, môžeš to odfiltrovať:
     // if (data.admin_status !== 3) {
     //   return NextResponse.json({ error: 'Not approved' }, { status: 404 })
     // }
