@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import type { Player, Round } from '@/lib/herdvote/store'
 
 type Category = { name: string; count: number }
 type Mode = 'classic' | 'podium'
@@ -28,6 +29,9 @@ export default function HerdVoteAdminPage() {
   const [pNone, setPNone] = useState<number>(0)
 
   const [rounds, setRounds] = useState<{ id: string; category: string }[]>([])
+  const [players, setPlayers] = useState<Player[]>([])
+  const [currentRound, setCurrentRound] = useState<Round | null>(null)
+  const [leaderboard, setLeaderboard] = useState<Player[]>([])
 
   // 1) vytvor hru
   const createGame = async () => {
@@ -40,21 +44,44 @@ export default function HerdVoteAdminPage() {
     if (j?.gameCode) {
       setGameCode(j.gameCode)
       setRounds([]) // nový kód = čistý zoznam kôl
+      setPlayers([])
+      setCurrentRound(null)
+      setLeaderboard([])
     }
   }
 
   // 2) načítaj kategórie
   const loadCategories = async () => {
-    const r = await fetch('/api/games/herd-vote/categories', { cache: 'no-store' })
-    const j = await r.json()
-    const list: Category[] = Array.isArray(j?.categories) ? j.categories : []
-    setCategories(list)
-    if (list.length && !selectedCat) setSelectedCat(list[0].name)
+    // For now, use hardcoded categories matching our sample data
+    const categories = [
+      { name: 'Všeobecné', count: 3 },
+      { name: 'Geografia', count: 1 },
+      { name: 'Veda', count: 1 }
+    ]
+    setCategories(categories)
+    if (categories.length && !selectedCat) setSelectedCat(categories[0].name)
   }
   useEffect(() => {
     loadCategories()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // 3) polling lobby
+  useEffect(() => {
+    if (!gameCode) return
+    let interval: any
+    const pollPlayers = async () => {
+      try {
+        const r = await fetch(`/api/games/${gameCode}/players`, { cache: 'no-store' })
+        if (r.ok) {
+          const j = await r.json()
+          setPlayers(j.players || [])
+        }
+      } catch {}
+    }
+    pollPlayers()
+    interval = setInterval(pollPlayers, 2000)
+    return () => clearInterval(interval)
+  }, [gameCode])
 
   // 3) pridaj kolo do existujúcej hry
   const addRound = async () => {
@@ -77,11 +104,60 @@ export default function HerdVoteAdminPage() {
     }
   }
 
-  // link pre hráčov -> /sk/play/<KÓD>
+  // Game control functions
+  const startRound = async (roundId?: string) => {
+    if (!gameCode) return
+    const r = await fetch(`/api/games/${gameCode}/rounds/start`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roundId }),
+    })
+    const j = await r.json()
+    if (!j.success) alert(j.error || 'Nepodarilo sa spustiť kolo')
+  }
+
+  const lockRound = async (roundId?: string) => {
+    if (!gameCode) return
+    const r = await fetch(`/api/games/${gameCode}/rounds/lock`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roundId }),
+    })
+    const j = await r.json()
+    if (!j.success) alert(j.error || 'Nepodarilo sa uzamknúť kolo')
+  }
+
+  const showResults = async (roundId?: string) => {
+    if (!gameCode) return
+    const r = await fetch(`/api/games/${gameCode}/rounds/results`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roundId }),
+    })
+    const j = await r.json()
+    if (j.success && j.leaderboard) {
+      setLeaderboard(j.leaderboard)
+    } else {
+      alert(j.error || 'Nepodarilo sa vyhodnotiť')
+    }
+  }
+
+  const nextQuestion = async (roundId?: string) => {
+    if (!gameCode) return
+    const r = await fetch(`/api/games/${gameCode}/rounds/next`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roundId }),
+    })
+    const j = await r.json()
+    if (!j.success) alert(j.error || 'Nepodarilo sa prejsť na ďalšiu otázku')
+  }
+
+  // link pre hráčov -> /play/<KÓD>
   const joinUrl = useMemo(() => {
     if (!gameCode) return ''
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
-    return `${origin}/sk/play/${gameCode}`
+    return `${origin}/play/${gameCode}`
   }, [gameCode])
 
   return (
@@ -96,12 +172,63 @@ export default function HerdVoteAdminPage() {
           <div className="space-y-2">
             <div><b>Kód hry:</b> {gameCode}</div>
             <div>
-              <b>QR/Link pre hráčov:</b>{' '}
-              <a className="text-blue-600 underline" href={joinUrl}>{joinUrl}</a>
+              <b>Link pre hráčov:</b>{' '}
+              <a className="text-blue-600 underline" href={joinUrl} target="_blank" rel="noopener noreferrer">
+                {joinUrl}
+              </a>
             </div>
           </div>
         )}
       </div>
+
+      {gameCode && (
+        <>
+          <div className="rounded-xl border p-4 space-y-3">
+            <h2 className="font-semibold">Lobby ({players.length} hráčov)</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-40 overflow-y-auto">
+              {players.map((player) => (
+                <div key={player.id} className="text-sm bg-gray-50 rounded px-2 py-1">
+                  {player.name} ({player.score} bodov)
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {rounds.length > 0 && (
+            <div className="rounded-xl border p-4 space-y-3">
+              <h2 className="font-semibold">Ovládanie kola</h2>
+              <div className="flex gap-2 flex-wrap">
+                <button onClick={() => startRound()} className="px-3 py-2 rounded bg-green-600 text-white text-sm">
+                  Štart kola
+                </button>
+                <button onClick={() => lockRound()} className="px-3 py-2 rounded bg-orange-600 text-white text-sm">
+                  Uzamknúť odpovede
+                </button>
+                <button onClick={() => showResults()} className="px-3 py-2 rounded bg-blue-600 text-white text-sm">
+                  Vyhodnotiť otázku
+                </button>
+                <button onClick={() => nextQuestion()} className="px-3 py-2 rounded bg-purple-600 text-white text-sm">
+                  Ďalšia otázka
+                </button>
+              </div>
+            </div>
+          )}
+
+          {leaderboard.length > 0 && (
+            <div className="rounded-xl border p-4 space-y-3">
+              <h2 className="font-semibold">Rebríček</h2>
+              <div className="space-y-2">
+                {leaderboard.map((player, idx) => (
+                  <div key={player.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                    <span className="font-medium">#{idx + 1} {player.name}</span>
+                    <span className="font-bold">{player.score} bodov</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
 
       <div className="rounded-xl border p-4 space-y-3">
         <h2 className="font-semibold">Nové kolo</h2>
