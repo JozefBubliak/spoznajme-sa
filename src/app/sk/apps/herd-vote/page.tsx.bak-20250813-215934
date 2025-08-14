@@ -1,0 +1,91 @@
+﻿'use client'
+
+import { useEffect, useMemo, useState } from 'react'
+
+type Category = { name: string; count: number }
+
+export default function HerdVoteAdminPage() {
+  const [gameCode, setGameCode] = useState<string>('')
+  const [categories, setCategories] = useState<Category[]>([])
+  const [selectedCat, setSelectedCat] = useState<string>('')
+  const [count, setCount] = useState<number>(10)
+  const [rounds, setRounds] = useState<{ id: string; category: string }[]>([])
+
+  // 1) vytvor hru
+  const createGame = async () => {
+    const r = await fetch('/api/games', { method: 'POST', body: JSON.stringify({ settings: {} }) })
+    const j = await r.json()
+    setGameCode(j.gameCode)
+  }
+
+  // 2) načítaj kategórie z JSONu
+  const loadCategories = async () => {
+    const r = await fetch('/api/herd-vote/categories')
+    const j = await r.json()
+    setCategories(j.categories || [])
+    if (j.categories?.length && !selectedCat) setSelectedCat(j.categories[0].name)
+  }
+  useEffect(() => { loadCategories() }, [])
+
+  // 3) pridaj kolo
+  const addRound = async () => {
+    if (!gameCode || !selectedCat) return
+    const r = await fetch(\/api/games/\/rounds\, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ category: selectedCat, count })
+    })
+    const j = await r.json()
+    if (j.roundId) {
+      setRounds(prev => [...prev, { id: j.roundId, category: selectedCat }])
+    } else {
+      alert(j.error || 'Nepodarilo sa pridať kolo')
+    }
+  }
+
+  const joinUrl = useMemo(() => gameCode ? \\/play/\\ : '', [gameCode])
+
+  return (
+    <div className="mx-auto max-w-3xl p-6 space-y-6">
+      <h1 className="text-2xl font-bold">Herd Vote – moderátor</h1>
+
+      <div className="rounded-xl border p-4 space-y-3">
+        <button onClick={createGame} className="px-4 py-2 rounded bg-purple-600 text-white">
+          {gameCode ? 'Vytvoriť novú hru' : 'Vytvoriť hru'}
+        </button>
+        {gameCode && (
+          <div className="space-y-2">
+            <div><b>Kód hry:</b> {gameCode}</div>
+            <div><b>QR/Link pre hráčov:</b> <a className="text-blue-600 underline" href={joinUrl}>{joinUrl}</a></div>
+          </div>
+        )}
+      </div>
+
+      <div className="rounded-xl border p-4 space-y-3">
+        <h2 className="font-semibold">Nové kolo</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+          <div>
+            <label className="block text-sm mb-1">Kategória</label>
+            <select value={selectedCat} onChange={(e)=>setSelectedCat(e.target.value)} className="w-full border rounded px-3 py-2">
+              {categories.map(c => <option key={c.name} value={c.name}>{c.name} ({c.count})</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm mb-1">Počet otázok</label>
+            <input type="number" min={1} max={50} value={count} onChange={(e)=>setCount(parseInt(e.target.value||'1'))} className="w-full border rounded px-3 py-2"/>
+          </div>
+          <button onClick={addRound} className="px-4 py-2 rounded bg-blue-600 text-white">Pridať kolo</button>
+        </div>
+        {rounds.length > 0 && (
+          <div className="text-sm text-gray-600">
+            Kolá: {rounds.map((r,i)=> <span key={r.id} className="mr-2">#{i+1} – {r.category}</span>)}
+          </div>
+        )}
+      </div>
+
+      <p className="text-sm text-gray-500">
+        Poznámka: toto je scaffolding administrácie otázok a kôl. Skóre hráčov a realtime logiku vieš doplniť cez Socket.IO/DB, kontrakty si môžeš zachovať.
+      </p>
+    </div>
+  )
+}

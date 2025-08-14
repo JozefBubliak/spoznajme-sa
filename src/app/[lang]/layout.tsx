@@ -1,4 +1,4 @@
-﻿import { notFound } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import '../globals.css'
 import SiteHeader from '@/components/SiteHeader'
 import { IntlProvider } from '@/components/IntlProvider'
@@ -10,9 +10,9 @@ export default async function LangLayout({
   params,
 }: {
   children: React.ReactNode
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>
 }) {
-  const { lang } = params
+  const { lang } = await params
   if (!SUPPORTED_LOCALES.includes(lang)) notFound()
   const dict = await getDictionary(lang)
 
