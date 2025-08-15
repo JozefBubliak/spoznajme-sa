@@ -12,15 +12,15 @@ export async function POST(
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
-  // povol len zo stavu waiting
-  if (game.status !== 'waiting') {
-    return NextResponse.json({ error: 'Lobby already closed' }, { status: 400 })
+  if (!Array.isArray(game.rounds) || game.rounds.length === 0) {
+    return NextResponse.json({ error: 'No rounds configured' }, { status: 400 })
   }
 
-  game.status = 'configuring'
-  // voliteľne si vynuluj pomocné polia
-  ;(game as any).usedQuestionIds = []
-  game.rounds = game.rounds ?? []
+  // povol prechod len z 'ready' (alebo 'configuring' ak chceš tolerantne)
+  if (game.status !== 'ready' && game.status !== 'configuring') {
+    return NextResponse.json({ error: `Invalid state: ${game.status}` }, { status: 400 })
+  }
 
+  game.status = 'playing'
   return NextResponse.json({ success: true, status: game.status })
 }

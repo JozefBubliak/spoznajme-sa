@@ -3,7 +3,7 @@ import { store } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
+export async function GET(
   _req: NextRequest,
   ctx: { params: Promise<{ code: string }> }
 ) {
@@ -12,15 +12,10 @@ export async function POST(
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
-  // povol len zo stavu waiting
-  if (game.status !== 'waiting') {
-    return NextResponse.json({ error: 'Lobby already closed' }, { status: 400 })
-  }
-
-  game.status = 'configuring'
-  // voliteľne si vynuluj pomocné polia
-  ;(game as any).usedQuestionIds = []
-  game.rounds = game.rounds ?? []
-
-  return NextResponse.json({ success: true, status: game.status })
+  return NextResponse.json({
+    code: gameCode,
+    status: game.status,        // 'waiting' | 'configuring' | 'ready' | 'playing'
+    roundsCount: game.rounds?.length ?? 0,
+    playersCount: game.players?.length ?? 0,
+  })
 }
