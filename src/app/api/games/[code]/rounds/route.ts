@@ -1,7 +1,8 @@
+// PATH: src/app/api/games/[code]/rounds/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import type { RoundSettings } from '@/lib/herdvote/store'
-import { supabaseServer } from '@/integrations/supabase/seserver'
+import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,7 +11,7 @@ export const dynamic = 'force-dynamic'
  * Body:
  *   {
  *     "category": "vseobecne" | "Všeobecné",   // slug alebo name
- *     "count": 10,                             // pocet otázok do kola
+ *     "count": 10,                             // počet otázok do kola
  *     "settings": { timeLimit: 30, scoring: {...} } as RoundSettings
  *   }
  */
@@ -39,17 +40,15 @@ export async function POST(
     return NextResponse.json({ error: 'Missing round settings' }, { status: 400 })
   }
 
-  // zistíme category_id podľa slug alebo name
   const sb = supabaseServer()
 
-  // 1) skúsiť slug
-  let { data: catBySlug, error: eSlug } = await sb
+  // zistiť kategóriu podľa slug alebo názvu
+  let { data: catBySlug } = await sb
     .from('herd_categories')
     .select('id, slug, name, is_active')
     .eq('slug', rawCategory.toLowerCase())
     .single()
 
-  // 2) ak nenašlo, skúsiť name
   let cat = catBySlug
   if (!cat) {
     const { data: catByName, error: eName } = await sb
@@ -58,7 +57,7 @@ export async function POST(
       .eq('name', rawCategory)
       .single()
 
-    if (eSlug && eName) {
+    if (eName && !catBySlug) {
       return NextResponse.json({ error: 'Category not found' }, { status: 404 })
     }
     cat = catByName || catBySlug || null
@@ -68,14 +67,11 @@ export async function POST(
     return NextResponse.json({ error: 'Category not available' }, { status: 400 })
   }
 
-  // už použité otázky v tejto hre (aby sa neopakovali)
-  // udržiavame pole IDs na objekte game (in‑memory)
-  // (typovo opatrne, aby sme nevyžadovali úpravu typov v store)
+  // pamätaj si použité otázky v rámci tejto hry (aby sa neopakovali v ďalších kolách)
   const usedIds: string[] = (game as any).usedQuestionIds || []
   ;(game as any).usedQuestionIds = usedIds
 
-  // načítaj všetky otázky danej kategórie, ktoré ešte neboli použité
-  // (pre veľké datasety by sme to robili LIMIT + náhodný výber inak; teraz je to OK)
+  // načítaj dostupné (nepoužité) otázky danej kategórie
   let query = sb
     .from('herd_questions')
     .select('id, question_text, option_a, option_b, option_c, option_d, correct, time_limit_seconds', { count: 'exact' })
@@ -83,7 +79,7 @@ export async function POST(
     .eq('approved', true)
 
   if (usedIds.length) {
-    // Supabase filter IN vyžaduje tvar "(id1,id2,...)"
+    // filter NOT IN
     const list = `(${usedIds.map(x => `"${x}"`).join(',')})`
     query = query.not('id', 'in', list)
   }
@@ -92,43 +88,42 @@ export async function POST(
   if (qErr) {
     return NextResponse.json({ error: qErr.message }, { status: 500 })
   }
-
   if (!available || available.length === 0) {
     return NextResponse.json({
       error: 'No unused questions available for this category in this game',
     }, { status: 400 })
   }
 
-  // ak je menej než pýtame, nepovolíme (garantujeme „žiadne opakovanie“)
   if (available.length < count) {
     return NextResponse.json({
       error: `Not enough new questions in '${cat.name}'. Need ${count}, have ${available.length}.`,
     }, { status: 400 })
   }
 
-  // náhodne premiešaj a vezmi count
+  // náhodný výber
   const shuffled = [...available].sort(() => Math.random() - 0.5)
   const picked = shuffled.slice(0, count)
 
-  // priprav otázky vo formáte, ktorý už UI používa (A,B,C,D + správna pre moderátora)
+  // transform pre tvoj existujúci UI formát
   const questions = picked.map(q => ({
     id: q.id,
     question_text: q.question_text,
     options: [q.option_a, q.option_b, q.option_c, q.option_d] as [string, string, string, string],
-    correct_answer: q.correct as 'A'|'B'|'C'|'D',
-    time_limit: q.time_limit_seconds || settings.timeLimit, // fallback
+    correct_answer: q.correct as 'A' | 'B' | 'C' | 'D',
+    time_limit: q.time_limit_seconds || settings.timeLimit,
+    // body riadi moderátor (u teba sa neriešia z DB):
     points_correct: 10,
     points_incorrect: 0,
-    theme: cat.name, // pre spätné zobrazenie
+    theme: cat.name,
   }))
 
-  // vytvor kolo v in‑memory store
+  // vytvor kolo v in-memory store
   const round = store.addRound(gameCode, cat.name, questions, settings)
   if (!round) {
     return NextResponse.json({ error: 'Failed to create round' }, { status: 500 })
   }
 
-  // zapíš použité otázky do „pamäte hry“, aby sa už nezopakovali v ďalších kolách
+  // zapíš použité IDs, aby sa v tejto hre už nezopakovali
   usedIds.push(...picked.map(p => p.id))
   ;(game as any).usedQuestionIds = Array.from(new Set(usedIds))
 
