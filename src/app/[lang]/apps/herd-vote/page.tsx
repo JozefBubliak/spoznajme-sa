@@ -1,13 +1,15 @@
 ﻿'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { useParams } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
 
 type Category = { name: string; count: number }
 type Mode = 'classic' | 'podium'
 
-export default function Page({ params }: { params: { lang: string } }) {
-  const { lang } = params
+export default function HerdVoteAdminPage() {
+  // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
+  const { lang } = useParams<{ lang: string }>()
 
   const [gameCode, setGameCode] = useState<string>('')
   const [gameStatus, setGameStatus] = useState<'waiting' | 'configuring' | 'running' | 'finished'>('waiting')
@@ -32,25 +34,27 @@ export default function Page({ params }: { params: { lang: string } }) {
   const [leaderboard, setLeaderboard] = useState<Player[]>([])
 
   // --- Kategórie ---
-  const loadCategories = async () => {
-    try {
-      const r = await fetch('/api/games/herd-vote/categories', { cache: 'no-store' })
-      if (!r.ok) throw new Error('HTTP ' + r.status)
-      const j = await r.json()
-      const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
-      setCategories(cats)
-      if (cats.length && !selectedCat) setSelectedCat(cats[0].name)
-    } catch {
-      const fallback: Category[] = [
-        { name: 'Všeobecné', count: 50 },
-        { name: 'Geografia', count: 30 },
-        { name: 'Veda', count: 25 }
-      ]
-      setCategories(fallback)
-      if (!selectedCat) setSelectedCat(fallback[0].name)
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const r = await fetch('/api/games/herd-vote/categories', { cache: 'no-store' })
+        if (!r.ok) throw new Error('HTTP ' + r.status)
+        const j = await r.json()
+        const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
+        setCategories(cats)
+        if (cats.length && !selectedCat) setSelectedCat(cats[0].name)
+      } catch {
+        const fallback: Category[] = [
+          { name: 'Všeobecné', count: 50 },
+          { name: 'Geografia', count: 30 },
+          { name: 'Veda', count: 25 }
+        ]
+        setCategories(fallback)
+        if (!selectedCat) setSelectedCat(fallback[0].name)
+      }
     }
-  }
-  useEffect(() => { loadCategories() }, []) // iba raz pri načítaní
+    load()
+  }, []) // raz pri načítaní
 
   // --- Vytvorenie hry ---
   const createGame = async () => {
@@ -72,7 +76,7 @@ export default function Page({ params }: { params: { lang: string } }) {
     }
   }
 
-  // --- Polling lobby a statusu hry ---
+  // --- Polling lobby + statusu hry ---
   useEffect(() => {
     if (!gameCode) return
     let id: any
@@ -80,7 +84,7 @@ export default function Page({ params }: { params: { lang: string } }) {
       try {
         const [pr, gr] = await Promise.all([
           fetch(`/api/games/${gameCode}/players`, { cache: 'no-store' }),
-          fetch(`/api/games/${gameCode}`, { cache: 'no-store' }).catch(() => null)
+          fetch(`/api/games/${gameCode}`, { cache: 'no-store' }).catch(() => null),
         ])
         if (pr?.ok) {
           const pj = await pr.json()
@@ -169,7 +173,7 @@ export default function Page({ params }: { params: { lang: string } }) {
           {gameCode ? 'Vytvoriť novú hru' : 'Vytvoriť hru'}
         </button>
 
-        {/* Link + QR ukazuj len v stave waiting */}
+        {/* Link + QR len kým je lobby otvorené */}
         {gameCode && gameStatus === 'waiting' && (
           <div className="space-y-2">
             <div><b>Kód hry:</b> {gameCode}</div>
@@ -217,7 +221,6 @@ export default function Page({ params }: { params: { lang: string } }) {
               ))}
             </div>
 
-            {/* Tlačidlo zamknúť lobby */}
             {gameStatus === 'waiting' && (
               <div className="pt-2">
                 <button
@@ -235,7 +238,6 @@ export default function Page({ params }: { params: { lang: string } }) {
             )}
           </div>
 
-          {/* Nastavovanie kôl (ukazuj len v configuring) */}
           {gameStatus === 'configuring' && (
             <div className="rounded-xl border p-4 space-y-3">
               <h2 className="font-semibold">Nové kolo</h2>
@@ -386,7 +388,6 @@ export default function Page({ params }: { params: { lang: string } }) {
                 </div>
               )}
 
-              {/* Keď aspoň 1 kolo existuje, môže sa prepnúť do running (začiatok hry) */}
               {rounds.length > 0 && (
                 <div className="pt-3">
                   <button
