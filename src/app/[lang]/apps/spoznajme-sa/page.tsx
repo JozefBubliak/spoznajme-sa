@@ -1,3 +1,11 @@
+// PATH: src/app/[lang]/apps/spoznajme-sa/page.tsx
+type Props = { params: { lang: string } }
+
+export default async function Page({ params }: Props) {
+  const { lang } = params
+  const back = `/${lang}/apps`
+
+
 import Link from "next/link"
 
 export const metadata = {
