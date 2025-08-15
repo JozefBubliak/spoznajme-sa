@@ -7,10 +7,10 @@ export const metadata = {
     "Otvárače, hlbšie otázky, spomienky aj zábava. Mobilné, jednoduché, bezpečné.",
 }
 
-type Props = { params: { lang: string } }
+type Props = { params: Promise<{ lang: string }> }
 
-export default function Page({ params }: Props) {
-  const { lang } = params
+export default async function Page({ params }: Props) {
+  const { lang } = await params
   const back = `/${lang}/apps`
 
   return (

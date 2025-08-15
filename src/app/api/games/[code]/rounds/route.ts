@@ -40,7 +40,7 @@ export async function POST(
     return NextResponse.json({ error: 'Missing round settings' }, { status: 400 })
   }
 
-  const sb = supabaseServer()
+  const sb = supabaseServer() as any // Type assertion to bypass TypeScript issues
 
   // zistiť kategóriu podľa slug alebo názvu
   let { data: catBySlug } = await sb
@@ -74,9 +74,8 @@ export async function POST(
   // načítaj dostupné (nepoužité) otázky danej kategórie
   let query = sb
     .from('herd_questions')
-    .select('id, question_text, option_a, option_b, option_c, option_d, correct, time_limit_seconds', { count: 'exact' })
+    .select('id, question_text, answer_a, answer_b, answer_c, answer_d, correct_answer, time_limit', { count: 'exact' })
     .eq('category_id', cat.id)
-    .eq('approved', true)
 
   if (usedIds.length) {
     // filter NOT IN
@@ -105,12 +104,12 @@ export async function POST(
   const picked = shuffled.slice(0, count)
 
   // transform pre tvoj existujúci UI formát
-  const questions = picked.map(q => ({
+  const questions = picked.map((q: any) => ({
     id: q.id,
     question_text: q.question_text,
-    options: [q.option_a, q.option_b, q.option_c, q.option_d] as [string, string, string, string],
-    correct_answer: q.correct as 'A' | 'B' | 'C' | 'D',
-    time_limit: q.time_limit_seconds || settings.timeLimit,
+    options: [q.answer_a, q.answer_b, q.answer_c, q.answer_d] as [string, string, string, string],
+    correct_answer: q.correct_answer as 'A' | 'B' | 'C' | 'D',
+    time_limit: q.time_limit || settings.timeLimit,
     // body riadi moderátor (u teba sa neriešia z DB):
     points_correct: 10,
     points_incorrect: 0,
@@ -124,7 +123,7 @@ export async function POST(
   }
 
   // zapíš použité IDs, aby sa v tejto hre už nezopakovali
-  usedIds.push(...picked.map(p => p.id))
+  usedIds.push(...picked.map((p: any) => p.id))
   ;(game as any).usedQuestionIds = Array.from(new Set(usedIds))
 
   return NextResponse.json({ roundId: round.id })

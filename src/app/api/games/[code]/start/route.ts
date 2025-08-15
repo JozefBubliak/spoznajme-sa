@@ -16,11 +16,11 @@ export async function POST(
     return NextResponse.json({ error: 'No rounds configured' }, { status: 400 })
   }
 
-  // povol prechod len z 'ready' (alebo 'configuring' ak chceš tolerantne)
-  if (game.status !== 'ready' && game.status !== 'configuring') {
+  // povol prechod len z 'waiting' alebo 'active' 
+  if (game.status !== 'waiting' && game.status !== 'active') {
     return NextResponse.json({ error: `Invalid state: ${game.status}` }, { status: 400 })
   }
 
-  game.status = 'playing'
+  game.status = 'active'
   return NextResponse.json({ success: true, status: game.status })
 }
