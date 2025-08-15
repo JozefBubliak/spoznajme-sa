@@ -3,12 +3,14 @@ import Link from "next/link"
 
 type Props = { params: { lang: string } }
 
+// Ak chceš dynamický titulok podľa jazyka, môžeš doplniť generateMetadata.
+// Tu nechávam jednoduchú statickú verziu (bez chýb).
 export const metadata = {
   title: "Spoznajme sa – hra s kartami | DeepTalks",
   description: "Otvárače, hlbšie otázky, spomienky aj zábava. Mobilné, jednoduché, bezpečné.",
 }
 
-export default async function Page({ params }: Props) {
+export default function Page({ params }: Props) {
   const { lang } = params
   const back = `/${lang}/apps`
 
@@ -25,8 +27,12 @@ export default async function Page({ params }: Props) {
           Vždy bezpečné – s preskočením a bez citlivých tém.
         </p>
         <div className="flex gap-3 pt-1">
-          <Link href="/app" className="px-4 py-2 rounded-md bg-black text-white text-sm">Spustiť hru</Link>
-          <a href="#packs" className="px-4 py-2 rounded-md border text-sm">Balíčky tém</a>
+          <Link href="/app" className="px-4 py-2 rounded-md bg-black text-white text-sm">
+            Spustiť hru
+          </Link>
+          <a href="#packs" className="px-4 py-2 rounded-md border text-sm">
+            Balíčky tém
+          </a>
         </div>
       </header>
 

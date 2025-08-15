@@ -1,9 +1,9 @@
 // PATH: src/app/[lang]/indexy/co-trapi-deti/page.tsx
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
 import { normalizeUrlLocale, buildHreflangAlternates } from "@/lib/i18n-routing"
 import { type Locale, SUPPORTED_LOCALES } from "@/i18n/config"
 import { getDictionary } from "@/i18n/server"
+import { notFound } from "next/navigation"
 
 type Props = { params: { lang: string } }
 
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
   const lang = normalizeUrlLocale(params.lang)
-  if (!SUPPORTED_LOCALES.includes(lang)) notFound()
+  if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
   const dict = await getDictionary(lang as Locale)
 
   return (
