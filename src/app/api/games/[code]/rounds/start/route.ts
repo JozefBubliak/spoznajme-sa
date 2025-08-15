@@ -1,3 +1,4 @@
+// src/app/api/games/[code]/rounds/start/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
@@ -5,54 +6,32 @@ import { channelFor } from '@/lib/realtime/types'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: NextRequest,
-  ctx: { params: Promise<{ code: string }> }
-) {
+export async function POST(req: NextRequest, ctx: { params: Promise<{ code: string }> }) {
   const { code } = await ctx.params
   const gameCode = String(code || '').toUpperCase()
-
   const game = store.getGame(gameCode)
-  if (!game) {
-    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
-  }
+  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
   const body = await req.json().catch(() => ({}))
   const { roundId } = body
 
-  // Find the round to start
-  let targetRound
-  if (roundId) {
-    targetRound = game.rounds.find(r => r.id === roundId)
-  } else {
-    // Start the first pending round
-    targetRound = game.rounds.find(r => r.status === 'pending')
-  }
+  // vyber kolo
+  const round = roundId
+    ? game.rounds.find(r => r.id === roundId)
+    : game.rounds.find(r => r.status === 'pending' || r.status === 'ready')
 
-  if (!targetRound) {
-    return NextResponse.json({ error: 'No round to start' }, { status: 400 })
-  }
+  if (!round) return NextResponse.json({ error: 'No round to start' }, { status: 400 })
 
-  // Update game and round state
+  // len ukáž otázku (bez odpočtu)
   game.status = 'active'
-  game.activeRoundId = targetRound.id
-  targetRound.status = 'running'
-  targetRound.qIndex = 0
-  targetRound.startedAt = Date.now()
+  game.activeRoundId = round.id
+  round.status = 'shown'
+  round.qIndex = round.qIndex ?? 0
+  round.startedAt = undefined
 
-  // Publish realtime event
-  const channel = channelFor(gameCode)
-  await RealtimeServer.publish(channel, {
-    type: 'game:start',
-    code: gameCode,
-    roundId: targetRound.id,
-    qIndex: 0,
-    at: Date.now()
+  await RealtimeServer.publish(channelFor(gameCode), {
+    type: 'game:start', code: gameCode, roundId: round.id, qIndex: round.qIndex, at: Date.now()
   })
 
-  return NextResponse.json({ 
-    success: true, 
-    roundId: targetRound.id,
-    qIndex: 0
-  })
+  return NextResponse.json({ success: true, roundId: round.id, qIndex: round.qIndex })
 }

@@ -1,9 +1,12 @@
-﻿import { NextRequest, NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
+﻿// PATH: src/app/api/games/route.ts
+// Create game: POST /api/games  ->  { gameCode }
 
-export async function POST(req: NextRequest) {
-  const body = await req.json().catch(()=>({}))
-  const game = store.createGame(body?.settings || {})
-  const joinUrl = /play/\  // klientsky route pre hráčov
-  return NextResponse.json({ gameCode: game.code, joinUrl })
+import { NextRequest, NextResponse } from 'next/server';
+import { store } from '@/lib/herdvote/store';
+
+export const dynamic = 'force-dynamic';
+
+export async function POST(_req: NextRequest) {
+  const game = store.createGame({});
+  return NextResponse.json({ gameCode: game.code });
 }

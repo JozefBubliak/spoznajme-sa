@@ -1,13 +1,15 @@
-import { NextResponse } from "next/server";
-import data from "@/../content/sk/apps/herd-vote/kviz_questions.json";
+// PATH: src/app/api/games/herd-vote/categories/route.ts
+import { NextResponse } from 'next/server'
+
+export const dynamic = 'force-dynamic'
+
+// dočasne statické (na lokálny test). Neskôr vieš nahradiť čítaním zo Supabase.
+const CATEGORIES = [
+  { name: 'Všeobecné', count: 100 },
+  { name: 'Geografia', count: 42 },
+  { name: 'Veda',      count: 37 },
+]
 
 export async function GET() {
-  const all = (data as any[]).filter(Boolean);
-  const map = new Map<string, number>();
-  for (const q of all) {
-    const theme = (q.theme || "Nezaradené") as string;
-    map.set(theme, (map.get(theme) || 0) + 1);
-  }
-  const categories = Array.from(map.entries()).map(([name,count]) => ({ name, count }));
-  return NextResponse.json({ categories });
+  return NextResponse.json({ categories: CATEGORIES })
 }
