@@ -4,7 +4,8 @@ import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { buildHreflangAlternates, normalizeUrlLocale } from '@/lib/i18n-routing'
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
-  const lang = normalizeUrlLocale(params.lang)
+  const { lang: rawLang } = await params
+  const lang = normalizeUrlLocale(rawLang)
   return {
     title: 'Produkty',
     description: 'Čoskoro.',

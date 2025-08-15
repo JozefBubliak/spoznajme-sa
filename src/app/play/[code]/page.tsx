@@ -75,7 +75,7 @@ export default function PlayJoinPage() {
         setCorrectAnswer(ev.correct)
         setGameState('results')
         // Update player scores from leaderboard
-        const updatedMe = ev.leaderboard.find(p => p.id === me?.id)
+        const updatedMe = ev.leaderboard.find((p: any) => p.id === me?.id)
         if (updatedMe) {
           setMe(updatedMe)
         }

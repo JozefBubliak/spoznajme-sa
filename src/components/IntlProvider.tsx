@@ -24,7 +24,7 @@ export function useI18n() {
     return { lang: 'en' as Locale, dict: FALLBACK_DICT, t }
   }
   function t(path: string, fallback?: string) {
-    return path.split('.').reduce((acc: any, k) => (acc && acc[k] !== undefined ? acc[k] : undefined), ctx.dict) ??
+    return path.split('.').reduce((acc: any, k) => (acc && acc[k] !== undefined ? acc[k] : undefined), ctx?.dict || {}) ??
       (fallback ?? path)
   }
   return { ...ctx, t }

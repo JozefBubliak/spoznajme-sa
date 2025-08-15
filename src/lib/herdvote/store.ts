@@ -38,7 +38,7 @@ export type Round = {
   category: string;
   questions: Question[];
   settings: RoundSettings;
-  status: 'pending'|'running'|'locked'|'results'|'finished';
+  status: 'pending'|'running'|'locked'|'results'|'finished'|'ready'|'shown';
   qIndex: number;     // index aktuálnej otázky
   startedAt?: number; // ms – štart aktuálnej otázky
 };
@@ -54,7 +54,7 @@ export type PlayerAnswer = {
 export type Game = {
   id: string;
   code: string;
-  status: 'waiting'|'active'|'finished';
+  status: 'waiting'|'active'|'finished'|'setup';
   settings: Record<string, any>;
   players: Player[];
   rounds: Round[];
@@ -72,11 +72,10 @@ function pickCode(len = 6) {
 }
 function uuid() {
   // v node 18+/browser je crypto.randomUUID; fallback pre istotu
-  // @ts-expect-error
-  return (globalThis.crypto?.randomUUID)
-    // @ts-expect-error
-    ? globalThis.crypto.randomUUID()
-    : `${Date.now()}-${Math.random()}`;
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random()}`;
 }
 
 // ---- in‑memory store ----

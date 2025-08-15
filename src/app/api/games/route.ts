@@ -1,4 +1,4 @@
-﻿// PATH: src/app/api/games/route.ts
+// PATH: src/app/api/games/route.ts
 // Create game: POST /api/games  ->  { gameCode }
 
 import { NextRequest, NextResponse } from 'next/server';

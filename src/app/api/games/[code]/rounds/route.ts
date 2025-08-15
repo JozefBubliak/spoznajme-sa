@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import type { RoundSettings } from '@/lib/herdvote/store'
-import { supabaseServer } from '@/integrations/supabase/server'
+import { supabaseServer } from '@/integrations/supabase/seserver'
 
 export const dynamic = 'force-dynamic'
 
@@ -114,9 +114,11 @@ export async function POST(
   const questions = picked.map(q => ({
     id: q.id,
     question_text: q.question_text,
-    options: [q.option_a, q.option_b, q.option_c, q.option_d],
+    options: [q.option_a, q.option_b, q.option_c, q.option_d] as [string, string, string, string],
     correct_answer: q.correct as 'A'|'B'|'C'|'D',
     time_limit: q.time_limit_seconds || settings.timeLimit, // fallback
+    points_correct: 10,
+    points_incorrect: 0,
     theme: cat.name, // pre spätné zobrazenie
   }))
 
