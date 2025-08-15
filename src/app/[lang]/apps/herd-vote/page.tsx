@@ -5,8 +5,8 @@ export const metadata = {
   description: "Party hra: hlasuj v mobile, body za zhodu s väčšinou. Pre 6–30+ ľudí, ideálne na oslavy a teambuildingy.",
 }
 
-export default function Page({ params }: { params: { lang: string } }) {
-  const { lang } = params
+export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params
   const back = `/${lang}/apps`
 
   return (
