@@ -1,13 +1,17 @@
-﻿'use client'
-import { useI18n } from '@/i18n'
+﻿import type { Metadata } from 'next'
 
-export default function ContactPage() {
-  const { t } = useI18n()
+export const metadata: Metadata = {
+  title: 'Contact | DeepTalks',
+  description: 'How to reach us.',
+}
+
+export default function Page() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 space-y-6">
-      <h1 className="text-3xl font-bold">{t('contact.title')}</h1>
-      <p className="text-muted-foreground">{t('contact.social')}</p>
-      <a href="mailto:hello@deeptalks.eu" className="underline">{t('contact.email')}</a>
-    </div>
+    <main className="mx-auto max-w-4xl px-4 py-10 space-y-6">
+      <h1 className="text-3xl font-semibold">Contact</h1>
+      <p className="text-muted-foreground">
+        Email: hello@deeptalks.eu
+      </p>
+    </main>
   )
 }
