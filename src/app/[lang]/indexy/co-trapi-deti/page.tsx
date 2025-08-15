@@ -5,13 +5,10 @@ import { normalizeUrlLocale, buildHreflangAlternates } from "@/lib/i18n-routing"
 import { type Locale, SUPPORTED_LOCALES } from "@/i18n/config"
 import { getDictionary } from "@/i18n/server"
 
-// ── Dôležité: žiadny vlastný Props typ, necháme to voľné (any)
-//    aby to nepadlo na tvojom globálnom PageProps s Promise.
-export async function generateMetadata(args: any): Promise<Metadata> {
-  // args.params môže byť objekt alebo Promise podľa tvojho globálneho typu
-  const p = args?.params ?? (await args?.params)
-  const lang = normalizeUrlLocale(p?.lang as string)
+type Props = { params: { lang: string } }
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const lang = normalizeUrlLocale(params.lang)
   return {
     title: lang === "sk" ? "Čo trápi deti – index" : "What troubles kids – index",
     description:
@@ -25,10 +22,8 @@ export async function generateMetadata(args: any): Promise<Metadata> {
   }
 }
 
-export default async function Page(args: any) {
-  const p = args?.params ?? (await args?.params)
-  const lang = normalizeUrlLocale(p?.lang as string)
-
+export default async function Page({ params }: Props) {
+  const lang = normalizeUrlLocale(params.lang)
   if (!SUPPORTED_LOCALES.includes(lang)) notFound()
   const dict = await getDictionary(lang as Locale)
 
