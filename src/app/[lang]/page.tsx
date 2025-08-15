@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+﻿import type { Metadata } from "next"
 import Hero from "@/components/home/Hero"
 import { getDictionary } from "@/i18n/server"
 import { IntlProvider } from "@/components/IntlProvider"
@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: "Komunikačný kompas, konverzačné hry a balíčky otázok pre blízke vzťahy.",
 }
 
-export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
-  const lang = (await params).lang
+export default async function Page({ params }: { params: { lang: string } }) {
+  const { lang } = params
   const dict = await getDictionary(lang as any)
   return (
     <IntlProvider lang={lang as any} dict={dict}>

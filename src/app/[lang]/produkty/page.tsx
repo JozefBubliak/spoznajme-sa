@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
+﻿import type { Metadata } from 'next'
 import { Container } from '@/components/Container'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { buildHreflangAlternates, normalizeUrlLocale } from '@/lib/i18n-routing'
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
   const { lang: rawLang } = await params
   const lang = normalizeUrlLocale(rawLang)
   return {
@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   }
 }
 
-export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
-  const { lang } = await params
+export default async function Page({ params }: { params: { lang: string } }) {
+  const { lang } = params
   return (
     <Container>
       <Breadcrumbs items={[{ href: `/${lang}`, label: 'Domov' }, { label: 'Produkty' }]} />

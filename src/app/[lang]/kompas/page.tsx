@@ -1,4 +1,4 @@
-import Link from "next/link"
+﻿import Link from "next/link"
 
 export const metadata = {
   title: "Komunikačný kompas | DeepTalks",
@@ -18,8 +18,8 @@ const topics = [
   { slug: "identita-a-telo",      label: "Identita & telo",          desc: "sebaobraz, rešpekt a citlivé hranice" },
 ]
 
-export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
-  const { lang } = await params
+export default async function Page({ params }: { params: { lang: string } }) {
+  const { lang } = params
   const go = (p: string) => `/${lang}${p}`
 
   return (

@@ -1,4 +1,4 @@
-// PATH: src/app/[lang]/apps/page.tsx
+﻿// PATH: src/app/[lang]/apps/page.tsx
 import Link from "next/link"
 
 export const metadata = {
@@ -7,8 +7,8 @@ export const metadata = {
     "Hry, ktoré rozprúdia rozhovor – otázky, kartičky a kvízy. Pre páry, kamarátov, rodiny a party.",
 }
 
-export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
-  const { lang } = await params
+export default async function Page({ params }: { params: { lang: string } }) {
+  const { lang } = params
   const go = (p: string) => `/${lang}${p}`
 
   return (
