@@ -1,4 +1,4 @@
-
+﻿
 import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseAdmin'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'

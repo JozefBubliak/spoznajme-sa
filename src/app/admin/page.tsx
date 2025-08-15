@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 export const dynamic = 'force-dynamic'
 
 import { useEffect, useState } from 'react'
@@ -10,10 +10,10 @@ import { Brain } from 'lucide-react'
 const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
 
 const groupLabels = {
-  partneri: '🟣 Partneri',
-  kamarati: '🔵 Kamaráti',
-  rodina: '🟢 Rodina',
-  rodic_dieta: '🟠 Rodič–dieťa',
+  partneri: 'đźźŁ Partneri',
+  kamarati: 'đź”µ KamarĂˇti',
+  rodina: 'đźź˘ Rodina',
+  rodic_dieta: 'đźź  RodiÄŤâ€“dieĹĄa',
 }
 
 type GroupKey = keyof typeof groupLabels
@@ -77,7 +77,7 @@ export default function AdminPage() {
 
     if (!error && data && data.length > 0) {
       const q = data[0]
-      console.log('[DEBUG] Načítaná otázka:', q.id, q.text)
+      console.log('[DEBUG] NaÄŤĂ­tanĂˇ otĂˇzka:', q.id, q.text)
       setQuestion(q)
       setGroupState({
         partneri: q.partneri,
@@ -95,11 +95,11 @@ export default function AdminPage() {
 
     const updateData = {
       ...groupState,
-      admin_status: status ?? 3, // ak nič neklikneš, berieme ako OK
+      admin_status: status ?? 3, // ak niÄŤ neklikneĹˇ, berieme ako OK
     }
 
-    console.log('[DEBUG] Ukladám otázku:', question.id)
-    console.log('[DEBUG] Dáta:', updateData)
+    console.log('[DEBUG] UkladĂˇm otĂˇzku:', question.id)
+    console.log('[DEBUG] DĂˇta:', updateData)
 
     const { error } = await supabase
       .from('questions')
@@ -110,12 +110,12 @@ export default function AdminPage() {
       setStatus(null)
       fetchNextQuestion()
     } else {
-      console.error('Chyba pri ukladaní:', error)
+      console.error('Chyba pri ukladanĂ­:', error)
     }
   }
 
   if (isLoading) {
-    return <div className="p-10 text-center text-gray-500">Načítavam používateľa...</div>
+    return <div className="p-10 text-center text-gray-500">NaÄŤĂ­tavam pouĹľĂ­vateÄľa...</div>
   }
 
   return (
@@ -128,7 +128,7 @@ export default function AdminPage() {
         {question ? (
           <>
             <p className="text-sm text-gray-500">
-              ID otázky: <strong>{question.id}</strong>
+              ID otĂˇzky: <strong>{question.id}</strong>
             </p>
             <p className="text-lg font-medium text-gray-800">{question.text}</p>
 
@@ -155,33 +155,33 @@ export default function AdminPage() {
                 variant={status === 1 ? 'destructive' : 'outline'}
                 onClick={() => setStatus(1)}
               >
-                ❌ Potrebné upraviť
+                âťŚ PotrebnĂ© upraviĹĄ
               </Button>
 
               <Button
                 variant={status === 2 ? 'destructive' : 'outline'}
                 onClick={() => setStatus(2)}
               >
-                🗑️ Označiť na zmazanie
+                đź—‘ď¸Ź OznaÄŤiĹĄ na zmazanie
               </Button>
 
               <Button
                 variant={status === 3 ? 'default' : 'outline'}
                 onClick={() => setStatus(3)}
               >
-                ✅ Text v poriadku
+                âś… Text v poriadku
               </Button>
             </div>
 
             <div className="pt-4">
               <Button onClick={handleSaveAndNext} className="w-full">
-                Uložiť a ďalšia otázka
+                UloĹľiĹĄ a ÄŹalĹˇia otĂˇzka
               </Button>
             </div>
           </>
         ) : (
           <p className="text-gray-500 text-center">
-            Žiadne ďalšie otázky na spracovanie.
+            Ĺ˝iadne ÄŹalĹˇie otĂˇzky na spracovanie.
           </p>
         )}
       </div>

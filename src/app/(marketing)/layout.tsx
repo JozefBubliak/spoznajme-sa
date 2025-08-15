@@ -1,10 +1,10 @@
-import { Metadata } from 'next'
+﻿import { Metadata } from 'next'
 import ClientLayout from './ClientLayout'
 import { MarketingHeader } from '@/components/MarketingHeader'
 import { MarketingFooter } from '@/components/MarketingFooter'
 
 export const metadata: Metadata = {
-  title: 'DeepTalks – Questions that connect deeply',
+  title: 'DeepTalks â€“ Questions that connect deeply',
   description: 'DeepTalks helps partners, friends and families connect through meaningful, guided questions.',
   alternates: {
     canonical: 'https://deeptalks.eu/',

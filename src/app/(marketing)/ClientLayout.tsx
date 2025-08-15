@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { I18nProvider } from '@/i18n'
 

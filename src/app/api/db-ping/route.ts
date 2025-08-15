@@ -1,4 +1,4 @@
-// src/app/api/db-ping/route.ts
+﻿// src/app/api/db-ping/route.ts
 
 import { NextResponse } from 'next/server';
 import { supabaseServer } from '@/lib/supabase/server';

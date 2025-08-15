@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useI18n } from '@/i18n'
 
@@ -17,7 +17,7 @@ export default function PricingPage() {
             <div className="text-2xl font-bold mb-4">{t(`pricing.plans.${i}.price`)}</div>
             <ul className="space-y-2 text-sm text-muted-foreground">
               {[0,1,2].map((f) => (
-                <li key={f}>• {t(`pricing.plans.${i}.features.${f}`)}</li>
+                <li key={f}>â€˘ {t(`pricing.plans.${i}.features.${f}`)}</li>
               ))}
             </ul>
           </div>

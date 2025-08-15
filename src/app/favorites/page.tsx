@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -11,7 +11,7 @@ export default function FavoritesPage() {
   const [user, setUser] = useState<any>(null)
   const [favorites, setFavorites] = useState<{ id: number; text: string }[]>([])
 
-  // dočasné mockované ID (kým nemáš user_favorites napojené)
+  // doÄŤasnĂ© mockovanĂ© ID (kĂ˝m nemĂˇĹˇ user_favorites napojenĂ©)
   const mockFavoriteIds = [1, 2, 3, 4]
 
   useEffect(() => {
@@ -43,11 +43,11 @@ export default function FavoritesPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
       <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-xl w-full">
         <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
-          <Heart className="text-pink-500" /> Obľúbené otázky
+          <Heart className="text-pink-500" /> ObÄľĂşbenĂ© otĂˇzky
         </h1>
 
         {favorites.length === 0 ? (
-          <p className="text-gray-500">Zatiaľ nemáš žiadne obľúbené otázky.</p>
+          <p className="text-gray-500">ZatiaÄľ nemĂˇĹˇ Ĺľiadne obÄľĂşbenĂ© otĂˇzky.</p>
         ) : (
           <ul className="text-left space-y-3 text-gray-800">
             {favorites.map((q) => (
@@ -59,7 +59,7 @@ export default function FavoritesPage() {
         )}
 
         <Button variant="outline" onClick={() => router.push('/app')}>
-          Naspäť do aplikácie
+          NaspĂ¤ĹĄ do aplikĂˇcie
         </Button>
       </div>
     </div>

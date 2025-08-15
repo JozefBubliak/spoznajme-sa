@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import LegacyApp from '@/components/LegacyApp';
 

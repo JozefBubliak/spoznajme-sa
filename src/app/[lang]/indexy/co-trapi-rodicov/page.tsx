@@ -1,14 +1,16 @@
+// PATH: src/app/[lang]/indexy/co-trapi-rodicov/page.tsx
 import type { Metadata } from "next"
 import { Container } from "@/components/Container"
 import { Breadcrumbs } from "@/components/Breadcrumbs"
 import { getIndexFrontmatter } from "@/lib/content"
 import { buildHreflangAlternates, normalizeUrlLocale } from "@/lib/i18n-routing"
 
-type Props = { params: { lang: string } }
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const lang = normalizeUrlLocale(params.lang)
+// Pozn.: rovnaký trik s any kvôli tvojmu globálnemu PageProps
+export async function generateMetadata(args: any): Promise<Metadata> {
+  const p = args?.params ?? (await args?.params)
+  const lang = normalizeUrlLocale(p?.lang as string)
   const fm = getIndexFrontmatter(lang, "co-trapi-rodicov")
+
   return {
     title: fm?.title || "Čo trápi rodičov",
     description: fm?.seoDescription || "Čoskoro.",
@@ -19,8 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function Page({ params }: Props) {
-  const lang = normalizeUrlLocale(params.lang)
+export default function Page(args: any) {
+  const p = (args as any)?.params
+  const lang = normalizeUrlLocale(p?.lang as string)
   const fm = getIndexFrontmatter(lang, "co-trapi-rodicov")
 
   return (
@@ -35,9 +38,7 @@ export default function Page({ params }: Props) {
       <h1 className="text-3xl font-semibold mt-4">
         {fm?.title || "Čo trápi rodičov"}
       </h1>
-      <p className="text-muted-foreground mt-2">
-        {fm?.description || "Čoskoro."}
-      </p>
+      <p className="text-muted-foreground mt-2">{fm?.description || "Čoskoro."}</p>
     </Container>
   )
 }

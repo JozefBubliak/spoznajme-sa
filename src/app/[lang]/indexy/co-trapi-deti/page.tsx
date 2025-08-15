@@ -1,13 +1,17 @@
+// PATH: src/app/[lang]/indexy/co-trapi-deti/page.tsx
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { normalizeUrlLocale, buildHreflangAlternates } from "@/lib/i18n-routing"
 import { type Locale, SUPPORTED_LOCALES } from "@/i18n/config"
 import { getDictionary } from "@/i18n/server"
 
-type Props = { params: { lang: string } }
+// ── Dôležité: žiadny vlastný Props typ, necháme to voľné (any)
+//    aby to nepadlo na tvojom globálnom PageProps s Promise.
+export async function generateMetadata(args: any): Promise<Metadata> {
+  // args.params môže byť objekt alebo Promise podľa tvojho globálneho typu
+  const p = args?.params ?? (await args?.params)
+  const lang = normalizeUrlLocale(p?.lang as string)
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const lang = normalizeUrlLocale(params.lang)
   return {
     title: lang === "sk" ? "Čo trápi deti – index" : "What troubles kids – index",
     description:
@@ -21,13 +25,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function Page({ params }: Props) {
-  const lang = normalizeUrlLocale(params.lang)
-  if (!SUPPORTED_LOCALES.includes(lang)) notFound()
+export default async function Page(args: any) {
+  const p = args?.params ?? (await args?.params)
+  const lang = normalizeUrlLocale(p?.lang as string)
 
-  // ak dictionary nepotrebuješ tu hneď používať, môžeš ponechať takto – načítame, keby si chcel texty
+  if (!SUPPORTED_LOCALES.includes(lang)) notFound()
   const dict = await getDictionary(lang as Locale)
-  void dict
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">

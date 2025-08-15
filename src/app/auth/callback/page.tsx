@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -11,7 +11,7 @@ export default function AuthCallback() {
 
   useEffect(() => {
     const handleRedirect = async () => {
-      // krátka pauza, kým sa stihne vytvoriť session po návrate z OAuth
+      // krĂˇtka pauza, kĂ˝m sa stihne vytvoriĹĄ session po nĂˇvrate z OAuth
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       const {
