@@ -1,31 +1,441 @@
-﻿import Link from "next/link"
+﻿'use client'
 
-export const metadata = {
-  title: "Herd Vote – aplikácia | DeepTalks",
-  description: "Party hra: hlasuj v mobile, body za zhodu s väčšinou. Pre 6–30+ ľudí, ideálne na oslavy a teambuildingy.",
-}
+import { useEffect, useMemo, useState } from 'react'
+import type { Player, Round } from '@/lib/herdvote/store'
 
-export default async function Page({ params }: { params: { lang: string } }) {
+type Category = { name: string; count: number }
+type Mode = 'classic' | 'podium'
+
+export default function Page({ params }: { params: { lang: string } }) {
   const { lang } = params
-  const back = `/${lang}/apps`
+
+  const [gameCode, setGameCode] = useState<string>('')
+  const [gameStatus, setGameStatus] = useState<'waiting' | 'configuring' | 'running' | 'finished'>('waiting')
+  const [categories, setCategories] = useState<Category[]>([])
+  const [selectedCat, setSelectedCat] = useState<string>('')
+
+  const [count, setCount] = useState<number>(10)
+  const [timeLimit, setTimeLimit] = useState<number>(30)
+  const [mode, setMode] = useState<Mode>('classic')
+  const [correct, setCorrect] = useState<number>(5)
+  const [incorrect, setIncorrect] = useState<number>(-3)
+  const [none, setNone] = useState<number>(0)
+  const [tier1, setTier1] = useState<number>(10)
+  const [tier2, setTier2] = useState<number>(5)
+  const [tier3, setTier3] = useState<number>(3)
+  const [pIncorrect, setPIncorrect] = useState<number>(-3)
+  const [pNone, setPNone] = useState<number>(0)
+
+  const [rounds, setRounds] = useState<{ id: string; category: string }[]>([])
+  const [players, setPlayers] = useState<Player[]>([])
+  const [currentRound, setCurrentRound] = useState<Round | null>(null)
+  const [leaderboard, setLeaderboard] = useState<Player[]>([])
+
+  // --- Kategórie ---
+  const loadCategories = async () => {
+    try {
+      const r = await fetch('/api/games/herd-vote/categories', { cache: 'no-store' })
+      if (!r.ok) throw new Error('HTTP ' + r.status)
+      const j = await r.json()
+      const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
+      setCategories(cats)
+      if (cats.length && !selectedCat) setSelectedCat(cats[0].name)
+    } catch {
+      const fallback: Category[] = [
+        { name: 'Všeobecné', count: 50 },
+        { name: 'Geografia', count: 30 },
+        { name: 'Veda', count: 25 }
+      ]
+      setCategories(fallback)
+      if (!selectedCat) setSelectedCat(fallback[0].name)
+    }
+  }
+  useEffect(() => { loadCategories() }, []) // iba raz pri načítaní
+
+  // --- Vytvorenie hry ---
+  const createGame = async () => {
+    const r = await fetch('/api/games', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ settings: {} }),
+    })
+    const j = await r.json()
+    if (j?.gameCode) {
+      setGameCode(j.gameCode)
+      setRounds([])
+      setPlayers([])
+      setCurrentRound(null)
+      setLeaderboard([])
+      setGameStatus('waiting')
+    } else {
+      alert(j.error || 'Nepodarilo sa vytvoriť hru')
+    }
+  }
+
+  // --- Polling lobby a statusu hry ---
+  useEffect(() => {
+    if (!gameCode) return
+    let id: any
+    const poll = async () => {
+      try {
+        const [pr, gr] = await Promise.all([
+          fetch(`/api/games/${gameCode}/players`, { cache: 'no-store' }),
+          fetch(`/api/games/${gameCode}`, { cache: 'no-store' }).catch(() => null)
+        ])
+        if (pr?.ok) {
+          const pj = await pr.json()
+          setPlayers(pj.players || [])
+        }
+        if (gr && gr.ok) {
+          const gj = await gr.json()
+          if (gj?.status) setGameStatus(gj.status)
+        }
+      } catch {}
+    }
+    poll()
+    id = setInterval(poll, 2000)
+    return () => clearInterval(id)
+  }, [gameCode])
+
+  // --- Pridanie kola ---
+  const addRound = async () => {
+    if (!gameCode || !selectedCat) return
+    const scoring =
+      mode === 'classic'
+        ? { mode, correct, incorrect, none }
+        : { mode, tiers: [tier1, tier2, tier3], incorrect: pIncorrect, none: pNone }
+
+    const r = await fetch(`/api/games/${gameCode}/rounds`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ category: selectedCat, count, settings: { timeLimit, scoring } }),
+    })
+    const j = await r.json()
+    if (j.roundId) {
+      setRounds((prev) => [...prev, { id: j.roundId, category: selectedCat }])
+    } else {
+      alert(j.error || 'Nepodarilo sa pridať kolo')
+    }
+  }
+
+  // --- Ovládanie kola ---
+  const startRound = async (roundId?: string) => {
+    if (!gameCode) return
+    const r = await fetch(`/api/games/${gameCode}/rounds/start`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ roundId }),
+    })
+    const j = await r.json()
+    if (!j.success) alert(j.error || 'Nepodarilo sa spustiť kolo')
+  }
+  const lockRound = async (roundId?: string) => {
+    if (!gameCode) return
+    const r = await fetch(`/api/games/${gameCode}/rounds/lock`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ roundId }),
+    })
+    const j = await r.json()
+    if (!j.success) alert(j.error || 'Nepodarilo sa uzamknúť kolo')
+  }
+  const showResults = async (roundId?: string) => {
+    if (!gameCode) return
+    const r = await fetch(`/api/games/${gameCode}/rounds/results`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ roundId }),
+    })
+    const j = await r.json()
+    if (j.success && j.leaderboard) setLeaderboard(j.leaderboard)
+    else alert(j.error || 'Nepodarilo sa vyhodnotiť')
+  }
+  const nextQuestion = async (roundId?: string) => {
+    if (!gameCode) return
+    const r = await fetch(`/api/games/${gameCode}/rounds/next`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ roundId }),
+    })
+    const j = await r.json()
+    if (!j.success) alert(j.error || 'Nepodarilo sa prejsť na ďalšiu otázku')
+  }
+
+  // Link pre hráčov
+  const joinUrl = useMemo(() => {
+    if (!gameCode) return ''
+    const origin = typeof window !== 'undefined' ? window.location.origin : ''
+    return `${origin}/play/${gameCode}`
+  }, [gameCode])
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 space-y-10">
-      <Link href={back} className="text-sm text-muted-foreground hover:underline">← Späť na Aplikácie</Link>
-      <header className="space-y-3">
-        <h1 className="text-3xl font-semibold tracking-tight">Herd Vote (väčšina vyhráva)</h1>
-        <p className="text-muted-foreground max-w-2xl">
-          Každý hlasuje v mobile. Body získavaš, keď sa trafíš do väčšiny. Rýchle a hlučné – skvelé na rozprúdenie energie.
-        </p>
-        <div className="flex gap-3 pt-1">
-          <span className="px-4 py-2 rounded-md border text-sm opacity-60">Demo čoskoro</span>
-        </div>
-      </header>
-      <section className="grid md:grid-cols-3 gap-6">
-        <div className="rounded-xl border p-5"><h3 className="font-medium">1. Hostiteľ</h3><p className="text-sm text-muted-foreground mt-1">Otvorí hru na veľkej obrazovke.</p></div>
-        <div className="rounded-xl border p-5"><h3 className="font-medium">2. QR pripojenie</h3><p className="text-sm text-muted-foreground mt-1">Hráči sa pripoja cez QR a hlasujú v mobile.</p></div>
-        <div className="rounded-xl border p-5"><h3 className="font-medium">3. Body</h3><p className="text-sm text-muted-foreground mt-1">Získavaj body za zhodu s väčšinou – rebríček v reálnom čase.</p></div>
-      </section>
+    <div className="mx-auto max-w-3xl p-6 space-y-6">
+      <h1 className="text-2xl font-bold">Herd Vote – moderátor</h1>
+
+      <div className="rounded-xl border p-4 space-y-3">
+        <button onClick={createGame} className="px-4 py-2 rounded bg-purple-600 text-white">
+          {gameCode ? 'Vytvoriť novú hru' : 'Vytvoriť hru'}
+        </button>
+
+        {/* Link + QR ukazuj len v stave waiting */}
+        {gameCode && gameStatus === 'waiting' && (
+          <div className="space-y-2">
+            <div><b>Kód hry:</b> {gameCode}</div>
+            <div>
+              <b>Link pre hráčov:</b>{' '}
+              <a className="text-blue-600 underline" href={joinUrl} target="_blank" rel="noopener noreferrer">
+                {joinUrl}
+              </a>
+            </div>
+            <div className="pt-2">
+              <img
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`}
+                alt="QR pre pripojenie hráčov"
+                className="border rounded"
+              />
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => navigator.clipboard.writeText(joinUrl)} className="px-3 py-2 rounded border text-sm">
+                Kopírovať link
+              </button>
+              <button
+                onClick={async () => {
+                  if ((navigator as any).share) {
+                    try { await (navigator as any).share({ title: 'Herd Vote – kvíz', url: joinUrl }) } catch {}
+                  } else { alert('Zdieľanie nie je podporované – použite Kopírovať link.') }
+                }}
+                className="px-3 py-2 rounded bg-black text-white text-sm"
+              >
+                Zdieľať
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {gameCode && (
+        <>
+          <div className="rounded-xl border p-4 space-y-3">
+            <h2 className="font-semibold">Lobby ({players.length} hráčov)</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 max-h-40 overflow-y-auto">
+              {players.map((p) => (
+                <div key={p.id} className="text-sm bg-gray-50 rounded px-2 py-1">
+                  {p.name} ({p.score} b)
+                </div>
+              ))}
+            </div>
+
+            {/* Tlačidlo zamknúť lobby */}
+            {gameStatus === 'waiting' && (
+              <div className="pt-2">
+                <button
+                  onClick={async () => {
+                    const r = await fetch(`/api/games/${gameCode}/lock-lobby`, { method: 'POST' })
+                    const j = await r.json()
+                    if (!r.ok) return alert(j.error || 'Nepodarilo sa zamknúť lobby')
+                    setGameStatus('configuring')
+                  }}
+                  className="px-3 py-2 rounded bg-black text-white text-sm"
+                >
+                  Zamknúť lobby a nastaviť hru
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Nastavovanie kôl (ukazuj len v configuring) */}
+          {gameStatus === 'configuring' && (
+            <div className="rounded-xl border p-4 space-y-3">
+              <h2 className="font-semibold">Nové kolo</h2>
+
+              <div className="grid md:grid-cols-3 gap-3">
+                <div className="md:col-span-2">
+                  <label className="block text-sm mb-1">Kategória</label>
+                  <select
+                    value={selectedCat}
+                    onChange={(e) => setSelectedCat(e.target.value)}
+                    className="w-full border rounded px-3 py-2"
+                  >
+                    {categories.map((c) => (
+                      <option key={c.name} value={c.name}>
+                        {c.name} ({c.count})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">Počet otázok</label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={100}
+                    value={count}
+                    onChange={(e) => setCount(parseInt(e.target.value || '1', 10))}
+                    className="w-full border rounded px-3 py-2"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">Čas na otázku (s)</label>
+                  <input
+                    type="number"
+                    min={5}
+                    max={180}
+                    value={timeLimit}
+                    onChange={(e) => setTimeLimit(parseInt(e.target.value || '30', 10))}
+                    className="w-full border rounded px-3 py-2"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-1">Režim bodovania</label>
+                  <select
+                    value={mode}
+                    onChange={(e) => setMode(e.target.value as Mode)}
+                    className="w-full border rounded px-3 py-2"
+                  >
+                    <option value="classic">Klasik (+/-)</option>
+                    <option value="podium">Pódium (10-5-3)</option>
+                  </select>
+                </div>
+
+                {mode === 'classic' ? (
+                  <>
+                    <div>
+                      <label className="block text-sm mb-1">Správna odpoveď</label>
+                      <input
+                        type="number"
+                        value={correct}
+                        onChange={(e) => setCorrect(parseInt(e.target.value || '5', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm mb-1">Zlá odpoveď</label>
+                      <input
+                        type="number"
+                        value={incorrect}
+                        onChange={(e) => setIncorrect(parseInt(e.target.value || '-3', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm mb-1">Žiadna odpoveď</label>
+                      <input
+                        type="number"
+                        value={none}
+                        onChange={(e) => setNone(parseInt(e.target.value || '0', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <label className="block text-sm mb-1">1. miesto</label>
+                      <input
+                        type="number"
+                        value={tier1}
+                        onChange={(e) => setTier1(parseInt(e.target.value || '10', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm mb-1">2. miesto</label>
+                      <input
+                        type="number"
+                        value={tier2}
+                        onChange={(e) => setTier2(parseInt(e.target.value || '5', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm mb-1">3. miesto</label>
+                      <input
+                        type="number"
+                        value={tier3}
+                        onChange={(e) => setTier3(parseInt(e.target.value || '3', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm mb-1">Zlá odpoveď</label>
+                      <input
+                        type="number"
+                        value={pIncorrect}
+                        onChange={(e) => setPIncorrect(parseInt(e.target.value || '-3', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm mb-1">Žiadna odpoveď</label>
+                      <input
+                        type="number"
+                        value={pNone}
+                        onChange={(e) => setPNone(parseInt(e.target.value || '0', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <button onClick={addRound} className="mt-3 px-4 py-2 rounded bg-blue-600 text-white">
+                Pridať kolo
+              </button>
+
+              {rounds.length > 0 && (
+                <div className="text-sm text-gray-600 mt-2">
+                  Kolá:{' '}
+                  {rounds.map((r, i) => (
+                    <span key={r.id} className="mr-2">#{i + 1} – {r.category}</span>
+                  ))}
+                </div>
+              )}
+
+              {/* Keď aspoň 1 kolo existuje, môže sa prepnúť do running (začiatok hry) */}
+              {rounds.length > 0 && (
+                <div className="pt-3">
+                  <button
+                    onClick={async () => {
+                      const r = await fetch(`/api/games/${gameCode}/start`, { method: 'POST' })
+                      const j = await r.json()
+                      if (!r.ok) return alert(j.error || 'Nepodarilo sa spustiť hru')
+                      setGameStatus('running')
+                    }}
+                    className="px-4 py-2 rounded bg-green-600 text-white"
+                  >
+                    Začať hrať
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {rounds.length > 0 && (
+            <div className="rounded-xl border p-4 space-y-3">
+              <h2 className="font-semibold">Ovládanie kola</h2>
+              <div className="flex gap-2 flex-wrap">
+                <button onClick={() => startRound()} className="px-3 py-2 rounded bg-green-600 text-white text-sm">Štart kola</button>
+                <button onClick={() => lockRound()} className="px-3 py-2 rounded bg-orange-600 text-white text-sm">Uzamknúť</button>
+                <button onClick={() => showResults()} className="px-3 py-2 rounded bg-blue-600 text-white text-sm">Vyhodnotiť</button>
+                <button onClick={() => nextQuestion()} className="px-3 py-2 rounded bg-purple-600 text-white text-sm">Ďalšia otázka</button>
+              </div>
+            </div>
+          )}
+
+          {leaderboard.length > 0 && (
+            <div className="rounded-xl border p-4 space-y-3">
+              <h2 className="font-semibold">Rebríček</h2>
+              <div className="space-y-2">
+                {leaderboard.map((pl, idx) => (
+                  <div key={pl.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                    <span className="font-medium">#{idx + 1} {pl.name}</span>
+                    <span className="font-bold">{pl.score} bodov</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      <p className="text-sm text-gray-500">
+        Administračný základ: každé kolo má vlastný čas a bodovanie. Skóre sa sčíta naprieč kolami v rámci rovnakej hry.
+      </p>
     </div>
   )
 }
