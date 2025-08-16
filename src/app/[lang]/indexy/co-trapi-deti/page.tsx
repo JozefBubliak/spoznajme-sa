@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   }
 }
 
-export default async function Page({ params }: P): Promise<JSX.Element> {
+export default async function Page({ params }: P) {
   const { lang: raw } = await params
   const lang = normalizeUrlLocale(raw)
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
