@@ -1,17 +1,16 @@
 // PATH: src/app/[lang]/apps/spoznajme-sa/page.tsx
 import Link from "next/link"
 
-type Props = { params: { lang: string } }
+type P = { params: Promise<{ lang: string }> }
 
-// Ak chceš dynamický titulok podľa jazyka, môžeš doplniť generateMetadata.
-// Tu nechávam jednoduchú statickú verziu (bez chýb).
+// Statická metadata – môžeš nechať takto, alebo neskôr spraviť dynamické podľa jazyka.
 export const metadata = {
   title: "Spoznajme sa – hra s kartami | DeepTalks",
   description: "Otvárače, hlbšie otázky, spomienky aj zábava. Mobilné, jednoduché, bezpečné.",
 }
 
-export default function Page({ params }: Props) {
-  const { lang } = params
+export default async function Page({ params }: P) {
+  const { lang } = await params
   const back = `/${lang}/apps`
 
   return (

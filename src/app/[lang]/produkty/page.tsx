@@ -1,4 +1,5 @@
-﻿import type { Metadata } from 'next'
+﻿// src\app\[lang]\produkty
+import type { Metadata } from 'next'
 import { Container } from '@/components/Container'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { buildHreflangAlternates, normalizeUrlLocale } from '@/lib/i18n-routing'

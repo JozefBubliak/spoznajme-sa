@@ -1,9 +1,10 @@
-﻿import { notFound } from 'next/navigation'
-import '../globals.css'
-import SiteHeader from '@/components/SiteHeader'
+﻿// PATH: src/app/[lang]/layout.tsx
+import React from 'react'
+import { notFound } from 'next/navigation'
 import { IntlProvider } from '@/components/IntlProvider'
-import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config'
+import { SiteHeader } from '@/components/SiteHeader'
 import { getDictionary } from '@/i18n/server'
+import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config'
 
 type Props = {
   children: React.ReactNode
@@ -13,6 +14,7 @@ type Props = {
 export default async function LangLayout({ children, params }: Props) {
   const { lang } = params
   if (!SUPPORTED_LOCALES.includes(lang)) notFound()
+
   const dict = await getDictionary(lang)
 
   return (

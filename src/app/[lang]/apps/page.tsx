@@ -1,12 +1,14 @@
-﻿import type { Metadata } from 'next';
-import Link from 'next/link';
-import { normalizeUrlLocale, buildHreflangAlternates } from '@/lib/i18n-routing';
-import { SUPPORTED_LANGUAGES } from '@/lib/languages'; // Nový import
+﻿// PATH: src/app/[lang]/apps/page.tsx
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { normalizeUrlLocale, buildHreflangAlternates } from '@/lib/i18n-routing'
+import { SUPPORTED_LANGUAGES } from '@/lib/languages'
 
-type Props = { params: { lang: string } };
+type P = { params: Promise<{ lang: string }> }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const lang = normalizeUrlLocale(params.lang);
+export async function generateMetadata({ params }: P): Promise<Metadata> {
+  const { lang: raw } = await params
+  const lang = normalizeUrlLocale(raw)
   return {
     title: lang === 'sk' ? 'Aplikácie a hry' : 'Apps & Games',
     description:
@@ -17,23 +19,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `https://deeptalks.eu/${lang}/apps`,
       languages: buildHreflangAlternates('/apps'),
     },
-  };
+  }
 }
 
 export function generateStaticParams() {
-  return SUPPORTED_LANGUAGES.map((lang) => ({ lang }));
+  return SUPPORTED_LANGUAGES.map((lang) => ({ lang }))
 }
 
-export default function Page({ params }: Props) {
-  const lang = normalizeUrlLocale(params.lang);
+export default async function Page({ params }: P) {
+  const { lang: raw } = await params
+  const lang = normalizeUrlLocale(raw)
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 space-y-8">
       <h1 className="text-3xl font-semibold">
         {lang === 'sk' ? 'Aplikácie a hry' : 'Apps & Games'}
       </h1>
-
       <ul className="grid md:grid-cols-2 gap-4">
+        {/* Herd Vote */}
         <li className="rounded-xl border p-4">
           <h2 className="font-medium">Herd Vote (kvíz)</h2>
           <p className="text-sm text-muted-foreground mt-1">
@@ -47,7 +50,7 @@ export default function Page({ params }: Props) {
             </Link>
           </div>
         </li>
-
+        {/* Spoznajme sa */}
         <li className="rounded-xl border p-4">
           <h2 className="font-medium">Spoznajme sa (karty otázok)</h2>
           <p className="text-sm text-muted-foreground mt-1">
@@ -63,5 +66,5 @@ export default function Page({ params }: Props) {
         </li>
       </ul>
     </div>
-  );
+  )
 }

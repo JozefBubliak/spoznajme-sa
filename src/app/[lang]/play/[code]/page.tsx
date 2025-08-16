@@ -1,4 +1,6 @@
+// PATH: src/app/[lang]/play/[code]/page.tsx
 'use client'
+
 import { useParams } from 'next/navigation'
 import PlayJoin from './_Join'
 

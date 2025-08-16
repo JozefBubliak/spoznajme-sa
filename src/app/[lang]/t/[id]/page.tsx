@@ -1,22 +1,27 @@
+// PATH: src/app/[lang]/t/[id]/page.tsx
 import type { Metadata } from 'next'
 import { Container } from '@/components/Container'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { buildHreflangAlternates, normalizeUrlLocale } from '@/lib/i18n-routing'
 
-export async function generateMetadata({ params }: { params: { lang: string; id: string } }): Promise<Metadata> {
-  const lang = normalizeUrlLocale(params.lang)
+type P = { params: Promise<{ lang: string; id: string }> }
+
+export async function generateMetadata({ params }: P): Promise<Metadata> {
+  const { lang: rawLang, id } = await params
+  const lang = normalizeUrlLocale(rawLang)
   return {
-    title: `Technika ${params.id}`,
+    title: `Technika ${id}`,
     description: 'Technický fallback podľa ID.',
     alternates: {
-      canonical: `https://deeptalks.eu/${lang}/t/${params.id}`,
-      languages: buildHreflangAlternates(`/t/${params.id}`),
+      canonical: `https://deeptalks.eu/${lang}/t/${id}`,
+      languages: buildHreflangAlternates(`/t/${id}`),
     },
   }
 }
 
-export default function Page({ params }: { params: { lang: string; id: string } }) {
-  const { lang, id } = params
+export default async function Page({ params }: P) {
+  const { lang: rawLang, id } = await params
+  const lang = normalizeUrlLocale(rawLang)
   return (
     <Container>
       <Breadcrumbs items={[{ href: `/${lang}`, label: 'Domov' }, { label: 'Technika' }, { label: id }]} />

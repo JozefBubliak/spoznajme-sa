@@ -1,12 +1,14 @@
-﻿import type { Metadata } from 'next'
+﻿// PATH: src/app/[lang]/page.tsx
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { normalizeUrlLocale, buildHreflangAlternates } from '@/lib/i18n-routing'
 import { SUPPORTED_LANGUAGES } from '@/lib/languages'
 
-type Props = { params: { lang: string } }
+type P = { params: Promise<{ lang: string }> }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const lang = normalizeUrlLocale(params.lang)
+export async function generateMetadata({ params }: P): Promise<Metadata> {
+  const { lang: raw } = await params
+  const lang = normalizeUrlLocale(raw)
   return {
     title: lang === 'sk' ? 'Aplikácie a hry' : 'Apps & Games',
     description:
@@ -20,13 +22,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-// urobí [lang] segment statický => params je obyčajný objekt
+// urobí [lang] segment statický => buildne stránky pre všetky jazyky
 export async function generateStaticParams() {
   return SUPPORTED_LANGUAGES.map((lang) => ({ lang }))
 }
 
-export default function Page({ params }: Props) {
-  const lang = normalizeUrlLocale(params.lang)
+export default async function Page({ params }: P) {
+  const { lang: raw } = await params
+  const lang = normalizeUrlLocale(raw)
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 space-y-8">

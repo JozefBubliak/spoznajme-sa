@@ -1,4 +1,5 @@
-﻿'use client'
+﻿// PATH: src/app/[lang]/apps/herd-vote/page.tsx
+'use client'
 
 import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'next/navigation'
@@ -47,7 +48,7 @@ export default function HerdVoteAdminPage() {
         const fallback: Category[] = [
           { name: 'Všeobecné', count: 50 },
           { name: 'Geografia', count: 30 },
-          { name: 'Veda', count: 25 }
+          { name: 'Veda', count: 25 },
         ]
         setCategories(fallback)
         if (!selectedCat) setSelectedCat(fallback[0].name)
@@ -79,7 +80,7 @@ export default function HerdVoteAdminPage() {
   // --- Polling lobby + statusu hry ---
   useEffect(() => {
     if (!gameCode) return
-    let id: any
+    let id: ReturnType<typeof setInterval>
     const poll = async () => {
       try {
         const [pr, gr] = await Promise.all([
@@ -126,7 +127,9 @@ export default function HerdVoteAdminPage() {
   const startRound = async (roundId?: string) => {
     if (!gameCode) return
     const r = await fetch(`/api/games/${gameCode}/rounds/start`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ roundId }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roundId }),
     })
     const j = await r.json()
     if (!j.success) alert(j.error || 'Nepodarilo sa spustiť kolo')
@@ -134,7 +137,9 @@ export default function HerdVoteAdminPage() {
   const lockRound = async (roundId?: string) => {
     if (!gameCode) return
     const r = await fetch(`/api/games/${gameCode}/rounds/lock`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ roundId }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roundId }),
     })
     const j = await r.json()
     if (!j.success) alert(j.error || 'Nepodarilo sa uzamknúť kolo')
@@ -142,7 +147,9 @@ export default function HerdVoteAdminPage() {
   const showResults = async (roundId?: string) => {
     if (!gameCode) return
     const r = await fetch(`/api/games/${gameCode}/rounds/results`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ roundId }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roundId }),
     })
     const j = await r.json()
     if (j.success && j.leaderboard) setLeaderboard(j.leaderboard)
@@ -151,18 +158,21 @@ export default function HerdVoteAdminPage() {
   const nextQuestion = async (roundId?: string) => {
     if (!gameCode) return
     const r = await fetch(`/api/games/${gameCode}/rounds/next`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ roundId }),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roundId }),
     })
     const j = await r.json()
     if (!j.success) alert(j.error || 'Nepodarilo sa prejsť na ďalšiu otázku')
   }
 
-  // Link pre hráčov
+  // Link pre hráčov – musí obsahovať aj jazykový segment
   const joinUrl = useMemo(() => {
     if (!gameCode) return ''
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
-    return `${origin}/play/${gameCode}`
-  }, [gameCode])
+    const urlLang = typeof lang === 'string' ? lang : ''
+    return `${origin}/${urlLang}/play/${gameCode}`
+  }, [gameCode, lang])
 
   return (
     <div className="mx-auto max-w-3xl p-6 space-y-6">
@@ -176,7 +186,9 @@ export default function HerdVoteAdminPage() {
         {/* Link + QR len kým je lobby otvorené */}
         {gameCode && gameStatus === 'waiting' && (
           <div className="space-y-2">
-            <div><b>Kód hry:</b> {gameCode}</div>
+            <div>
+              <b>Kód hry:</b> {gameCode}
+            </div>
             <div>
               <b>Link pre hráčov:</b>{' '}
               <a className="text-blue-600 underline" href={joinUrl} target="_blank" rel="noopener noreferrer">
@@ -197,8 +209,12 @@ export default function HerdVoteAdminPage() {
               <button
                 onClick={async () => {
                   if ((navigator as any).share) {
-                    try { await (navigator as any).share({ title: 'Herd Vote – kvíz', url: joinUrl }) } catch {}
-                  } else { alert('Zdieľanie nie je podporované – použite Kopírovať link.') }
+                    try {
+                      await (navigator as any).share({ title: 'Herd Vote – kvíz', url: joinUrl })
+                    } catch {}
+                  } else {
+                    alert('Zdieľanie nie je podporované – použite Kopírovať link.')
+                  }
                 }}
                 className="px-3 py-2 rounded bg-black text-white text-sm"
               >
@@ -383,7 +399,9 @@ export default function HerdVoteAdminPage() {
                 <div className="text-sm text-gray-600 mt-2">
                   Kolá:{' '}
                   {rounds.map((r, i) => (
-                    <span key={r.id} className="mr-2">#{i + 1} – {r.category}</span>
+                    <span key={r.id} className="mr-2">
+                      #{i + 1} – {r.category}
+                    </span>
                   ))}
                 </div>
               )}
@@ -410,10 +428,18 @@ export default function HerdVoteAdminPage() {
             <div className="rounded-xl border p-4 space-y-3">
               <h2 className="font-semibold">Ovládanie kola</h2>
               <div className="flex gap-2 flex-wrap">
-                <button onClick={() => startRound()} className="px-3 py-2 rounded bg-green-600 text-white text-sm">Štart kola</button>
-                <button onClick={() => lockRound()} className="px-3 py-2 rounded bg-orange-600 text-white text-sm">Uzamknúť</button>
-                <button onClick={() => showResults()} className="px-3 py-2 rounded bg-blue-600 text-white text-sm">Vyhodnotiť</button>
-                <button onClick={() => nextQuestion()} className="px-3 py-2 rounded bg-purple-600 text-white text-sm">Ďalšia otázka</button>
+                <button onClick={() => startRound()} className="px-3 py-2 rounded bg-green-600 text-white text-sm">
+                  Štart kola
+                </button>
+                <button onClick={() => lockRound()} className="px-3 py-2 rounded bg-orange-600 text-white text-sm">
+                  Uzamknúť
+                </button>
+                <button onClick={() => showResults()} className="px-3 py-2 rounded bg-blue-600 text-white text-sm">
+                  Vyhodnotiť
+                </button>
+                <button onClick={() => nextQuestion()} className="px-3 py-2 rounded bg-purple-600 text-white text-sm">
+                  Ďalšia otázka
+                </button>
               </div>
             </div>
           )}
@@ -424,7 +450,9 @@ export default function HerdVoteAdminPage() {
               <div className="space-y-2">
                 {leaderboard.map((pl, idx) => (
                   <div key={pl.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                    <span className="font-medium">#{idx + 1} {pl.name}</span>
+                    <span className="font-medium">
+                      #{idx + 1} {pl.name}
+                    </span>
                     <span className="font-bold">{pl.score} bodov</span>
                   </div>
                 ))}

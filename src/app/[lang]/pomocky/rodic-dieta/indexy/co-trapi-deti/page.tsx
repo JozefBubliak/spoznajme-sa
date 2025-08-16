@@ -1,8 +1,10 @@
+// PATH: src/app/[lang]/pomocky/rodic-dieta/indexy/co-trapi-deti/page.tsx
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Čo trápi deti v komunikácii s rodičmi | DeepTalks',
-  description: '75 tém písaných „hlasom dieťaťa" – od vypočutia až po identitu a hranice.',
+  description:
+    '75 tém písaných „hlasom dieťaťa" – od vypočutia až po identitu a hranice.',
 }
 
 const RAW = `A) Byť vypočutý a braný vážne
@@ -101,7 +103,7 @@ Chcem poznať vaše hodnoty, ale aj priestor pre svoje otázky.`
 type Section = { h: string; items: string[] }
 
 function parseSections(text: string): Section[] {
-  const lines = text.split('\n').map(s => s.trim())
+  const lines = text.split('\n').map((s) => s.trim())
   const out: Section[] = []
   let cur: Section | null = null
 
@@ -122,12 +124,16 @@ export default function Page() {
   return (
     <article className="prose max-w-3xl">
       <h1>Čo trápi deti v komunikácii s rodičmi</h1>
-      <p className="text-muted-foreground">Písané „hlasom dieťaťa" – aby bolo jasné, kde to škrípe.</p>
+      <p className="text-muted-foreground">
+        Písané „hlasom dieťaťa" – aby bolo jasné, kde to škrípe.
+      </p>
       {sections.map((s, idx) => (
         <section key={idx} className="mt-8">
           <h2 className="text-xl font-semibold">{s.h}</h2>
           <ul className="list-disc pl-6">
-            {s.items.map((it, i) => <li key={i}>{it}</li>)}
+            {s.items.map((it, i) => (
+              <li key={i}>{it}</li>
+            ))}
           </ul>
         </section>
       ))}
