@@ -1,11 +1,12 @@
-﻿import type { Metadata } from 'next'
-import Link from 'next/link'
-import { normalizeUrlLocale, buildHreflangAlternates } from '@/lib/i18n-routing'
+﻿import type { Metadata } from 'next';
+import Link from 'next/link';
+import { normalizeUrlLocale, buildHreflangAlternates } from '@/lib/i18n-routing';
+import { SUPPORTED_LANGUAGES } from '@/lib/languages'; // Nový import
 
-type Props = { params: { lang: string } }
+type Props = { params: { lang: string } };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const lang = normalizeUrlLocale(params.lang)
+  const lang = normalizeUrlLocale(params.lang);
   return {
     title: lang === 'sk' ? 'Aplikácie a hry' : 'Apps & Games',
     description:
@@ -16,11 +17,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `https://deeptalks.eu/${lang}/apps`,
       languages: buildHreflangAlternates('/apps'),
     },
-  }
+  };
+}
+
+export function generateStaticParams() {
+  return SUPPORTED_LANGUAGES.map((lang) => ({ lang }));
 }
 
 export default function Page({ params }: Props) {
-  const lang = normalizeUrlLocale(params.lang)
+  const lang = normalizeUrlLocale(params.lang);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 space-y-8">
@@ -58,5 +63,5 @@ export default function Page({ params }: Props) {
         </li>
       </ul>
     </div>
-  )
+  );
 }
