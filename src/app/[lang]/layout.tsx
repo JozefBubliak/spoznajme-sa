@@ -12,7 +12,7 @@ export default async function LangLayout({
   children: React.ReactNode
   params: Promise<{ lang: Locale }>
 }) {
-  const { lang } = params
+  const { lang } = await params
   if (!SUPPORTED_LOCALES.includes(lang)) notFound()
   const dict = await getDictionary(lang)
 

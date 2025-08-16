@@ -2,10 +2,11 @@
 import Link from 'next/link'
 import { normalizeUrlLocale, buildHreflangAlternates } from '@/lib/i18n-routing'
 
-type Props = { params: { lang: string } }
+type Props = { params: Promise<{ lang: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const lang = normalizeUrlLocale(params.lang)
+  const { lang: rawLang } = await params
+  const lang = normalizeUrlLocale(rawLang)
   return {
     title: lang === 'sk' ? 'Aplikácie a hry' : 'Apps & Games',
     description:
@@ -19,8 +20,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function Page({ params }: Props) {
-  const lang = normalizeUrlLocale(params.lang)
+export default async function Page({ params }: Props) {
+  const { lang: rawLang } = await params
+  const lang = normalizeUrlLocale(rawLang)
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 space-y-8">
