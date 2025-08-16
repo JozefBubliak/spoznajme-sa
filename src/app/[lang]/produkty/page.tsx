@@ -1,10 +1,12 @@
-﻿// src\app\[lang]\produkty
+﻿// PATH: src/app/[lang]/produkty/page.tsx
 import type { Metadata } from 'next'
 import { Container } from '@/components/Container'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { buildHreflangAlternates, normalizeUrlLocale } from '@/lib/i18n-routing'
 
-export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
+type P = { params: Promise<{ lang: string }> }
+
+export async function generateMetadata({ params }: P): Promise<Metadata> {
   const { lang: rawLang } = await params
   const lang = normalizeUrlLocale(rawLang)
   return {
@@ -17,8 +19,9 @@ export async function generateMetadata({ params }: { params: { lang: string } })
   }
 }
 
-export default async function Page({ params }: { params: { lang: string } }) {
-  const { lang } = params
+export default async function Page({ params }: P) {
+  const { lang: rawLang } = await params
+  const lang = normalizeUrlLocale(rawLang)
   return (
     <Container>
       <Breadcrumbs items={[{ href: `/${lang}`, label: 'Domov' }, { label: 'Produkty' }]} />
