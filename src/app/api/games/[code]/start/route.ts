@@ -5,9 +5,9 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(
   _req: NextRequest,
-  ctx: { params: Promise<{ code: string }> }
+  ctx: { params: { code: string } }
 ) {
-  const { code } = await ctx.params
+  const { code } = ctx.params
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })

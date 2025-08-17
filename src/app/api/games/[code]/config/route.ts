@@ -26,7 +26,7 @@ export async function POST(req: Request, ctx: { params: { code: string } }) {
   }
 
   const s = supabaseServer()
-  const { error } = await s.from('games').update(updates).eq('code', code)
+  const { error } = await s.from('herd_games').update(updates).eq('code', code)
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
 
   return NextResponse.json({ ok: true })
