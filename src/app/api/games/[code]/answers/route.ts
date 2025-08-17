@@ -2,7 +2,7 @@
 // Uloženie odpovede hráča (idempotentne na playerId+roundId+qIndex)
 
 import { NextResponse } from 'next/server'
-import { store, type PlayerAnswer } from '@/lib/herdvote/store'
+import { store } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,20 +34,20 @@ export async function POST(req: Request, context: any) {
     return NextResponse.json({ error: 'Round is not accepting answers' }, { status: 400 })
   }
 
-  // --- TS-safe: pracuj s answers cez any a lokálnu premennú ---
-  const answers = (((round as any).answers) ??= [] as PlayerAnswer[])
+  // answers držíme vo round cez any, aby sme nemuseli meniť typ Round
+  const answers = (((round as any).answers) ??= [] as any[])
 
   const key = `${playerId}:${roundId}:${qIndex}`
-  const entry: PlayerAnswer = {
+  const entry = {
     key,
     playerId,
     roundId,
     qIndex,
     answer,
     at: Date.now(),
-  }
+  } as any
 
-  const idx = answers.findIndex(a => a.key === key)
+  const idx = answers.findIndex((a: any) => a.key === key)
   if (idx >= 0) answers[idx] = entry
   else answers.push(entry)
 
