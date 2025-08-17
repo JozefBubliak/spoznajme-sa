@@ -15,7 +15,7 @@ export async function POST(req: Request, ctx: { params: { code: string } }) {
     body = {}
   }
 
-  // Príklad povolených polí konfigurácie (uprav podľa tvojej tabuľky `games`)
+  // Príklad povolených polí konfigurácie (uprav podľa tvojej tabuľky `herd_games`)
   const updates: Record<string, any> = {}
   if (typeof body.rounds === 'number') updates.rounds = body.rounds
   if (typeof body.prepSeconds === 'number') updates.prep_seconds = body.prepSeconds
@@ -26,7 +26,10 @@ export async function POST(req: Request, ctx: { params: { code: string } }) {
   }
 
   const s = supabaseServer()
-  const { error } = await s.from('games').update(updates).eq('code', code)
+  const { error } = await s
+    .from('herd_games')
+    .update(updates)
+    .eq('code', code)
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
 
   return NextResponse.json({ ok: true })

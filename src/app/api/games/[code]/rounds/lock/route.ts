@@ -7,9 +7,9 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(
   req: NextRequest,
-  ctx: { params: Promise<{ code: string }> }
+  { params }: { params: { code: string } }
 ) {
-  const { code } = await ctx.params
+  const { code } = params
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -45,8 +45,8 @@ export async function POST(
     at: Date.now()
   })
 
-  return NextResponse.json({ 
-    success: true, 
+  return NextResponse.json({
+    success: true,
     roundId: targetRound.id,
     qIndex: targetRound.qIndex || 0
   })

@@ -8,18 +8,11 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-// Pomôcka: v projekte máš miestami Promise<{code:string}>, inde priamo objekt.
-// Toto bezpečne rozbalí oba prípady.
-async function unwrapParams<P extends Record<string, unknown>>(maybe: P | Promise<P>): Promise<P> {
-  // @ts-expect-error – runtime check
-  return typeof maybe?.then === 'function' ? await (maybe as Promise<P>) : (maybe as P)
-}
-
 export async function POST(
   req: NextRequest,
-  ctx: { params: { code: string } } | { params: Promise<{ code: string }> }
+  { params }: { params: { code: string } }
 ) {
-  const { code } = await unwrapParams(ctx.params)
+  const { code } = params
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
@@ -48,7 +41,10 @@ export async function POST(
   // (voliteľné) zapíš deadline aj do DB – nech majú klienti istotu pri refreshoch
   try {
     const s = supabaseServer()
-    await s.from('games').update({ timer_deadline: new Date(deadlineMs).toISOString() }).eq('code', gameCode)
+    await s
+      .from('herd_games')
+      .update({ timer_deadline: new Date(deadlineMs).toISOString() })
+      .eq('code', gameCode)
   } catch {
     // supabase je „best-effort“ – neblokuj hru, ak by zlyhal
   }
