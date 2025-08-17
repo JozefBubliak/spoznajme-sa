@@ -1,14 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/lock-lobby/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  _req: NextRequest,
-
-  ctx: { params: { code: string } }
-) {
-  const { code } = ctx.params
+export async function POST(_req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
 
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
@@ -26,3 +23,4 @@ export async function POST(
 
   return NextResponse.json({ success: true, status: game.status })
 }
+
