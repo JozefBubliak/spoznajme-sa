@@ -1,13 +1,13 @@
 // PATH: src/app/api/games/[code]/answers/route.ts
 // Uloženie odpovede hráča (idempotentne na playerId+roundId+qIndex)
 
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { store, type PlayerAnswer } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: NextRequest,
+  req: Request,
   { params }: { params: { code: string } }
 ) {
   const { code } = params
