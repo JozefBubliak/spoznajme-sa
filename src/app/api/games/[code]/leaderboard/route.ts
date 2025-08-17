@@ -1,6 +1,6 @@
 //  src/app/api/games/[code]/leaderboard/route.ts
 import { NextResponse } from 'next/server'
-import { supabaseServer } from '@/integrations/supabase/server'
+
 
 export async function GET(_: Request, { params }: { params: { code: string } }) {
   const s = supabaseServer()

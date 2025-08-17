@@ -6,8 +6,10 @@ import { channelFor } from '@/lib/realtime/types'
 
 export const dynamic = 'force-dynamic'
 
+
 export async function POST(req: NextRequest, ctx: { params: { code: string } }) {
   const { code } = ctx.params
+
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })

@@ -1,6 +1,6 @@
 // src/app/api/games/[code]/rounds/config/route.ts
 import { NextResponse } from 'next/server'
-import { supabaseServer } from '@/integrations/supabase/server'
+
 
 export async function POST(req: Request, { params }: { params: { code: string } }) {
   const s = supabaseServer()
@@ -19,6 +19,7 @@ export async function POST(req: Request, { params }: { params: { code: string } 
   })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
   return NextResponse.json({ ok: true })
 }
 

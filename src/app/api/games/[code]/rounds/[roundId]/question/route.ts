@@ -5,9 +5,11 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(
   req: NextRequest,
+
   ctx: { params: { code: string; roundId: string } }
 ) {
   const { code, roundId } = ctx.params
+
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
