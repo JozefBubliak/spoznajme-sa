@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
-import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,6 +35,7 @@ export async function POST(
   round.startedAt = startedAt
   // ak v tvojom modeli máš aj vlastné pole na deadline, ulož ho
   ;(round as any).deadline = deadlineMs
+
   store.saveGame?.(game) // ak máš persist do memory/disku
 
   // (voliteľné) zapíš deadline aj do DB – nech majú klienti istotu pri refreshoch
@@ -49,15 +49,15 @@ export async function POST(
     // supabase je „best-effort“ – neblokuj hru, ak by zlyhal
   }
 
+
   // Realtime notifikácia – nech klienti (hráči aj admin) spustia odpočet
   await RealtimeServer.publish(channelFor(gameCode), {
-    type: 'timer:start',               // Pôvodne si posielal 'round:lock' – odporúčam mať osobitný typ
+    type: 'timer:start',
     code: gameCode,
     roundId: round.id,
     qIndex: round.qIndex || 0,
-    seconds,                           // koľko majú rátať
-    deadline: deadlineMs,              // unix ms – klient si vie urobiť presný zvyšný čas
-    at: startedAt,
+    startedAt,
+    durationSec: seconds,
   })
 
   return NextResponse.json({

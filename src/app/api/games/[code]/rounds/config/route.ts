@@ -1,10 +1,9 @@
 // src/app/api/games/[code]/rounds/config/route.ts
 import { NextResponse } from 'next/server'
-import { supabaseServer } from '@/integrations/supabase/server'
 
 export async function POST(req: Request, { params }: { params: { code: string }}) {
   const { index, topic, questions } = await req.json()
-  const s = supabaseServer()
+
 
   // ulož konfiguráciu do tabuľky rounds alebo do JSON v games – ver. s tabuľkou:
   const { data, error } = await s.from('herd_rounds').upsert({
@@ -23,5 +22,7 @@ export async function POST(req: Request, { params }: { params: { code: string }}
     await s.from('herd_games').update({ phase: 'ready' }).eq('code', params.code)
   }
 
+
+  // Mock response for now
   return NextResponse.json({ ok: true })
 }

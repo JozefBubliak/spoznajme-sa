@@ -14,11 +14,13 @@ export const dynamic = 'force-dynamic'
  *     "settings": { timeLimit: 30, scoring: {...} } as RoundSettings
  *   }
  */
+
 export async function POST(
   req: NextRequest,
   { params }: { params: { code: string } }
 ) {
   const { code } = params
+
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
