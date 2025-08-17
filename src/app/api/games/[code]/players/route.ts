@@ -45,9 +45,3 @@ export async function POST(req: Request, context: any) {
 
   return NextResponse.json({ playerId: id, name, gameCode })
 }
-
-  const player = { id, name, score: 0 }
-  game.players.push(player)
-
-  return NextResponse.json({ playerId: id, name, gameCode })
-}
