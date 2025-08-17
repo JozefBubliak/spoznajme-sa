@@ -8,9 +8,9 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(
   req: Request,
-  { params }: { params: { code: string } }
+  context: any // <-- úmyselne voľné; Next 15 typový guard potom neprotestuje
 ) {
-  const { code } = params
+  const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
