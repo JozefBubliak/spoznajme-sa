@@ -5,8 +5,8 @@ import { store } from '@/lib/herdvote/store'
 export const dynamic = 'force-dynamic'
 
 // Vráti lobby (zoznam hráčov)
-export async function GET(_req: NextRequest, ctx: { params: Promise<{ code: string }> }) {
-  const { code } = await ctx.params
+export async function GET(_req: NextRequest, { params }: { params: { code: string } }) {
+  const { code } = params
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   // Ak hra neexistuje, vráť prázdnu lobby (UX je príjemnejší než 404)
@@ -15,8 +15,8 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ code: stri
 }
 
 // Pridá hráča (kým je lobby otvorená)
-export async function POST(req: NextRequest, ctx: { params: Promise<{ code: string }> }) {
-  const { code } = await ctx.params
+export async function POST(req: NextRequest, { params }: { params: { code: string } }) {
+  const { code } = params
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })

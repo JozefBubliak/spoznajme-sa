@@ -5,9 +5,9 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(
   req: NextRequest,
-  ctx: { params: Promise<{ code: string; roundId: string }> }
+  { params }: { params: { code: string; roundId: string } }
 ) {
-  const { code, roundId } = await ctx.params
+  const { code, roundId } = params
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
