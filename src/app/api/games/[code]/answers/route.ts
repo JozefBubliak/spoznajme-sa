@@ -6,10 +6,7 @@ import { store, type PlayerAnswer } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: Request,
-  context: any // <-- úmyselne voľné; Next 15 typový guard potom neprotestuje
-) {
+export async function POST(req: Request, context: any) {
   const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
@@ -37,10 +34,10 @@ export async function POST(
     return NextResponse.json({ error: 'Round is not accepting answers' }, { status: 400 })
   }
 
-  // idempotentný zápis odpovede pre danú otázku
-  round.answers = round.answers ?? []
+  // --- TS-safe: pracuj s answers cez any a lokálnu premennú ---
+  const answers = (((round as any).answers) ??= [] as PlayerAnswer[])
+
   const key = `${playerId}:${roundId}:${qIndex}`
-  const existingIndex = round.answers.findIndex((a: PlayerAnswer) => a.key === key)
   const entry: PlayerAnswer = {
     key,
     playerId,
@@ -50,8 +47,9 @@ export async function POST(
     at: Date.now(),
   }
 
-  if (existingIndex >= 0) round.answers[existingIndex] = entry
-  else round.answers.push(entry)
+  const idx = answers.findIndex(a => a.key === key)
+  if (idx >= 0) answers[idx] = entry
+  else answers.push(entry)
 
   return NextResponse.json({ ok: true })
 }
