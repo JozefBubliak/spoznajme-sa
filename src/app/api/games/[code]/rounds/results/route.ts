@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/rounds/results/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
@@ -6,13 +7,8 @@ import { calculateRoundScores } from '@/lib/herdvote/scoring'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: NextRequest,
-
-  ctx: { params: { code: string } }
-) {
-  const { code } = ctx.params
-
+export async function POST(req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -20,8 +16,8 @@ export async function POST(
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const body = await req.json().catch(() => ({}))
-  const { roundId } = body
+  const body = await req.json().catch(() => ({} as any))
+  const { roundId } = body ?? {}
 
   // Find the locked round
   let targetRound
@@ -37,7 +33,6 @@ export async function POST(
 
   const currentQIndex = targetRound.qIndex || 0
   const currentQuestion = targetRound.questions[currentQIndex]
-  
   if (!currentQuestion) {
     return NextResponse.json({ error: 'No current question' }, { status: 400 })
   }
@@ -48,15 +43,13 @@ export async function POST(
     currentQuestion,
     targetRound.id,
     currentQIndex,
-    targetRound.settings.scoring
+    targetRound.settings?.scoring
   )
 
   // Update player total scores
   for (const [playerId, questionScore] of Object.entries(questionScores)) {
     const player = game.players.find(p => p.id === playerId)
-    if (player) {
-      player.score += questionScore
-    }
+    if (player) player.score += Number(questionScore) || 0
   }
 
   // Update round state
@@ -74,15 +67,15 @@ export async function POST(
     qIndex: currentQIndex,
     correct: currentQuestion.correct_answer,
     leaderboard,
-    at: Date.now()
+    at: Date.now(),
   })
 
-  return NextResponse.json({ 
-    success: true, 
+  return NextResponse.json({
+    success: true,
     roundId: targetRound.id,
     qIndex: currentQIndex,
     correct: currentQuestion.correct_answer,
     leaderboard,
-    questionScores
+    questionScores,
   })
 }
