@@ -1,17 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/rounds/lock/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: NextRequest,
-
-  ctx: { params: { code: string } }
-) {
-  const { code } = ctx.params
-
+export async function POST(req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -19,8 +15,8 @@ export async function POST(
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const body = await req.json().catch(() => ({}))
-  const { roundId } = body
+  const body = await req.json().catch(() => ({} as any))
+  const { roundId } = body ?? {}
 
   // Find the active round
   let targetRound
@@ -44,12 +40,12 @@ export async function POST(
     code: gameCode,
     roundId: targetRound.id,
     qIndex: targetRound.qIndex || 0,
-    at: Date.now()
+    at: Date.now(),
   })
 
-  return NextResponse.json({ 
-    success: true, 
+  return NextResponse.json({
+    success: true,
     roundId: targetRound.id,
-    qIndex: targetRound.qIndex || 0
+    qIndex: targetRound.qIndex || 0,
   })
 }
