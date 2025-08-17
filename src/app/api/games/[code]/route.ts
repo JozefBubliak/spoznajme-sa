@@ -1,14 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(
-  _req: NextRequest,
-
-  ctx: { params: { code: string } }
-) {
-  const { code } = ctx.params
+export async function GET(_req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
 
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
@@ -16,7 +13,7 @@ export async function GET(
 
   return NextResponse.json({
     code: gameCode,
-    status: game.status,        // 'waiting' | 'configuring' | 'ready' | 'playing'
+    status: game.status,
     roundsCount: game.rounds?.length ?? 0,
     playersCount: game.players?.length ?? 0,
   })
