@@ -162,7 +162,7 @@ export default function HerdVoteAdminPage() {
   // --- Načítanie kategórií
   const loadCategories = async () => {
     try {
-      const r = await fetch('/api/games/herd-vote/categories', { cache: 'no-store' })
+      const r = await fetch('/api/herd-vote/categories', { cache: 'no-store' })
       const j = await r.json()
       const cats = (j.categories || []) as Category[]
       setCategories(cats)
