@@ -1,16 +1,18 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/lock-lobby/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  _req: NextRequest,
-  { params }: { params: { code: string } }
-) {
-  const { code } = params
+export async function POST(req: Request, context: any) {
+  // bezpečne zoberieme route parametre
+  const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
+
   const game = store.getGame(gameCode)
-  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  if (!game) {
+    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  }
 
   // povol len zo stavu waiting
   if (game.status !== 'waiting') {
