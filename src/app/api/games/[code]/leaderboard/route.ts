@@ -1,19 +1,22 @@
 // PATH: src/app/api/games/[code]/leaderboard/route.ts
 import { NextResponse } from 'next/server'
-import { supabaseServer } from '@/integrations/supabase/server'
+import { store } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(_req: Request, context: any) {
   const { code } = (context?.params ?? {}) as { code: string }
+  const gameCode = String(code || '').toUpperCase()
 
-  const s = supabaseServer()
-  const { data, error } = await s
-    .from('herd_players')
-    .select('name, score')
-    .eq('game_code', code)
-    .order('score', { ascending: false })
+  const game = store.getGame(gameCode)
+  if (!game) {
+    // UX-friendly: prázdny leaderboard namiesto chyby
+    return NextResponse.json([])
+  }
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json(data ?? [])
+  const leaderboard = [...(game.players ?? [])]
+    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+    .map(p => ({ name: p.name, score: p.score ?? 0 }))
+
+  return NextResponse.json(leaderboard)
 }
