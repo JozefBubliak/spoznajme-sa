@@ -10,7 +10,6 @@ export async function POST(req: Request, context: any) {
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
-  // povoliť len zo stavu 'waiting'
   if (game.status !== 'waiting') {
     return NextResponse.json({ error: 'Lobby already closed' }, { status: 400 })
   }
