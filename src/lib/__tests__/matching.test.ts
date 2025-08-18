@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
-import { isRejectionAnswer, type AnswerOption } from '../../types/domain';
+import { isRejectionAnswer } from '../rejection';
+import type { AnswerOption } from '../../types/domain';
 
 import { calculateCompatibility, generateSessionResult } from '../matching';
 

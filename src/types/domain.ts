@@ -79,49 +79,9 @@ export const AnswerData = z.discriminatedUnion('kind', [
 ]);
 export type AnswerData = z.infer<typeof AnswerData>;
 
-
 export const AnswerOption = z.object({
   value: z.string(),
   is_rejection: z.boolean().optional(),
 });
 export type AnswerOption = z.infer<typeof AnswerOption>;
 
-
-const REJECTION_VALUES = new Set([
-  'nie',
-  'nie_nekomfortne',
-  'tabu',
-  'nope',
-  'nie_samostatne',
-]);
-
-// Determines if an answer represents a rejection.
-
-export function isRejectionAnswer(
-  answer: AnswerData,
-  options: AnswerOption[] = []
-): boolean {
-  if (answer.rejection) return true;
-
-  const optionMap = new Map(options.map((o) => [o.value, o.is_rejection]));
-  const check = (v?: string) =>
-    v ? optionMap.get(v) === true || REJECTION_VALUES.has(v) : false;
-
-  switch (answer.kind) {
-    case 'single_choice':
-      return check(answer.value);
-    case 'multiple_choice':
-      return answer.values?.some((v) => check(v)) ?? false;
-    case 'scale':
-      return check(answer.score?.toString());
-    case 'text':
-      return check(answer.text);
-    case 'reciprocal':
-      return (
-        check(answer.roles?.giver?.value) || check(answer.roles?.receiver?.value)
-      );
-    default:
-      return false;
-  }
-
-}

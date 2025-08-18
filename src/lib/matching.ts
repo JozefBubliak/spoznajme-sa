@@ -1,4 +1,6 @@
 
+import { isRejectionAnswer } from './rejection';
+
 import type {
   AnswerData,
   AnswerDataSingle,
