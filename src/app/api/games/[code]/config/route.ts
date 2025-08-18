@@ -40,17 +40,17 @@ export async function POST(req: Request, context: any) {
   }
 
   // Zápis do DB s ochranou (aby build nepadal, keď Supabase nie je k dispozícii)
-  try {
-    const s = supabaseServer() as any
-    const { error } = await s.from('herd_games').update(updates).eq('code', code)
-    if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-    return NextResponse.json({ ok: true, code, updates })
-  } catch {
+  // try {
+  //   const s = supabaseServer() as any
+  //   const { error } = await s.from('herd_games').update(updates).eq('code', code)
+  //   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  //   return NextResponse.json({ ok: true, code, updates })
+  // } catch {
     return NextResponse.json({
       ok: true,
       code,
       updates,
       warning: 'DB not configured or unavailable; skipped persist',
     })
-  }
+  // }
 }

@@ -1,4 +1,3 @@
-// PATH: src/app/api/games/[code]/lock-lobby/route.ts
 import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 

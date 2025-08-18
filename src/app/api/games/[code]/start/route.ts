@@ -1,4 +1,3 @@
-// PATH: src/app/api/games/[code]/start/route.ts
 import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 

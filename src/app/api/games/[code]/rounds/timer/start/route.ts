@@ -1,4 +1,3 @@
-// src/app/api/games/[code]/rounds/timer/start/route.ts
 import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
@@ -25,25 +24,23 @@ export async function POST(req: Request, context: any) {
     return NextResponse.json({ error: 'Round must be in "shown" state' }, { status: 400 })
   }
 
-  // Nastav stav kola + čas
   const startedAt = Date.now()
   const deadlineMs = startedAt + seconds * 1000
   round.status = 'running'
   round.startedAt = startedAt
   ;(round as any).deadline = deadlineMs
 
-  // Best-effort persist do DB (pre refreshy klientov)
-  try {
-    const s = supabaseServer()
-    await s
-      .from('herd_games')
-      .update({ timer_deadline: new Date(deadlineMs).toISOString() })
-      .eq('code', gameCode)
-  } catch {
-    // neblokuj hru, ak by zápis zlyhal
-  }
+  // Best-effort persist do DB (pre refreshy klientov) - commented out due to missing table
+  // try {
+  //   const s = supabaseServer()
+  //   await s
+  //     .from('herd_games')
+  //     .update({ timer_deadline: new Date(deadlineMs).toISOString() })
+  //     .eq('code', gameCode)
+  // } catch {
+  //   // neblokuj hru, ak by zápis zlyhal
+  // }
 
-  // Realtime notifikácia – nech klienti spustia odpočet
   await RealtimeServer.publish(channelFor(gameCode), {
     type: 'timer:start',
     code: gameCode,
