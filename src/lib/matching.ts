@@ -1,3 +1,4 @@
+
 import type {
   AnswerData,
   AnswerDataSingle,
@@ -7,7 +8,7 @@ import type {
   AnswerOption,
   QuestionType,
 } from '../types/domain';
-import { isRejectionAnswer } from '../types/domain';
+
 
 // Calculate compatibility score between two answers based on question type.
 export function calculateCompatibility(
@@ -16,6 +17,7 @@ export function calculateCompatibility(
   b: AnswerData
 ): number {
   switch (type) {
+
     case 'single_choice': {
       const A = a as AnswerDataSingle;
       const B = b as AnswerDataSingle;
@@ -34,11 +36,13 @@ export function calculateCompatibility(
       const A = a as AnswerDataScale;
       const B = b as AnswerDataScale;
       const diff = Math.abs((A.score ?? 0) - (B.score ?? 0));
+
       return Math.max(0, 100 - diff * 20);
     }
     case 'text':
       return 75;
     case 'reciprocal': {
+
       const A = a as AnswerDataReciprocal;
       const B = b as AnswerDataReciprocal;
       const aGives = A.roles?.giver?.value === 'give';
@@ -48,6 +52,7 @@ export function calculateCompatibility(
       if ((aGives && bReceives) || (bGives && aReceives)) return 100;
       if ((aGives && bGives) || (aReceives && bReceives)) return 60;
       return 80;
+
     }
     default:
       return 0;
@@ -63,10 +68,12 @@ export interface GeneratedResult {
 export function generateSessionResult(
   type: QuestionType,
   a: AnswerData,
+
   b: AnswerData,
   options: AnswerOption[] = []
 ): GeneratedResult {
   if (isRejectionAnswer(a, options) || isRejectionAnswer(b, options)) {
+
     return { shouldDisplay: false, compatibilityScore: null };
   }
   return {

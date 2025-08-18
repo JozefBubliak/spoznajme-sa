@@ -12,14 +12,17 @@ export type QuestionType = z.infer<typeof QuestionType>;
 export const LocalizedText = z.record(z.string());
 export type LocalizedText = z.infer<typeof LocalizedText>;
 
+
 // Shared base for all answer types.
 const BaseAnswer = z.object({
   kind: QuestionType,
+
   customText: z.string().optional(),
   rejection: z.boolean().optional(),
 });
 
 export const AnswerDataSingle = BaseAnswer.extend({
+
   kind: z.literal('single_choice'),
   value: z.string().optional(),
 });
@@ -67,6 +70,7 @@ export const AnswerDataReciprocal = BaseAnswer.extend({
 export type AnswerDataReciprocal = z.infer<typeof AnswerDataReciprocal>;
 
 export const AnswerData = z.discriminatedUnion('kind', [
+
   AnswerDataSingle,
   AnswerDataMultiple,
   AnswerDataScale,
@@ -75,11 +79,13 @@ export const AnswerData = z.discriminatedUnion('kind', [
 ]);
 export type AnswerData = z.infer<typeof AnswerData>;
 
+
 export const AnswerOption = z.object({
   value: z.string(),
   is_rejection: z.boolean().optional(),
 });
 export type AnswerOption = z.infer<typeof AnswerOption>;
+
 
 const REJECTION_VALUES = new Set([
   'nie',
@@ -90,6 +96,7 @@ const REJECTION_VALUES = new Set([
 ]);
 
 // Determines if an answer represents a rejection.
+
 export function isRejectionAnswer(
   answer: AnswerData,
   options: AnswerOption[] = []
@@ -116,4 +123,5 @@ export function isRejectionAnswer(
     default:
       return false;
   }
+
 }
