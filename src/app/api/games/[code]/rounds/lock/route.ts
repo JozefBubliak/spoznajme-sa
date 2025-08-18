@@ -1,48 +1,23 @@
-// PATH: src/app/api/games/[code]/rounds/lock/route.ts
 import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
-import { RealtimeServer } from '@/lib/realtime/server'
-import { channelFor } from '@/lib/realtime/types'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(req: Request, context: any) {
-  // bezpečne si vezmeme params z contextu
   const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
-  if (!game) {
-    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+
+  // povoliť len zo stavu 'waiting'
+  if (game.status !== 'waiting') {
+    return NextResponse.json({ error: 'Lobby already closed' }, { status: 400 })
   }
 
-  const body = await req.json().catch(() => ({} as any))
-  const { roundId } = body
+  game.status = 'active'
+  ;(game as any).usedQuestionIds = []
+  game.rounds = game.rounds ?? []
 
-  // nájdi bežiace kolo
-  const targetRound = roundId
-    ? game.rounds.find(r => r.id === roundId)
-    : store.getActiveRound(gameCode)
-
-  if (!targetRound || targetRound.status !== 'running') {
-    return NextResponse.json({ error: 'No running round to lock' }, { status: 400 })
-  }
-
-  // zamkni kolo
-  targetRound.status = 'locked'
-
-  // realtime notifikácia
-  await RealtimeServer.publish(channelFor(gameCode), {
-    type: 'round:lock',
-    code: gameCode,
-    roundId: targetRound.id,
-    qIndex: targetRound.qIndex || 0,
-    at: Date.now(),
-  })
-
-  return NextResponse.json({
-    success: true,
-    roundId: targetRound.id,
-    qIndex: targetRound.qIndex || 0,
-  })
+  return NextResponse.json({ success: true, status: game.status })
 }
