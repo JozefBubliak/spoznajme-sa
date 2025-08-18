@@ -1,36 +1,21 @@
 // PATH: src/app/api/games/[code]/config/route.ts
-import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-// Pomocný typ pre ctx s dynamickými segmentmi
-type Ctx<T extends Record<string, string>> = { params: Promise<T> }
+// Uloženie (časti) konfigurácie hry do herd_games
+export async function POST(req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
 
-// (voliteľné) Načítanie aktuálnej konfigurácie hry
-export async function GET(_req: NextRequest, ctx: Ctx<{ code: string }>) {
-  const { code } = await ctx.params
-
-  // TODO: načítaj z DB (supabase, atď.)
-  // const { data, error } = await s.from('herd_games').select('*').eq('code', code).single()
-  // if (error) return NextResponse.json({ error: error.message }, { status: 404 })
-
-  // Dočasný stub, aby build prešiel
-  return NextResponse.json({ ok: true, code, config: { rounds: 3, prep_seconds: 10, scoring: 'classic' } })
-}
-
-// Uloženie / update konfigurácie hry
-export async function POST(req: NextRequest, ctx: Ctx<{ code: string }>) {
-  const { code } = await ctx.params
-
-  let body: any
-  try {
-    body = await req.json()
-  } catch {
-    body = {}
+  const body = (await req.json().catch(() => ({}))) as {
+    rounds?: number
+    prepSeconds?: number
+    scoring?: string
+    // prípadne ďalšie polia, ktoré máš v JSON settings
   }
 
-  // Povolené polia na update (ponechané podľa tvojho pôvodného kódu)
+  // povolené zmeny – mapovanie na DB stĺpce
   const updates: Record<string, any> = {}
   if (typeof body.rounds === 'number') updates.rounds = body.rounds
   if (typeof body.prepSeconds === 'number') updates.prep_seconds = body.prepSeconds
@@ -40,11 +25,9 @@ export async function POST(req: NextRequest, ctx: Ctx<{ code: string }>) {
     return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 })
   }
 
-
   const s = supabaseServer()
   const { error } = await s.from('herd_games').update(updates).eq('code', code)
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
 
-
-  return NextResponse.json({ ok: true, code, updates })
+  return NextResponse.json({ ok: true })
 }
