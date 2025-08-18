@@ -1,27 +1,26 @@
-// src/app/api/games/[code]/rounds/start/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/rounds/start/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
-) {
-  const { code } = params
+export async function POST(req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
+
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
-  const body = await req.json().catch(() => ({}))
+  const body = await req.json().catch(() => ({} as any))
   const { roundId } = body
 
-  // vyber kolo
-  const round = roundId
-    ? game.rounds.find(r => r.id === roundId)
-    : game.rounds.find(r => r.status === 'pending' || r.status === 'ready')
+  // vyber kolo: buď podľa roundId, alebo prvé pending/ready
+  const round =
+    roundId
+      ? game.rounds.find(r => r.id === roundId)
+      : game.rounds.find(r => r.status === 'pending' || r.status === 'ready')
 
   if (!round) return NextResponse.json({ error: 'No round to start' }, { status: 400 })
 
@@ -33,7 +32,11 @@ export async function POST(
   round.startedAt = undefined
 
   await RealtimeServer.publish(channelFor(gameCode), {
-    type: 'game:start', code: gameCode, roundId: round.id, qIndex: round.qIndex, at: Date.now()
+    type: 'game:start',
+    code: gameCode,
+    roundId: round.id,
+    qIndex: round.qIndex,
+    at: Date.now(),
   })
 
   return NextResponse.json({ success: true, roundId: round.id, qIndex: round.qIndex })
