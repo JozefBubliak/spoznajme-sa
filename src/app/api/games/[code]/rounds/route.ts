@@ -1,24 +1,21 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/rounds/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import type { RoundSettings } from '@/lib/herdvote/store'
-import { supabaseServer } from '@/integrations/supabase/server' // ✅ opravený import
 
 export const dynamic = 'force-dynamic'
 
 /**
  * POST /api/games/[code]/rounds
  * Body:
- *   {
- *     "category": "vseobecne" | "Všeobecné",   // slug alebo name
- *     "count": 10,                             // počet otázok do kola
- *     "settings": { timeLimit: 30, scoring: {...} } as RoundSettings
- *   }
+ * {
+ *   "category": "vseobecne" | "Všeobecné",
+ *   "count": 10,
+ *   "settings": { timeLimit: 30, scoring: {...} } as RoundSettings
+ * }
  */
- export async function POST(
-   req: NextRequest,
-   { params }: { params: { code: string } }
- ) {
-   const { code } = params
+export async function POST(req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -26,7 +23,7 @@ export const dynamic = 'force-dynamic'
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const body = await req.json().catch(() => ({}))
+  const body = await req.json().catch(() => ({} as any))
   const rawCategory = String(body?.category || '').trim()
   const count = Math.max(1, Math.min(100, Number(body?.count || 10)))
   const settings = body?.settings as RoundSettings | undefined
@@ -38,18 +35,14 @@ export const dynamic = 'force-dynamic'
     return NextResponse.json({ error: 'Missing round settings' }, { status: 400 })
   }
 
-  const sb = supabaseServer()
-
-  // For now, use a simple category mapping since we can't access herd_categories table
+  // Jednoduché mapovanie kategórií (kým nepripájaš DB)
   const categoryMap: Record<string, { id: string; name: string; is_active: boolean }> = {
     'vseobecne': { id: '1', name: 'Všeobecné', is_active: true },
     'všeobecné': { id: '1', name: 'Všeobecné', is_active: true },
     'geografia': { id: '2', name: 'Geografia', is_active: true },
     'veda': { id: '3', name: 'Veda', is_active: true },
   }
-
   const cat = categoryMap[rawCategory.toLowerCase()] || categoryMap['všeobecné']
-
   if (!cat || cat.is_active === false) {
     return NextResponse.json({ error: 'Category not available' }, { status: 400 })
   }
@@ -57,51 +50,39 @@ export const dynamic = 'force-dynamic'
   const usedIds: string[] = (game as any).usedQuestionIds || []
   ;(game as any).usedQuestionIds = usedIds
 
-  // Use mock questions for now since we can't access herd_questions table
+  // Mock otázky (kým nemáš prístup k herd_questions)
   const mockQuestions = Array.from({ length: count }, (_, i) => ({
     id: `q${i + 1}`,
     question_text: `Otázka ${i + 1} z kategórie ${cat.name}?`,
     answer_a: 'Možnosť A',
-    answer_b: 'Možnosť B', 
+    answer_b: 'Možnosť B',
     answer_c: 'Možnosť C',
     answer_d: 'Možnosť D',
     correct_answer: 'A',
-    time_limit_seconds: settings.timeLimit
+    time_limit_seconds: settings.timeLimit,
   }))
 
   const available = mockQuestions
-
-  // Filter out used questions
-  const unusedQuestions = available.filter(q => !usedIds.includes(q.id))
-
-  if (!unusedQuestions || unusedQuestions.length === 0) {
+  const unused = available.filter(q => !usedIds.includes(q.id))
+  if (unused.length < 1) {
     return NextResponse.json(
       { error: 'No unused questions available for this category in this game' },
       { status: 400 }
     )
   }
-
-  if (unusedQuestions.length < count) {
+  if (unused.length < count) {
     return NextResponse.json(
-      {
-        error: `Not enough new questions in '${cat.name}'. Need ${count}, have ${unusedQuestions.length}.`,
-      },
+      { error: `Not enough new questions in '${cat.name}'. Need ${count}, have ${unused.length}.` },
       { status: 400 }
     )
   }
 
-  const shuffled = [...unusedQuestions].sort(() => Math.random() - 0.5)
-  const picked = shuffled.slice(0, count)
+  const picked = [...unused].sort(() => Math.random() - 0.5).slice(0, count)
 
   const questions = picked.map(q => ({
     id: q.id,
     question_text: q.question_text,
-    options: [
-      q.answer_a,
-      q.answer_b,
-      q.answer_c,
-      q.answer_d,
-    ] as [string, string, string, string],
+    options: [q.answer_a, q.answer_b, q.answer_c, q.answer_d] as [string, string, string, string],
     correct_answer: q.correct_answer as 'A' | 'B' | 'C' | 'D',
     time_limit: q.time_limit_seconds || settings.timeLimit,
     points_correct: 10,

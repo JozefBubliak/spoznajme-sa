@@ -1,13 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/rounds/[roundId]/question/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { code: string; roundId: string } }
-) {
-  const { code, roundId } = params
+export async function GET(_req: Request, context: any) {
+  const { code, roundId } = (context?.params ?? {}) as { code: string; roundId: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -20,7 +18,7 @@ export async function GET(
     return NextResponse.json({ error: 'Round not found' }, { status: 404 })
   }
 
-  const url = new URL(req.url)
+  const url = new URL(_req.url)
   const qIndexParam = url.searchParams.get('qIndex')
   const qIndex = qIndexParam ? parseInt(qIndexParam, 10) : (round.qIndex || 0)
 
@@ -29,20 +27,25 @@ export async function GET(
     return NextResponse.json({ error: 'Question not found' }, { status: 404 })
   }
 
-  // Calculate time left if round is running
+  // časovač – koľko sekúnd ostáva
   let timeLeft = 0
   if (round.status === 'running' && round.startedAt) {
     const elapsed = Date.now() - round.startedAt
-    const timeLimit = round.settings.timeLimit * 1000 // convert to ms
-    timeLeft = Math.max(0, timeLimit - elapsed)
+    const timeLimitMs = (round.settings?.timeLimit ?? 0) * 1000
+    timeLeft = Math.max(0, timeLimitMs - elapsed)
   }
 
+  // Fallback pre možnosti odpovede
+  const optionsArray =
+    question.options ??
+    [question.answer_a, question.answer_b, question.answer_c, question.answer_d].filter(Boolean)
+
   return NextResponse.json({
-    text: question.question_text,
-    options: question.options,
-    timeLeft: Math.ceil(timeLeft / 1000), // return in seconds
+    text: question.question_text ?? '',
+    options: optionsArray,
+    timeLeft: Math.ceil(timeLeft / 1000),
     qIndex,
     totalQuestions: round.questions.length,
-    roundStatus: round.status
+    roundStatus: round.status,
   })
 }
