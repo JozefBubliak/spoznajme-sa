@@ -1,15 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/rounds/lock/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
-) {
-  const { code } = params
+export async function POST(req: Request, context: any) {
+  // bezpečne si vezmeme params z contextu
+  const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -17,37 +16,33 @@ export async function POST(
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const body = await req.json().catch(() => ({}))
+  const body = await req.json().catch(() => ({} as any))
   const { roundId } = body
 
-  // Find the active round
-  let targetRound
-  if (roundId) {
-    targetRound = game.rounds.find(r => r.id === roundId)
-  } else {
-    targetRound = store.getActiveRound(gameCode)
-  }
+  // nájdi bežiace kolo
+  const targetRound = roundId
+    ? game.rounds.find(r => r.id === roundId)
+    : store.getActiveRound(gameCode)
 
   if (!targetRound || targetRound.status !== 'running') {
     return NextResponse.json({ error: 'No running round to lock' }, { status: 400 })
   }
 
-  // Update round state
+  // zamkni kolo
   targetRound.status = 'locked'
 
-  // Publish realtime event
-  const channel = channelFor(gameCode)
-  await RealtimeServer.publish(channel, {
+  // realtime notifikácia
+  await RealtimeServer.publish(channelFor(gameCode), {
     type: 'round:lock',
     code: gameCode,
     roundId: targetRound.id,
     qIndex: targetRound.qIndex || 0,
-    at: Date.now()
+    at: Date.now(),
   })
 
   return NextResponse.json({
     success: true,
     roundId: targetRound.id,
-    qIndex: targetRound.qIndex || 0
+    qIndex: targetRound.qIndex || 0,
   })
 }
