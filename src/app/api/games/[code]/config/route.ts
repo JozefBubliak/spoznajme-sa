@@ -12,7 +12,6 @@ export async function POST(req: Request, context: any) {
     rounds?: number
     prepSeconds?: number
     scoring?: string
-    // prípadne ďalšie polia, ktoré máš v JSON settings
   }
 
   // povolené zmeny – mapovanie na DB stĺpce
@@ -26,8 +25,12 @@ export async function POST(req: Request, context: any) {
   }
 
   const s = supabaseServer()
-  const { error } = await s.from('herd_games').update(updates).eq('code', code)
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  // TS workaround: tvoje generované typy nepoznajú herd_games → pretypujeme client na any
+  const { error } = await (s as any)
+    .from('herd_games')
+    .update(updates)
+    .eq('code', code)
 
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
   return NextResponse.json({ ok: true })
 }
