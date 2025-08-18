@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/rounds/results/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
@@ -6,11 +7,8 @@ import { calculateRoundScores } from '@/lib/herdvote/scoring'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
-) {
-  const { code } = params
+export async function POST(req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -18,69 +16,65 @@ export async function POST(
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const body = await req.json().catch(() => ({}))
+  const body = await req.json().catch(() => ({} as any))
   const { roundId } = body
 
-  // Find the locked round
-  let targetRound
-  if (roundId) {
-    targetRound = game.rounds.find(r => r.id === roundId)
-  } else {
-    targetRound = store.getActiveRound(gameCode)
-  }
+  // nájdi uzamknuté kolo
+  const targetRound = roundId
+    ? game.rounds.find(r => r.id === roundId)
+    : store.getActiveRound(gameCode)
 
   if (!targetRound || targetRound.status !== 'locked') {
     return NextResponse.json({ error: 'No locked round to evaluate' }, { status: 400 })
   }
 
-  const currentQIndex = targetRound.qIndex || 0
-  const currentQuestion = targetRound.questions[currentQIndex]
-  
+  const qIndex = targetRound.qIndex || 0
+  const currentQuestion = targetRound.questions[qIndex]
   if (!currentQuestion) {
     return NextResponse.json({ error: 'No current question' }, { status: 400 })
   }
 
-  // Calculate scores for this question
+  // zabezpeč, aby pole answers existovalo (niektoré verzie store ho nemajú)
+  ;(game as any).answers ||= []
+
+  // výpočet bodov pre aktuálnu otázku
   const questionScores = calculateRoundScores(
-    game.answers,
+    (game as any).answers,
     currentQuestion,
     targetRound.id,
-    currentQIndex,
+    qIndex,
     targetRound.settings.scoring
   )
 
-  // Update player total scores
-  for (const [playerId, questionScore] of Object.entries(questionScores)) {
+  // prirátaj body hráčom
+  for (const [playerId, pts] of Object.entries(questionScores)) {
     const player = game.players.find(p => p.id === playerId)
-    if (player) {
-      player.score += questionScore
-    }
+    if (player) player.score += Number(pts) || 0
   }
 
-  // Update round state
+  // stav kola -> results
   targetRound.status = 'results'
 
-  // Sort players by score for leaderboard
+  // zoradený rebríček
   const leaderboard = [...game.players].sort((a, b) => b.score - a.score)
 
-  // Publish realtime event
-  const channel = channelFor(gameCode)
-  await RealtimeServer.publish(channel, {
+  // realtime event
+  await RealtimeServer.publish(channelFor(gameCode), {
     type: 'round:results',
     code: gameCode,
     roundId: targetRound.id,
-    qIndex: currentQIndex,
+    qIndex,
     correct: currentQuestion.correct_answer,
     leaderboard,
-    at: Date.now()
+    at: Date.now(),
   })
 
   return NextResponse.json({
     success: true,
     roundId: targetRound.id,
-    qIndex: currentQIndex,
+    qIndex,
     correct: currentQuestion.correct_answer,
     leaderboard,
-    questionScores
+    questionScores,
   })
 }
