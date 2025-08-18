@@ -1,13 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
+// PATH: src/app/api/games/[code]/start/route.ts
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  _req: NextRequest,
-  { params }: { params: { code: string } }
-) {
-  const { code } = params
+export async function POST(_req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
+
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
@@ -16,7 +15,7 @@ export async function POST(
     return NextResponse.json({ error: 'No rounds configured' }, { status: 400 })
   }
 
-  // povol prechod len z 'waiting' alebo 'active' 
+  // povol prechod len z 'waiting' alebo 'active'
   if (game.status !== 'waiting' && game.status !== 'active') {
     return NextResponse.json({ error: `Invalid state: ${game.status}` }, { status: 400 })
   }
