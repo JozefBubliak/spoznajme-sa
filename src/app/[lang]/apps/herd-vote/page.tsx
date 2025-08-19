@@ -7,20 +7,15 @@ import type { Player, Round } from '@/lib/herdvote/store'
 
 type Category = { name: string; count: number }
 type Mode = 'classic' | 'podium'
+type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished' | string
 
 export default function HerdVoteAdminPage() {
   // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
   const { lang } = useParams<{ lang: string }>()
 
   const [gameCode, setGameCode] = useState<string>('')
-  const [gameStatus, setGameStatus] = useState<
-    | 'waiting'
-    | 'configuring'
-    | 'running'
-    | 'finished'
-    | 'setup'
-    | 'active'
-  >('waiting')
+  const [gameStatus, setGameStatus] = useState<GameStatus>('waiting')
+
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCat, setSelectedCat] = useState<string>('')
 
@@ -107,7 +102,9 @@ export default function HerdVoteAdminPage() {
                 ? 'configuring'
                 : status === 'active'
                 ? 'running'
-                : (status as any)
+
+                : status
+
             )
           }
         }
