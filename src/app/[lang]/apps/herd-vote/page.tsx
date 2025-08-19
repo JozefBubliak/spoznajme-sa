@@ -13,7 +13,14 @@ export default function HerdVoteAdminPage() {
   const { lang } = useParams<{ lang: string }>()
 
   const [gameCode, setGameCode] = useState<string>('')
-  const [gameStatus, setGameStatus] = useState<'waiting' | 'configuring' | 'running' | 'finished'>('waiting')
+  const [gameStatus, setGameStatus] = useState<
+    | 'waiting'
+    | 'configuring'
+    | 'running'
+    | 'finished'
+    | 'setup'
+    | 'active'
+  >('waiting')
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCat, setSelectedCat] = useState<string>('')
 
@@ -93,7 +100,16 @@ export default function HerdVoteAdminPage() {
         }
         if (gr && gr.ok) {
           const gj = await gr.json()
-          if (gj?.status) setGameStatus(gj.status)
+          if (gj?.status) {
+            const status = String(gj.status)
+            setGameStatus(
+              status === 'setup'
+                ? 'configuring'
+                : status === 'active'
+                ? 'running'
+                : (status as any)
+            )
+          }
         }
       } catch {}
     }
