@@ -104,7 +104,6 @@ export default function HerdVoteAdminPage() {
         if (gr && gr.ok) {
           const gj = await gr.json()
           if (gj?.status) {
-
             setGameStatus(mapStatus(String(gj.status)))
 
           }
