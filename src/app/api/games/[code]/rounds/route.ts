@@ -52,7 +52,8 @@ export async function POST(req: Request, context: any) {
 
   // Mock otázky (kým nemáš prístup k herd_questions)
   const mockQuestions = Array.from({ length: count }, (_, i) => ({
-    id: `q${i + 1}`,
+    // Použi unikátne ID, aby sme mohli pridať viac kôl počas jednej hry
+    id: globalThis.crypto?.randomUUID?.() ?? `q${Date.now()}-${i}`,
     question_text: `Otázka ${i + 1} z kategórie ${cat.name}?`,
     answer_a: 'Možnosť A',
     answer_b: 'Možnosť B',
