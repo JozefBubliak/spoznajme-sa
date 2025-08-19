@@ -23,6 +23,7 @@ export default function HerdVoteAdminPage() {
 
   const [gameCode, setGameCode] = useState<string>('')
   const [gameStatus, setGameStatus] = useState<GameStatus>('waiting')
+
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCat, setSelectedCat] = useState<string>('')
 
@@ -104,6 +105,7 @@ export default function HerdVoteAdminPage() {
           const gj = await gr.json()
           if (gj?.status) {
             setGameStatus(mapStatus(String(gj.status)))
+
           }
         }
       } catch {}
