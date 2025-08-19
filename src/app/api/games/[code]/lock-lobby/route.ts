@@ -18,7 +18,7 @@ export async function POST(req: Request, context: any) {
     return NextResponse.json({ error: 'Lobby already closed' }, { status: 400 })
   }
 
-  game.status = 'active'
+  game.status = 'setup'
   // voliteľne si vynuluj pomocné polia
   ;(game as any).usedQuestionIds = []
   game.rounds = game.rounds ?? []
