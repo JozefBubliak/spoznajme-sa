@@ -17,12 +17,14 @@ function mapStatus(status: string): GameStatus {
   return 'waiting'
 }
 
+
 export default function HerdVoteAdminPage() {
   // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
   const { lang } = useParams<{ lang: string }>()
 
   const [gameCode, setGameCode] = useState<string>('')
   const [gameStatus, setGameStatus] = useState<GameStatus>('waiting')
+
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCat, setSelectedCat] = useState<string>('')
 
@@ -103,7 +105,9 @@ export default function HerdVoteAdminPage() {
         if (gr && gr.ok) {
           const gj = await gr.json()
           if (gj?.status) {
+
             setGameStatus(mapStatus(String(gj.status)))
+
           }
         }
       } catch {}
