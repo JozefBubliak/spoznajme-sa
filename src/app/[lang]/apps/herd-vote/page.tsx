@@ -17,7 +17,6 @@ function mapStatus(status: string): GameStatus {
   return 'waiting'
 }
 
-
 export default function HerdVoteAdminPage() {
   // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
   const { lang } = useParams<{ lang: string }>()

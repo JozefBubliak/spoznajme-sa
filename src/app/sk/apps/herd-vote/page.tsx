@@ -11,6 +11,14 @@ type Category = { name: string; count: number }
 // lokálny typ “stav hry” – v store by mal byť: 'waiting' | 'configuring' | 'ready' | 'playing'
 type GameStatus = 'waiting' | 'configuring' | 'ready' | 'playing'
 
+function mapStatus(status: string): GameStatus {
+  const s = status.toLowerCase().trim()
+  if (s === 'setup') return 'configuring'
+  if (s === 'active') return 'playing'
+  if (s === 'finished') return 'ready'
+  return 'waiting'
+}
+
 // konfigurácia jedného kola v UI
 type RoundConfig = {
   category: string
@@ -194,11 +202,11 @@ export default function HerdVoteAdminPage() {
           setPlayers(jp.players || [])
         }
         // stav hry
-        const rg = await fetch(`/api/games/${gameCode}`, { cache: 'no-store' })
-        if (rg.ok) {
-          const jg = await rg.json()
-          if (jg?.status) setGameStatus(jg.status as GameStatus)
-        }
+          const rg = await fetch(`/api/games/${gameCode}`, { cache: 'no-store' })
+          if (rg.ok) {
+            const jg = await rg.json()
+            if (jg?.status) setGameStatus(mapStatus(String(jg.status)))
+          }
       } catch {}
     }, 2000)
     return () => clearInterval(t)
