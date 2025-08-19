@@ -7,7 +7,16 @@ import type { Player, Round } from '@/lib/herdvote/store'
 
 type Category = { name: string; count: number }
 type Mode = 'classic' | 'podium'
-type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished' | string
+type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
+
+function mapStatus(status: string): GameStatus {
+  const s = status.toLowerCase().trim()
+  if (s === 'setup') return 'configuring'
+  if (s === 'active') return 'running'
+  if (s === 'finished') return 'finished'
+  return 'waiting'
+}
+
 
 export default function HerdVoteAdminPage() {
   // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
@@ -96,16 +105,9 @@ export default function HerdVoteAdminPage() {
         if (gr && gr.ok) {
           const gj = await gr.json()
           if (gj?.status) {
-            const status = String(gj.status)
-            setGameStatus(
-              status === 'setup'
-                ? 'configuring'
-                : status === 'active'
-                ? 'running'
 
-                : status
+            setGameStatus(mapStatus(String(gj.status)))
 
-            )
           }
         }
       } catch {}
