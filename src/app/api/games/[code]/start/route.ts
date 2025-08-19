@@ -14,8 +14,8 @@ export async function POST(_req: Request, context: any) {
     return NextResponse.json({ error: 'No rounds configured' }, { status: 400 })
   }
 
-  // povol prechod len z 'waiting' alebo 'active'
-  if (game.status !== 'waiting' && game.status !== 'active') {
+  // povol prechod len z 'waiting' alebo 'setup'
+  if (game.status !== 'waiting' && game.status !== 'setup') {
     return NextResponse.json({ error: `Invalid state: ${game.status}` }, { status: 400 })
   }
 
