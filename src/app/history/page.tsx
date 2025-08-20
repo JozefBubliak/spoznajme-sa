@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -11,7 +11,7 @@ export default function HistoryPage() {
   const [user, setUser] = useState<any>(null)
   const [history, setHistory] = useState<{ id: number; text: string }[]>([])
 
-  // doÄŤasnĂ© mockovanĂ© ID (kĂ˝m nemĂˇĹˇ skutoÄŤnĂş histĂłriu)
+  // dočasné mockované ID (kým nemáš skutočnú históriu)
   const mockHistoryIds = [5, 6, 7, 8]
 
   useEffect(() => {
@@ -43,11 +43,11 @@ export default function HistoryPage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
       <div className="bg-white shadow-xl rounded-2xl p-8 text-center space-y-6 max-w-xl w-full">
         <h1 className="text-2xl font-bold flex items-center justify-center gap-2">
-          <Clock className="text-blue-500" /> HistĂłria otĂˇzok
+          <Clock className="text-blue-500" /> História otázok
         </h1>
 
         {history.length === 0 ? (
-          <p className="text-gray-500">ZatiaÄľ si nevidel Ĺľiadne otĂˇzky.</p>
+          <p className="text-gray-500">Zatiaľ si nevidel žiadne otázky.</p>
         ) : (
           <ul className="text-left space-y-3 text-gray-800">
             {history.map((q) => (
@@ -59,7 +59,7 @@ export default function HistoryPage() {
         )}
 
         <Button variant="outline" onClick={() => router.push('/app')}>
-          NaspĂ¤ĹĄ do aplikĂˇcie
+          Naspäť do aplikácie
         </Button>
       </div>
     </div>
