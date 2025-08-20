@@ -24,7 +24,6 @@ export default function HerdVoteAdminPage() {
   const { lang } = useParams<{ lang: string }>()
   const router = useRouter()
   const { user, loading } = useHerdVoteAuth()
-
   useEffect(() => {
     if (!loading && !user) router.replace(`/${lang}/apps/herd-vote/login`)
   }, [loading, user, router])
