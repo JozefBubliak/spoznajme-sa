@@ -1,4 +1,6 @@
-﻿'use client'
+
+'use client'
+
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
@@ -10,10 +12,10 @@ const groupOptions = ['partneri', 'kamarati', 'rodina', 'rodic_dieta'] as const
 type GroupKey = (typeof groupOptions)[number]
 
 const groupLabels: Record<GroupKey, string> = {
-  partneri: 'üíë Partneri',
-  kamarati: 'üë´ Kamar√°ti',
-  rodina: 'üë®‚Äçüë©‚Äçüëß‚Äçüë¶ Rodina',
-  rodic_dieta: 'üë®‚Äçüëß Rodiƒç ‚Äì Die≈•a'
+  partneri: '💑 Partneri',
+  kamarati: '👫 Kamaráti',
+  rodina: '👨‍👩‍👧‍👦 Rodina',
+  rodic_dieta: '👨‍👧 Rodič – Dieťa'
 }
 
 const FREE_IDS: Record<GroupKey, number[]> = {
@@ -134,7 +136,7 @@ export default function FreePage() {
                   >
                     <Share2 size={16} /> Skopírovať otázku
                   </button>
-                  <button 
+                  <button
                     onClick={() => router.push('/login')}
                     className="text-gray-500 hover:text-gray-700 flex items-center gap-1"
                   >
@@ -163,13 +165,13 @@ export default function FreePage() {
                   <Button variant="outline" onClick={() => setGroup(null)}>
                     Iná skupina
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => router.push('/login')}
                     className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                   >
                     Prihlásiť sa zdarma
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => router.push('/upgrade')}
                     className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
                   >
