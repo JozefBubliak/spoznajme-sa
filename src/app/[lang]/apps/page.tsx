@@ -1,70 +1,81 @@
-﻿// PATH: src/app/[lang]/apps/page.tsx
-import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
-import { normalizeUrlLocale, buildHreflangAlternates } from '@/lib/i18n-routing'
-import { SUPPORTED_LANGUAGES } from '@/lib/languages'
+import { notFound } from 'next/navigation'
+import { getDictionary } from '@/i18n/server'
+import { type Locale, SUPPORTED_LOCALES } from '@/i18n/config'
+import { normalizeUrlLocale } from '@/lib/i18n-routing'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 type P = { params: Promise<{ lang: string }> }
 
-export async function generateMetadata({ params }: P): Promise<Metadata> {
+export default async function AppsPage({ params }: P) {
   const { lang: raw } = await params
   const lang = normalizeUrlLocale(raw)
-  return {
-    title: lang === 'sk' ? 'Aplikácie a hry' : 'Apps & Games',
-    description:
-      lang === 'sk'
-        ? 'Prehľad dostupných hier a pomôcok na deeptalks.eu.'
-        : 'Overview of available games and tools on deeptalks.eu.',
-    alternates: {
-      canonical: `https://deeptalks.eu/${lang}/apps`,
-      languages: buildHreflangAlternates('/apps'),
-    },
-  }
-}
-
-export function generateStaticParams() {
-  return SUPPORTED_LANGUAGES.map((lang) => ({ lang }))
-}
-
-export default async function Page({ params }: P) {
-  const { lang: raw } = await params
-  const lang = normalizeUrlLocale(raw)
+  if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
+  const dict = await getDictionary(lang as Locale)
+  const apps = dict.apps
+  const games = apps.games
+  const categories = [
+    { key: 'quizzes', slugs: ['quiz'] },
+    { key: 'cards', slugs: ['cards'] },
+    { key: 'puzzles', slugs: ['hadacka'] },
+    { key: 'surveys', slugs: ['couplesync'] },
+  ]
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10 space-y-8">
-      <h1 className="text-3xl font-semibold">
-        {lang === 'sk' ? 'Aplikácie a hry' : 'Apps & Games'}
-      </h1>
-      <ul className="grid md:grid-cols-2 gap-4">
-        {/* Herd Vote */}
-        <li className="rounded-xl border p-4">
-          <h2 className="font-medium">Herd Vote (kvíz)</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            {lang === 'sk'
-              ? 'Rýchly tímový kvíz s kolami a bodovaním.'
-              : 'Fast team quiz with rounds and scoring.'}
-          </p>
-          <div className="mt-3">
-            <Link className="text-sm underline" href={`/${lang}/apps/herd-vote`}>
-              {lang === 'sk' ? 'Otvoriť' : 'Open'}
+    <div className="space-y-16">
+      <section className="text-center space-y-6">
+        <h1 className="text-4xl font-bold">
+          {apps.bannerTitle}
+        </h1>
+        <p className="text-lg text-muted-foreground">{apps.bannerSubtitle}</p>
+        <Button asChild size="lg">
+          <Link href="#games">{apps.bannerCTA}</Link>
+        </Button>
+        <nav className="flex justify-center gap-4 pt-4 text-sm">
+          {categories.map((cat) => (
+            <Link key={cat.key} href={`#${cat.key}`} className="hover:underline">
+              {apps.categories[cat.key]}
             </Link>
+          ))}
+        </nav>
+      </section>
+
+      <section id="games" className="space-y-12">
+        {categories.map((cat) => (
+          <div key={cat.key} id={cat.key} className="space-y-6">
+            <h2 className="text-2xl font-semibold">
+              {apps.categories[cat.key]}
+            </h2>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {cat.slugs.map((slug) => {
+                const g = games[slug]
+                return (
+                  <Card key={slug}>
+                    <Image
+                      src="/images/placeholder.jpg"
+                      alt=""
+                      width={400}
+                      height={200}
+                      className="h-40 w-full object-cover"
+                    />
+                    <CardHeader>
+                      <CardTitle>{g.name}</CardTitle>
+                      <CardDescription>{g.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button asChild className="w-full">
+                        <Link href={`/${lang}/apps/${slug}`}>{g.cta}</Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )
+              })}
+            </div>
           </div>
-        </li>
-        {/* Spoznajme sa */}
-        <li className="rounded-xl border p-4">
-          <h2 className="font-medium">Spoznajme sa (karty otázok)</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            {lang === 'sk'
-              ? 'Interaktívne otázky v balíčkoch – otvárače, hlbšie, spomienky, zábavné.'
-              : 'Interactive card prompts – openers, deeper, memories, fun.'}
-          </p>
-          <div className="mt-3">
-            <Link className="text-sm underline" href={`/${lang}/apps/spoznajme-sa`}>
-              {lang === 'sk' ? 'Otvoriť' : 'Open'}
-            </Link>
-          </div>
-        </li>
-      </ul>
+        ))}
+      </section>
     </div>
   )
 }
