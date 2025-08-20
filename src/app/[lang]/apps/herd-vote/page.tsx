@@ -2,8 +2,10 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
+import { useAuth } from '@/hooks/useAuth'
+import { UserCircle } from 'lucide-react'
 
 type Category = { name: string; count: number }
 type Mode = 'classic' | 'podium'
@@ -20,6 +22,12 @@ function mapStatus(status: string): GameStatus {
 export default function HerdVoteAdminPage() {
   // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
   const { lang } = useParams<{ lang: string }>()
+  const router = useRouter()
+  const { user, loading } = useAuth()
+
+  useEffect(() => {
+    if (!loading && !user) router.replace('/login')
+  }, [loading, user, router])
 
   const [gameCode, setGameCode] = useState<string>('')
   const [gameStatus, setGameStatus] = useState<GameStatus>('waiting')
@@ -187,8 +195,20 @@ export default function HerdVoteAdminPage() {
     return `${origin}/${urlLang}/play/${gameCode}`
   }, [gameCode, lang])
 
+  if (loading || !user) {
+    return (
+      <div className="mx-auto max-w-3xl p-6">
+        <p>Na spustenie hry sa prihláste ako moderátor.</p>
+      </div>
+    )
+  }
+
   return (
     <div className="mx-auto max-w-3xl p-6 space-y-6">
+      <div className="flex justify-end text-sm text-muted-foreground gap-2 items-center">
+        <UserCircle className="h-5 w-5" />
+        {loading ? '...' : user?.email}
+      </div>
       <h1 className="text-2xl font-bold">Herd Vote – moderátor</h1>
 
       <div className="rounded-xl border p-4 space-y-3">
