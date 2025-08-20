@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
-
+import { UserCircle } from 'lucide-react'
 type Category = { name: string; count: number }
 type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
@@ -204,6 +204,10 @@ export default function HerdVoteAdminPage() {
 
   return (
     <div className="mx-auto max-w-3xl p-6 space-y-6">
+      <div className="flex justify-end text-sm text-muted-foreground gap-2 items-center">
+        <UserCircle className="h-5 w-5" />
+        {loading ? '...' : user?.email}
+      </div>
       <h1 className="text-2xl font-bold">Herd Vote – moderátor</h1>
 
       <div className="rounded-xl border p-4 space-y-3">
