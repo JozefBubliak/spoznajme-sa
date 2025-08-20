@@ -8,34 +8,8 @@
     "downloads": "Downloads",
     "apps": "Conversation games"
   },
-  "home": {
-    "hero": {
-      "title": "Conversations that bring people closer.",
-      "lead": "Practical tools for everyday moments, get-to-know-you questions and party games. Works for parentÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â‚¬ĹˇĂ‚Â¬Ă„Ä…Ă˘â‚¬Ĺźchild, couples, friends and families.",
-      "ctaTools": "Explore tools",
-      "ctaProducts": "See products"
-    },
-    "what": {
-      "title": "What youÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąÄľÄ‚â€ąĂ‚Âll find",
-      "toolsTitle": "Tools for everyday situations",
-      "toolsDesc": "Quick phrases and steps for tough moments (homework, emotions, limits, screen-time agreementsÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ˘â‚¬ĹˇÄ‚â€šĂ‚Â¦).",
-      "packsTitle": "Question packs & deep talks",
-      "packsDesc": "Openers, deeper conversations, memories and fun Ä‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â‚¬ĹˇĂ‚Â¬Ă„Ä…Ă˘â‚¬Ĺź always story-based.",
-      "gamesTitle": "Games for groups & parties",
-      "gamesDesc": "Icebreakers, Ä‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ä‚â€žĂ„â€¦Ä‚ËĂ˘â€šÂ¬ÄąĹşHow well do you know me?Ä‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ä‚â€žĂ„â€¦Ä‚â€žĂ˘â‚¬Ĺľ quizzes, team modes.",
-      "eduTitle": "Learning & articles",
-      "eduDesc": "Blog, ebooks and videos (NVC, Gottman, CBT, ACTÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ˘â‚¬ĹˇÄ‚â€šĂ‚Â¦). Practical and clear."
-    },
-    "audTitle": "Start by audience",
-    "ctaBar": {
-      "title": "Ready to start?",
-      "lead": "Pick a topic to get ready-to-use phrases and steps.",
-      "cta1": "Open tools",
-      "cta2": "See products"
-    }
-  },
   "aud": {
-    "parentChild": "ParentÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â‚¬ĹˇĂ‚Â¬Ă„Ä…Ă˘â‚¬ĹźChild",
+    "parentChild": "Parent–Child",
     "couples": "Couples",
     "friendsParty": "Friends & Party",
     "family": "Family"
