@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useGameStore } from '@/lib/stores/gameStore'
 import { WordService } from '@/lib/services/wordService'
 import { SoundService } from '@/lib/services/soundService'
 import { TimerService } from '@/lib/services/timerService'
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
+import { useAuth } from '@/hooks/useAuth'
 
 import { ModeratorShell } from '@/components/hadacka/ModeratorShell'
 import { SettingsPanel } from '@/components/hadacka/SettingsPanel'
@@ -14,6 +16,22 @@ import { GameView } from '@/components/hadacka/GameView'
 export default function ModeratorPage() {
   const { gameState, settings, startGame, soundSettings } = useGameStore()
   const [isInitialized, setIsInitialized] = useState(false)
+  const { user, loading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace('/login')
+    }
+  }, [user, loading, router])
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>Na spustenie hry sa prihláste ako moderátor.</p>
+      </div>
+    )
+  }
 
   // Initialize services and load words
   useEffect(() => {

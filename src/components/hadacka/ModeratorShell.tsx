@@ -3,12 +3,15 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { useAuth } from '@/hooks/useAuth'
 
 interface ModeratorShellProps {
   children: React.ReactNode
 }
 
 export function ModeratorShell({ children }: ModeratorShellProps) {
+  const { user, signOut } = useAuth()
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
       {/* Header */}
@@ -23,6 +26,9 @@ export function ModeratorShell({ children }: ModeratorShellProps) {
             </span>
           </div>
           <div className="flex items-center gap-2">
+            {user && (
+              <span className="text-sm text-muted-foreground">{user.email}</span>
+            )}
             <Button
               variant="outline"
               size="sm"
@@ -30,6 +36,11 @@ export function ModeratorShell({ children }: ModeratorShellProps) {
             >
               📺 Otvoriť Display
             </Button>
+            {user && (
+              <Button variant="outline" size="sm" onClick={signOut}>
+                Odhlásiť sa
+              </Button>
+            )}
             <Button variant="ghost" size="sm" asChild>
               <Link href="/apps/hadacka">
                 ← Späť na úvod

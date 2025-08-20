@@ -1,11 +1,41 @@
+"use client"
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function HadackaLandingPage() {
+  const { user, signOut } = useAuth()
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+      {/* Top header with auth status */}
+      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <Link href="/apps/hadacka" className="text-xl font-bold gradient-text">
+            🎮 Hádačka naživo
+          </Link>
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <span className="text-sm text-muted-foreground">
+                  {user.email}
+                </span>
+                <Button variant="outline" size="sm" onClick={signOut}>
+                  Odhlásiť sa
+                </Button>
+              </>
+            ) : (
+              <Button asChild size="sm">
+                <Link href="/login">Prihlásiť sa</Link>
+              </Button>
+            )}
+          </div>
+        </div>
+      </header>
+
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Hero Section */}
         <div className="text-center space-y-6 mb-12">
@@ -13,18 +43,33 @@ export default function HadackaLandingPage() {
             Hádačka naživo
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Párty konverzačná hra pre skupiny. Jeden moderátor, všetci sa bavia. 
+            Párty konverzačná hra pre skupiny. Jeden moderátor, všetci sa bavia.
             Žiadne telefóny, iba zábava a smiech!
           </p>
+          {user ? (
+            <p className="text-lg">
+              Vitaj {user.email}! Prajeme príjemne strávený čas pri moderovaní.
+            </p>
+          ) : (
+            <p className="text-md text-muted-foreground">
+              Na spustenie hry je potrebné prihlásenie moderátora.
+            </p>
+          )}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="btn-primary">
-              <Link href="/apps/hadacka/moderator">
-                🎮 Spustiť hru
-              </Link>
-            </Button>
+            {user ? (
+              <Button asChild size="lg" className="btn-primary">
+                <Link href="/apps/hadacka/moderator">
+                  🎮 Vytvoriť hru
+                </Link>
+              </Button>
+            ) : (
+              <Button asChild size="lg" className="btn-primary">
+                <Link href="/login">Prihlásiť sa ako moderátor</Link>
+              </Button>
+            )}
             <Button asChild variant="outline" size="lg">
-              <Link 
-                href="/apps/hadacka/display" 
+              <Link
+                href="/apps/hadacka/display"
                 target="_blank"
                 rel="noopener noreferrer"
               >
