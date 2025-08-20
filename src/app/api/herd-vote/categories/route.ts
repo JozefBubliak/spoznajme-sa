@@ -1,13 +1,21 @@
-﻿import { NextResponse } from 'next/server'
-import data from '@/../content/sk/apps/herd-vote/kviz_questions.json'
+import { NextResponse } from 'next/server'
+import { supabase } from '@/lib/supabaseAdmin'
 
 export async function GET() {
-  const all = (data as any[]).filter(Boolean)
+  const { data, error } = await supabase
+    .from('kviz_questions')
+    .select('theme')
+
+  if (error || !data) {
+    return NextResponse.json({ categories: [] })
+  }
+
   const map = new Map<string, number>()
-  for (const q of all) {
-    const theme = q.theme || 'Nezaradené'
+  for (const q of data) {
+    const theme = (q.theme as string) || 'Nezaradené'
     map.set(theme, (map.get(theme) || 0) + 1)
   }
-  const categories = Array.from(map.entries()).map(([name,count]) => ({ name, count }))
+
+  const categories = Array.from(map.entries()).map(([name, count]) => ({ name, count }))
   return NextResponse.json({ categories })
 }
