@@ -62,10 +62,10 @@
     },
     "games": {
       "quiz": {
-        "name": "Party quiz",
+        "name": "Herd Vote – team quiz",
         "description": "Test how well you know each other. Fun questions from easy to unexpected – who knows you best?",
         "cta": "Start quiz",
-        "link": "/apps/party-quiz",
+        "link": "/apps/herd-vote",
         "manual": [
           "Create or join a game",
           "Answer the questions",

@@ -62,10 +62,10 @@
     },
     "games": {
       "quiz": {
-        "name": "Party kvíz",
+        "name": "Herd Vote – tímový kvíz",
         "description": "Otestujte, ako dobre sa poznáte. Zábavné otázky od ľahkých až po nečakané – kto vás pozná lepšie?",
         "cta": "Začať kvíz",
-        "link": "/apps/party-quiz",
+        "link": "/apps/herd-vote",
         "manual": [
           "Vytvorte alebo sa pripojte k hre",
           "Odpovedajte na otázky",

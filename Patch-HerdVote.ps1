@@ -105,7 +105,7 @@ export const store = {
 }
 
 # ---------- B) page.tsx: oprav zle escapovaný fetch ----------
-$page = "src/app/sk/apps/herd-vote/page.tsx"
+$page = "src/app/[lang]/apps/herd-vote/page.tsx"
 if (Test-Path -LiteralPath $page) {
   $txt = Get-Content -LiteralPath $page -Raw
   $before = $txt
