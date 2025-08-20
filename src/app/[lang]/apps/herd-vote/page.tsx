@@ -1,4 +1,4 @@
-﻿// PATH: src/app/[lang]/apps/party-quiz/page.tsx
+// PATH: src/app/[lang]/apps/herd-vote/page.tsx
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
@@ -17,7 +17,7 @@ function mapStatus(status: string): GameStatus {
   return 'waiting'
 }
 
-export default function PartyQuizAdminPage() {
+export default function HerdVoteAdminPage() {
   // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
   const { lang } = useParams<{ lang: string }>()
 
@@ -189,7 +189,7 @@ export default function PartyQuizAdminPage() {
 
   return (
     <div className="mx-auto max-w-3xl p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Party kvíz – moderátor</h1>
+      <h1 className="text-2xl font-bold">Herd Vote – moderátor</h1>
 
       <div className="rounded-xl border p-4 space-y-3">
         <button onClick={createGame} className="px-4 py-2 rounded bg-purple-600 text-white">
@@ -223,7 +223,7 @@ export default function PartyQuizAdminPage() {
                 onClick={async () => {
                   if ((navigator as any).share) {
                     try {
-                      await (navigator as any).share({ title: 'Party kvíz', url: joinUrl })
+                      await (navigator as any).share({ title: 'Herd Vote', url: joinUrl })
                     } catch {}
                   } else {
                     alert('Zdieľanie nie je podporované – použite Kopírovať link.')

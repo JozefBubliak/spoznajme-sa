@@ -29,7 +29,7 @@ export default async function CardsPage({ params }: P) {
           className="mx-auto rounded-lg"
         />
         <Button asChild size="lg" className="mt-4">
-          <Link href={game.link}>{game.cta}</Link>
+          <Link href={`/${lang}${game.link}`}>{game.cta}</Link>
         </Button>
       </div>
 
