@@ -4,8 +4,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
-import { useAuth } from '@/hooks/useAuth'
+import { useHerdVoteAuth } from '@/hooks/useHerdVoteAuth'
 import { UserCircle } from 'lucide-react'
+
 type Category = { name: string; count: number }
 type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
@@ -22,10 +23,9 @@ export default function HerdVoteAdminPage() {
   // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
   const { lang } = useParams<{ lang: string }>()
   const router = useRouter()
-  const { user, loading } = useAuth()
-
+  const { user, loading } = useHerdVoteAuth()
   useEffect(() => {
-    if (!loading && !user) router.replace('/login')
+    if (!loading && !user) router.replace(`/${lang}/apps/herd-vote/login`)
   }, [loading, user, router])
 
   const [gameCode, setGameCode] = useState<string>('')
@@ -197,7 +197,10 @@ export default function HerdVoteAdminPage() {
   if (loading || !user) {
     return (
       <div className="mx-auto max-w-3xl p-6">
-        <p>Na spustenie hry sa prihláste ako moderátor.</p>
+        <p className="mb-4">Na spustenie hry sa prihláste ako moderátor.</p>
+        <a className="text-blue-600 underline" href={`/${lang}/apps/herd-vote/login`}>
+          Prihlásiť sa
+        </a>
       </div>
     )
   }

@@ -3,16 +3,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { useAuth } from '@/hooks/useAuth'
+import { useQuizAuth } from '@/hooks/useQuizAuth'
 import { UserCircle } from 'lucide-react'
-
 type Props = {
   dict: any
   lang: string
 }
 
 export default function QuizPageClient({ dict, lang }: Props) {
-  const { user, loading } = useAuth()
+  const { user, loading } = useQuizAuth()
   const game = dict.apps.games.quiz
   const back = dict.apps.games.ctaBack
 
@@ -36,7 +35,7 @@ export default function QuizPageClient({ dict, lang }: Props) {
           {user ? (
             <Link href={`/${lang}${game.link}`}>{game.cta}</Link>
           ) : (
-            <Link href="/login">Prihlásiť sa ako moderátor</Link>
+            <Link href={`/${lang}/apps/quiz/login`}>Prihlásiť sa ako moderátor</Link>
           )}
         </Button>
       </div>
