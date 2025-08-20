@@ -1,79 +1,136 @@
 {
-    "brand":  "DeepTalks",
-    "nav":  {
-                "home":  "Home",
-                "products":  "Products",
-                "tools":  "Communication Compass",
-                "blog":  "Blog",
-                "downloads":  "Downloads",
-                "apps":  "Conversation games"
-            },
-    "home":  {
-                 "hero":  {
-                              "title":  "Conversations that bring people closer.",
-                              "lead":  "Practical tools for everyday moments, get-to-know-you questions and party games. Works for parentÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â‚¬ĹˇĂ‚Â¬Ă„Ä…Ă˘â‚¬Ĺźchild, couples, friends and families.",
-                              "ctaTools":  "Explore tools",
-                              "ctaProducts":  "See products"
-                          },
-                 "what":  {
-                              "title":  "What youÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąÄľÄ‚â€ąĂ‚Âll find",
-                              "toolsTitle":  "Tools for everyday situations",
-                              "toolsDesc":  "Quick phrases and steps for tough moments (homework, emotions, limits, screen-time agreementsÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ˘â‚¬ĹˇÄ‚â€šĂ‚Â¦).",
-                              "packsTitle":  "Question packs \u0026 deep talks",
-                              "packsDesc":  "Openers, deeper conversations, memories and fun Ä‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â‚¬ĹˇĂ‚Â¬Ă„Ä…Ă˘â‚¬Ĺź always story-based.",
-                              "gamesTitle":  "Games for groups \u0026 parties",
-                              "gamesDesc":  "Icebreakers, Ä‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ä‚â€žĂ„â€¦Ä‚ËĂ˘â€šÂ¬ÄąĹşHow well do you know me?Ä‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ä‚â€žĂ„â€¦Ä‚â€žĂ˘â‚¬Ĺľ quizzes, team modes.",
-                              "eduTitle":  "Learning \u0026 articles",
-                              "eduDesc":  "Blog, ebooks and videos (NVC, Gottman, CBT, ACTÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ˘â‚¬ĹˇÄ‚â€šĂ‚Â¦). Practical and clear."
-                          },
-                 "audTitle":  "Start by audience",
-                 "ctaBar":  {
-                                "title":  "Ready to start?",
-                                "lead":  "Pick a topic to get ready-to-use phrases and steps.",
-                                "cta1":  "Open tools",
-                                "cta2":  "See products"
-                            }
-             },
-    "aud":  {
-                "parentChild":  "ParentÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â‚¬ĹˇĂ‚Â¬Ă„Ä…Ă˘â‚¬ĹźChild",
-                "couples":  "Couples",
-                "friendsParty":  "Friends \u0026 Party",
-                "family":  "Family"
-            },
-    "topics":  {
-                   "openers":  "Openers \u0026 rituals",
-                   "emotions":  "Emotions \u0026 regulation",
-                   "choices":  "Choices \u0026 motivation",
-                   "changes":  "Changes \u0026 transitions",
-                   "conflict":  "Conflict \u0026 cooperation",
-                   "strengths":  "Gratitude \u0026 strengths",
-                   "digital":  "Digital life",
-                   "school":  "School \u0026 learning",
-                   "health":  "Health \u0026 tough topics",
-                   "identity":  "Identity \u0026 body"
-               },
-    "kompas":  {
-                   "title":  "Communication Compass",
-                   "forWhom":  "For whom",
-                   "topicsTitle":  "Topics"
-               },
-    "hero":  {
-                 "badge":  "New",
-                 "title":  "Conversations that bring people closer.",
-                 "lead":  "Practical phrases for everyday moments and thoughtful question games. For couples, parents \u0026 kids, friends and families.",
-                 "ctaStart":  "Open Compass",
-                 "ctaTry":  "Launch game",
-                 "sample":  {
-                                "label":  "Sample question",
-                                "question":  "Which memory from the last year truly made you happy—and why?",
-                                "next":  "Next question",
-                                "save":  "Save favorite"
-                            }
-             },
-    "what":  {
-                 "title":  "What you\u0027ll find",
-                 "appsT":  "Conversation games: cards, prompts and quizzes — quick fun and deeper talks.",
-                 "productsT":  "Curated packs, printables and ebooks.",
-                 "compasT":  "Short, ready-to-use phrases and mini-steps for tough moments — emotions, limits, agreements, transitions and screen-time."
-             }
+  "brand": "DeepTalks",
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "tools": "Communication Compass",
+    "blog": "Blog",
+    "downloads": "Downloads",
+    "apps": "Conversation games"
+  },
+  "home": {
+    "hero": {
+      "title": "Conversations that bring people closer.",
+      "lead": "Practical tools for everyday moments, get-to-know-you questions and party games. Works for parentÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â‚¬ĹˇĂ‚Â¬Ă„Ä…Ă˘â‚¬Ĺźchild, couples, friends and families.",
+      "ctaTools": "Explore tools",
+      "ctaProducts": "See products"
+    },
+    "what": {
+      "title": "What youÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąÄľÄ‚â€ąĂ‚Âll find",
+      "toolsTitle": "Tools for everyday situations",
+      "toolsDesc": "Quick phrases and steps for tough moments (homework, emotions, limits, screen-time agreementsÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ˘â‚¬ĹˇÄ‚â€šĂ‚Â¦).",
+      "packsTitle": "Question packs & deep talks",
+      "packsDesc": "Openers, deeper conversations, memories and fun Ä‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â‚¬ĹˇĂ‚Â¬Ă„Ä…Ă˘â‚¬Ĺź always story-based.",
+      "gamesTitle": "Games for groups & parties",
+      "gamesDesc": "Icebreakers, Ä‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ä‚â€žĂ„â€¦Ä‚ËĂ˘â€šÂ¬ÄąĹşHow well do you know me?Ä‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ä‚â€žĂ„â€¦Ä‚â€žĂ˘â‚¬Ĺľ quizzes, team modes.",
+      "eduTitle": "Learning & articles",
+      "eduDesc": "Blog, ebooks and videos (NVC, Gottman, CBT, ACTÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ˘â‚¬ĹˇÄ‚â€šĂ‚Â¦). Practical and clear."
+    },
+    "audTitle": "Start by audience",
+    "ctaBar": {
+      "title": "Ready to start?",
+      "lead": "Pick a topic to get ready-to-use phrases and steps.",
+      "cta1": "Open tools",
+      "cta2": "See products"
+    }
+  },
+  "aud": {
+    "parentChild": "ParentÄ‚â€žĂ˘â‚¬ĹˇÄ‚â€ąĂ‚ÂĂ„â€šĂ‹ÂÄ‚ËĂ˘â€šÂ¬ÄąË‡Ä‚â€šĂ‚Â¬Ă„â€šĂ‹ÂÄ‚ËĂ˘â‚¬ĹˇĂ‚Â¬Ă„Ä…Ă˘â‚¬ĹźChild",
+    "couples": "Couples",
+    "friendsParty": "Friends & Party",
+    "family": "Family"
+  },
+  "topics": {
+    "openers": "Openers & rituals",
+    "emotions": "Emotions & regulation",
+    "choices": "Choices & motivation",
+    "changes": "Changes & transitions",
+    "conflict": "Conflict & cooperation",
+    "strengths": "Gratitude & strengths",
+    "digital": "Digital life",
+    "school": "School & learning",
+    "health": "Health & tough topics",
+    "identity": "Identity & body"
+  },
+  "kompas": {
+    "title": "Communication Compass",
+    "forWhom": "For whom",
+    "topicsTitle": "Topics"
+  },
+  "hero": {
+    "badge": "New",
+    "title": "Conversations that bring people closer.",
+    "lead": "Practical phrases for everyday moments and thoughtful question games. For couples, parents & kids, friends and families.",
+    "ctaStart": "Open Compass",
+    "ctaTry": "Launch game",
+    "sample": {
+      "label": "Sample question",
+      "question": "Which memory from the last year truly made you happy—and why?",
+      "next": "Next question",
+      "save": "Save favorite"
+    }
+  },
+  "what": {
+    "title": "What you'll find",
+    "appsT": "Conversation games: cards, prompts and quizzes — quick fun and deeper talks.",
+    "productsT": "Curated packs, printables and ebooks.",
+    "compasT": "Short, ready-to-use phrases and mini-steps for tough moments — emotions, limits, agreements, transitions and screen-time."
+  },
+  "apps": {
+    "bannerTitle": "Discover games & apps for couples, families and friends",
+    "bannerCTA": "Start now",
+    "categories": {
+      "quizzes": "Quizzes",
+      "cards": "Conversation cards",
+      "puzzles": "Riddles & logic games",
+      "surveys": "Couple questionnaires"
+    },
+    "games": {
+      "quiz": {
+        "name": "Party quiz",
+        "description": "Test how well you know each other. Fun questions from easy to unexpected – who knows you best?",
+        "cta": "Start quiz",
+        "link": "/apps/quiz",
+        "manual": [
+          "Create or join a game",
+          "Answer the questions",
+          "Compare who matches best"
+        ]
+      },
+      "cards": {
+        "name": "Conversation cards",
+        "description": "Conversations that bring you closer. Cards full of questions to get to know partner, friends or family.",
+        "cta": "Pick cards",
+        "link": "/apps/cards",
+        "manual": [
+          "Choose a deck",
+          "Draw a card",
+          "Share your answers"
+        ]
+      },
+      "hadacka": {
+        "name": "Riddle – Guess the answer",
+        "description": "A fun game for quick thinking. Can you guess what your partner has in mind?",
+        "cta": "Start riddle",
+        "link": "/apps/hadacka",
+        "manual": [
+          "Start the game",
+          "Guess the word",
+          "Score points"
+        ]
+      },
+      "couplesync": {
+        "name": "CoupleSync questionnaire",
+        "description": "Find out how well you know each other and what you expect from the relationship. From daily life and rituals to a detailed map of intimate preferences (18+ with age confirmation).",
+        "cta": "Fill the questionnaire",
+        "link": "/apps/couplesync",
+        "manual": [
+          "Answer honestly",
+          "Compare results",
+          "Discuss together"
+        ]
+      },
+      "ctaBack": "Want to try another game?"
+    }
+  }
 }
