@@ -29,14 +29,22 @@ export default async function AppsPage({ params }: P) {
         <h1 className="text-4xl font-bold">
           {apps.bannerTitle}
         </h1>
+        <p className="text-lg text-muted-foreground">{apps.bannerSubtitle}</p>
         <Button asChild size="lg">
           <Link href="#games">{apps.bannerCTA}</Link>
         </Button>
+        <nav className="flex justify-center gap-4 pt-4 text-sm">
+          {categories.map((cat) => (
+            <Link key={cat.key} href={`#${cat.key}`} className="hover:underline">
+              {apps.categories[cat.key]}
+            </Link>
+          ))}
+        </nav>
       </section>
 
       <section id="games" className="space-y-12">
         {categories.map((cat) => (
-          <div key={cat.key} className="space-y-6">
+          <div key={cat.key} id={cat.key} className="space-y-6">
             <h2 className="text-2xl font-semibold">
               {apps.categories[cat.key]}
             </h2>
