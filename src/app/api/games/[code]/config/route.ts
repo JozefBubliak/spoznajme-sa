@@ -1,11 +1,14 @@
 // PATH: src/app/api/games/[code]/config/route.ts
 import { NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server' // dôležitý import
+import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
 // (voliteľné) Načítanie aktuálnej konfigurácie hry
 export async function GET(_req: Request, context: any) {
+  const session = await getSession()
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { code } = (context?.params ?? {}) as { code: string }
 
   // Ak chceš, môžeš čítať z DB. Tu ponechám stub, aby build vždy prešiel.
@@ -25,6 +28,8 @@ export async function GET(_req: Request, context: any) {
 
 // Uloženie / update konfigurácie hry
 export async function POST(req: Request, context: any) {
+  const session = await getSession()
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { code } = (context?.params ?? {}) as { code: string }
 
   const body = await req.json().catch(() => ({} as any))
