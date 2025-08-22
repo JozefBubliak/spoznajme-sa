@@ -23,7 +23,7 @@ export default function HerdVoteAdminPage() {
   // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
   const { lang } = useParams<{ lang: string }>()
   const router = useRouter()
-  const { user, loading } = useAuth()
+  const { user, loading, session } = useAuth()
   useEffect(() => {
     if (!loading && !user) router.replace(`/login?next=/${lang}/apps/herd-vote`)
 
@@ -52,11 +52,19 @@ export default function HerdVoteAdminPage() {
   const [currentRound, setCurrentRound] = useState<Round | null>(null)
   const [leaderboard, setLeaderboard] = useState<Player[]>([])
 
+  const authFetch = (url: string, options: RequestInit = {}) => {
+    const headers = {
+      ...(options.headers || {}),
+      ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+    }
+    return fetch(url, { ...options, headers })
+  }
+
   // --- Kategórie ---
   useEffect(() => {
     const load = async () => {
       try {
-        const r = await fetch('/api/herd-vote/categories', { cache: 'no-store' })
+        const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
         if (!r.ok) throw new Error('HTTP ' + r.status)
         const j = await r.json()
         const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
@@ -76,8 +84,9 @@ export default function HerdVoteAdminPage() {
   }, []) // raz pri načítaní
 
   // --- Vytvorenie hry ---
+
   const createGame = async () => {
-    const r = await fetch('/api/games', {
+    const r = await authFetch('/api/games', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ settings: {} }),
@@ -102,8 +111,8 @@ export default function HerdVoteAdminPage() {
     const poll = async () => {
       try {
         const [pr, gr] = await Promise.all([
-          fetch(`/api/games/${gameCode}/players`, { cache: 'no-store' }),
-          fetch(`/api/games/${gameCode}`, { cache: 'no-store' }).catch(() => null),
+          authFetch(`/api/games/${gameCode}/players`, { cache: 'no-store' }),
+          authFetch(`/api/games/${gameCode}`, { cache: 'no-store' }).catch(() => null),
         ])
         if (pr?.ok) {
           const pj = await pr.json()
@@ -131,7 +140,7 @@ export default function HerdVoteAdminPage() {
         ? { mode, correct, incorrect, none }
         : { mode, tiers: [tier1, tier2, tier3], incorrect: pIncorrect, none: pNone }
 
-    const r = await fetch(`/api/games/${gameCode}/rounds`, {
+    const r = await authFetch(`/api/games/${gameCode}/rounds`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ category: selectedCat, count, settings: { timeLimit, scoring } }),
@@ -147,7 +156,7 @@ export default function HerdVoteAdminPage() {
   // --- Ovládanie kola ---
   const startRound = async (roundId?: string) => {
     if (!gameCode) return
-    const r = await fetch(`/api/games/${gameCode}/rounds/start`, {
+    const r = await authFetch(`/api/games/${gameCode}/rounds/start`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ roundId }),
@@ -157,7 +166,7 @@ export default function HerdVoteAdminPage() {
   }
   const lockRound = async (roundId?: string) => {
     if (!gameCode) return
-    const r = await fetch(`/api/games/${gameCode}/rounds/lock`, {
+    const r = await authFetch(`/api/games/${gameCode}/rounds/lock`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ roundId }),
@@ -167,7 +176,7 @@ export default function HerdVoteAdminPage() {
   }
   const showResults = async (roundId?: string) => {
     if (!gameCode) return
-    const r = await fetch(`/api/games/${gameCode}/rounds/results`, {
+    const r = await authFetch(`/api/games/${gameCode}/rounds/results`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ roundId }),
@@ -178,7 +187,7 @@ export default function HerdVoteAdminPage() {
   }
   const nextQuestion = async (roundId?: string) => {
     if (!gameCode) return
-    const r = await fetch(`/api/games/${gameCode}/rounds/next`, {
+    const r = await authFetch(`/api/games/${gameCode}/rounds/next`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ roundId }),
@@ -280,7 +289,7 @@ export default function HerdVoteAdminPage() {
               <div className="pt-2">
                 <button
                   onClick={async () => {
-                    const r = await fetch(`/api/games/${gameCode}/lock-lobby`, { method: 'POST' })
+                    const r = await authFetch(`/api/games/${gameCode}/lock-lobby`, { method: 'POST' })
                     const j = await r.json()
                     if (!r.ok) return alert(j.error || 'Nepodarilo sa zamknúť lobby')
                     setGameStatus('configuring')
@@ -449,7 +458,7 @@ export default function HerdVoteAdminPage() {
                 <div className="pt-3">
                   <button
                     onClick={async () => {
-                      const r = await fetch(`/api/games/${gameCode}/start`, { method: 'POST' })
+                      const r = await authFetch(`/api/games/${gameCode}/start`, { method: 'POST' })
                       const j = await r.json()
                       if (!r.ok) return alert(j.error || 'Nepodarilo sa spustiť hru')
                       setGameStatus('running')

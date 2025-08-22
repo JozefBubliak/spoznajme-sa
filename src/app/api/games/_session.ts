@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 import { createClient, type Session } from '@supabase/supabase-js'
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '@/lib/supabaseClient'
 
@@ -7,10 +7,15 @@ import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '@/lib/supabaseClient'
  * Reads the Supabase auth cookie and verifies it against Supabase.
  */
 export async function getSession(): Promise<Session | null> {
-  const cookieStore = await cookies()
-  const token = cookieStore
-    .getAll()
-    .find((c) => c.name.includes('-auth-token'))?.value
+  const headerStore = await headers()
+  let token = headerStore.get('authorization')?.replace('Bearer ', '') || undefined
+
+  if (!token) {
+    const cookieStore = await cookies()
+    token = cookieStore
+      .getAll()
+      .find((c) => c.name.includes('-auth-token'))?.value
+  }
   if (!token) return null
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
