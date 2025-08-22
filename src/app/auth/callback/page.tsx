@@ -1,12 +1,43 @@
-import { Suspense } from 'react'
-import CallbackClient from './CallbackClient'
+'use client'
 
-export const dynamic = 'force-dynamic'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { supabase } from '@/lib/supabaseClient'
 
 export default function AuthCallbackPage() {
+  const router = useRouter()
+  const params = useSearchParams()
+  const next = params.get('next') && params.get('next')!.startsWith('/') ? params.get('next')! : '/app'
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const run = async () => {
+      const { error } = await supabase.auth.exchangeCodeForSession(window.location.href)
+      if (error) {
+        setError(error.message)
+        return
+      }
+      router.replace(next)
+    }
+    run()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  if (error) {
+    return (
+      <div className="min-h-screen grid place-items-center p-4">
+        <div className="text-center">
+          <h1 className="text-xl font-semibold mb-2">Prihlásenie zlyhalo</h1>
+          <p className="text-sm text-muted-foreground">{error}</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <Suspense fallback={null}>
-      <CallbackClient />
-    </Suspense>
+    <div className="min-h-screen grid place-items-center p-4">
+      <p>Prihlasujem…</p>
+    </div>
   )
 }
+
