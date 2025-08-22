@@ -35,7 +35,9 @@ export default function QuizPageClient({ dict, lang }: Props) {
           {user ? (
             <Link href={`/${lang}${game.link}`}>{game.cta}</Link>
           ) : (
-            <Link href={`/${lang}/apps/quiz/login`}>Prihlásiť sa ako moderátor</Link>
+            <Link href={`/login?next=/${lang}/apps/quiz`}>
+              Prihlásiť sa ako moderátor
+            </Link>
           )}
         </Button>
         {!user && (

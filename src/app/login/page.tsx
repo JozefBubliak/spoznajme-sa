@@ -4,15 +4,24 @@
 import { Button } from '@/components/ui/button'
 import { Brain } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
+import { useSearchParams } from 'next/navigation'
 
 export default function LoginPage() {
+  const params = useSearchParams()
+  const next = params.get('next')
+
   const loginWithGoogle = async () => {
-    await supabase.auth.signInWithOAuth({
+    const redirectTo = `${window.location.origin}/auth/callback${next ? `?next=${encodeURIComponent(next)}` : ''}`
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${location.origin}/auth/callback`,
+        redirectTo,
       },
     })
+    if (error) {
+      console.error('Google login error', error)
+      alert('Prihlásenie cez Google zlyhalo')
+    }
   }
 
   return (
