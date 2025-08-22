@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useEffect, Suspense, FormEvent } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
@@ -14,6 +12,8 @@ function safeNext(next: string | null) {
 }
 
 function AuthPageContent() {
+  'use client'
+
   const params = useSearchParams()
   const router = useRouter()
   const next = safeNext(params.get('next'))
@@ -23,12 +23,10 @@ function AuthPageContent() {
   const [sent, setSent] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // persistencia URL (host) – použijeme env alebo aktuálny origin
-  const siteUrl =
-    (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_SITE_URL) ||
-    (typeof window !== 'undefined' ? window.location.origin : '')
+  // use current origin to build redirect URLs
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : ''
 
-  // ak už je user prihlásený, presmeruj rovno na next
+  // if user is already signed in, redirect directly
   useEffect(() => {
     let mounted = true
     supabase.auth.getSession().then(({ data }) => {
