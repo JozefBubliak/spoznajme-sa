@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 
 function safeNext(next: string | null) {
-  // povolíme len interné cesty typu /app, /xyz atď.
-  if (!next || !next.startsWith('/')) return '/app'
+  // povolíme len interné cesty typu /xyz atď.
+  if (!next || !next.startsWith('/')) return '/sk/apps/spoznajme-sa/play'
   return next
 }
 
@@ -90,7 +90,9 @@ function AuthPageContent() {
         <CardHeader>
           <CardTitle>Vstup do súkromnej miestnosti</CardTitle>
           <CardDescription>Nepoužívame heslá – prihlásenie cez Google alebo magický odkaz.</CardDescription>
-          {next !== '/app' && <CardDescription>Táto sekcia vyžaduje prihlásenie.</CardDescription>}
+          {next !== '/sk/apps/spoznajme-sa/play' && (
+            <CardDescription>Táto sekcia vyžaduje prihlásenie.</CardDescription>
+          )}
         </CardHeader>
 
         <CardContent className="space-y-4">

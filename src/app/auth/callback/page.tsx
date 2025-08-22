@@ -7,7 +7,9 @@ import { supabase } from '@/lib/supabaseClient'
 export default function AuthCallbackPage() {
   const router = useRouter()
   const params = useSearchParams()
-  const next = params.get('next') && params.get('next')!.startsWith('/') ? params.get('next')! : '/app'
+  const next = params.get('next') && params.get('next')!.startsWith('/')
+    ? params.get('next')!
+    : '/sk/apps/spoznajme-sa/play'
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {

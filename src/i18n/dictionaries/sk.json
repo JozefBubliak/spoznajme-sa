@@ -78,7 +78,7 @@
         "name": "Konverzačné kartičky",
         "description": "Rozhovory, ktoré vás zblížia. Kartičky plné otázok na hlbšie spoznanie partnera, kamarátov, rodiny.",
         "cta": "Vybrať kartičky",
-        "link": "/app",
+        "link": "/apps/spoznajme-sa",
         "manual": [
           "Vyberte balíček",
           "Potiahnite kartičku",

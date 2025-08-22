@@ -58,7 +58,10 @@ export default function FavoritesPage() {
           </ul>
         )}
 
-        <Button variant="outline" onClick={() => router.push('/app')}>
+        <Button
+          variant="outline"
+          onClick={() => router.push('/sk/apps/spoznajme-sa/play')}
+        >
           Naspäť do aplikácie
         </Button>
       </div>

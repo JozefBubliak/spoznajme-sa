@@ -26,7 +26,10 @@ export default async function Page({ params }: P) {
           Vždy bezpečné – s preskočením a bez citlivých tém.
         </p>
         <div className="flex gap-3 pt-1">
-          <Link href="/app" className="px-4 py-2 rounded-md bg-black text-white text-sm">
+          <Link
+            href={`/${lang}/apps/spoznajme-sa/play`}
+            className="px-4 py-2 rounded-md bg-black text-white text-sm"
+          >
             Spustiť hru
           </Link>
           <a href="#packs" className="px-4 py-2 rounded-md border text-sm">
