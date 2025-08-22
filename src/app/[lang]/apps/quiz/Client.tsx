@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { useQuizAuth } from '@/hooks/useQuizAuth'
+import { useAuth } from '@/hooks/useAuth'
 import { UserCircle } from 'lucide-react'
 type Props = {
   dict: any
@@ -11,7 +11,7 @@ type Props = {
 }
 
 export default function QuizPageClient({ dict, lang }: Props) {
-  const { user, loading } = useQuizAuth()
+  const { user, loading } = useAuth()
   const game = dict.apps.games.quiz
   const back = dict.apps.games.ctaBack
 
@@ -38,6 +38,13 @@ export default function QuizPageClient({ dict, lang }: Props) {
             <Link href={`/${lang}/apps/quiz/login`}>Prihlásiť sa ako moderátor</Link>
           )}
         </Button>
+        {!user && (
+          <p className="text-sm text-muted-foreground">
+            Rola moderátora je dostupná iba registrovaným používateľom. Po
+            vytvorení hry získate trvalý odkaz na svoju miestnosť viazaný na
+            váš účet.
+          </p>
+        )}
       </div>
 
       <section className="mx-auto max-w-xl space-y-4">
