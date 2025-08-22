@@ -97,17 +97,18 @@
         ]
       },
       "couplesync": {
-        "name": "CoupleSync dotazník",
-        "description": "Zistite, ako dobre sa poznáte a čo od vzťahu očakávate. Obsahuje časti od bežného života partnerov, rituálov, voľného času až po podrobnú mapu preferencií v intímnej oblasti (18+ s potvrdením veku).",
+        "name": "CoupleSync",
+        "description": "Partnerský dotazník, ktorý zladí vaše očakávania aj túžby. Vyplňte ho každý zvlášť a porovnajte výsledky.",
         "cta": "Vyplniť dotazník",
-        "link": "/apps/couplesync",
+        "link": "https://couplesync.deeptalks.eu",
         "manual": [
           "Odpovedajte úprimne",
           "Porovnajte výsledky",
           "Porozprávajte sa spolu"
         ]
       },
-      "ctaBack": "Chcem skúsiť inú hru"
+      "ctaBack": "Chcem skúsiť inú hru",
+      "how": "Ako to funguje"
     }
   }
 }
