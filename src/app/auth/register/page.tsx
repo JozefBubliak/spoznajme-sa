@@ -2,6 +2,7 @@
 
 import { useState, FormEvent, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -13,7 +14,7 @@ import {
   CardContent,
 } from '@/components/ui/card'
 
-function LoginPageContent() {
+function RegisterPageContent() {
   const params = useSearchParams()
   const next = params.get('next') || '/app'
 
@@ -22,9 +23,10 @@ function LoginPageContent() {
   const [sent, setSent] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || location.origin
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || location.origin
 
-  const handleLogin = async (e: FormEvent) => {
+  const handleSignup = async (e: FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
@@ -42,10 +44,10 @@ function LoginPageContent() {
     setLoading(false)
   }
 
-  const handleOAuth = async (provider: 'google' | 'github') => {
+  const handleOAuth = async () => {
     setLoading(true)
     const { error } = await supabase.auth.signInWithOAuth({
-      provider,
+      provider: 'google',
       options: {
         redirectTo: `${siteUrl}/auth/callback?next=${encodeURIComponent(next)}`,
       },
@@ -75,58 +77,58 @@ function LoginPageContent() {
     <div className="flex items-center justify-center min-h-screen p-4">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Prihlásenie / registrácia</CardTitle>
+          <CardTitle>Zaregistruj sa a zapoj sa do rozhovorov</CardTitle>
           <CardDescription>
-            {next !== '/app'
-              ? 'Táto aplikácia vyžaduje prihlásenie'
-              : 'Vyberte si spôsob prihlásenia'}
+            Jeden účet pre všetky konverzačné hry, otázky a nástroje na DeepTalks.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          <ul className="space-y-1 text-sm list-disc pl-5">
+            <li>Prístup k uzamknutým sekciám a aplikáciám</li>
+            <li>Ukladanie výsledkov a súkromných miestností pre páry</li>
+            <li>Komentáre, hodnotenia a personalizované odporúčania</li>
+            <li>Denné otázky a nové balíčky obsahu</li>
+          </ul>
           <Button
             type="button"
-            variant="outline"
             className="w-full"
-            onClick={() => handleOAuth('google')}
+            onClick={handleOAuth}
             disabled={loading}
           >
             Pokračovať cez Google
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full"
-            onClick={() => handleOAuth('github')}
-            disabled={loading}
-          >
-            Pokračovať cez GitHub
-          </Button>
-          <div className="text-center text-xs text-muted-foreground">alebo</div>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleSignup} className="space-y-2">
             <Input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="vam@example.com"
+              placeholder="tvoj@example.com"
             />
             <Button type="submit" disabled={loading} className="w-full">
-              {loading ? 'Odosielam…' : 'Prihlásiť e‑mailom'}
+              Pokračovať e‑mailom
             </Button>
           </form>
           {error && (
             <p className="text-sm text-destructive text-center">{error}</p>
           )}
+          <div className="text-xs text-muted-foreground space-y-1">
+            <p>Registrácia je bezplatná. Žiadny spam. Účet aj dáta môžeš kedykoľvek vymazať.</p>
+            <p>Tvoje súkromie chránime – údaje nezdieľame s tretími stranami.</p>
+          </div>
+          <div className="text-sm text-center">
+            <Link href={`/auth/login${next ? `?next=${encodeURIComponent(next)}` : ''}`}>Mám účet – Prihlásiť sa</Link>
+          </div>
         </CardContent>
       </Card>
     </div>
   )
 }
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <Suspense fallback={null}>
-      <LoginPageContent />
+      <RegisterPageContent />
     </Suspense>
   )
 }
