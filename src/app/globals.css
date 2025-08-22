@@ -4,100 +4,142 @@
 
 @layer base {
   :root {
-    /* Primary colors - warm and inviting */
-    --primary: 260 100% 67%;
-    --primary-foreground: 0 0% 98%;
-    --primary-glow: 280 100% 80%;
+    /* Communication-focused modern palette */
+    --primary: 198 93% 60%;          /* Calm trust blue */
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 198 93% 70%;
+    --primary-variant: 210 100% 56%; /* Deeper blue */
     
-    /* Secondary colors */
-    --secondary: 210 40% 98%;
-    --secondary-foreground: 222.2 84% 4.9%;
+    /* Warm connection colors */
+    --secondary: 24 100% 95%;        /* Warm cream */
+    --secondary-foreground: 25 25% 25%;
     
-    /* Muted colors */
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Soft neutrals */
+    --muted: 20 20% 97%;
+    --muted-foreground: 25 15% 45%;
     
-    /* Accent colors */
-    --accent: 320 65% 80%;
-    --accent-foreground: 222.2 84% 4.9%;
+    /* Accent - warm connection color */
+    --accent: 340 75% 88%;           /* Soft warm pink */
+    --accent-foreground: 340 30% 25%;
     
-    /* Background */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Clean backgrounds */
+    --background: 20 20% 99%;        /* Slightly warm white */
+    --foreground: 25 25% 15%;        /* Warm dark */
     
-    /* Card */
+    /* Card styling */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 25 25% 15%;
     
     /* Popover */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 25 25% 15%;
     
-    /* Border / Input */
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
+    /* Interactive elements */
+    --border: 20 20% 90%;
+    --input: 20 20% 94%;
+    --ring: 198 93% 60%;
     
-    /* Ring */
-    --ring: 260 100% 67%;
+    /* Border radius - more modern */
+    --radius: 12px;
     
-    /* Radius */
-    --radius: 0.75rem;
+    /* Status colors */
+    --success: 142 69% 58%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
     
-    /* Success */
-    --success: 142 76% 36%;
-    --success-foreground: 355.7 100% 97.3%;
+    /* Connection-themed gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(198 93% 60%) 0%, hsl(210 100% 56%) 50%, hsl(340 75% 75%) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(340 75% 88%) 0%, hsl(24 100% 95%) 100%);
+    --gradient-trust: linear-gradient(135deg, hsl(198 93% 60%) 0%, hsl(198 93% 70%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(20 20% 99%) 0%, hsl(20 20% 97%) 100%);
+    --gradient-overlay: linear-gradient(135deg, hsla(198 93% 60% / 0.1) 0%, hsla(340 75% 75% / 0.1) 100%);
     
-    /* Warning */
-    --warning: 45 93% 47%;
-    --warning-foreground: 26 83% 14%;
+    /* Modern shadows */
+    --shadow-soft: 0 2px 8px hsla(25 25% 15% / 0.04);
+    --shadow-medium: 0 4px 16px hsla(25 25% 15% / 0.08);
+    --shadow-large: 0 8px 32px hsla(25 25% 15% / 0.12);
+    --shadow-connection: 0 8px 32px hsla(198 93% 60% / 0.15);
+    --shadow-warm: 0 8px 32px hsla(340 75% 75% / 0.15);
     
-    /* Destructive */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    /* Smooth modern animations */
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-spring: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-warm: linear-gradient(135deg, hsl(320 65% 80%), hsl(280 100% 80%));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(210 40% 98%));
+    /* Typography scale */
+    --font-size-xs: 0.75rem;    /* 12px */
+    --font-size-sm: 0.875rem;   /* 14px */
+    --font-size-base: 1rem;     /* 16px */
+    --font-size-lg: 1.125rem;   /* 18px */
+    --font-size-xl: 1.25rem;    /* 20px */
+    --font-size-2xl: 1.5rem;    /* 24px */
+    --font-size-3xl: 1.875rem;  /* 30px */
+    --font-size-4xl: 2.25rem;   /* 36px */
+    --font-size-5xl: 3rem;      /* 48px */
+    --font-size-6xl: 3.75rem;   /* 60px */
     
-    /* Shadows */
-    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.3);
-    --shadow-warm: 0 8px 25px -8px hsl(320 65% 80% / 0.4);
-    --shadow-soft: 0 4px 15px -4px hsl(210 40% 50% / 0.1);
-    
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    /* Spacing system */
+    --space-xs: 0.25rem;   /* 4px */
+    --space-sm: 0.5rem;    /* 8px */
+    --space-md: 1rem;      /* 16px */
+    --space-lg: 1.5rem;    /* 24px */
+    --space-xl: 2rem;      /* 32px */
+    --space-2xl: 2.5rem;   /* 40px */
+    --space-3xl: 3rem;     /* 48px */
+    --space-4xl: 4rem;     /* 64px */
+    --space-5xl: 5rem;     /* 80px */
   }
   
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode - warm and inviting */
+    --background: 25 25% 8%;         /* Warm dark */
+    --foreground: 20 20% 95%;
     
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 25 25% 10%;
+    --card-foreground: 20 20% 95%;
     
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 25 25% 10%;
+    --popover-foreground: 20 20% 95%;
     
-    --primary: 260 100% 67%;
-    --primary-foreground: 222.2 84% 4.9%;
+    --primary: 198 93% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 198 93% 70%;
+    --primary-variant: 210 100% 56%;
     
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 25 25% 15%;
+    --secondary-foreground: 20 20% 90%;
     
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 25 25% 12%;
+    --muted-foreground: 25 15% 60%;
     
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 25 25% 15%;
+    --accent-foreground: 20 20% 90%;
     
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
     
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 260 100% 67%;
+    --border: 25 25% 18%;
+    --input: 25 25% 15%;
+    --ring: 198 93% 60%;
+    
+    /* Dark mode gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(198 93% 60%) 0%, hsl(210 100% 56%) 50%, hsl(340 75% 65%) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(340 75% 25%) 0%, hsl(25 25% 15%) 100%);
+    --gradient-trust: linear-gradient(135deg, hsl(198 93% 50%) 0%, hsl(198 93% 60%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(25 25% 8%) 0%, hsl(25 25% 12%) 100%);
+    --gradient-overlay: linear-gradient(135deg, hsla(198 93% 60% / 0.15) 0%, hsla(340 75% 65% / 0.15) 100%);
+    
+    /* Dark mode shadows */
+    --shadow-soft: 0 2px 8px hsla(0 0% 0% / 0.2);
+    --shadow-medium: 0 4px 16px hsla(0 0% 0% / 0.3);
+    --shadow-large: 0 8px 32px hsla(0 0% 0% / 0.4);
+    --shadow-connection: 0 8px 32px hsla(198 93% 60% / 0.25);
+    --shadow-warm: 0 8px 32px hsla(340 75% 65% / 0.25);
   }
 }
 
@@ -118,35 +160,92 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
+  /* Modern utility classes */  
   .gradient-text {
-    background: var(--gradient-primary);
+    background: var(--gradient-hero);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
   }
   
-  .card-elegant {
+  .gradient-connection {
+    background: var(--gradient-trust);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .card-modern {
     background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
-    box-shadow: var(--shadow-elegant);
-    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-soft);
+    border-radius: var(--radius);
+    transition: var(--transition-normal);
   }
   
-  .card-elegant:hover {
+  .card-modern:hover {
     transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .card-connection {
+    background: var(--gradient-overlay), hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-connection);
+    border-radius: var(--radius);
+    transition: var(--transition-spring);
+  }
+  
+  .card-connection:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-connection);
+  }
+  
+  .btn-hero {
+    background: var(--gradient-hero);
+    color: hsl(var(--primary-foreground));
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-bounce);
+    font-weight: 600;
+  }
+  
+  .btn-hero:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-connection);
+  }
+  
+  .btn-warm {
+    background: var(--gradient-warm);
+    color: hsl(var(--accent-foreground));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    transition: var(--transition-normal);
+    font-weight: 500;
+  }
+  
+  .btn-warm:hover {
+    transform: translateY(-1px);
     box-shadow: var(--shadow-warm);
   }
   
-  .btn-primary {
-    background: var(--gradient-primary);
-    color: hsl(var(--primary-foreground));
-    border: none;
-    transition: var(--transition-bounce);
+  .glass-effect {
+    background: hsla(var(--card) / 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsla(var(--border) / 0.2);
   }
   
-  .btn-primary:hover {
-    transform: scale(1.05);
-    box-shadow: var(--shadow-elegant);
+  .section-spacing {
+    padding: var(--space-5xl) 0;
+  }
+  
+  .container-modern {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
   }
 }
 

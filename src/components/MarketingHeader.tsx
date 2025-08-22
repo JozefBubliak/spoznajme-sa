@@ -14,22 +14,22 @@ export function MarketingHeader() {
   ]
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="font-semibold tracking-tight">Spoznajme sa</Link>
-        <nav className="hidden md:flex items-center gap-6">
+    <header className="sticky top-0 z-40 w-full glass-effect backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container-modern h-16 flex items-center justify-between">
+        <Link href="/" className="font-bold text-xl gradient-connection">Spoznajme sa</Link>
+        <nav className="hidden md:flex items-center gap-8">
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={pathname === item.href ? 'text-primary' : 'text-muted-foreground hover:text-foreground transition-colors'}
+              className={`font-medium transition-colors ${pathname === item.href ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
             >
               {item.label}
             </Link>
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <Link href="/app"><Button size="sm">Aplikácia</Button></Link>
+          <Button variant="glass" size="sm">Aplikácia</Button>
         </div>
       </div>
     </header>
