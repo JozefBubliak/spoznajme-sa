@@ -169,6 +169,9 @@ export default async function Page({ params }: P) {
             <Link href={go('/apps/spoznajme-sa')} className="rounded-md border px-4 py-2 text-sm">
               {t('Spustiť „Spoznajme sa“', 'Start “Get to know us”')}
             </Link>
+            <Link href={go('/apps/couplesync')} className="rounded-md border px-4 py-2 text-sm">
+              {t('Spustiť CoupleSync', 'Start CoupleSync')}
+            </Link>
           </div>
         </div>
       </section>
