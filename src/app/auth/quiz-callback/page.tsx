@@ -1,10 +1,12 @@
 'use client'
 
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabaseQuiz } from '@/lib/supabaseQuizClient'
 
-export default function QuizAuthCallback() {
+export const dynamic = 'force-dynamic'
+
+function QuizAuthCallbackInner() {
   const router = useRouter()
   const params = useSearchParams()
 
@@ -33,4 +35,12 @@ export default function QuizAuthCallback() {
   }, [params, router])
 
   return <p className="text-center p-10 text-gray-500">Prihlasovanie...</p>
+}
+
+export default function QuizAuthCallback() {
+  return (
+    <Suspense fallback={<p className="text-center p-10 text-gray-500">Prihlasovanie...</p>}>
+      <QuizAuthCallbackInner />
+    </Suspense>
+  )
 }
