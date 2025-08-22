@@ -7,12 +7,16 @@ import { supabase } from '@/lib/supabaseClient'
 
 export default function LoginPage() {
   const loginWithGoogle = async () => {
-    await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback`,
       },
     })
+    if (error) {
+      console.error('Google login error', error)
+      alert('Prihlásenie cez Google zlyhalo')
+    }
   }
 
   return (
