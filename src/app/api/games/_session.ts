@@ -11,7 +11,7 @@ export async function getSession(): Promise<Session | null> {
   let token = headerStore.get('authorization')?.replace('Bearer ', '') || undefined
 
   if (!token) {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     token = cookieStore
       .getAll()
       .find((c) => c.name.includes('-auth-token'))?.value
