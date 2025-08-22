@@ -47,15 +47,19 @@ export default function MarketingHomePage() {
                 Premyslené otázky, ktoré pomáhajú partnerom, priateľom a rodinám komunikovať zmysluplne, 
                 budovať dôveru a vytvárať skutočné spojenie.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="hero" size="xl" className="group">
-                  Začať hneď
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-                <Button variant="glass" size="xl">
-                  Vyskúšať zdarma
-                </Button>
-              </div>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button asChild variant="hero" size="xl" className="group">
+                    <Link href="/sk/apps/couplesync" aria-label="CoupleSync dotazník">
+                      CoupleSync
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="glass" size="xl">
+                    <Link href="/sk/apps/spoznajme-sa" aria-label="Kartičky Spoznajme sa">
+                      Kartičky
+                    </Link>
+                  </Button>
+                </div>
             </div>
 
             <div className="relative animate-slide-up">
