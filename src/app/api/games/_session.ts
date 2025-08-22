@@ -13,6 +13,8 @@ export async function getSession(): Promise<Session | null> {
       },
     },
   })
-  const { data } = await supabase.auth.getSession()
-  return data.session
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  return session ?? null
 }
