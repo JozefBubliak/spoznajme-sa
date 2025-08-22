@@ -7,7 +7,7 @@ import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '@/lib/supabaseClient'
  * Reads the Supabase auth cookie and verifies it against Supabase.
  */
 export async function getSession(): Promise<Session | null> {
-  const headerStore = headers()
+  const headerStore = await headers()
   let token = headerStore.get('authorization')?.replace('Bearer ', '') || undefined
 
   if (!token) {
