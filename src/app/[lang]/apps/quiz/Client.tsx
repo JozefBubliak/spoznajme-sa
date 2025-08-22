@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useQuizAuth } from '@/hooks/useQuizAuth'
 import { UserCircle } from 'lucide-react'
-
 type Props = {
   dict: any
   lang: string
