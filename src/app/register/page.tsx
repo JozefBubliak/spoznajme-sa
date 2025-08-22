@@ -1,14 +1,25 @@
-import { redirect } from 'next/navigation'
+"use client"
 
+import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { Brain, CheckCircle2 } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
+import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function RegisterPage() {
+function RegisterPageContent() {
+
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const currentPath =
+    pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+
   const registerWithGoogle = async () => {
+    const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(
+      currentPath,
+    )}`
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo },
     })
     if (error) {
       console.error('Google register error', error)
@@ -22,7 +33,9 @@ export default function RegisterPage() {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(
+          currentPath,
+        )}`,
       },
     })
     if (error) {
@@ -65,15 +78,13 @@ export default function RegisterPage() {
           >
             Pokračovať cez Google
           </Button>
-          <Button
-            variant="outline"
-            onClick={registerWithEmail}
-            className="w-full"
-          >
+          <Button variant="outline" onClick={registerWithEmail} className="w-full">
             Pokračovať e-mailom
           </Button>
           <div className="text-sm">
-            <a href="/login" className="underline">Mám účet – Prihlásiť sa</a>
+            <a href={`/login?next=${encodeURIComponent(currentPath)}`} className="underline">
+              Mám účet – Prihlásiť sa
+            </a>
           </div>
         </div>
 
@@ -85,3 +96,12 @@ export default function RegisterPage() {
     </div>
   )
 }
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={null}>
+      <RegisterPageContent />
+    </Suspense>
+  )
+}
+

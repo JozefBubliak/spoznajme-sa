@@ -1,15 +1,15 @@
-import { redirect } from 'next/navigation'
-
 'use client'
 
+import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { Brain } from 'lucide-react'
 import { supabase } from '@/lib/supabaseClient'
 import { useSearchParams } from 'next/navigation'
 
-export default function LoginPage() {
+function LoginPageContent() {
   const params = useSearchParams()
-  const next = params.get('next')
+  const raw = params.get('next')
+  const next = raw && raw.startsWith('/') ? raw : '/'
 
   const loginWithGoogle = async () => {
     const redirectTo = `${window.location.origin}/auth/callback${next ? `?next=${encodeURIComponent(next)}` : ''}`
@@ -55,5 +55,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
   )
 }

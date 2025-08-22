@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useState, useEffect, Suspense, FormEvent } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
@@ -8,12 +8,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 
 function safeNext(next: string | null) {
-  // povolíme len interné cesty typu /xyz atď.
-  if (!next || !next.startsWith('/')) return '/sk/apps/spoznajme-sa/play'
+  // allow only internal paths; otherwise fall back to home page
+  if (!next || !next.startsWith('/')) return '/'
   return next
 }
 
 function AuthPageContent() {
+
   const params = useSearchParams()
   const router = useRouter()
   const next = safeNext(params.get('next'))
@@ -23,12 +24,10 @@ function AuthPageContent() {
   const [sent, setSent] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // persistencia URL (host) – použijeme env alebo aktuálny origin
-  const siteUrl =
-    (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_SITE_URL) ||
-    (typeof window !== 'undefined' ? window.location.origin : '')
+  // use current origin to build redirect URLs
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : ''
 
-  // ak už je user prihlásený, presmeruj rovno na next
+  // if user is already signed in, redirect directly
   useEffect(() => {
     let mounted = true
     supabase.auth.getSession().then(({ data }) => {
@@ -90,7 +89,7 @@ function AuthPageContent() {
         <CardHeader>
           <CardTitle>Vstup do súkromnej miestnosti</CardTitle>
           <CardDescription>Nepoužívame heslá – prihlásenie cez Google alebo magický odkaz.</CardDescription>
-          {next !== '/sk/apps/spoznajme-sa/play' && (
+          {next !== '/' && (
             <CardDescription>Táto sekcia vyžaduje prihlásenie.</CardDescription>
           )}
         </CardHeader>
