@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
+import { useAuth } from '@/hooks/useAuth'
 
 type Phase =
   | 'lobby' | 'config' | 'round_setup' | 'ready'
@@ -24,6 +25,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [game, setGame] = useState<Game | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const { session } = useAuth()
 
   // konfig
   const [totalRounds, setTotalRounds] = useState(3)
@@ -38,7 +40,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
     if (codeProp) return
     ;(async () => {
       try {
-        const r = await fetch('/api/games/active', { cache: 'no-store' })
+        const r = await authFetch('/api/games/active', { cache: 'no-store' })
         if (r.ok) {
           const j = await r.json()
           if (j?.code) setCode(j.code)
@@ -48,11 +50,19 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   }, [codeProp])
 
   // 2) polling stavu hry
+  const authFetch = (url: string, options: RequestInit = {}) => {
+    const headers = {
+      ...(options.headers || {}),
+      ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+    }
+    return fetch(url, { ...options, headers })
+  }
+
   const refresh = useMemo(() => async () => {
     if (!code) return
     setErr(null)
     try {
-      const r = await fetch(`/api/games/${code}`, { cache: 'no-store' })
+      const r = await authFetch(`/api/games/${code}`, { cache: 'no-store' })
       if (!r.ok) throw new Error(await r.text())
       setGame(await r.json())
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
@@ -67,7 +77,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   async function post(url: string, body?: any) {
     setBusy(true); setErr(null)
     try {
-      const r = await fetch(url, {
+      const r = await authFetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: body ? JSON.stringify(body) : undefined,
