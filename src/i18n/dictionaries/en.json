@@ -103,7 +103,40 @@
           "Answer honestly",
           "Compare results",
           "Discuss together"
-        ]
+        ],
+        "heroTitle": "CoupleSync",
+        "heroSubtitle": "A safe, two-partner questionnaire to map what you want, don't want, and where you match — from daily rituals to intimate preferences (18+).",
+        "ctaEmail": "Sign in with email",
+        "ctaMagic": "Create private room (magic link)",
+        "whyTitle": "Why this questionnaire matters",
+        "whyPoints": [
+          "Only ~62% are satisfied with their love/sex life (≈ 38% are not).",
+          "Partners know roughly ~62% of what the other likes and ~26% of what they dislike.",
+          "When issues exist, full honesty is rare – fewer than 25% of couples say they're always honest.",
+          "About 14–15% of marriages are 'sexless' (≤10×/year)."
+        ],
+        "benefitsTitle": "What CoupleSync gives you",
+        "benefitsList": [
+          "Map of matches and differences",
+          "No shame, no pressure",
+          "Results you can talk about"
+        ],
+        "barriersTitle": "What usually blocks intimacy",
+        "barriersCards": ["Stress and fatigue", "Desire discrepancy", "Postpartum / health periods"],
+        "howTitle": "How it works",
+        "howSteps": [
+          "Create a private room",
+          "Each answers on their own",
+          "Shared overview with respect for boundaries"
+        ],
+        "privacyTitle": "Privacy & Security",
+        "privacyPoints": [
+          "No names or required profiles",
+          "Private room via unguessable link",
+          "Option to use email or not",
+          "Delete with one click"
+        ],
+        "footerNotice": "Content intended for 18+ only"
       },
       "ctaBack": "Want to try another game?",
       "how": "How it works"
