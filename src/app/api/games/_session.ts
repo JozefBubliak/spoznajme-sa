@@ -4,11 +4,13 @@ import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '@/lib/supabaseClient'
 
 /**
  * Returns the current user session or null if unauthenticated.
- * Reads the product-specific "sb-herd-auth-token" cookie and verifies it
- * against Supabase.
+ * Reads the Supabase auth cookie and verifies it against Supabase.
  */
 export async function getSession(): Promise<Session | null> {
-  const token = (await cookies()).get('sb-herd-auth-token')?.value
+  const cookieStore = await cookies()
+  const token = cookieStore
+    .getAll()
+    .find((c) => c.name.includes('-auth-token'))?.value
   if (!token) return null
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
