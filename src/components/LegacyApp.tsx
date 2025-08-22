@@ -154,7 +154,7 @@ const router = useRouter()
   const handleFavoritesToggle = () => {
     if (!user) {
       alert('Pre obľúbené otázky sa musíš prihlásiť!')
-      router.push('/login')
+      router.push('/auth')
       return
     }
     setFavoritesMode(!favoritesMode)
@@ -262,7 +262,7 @@ const router = useRouter()
                       variant="outline"
                       size="sm"
                       className="mt-2"
-                      onClick={() => router.push('/login')}
+                      onClick={() => router.push('/auth')}
                     >
                       Prihlásiť sa
                     </Button>
@@ -331,7 +331,7 @@ const router = useRouter()
                         variant="link"
                         size="sm"
                         className="text-yellow-800 underline px-1"
-                        onClick={() => router.push('/login')}
+                        onClick={() => router.push('/auth')}
                       >
                         prihlás
                       </Button>

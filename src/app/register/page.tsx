@@ -1,6 +1,10 @@
 import { redirect } from 'next/navigation'
 
-export default function Page({ searchParams }: { searchParams: { next?: string } }) {
-  const next = searchParams?.next
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>
+}) {
+  const { next } = await searchParams
   redirect(`/auth${next ? `?next=${encodeURIComponent(next)}` : ''}`)
 }
