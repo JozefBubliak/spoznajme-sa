@@ -31,7 +31,7 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <Link href={`/auth`} className="text-sm underline">{t("nav.login","Prihlásiť sa")}</Link>
+          <Link href={`/auth/login`} className="text-sm underline">{t("nav.login","Prihlásiť sa")}</Link>
           <ThemeToggle />
         </div>
       </div>

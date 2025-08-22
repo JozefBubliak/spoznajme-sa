@@ -29,7 +29,7 @@ export default function FavoritesPage() {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser()
       if (!data.user) {
-        router.push('/auth')
+        router.push('/auth/login')
       } else {
         setUser(data.user)
         fetchFavorites(mockFavoriteIds)

@@ -6,5 +6,5 @@ export default async function Page({
   searchParams: Promise<{ next?: string }>
 }) {
   const { next } = await searchParams
-  redirect(`/auth${next ? `?next=${encodeURIComponent(next)}` : ''}`)
+  redirect(`/auth/login${next ? `?next=${encodeURIComponent(next)}` : ''}`)
 }

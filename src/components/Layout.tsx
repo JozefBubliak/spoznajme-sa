@@ -79,7 +79,7 @@ export default function Layout({ children }: LayoutProps) {
                 </div>
               ) : (
                 <div className="flex gap-2">
-                  <Button variant="outline" onClick={() => router.push('/auth')}>
+                  <Button variant="outline" onClick={() => router.push('/auth/login')}>
                     Prihlásenie
                   </Button>
                   <Button onClick={() => router.push('/upgrade')}>Plný prístup</Button>
@@ -136,7 +136,7 @@ export default function Layout({ children }: LayoutProps) {
                     <Button
                       variant="outline"
                       onClick={() => {
-                        router.push('/auth')
+                        router.push('/auth/login')
                         setMobileMenuOpen(false)
                       }}
                       className="w-full"
