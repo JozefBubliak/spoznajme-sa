@@ -1,5 +1,6 @@
 ﻿// PATH: src/app/[lang]/layout.tsx
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import { IntlProvider } from '@/components/IntlProvider'
 import SiteHeader from '@/components/SiteHeader'        // ⬅️ default import (opravuje "not exported")
 import { getDictionary } from '@/i18n/server'
@@ -19,7 +20,9 @@ export default async function LangLayout({ children, params }: P) {
 
   return (
     <IntlProvider lang={lang} dict={dict}>
-      <SiteHeader lang={lang} />
+      <Suspense fallback={null}>
+        <SiteHeader lang={lang} />
+      </Suspense>
       <main>
         <div className="max-w-6xl mx-auto px-4 py-8">{children}</div>
       </main>
