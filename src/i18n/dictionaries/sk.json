@@ -6,7 +6,9 @@
     "tools": "Komunikačný kompas",
     "blog": "Blog",
     "downloads": "Downloady",
-    "apps": "Konverzačné hry"
+    "apps": "Konverzačné hry",
+    "login": "Prihlásiť sa",
+    "register": "Registrovať sa"
   },
   "aud": {
     "parentChild": "Rodič–dieťa",

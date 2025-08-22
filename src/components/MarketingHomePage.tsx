@@ -87,11 +87,11 @@ export default function MarketingHomePage() {
       <section className="text-center space-y-4">
         <h2 className="text-2xl md:text-3xl font-semibold">Pripravení začať?</h2>
         <p className="text-muted-foreground">
-          Spusti bez registrácie, alebo sa prihlás a získaj 2 nové otázky denne.
+          Prihlás sa alebo sa zaregistruj a získaj 2 nové otázky denne.
         </p>
         <div className="flex items-center justify-center gap-3">
-          <Link href="/app"><Button className="h-11 px-6">Začať</Button></Link>
-          <Link href="/login"><Button variant="outline" className="h-11 px-6">Prihlásiť sa</Button></Link>
+          <Link href="/login"><Button className="h-11 px-6">Prihlásiť sa</Button></Link>
+          <Link href="/register"><Button variant="outline" className="h-11 px-6">Registrovať sa</Button></Link>
         </div>
       </section>
 
