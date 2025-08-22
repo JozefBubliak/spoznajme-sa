@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button'
 import { supabaseQuiz } from '@/lib/supabaseQuizClient'
 import { useParams } from 'next/navigation'
 
+// Ensure this route is rendered dynamically for all languages
+export const dynamic = 'force-dynamic'
+
 export default function QuizLoginPage() {
   const { lang } = useParams<{ lang: string }>()
 
