@@ -8,7 +8,8 @@ import { useSearchParams } from 'next/navigation'
 
 function LoginPageContent() {
   const params = useSearchParams()
-  const next = params.get('next')
+  const raw = params.get('next')
+  const next = raw && raw.startsWith('/') ? raw : '/'
 
   const loginWithGoogle = async () => {
     const redirectTo = `${window.location.origin}/auth/callback${next ? `?next=${encodeURIComponent(next)}` : ''}`
