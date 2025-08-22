@@ -5,8 +5,9 @@ import type { Session } from '@supabase/supabase-js'
  * Returns the current user session or null if unauthenticated.
  */
 export async function getSession(): Promise<Session | null> {
+  const cookieStore = await cookies()
   const supabase = createRouteHandlerClient({
-    cookies,
+    cookies: () => cookieStore,
     options: {
       cookieOptions: {
         name: 'sb-herd-auth-token',
