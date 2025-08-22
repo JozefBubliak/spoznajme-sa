@@ -47,7 +47,7 @@ export default function AdminPage() {
 
       const user = session?.user
       if (!user) {
-        router.replace('/auth')
+        router.replace('/auth/login')
       } else if (!user.email || !ADMIN_EMAILS.includes(user.email)) {
         router.replace('/')
       } else {

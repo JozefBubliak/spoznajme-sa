@@ -21,7 +21,7 @@ export default function ModeratorPage() {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.replace('/auth')
+      router.replace('/auth/login')
     }
   }, [user, loading, router])
 
