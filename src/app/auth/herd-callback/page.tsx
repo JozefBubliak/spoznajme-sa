@@ -15,12 +15,17 @@ function HerdAuthCallbackInner() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       await supabaseHerd.auth.getSession()
 
-      const defaultCookie = document.cookie
-        .split('; ')
-        .find((c) => c.startsWith('sb-'))
-      if (defaultCookie) {
-        const value = defaultCookie.substring(defaultCookie.indexOf('=') + 1)
+      const cookiesArr = document.cookie.split('; ')
+      const authCookie = cookiesArr.find((c) => c.includes('-auth-token'))
+      if (authCookie) {
+        const [name, value] = authCookie.split('=')
         document.cookie = `sb-herd-auth-token=${value}; path=/; max-age=604800`
+        cookiesArr
+          .filter((c) => c.startsWith('sb-'))
+          .forEach((c) => {
+            const [n] = c.split('=')
+            document.cookie = `${n}=; path=/; max-age=0`
+          })
       }
 
       const lang = params.get('lang') || 'sk'
