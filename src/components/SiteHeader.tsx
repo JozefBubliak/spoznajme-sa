@@ -1,13 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { useI18n } from "@/components/IntlProvider"
 import ThemeToggle from "@/components/ThemeToggle"
+import { useAuth } from "@/hooks/useAuth"
 
 export default function SiteHeader({ lang: propLang }: { lang?: string }) {
   const { t } = useI18n()
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const currentPath =
+    pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "")
+  const { user, signOut } = useAuth()
   const l = propLang || (pathname ? (pathname.split("/")[1] || "sk") : "sk")
 
   const items = [
@@ -31,7 +36,18 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <Link href={`/auth/login`} className="text-sm underline">{t("nav.login","Prihlásiť sa")}</Link>
+          {user ? (
+            <button onClick={signOut} className="text-sm underline">
+              {t("nav.logout", "Odhlásiť sa")}
+            </button>
+          ) : (
+            <Link
+              href={`/auth/login?next=${encodeURIComponent(currentPath)}`}
+              className="text-sm underline"
+            >
+              {t("nav.login", "Prihlásiť sa")}
+            </Link>
+          )}
           <ThemeToggle />
         </div>
       </div>
