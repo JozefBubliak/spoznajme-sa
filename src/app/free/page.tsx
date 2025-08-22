@@ -137,7 +137,7 @@ export default function FreePage() {
                     <Share2 size={16} /> Skopírovať otázku
                   </button>
                   <button
-                    onClick={() => router.push('/login')}
+                    onClick={() => router.push('/auth/login')}
                     className="text-gray-500 hover:text-gray-700 flex items-center gap-1"
                   >
                     <Heart size={16} /> Označiť ako obľúbenú
@@ -166,7 +166,7 @@ export default function FreePage() {
                     Iná skupina
                   </Button>
                   <Button
-                    onClick={() => router.push('/login')}
+                    onClick={() => router.push('/auth/login')}
                     className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                   >
                     Prihlásiť sa zdarma

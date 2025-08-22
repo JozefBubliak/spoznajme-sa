@@ -78,7 +78,7 @@
         "name": "Konverzačné kartičky",
         "description": "Rozhovory, ktoré vás zblížia. Kartičky plné otázok na hlbšie spoznanie partnera, kamarátov, rodiny.",
         "cta": "Vybrať kartičky",
-        "link": "/app",
+        "link": "/apps/spoznajme-sa",
         "manual": [
           "Vyberte balíček",
           "Potiahnite kartičku",
@@ -97,17 +97,51 @@
         ]
       },
       "couplesync": {
-        "name": "CoupleSync dotazník",
-        "description": "Zistite, ako dobre sa poznáte a čo od vzťahu očakávate. Obsahuje časti od bežného života partnerov, rituálov, voľného času až po podrobnú mapu preferencií v intímnej oblasti (18+ s potvrdením veku).",
+        "name": "CoupleSync",
+        "description": "Partnerský dotazník, ktorý zladí vaše očakávania aj túžby. Vyplňte ho každý zvlášť a porovnajte výsledky.",
         "cta": "Vyplniť dotazník",
-        "link": "/apps/couplesync",
+        "link": "https://couplesync.deeptalks.eu",
         "manual": [
           "Odpovedajte úprimne",
           "Porovnajte výsledky",
           "Porozprávajte sa spolu"
-        ]
+        ],
+        "heroTitle": "CoupleSync",
+        "heroSubtitle": "Bezpečný dvoj-dotazník, ktorý vám pomôže zistiť, čo chcete, čo nechcete a na čom sa viete zhodnúť – od bežných rituálov až po intímne preferencie (18+).",
+        "ctaEmail": "Prihlásiť e-mailom",
+        "ctaMagic": "Vytvoriť súkromnú miestnosť (magic link)",
+        "whyTitle": "Prečo tento dotazník existuje",
+        "whyPoints": [
+          "Globálne je s milostným/sexuálnym životom spokojných len ~62 % ľudí (≈ 38 % nie).",
+          "Partneri poznajú v priemere ~62 % toho, čo má druhý rád, a ~26 % toho, čo mu nevyhovuje.",
+          "Pri už existujúcich ťažkostiach je úplná úprimnosť zriedkavá – < 25 % párov tvrdí, že sú vždy úprimní.",
+          "~14–15 % manželstiev je „sexless“ (≤ 10×/rok)."
+        ],
+        "benefitsTitle": "Čo vám CoupleSync prinesie",
+        "benefitsList": [
+          "Mapa zhôd a rozdielov",
+          "Bez hanby, bez nátlaku",
+          "Výsledky, o ktorých sa dá rozprávať"
+        ],
+        "barriersTitle": "Čo typicky brzdí intimitu",
+        "barriersCards": ["Stres a únava", "Rozdiel v túžbe", "Obdobia po pôrode / zdravie"],
+        "howTitle": "Ako to funguje",
+        "howSteps": [
+          "Vytvoríte súkromnú miestnosť",
+          "Každý odpovedá sám za seba",
+          "Spoločný prehľad s rešpektom k hraniciam"
+        ],
+        "privacyTitle": "Súkromie a bezpečnosť",
+        "privacyPoints": [
+          "Žiadne mená ani povinné profily",
+          "Súkromná miestnosť cez neuhádnuteľný odkaz",
+          "Možnosť použiť e-mail (pohodlie) alebo nie",
+          "Vymazanie jedným klikom"
+        ],
+        "footerNotice": "Obsah určený len pre 18+"
       },
-      "ctaBack": "Chcem skúsiť inú hru"
+      "ctaBack": "Chcem skúsiť inú hru",
+      "how": "Ako to funguje"
     }
   }
 }

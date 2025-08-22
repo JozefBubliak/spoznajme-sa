@@ -23,7 +23,7 @@ export default function Layout({ children }: LayoutProps) {
 
   const menuItems: MenuItem[] = [
     { path: '/', label: 'Domov', icon: Brain },
-    { path: '/app', label: 'Otázky', icon: Brain },
+    { path: '/sk/apps/spoznajme-sa/play', label: 'Otázky', icon: Brain },
     ...(user
       ? [
           { path: '/favorites', label: 'Obľúbené', icon: Heart },
@@ -79,7 +79,7 @@ export default function Layout({ children }: LayoutProps) {
                 </div>
               ) : (
                 <div className="flex gap-2">
-                  <Button variant="outline" onClick={() => router.push('/login')}>
+                  <Button variant="outline" onClick={() => router.push('/auth/login')}>
                     Prihlásenie
                   </Button>
                   <Button onClick={() => router.push('/upgrade')}>Plný prístup</Button>
@@ -136,7 +136,7 @@ export default function Layout({ children }: LayoutProps) {
                     <Button
                       variant="outline"
                       onClick={() => {
-                        router.push('/login')
+                        router.push('/auth/login')
                         setMobileMenuOpen(false)
                       }}
                       className="w-full"

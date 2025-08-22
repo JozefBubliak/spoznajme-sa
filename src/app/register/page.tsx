@@ -1,4 +1,4 @@
-'use client'
+import { redirect } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import { Brain, CheckCircle2 } from 'lucide-react'

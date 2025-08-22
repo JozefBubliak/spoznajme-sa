@@ -26,6 +26,7 @@ export default function HerdVoteAdminPage() {
   const { user, loading } = useAuth()
   useEffect(() => {
     if (!loading && !user) router.replace(`/login?next=/${lang}/apps/herd-vote`)
+
   }, [loading, user, router, lang])
 
   const [gameCode, setGameCode] = useState<string>('')

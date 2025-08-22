@@ -29,7 +29,7 @@ export default function HistoryPage() {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser()
       if (!data.user) {
-        router.push('/login')
+        router.push('/auth/login')
       } else {
         setUser(data.user)
         fetchHistory(mockHistoryIds)
@@ -58,7 +58,10 @@ export default function HistoryPage() {
           </ul>
         )}
 
-        <Button variant="outline" onClick={() => router.push('/app')}>
+        <Button
+          variant="outline"
+          onClick={() => router.push('/sk/apps/spoznajme-sa/play')}
+        >
           Naspäť do aplikácie
         </Button>
       </div>

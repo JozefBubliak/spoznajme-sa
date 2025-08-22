@@ -20,7 +20,7 @@ export default function Hero({ lang }: { lang: string }) {
         </p>
         <div className="flex gap-3">
           <Link href={`/${lang}/kompas`}><Button size="lg">{t("hero.ctaStart","Otvoriť kompas")}</Button></Link>
-          <Link href={`/app`}><Button size="lg" variant="outline">{t("hero.ctaTry","Spustiť hru")}</Button></Link>
+          <Link href={`/${lang}/apps/spoznajme-sa/play`}><Button size="lg" variant="outline">{t("hero.ctaTry","Spustiť hru")}</Button></Link>
         </div>
       </div>
       <div className="rounded-xl border p-5 shadow-sm bg-background">
