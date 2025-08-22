@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
-export default function LoginPage() {
+function LoginPageContent() {
   const params = useSearchParams()
   const next = params.get('next') || '/app'
 
@@ -61,5 +61,13 @@ export default function LoginPage() {
         )}
       </form>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
   )
 }
