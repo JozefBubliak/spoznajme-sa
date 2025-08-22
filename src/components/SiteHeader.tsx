@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useI18n } from "@/components/IntlProvider"
+import ThemeToggle from "@/components/ThemeToggle"
 
 export default function SiteHeader({ lang: propLang }: { lang?: string }) {
   const { t } = useI18n()
@@ -30,7 +31,9 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <Link href={`/app`} className="text-sm underline">{t("hero.ctaTry","Spustiť hru")}</Link>
+          <Link href={`/login`} className="text-sm underline">{t("nav.login","Prihlásiť sa")}</Link>
+          <Link href={`/register`} className="text-sm underline">{t("nav.register","Registrovať sa")}</Link>
+          <ThemeToggle />
         </div>
       </div>
     </header>
