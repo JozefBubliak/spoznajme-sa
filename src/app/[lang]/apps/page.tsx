@@ -18,7 +18,7 @@ export default async function AppsPage({ params }: P) {
   const games = apps.games
   const categories = [
     { key: 'quizzes', slugs: ['quiz'] },
-    { key: 'cards', slugs: ['cards'] },
+    { key: 'cards', slugs: ['spoznajme-sa'] },
     { key: 'puzzles', slugs: ['hadacka'] },
     { key: 'surveys', slugs: ['couplesync'] },
   ]
