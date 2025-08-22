@@ -5,6 +5,13 @@ import { useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card'
 
 function LoginPageContent() {
   const params = useSearchParams()
@@ -33,33 +40,79 @@ function LoginPageContent() {
     setLoading(false)
   }
 
+  const handleOAuth = async (provider: 'google' | 'github') => {
+    setLoading(true)
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+      },
+    })
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+    }
+  }
+
   if (sent) {
     return (
-      <div className="max-w-sm mx-auto py-10">
-        <p className="text-center text-sm text-muted-foreground">
-          Odkaz na prihlásenie bol odoslaný na {email}. Skontrolujte svoj e‑mail.
-        </p>
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <Card className="w-full max-w-sm">
+          <CardHeader>
+            <CardTitle>Skontrolujte si e‑mail</CardTitle>
+            <CardDescription>
+              Odkaz na prihlásenie bol odoslaný na {email}.
+            </CardDescription>
+          </CardHeader>
+        </Card>
       </div>
     )
   }
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4">
-      <form onSubmit={handleLogin} className="space-y-4 w-full max-w-sm">
-        <Input
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="vam@example.com"
-        />
-        <Button type="submit" disabled={loading} className="w-full">
-          {loading ? 'Odosielam…' : 'Prihlásiť e‑mailom'}
-        </Button>
-        {error && (
-          <p className="text-sm text-destructive text-center">{error}</p>
-        )}
-      </form>
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <CardTitle>Prihlásenie / registrácia</CardTitle>
+          <CardDescription>Vyberte si spôsob prihlásenia</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={() => handleOAuth('google')}
+            disabled={loading}
+          >
+            Pokračovať cez Google
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={() => handleOAuth('github')}
+            disabled={loading}
+          >
+            Pokračovať cez GitHub
+          </Button>
+          <div className="text-center text-xs text-muted-foreground">alebo</div>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <Input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="vam@example.com"
+            />
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? 'Odosielam…' : 'Prihlásiť e‑mailom'}
+            </Button>
+          </form>
+          {error && (
+            <p className="text-sm text-destructive text-center">{error}</p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 }
@@ -71,3 +124,4 @@ export default function LoginPage() {
     </Suspense>
   )
 }
+
