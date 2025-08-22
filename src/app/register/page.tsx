@@ -1,3 +1,5 @@
+"use client"
+
 import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { Brain, CheckCircle2 } from 'lucide-react'
@@ -5,7 +7,6 @@ import { supabase } from '@/lib/supabaseClient'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 function RegisterPageContent() {
-  'use client'
 
   const pathname = usePathname()
   const searchParams = useSearchParams()

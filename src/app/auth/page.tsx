@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect, Suspense, FormEvent } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
@@ -12,7 +14,6 @@ function safeNext(next: string | null) {
 }
 
 function AuthPageContent() {
-  'use client'
 
   const params = useSearchParams()
   const router = useRouter()
