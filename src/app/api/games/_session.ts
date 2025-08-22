@@ -10,4 +10,5 @@ export async function getSession(): Promise<Session | null> {
     data: { session },
   } = await supabase.auth.getSession()
   return session ?? null
+
 }
