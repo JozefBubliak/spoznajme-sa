@@ -29,7 +29,7 @@ export default function HadackaLandingPage() {
               </>
             ) : (
               <Button asChild size="sm">
-                <Link href="/login">Prihlásiť sa</Link>
+                <Link href="/auth">Prihlásiť sa</Link>
               </Button>
             )}
           </div>
@@ -64,7 +64,7 @@ export default function HadackaLandingPage() {
               </Button>
             ) : (
               <Button asChild size="lg" className="btn-primary">
-                <Link href="/login">Prihlásiť sa ako moderátor</Link>
+                <Link href="/auth">Prihlásiť sa ako moderátor</Link>
               </Button>
             )}
             <Button asChild variant="outline" size="lg">

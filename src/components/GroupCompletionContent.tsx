@@ -151,7 +151,7 @@ export default function GroupCompletionContent({
 
           {!user && (
             <Button
-              onClick={() => router.push('/login')}
+              onClick={() => router.push('/auth')}
               className="bg-gray-100 text-gray-800 hover:bg-gray-200 h-12"
             >
               ✍️ Registrovať sa a získať 2 otázky denne

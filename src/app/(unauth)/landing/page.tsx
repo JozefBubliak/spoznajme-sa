@@ -36,7 +36,7 @@ export default function HomePage() {
           <Button
             variant="outline"
             className="w-full"
-            onClick={() => router.push('/login')}
+            onClick={() => router.push('/auth')}
           >
             Prihlásiť sa a získať 2 otázky denne
           </Button>
