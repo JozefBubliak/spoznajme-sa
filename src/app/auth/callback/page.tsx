@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 
 const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
 
 export default function AuthCallback() {
   const router = useRouter()
+  const params = useSearchParams()
 
   useEffect(() => {
     const handleRedirect = async () => {
@@ -22,6 +23,12 @@ export default function AuthCallback() {
       console.log('[CALLBACK] Session:', session)
       console.log('[CALLBACK] User:', user)
 
+      const next = params.get('next')
+      if (next) {
+        router.push(next)
+        return
+      }
+
       if (user?.email && ADMIN_EMAILS.includes(user.email)) {
         router.push('/admin')
       } else {
@@ -30,7 +37,7 @@ export default function AuthCallback() {
     }
 
     handleRedirect()
-  }, [])
+  }, [params, router])
 
   return <p className="text-center p-10 text-gray-500">Prihlasovanie...</p>
 }
