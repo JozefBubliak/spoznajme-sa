@@ -8,7 +8,7 @@ import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '@/lib/supabaseClient'
  * against Supabase.
  */
 export async function getSession(): Promise<Session | null> {
-  const token = cookies().get('sb-herd-auth-token')?.value
+  const token = (await cookies()).get('sb-herd-auth-token')?.value
   if (!token) return null
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
