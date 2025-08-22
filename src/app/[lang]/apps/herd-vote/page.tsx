@@ -25,7 +25,8 @@ export default function HerdVoteAdminPage() {
   const router = useRouter()
   const { user, loading } = useAuth()
   useEffect(() => {
-    if (!loading && !user) router.replace(`/auth/login?next=/${lang}/apps/herd-vote`)
+    if (!loading && !user) router.replace(`/login?next=/${lang}/apps/herd-vote`)
+
   }, [loading, user, router, lang])
 
   const [gameCode, setGameCode] = useState<string>('')
@@ -200,7 +201,7 @@ export default function HerdVoteAdminPage() {
         <p className="mb-4">Na spustenie hry sa prihláste ako moderátor.</p>
         <a
           className="text-blue-600 underline"
-          href={`/auth/login?next=/${lang}/apps/herd-vote`}
+          href={`/login?next=/${lang}/apps/herd-vote`}
         >
           Prihlásiť sa
         </a>
