@@ -17,7 +17,10 @@ export default function ThankYouPage() {
         <p className="text-gray-700">
           Tvoja plná verzia je aktívna. Môžeš teraz využívať všetky otázky a funkcie bez obmedzení.
         </p>
-        <Button onClick={() => router.push('/app')} className="mt-4 w-full">
+        <Button
+          onClick={() => router.push('/sk/apps/spoznajme-sa/play')}
+          className="mt-4 w-full"
+        >
           Pokračovať do aplikácie
         </Button>
       </div>

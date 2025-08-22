@@ -23,7 +23,7 @@ export default function Layout({ children }: LayoutProps) {
 
   const menuItems: MenuItem[] = [
     { path: '/', label: 'Domov', icon: Brain },
-    { path: '/app', label: 'Otázky', icon: Brain },
+    { path: '/sk/apps/spoznajme-sa/play', label: 'Otázky', icon: Brain },
     ...(user
       ? [
           { path: '/favorites', label: 'Obľúbené', icon: Heart },
