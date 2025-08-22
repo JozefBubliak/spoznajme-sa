@@ -1,18 +1,25 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import type { Session } from '@supabase/supabase-js'
+import { createClient, type Session } from '@supabase/supabase-js'
+import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '@/lib/supabaseClient'
+
 /**
  * Returns the current user session or null if unauthenticated.
+ * Reads the product-specific "sb-herd-auth-token" cookie and verifies it
+ * against Supabase.
  */
 export async function getSession(): Promise<Session | null> {
-  const supabase = createRouteHandlerClient({
-    cookies,
-    options: {
-      cookieOptions: {
-        name: 'sb-herd-auth-token',
-      },
-    },
-  })
-  const { data } = await supabase.auth.getSession()
-  return data.session
+  const token = (await cookies()).get('sb-herd-auth-token')?.value
+  if (!token) return null
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  const { data, error } = await supabase.auth.getUser(token)
+  if (error || !data.user) return null
+
+  return {
+    access_token: token,
+    token_type: 'bearer',
+    expires_in: 0,
+    refresh_token: '',
+    user: data.user,
+  } as Session
 }

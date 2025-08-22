@@ -1,10 +1,12 @@
 'use client'
 
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabaseHerd } from '@/lib/supabaseHerdClient'
 
-export default function HerdAuthCallback() {
+export const dynamic = 'force-dynamic'
+
+function HerdAuthCallbackInner() {
   const router = useRouter()
   const params = useSearchParams()
 
@@ -28,4 +30,12 @@ export default function HerdAuthCallback() {
   }, [params, router])
 
   return <p className="text-center p-10 text-gray-500">Prihlasovanie...</p>
+}
+
+export default function HerdAuthCallback() {
+  return (
+    <Suspense fallback={<p className="text-center p-10 text-gray-500">Prihlasovanie...</p>}>
+      <HerdAuthCallbackInner />
+    </Suspense>
+  )
 }
