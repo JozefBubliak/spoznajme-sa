@@ -1,55 +1,67 @@
 // PATH: src/app/api/games/[code]/players/route.ts
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
-import { getSession } from '@/app/api/games/_session'
+import { supabaseServer } from '@/integrations/supabase/server'
+import { randomUUID } from 'crypto'
 
 export const dynamic = 'force-dynamic'
 
 // GET – vráti lobby (zoznam hráčov)
 export async function GET(_req: Request, context: any) {
-  const session = await getSession()
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { code } = (context?.params ?? {}) as { code: string }
-
   const gameCode = String(code || '').toUpperCase()
-  const game = store.getGame(gameCode)
 
-  // UX: ak hra neexistuje, vráť prázdny zoznam
-  if (!game) return NextResponse.json({ players: [] })
+  const supabase = supabaseServer()
 
-  return NextResponse.json({ players: game.players || [] })
+  const { data: room } = await supabase
+    .from('rooms')
+    .select('id')
+    .eq('code', gameCode)
+    .single()
+
+  if (!room) return NextResponse.json({ players: [] })
+
+  const { data: session } = await supabase
+    .from('game_sessions')
+    .select('id')
+    .eq('room_id', room.id)
+    .order('created_at', { ascending: false })
+    .limit(1)
+    .single()
+
+  if (!session) return NextResponse.json({ players: [] })
+
+  const { data: participants } = await supabase
+    .from('participants')
+    .select('id, nickname, guest_id')
+    .eq('session_id', session.id)
+
+  const players = (participants || []).map(p => ({ id: p.id, name: p.nickname, guestId: p.guest_id }))
+
+  return NextResponse.json({ players })
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
 export async function POST(req: Request, context: any) {
-  const session = await getSession()
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { code } = (context?.params ?? {}) as { code: string }
-
   const gameCode = String(code || '').toUpperCase()
-  const game = store.getGame(gameCode)
-  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
-
-  // po zamknutí lobby neprijímame nových hráčov
-  if (game.status !== 'waiting') {
-    return NextResponse.json({ error: 'Lobby closed' }, { status: 403 })
-  }
 
   const body = await req.json().catch(() => ({} as any))
   const name = String(body?.name || '').trim()
   if (!name) return NextResponse.json({ error: 'Missing name' }, { status: 400 })
 
-  // idempotentný join podľa mena
-  const existing = game.players.find(p => p.name.toLowerCase() === name.toLowerCase())
-  if (existing) {
-    return NextResponse.json({ playerId: existing.id, name: existing.name, gameCode })
+  const guestId = body?.guestId || randomUUID()
+
+  const supabase = supabaseServer()
+  const { data, error } = await supabase.rpc('join_room', {
+    p_code: gameCode,
+    p_nickname: name,
+    p_guest_id: guestId,
+  })
+
+  if (error || !data) {
+    return NextResponse.json({ error: error?.message || 'Unable to join' }, { status: 400 })
   }
 
-  const id = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`
-  const player = { id, name, score: 0 }
-  game.players = game.players ?? []
-  game.players.push(player)
-
-  return NextResponse.json({ playerId: id, name, gameCode })
+  return NextResponse.json({ playerId: data.id, name: data.nickname, guestId: data.guest_id, gameCode })
 }
 
