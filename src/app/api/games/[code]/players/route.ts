@@ -1,31 +1,19 @@
 // PATH: src/app/api/games/[code]/players/route.ts
 import { NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
-import { randomUUID } from 'node:crypto' // explicitný node import (funguje v Node runtime)
+import { randomUUID } from 'crypto'
 
 export const dynamic = 'force-dynamic'
 
-// --- Typy ---
 type Participant = {
   id: string
   nickname: string
   guest_id: string | null
 }
 
-type JoinRoomResult = {
-  id: string
-  nickname: string
-  guest_id: string | null
-}
-
 // GET – vráti lobby (zoznam hráčov)
-export async function GET(
-  _req: Request,
-  { params }: { params: Promise<{ code: string }> } // Next 15: params je Promise
-) {
-  const { code } = await params
-  const gameCode = String(code || '').toUpperCase()
-
+export async function GET(_req: Request, { params }: { params: { code: string } }) {
+  const gameCode = String(params?.code ?? '').toUpperCase()
   const supabase = supabaseServer()
 
   const { data: room } = await supabase
@@ -53,7 +41,6 @@ export async function GET(
     .eq('session_id', session.id)
 
   const participants: Participant[] = participantData ?? []
-
   const players = participants.map((p) => ({
     id: p.id,
     name: p.nickname,
@@ -64,45 +51,30 @@ export async function GET(
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
-export async function POST(
-  req: Request,
-  { params }: { params: Promise<{ code: string }> }
-) {
-  const { code } = await params
-  const gameCode = String(code || '').toUpperCase()
+export async function POST(req: Request, { params }: { params: { code: string } }) {
+  const gameCode = String(params?.code ?? '').toUpperCase()
 
-  const { name, guestId: guestIdFromBody } = (await req.json().catch(() => ({}))) as {
-    name?: string
-    guestId?: string
-  }
+  const body = (await req.json().catch(() => ({}))) as { name?: string; guestId?: string }
+  const name = String(body?.name || '').trim()
+  if (!name) return NextResponse.json({ error: 'Missing name' }, { status: 400 })
 
-  const playerName = String(name || '').trim()
-  if (!playerName) {
-    return NextResponse.json({ error: 'Missing name' }, { status: 400 })
-  }
-
-  const guestId = guestIdFromBody ?? randomUUID()
+  const guestId = body?.guestId ?? randomUUID()
 
   const supabase = supabaseServer()
   const { data, error } = await supabase.rpc('join_room', {
     p_code: gameCode,
-    p_nickname: playerName,
+    p_nickname: name,
     p_guest_id: guestId,
   })
 
   if (error || !data) {
-    return NextResponse.json(
-      { error: error?.message || 'Unable to join' },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: error?.message || 'Unable to join' }, { status: 400 })
   }
 
-  const joined = data as JoinRoomResult
-
   return NextResponse.json({
-    playerId: joined.id,
-    name: joined.nickname,
-    guestId: joined.guest_id,
+    playerId: data.id,
+    name: data.nickname,
+    guestId: data.guest_id,
     gameCode,
   })
 }
