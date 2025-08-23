@@ -18,4 +18,5 @@ export async function POST(_req: Request) {
   }
 
   return NextResponse.json({ success: true, status: data.status })
+
 }

@@ -228,9 +228,11 @@ export default function HerdVoteAdminPage() {
       <h1 className="text-2xl font-bold">Herd Vote – moderátor</h1>
 
       <div className="rounded-xl border p-4 space-y-3">
-        <button onClick={createGame} className="px-4 py-2 rounded bg-purple-600 text-white">
-          {gameCode ? 'Vytvoriť novú hru' : 'Vytvoriť hru'}
-        </button>
+        {(!gameCode || gameStatus === 'finished') && (
+          <button onClick={createGame} className="px-4 py-2 rounded bg-purple-600 text-white">
+            {gameCode ? 'Vytvoriť novú hru' : 'Vytvoriť hru'}
+          </button>
+        )}
 
         {/* Link + QR len kým je lobby otvorené */}
         {gameCode && gameStatus === 'waiting' && (

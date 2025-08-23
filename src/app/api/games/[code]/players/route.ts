@@ -24,6 +24,7 @@ export async function GET(_req: Request, context: any) {
     .from('game_sessions')
     .select('id')
     .eq('room_id', room.id)
+    .in('status', ['lobby', 'setup', 'running'])
     .order('created_at', { ascending: false })
     .limit(1)
     .single()
