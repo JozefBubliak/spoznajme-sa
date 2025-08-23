@@ -13,9 +13,10 @@ type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 
 function mapStatus(status: string): GameStatus {
   const s = status.toLowerCase().trim()
+  if (s === 'lobby') return 'waiting'
   if (s === 'setup') return 'configuring'
-  if (s === 'active') return 'running'
-  if (s === 'finished') return 'finished'
+  if (s === 'running') return 'running'
+  if (s === 'ended') return 'finished'
   return 'waiting'
 }
 
@@ -291,8 +292,8 @@ export default function HerdVoteAdminPage() {
                   onClick={async () => {
                     const r = await authFetch(`/api/games/${gameCode}/lock-lobby`, { method: 'POST' })
                     const j = await r.json()
-                    if (!r.ok) return alert(j.error || 'Nepodarilo sa zamknúť lobby')
-                    setGameStatus('configuring')
+                    if (!r.ok || !j.status) return alert(j.error || 'Nepodarilo sa zamknúť lobby')
+                    setGameStatus(mapStatus(String(j.status)))
                   }}
                   className="px-3 py-2 rounded bg-black text-white text-sm"
                 >
