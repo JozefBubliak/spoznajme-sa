@@ -5,13 +5,18 @@ import { randomUUID } from 'crypto'
 
 export const dynamic = 'force-dynamic'
 
-// GET – vráti lobby (zoznam hráčov)
-interface RouteContext {
-  params: Promise<{ code: string }>
+type Participant = {
+  id: string
+  nickname: string
+  guest_id: string | null
 }
 
-export async function GET(_req: Request, context: RouteContext) {
-  const { code } = await context.params
+// GET – vráti lobby (zoznam hráčov)
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ code: string }> }
+) {
+  const { code } = await params
   const gameCode = String(code || '').toUpperCase()
 
   const supabase = supabaseServer() as any
@@ -35,43 +40,43 @@ export async function GET(_req: Request, context: RouteContext) {
 
   if (!session) return NextResponse.json({ players: [] })
 
-  const { data: participants } = await supabase
+  const { data: participantData } = await supabase
     .from('participants')
     .select('id, nickname, guest_id')
     .eq('session_id', session.id)
 
-  interface Participant {
-    id: string
-    nickname: string
-    guest_id: string
-  }
+  const participants = (participantData ?? []) as Participant[]
 
-  const players = (participants || []).map((p: Participant) => ({
+  const players = participants.map((p: Participant) => ({
     id: p.id,
     name: p.nickname,
-    guestId: p.guest_id,
+    guestId: p.guest_id ?? undefined,
   }))
 
   return NextResponse.json({ players })
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
-interface JoinBody { name?: string; guestId?: string }
-
-export async function POST(req: Request, context: RouteContext) {
-  const { code } = await context.params
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ code: string }> }
+) {
+  const { code } = await params
   const gameCode = String(code || '').toUpperCase()
 
-  const body = (await req.json().catch(() => ({}))) as JoinBody
-  const name = String(body.name || '').trim()
-  if (!name) return NextResponse.json({ error: 'Missing name' }, { status: 400 })
+  const { name, guestId: guestIdFromBody } = (await req
+    .json()
+    .catch(() => ({}))) as { name?: string; guestId?: string }
+  const playerName = String(name || '').trim()
+  if (!playerName)
+    return NextResponse.json({ error: 'Missing name' }, { status: 400 })
 
-  const guestId = body.guestId || randomUUID()
+  const guestId = guestIdFromBody ?? randomUUID()
 
   const supabase = supabaseServer() as any
   const { data, error } = await supabase.rpc('join_room', {
     p_code: gameCode,
-    p_nickname: name,
+    p_nickname: playerName,
     p_guest_id: guestId,
   })
 
@@ -79,6 +84,11 @@ export async function POST(req: Request, context: RouteContext) {
     return NextResponse.json({ error: error?.message || 'Unable to join' }, { status: 400 })
   }
 
-  return NextResponse.json({ playerId: data.id, name: data.nickname, guestId: data.guest_id, gameCode })
+  return NextResponse.json({
+    playerId: data.id,
+    name: data.nickname,
+    guestId: data.guest_id,
+    gameCode,
+  })
 }
 
