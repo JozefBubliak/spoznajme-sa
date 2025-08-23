@@ -8,12 +8,20 @@ export interface GameEntry {
 }
 
 export interface GamesDictionary {
+  quiz: GameEntry
+  'spoznajme-sa': GameEntry
   hadacka: GameEntry
+  couplesync: GameEntry
   ctaBack: string
+  how: string
   [key: string]: unknown
 }
 
 export interface AppsDictionary {
+  bannerTitle: string
+  bannerSubtitle: string
+  bannerCTA: string
+  categories: Record<string, string>
   games: GamesDictionary
   [key: string]: unknown
 }
