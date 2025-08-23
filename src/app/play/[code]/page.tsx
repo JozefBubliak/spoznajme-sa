@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { RealtimeClient } from '@/lib/realtime/client'
 import { channelFor } from '@/lib/realtime/types'
+import { log } from '@/lib/logger'
 
 type Player = { id: string; name: string; score: number }
 
@@ -46,7 +47,7 @@ export default function PlayJoinPage() {
     if (!code || !me) return
     const ch = channelFor(code)
     const unsub = RealtimeClient.subscribe(ch, async (ev) => {
-      console.log('[PLAYER] Event received:', ev)
+      log('[PLAYER] Event received:', ev)
       
       if (ev.type === 'game:start') {
         // Load the current question

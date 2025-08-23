@@ -1,6 +1,7 @@
 // src/lib/realtime/client.ts
 
 import type { HerdEvent, RealtimeCallback } from './types'
+import { log } from '../logger'
 
 class RealtimeClientImpl {
   private subscribers = new Map<string, Set<RealtimeCallback>>()
@@ -33,7 +34,7 @@ class RealtimeClientImpl {
   private connect() {
     if (this.isConnected) return
     
-    console.log('[REALTIME] Client connecting...')
+    log('[REALTIME] Client connecting...')
     this.isConnected = true
     
     // Listen for events from the server via polling/EventSource/WebSocket
