@@ -29,17 +29,20 @@ export default async function Page({ params }: P) {
   const { lang: raw, tema } = await params
   const lang = normalizeUrlLocale(raw)
   const fm = getTopicFrontmatter(lang, tema)
+  const title = typeof fm?.title === 'string' ? fm.title : tema
+  const description =
+    typeof fm?.description === 'string' ? fm.description : 'Čoskoro.'
   return (
     <Container>
       <Breadcrumbs
         items={[
           { href: `/${lang}`, label: 'Domov' },
           { href: `/${lang}/pomocky`, label: 'Pomôcky' },
-          { label: fm?.title || tema },
+          { label: title },
         ]}
       />
-      <h1 className="text-3xl font-semibold mt-4">{fm?.title || tema}</h1>
-      <p className="text-muted-foreground mt-2">{fm?.description || 'Čoskoro.'}</p>
+      <h1 className="text-3xl font-semibold mt-4">{title}</h1>
+      <p className="text-muted-foreground mt-2">{description}</p>
     </Container>
   )
 }
