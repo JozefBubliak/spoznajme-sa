@@ -1,6 +1,13 @@
-"use client"
+"use client";
+
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  // Globálne providery (theme, queryClient, atď.) pridáme neskôr.
-  return <>{children}</>
+  return (
+    <ThemeProvider>
+      {children}
+      <Toaster richColors />
+    </ThemeProvider>
+  );
 }
