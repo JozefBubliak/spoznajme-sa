@@ -19,7 +19,7 @@ export async function GET(
   const { code } = await params
   const gameCode = String(code || '').toUpperCase()
 
-  const supabase = supabaseServer() as any
+  const supabase = supabaseServer()
 
   const { data: room } = await supabase
     .from('rooms')
@@ -45,7 +45,7 @@ export async function GET(
     .select('id, nickname, guest_id')
     .eq('session_id', session.id)
 
-  const participants = (participantData ?? []) as Participant[]
+  const participants: Participant[] = participantData ?? []
 
   const players = participants.map((p: Participant) => ({
     id: p.id,
@@ -73,7 +73,7 @@ export async function POST(
 
   const guestId = guestIdFromBody ?? randomUUID()
 
-  const supabase = supabaseServer() as any
+  const supabase = supabaseServer()
   const { data, error } = await supabase.rpc('join_room', {
     p_code: gameCode,
     p_nickname: playerName,
