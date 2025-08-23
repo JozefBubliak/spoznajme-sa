@@ -36,9 +36,11 @@ export async function POST(_req: Request, context: any) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
+
   if (sessionRow.status === 'setup') {
     return NextResponse.json({ success: true, status: sessionRow.status })
   }
+
 
   if (sessionRow.status !== 'waiting') {
     return NextResponse.json({ error: 'Lobby already closed' }, { status: 400 })
