@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { store, type Player, type PlayerAnswer } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
 
@@ -11,13 +11,14 @@ interface AnswerBody {
   answer: 'A' | 'B' | 'C' | 'D' | null
 }
 
-export async function POST(
-  req: Request,
-  { params }: { params: { code: string } }
-) {
+interface Context {
+  params: { code: string }
+}
+
+export async function POST(req: NextRequest, context: Context) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = params
+  const { code } = context.params
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
