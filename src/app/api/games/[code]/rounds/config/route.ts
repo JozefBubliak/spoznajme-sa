@@ -5,12 +5,12 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-interface RouteContext { params: { code: string } }
+interface RouteContext { params: Promise<{ code: string }> }
 
 export async function POST(req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = context.params
+  const { code } = await context.params
 
   // bezpečné načítanie body
   const body = (await req.json().catch(() => ({}))) as {

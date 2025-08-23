@@ -7,11 +7,11 @@ export const dynamic = 'force-dynamic'
 
 // GET – vráti lobby (zoznam hráčov)
 interface RouteContext {
-  params: { code: string }
+  params: Promise<{ code: string }>
 }
 
 export async function GET(_req: Request, context: RouteContext) {
-  const { code } = context.params
+  const { code } = await context.params
   const gameCode = String(code || '').toUpperCase()
 
   const supabase = supabaseServer()
@@ -49,7 +49,7 @@ export async function GET(_req: Request, context: RouteContext) {
 interface JoinBody { name?: string; guestId?: string }
 
 export async function POST(req: Request, context: RouteContext) {
-  const { code } = context.params
+  const { code } = await context.params
   const gameCode = String(code || '').toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as JoinBody

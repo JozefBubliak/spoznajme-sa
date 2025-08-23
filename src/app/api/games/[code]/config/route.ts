@@ -7,13 +7,13 @@ export const dynamic = 'force-dynamic'
 
 // (voliteľné) Načítanie aktuálnej konfigurácie hry
 interface RouteContext {
-  params: { code: string }
+  params: Promise<{ code: string }>
 }
 
 export async function GET(_req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = context.params
+  const { code } = await context.params
 
   // Ak chceš, môžeš čítať z DB. Tu ponechám stub, aby build vždy prešiel.
   // try {
@@ -40,7 +40,7 @@ interface ConfigBody {
 export async function POST(req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = context.params
+  const { code } = await context.params
 
   const body = (await req.json().catch(() => ({}))) as ConfigBody
 
