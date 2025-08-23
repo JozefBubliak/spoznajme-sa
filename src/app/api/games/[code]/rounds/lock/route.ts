@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/rounds/lock/route.ts
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
@@ -8,10 +8,10 @@ import { getSession } from '@/app/api/games/_session'
 export const dynamic = 'force-dynamic'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function POST(req: Request, { params }: any) {
-  const session = await getSession()
+export async function POST(req: NextRequest, context: any) {
+  const session = await getSession(req)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = params as { code: string }
+  const code = context?.params?.code as string
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
