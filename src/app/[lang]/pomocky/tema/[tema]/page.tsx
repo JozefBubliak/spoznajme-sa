@@ -11,8 +11,10 @@ export async function generateMetadata({ params }: P): Promise<Metadata> {
   const { lang: raw, tema } = await params
   const lang = normalizeUrlLocale(raw)
   const fm = getTopicFrontmatter(lang, tema)
-  const title = fm?.seoTitle || fm?.title || `Téma – ${tema}`
-  const description = fm?.seoDescription || 'Čoskoro.'
+  const rawTitle = fm?.seoTitle ?? fm?.title
+  const title = typeof rawTitle === 'string' ? rawTitle : `Pomôcky – ${tema}`
+  const description =
+    typeof fm?.seoDescription === 'string' ? fm.seoDescription : 'Čoskoro.'
   return {
     title,
     description,
