@@ -12,7 +12,7 @@ export async function GET(_req: Request, context: RouteContext) {
   const { code } = await context.params
 
   const gameCode = String(code || '').toUpperCase()
-  const supabase = supabaseServer()
+  const supabase = supabaseServer() as any
 
   const { data: room } = await supabase
     .from('rooms')
