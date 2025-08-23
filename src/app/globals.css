@@ -144,15 +144,13 @@
 }
 
 @layer base {
-  /* NAMIETO @apply border-border použijeme priamy CSS štýl
-     (je to identické správanie, ale bez rizika "unknown utility") */
-  * {
-    border-color: hsl(var(--border));
-  }
-  
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    @apply border-border;
   }
 
   body {
