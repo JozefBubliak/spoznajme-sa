@@ -1,7 +1,7 @@
 // src/i18n/server.ts
 import { FALLBACK_LOCALE, type Locale } from "./config";
 
-type Dict = Record<string, any>;
+type Dict = Record<string, unknown>;
 
 function merge(base: Dict, override: Dict): Dict {
   const out: Dict = { ...base };

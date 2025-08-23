@@ -6,8 +6,12 @@ import { randomUUID } from 'crypto'
 export const dynamic = 'force-dynamic'
 
 // GET – vráti lobby (zoznam hráčov)
-export async function GET(_req: Request, context: any) {
-  const { code } = (context?.params ?? {}) as { code: string }
+interface RouteContext {
+  params: { code: string }
+}
+
+export async function GET(_req: Request, context: RouteContext) {
+  const { code } = context.params
   const gameCode = String(code || '').toUpperCase()
 
   const supabase = supabaseServer()
@@ -42,15 +46,17 @@ export async function GET(_req: Request, context: any) {
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
-export async function POST(req: Request, context: any) {
-  const { code } = (context?.params ?? {}) as { code: string }
+interface JoinBody { name?: string; guestId?: string }
+
+export async function POST(req: Request, context: RouteContext) {
+  const { code } = context.params
   const gameCode = String(code || '').toUpperCase()
 
-  const body = await req.json().catch(() => ({} as any))
-  const name = String(body?.name || '').trim()
+  const body = (await req.json().catch(() => ({}))) as JoinBody
+  const name = String(body.name || '').trim()
   if (!name) return NextResponse.json({ error: 'Missing name' }, { status: 400 })
 
-  const guestId = body?.guestId || randomUUID()
+  const guestId = body.guestId || randomUUID()
 
   const supabase = supabaseServer()
   const { data, error } = await supabase.rpc('join_room', {
