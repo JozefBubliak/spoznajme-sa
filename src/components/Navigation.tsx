@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { Heart, Menu, X } from "lucide-react";
 import { useState } from "react";
 
@@ -39,9 +40,9 @@ const Navigation = () => {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button variant="hero" size="sm">
-              Začať teraz
-            </Button>
+            <Link href="/sk/apps/spoznajme-sa/play">
+              <Button variant="hero" size="sm">Začať teraz</Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
