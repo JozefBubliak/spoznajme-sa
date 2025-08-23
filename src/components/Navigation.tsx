@@ -68,9 +68,11 @@ const Navigation = () => {
               </a>
             ))}
             <div className="pt-4">
-              <Button variant="hero" size="sm" className="w-full">
-                Začať teraz
-              </Button>
+              <Link href="/sk/apps/spoznajme-sa/play">
+                <Button variant="hero" size="sm" className="w-full">
+                  Začať teraz
+                </Button>
+              </Link>
             </div>
           </div>
         )}
