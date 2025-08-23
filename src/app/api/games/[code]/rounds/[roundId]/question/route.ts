@@ -7,12 +7,11 @@ export const dynamic = 'force-dynamic'
 
 type FourAnswers = { answer_a?: string; answer_b?: string; answer_c?: string; answer_d?: string }
 
-interface RouteContext { params: Promise<{ code: string; roundId: string }> }
-
-export async function GET(_req: Request, context: RouteContext) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function GET(_req: Request, { params }: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code, roundId } = await context.params
+  const { code, roundId } = params as { code: string; roundId: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)

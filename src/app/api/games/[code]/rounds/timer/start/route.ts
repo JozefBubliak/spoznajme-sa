@@ -7,13 +7,13 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-interface RouteContext { params: Promise<{ code: string }> }
 interface TimerBody { seconds?: number; duration?: number; roundId?: string }
 
-export async function POST(req: Request, context: RouteContext) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function POST(req: Request, { params }: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = await context.params
+  const { code } = params as { code: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
