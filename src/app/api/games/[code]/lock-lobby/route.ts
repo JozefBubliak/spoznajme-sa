@@ -24,7 +24,7 @@ export async function POST(_req: Request, context: any) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const { data: sessionRow } = await supabase
+  let { data: sessionRow } = await supabase
     .from('game_sessions')
     .select('id, status')
     .eq('room_id', room.id)
@@ -32,18 +32,29 @@ export async function POST(_req: Request, context: any) {
     .limit(1)
     .single()
 
-  if (!sessionRow) {
-    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
-  }
-
-
-  if (sessionRow.status === 'setup') {
+  if (sessionRow?.status === 'setup') {
     return NextResponse.json({ success: true, status: sessionRow.status })
   }
 
+  if (!sessionRow || sessionRow.status !== 'waiting') {
+    const { error: lobbyError } = await supabase.rpc('open_lobby')
+    if (lobbyError) {
+      return NextResponse.json({ error: lobbyError.message }, { status: 500 })
+    }
 
-  if (sessionRow.status !== 'waiting') {
-    return NextResponse.json({ error: 'Lobby already closed' }, { status: 400 })
+    const { data: freshSession, error: selectError } = await supabase
+      .from('game_sessions')
+      .select('id, status')
+      .eq('room_id', room.id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (selectError || !freshSession) {
+      return NextResponse.json({ error: 'Unable to reset session' }, { status: 500 })
+    }
+
+    sessionRow = freshSession
   }
 
   const { data: updated, error } = await supabase
