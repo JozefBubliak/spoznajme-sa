@@ -54,3 +54,9 @@ next-env.d.ts
 *project-structure*.txt
 *folder-structure*.txt
 *projekt-*.txt
+# Bun
+bun.lockb
+
+# Windows
+Desktop.ini
+desktop.ini
