@@ -1,11 +1,18 @@
 // PATH: src/app/api/games/[code]/players/route.ts
 import { NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto' // explicitný node import (funguje v Node runtime)
 
 export const dynamic = 'force-dynamic'
 
+// --- Typy ---
 type Participant = {
+  id: string
+  nickname: string
+  guest_id: string | null
+}
+
+type JoinRoomResult = {
   id: string
   nickname: string
   guest_id: string | null
@@ -14,7 +21,7 @@ type Participant = {
 // GET – vráti lobby (zoznam hráčov)
 export async function GET(
   _req: Request,
-  { params }: { params: Promise<{ code: string }> }
+  { params }: { params: Promise<{ code: string }> } // Next 15: params je Promise
 ) {
   const { code } = await params
   const gameCode = String(code || '').toUpperCase()
@@ -47,7 +54,7 @@ export async function GET(
 
   const participants: Participant[] = participantData ?? []
 
-  const players = participants.map((p: Participant) => ({
+  const players = participants.map((p) => ({
     id: p.id,
     name: p.nickname,
     guestId: p.guest_id ?? undefined,
@@ -64,12 +71,15 @@ export async function POST(
   const { code } = await params
   const gameCode = String(code || '').toUpperCase()
 
-  const { name, guestId: guestIdFromBody } = (await req
-    .json()
-    .catch(() => ({}))) as { name?: string; guestId?: string }
+  const { name, guestId: guestIdFromBody } = (await req.json().catch(() => ({}))) as {
+    name?: string
+    guestId?: string
+  }
+
   const playerName = String(name || '').trim()
-  if (!playerName)
+  if (!playerName) {
     return NextResponse.json({ error: 'Missing name' }, { status: 400 })
+  }
 
   const guestId = guestIdFromBody ?? randomUUID()
 
@@ -81,14 +91,18 @@ export async function POST(
   })
 
   if (error || !data) {
-    return NextResponse.json({ error: error?.message || 'Unable to join' }, { status: 400 })
+    return NextResponse.json(
+      { error: error?.message || 'Unable to join' },
+      { status: 400 }
+    )
   }
 
+  const joined = data as JoinRoomResult
+
   return NextResponse.json({
-    playerId: data.id,
-    name: data.nickname,
-    guestId: data.guest_id,
+    playerId: joined.id,
+    name: joined.nickname,
+    guestId: joined.guest_id,
     gameCode,
   })
 }
-
