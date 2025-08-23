@@ -62,6 +62,30 @@ export type Database = {
         Args: { user_email: string }
         Returns: boolean
       }
+      ensure_room: {
+        Args: Record<string, never>
+        Returns: { code: string }
+      }
+      open_lobby: {
+        Args: Record<string, never>
+        Returns: unknown
+      }
+      join_room: {
+        Args: {
+          p_code: string
+          p_nickname: string
+          p_guest_id: string
+        }
+        Returns: { id: number; nickname: string; guest_id: string }
+      }
+      start_game: {
+        Args: Record<string, never>
+        Returns: { status: 'lobby' | 'setup' | 'running' | 'ended' }
+      }
+      lock_lobby: {
+        Args: Record<string, never>
+        Returns: { status: 'lobby' | 'setup' | 'running' | 'ended' }
+      }
     }
     Enums: {
       game_session_status: 'lobby' | 'setup' | 'running' | 'ended'
