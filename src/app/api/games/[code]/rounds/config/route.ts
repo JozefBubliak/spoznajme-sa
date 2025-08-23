@@ -1,36 +1,32 @@
-// PATH: src/app/api/games/[code]/rounds/config/route.ts
-import 'server-only'
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
-import type { Json } from '@/integrations/supabase/types'
 
 export const dynamic = 'force-dynamic'
 
-type UpsertBody = {
-  index: number
+type Payload = {
+  index?: number
   topic?: string | null
-  questions?: Json
+  questions?: unknown
 }
 
-export async function POST(req: NextRequest, { params }: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  const code = String(params?.code ?? '').toUpperCase()
-  const body = (await req.json().catch(() => ({}))) as UpsertBody
+export async function POST(req: NextRequest, context: any) {
+  const code = String(context?.params?.code ?? '').toUpperCase()
+  const { index, topic, questions } = (await req.json().catch(() => ({}))) as Payload
 
-  if (!Number.isInteger(body.index)) {
+  if (typeof index !== 'number') {
     return NextResponse.json({ error: 'Missing or invalid "index"' }, { status: 400 })
   }
 
   const s = supabaseServer()
-
-  // overíme, že miestnosť existuje (nech upsert nie je „do prázdna“)
-  const { data: room } = await s.from('rooms').select('id').eq('code', code).single()
-  if (!room) return NextResponse.json({ error: 'Room not found' }, { status: 404 })
-
   const { error } = await s
     .from('herd_rounds')
     .upsert(
-      { game_code: code, index: body.index, topic: body.topic ?? null, questions: body.questions },
+      {
+        game_code: code,
+        index,
+        topic: topic ?? null,
+        questions: (questions as any) ?? null,
+      },
       { onConflict: 'game_code,index' }
     )
 
