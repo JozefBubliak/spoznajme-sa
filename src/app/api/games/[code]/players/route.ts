@@ -12,8 +12,9 @@ type Participant = {
 }
 
 // GET – vráti lobby (zoznam hráčov)
-export async function GET(_req: Request, { params }: { params: { code: string } }) {
-  const gameCode = String(params?.code ?? '').toUpperCase()
+export async function GET(_req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
+  const gameCode = String(code ?? '').toUpperCase()
   const supabase = supabaseServer()
 
   const { data: room } = await supabase
@@ -40,7 +41,8 @@ export async function GET(_req: Request, { params }: { params: { code: string } 
     .select('id, nickname, guest_id')
     .eq('session_id', session.id)
 
-  const participants: Participant[] = participantData ?? []
+  const participants: Participant[] = (participantData ?? []) as Participant[]
+
   const players = participants.map((p) => ({
     id: p.id,
     name: p.nickname,
@@ -51,11 +53,12 @@ export async function GET(_req: Request, { params }: { params: { code: string } 
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
-export async function POST(req: Request, { params }: { params: { code: string } }) {
-  const gameCode = String(params?.code ?? '').toUpperCase()
+export async function POST(req: Request, context: any) {
+  const { code } = (context?.params ?? {}) as { code: string }
+  const gameCode = String(code ?? '').toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as { name?: string; guestId?: string }
-  const name = String(body?.name || '').trim()
+  const name = String(body?.name ?? '').trim()
   if (!name) return NextResponse.json({ error: 'Missing name' }, { status: 400 })
 
   const guestId = body?.guestId ?? randomUUID()
@@ -68,7 +71,7 @@ export async function POST(req: Request, { params }: { params: { code: string } 
   })
 
   if (error || !data) {
-    return NextResponse.json({ error: error?.message || 'Unable to join' }, { status: 400 })
+    return NextResponse.json({ error: error?.message ?? 'Unable to join' }, { status: 400 })
   }
 
   return NextResponse.json({
