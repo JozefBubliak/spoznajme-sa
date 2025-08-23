@@ -6,14 +6,11 @@ import { getSession } from '@/app/api/games/_session'
 export const dynamic = 'force-dynamic'
 
 // (voliteľné) Načítanie aktuálnej konfigurácie hry
-interface RouteContext {
-  params: Promise<{ code: string }>
-}
-
-export async function GET(_req: Request, context: RouteContext) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function GET(_req: Request, { params }: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = await context.params
+  const { code } = params as { code: string }
 
   // Ak chceš, môžeš čítať z DB. Tu ponechám stub, aby build vždy prešiel.
   // try {
@@ -37,10 +34,11 @@ interface ConfigBody {
   scoring?: string
 }
 
-export async function POST(req: Request, context: RouteContext) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function POST(req: Request, { params }: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = await context.params
+  const { code } = params as { code: string }
 
   const body = (await req.json().catch(() => ({}))) as ConfigBody
 
