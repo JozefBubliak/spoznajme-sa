@@ -1,50 +1,46 @@
 // PATH: src/app/api/games/[code]/rounds/config/route.ts
 import { NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
-import { getSession } from '@/app/api/games/_session'
+import type { Json } from '@/integrations/supabase/types'
 
 export const dynamic = 'force-dynamic'
 
-interface RouteContext { params: Promise<{ code: string }> }
+type Body = {
+  index: number
+  topic?: string | null
+  questions?: Json
+}
 
-export async function POST(req: Request, context: RouteContext) {
-  const session = await getSession()
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = await context.params
+// Uloženie/aktualizácia kola (idempotentne podľa game_code + index)
+export async function POST(
+  req: Request,
+  { params }: { params: { code: string } }
+) {
+  const code = String(params?.code ?? '').toUpperCase()
 
-  // bezpečné načítanie body
-  const body = (await req.json().catch(() => ({}))) as {
-    index?: number
-    topic?: string
-    questions?: unknown
+  const payload = (await req.json().catch(() => ({}))) as Partial<Body>
+  const index = payload.index
+  const topic = payload.topic ?? null
+  const questions = (payload.questions ?? null) as Json | null
+
+  if (typeof index !== 'number' || Number.isNaN(index)) {
+    return NextResponse.json(
+      { error: 'Missing or invalid "index"' },
+      { status: 400 }
+    )
   }
-  const { index, topic, questions } = body
 
   const s = supabaseServer()
 
-  // uloženie/aktualizácia kola (idempotentne podľa game_code + index)
+  // DÔLEŽITÉ: pošli pole s jedným objektom, aby sadol správny overload
   const { error } = await s
     .from('herd_rounds')
-    .upsert(
-      { game_code: code, index, topic, questions },
-      { onConflict: 'game_code,index' }
-    )
+    .upsert([{ game_code: code, index, topic, questions }], {
+      onConflict: 'game_code,index',
+    })
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-
-  // voliteľne: ak je to posledné potvrdené kolo, prepneme hru do "ready"
-  try {
-    const g = await s.from('herd_games').select('total_rounds').eq('code', code).single()
-    const have = await s
-      .from('herd_rounds')
-      .select('index', { count: 'exact', head: true })
-      .eq('game_code', code)
-
-    if (!g.error && !have.error && (have.count ?? 0) >= (g.data?.total_rounds ?? 0)) {
-      await s.from('herd_games').update({ phase: 'ready' }).eq('code', code)
-    }
-  } catch {
-    // nič – len nech to nepadne, keď typy/kolónky chýbajú
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 400 })
   }
 
   return NextResponse.json({ ok: true })
