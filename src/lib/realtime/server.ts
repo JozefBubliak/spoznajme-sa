@@ -3,6 +3,12 @@
 import type { HerdEvent } from './types'
 import { log } from '../logger'
 
+declare global {
+  interface Window {
+    RealtimeClient?: { simulateEvent?: (channel: string, event: HerdEvent) => void }
+  }
+}
+
 class RealtimeServerImpl {
   async publish(channel: string, event: HerdEvent): Promise<void> {
     log(`[REALTIME] Publishing to ${channel}:`, event)
@@ -22,7 +28,7 @@ class RealtimeServerImpl {
     // Fallback for development: simulate client event reception
     if (typeof window !== 'undefined') {
       // Browser context - send to client directly
-      const client = (window as any).RealtimeClient
+      const client = window.RealtimeClient
       if (client?.simulateEvent) {
         setTimeout(() => client.simulateEvent(channel, event), 50)
       }

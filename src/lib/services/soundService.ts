@@ -7,7 +7,10 @@ export class SoundService {
     if (typeof window === 'undefined') return
     
     try {
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+      const AudioCtx =
+        window.AudioContext ||
+        (window as Window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+      this.audioContext = new AudioCtx()
     } catch (error) {
       console.warn('AudioContext not supported:', error)
     }

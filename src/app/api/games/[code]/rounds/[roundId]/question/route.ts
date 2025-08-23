@@ -1,16 +1,18 @@
 // PATH: src/app/api/games/[code]/rounds/[roundId]/question/route.ts
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
+import { store, type Question } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
 type FourAnswers = { answer_a?: string; answer_b?: string; answer_c?: string; answer_d?: string }
 
-export async function GET(_req: Request, context: any) {
+interface RouteContext { params: { code: string; roundId: string } }
+
+export async function GET(_req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code, roundId } = (context?.params ?? {}) as { code: string; roundId: string }
+  const { code, roundId } = context.params
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -36,15 +38,19 @@ export async function GET(_req: Request, context: any) {
 
   // Bezpečný fallback pre možnosti:
   let optionsArray: string[]
-  if (Array.isArray((question as any).options) && (question as any).options.length > 0) {
-    optionsArray = (question as any).options as string[]
+  let questionText = ''
+  if ('options' in question && Array.isArray((question as Question).options)) {
+    const q = question as Question
+    optionsArray = q.options
+    questionText = q.question_text
   } else {
-    const q = question as unknown as FourAnswers
-    optionsArray = [q.answer_a, q.answer_b, q.answer_c, q.answer_d].filter(Boolean) as string[]
+    const q = question as FourAnswers & { text?: string; question_text?: string }
+    optionsArray = [q.answer_a, q.answer_b, q.answer_c, q.answer_d].filter((o): o is string => !!o)
+    questionText = q.question_text ?? q.text ?? ''
   }
 
   return NextResponse.json({
-    text: (question as any).question_text ?? (question as any).text ?? '',
+    text: questionText,
     options: optionsArray,
     timeLeft: Math.ceil(timeLeft / 1000),
     qIndex,

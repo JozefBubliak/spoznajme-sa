@@ -4,10 +4,12 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(_req: Request, context: any) {
+interface RouteContext { params: { code: string } }
+
+export async function GET(_req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
+  const { code } = context.params
 
   const gameCode = String(code || '').toUpperCase()
   const supabase = supabaseServer()
