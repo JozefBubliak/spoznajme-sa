@@ -65,10 +65,23 @@ export type Game = {
 };
 
 // ---- helpers ----
-function rand(n: number) { return Math.floor(Math.random() * n); }
 function pickCode(len = 6) {
   const alph = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  return Array.from({ length: len }, () => alph[rand(alph.length)]).join('');
+  if (typeof crypto !== 'undefined') {
+    const c = crypto as Crypto & { randomInt?: (max: number) => number };
+    if (typeof c.randomInt === 'function') {
+      return Array.from({ length: len }, () => alph[c.randomInt!(alph.length)]).join('');
+    }
+    if (typeof c.getRandomValues === 'function') {
+      const buf = new Uint32Array(len);
+      c.getRandomValues(buf);
+      return Array.from(buf, n => alph[n % alph.length]).join('');
+    }
+  }
+  return Array.from(
+    { length: len },
+    () => alph[Math.floor(Math.random() * alph.length)]
+  ).join('');
 }
 function uuid() {
   // v node 18+/browser je crypto.randomUUID; fallback pre istotu
