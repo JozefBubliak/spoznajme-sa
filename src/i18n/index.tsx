@@ -19,10 +19,15 @@ export const SUPPORTED_LOCALES = [
 export type Locale = typeof SUPPORTED_LOCALES[number]
 export const DEFAULT_LOCALE: Locale = 'en'
 
-const dictionaries: Record<string, Record<string, any>> = { en, sk, cz, de, pl, fr, hu, es, ua, ru }
+const dictionaries: Record<string, Record<string, unknown>> = { en, sk, cz, de, pl, fr, hu, es, ua, ru }
 
-function get(obj: any, path: string) {
-  return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj)
+function get(obj: unknown, path: string): unknown {
+  return path.split('.').reduce<unknown>((acc, key) => {
+    if (acc && typeof acc === 'object' && key in (acc as Record<string, unknown>)) {
+      return (acc as Record<string, unknown>)[key]
+    }
+    return undefined
+  }, obj)
 }
 
 // normalizácia jazykových kódov (cs->cz, uk->ua; zhodenie -SK/-CZ atď.)

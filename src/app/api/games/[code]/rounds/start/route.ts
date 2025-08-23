@@ -7,16 +7,19 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, context: any) {
+interface RouteContext { params: { code: string } }
+interface StartBody { roundId?: string }
+
+export async function POST(req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
+  const { code } = context.params
 
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
-  const body = await req.json().catch(() => ({} as any))
+  const body = (await req.json().catch(() => ({}))) as StartBody
   const { roundId } = body
 
   // vyber kolo: buď podľa roundId, alebo prvé pending/ready

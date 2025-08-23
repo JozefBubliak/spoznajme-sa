@@ -5,17 +5,22 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, context: any) {
+interface RouteContext { params: { code: string } }
+
+export async function POST(req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  // Next 15 je prísny na typ 2. argumentu – použijeme voľný "context: any"
-  const { code } = (context?.params ?? {}) as { code: string }
+  const { code } = context.params
 
   // bezpečné načítanie body
-  const body = await req.json().catch(() => ({} as any))
+  const body = (await req.json().catch(() => ({}))) as {
+    index?: number
+    topic?: string
+    questions?: unknown
+  }
   const { index, topic, questions } = body
 
-  const s = supabaseServer() as any // "as any" obíde TS typy generované zo Supabase
+  const s = supabaseServer()
 
   // uloženie/aktualizácia kola (idempotentne podľa game_code + index)
   const { error } = await s

@@ -8,7 +8,7 @@ export interface SlotProps extends React.HTMLAttributes<HTMLElement> {
 
 export const Slot = React.forwardRef<HTMLElement, SlotProps>(
   ({ children, className, ...props }, ref) => {
-    const child = React.Children.only(children) as React.ReactElement<any>
+    const child = React.Children.only(children) as React.ReactElement<unknown>
     return React.cloneElement(child, {
       ...props,
       ref,

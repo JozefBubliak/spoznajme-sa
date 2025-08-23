@@ -2,6 +2,12 @@
 
 import type { HerdEvent, RealtimeCallback } from './types'
 
+declare global {
+  interface Window {
+    RealtimeClient?: RealtimeClientImpl
+  }
+}
+
 class RealtimeClientImpl {
   private subscribers = new Map<string, Set<RealtimeCallback>>()
   private isConnected = false
@@ -69,5 +75,5 @@ export const RealtimeClient = new RealtimeClientImpl()
 
 // Expose for server simulation in dev
 if (typeof window !== 'undefined') {
-  (window as any).RealtimeClient = RealtimeClient
+  window.RealtimeClient = RealtimeClient
 }
