@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart } from "lucide-react";
+import Image from "next/image";
 import heroImage from "@/assets/hero-connection.jpg";
 
 const Hero = () => {
@@ -7,10 +8,12 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-warm">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src={heroImage} 
-          alt="People connecting through meaningful conversations" 
-          className="w-full h-full object-cover opacity-20"
+        <Image
+          src={heroImage}
+          alt="People connecting through meaningful conversations"
+          fill
+          className="object-cover opacity-20"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-sunset opacity-10"></div>
       </div>
