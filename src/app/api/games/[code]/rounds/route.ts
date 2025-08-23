@@ -1,7 +1,6 @@
 // PATH: src/app/api/games/[code]/rounds/route.ts
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
-import type { RoundSettings } from '@/lib/herdvote/store'
+import { store, type RoundSettings } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
@@ -15,10 +14,17 @@ export const dynamic = 'force-dynamic'
  *   "settings": { timeLimit: 30, scoring: {...} } as RoundSettings
  * }
  */
-export async function POST(req: Request, context: any) {
+interface RouteContext { params: { code: string } }
+interface RoundBody {
+  category?: string
+  count?: number
+  settings?: RoundSettings
+}
+
+export async function POST(req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
+  const { code } = context.params
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -26,10 +32,10 @@ export async function POST(req: Request, context: any) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const body = await req.json().catch(() => ({} as any))
-  const rawCategory = String(body?.category || '').trim()
-  const count = Math.max(1, Math.min(100, Number(body?.count || 10)))
-  const settings = body?.settings as RoundSettings | undefined
+  const body = (await req.json().catch(() => ({}))) as RoundBody
+  const rawCategory = String(body.category || '').trim()
+  const count = Math.max(1, Math.min(100, Number(body.count || 10)))
+  const settings = body.settings
 
   if (!rawCategory) {
     return NextResponse.json({ error: 'Missing category' }, { status: 400 })
@@ -50,8 +56,8 @@ export async function POST(req: Request, context: any) {
     return NextResponse.json({ error: 'Category not available' }, { status: 400 })
   }
 
-  const usedIds: string[] = (game as any).usedQuestionIds || []
-  ;(game as any).usedQuestionIds = usedIds
+  const usedIds: string[] = game.usedQuestionIds || []
+  game.usedQuestionIds = usedIds
 
   // Mock otázky (kým nemáš prístup k herd_questions)
   const mockQuestions = Array.from({ length: count }, (_, i) => ({
@@ -100,7 +106,7 @@ export async function POST(req: Request, context: any) {
   }
 
   usedIds.push(...picked.map(p => p.id))
-  ;(game as any).usedQuestionIds = Array.from(new Set(usedIds))
+  game.usedQuestionIds = Array.from(new Set(usedIds))
 
   return NextResponse.json({ roundId: round.id })
 }

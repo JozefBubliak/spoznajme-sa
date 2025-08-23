@@ -1,16 +1,19 @@
 // PATH: src/app/api/games/[code]/rounds/next/route.ts
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
+import { store, type Player } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, context: any) {
+interface RouteContext { params: { code: string } }
+interface NextBody { roundId?: string }
+
+export async function POST(req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
+  const { code } = context.params
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -18,7 +21,7 @@ export async function POST(req: Request, context: any) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const body = await req.json().catch(() => ({} as any))
+  const body = (await req.json().catch(() => ({}))) as NextBody
   const { roundId } = body
 
   // nájdi kolo v stave "results"
@@ -37,7 +40,7 @@ export async function POST(req: Request, context: any) {
   if (nextQIndex >= targetRound.questions.length) {
     targetRound.status = 'finished'
 
-    const leaderboard = [...game.players].sort((a, b) => b.score - a.score)
+    const leaderboard: Player[] = [...game.players].sort((a, b) => b.score - a.score)
 
     await RealtimeServer.publish(channelFor(gameCode), {
       type: 'round:finish',

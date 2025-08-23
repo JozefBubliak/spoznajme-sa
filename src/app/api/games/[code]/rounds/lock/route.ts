@@ -7,11 +7,12 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, context: any) {
+interface RouteContext { params: { code: string } }
+
+export async function POST(req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  // bezpečne vezmeme route parametre
-  const { code } = (context?.params ?? {}) as { code: string }
+  const { code } = context.params
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -19,8 +20,8 @@ export async function POST(req: Request, context: any) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const body = await req.json().catch(() => ({} as any))
-  const { roundId } = body ?? {}
+  const body = (await req.json().catch(() => ({}))) as { roundId?: string }
+  const { roundId } = body
 
   // nájdi cieľové kolo: podľa roundId alebo práve aktívne
   const targetRound = roundId

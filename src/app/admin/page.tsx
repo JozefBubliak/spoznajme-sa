@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
 import { Brain } from 'lucide-react'
+import { log } from '@/lib/logger'
 
 const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
 
@@ -77,7 +78,7 @@ export default function AdminPage() {
 
     if (!error && data && data.length > 0) {
       const q = data[0]
-      console.log('[DEBUG] Načítaná otázka:', q.id, q.text)
+      log('[DEBUG] Načítaná otázka:', q.id, q.text)
       setQuestion(q)
       setGroupState({
         partneri: q.partneri,
@@ -98,8 +99,8 @@ export default function AdminPage() {
       admin_status: status ?? 3, // ak nič neklikneš, berieme ako OK
     }
 
-    console.log('[DEBUG] Ukladám otázku:', question.id)
-    console.log('[DEBUG] Dáta:', updateData)
+    log('[DEBUG] Ukladám otázku:', question.id)
+    log('[DEBUG] Dáta:', updateData)
 
     const { error } = await supabase
       .from('questions')

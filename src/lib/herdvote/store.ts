@@ -41,6 +41,7 @@ export type Round = {
   status: 'pending'|'running'|'locked'|'results'|'finished'|'ready'|'shown';
   qIndex: number;     // index aktuálnej otázky
   startedAt?: number; // ms – štart aktuálnej otázky
+  deadline?: number;  // ms – koniec časovača
 };
 
 export type PlayerAnswer = {
@@ -51,17 +52,20 @@ export type PlayerAnswer = {
   ts: number; // ms – čas odoslania
 };
 
+export type GameSettings = Record<string, unknown>;
+
 export type Game = {
   id: string;
   code: string;
   status: 'waiting'|'active'|'finished'|'setup';
-  settings: Record<string, any>;
+  settings: GameSettings;
   players: Player[];
   rounds: Round[];
   answers: PlayerAnswer[]; // všetky odpovede
   createdAt: number;
 
   activeRoundId?: string;
+  usedQuestionIds?: string[];
 };
 
 // ---- helpers ----
@@ -95,7 +99,7 @@ function uuid() {
 export const store = {
   games: new Map<string, Game>(),
 
-  createGame(settings: Record<string, any> = {}) {
+  createGame(settings: GameSettings = {}) {
     const code = pickCode(6);
     const game: Game = {
       id: uuid(),
@@ -149,3 +153,15 @@ export const store = {
 };
 
 export default store;
+
+export type {
+  Player,
+  Question,
+  ScoringClassic,
+  ScoringPodium,
+  RoundSettings,
+  Round,
+  PlayerAnswer,
+  Game,
+  GameSettings,
+};

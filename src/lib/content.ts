@@ -7,7 +7,7 @@ function readMDXFrontmatter(filePath: string) {
     if (fs.existsSync(filePath)) {
       const raw = fs.readFileSync(filePath, 'utf8')
       const { data } = matter(raw)
-      return data as Record<string, any>
+      return data as Record<string, unknown>
     }
   } catch (e) {
     console.error('MDX read error:', e)
