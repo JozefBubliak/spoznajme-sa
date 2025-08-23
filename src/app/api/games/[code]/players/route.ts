@@ -40,7 +40,17 @@ export async function GET(_req: Request, context: RouteContext) {
     .select('id, nickname, guest_id')
     .eq('session_id', session.id)
 
-  const players = (participants || []).map(p => ({ id: p.id, name: p.nickname, guestId: p.guest_id }))
+  interface Participant {
+    id: string
+    nickname: string
+    guest_id: string
+  }
+
+  const players = (participants || []).map((p: Participant) => ({
+    id: p.id,
+    name: p.nickname,
+    guestId: p.guest_id,
+  }))
 
   return NextResponse.json({ players })
 }
