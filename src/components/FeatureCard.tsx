@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Image, { StaticImageData } from "next/image";
 
 interface FeatureCardProps {
   title: string;
   description: string;
-  image: string;
+  image: string | StaticImageData;
   imageAlt: string;
   ctaText: string;
   href: string;
@@ -33,9 +34,11 @@ const FeatureCard = ({
       hover:scale-105 hover:-translate-y-2 border border-border/30
     `}>
       <div className="aspect-square w-24 h-24 mx-auto mb-6 rounded-2xl overflow-hidden shadow-soft">
-        <img 
-          src={image} 
+        <Image
+          src={image}
           alt={imageAlt}
+          width={96}
+          height={96}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
         />
       </div>
