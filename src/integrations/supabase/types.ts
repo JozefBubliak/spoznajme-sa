@@ -8,51 +8,54 @@ export type Json =
   | Json[]
 
 export type Database = {
-  __InternalSupabase: { PostgrestVersion: "13.0.4" }
+  __InternalSupabase: {
+    // nevadí, že je tu – nie je použité pri kóde
+    PostgrestVersion: '13.0.4'
+  }
   public: {
     Tables: {
-      // --- tvoje existujúce tabuľky ---
+      // ----- používané v klientoch / admin časti -----
       questions: {
         Row: {
-          admin_status: number | null
-          hlavna_skupina: string | null
           id: number
+          text: string
+          hlavna_skupina: string | null
+          podskupina: string | null
+          vyznam: string | null
+          admin_status: number | null
           kamarati: boolean | null
           partneri: boolean | null
-          podskupina: string | null
-          rodic_dieta: boolean | null
           rodina: boolean | null
-          text: string
-          vyznam: string | null
+          rodic_dieta: boolean | null
         }
         Insert: {
-          admin_status?: number | null
-          hlavna_skupina?: string | null
           id?: number
+          text: string
+          hlavna_skupina?: string | null
+          podskupina?: string | null
+          vyznam?: string | null
+          admin_status?: number | null
           kamarati?: boolean | null
           partneri?: boolean | null
-          podskupina?: string | null
-          rodic_dieta?: boolean | null
           rodina?: boolean | null
-          text: string
-          vyznam?: string | null
+          rodic_dieta?: boolean | null
         }
         Update: {
-          admin_status?: number | null
-          hlavna_skupina?: string | null
           id?: number
+          text?: string
+          hlavna_skupina?: string | null
+          podskupina?: string | null
+          vyznam?: string | null
+          admin_status?: number | null
           kamarati?: boolean | null
           partneri?: boolean | null
-          podskupina?: string | null
-          rodic_dieta?: boolean | null
           rodina?: boolean | null
-          text?: string
-          vyznam?: string | null
+          rodic_dieta?: boolean | null
         }
         Relationships: []
       }
 
-      // --- doplnené tabuľky pre hernú logiku ---
+      // ----- miestnosť (kód hry) -----
       rooms: {
         Row: {
           id: string
@@ -72,70 +75,103 @@ export type Database = {
         Relationships: []
       }
 
+      // ----- session hry v room-e -----
       game_sessions: {
         Row: {
           id: string
           room_id: string
-          status: Database["public"]["Enums"]["game_session_status"]
+          status: Database['public']['Enums']['game_session_status']
           created_at: string
         }
         Insert: {
           id?: string
           room_id: string
-          status?: Database["public"]["Enums"]["game_session_status"]
+          status?: Database['public']['Enums']['game_session_status']
           created_at?: string
         }
         Update: {
           id?: string
           room_id?: string
-          status?: Database["public"]["Enums"]["game_session_status"]
+          status?: Database['public']['Enums']['game_session_status']
           created_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "game_sessions_room_id_fkey"
-            columns: ["room_id"]
-            referencedRelation: "rooms"
-            referencedColumns: ["id"]
+            foreignKeyName: 'game_sessions_room_id_fkey'
+            columns: ['room_id']
+            referencedRelation: 'rooms'
+            referencedColumns: ['id']
           }
         ]
       }
 
+      // ----- účastníci hry (hráči) -----
       participants: {
         Row: {
           id: string
           session_id: string
-          nickname: string
           guest_id: string | null
+          nickname: string
           created_at: string
         }
         Insert: {
           id?: string
           session_id: string
-          nickname: string
           guest_id?: string | null
+          nickname: string
           created_at?: string
         }
         Update: {
           id?: string
           session_id?: string
-          nickname?: string
           guest_id?: string | null
+          nickname?: string
           created_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "participants_session_id_fkey"
-            columns: ["session_id"]
-            referencedRelation: "game_sessions"
-            referencedColumns: ["id"]
+            foreignKeyName: 'participants_session_id_fkey'
+            columns: ['session_id']
+            referencedRelation: 'game_sessions'
+            referencedColumns: ['id']
           }
         ]
       }
+
+      // ----- KONFIGURÁCIA KÔL pre hru „herd-vote“ (podľa tvojho upsertu) -----
+      herd_rounds: {
+        Row: {
+          id: string
+          game_code: string
+          index: number
+          topic: string | null
+          questions: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          game_code: string
+          index: number
+          topic?: string | null
+          questions?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          game_code?: string
+          index?: number
+          topic?: string | null
+          questions?: Json | null
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
+
     Views: {
       [_ in never]: never
     }
+
     Functions: {
       is_admin: {
         Args: { user_email: string }
@@ -150,7 +186,11 @@ export type Database = {
         Returns: unknown
       }
       join_room: {
-        Args: { p_code: string; p_nickname: string; p_guest_id: string }
+        Args: {
+          p_code: string
+          p_nickname: string
+          p_guest_id: string
+        }
         Returns: { id: string; nickname: string; guest_id: string }
       }
       start_game: {
@@ -162,102 +202,38 @@ export type Database = {
         Returns: { status: 'lobby' | 'setup' | 'running' | 'ended' }
       }
     }
+
     Enums: {
       game_session_status: 'lobby' | 'setup' | 'running' | 'ended'
     }
+
     CompositeTypes: {
       [_ in never]: never
     }
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
+// Pomocné generiká (ak ich používaš)
+type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
+type DefaultSchema = DatabaseWithoutInternals['public']
 
 export type Tables<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
-> =
-  DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends { Row: infer R }
-        ? R
-        : never
-    : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-      ? (DefaultSchema["Tables"] & DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends { Row: infer R }
-        ? R
-        : never
-      : never
+  T extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+> = (DefaultSchema['Tables'] & DefaultSchema['Views'])[T] extends { Row: infer R } ? R : never
 
 export type TablesInsert<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
-> =
-  DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends { Insert: infer I }
-      ? I
-      : never
-    : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-      ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends { Insert: infer I }
-        ? I
-        : never
-      : never
+  T extends keyof DefaultSchema['Tables']
+> = DefaultSchema['Tables'][T] extends { Insert: infer I } ? I : never
 
 export type TablesUpdate<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
-> =
-  DefaultSchemaTableNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends { Update: infer U }
-      ? U
-      : never
-    : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-      ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends { Update: infer U }
-        ? U
-        : never
-      : never
+  T extends keyof DefaultSchema['Tables']
+> = DefaultSchema['Tables'][T] extends { Update: infer U } ? U : never
 
 export type Enums<
-  DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
-> =
-  DefaultSchemaEnumNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-    : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-      ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-      : never
+  T extends keyof DefaultSchema['Enums']
+> = DefaultSchema['Enums'][T]
 
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> =
-  PublicCompositeTypeNameOrOptions extends { schema: keyof DatabaseWithoutInternals }
-    ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-    : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-      ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-      : never
-
+// Pekný malý export ak ho niekde používaš
 export const Constants = {
   public: {
     Enums: {
