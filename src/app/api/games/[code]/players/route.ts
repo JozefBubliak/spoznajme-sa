@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/players/route.ts
-import { NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { randomUUID } from 'crypto'
 
@@ -12,9 +12,9 @@ type Participant = {
 }
 
 // GET – vráti lobby (zoznam hráčov)
-export async function GET(_req: Request, context: any) {
-  const { code } = (context?.params ?? {}) as { code: string }
-  const gameCode = String(code ?? '').toUpperCase()
+export async function GET(_req: NextRequest, { params }: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const gameCode = String(params?.code ?? '').toUpperCase()
   const supabase = supabaseServer()
 
   const { data: room } = await supabase
@@ -41,8 +41,7 @@ export async function GET(_req: Request, context: any) {
     .select('id, nickname, guest_id')
     .eq('session_id', session.id)
 
-  const participants: Participant[] = (participantData ?? []) as Participant[]
-
+  const participants: Participant[] = participantData ?? []
   const players = participants.map((p) => ({
     id: p.id,
     name: p.nickname,
@@ -53,12 +52,12 @@ export async function GET(_req: Request, context: any) {
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
-export async function POST(req: Request, context: any) {
-  const { code } = (context?.params ?? {}) as { code: string }
-  const gameCode = String(code ?? '').toUpperCase()
+export async function POST(req: NextRequest, { params }: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const gameCode = String(params?.code ?? '').toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as { name?: string; guestId?: string }
-  const name = String(body?.name ?? '').trim()
+  const name = String(body?.name || '').trim()
   if (!name) return NextResponse.json({ error: 'Missing name' }, { status: 400 })
 
   const guestId = body?.guestId ?? randomUUID()
@@ -71,7 +70,7 @@ export async function POST(req: Request, context: any) {
   })
 
   if (error || !data) {
-    return NextResponse.json({ error: error?.message ?? 'Unable to join' }, { status: 400 })
+    return NextResponse.json({ error: error?.message || 'Unable to join' }, { status: 400 })
   }
 
   return NextResponse.json({

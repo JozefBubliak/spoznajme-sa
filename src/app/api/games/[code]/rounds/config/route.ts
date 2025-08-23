@@ -1,40 +1,38 @@
 // PATH: src/app/api/games/[code]/rounds/config/route.ts
-import { NextResponse } from 'next/server'
+import 'server-only'
+import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import type { Json } from '@/integrations/supabase/types'
 
 export const dynamic = 'force-dynamic'
 
-type Body = {
+type UpsertBody = {
   index: number
   topic?: string | null
   questions?: Json
 }
 
-// Uloženie/aktualizácia kola (idempotentne podľa game_code + index)
-export async function POST(req: Request, context: any) {
-  const code = String(context?.params?.code ?? '').toUpperCase()
+export async function POST(req: NextRequest, { params }: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const code = String(params?.code ?? '').toUpperCase()
+  const body = (await req.json().catch(() => ({}))) as UpsertBody
 
-  const payload = (await req.json().catch(() => ({}))) as Partial<Body>
-  const index = payload.index
-  const topic = payload.topic ?? null
-  const questions = (payload.questions ?? null) as Json | null
-
-  if (typeof index !== 'number' || Number.isNaN(index)) {
-    return NextResponse.json(
-      { error: 'Missing or invalid "index"' },
-      { status: 400 }
-    )
+  if (!Number.isInteger(body.index)) {
+    return NextResponse.json({ error: 'Missing or invalid "index"' }, { status: 400 })
   }
 
   const s = supabaseServer()
 
-  // Dôležité: použi upsert s POĽOM, aby sadol správny overload
+  // overíme, že miestnosť existuje (nech upsert nie je „do prázdna“)
+  const { data: room } = await s.from('rooms').select('id').eq('code', code).single()
+  if (!room) return NextResponse.json({ error: 'Room not found' }, { status: 404 })
+
   const { error } = await s
     .from('herd_rounds')
-    .upsert([{ game_code: code, index, topic, questions }], {
-      onConflict: 'game_code,index',
-    })
+    .upsert(
+      { game_code: code, index: body.index, topic: body.topic ?? null, questions: body.questions },
+      { onConflict: 'game_code,index' }
+    )
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 400 })
