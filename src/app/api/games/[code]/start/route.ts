@@ -1,27 +1,20 @@
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
+import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(_req: Request, context: any) {
+export async function POST(_req: Request, _context: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
 
-  const gameCode = String(code || '').toUpperCase()
-  const game = store.getGame(gameCode)
-  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  const supabase = supabaseServer()
+  const authHeader = { Authorization: `Bearer ${session.access_token}` }
 
-  if (!Array.isArray(game.rounds) || game.rounds.length === 0) {
-    return NextResponse.json({ error: 'No rounds configured' }, { status: 400 })
+  const { data, error } = await supabase.rpc('start_game', {}, { headers: authHeader })
+  if (error || !data) {
+    return NextResponse.json({ error: error?.message || 'Unable to start game' }, { status: 400 })
   }
 
-  // povol prechod len z 'waiting' alebo 'setup'
-  if (game.status !== 'waiting' && game.status !== 'setup') {
-    return NextResponse.json({ error: `Invalid state: ${game.status}` }, { status: 400 })
-  }
-
-  game.status = 'active'
-  return NextResponse.json({ success: true, status: game.status })
+  return NextResponse.json({ success: true, status: data.status })
 }

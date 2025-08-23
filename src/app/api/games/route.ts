@@ -2,8 +2,8 @@
 // Create game: POST /api/games  ->  { gameCode }
 
 import { NextRequest, NextResponse } from 'next/server';
-import { store } from '@/lib/herdvote/store';
 import { getSession } from '@/app/api/games/_session';
+import { supabaseServer } from '@/integrations/supabase/server';
 
 /**
  * Example (unauthenticated):
@@ -16,6 +16,19 @@ export const dynamic = 'force-dynamic';
 export async function POST(_req: NextRequest) {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const game = store.createGame({});
-  return NextResponse.json({ gameCode: game.code });
+
+  const supabase = supabaseServer();
+  const authHeader = { Authorization: `Bearer ${session.access_token}` };
+
+  const { data: room, error } = await supabase.rpc('ensure_room', {}, { headers: authHeader });
+  if (error || !room) {
+    return NextResponse.json({ error: error?.message || 'Failed to ensure room' }, { status: 500 });
+  }
+
+  const { error: lobbyError } = await supabase.rpc('open_lobby', {}, { headers: authHeader });
+  if (lobbyError) {
+    return NextResponse.json({ error: lobbyError.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ gameCode: room.code });
 }
