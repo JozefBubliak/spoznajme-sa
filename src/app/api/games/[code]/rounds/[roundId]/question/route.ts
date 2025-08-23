@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/rounds/[roundId]/question/route.ts
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { store, type Question } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
 
@@ -8,10 +8,11 @@ export const dynamic = 'force-dynamic'
 type FourAnswers = { answer_a?: string; answer_b?: string; answer_c?: string; answer_d?: string }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function GET(_req: Request, { params }: any) {
-  const session = await getSession()
+export async function GET(req: NextRequest, context: any) {
+  const session = await getSession(req)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code, roundId } = params as { code: string; roundId: string }
+  const code = context?.params?.code as string
+  const roundId = context?.params?.roundId as string
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -20,7 +21,7 @@ export async function GET(_req: Request, { params }: any) {
   const round = game.rounds.find(r => r.id === roundId)
   if (!round) return NextResponse.json({ error: 'Round not found' }, { status: 404 })
 
-  const url = new URL(_req.url)
+  const url = new URL(req.url)
   const qIndexParam = url.searchParams.get('qIndex')
   const qIndex = qIndexParam ? parseInt(qIndexParam, 10) : (round.qIndex || 0)
 

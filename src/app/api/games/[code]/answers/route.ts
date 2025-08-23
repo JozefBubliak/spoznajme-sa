@@ -11,13 +11,10 @@ interface AnswerBody {
   answer: 'A' | 'B' | 'C' | 'D' | null
 }
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ code: string }> }
-) {
-  const session = await getSession()
+export async function POST(req: NextRequest, context: any) {
+  const session = await getSession(req)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = await params
+  const code = context?.params?.code as string
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })

@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/config/route.ts
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server' // dôležitý import
 import { getSession } from '@/app/api/games/_session'
 
@@ -7,10 +7,10 @@ export const dynamic = 'force-dynamic'
 
 // (voliteľné) Načítanie aktuálnej konfigurácie hry
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function GET(_req: Request, { params }: any) {
-  const session = await getSession()
+export async function GET(req: NextRequest, context: any) {
+  const session = await getSession(req)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = params as { code: string }
+  const code = context?.params?.code as string
 
   // Ak chceš, môžeš čítať z DB. Tu ponechám stub, aby build vždy prešiel.
   // try {
@@ -35,10 +35,10 @@ interface ConfigBody {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function POST(req: Request, { params }: any) {
-  const session = await getSession()
+export async function POST(req: NextRequest, context: any) {
+  const session = await getSession(req)
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = params as { code: string }
+  const code = context?.params?.code as string
 
   const body = (await req.json().catch(() => ({}))) as ConfigBody
 
