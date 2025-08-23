@@ -1,6 +1,7 @@
 // src/lib/realtime/client.ts
 
 import type { HerdEvent, RealtimeCallback } from './types'
+import { log } from '../logger'
 
 declare global {
   interface Window {
@@ -39,7 +40,7 @@ class RealtimeClientImpl {
   private connect() {
     if (this.isConnected) return
     
-    console.log('[REALTIME] Client connecting...')
+    log('[REALTIME] Client connecting...')
     this.isConnected = true
     
     // Listen for events from the server via polling/EventSource/WebSocket
@@ -75,5 +76,5 @@ export const RealtimeClient = new RealtimeClientImpl()
 
 // Expose for server simulation in dev
 if (typeof window !== 'undefined') {
-  window.RealtimeClient = RealtimeClient
+  (window as any).RealtimeClient = RealtimeClient
 }

@@ -1,6 +1,7 @@
 // src/lib/realtime/server.ts
 
 import type { HerdEvent } from './types'
+import { log } from '../logger'
 
 declare global {
   interface Window {
@@ -10,7 +11,7 @@ declare global {
 
 class RealtimeServerImpl {
   async publish(channel: string, event: HerdEvent): Promise<void> {
-    console.log(`[REALTIME] Publishing to ${channel}:`, event)
+    log(`[REALTIME] Publishing to ${channel}:`, event)
     
     // In production with Vercel Realtime:
     // const url = process.env.REALTIME_URL
@@ -33,9 +34,8 @@ class RealtimeServerImpl {
       }
     } else {
       // Server context - for production we'd publish to external service
-      console.log('[REALTIME] Server fallback - event logged only')
+      log('[REALTIME] Server fallback - event logged only')
     }
   }
 }
-
 export const RealtimeServer = new RealtimeServerImpl()
