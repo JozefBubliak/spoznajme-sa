@@ -14,7 +14,7 @@ export async function GET(_req: Request, context: RouteContext) {
   const { code } = await context.params
   const gameCode = String(code || '').toUpperCase()
 
-  const supabase = supabaseServer()
+  const supabase = supabaseServer() as any
 
   const { data: room } = await supabase
     .from('rooms')
@@ -58,7 +58,7 @@ export async function POST(req: Request, context: RouteContext) {
 
   const guestId = body.guestId || randomUUID()
 
-  const supabase = supabaseServer()
+  const supabase = supabaseServer() as any
   const { data, error } = await supabase.rpc('join_room', {
     p_code: gameCode,
     p_nickname: name,
