@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
-import AuthStatus from "@/components/auth/AuthStatus";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { Inter } from "next/font/google";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Spoznajme sa",
@@ -15,16 +16,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="sk" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
-          <header className="w-full border-b">
-            <div className="container mx-auto p-4 flex items-center justify-between">
-              <div className="font-semibold">DeepTalks</div>
-              <AuthStatus />
-            </div>
-          </header>
-          {children}
-        </Providers>
+      <body className={fontSans.variable}>
+        <ThemeProvider>
+          <SiteHeader />
+          <main className="min-h-[calc(100vh-7rem)]">{children}</main>
+          <SiteFooter />
+          <Toaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   );
