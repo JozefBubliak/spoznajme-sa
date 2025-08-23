@@ -64,7 +64,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      game_session_status: 'lobby' | 'setup' | 'running' | 'ended'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -191,6 +191,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      game_session_status: ['lobby', 'setup', 'running', 'ended'],
+    },
   },
 } as const
