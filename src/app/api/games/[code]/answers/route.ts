@@ -4,10 +4,6 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-interface RouteContext {
-  params: { code: string }
-}
-
 interface AnswerBody {
   playerId: string
   roundId: string
@@ -15,10 +11,13 @@ interface AnswerBody {
   answer: 'A' | 'B' | 'C' | 'D' | null
 }
 
-export async function POST(req: Request, context: RouteContext) {
+export async function POST(
+  req: Request,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = context.params
+  const { code } = params
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
