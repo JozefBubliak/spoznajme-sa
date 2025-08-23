@@ -1,30 +1,55 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Providers } from "./providers";
-import AuthStatus from "@/components/auth/AuthStatus"
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { Inter } from "next/font/google";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Spoznajme sa",
-  description: "Zábavné a hlboké otázky pre každého.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  title: {
+    default: "DeepTalks — hry a aplikácie",
+    template: "%s | DeepTalks",
+  },
+  description: "Kvízy, konverzačné kartičky a párové hry. Zábava aj hodnotné rozhovory.",
+  openGraph: {
+    type: "website",
+    title: "DeepTalks — hry a aplikácie",
+    description: "Kvízy, konverzačné kartičky a párové hry.",
+    url: "/",
+    images: ["/og-image.jpg"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DeepTalks — hry a aplikácie",
+    description: "Kvízy, konverzačné kartičky a párové hry.",
+    images: ["/og-image.jpg"],
+  },
+  alternates: {
+    canonical: "/",
+    languages: {
+      "sk-SK": "/sk",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="sk">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
-          <header className="w-full border-b">
-            <div className="container mx-auto p-4 flex items-center justify-between">
-              <div className="font-semibold">DeepTalks</div>
-              <AuthStatus />
-            </div>
-          </header>
-          {children}
-        </Providers>
+    <html lang="sk" suppressHydrationWarning>
+      <body className={fontSans.variable}>
+        <ThemeProvider>
+          <SiteHeader />
+          <main className="min-h-[calc(100vh-7rem)]">{children}</main>
+          <SiteFooter />
+          <Toaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   );
