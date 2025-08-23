@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic'
  *   "settings": { timeLimit: 30, scoring: {...} } as RoundSettings
  * }
  */
-interface RouteContext { params: { code: string } }
+interface RouteContext { params: Promise<{ code: string }> }
 interface RoundBody {
   category?: string
   count?: number
@@ -24,7 +24,7 @@ interface RoundBody {
 export async function POST(req: Request, context: RouteContext) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = context.params
+  const { code } = await context.params
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
