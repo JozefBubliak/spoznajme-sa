@@ -12,11 +12,8 @@ type Body = {
 }
 
 // Uloženie/aktualizácia kola (idempotentne podľa game_code + index)
-export async function POST(
-  req: Request,
-  { params }: { params: { code: string } }
-) {
-  const code = String(params?.code ?? '').toUpperCase()
+export async function POST(req: Request, context: any) {
+  const code = String(context?.params?.code ?? '').toUpperCase()
 
   const payload = (await req.json().catch(() => ({}))) as Partial<Body>
   const index = payload.index
@@ -32,7 +29,7 @@ export async function POST(
 
   const s = supabaseServer()
 
-  // DÔLEŽITÉ: pošli pole s jedným objektom, aby sadol správny overload
+  // Dôležité: použi upsert s POĽOM, aby sadol správny overload
   const { error } = await s
     .from('herd_rounds')
     .upsert([{ game_code: code, index, topic, questions }], {
