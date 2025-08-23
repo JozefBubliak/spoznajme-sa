@@ -1,7 +1,7 @@
 import FeatureCard from "@/components/FeatureCard";
-import couplesIcon from "@/assets/couples-icon.jpg";
-import familyIcon from "@/assets/family-icon.jpg";
-import friendsIcon from "@/assets/friends-icon.jpg";
+import couplesIcon from "@/assets/couples-icon.png";
+import familyIcon from "@/assets/family-icon.png";
+import friendsIcon from "@/assets/friends-icon.png";
 
 const Features = () => {
   const features = [

@@ -13,11 +13,11 @@ interface AnswerBody {
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { code: string } }
+  context: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = params
+  const { code } = context.params
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
