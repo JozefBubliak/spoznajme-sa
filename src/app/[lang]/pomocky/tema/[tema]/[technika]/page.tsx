@@ -37,6 +37,14 @@ export default async function Page({ params }: P) {
   const { lang: raw, tema, technika } = await params
   const lang = normalizeUrlLocale(raw)
   const fm = getToolFrontmatter(lang, tema, technika)
+  const title =
+    typeof fm?.title === 'string'
+      ? fm.title
+      : technika
+  const summary =
+    typeof fm?.summary === 'string'
+      ? fm.summary
+      : 'Čoskoro.'
   return (
     <Container>
       <Breadcrumbs
@@ -44,11 +52,11 @@ export default async function Page({ params }: P) {
           { href: `/${lang}`, label: 'Domov' },
           { href: `/${lang}/pomocky`, label: 'Pomôcky' },
           { href: `/${lang}/pomocky/${tema}`, label: tema },
-          { label: fm?.title || technika },
+          { label: title },
         ]}
       />
-      <h1 className="text-3xl font-semibold mt-4">{fm?.title || technika}</h1>
-      <p className="text-muted-foreground mt-2">{fm?.summary || 'Čoskoro.'}</p>
+      <h1 className="text-3xl font-semibold mt-4">{title}</h1>
+      <p className="text-muted-foreground mt-2">{summary}</p>
     </Container>
   )
 }
