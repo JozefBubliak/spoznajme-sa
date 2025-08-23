@@ -1,4 +1,3 @@
-// PATH: src/integrations/supabase/types.ts
 export type Json =
   | string
   | number
@@ -8,54 +7,49 @@ export type Json =
   | Json[]
 
 export type Database = {
-  __InternalSupabase: {
-    // nevadí, že je tu – nie je použité pri kóde
-    PostgrestVersion: '13.0.4'
-  }
   public: {
     Tables: {
-      // ----- používané v klientoch / admin časti -----
+      // už existujúca questions tabuľka – nechávam pre pôvodný kód
       questions: {
         Row: {
-          id: number
-          text: string
-          hlavna_skupina: string | null
-          podskupina: string | null
-          vyznam: string | null
           admin_status: number | null
+          hlavna_skupina: string | null
+          id: number
           kamarati: boolean | null
           partneri: boolean | null
-          rodina: boolean | null
+          podskupina: string | null
           rodic_dieta: boolean | null
+          rodina: boolean | null
+          text: string
+          vyznam: string | null
         }
         Insert: {
-          id?: number
-          text: string
-          hlavna_skupina?: string | null
-          podskupina?: string | null
-          vyznam?: string | null
           admin_status?: number | null
+          hlavna_skupina?: string | null
+          id?: number
           kamarati?: boolean | null
           partneri?: boolean | null
-          rodina?: boolean | null
+          podskupina?: string | null
           rodic_dieta?: boolean | null
+          rodina?: boolean | null
+          text: string
+          vyznam?: string | null
         }
         Update: {
-          id?: number
-          text?: string
-          hlavna_skupina?: string | null
-          podskupina?: string | null
-          vyznam?: string | null
           admin_status?: number | null
+          hlavna_skupina?: string | null
+          id?: number
           kamarati?: boolean | null
           partneri?: boolean | null
-          rodina?: boolean | null
+          podskupina?: string | null
           rodic_dieta?: boolean | null
+          rodina?: boolean | null
+          text?: string
+          vyznam?: string | null
         }
         Relationships: []
       }
 
-      // ----- miestnosť (kód hry) -----
       rooms: {
         Row: {
           id: string
@@ -75,24 +69,23 @@ export type Database = {
         Relationships: []
       }
 
-      // ----- session hry v room-e -----
       game_sessions: {
         Row: {
           id: string
           room_id: string
-          status: Database['public']['Enums']['game_session_status']
+          status: 'lobby' | 'setup' | 'running' | 'ended'
           created_at: string
         }
         Insert: {
           id?: string
           room_id: string
-          status?: Database['public']['Enums']['game_session_status']
+          status?: 'lobby' | 'setup' | 'running' | 'ended'
           created_at?: string
         }
         Update: {
           id?: string
           room_id?: string
-          status?: Database['public']['Enums']['game_session_status']
+          status?: 'lobby' | 'setup' | 'running' | 'ended'
           created_at?: string
         }
         Relationships: [
@@ -105,28 +98,24 @@ export type Database = {
         ]
       }
 
-      // ----- účastníci hry (hráči) -----
       participants: {
         Row: {
           id: string
           session_id: string
-          guest_id: string | null
           nickname: string
-          created_at: string
+          guest_id: string | null
         }
         Insert: {
           id?: string
           session_id: string
-          guest_id?: string | null
           nickname: string
-          created_at?: string
+          guest_id?: string | null
         }
         Update: {
           id?: string
           session_id?: string
-          guest_id?: string | null
           nickname?: string
-          created_at?: string
+          guest_id?: string | null
         }
         Relationships: [
           {
@@ -138,7 +127,6 @@ export type Database = {
         ]
       }
 
-      // ----- KONFIGURÁCIA KÔL pre hru „herd-vote“ (podľa tvojho upsertu) -----
       herd_rounds: {
         Row: {
           id: string
@@ -168,9 +156,7 @@ export type Database = {
       }
     }
 
-    Views: {
-      [_ in never]: never
-    }
+    Views: {}
 
     Functions: {
       is_admin: {
@@ -207,37 +193,6 @@ export type Database = {
       game_session_status: 'lobby' | 'setup' | 'running' | 'ended'
     }
 
-    CompositeTypes: {
-      [_ in never]: never
-    }
+    CompositeTypes: {}
   }
 }
-
-// Pomocné generiká (ak ich používaš)
-type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
-type DefaultSchema = DatabaseWithoutInternals['public']
-
-export type Tables<
-  T extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
-> = (DefaultSchema['Tables'] & DefaultSchema['Views'])[T] extends { Row: infer R } ? R : never
-
-export type TablesInsert<
-  T extends keyof DefaultSchema['Tables']
-> = DefaultSchema['Tables'][T] extends { Insert: infer I } ? I : never
-
-export type TablesUpdate<
-  T extends keyof DefaultSchema['Tables']
-> = DefaultSchema['Tables'][T] extends { Update: infer U } ? U : never
-
-export type Enums<
-  T extends keyof DefaultSchema['Enums']
-> = DefaultSchema['Enums'][T]
-
-// Pekný malý export ak ho niekde používaš
-export const Constants = {
-  public: {
-    Enums: {
-      game_session_status: ['lobby', 'setup', 'running', 'ended'],
-    },
-  },
-} as const

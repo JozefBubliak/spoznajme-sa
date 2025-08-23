@@ -1,5 +1,4 @@
-// PATH: src/app/api/games/[code]/players/route.ts
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { randomUUID } from 'crypto'
 
@@ -11,10 +10,8 @@ type Participant = {
   guest_id: string | null
 }
 
-// GET – vráti lobby (zoznam hráčov)
-export async function GET(_req: NextRequest, { params }: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  const gameCode = String(params?.code ?? '').toUpperCase()
+export async function GET(_req: NextRequest, context: any) {
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
   const supabase = supabaseServer()
 
   const { data: room } = await supabase
@@ -51,10 +48,8 @@ export async function GET(_req: NextRequest, { params }: any) {
   return NextResponse.json({ players })
 }
 
-// POST – pridá hráča (kým je lobby otvorená)
-export async function POST(req: NextRequest, { params }: any) {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  const gameCode = String(params?.code ?? '').toUpperCase()
+export async function POST(req: NextRequest, context: any) {
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as { name?: string; guestId?: string }
   const name = String(body?.name || '').trim()
