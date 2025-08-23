@@ -17,11 +17,18 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
   console.warn('[supabaseServer] Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.')
 }
 
-/** Vráti fresh serverový klient s plnými právami (RLS bypass). */
-export function supabaseServer() {
+/**
+ * Vráti fresh serverový klient s plnými právami (RLS bypass).
+ * Ak je poskytnutý `accessToken`, bude pripojený v `Authorization` hlavičke,
+ * aby funkcie používajúce `auth.uid()` vedeli identifikovať moderátora.
+ */
+export function supabaseServer(accessToken?: string) {
   // Pozn.: NEpoužívame persistSession v server prostredí
   return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
+    global: accessToken
+      ? { headers: { Authorization: `Bearer ${accessToken}` } }
+      : {},
   })
 }
 

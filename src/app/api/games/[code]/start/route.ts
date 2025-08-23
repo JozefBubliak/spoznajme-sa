@@ -8,10 +8,9 @@ export async function POST(_req: Request, _context: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const supabase = supabaseServer()
-  const authHeader = { Authorization: `Bearer ${session.access_token}` }
+  const supabase = supabaseServer(session.access_token)
 
-  const { data, error } = await supabase.rpc('start_game', {}, { headers: authHeader })
+  const { data, error } = await supabase.rpc('start_game')
   if (error || !data) {
     return NextResponse.json({ error: error?.message || 'Unable to start game' }, { status: 400 })
   }
