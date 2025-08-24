@@ -53,6 +53,9 @@ export default async function AppsPage({ params }: P) {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {cat.slugs.map((slug) => {
                 const g = games[slug] as GameEntry
+                const href = g.link.startsWith('http')
+                  ? g.link
+                  : `/${lang}${g.link}`
                 return (
                   <Card key={slug}>
                     <Image
@@ -68,7 +71,7 @@ export default async function AppsPage({ params }: P) {
                     </CardHeader>
                     <CardContent>
                       <Button asChild className="w-full">
-                        <Link href={`/${lang}/apps/${slug}`}>{g.cta}</Link>
+                        <Link href={href}>{g.cta}</Link>
                       </Button>
                     </CardContent>
                   </Card>
