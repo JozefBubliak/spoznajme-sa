@@ -22,12 +22,17 @@ const buttonVariants = cva(
           "bg-gradient-sunset text-white hover:shadow-glow hover:scale-105 border-0 font-semibold transition-all duration-300",
         glass:
           "border border-white/15 bg-white/10 text-white backdrop-blur-md hover:bg-white/20 dark:border-white/10 dark:bg-white/10 dark:text-white",
+        // ⬇️ DOPLNENÉ – tento variant ti chýbal a lámal build
+        connection:
+          "bg-connection text-white hover:bg-connection/90",
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-12 rounded-xl px-8 text-base",
         icon: "h-10 w-10",
+        // ⬇️ VOLITEĽNÉ – pridaj, ak niekde používaš size='xl'
+        xl: "h-12 rounded-xl px-10 text-base",
       },
     },
     defaultVariants: {
