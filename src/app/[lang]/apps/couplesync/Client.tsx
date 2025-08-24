@@ -24,8 +24,10 @@ function MagicLinkButton({ lang, label }: { lang: string; label: string }) {
 }
 
 export default function Client({ dict, lang }: Props) {
-  const cs = dict.apps.games.couplesync
-  const back = dict.apps.games.ctaBack
+  const apps = dict.apps
+  if (!apps) return null
+  const cs = apps.games.couplesync
+  const back = apps.games.ctaBack
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 space-y-16">
       <Link
