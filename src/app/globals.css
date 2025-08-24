@@ -4,23 +4,23 @@
 
 @layer base {
   :root {
-    /* Beautiful warm communication palette inspired by DeepTalks */
-    --primary: 14 91% 60%;           /* Beautiful coral/orange */
+    /* Communication-focused modern palette */
+    --primary: 198 93% 60%;          /* Calm trust blue */
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 14 91% 70%;
-    --primary-variant: 10 91% 50%;   /* Slightly deeper coral */
+    --primary-glow: 198 93% 70%;
+    --primary-variant: 210 100% 56%; /* Deeper blue */
     
-    /* Warm peachy connection colors */
-    --secondary: 20 100% 95%;        /* Soft peachy cream */
+    /* Warm connection colors */
+    --secondary: 24 100% 95%;        /* Warm cream */
     --secondary-foreground: 25 25% 25%;
     
-    /* Soft warm neutrals */
-    --muted: 20 30% 96%;
-    --muted-foreground: 25 15% 50%;
+    /* Soft neutrals */
+    --muted: 20 20% 97%;
+    --muted-foreground: 25 15% 45%;
     
-    /* Accent - warm peach/pink */
-    --accent: 340 60% 85%;           /* Soft warm peach */
-    --accent-foreground: 340 30% 30%;
+    /* Accent - warm connection color */
+    --accent: 340 75% 88%;           /* Soft warm pink */
+    --accent-foreground: 340 30% 25%;
     
     /* Clean backgrounds */
     --background: 20 20% 99%;        /* Slightly warm white */
@@ -50,13 +50,12 @@
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     
-    /* Beautiful DeepTalks-inspired gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(14 91% 60%) 0%, hsl(20 100% 70%) 30%, hsl(340 60% 75%) 100%);
-    --gradient-warm: linear-gradient(135deg, hsl(340 60% 85%) 0%, hsl(20 100% 95%) 100%);
-    --gradient-coral: linear-gradient(135deg, hsl(14 91% 60%) 0%, hsl(10 91% 50%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(20 30% 98%) 0%, hsl(20 30% 96%) 100%);
-    --gradient-overlay: linear-gradient(135deg, hsla(14 91% 60% / 0.1) 0%, hsla(340 60% 75% / 0.1) 100%);
-    --gradient-peachy: linear-gradient(135deg, hsl(20 100% 95%) 0%, hsl(340 60% 85%) 50%, hsl(14 91% 70%) 100%);
+    /* Connection-themed gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(198 93% 60%) 0%, hsl(210 100% 56%) 50%, hsl(340 75% 75%) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(340 75% 88%) 0%, hsl(24 100% 95%) 100%);
+    --gradient-trust: linear-gradient(135deg, hsl(198 93% 60%) 0%, hsl(198 93% 70%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(20 20% 99%) 0%, hsl(20 20% 97%) 100%);
+    --gradient-overlay: linear-gradient(135deg, hsla(198 93% 60% / 0.1) 0%, hsla(340 75% 75% / 0.1) 100%);
     
     /* Modern shadows */
     --shadow-soft: 0 2px 8px hsla(25 25% 15% / 0.04);
@@ -107,10 +106,10 @@
     --popover: 25 25% 10%;
     --popover-foreground: 20 20% 95%;
     
-    --primary: 14 91% 60%;
+    --primary: 198 93% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 14 91% 70%;
-    --primary-variant: 10 91% 50%;
+    --primary-glow: 198 93% 70%;
+    --primary-variant: 210 100% 56%;
     
     --secondary: 25 25% 15%;
     --secondary-foreground: 20 20% 90%;
@@ -128,13 +127,12 @@
     --input: 25 25% 15%;
     --ring: 198 93% 60%;
     
-    /* Dark mode gradients - updated for coral theme */
-    --gradient-hero: linear-gradient(135deg, hsl(14 91% 60%) 0%, hsl(20 100% 70%) 30%, hsl(340 60% 65%) 100%);
-    --gradient-warm: linear-gradient(135deg, hsl(340 60% 25%) 0%, hsl(25 25% 15%) 100%);
-    --gradient-coral: linear-gradient(135deg, hsl(14 91% 50%) 0%, hsl(14 91% 60%) 100%);
+    /* Dark mode gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(198 93% 60%) 0%, hsl(210 100% 56%) 50%, hsl(340 75% 65%) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(340 75% 25%) 0%, hsl(25 25% 15%) 100%);
+    --gradient-trust: linear-gradient(135deg, hsl(198 93% 50%) 0%, hsl(198 93% 60%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(25 25% 8%) 0%, hsl(25 25% 12%) 100%);
-    --gradient-overlay: linear-gradient(135deg, hsla(14 91% 60% / 0.15) 0%, hsla(340 60% 65% / 0.15) 100%);
-    --gradient-peachy: linear-gradient(135deg, hsl(25 25% 15%) 0%, hsl(340 60% 25%) 50%, hsl(14 91% 50%) 100%);
+    --gradient-overlay: linear-gradient(135deg, hsla(198 93% 60% / 0.15) 0%, hsla(340 75% 65% / 0.15) 100%);
     
     /* Dark mode shadows */
     --shadow-soft: 0 2px 8px hsla(0 0% 0% / 0.2);
@@ -164,7 +162,7 @@
   
   /* Modern utility classes */  
   .gradient-text {
-    background: var(--gradient-coral);
+    background: var(--gradient-hero);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -172,7 +170,7 @@
   }
   
   .gradient-connection {
-    background: var(--gradient-coral);
+    background: var(--gradient-trust);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -188,21 +186,21 @@
   }
   
   .card-modern:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-large);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
   }
   
   .card-connection {
     background: var(--gradient-overlay), hsl(var(--card));
-    border: 1px solid hsl(var(--border) / 0.5);
-    box-shadow: var(--shadow-soft);
-    border-radius: calc(var(--radius) * 1.5);
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-connection);
+    border-radius: var(--radius);
     transition: var(--transition-spring);
   }
   
   .card-connection:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: var(--shadow-large);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-connection);
   }
   
   .btn-hero {
