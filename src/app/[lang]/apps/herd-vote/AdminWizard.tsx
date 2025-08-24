@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 
 type Phase =
@@ -20,9 +20,8 @@ type Game = {
 
 type RoundCfg = { topic?: string; questions?: number }
 
-export default function AdminWizard({ code: codeProp }: { code?: string }) {
-  const [code, setCode] = useState(codeProp ?? '')
-  const [activeCode, setActiveCode] = useState<string | null>(null)
+export default function AdminWizard() {
+  const [code, setCode] = useState<string | null>(null)
   const [game, setGame] = useState<Game | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
@@ -36,45 +35,37 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [roundIx, setRoundIx] = useState(0)
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
 
-  const STORAGE_KEY = 'herd-vote-code'
-
-  // 1) zisti kód aktívnej hry alebo ho načítaj zo sessionStorage
-  useEffect(() => {
-    if (codeProp) {
-      sessionStorage.setItem(STORAGE_KEY, codeProp)
-      return
-    }
-    const stored = sessionStorage.getItem(STORAGE_KEY)
-    if (stored) {
-      setCode(stored)
-      return
-    }
-    ;(async () => {
-      try {
-        const r = await authFetch('/api/games/active', { cache: 'no-store' })
-        if (r.ok) {
-          const j = await r.json()
-          if (j?.code) setActiveCode(j.code)
-        }
-      } catch {}
-    })()
-  }, [codeProp])
-
-  // ukladaj kód hry pre prípad obnovenia stránky
-  useEffect(() => {
-    if (code) sessionStorage.setItem(STORAGE_KEY, code)
-    else sessionStorage.removeItem(STORAGE_KEY)
-  }, [code])
-
-  // 2) polling stavu hry
-  const authFetch = (url: string, options: RequestInit = {}) => {
+  const authFetch = useCallback((url: string, options: RequestInit = {}) => {
     const headers = {
       ...(options.headers || {}),
       ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
     }
     return fetch(url, { ...options, headers })
-  }
+  }, [session])
 
+  const ensureGame = useCallback(async () => {
+    try {
+      const r = await authFetch('/api/games/active', { cache: 'no-store' })
+      if (r.ok) {
+        const j = await r.json()
+        if (j?.code) {
+          setCode(j.code)
+          return
+        }
+      }
+    } catch {}
+    try {
+      const r = await authFetch('/api/games', { method: 'POST' })
+      if (r.ok) {
+        const j = await r.json()
+        setCode(j.code || j.gameCode)
+      }
+    } catch {}
+  }, [authFetch])
+
+  useEffect(() => { ensureGame() }, [ensureGame])
+
+  // 2) polling stavu hry
   const refresh = useMemo(() => async () => {
     if (!code) return
     setErr(null)
@@ -83,13 +74,14 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       if (!r.ok) throw new Error(await r.text())
       setGame(await r.json())
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
-  }, [code])
+  }, [code, authFetch])
 
   useEffect(() => {
+    if (!code) return
     refresh()
     const t = setInterval(refresh, 2500)
     return () => clearInterval(t)
-  }, [refresh])
+  }, [code, refresh])
 
   async function post(url: string, body?: any) {
     setBusy(true); setErr(null)
@@ -111,46 +103,40 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       const r = await authFetch('/api/games', { method: 'POST' })
       if (!r.ok) throw new Error(await r.text())
       const j = await r.json()
-      if (j?.code) setCode(j.code)
+      setCode(j.code || j.gameCode)
+      setGame(null)
+    } catch (e:any) { setErr(e?.message ?? 'Chyba') }
+    finally { setBusy(false) }
+  }
+
+  async function endGame() {
+    if (!code) return
+    setBusy(true); setErr(null)
+    try {
+      const r = await authFetch(`/api/games/${code}/end`, { method: 'POST' })
+      if (!r.ok) throw new Error(await r.text())
+      setCode(null)
+      setGame(null)
+      await ensureGame()
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
     finally { setBusy(false) }
   }
 
   if (!code) {
-    return (
-      <div className="rounded border p-4">
-        <div className="font-medium mb-1">Panel moderátora</div>
-        <div className="text-sm text-muted-foreground">Zadaj kód hry alebo vytvor novú.</div>
-        {activeCode && (
-          <div className="mt-2">
-            <button className="rounded bg-slate-800 text-white px-3 py-1" onClick={()=>setCode(activeCode)}>
-              Pokračovať v hre {activeCode}
-            </button>
-          </div>
-        )}
-        <div className="mt-2 flex gap-2">
-          <input className="border rounded px-2 py-1"
-                 placeholder="Kód (napr. BNQ7R2)"
-                 value={code}
-                 onChange={(e)=>setCode(e.target.value.toUpperCase().trim())}/>
-          <button className="rounded bg-black text-white px-3 py-1" onClick={refresh}>Načítať</button>
-        </div>
-        <div className="mt-2">
-          <button className="rounded bg-green-600 text-white px-3 py-1 disabled:opacity-50" disabled={busy} onClick={createGame}>
-            Vytvoriť novú hru
-          </button>
-        </div>
-      </div>
-    )
+    return <div className="rounded border p-4">Načítavam...</div>
   }
 
   const g = game
+  const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/play/${code}` : ''
 
   return (
     <div className="rounded-lg border p-4 space-y-4">
       <div className="flex items-center justify-between">
         <div className="font-medium">Panel moderátora</div>
-        <div className="text-sm">Kód hry: <span className="font-mono">{code}</span></div>
+        <div className="flex items-center gap-2 text-sm">
+          <button className="rounded bg-black text-white px-3 py-1 disabled:opacity-50" disabled={busy} onClick={createGame}>Nová hra</button>
+          <div>Kód: <span className="font-mono">{code}</span></div>
+        </div>
       </div>
 
       {err && <div className="text-sm text-red-600">Chyba: {err}</div>}
@@ -159,6 +145,10 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       {g?.phase === 'lobby' && (
         <div className="space-y-2">
           <div className="text-sm">Zdieľaj link / QR, počkaj na hráčov.</div>
+          <div className="flex gap-4 items-center">
+            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(joinUrl)}`} alt="QR" className="border"/>
+            <a href={joinUrl} className="text-sm underline break-all">{joinUrl}</a>
+          </div>
           <div className="flex gap-2">
             <button className="rounded bg-amber-600 text-white px-3 py-1 disabled:opacity-50"
                     disabled={busy}
@@ -287,7 +277,12 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
 
       {/* KROK 6: Záverečné výsledky s „revealom“ odspodu */}
       {g?.phase === 'final' && (
-        <FinalReveal code={code}/>
+        <div className="space-y-2">
+          <FinalReveal code={code}/>
+          <button className="rounded bg-red-600 text-white px-3 py-1 disabled:opacity-50" disabled={busy} onClick={endGame}>
+            Ukončiť hru
+          </button>
+        </div>
       )}
     </div>
   )
