@@ -22,6 +22,7 @@ type RoundCfg = { topic?: string; questions?: number }
 
 export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [code, setCode] = useState(codeProp ?? '')
+  const [activeCode, setActiveCode] = useState<string | null>(null)
   const [game, setGame] = useState<Game | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
@@ -35,19 +36,35 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [roundIx, setRoundIx] = useState(0)
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
 
-  // 1) zisti kód aktívnej hry (ak ho wizard nedostal cez props)
+  const STORAGE_KEY = 'herd-vote-code'
+
+  // 1) zisti kód aktívnej hry alebo ho načítaj zo sessionStorage
   useEffect(() => {
-    if (codeProp) return
+    if (codeProp) {
+      sessionStorage.setItem(STORAGE_KEY, codeProp)
+      return
+    }
+    const stored = sessionStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      setCode(stored)
+      return
+    }
     ;(async () => {
       try {
         const r = await authFetch('/api/games/active', { cache: 'no-store' })
         if (r.ok) {
           const j = await r.json()
-          if (j?.code) setCode(j.code)
+          if (j?.code) setActiveCode(j.code)
         }
       } catch {}
     })()
   }, [codeProp])
+
+  // ukladaj kód hry pre prípad obnovenia stránky
+  useEffect(() => {
+    if (code) sessionStorage.setItem(STORAGE_KEY, code)
+    else sessionStorage.removeItem(STORAGE_KEY)
+  }, [code])
 
   // 2) polling stavu hry
   const authFetch = (url: string, options: RequestInit = {}) => {
@@ -88,17 +105,40 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
     finally { setBusy(false) }
   }
 
+  async function createGame() {
+    setBusy(true); setErr(null)
+    try {
+      const r = await authFetch('/api/games', { method: 'POST' })
+      if (!r.ok) throw new Error(await r.text())
+      const j = await r.json()
+      if (j?.code) setCode(j.code)
+    } catch (e:any) { setErr(e?.message ?? 'Chyba') }
+    finally { setBusy(false) }
+  }
+
   if (!code) {
     return (
       <div className="rounded border p-4">
         <div className="font-medium mb-1">Panel moderátora</div>
         <div className="text-sm text-muted-foreground">Zadaj kód hry alebo vytvor novú.</div>
+        {activeCode && (
+          <div className="mt-2">
+            <button className="rounded bg-slate-800 text-white px-3 py-1" onClick={()=>setCode(activeCode)}>
+              Pokračovať v hre {activeCode}
+            </button>
+          </div>
+        )}
         <div className="mt-2 flex gap-2">
           <input className="border rounded px-2 py-1"
                  placeholder="Kód (napr. BNQ7R2)"
                  value={code}
                  onChange={(e)=>setCode(e.target.value.toUpperCase().trim())}/>
           <button className="rounded bg-black text-white px-3 py-1" onClick={refresh}>Načítať</button>
+        </div>
+        <div className="mt-2">
+          <button className="rounded bg-green-600 text-white px-3 py-1 disabled:opacity-50" disabled={busy} onClick={createGame}>
+            Vytvoriť novú hru
+          </button>
         </div>
       </div>
     )
