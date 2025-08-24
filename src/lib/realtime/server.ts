@@ -29,8 +29,10 @@ class RealtimeServerImpl {
     if (typeof window !== 'undefined') {
       // Browser context - send to client directly
       const client = window.RealtimeClient
-      if (client?.simulateEvent) {
-        setTimeout(() => client.simulateEvent(channel, event), 50)
+      const simulate = client?.simulateEvent
+
+      if (simulate) {
+        setTimeout(() => simulate(channel, event), 50)
       }
     } else {
       // Server context - for production we'd publish to external service
