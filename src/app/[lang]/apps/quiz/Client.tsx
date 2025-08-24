@@ -12,10 +12,8 @@ type Props = {
 
 export default function QuizPageClient({ dict, lang }: Props) {
   const { user, loading } = useAuth()
-  const apps = dict.apps
-  if (!apps) return null
-  const game = apps.games.quiz
-  const back = apps.games.ctaBack
+  const game = dict.apps.games.quiz
+  const back = dict.apps.games.ctaBack
 
   return (
     <div className="space-y-8">

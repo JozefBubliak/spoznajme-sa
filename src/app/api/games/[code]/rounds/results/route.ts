@@ -1,6 +1,6 @@
 // PATH: src/app/api/games/[code]/rounds/results/route.ts
-import { NextRequest, NextResponse } from 'next/server'
-import { store, type Player } from '@/lib/herdvote/store'
+import { NextResponse } from 'next/server'
+import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 import { calculateRoundScores } from '@/lib/herdvote/scoring'
@@ -8,13 +8,10 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-interface ResultsBody { roundId?: string }
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function POST(req: NextRequest, context: any) {
-  const session = await getSession(req)
+export async function POST(req: Request, context: any) {
+  const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = context?.params?.code as string
+  const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -22,7 +19,7 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const body = (await req.json().catch(() => ({}))) as ResultsBody
+  const body = await req.json().catch(() => ({} as any))
   const { roundId } = body
 
   // nájdi uzamknuté kolo
@@ -41,11 +38,11 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   // zabezpeč, aby pole answers existovalo (niektoré verzie store ho nemajú)
-  game.answers ||= []
+  ;(game as any).answers ||= []
 
   // výpočet bodov pre aktuálnu otázku
   const questionScores = calculateRoundScores(
-    game.answers,
+    (game as any).answers,
     currentQuestion,
     targetRound.id,
     qIndex,
@@ -62,7 +59,7 @@ export async function POST(req: NextRequest, context: any) {
   targetRound.status = 'results'
 
   // zoradený rebríček
-  const leaderboard: Player[] = [...game.players].sort((a, b) => b.score - a.score)
+  const leaderboard = [...game.players].sort((a, b) => b.score - a.score)
 
   // realtime event
   await RealtimeServer.publish(channelFor(gameCode), {

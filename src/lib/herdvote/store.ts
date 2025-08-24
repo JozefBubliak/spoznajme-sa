@@ -41,7 +41,6 @@ export type Round = {
   status: 'pending'|'running'|'locked'|'results'|'finished'|'ready'|'shown';
   qIndex: number;     // index aktuálnej otázky
   startedAt?: number; // ms – štart aktuálnej otázky
-  deadline?: number;  // ms – koniec časovača
 };
 
 export type PlayerAnswer = {
@@ -52,40 +51,24 @@ export type PlayerAnswer = {
   ts: number; // ms – čas odoslania
 };
 
-export type GameSettings = Record<string, unknown>;
-
 export type Game = {
   id: string;
   code: string;
   status: 'waiting'|'active'|'finished'|'setup';
-  settings: GameSettings;
+  settings: Record<string, any>;
   players: Player[];
   rounds: Round[];
   answers: PlayerAnswer[]; // všetky odpovede
   createdAt: number;
 
   activeRoundId?: string;
-  usedQuestionIds?: string[];
 };
 
 // ---- helpers ----
+function rand(n: number) { return Math.floor(Math.random() * n); }
 function pickCode(len = 6) {
   const alph = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  if (typeof crypto !== 'undefined') {
-    const c = crypto as Crypto & { randomInt?: (max: number) => number };
-    if (typeof c.randomInt === 'function') {
-      return Array.from({ length: len }, () => alph[c.randomInt!(alph.length)]).join('');
-    }
-    if (typeof c.getRandomValues === 'function') {
-      const buf = new Uint32Array(len);
-      c.getRandomValues(buf);
-      return Array.from(buf, n => alph[n % alph.length]).join('');
-    }
-  }
-  return Array.from(
-    { length: len },
-    () => alph[Math.floor(Math.random() * alph.length)]
-  ).join('');
+  return Array.from({ length: len }, () => alph[rand(alph.length)]).join('');
 }
 function uuid() {
   // v node 18+/browser je crypto.randomUUID; fallback pre istotu
@@ -99,7 +82,7 @@ function uuid() {
 export const store = {
   games: new Map<string, Game>(),
 
-  createGame(settings: GameSettings = {}) {
+  createGame(settings: Record<string, any> = {}) {
     const code = pickCode(6);
     const game: Game = {
       id: uuid(),
@@ -153,15 +136,3 @@ export const store = {
 };
 
 export default store;
-
-export type {
-  Player,
-  Question,
-  ScoringClassic,
-  ScoringPodium,
-  RoundSettings,
-  Round,
-  PlayerAnswer,
-  Game,
-  GameSettings,
-};

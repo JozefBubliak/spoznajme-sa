@@ -1,18 +1,16 @@
 // PATH: src/app/api/games/[code]/rounds/[roundId]/question/route.ts
-import { NextRequest, NextResponse } from 'next/server'
-import { store, type Question } from '@/lib/herdvote/store'
+import { NextResponse } from 'next/server'
+import { store } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
 type FourAnswers = { answer_a?: string; answer_b?: string; answer_c?: string; answer_d?: string }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function GET(req: NextRequest, context: any) {
-  const session = await getSession(req)
+export async function GET(_req: Request, context: any) {
+  const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = context?.params?.code as string
-  const roundId = context?.params?.roundId as string
+  const { code, roundId } = (context?.params ?? {}) as { code: string; roundId: string }
   const gameCode = String(code || '').toUpperCase()
 
   const game = store.getGame(gameCode)
@@ -21,7 +19,7 @@ export async function GET(req: NextRequest, context: any) {
   const round = game.rounds.find(r => r.id === roundId)
   if (!round) return NextResponse.json({ error: 'Round not found' }, { status: 404 })
 
-  const url = new URL(req.url)
+  const url = new URL(_req.url)
   const qIndexParam = url.searchParams.get('qIndex')
   const qIndex = qIndexParam ? parseInt(qIndexParam, 10) : (round.qIndex || 0)
 
@@ -38,19 +36,15 @@ export async function GET(req: NextRequest, context: any) {
 
   // Bezpečný fallback pre možnosti:
   let optionsArray: string[]
-  let questionText = ''
-  if ('options' in question && Array.isArray((question as Question).options)) {
-    const q = question as Question
-    optionsArray = q.options
-    questionText = q.question_text
+  if (Array.isArray((question as any).options) && (question as any).options.length > 0) {
+    optionsArray = (question as any).options as string[]
   } else {
-    const q = question as FourAnswers & { text?: string; question_text?: string }
-    optionsArray = [q.answer_a, q.answer_b, q.answer_c, q.answer_d].filter((o): o is string => !!o)
-    questionText = q.question_text ?? q.text ?? ''
+    const q = question as unknown as FourAnswers
+    optionsArray = [q.answer_a, q.answer_b, q.answer_c, q.answer_d].filter(Boolean) as string[]
   }
 
   return NextResponse.json({
-    text: questionText,
+    text: (question as any).question_text ?? (question as any).text ?? '',
     options: optionsArray,
     timeLeft: Math.ceil(timeLeft / 1000),
     qIndex,

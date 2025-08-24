@@ -1,8 +1,6 @@
 // PATH: src/integrations/supabase/server.ts
 import 'server-only'
 import { createClient } from '@supabase/supabase-js'
-import type { SupabaseClient } from '@supabase/supabase-js'
-import type { Database } from './types'
 
 /**
  * Server‑only Supabase klient s SERVICE ROLE kľúčom.
@@ -24,9 +22,9 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
  * Ak je poskytnutý `accessToken`, bude pripojený v `Authorization` hlavičke,
  * aby funkcie používajúce `auth.uid()` vedeli identifikovať moderátora.
  */
-export function supabaseServer(accessToken?: string): SupabaseClient<Database> {
+export function supabaseServer(accessToken?: string) {
   // Pozn.: NEpoužívame persistSession v server prostredí
-  return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+  return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: accessToken
       ? { headers: { Authorization: `Bearer ${accessToken}` } }

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Heart, MessageCircle, Users, Sparkles, ArrowRight } from 'lucide-react'
+import { Heart, MessageCircle, Users, Sparkles, ArrowRight, Star, Shield, Zap } from 'lucide-react'
 
 export default function MarketingHomePage() {
   const features = [
@@ -47,19 +47,19 @@ export default function MarketingHomePage() {
                 Premyslené otázky, ktoré pomáhajú partnerom, priateľom a rodinám komunikovať zmysluplne, 
                 budovať dôveru a vytvárať skutočné spojenie.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button asChild variant="hero" size="lg" className="group">
-                  <Link href="/sk/apps/couplesync" aria-label="CoupleSync dotazník">
-                    CoupleSync
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" size="lg" className="glass-effect">
-                  <Link href="/sk/apps/spoznajme-sa" aria-label="Kartičky Spoznajme sa">
-                    Kartičky
-                  </Link>
-                </Button>
-              </div>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button asChild variant="hero" size="xl" className="group">
+                    <Link href="/sk/apps/couplesync" aria-label="CoupleSync dotazník">
+                      CoupleSync
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="glass" size="xl">
+                    <Link href="/sk/apps/spoznajme-sa" aria-label="Kartičky Spoznajme sa">
+                      Kartičky
+                    </Link>
+                  </Button>
+                </div>
             </div>
 
             <div className="relative animate-slide-up">
@@ -95,7 +95,7 @@ export default function MarketingHomePage() {
             </h2>
           </div>
           <div className="grid gap-8 md:grid-cols-3">
-            {features.map((feature) => (
+            {features.map((feature, index) => (
               <Card key={feature.title} className="card-connection animate-scale-in">
                 <CardHeader className="text-center">
                   <div className="mx-auto mb-4 h-16 w-16 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
@@ -116,4 +116,3 @@ export default function MarketingHomePage() {
     </div>
   )
 }
-

@@ -6,7 +6,6 @@ import { type Locale, SUPPORTED_LOCALES } from '@/i18n/config'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import type { GameEntry } from '@/i18n/types'
 
 type P = { params: Promise<{ lang: string }> }
 
@@ -16,7 +15,6 @@ export default async function AppsPage({ params }: P) {
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
   const dict = await getDictionary(lang as Locale)
   const apps = dict.apps
-  if (!apps) notFound()
   const games = apps.games
   const categories = [
     { key: 'quizzes', slugs: ['quiz'] },
@@ -52,7 +50,7 @@ export default async function AppsPage({ params }: P) {
             </h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {cat.slugs.map((slug) => {
-                const g = games[slug] as GameEntry
+                const g = games[slug]
                 return (
                   <Card key={slug}>
                     <Image

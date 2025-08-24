@@ -29,12 +29,9 @@ export function MarketingHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <Button variant="secondary" size="sm">
-            Aplikácia
-          </Button>
+          <Button variant="glass" size="sm">Aplikácia</Button>
         </div>
       </div>
     </header>
   )
 }
-

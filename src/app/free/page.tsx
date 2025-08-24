@@ -2,7 +2,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
 import { BrainIcon, Share2, Heart } from 'lucide-react'
@@ -33,42 +33,40 @@ export default function FreePage() {
 
   const MAX_QUESTIONS = 10
 
-  const fetchNextQuestion = useCallback(
-    async (group: GroupKey, used: number[]) => {
-      const availableIds = FREE_IDS[group].filter(id => !used.includes(id))
-
-      if (availableIds.length === 0) {
-        setQuestionText(null)
-        return
-      }
-
-      const randomId = availableIds[Math.floor(Math.random() * availableIds.length)]
-
-      const { data, error } = await supabase
-        .from('questions')
-        .select('id, text')
-        .eq('id', randomId)
-        .single()
-
-      if (error || !data) {
-        console.error('Chyba pri načítaní otázky:', error)
-        setQuestionText('Nepodarilo sa načítať otázku.')
-        return
-      }
-
-      setShownIds(prev => [...prev, data.id])
-      setQuestionText(data.text)
-    },
-    []
-  )
-
   useEffect(() => {
     if (group) {
       setShownIds([])
       setQuestionText(null)
       fetchNextQuestion(group, [])
     }
-  }, [group, fetchNextQuestion])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [group])
+
+  const fetchNextQuestion = async (group: GroupKey, used: number[]) => {
+    const availableIds = FREE_IDS[group].filter(id => !used.includes(id))
+
+    if (availableIds.length === 0) {
+      setQuestionText(null)
+      return
+    }
+
+    const randomId = availableIds[Math.floor(Math.random() * availableIds.length)]
+
+    const { data, error } = await supabase
+      .from('questions')
+      .select('id, text')
+      .eq('id', randomId)
+      .single()
+
+    if (error || !data) {
+      console.error('Chyba pri načítaní otázky:', error)
+      setQuestionText('Nepodarilo sa načítať otázku.')
+      return
+    }
+
+    setShownIds(prev => [...prev, data.id])
+    setQuestionText(data.text)
+  }
 
   const handleNext = () => {
     if (group) {

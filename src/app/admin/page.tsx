@@ -1,12 +1,11 @@
 'use client'
 export const dynamic = 'force-dynamic'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
 import { Brain } from 'lucide-react'
-import { log } from '@/lib/logger'
 
 const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
 
@@ -61,7 +60,12 @@ export default function AdminPage() {
     fetchUser()
   }, [router])
 
-  const fetchNextQuestion = useCallback(async () => {
+  useEffect(() => {
+    fetchNextQuestion()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const fetchNextQuestion = async () => {
     setStatus(null)
 
     const { data, error } = await supabase
@@ -73,7 +77,7 @@ export default function AdminPage() {
 
     if (!error && data && data.length > 0) {
       const q = data[0]
-      log('[DEBUG] Načítaná otázka:', q.id, q.text)
+      console.log('[DEBUG] Načítaná otázka:', q.id, q.text)
       setQuestion(q)
       setGroupState({
         partneri: q.partneri,
@@ -84,11 +88,7 @@ export default function AdminPage() {
     } else {
       setQuestion(null)
     }
-  }, [])
-
-  useEffect(() => {
-    fetchNextQuestion()
-  }, [fetchNextQuestion])
+  }
 
   const handleSaveAndNext = async () => {
     if (!question) return
@@ -98,8 +98,8 @@ export default function AdminPage() {
       admin_status: status ?? 3, // ak nič neklikneš, berieme ako OK
     }
 
-    log('[DEBUG] Ukladám otázku:', question.id)
-    log('[DEBUG] Dáta:', updateData)
+    console.log('[DEBUG] Ukladám otázku:', question.id)
+    console.log('[DEBUG] Dáta:', updateData)
 
     const { error } = await supabase
       .from('questions')

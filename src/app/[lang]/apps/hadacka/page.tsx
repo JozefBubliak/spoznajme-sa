@@ -13,10 +13,8 @@ export default async function HadackaPage({ params }: P) {
   const lang = normalizeUrlLocale(raw)
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
   const dict = await getDictionary(lang as Locale)
-  const apps = dict.apps
-  if (!apps) notFound()
-  const game = apps.games.hadacka
-  const back = apps.games.ctaBack
+  const game = dict.apps.games.hadacka
+  const back = dict.apps.games.ctaBack
 
   return (
     <div className="space-y-8">

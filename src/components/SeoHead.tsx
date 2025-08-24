@@ -8,6 +8,7 @@ export function SeoHead({ jsonLd }: Props) {
     <>
       {blocks.map((b, i) => (
         <script
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(b) }}
           key={i}
           type="application/ld+json"

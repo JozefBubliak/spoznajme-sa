@@ -12,17 +12,13 @@ export default function Page() {
     <article className="prose max-w-3xl">
       <h1>Čo trápi rodičov v komunikácii s deťmi</h1>
       <p className="text-muted-foreground">
-        Rodičia často zápasia s nastavením hraníc, pochopením potrieb a
-        zvládaním emócií detí.
+        Čoskoro - výzvy a frustrujúce situácie z pohľadu rodičov.
       </p>
-      <section className="mt-6">
-        <h2 className="text-lg font-semibold">Najčastejšie obavy</h2>
-        <ul className="list-disc pl-6 space-y-2">
-          <li>Nedorozumenia a záchvaty hnevu.</li>
-          <li>Pocit, že deti nepočúvajú alebo ignorujú pravidlá.</li>
-          <li>Hľadanie rovnováhy medzi autoritou a empatiou.</li>
-        </ul>
-      </section>
+      <div className="border rounded-lg p-6 bg-muted/50">
+        <p className="text-sm text-muted-foreground">
+          TODO: Obsah pre rodičovskú perspektívu komunikačných výziev.
+        </p>
+      </div>
     </article>
   )
 }

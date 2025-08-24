@@ -7,18 +7,12 @@ function readMDXFrontmatter(filePath: string) {
     if (fs.existsSync(filePath)) {
       const raw = fs.readFileSync(filePath, 'utf8')
       const { data } = matter(raw)
-      return data as Record<string, unknown>
+      return data as Record<string, any>
     }
   } catch (e) {
     console.error('MDX read error:', e)
   }
   return null
-}
-
-export interface AgeMapFrontmatter {
-  title?: string
-  description?: string
-  seoDescription?: string
 }
 
 export function getTopicFrontmatter(lang: string, tema: string) {
@@ -31,9 +25,9 @@ export function getToolFrontmatter(lang: string, tema: string, technika: string)
   return readMDXFrontmatter(p)
 }
 
-export function getAgeMapFrontmatter(lang: string, range: string): AgeMapFrontmatter | null {
+export function getAgeMapFrontmatter(lang: string, range: string) {
   const p = path.join(process.cwd(), 'content', lang, 'age-maps', `${range}.mdx`)
-  return readMDXFrontmatter(p) as AgeMapFrontmatter | null
+  return readMDXFrontmatter(p)
 }
 
 export function getIndexFrontmatter(lang: string, indexKey: string) {

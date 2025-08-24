@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/rounds/start/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
@@ -7,19 +7,16 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-interface StartBody { roundId?: string }
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function POST(req: NextRequest, context: any) {
-  const session = await getSession(req)
+export async function POST(req: Request, context: any) {
+  const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = context?.params?.code as string
+  const { code } = (context?.params ?? {}) as { code: string }
 
   const gameCode = String(code || '').toUpperCase()
   const game = store.getGame(gameCode)
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
-  const body = (await req.json().catch(() => ({}))) as StartBody
+  const body = await req.json().catch(() => ({} as any))
   const { roundId } = body
 
   // vyber kolo: buď podľa roundId, alebo prvé pending/ready
