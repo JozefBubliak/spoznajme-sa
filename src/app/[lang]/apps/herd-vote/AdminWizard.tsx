@@ -1,3 +1,4 @@
+// src/app/[lang]/apps/herd-vote/AdminWizard.tsx
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
