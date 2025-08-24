@@ -153,15 +153,3 @@ export const store = {
 };
 
 export default store;
-
-export type {
-  Player,
-  Question,
-  ScoringClassic,
-  ScoringPodium,
-  RoundSettings,
-  Round,
-  PlayerAnswer,
-  Game,
-  GameSettings,
-};
