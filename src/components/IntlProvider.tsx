@@ -12,49 +12,55 @@ type IntlContextValue = {
 const IntlContext = createContext<IntlContextValue | null>(null)
 
 type IntlProviderProps = {
-  locale: string
+  /** preferované meno prop-u */
+  locale?: string
+  /** spätná kompatibilita – používajúci kód môže posielať `lang` */
+  lang?: string
   dict: Dict
   children: ReactNode
 }
 
 /**
- * Provider, ktorý sprístupní preklady (dict) a locale.
+ * Provider, ktorý sprístupní preklady (dict) a jazyk (locale/lang).
+ * Ak dostane `locale` aj `lang`, prednosť má `locale`.
  */
-export function IntlProvider({ locale, dict, children }: IntlProviderProps) {
+export function IntlProvider({ locale, lang, dict, children }: IntlProviderProps) {
+  const resolvedLocale = locale ?? lang ?? 'en'
   return (
-    <IntlContext.Provider value={{ locale, dict }}>
+    <IntlContext.Provider value={{ locale: resolvedLocale, dict }}>
       {children}
     </IntlContext.Provider>
   )
 }
 
 /**
- * Hook na používanie prekladov.
- * - vráti { locale, dict, t }
- * - t('a.b.c', 'fallback') -> vyhľadá hodnotu v slovníku; ak chýba, vráti fallback alebo samotnú cestu
+ * Hook s prekladovou funkciou t(path, fallback)
  */
 export function useIntl() {
   const ctx = useContext(IntlContext)
-
-  // Dôležité: ak Provider nie je nad stromom, nech to zlyhá zrozumiteľne
   if (!ctx) {
     throw new Error('useIntl must be used within <IntlProvider>')
   }
 
-  const t = (path: string, fallback?: string) => {
-    const value = path
-      .split('.')
-      .reduce<unknown>(
-        (acc, k) =>
-          acc && typeof acc === 'object' ? (acc as Dict)[k] : undefined,
-        ctx.dict
-      )
-
-    // ak sa nenašlo, použi fallback alebo kľúč
-    const resolved = value ?? (fallback ?? path)
-    return typeof resolved === 'string' ? resolved : String(resolved)
+  const t = (path: string, fallback?: string): string => {
+    let acc: unknown = ctx.dict
+    for (const k of path.split('.')) {
+      if (acc && typeof acc === 'object') {
+        acc = (acc as Dict)[k]
+      } else {
+        acc = undefined
+        break
+      }
+    }
+    const val = acc ?? (fallback ?? path)
+    return typeof val === 'string' ? val : String(val)
   }
 
   return { ...ctx, t }
+}
+
+/** Back-compat alias pre existujúci kód */
+export function useI18n() {
+  return useIntl()
 }
 
