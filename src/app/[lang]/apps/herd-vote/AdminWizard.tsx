@@ -25,9 +25,7 @@ export default function AdminWizard() {
   const [game, setGame] = useState<Game | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
-  const [initializing, setInitializing] = useState(true)
-  const { session } = useAuth()
-
+  const { session, loading } = useAuth()
   // konfig
   const [totalRounds, setTotalRounds] = useState(3)
   const [prepSec, setPrepSec] = useState(10)
@@ -78,7 +76,7 @@ export default function AdminWizard() {
     finally { setBusy(false) }
   }
 
-  async function createGame() {
+  const createGame = useCallback(async () => {
     setBusy(true); setErr(null)
     try {
       const r = await authFetch('/api/games', { method: 'POST' })
@@ -95,7 +93,7 @@ export default function AdminWizard() {
       setRoundCfg({ topic: '', questions: 5 })
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
     finally { setBusy(false) }
-  }
+  }, [authFetch])
 
   async function endGame() {
     if (!code) return
@@ -115,12 +113,12 @@ export default function AdminWizard() {
     finally { setBusy(false) }
   }
 
-  // automaticky vytvor hru pri prvej návšteve stránky
+  // automaticky vytvor hru až keď je načítaná session
   useEffect(() => {
-    if (!code && !busy && !err) {
+    if (!loading && session && !code && !busy) {
       createGame()
     }
-  }, [code, busy, err])
+  }, [loading, session, code, busy, createGame])
 
   if (!code) {
     // ak sa nepodarilo založiť hru, umožni manuálne zopakovať pokus
