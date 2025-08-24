@@ -75,7 +75,13 @@ export default function AdminWizard() {
         scoring_mode: raw.scoring_mode ?? raw.scoringMode ?? 'simple',
         timer_deadline: raw.timer_deadline ?? raw.timerDeadline ?? null,
       }
-      setGame(normalized)
+      setGame(prev => {
+        // Ak server ešte neprepol fázu, zachovaj lokálne rozpracované "round_setup"
+        if (prev?.phase === 'round_setup' && normalized.phase === 'config') {
+          return { ...prev, ...normalized, phase: 'round_setup' }
+        }
+        return normalized
+      })
 
       // Fetch current players in lobby/ game
       try {
@@ -266,11 +272,22 @@ export default function AdminWizard() {
               <input type="number" min={1} className="block border rounded px-2 py-1"
                      value={totalRounds} onChange={e=>setTotalRounds(parseInt(e.target.value||'1',10))}/>
             </label>
-            <button className="rounded bg-green-600 text-white px-3 py-1 disabled:opacity-50"
-                    disabled={busy}
-                    onClick={()=>post(`/api/games/${code}/config`, {
-                      totalRounds, prepSeconds: prepSec, questionSeconds: qSec, scoringMode: scoring
-                    })}>
+            <button
+              className="rounded bg-green-600 text-white px-3 py-1 disabled:opacity-50"
+              disabled={busy}
+              onClick={async () => {
+                await post(`/api/games/${code}/config`, {
+                  rounds: totalRounds,
+                  prepSeconds: prepSec,
+                  questionSeconds: qSec,
+                  scoring: scoring,
+                })
+                // Prepnime lokálnu fázu na nastavovanie jednotlivých kôl
+                setGame(g => g ? { ...g, phase: 'round_setup', total_rounds: totalRounds } : g)
+                setRoundIx(0)
+                setRoundCfg({ topic: '', questions: 5 })
+              }}
+            >
               Uložiť & pokračovať
             </button>
           </div>
