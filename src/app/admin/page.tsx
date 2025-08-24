@@ -1,7 +1,7 @@
 'use client'
 export const dynamic = 'force-dynamic'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/button'
@@ -61,12 +61,7 @@ export default function AdminPage() {
     fetchUser()
   }, [router])
 
-  useEffect(() => {
-    fetchNextQuestion()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const fetchNextQuestion = async () => {
+  const fetchNextQuestion = useCallback(async () => {
     setStatus(null)
 
     const { data, error } = await supabase
@@ -89,7 +84,11 @@ export default function AdminPage() {
     } else {
       setQuestion(null)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    fetchNextQuestion()
+  }, [fetchNextQuestion])
 
   const handleSaveAndNext = async () => {
     if (!question) return
