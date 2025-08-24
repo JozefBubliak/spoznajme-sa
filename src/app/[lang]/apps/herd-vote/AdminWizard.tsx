@@ -80,6 +80,11 @@ export default function AdminWizard() {
     setBusy(true); setErr(null)
     try {
       const r = await authFetch('/api/games', { method: 'POST' })
+      if (r.status === 401) {
+        // session expirovala alebo chýba – presmeruj na login
+        if (typeof window !== 'undefined') window.location.href = '/login'
+        return
+      }
       if (!r.ok) throw new Error(await r.text())
       const j = await r.json()
       setCode(j.code || j.gameCode)
@@ -119,6 +124,15 @@ export default function AdminWizard() {
       createGame()
     }
   }, [loading, session, code, busy, createGame])
+
+  if (!loading && !session) {
+    return (
+      <div className="rounded border p-4 space-y-2">
+        <div className="text-sm">Pre moderovanie sa musíte prihlásiť.</div>
+        <a href="/login" className="text-sm underline">Prihlásiť sa</a>
+      </div>
+    )
+  }
 
   if (!code) {
     // ak sa nepodarilo založiť hru, umožni manuálne zopakovať pokus
