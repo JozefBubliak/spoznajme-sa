@@ -4,22 +4,22 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 
 import en from './locales/en.json'
 import sk from './locales/sk.json'
-import cz from './locales/cz.json'
+import cs from './locales/cs.json'
 import de from './locales/de.json'
 import pl from './locales/pl.json'
 import fr from './locales/fr.json'
 import hu from './locales/hu.json'
 import es from './locales/es.json'
-import ua from './locales/ua.json'
+import uk from './locales/uk.json'
 import ru from './locales/ru.json'
 
 export const SUPPORTED_LOCALES = [
-  'en','sk','cz','de','pl','fr','hu','es','ua','ru'
+  'en','sk','cs','de','pl','fr','hu','es','uk','ru'
 ] as const
 export type Locale = typeof SUPPORTED_LOCALES[number]
 export const DEFAULT_LOCALE: Locale = 'en'
 
-const dictionaries: Record<string, Record<string, unknown>> = { en, sk, cz, de, pl, fr, hu, es, ua, ru }
+const dictionaries: Record<string, Record<string, unknown>> = { en, sk, cs, de, pl, fr, hu, es, uk, ru }
 
 function get(obj: unknown, path: string): unknown {
   return path.split('.').reduce<unknown>((acc, key) => {
@@ -30,7 +30,7 @@ function get(obj: unknown, path: string): unknown {
   }, obj)
 }
 
-// normalizácia jazykových kódov (cs->cz, uk->ua; zhodenie -SK/-CZ atď.)
+// normalizácia jazykových kódov (cz->cs, ua->uk; zhodenie -SK/-CZ atď.)
 function normalizeLocale(code: string | null | undefined): Locale | null {
   if (!code) return null
   const lower = code.toLowerCase()
@@ -38,8 +38,8 @@ function normalizeLocale(code: string | null | undefined): Locale | null {
   const tryList = [lower, base]
 
   for (const c of tryList) {
-    if (c === 'cs') return 'cz'
-    if (c === 'uk') return 'ua'
+    if (c === 'cz') return 'cs'
+    if (c === 'ua') return 'uk'
     if ((SUPPORTED_LOCALES as readonly string[]).includes(c)) return c as Locale
   }
   return null

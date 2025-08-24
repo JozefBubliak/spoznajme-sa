@@ -1,24 +1,24 @@
 // src/i18n/server.ts
-import type { Dict, Dictionary } from "./types"
+import type { Dictionary } from "./types"
 import type { Locale } from "./config"
 
-// NAČÍTANIE SLOVNÍKOV – POZOR NA KÓD PRE ČEŠTINU: väčšinou je to "cs"
-import en from "./locales/en.json"
-import sk from "./locales/sk.json"
-import cs from "./locales/cs.json"  // ak máš súbor cs.json; ak máš cz.json, uprav aj kľúč nižšie
-import de from "./locales/de.json"
-import pl from "./locales/pl.json"
-import fr from "./locales/fr.json"
-import hu from "./locales/hu.json"
-import es from "./locales/es.json"
-import uk from "./locales/uk.json"   // ak používaš uk/ua, zlaď to s configom
-import ru from "./locales/ru.json"
+type Dict = Record<string, unknown>
 
 // fallback „base“ – zmeň na "sk", ak chceš mať slovenčinu ako primárny zdroj
 const BASE_LOCALE: Locale = "en"
 
-const DICTS: Record<string, Dictionary> = {
-  en, sk, cs, de, pl, fr, hu, es, uk, ru,
+// PRIDAJ LEN TIE JAZYKY, KTORÉ MÁŠ V ./locales/*.json
+const LOADERS: Partial<Record<Locale, () => Promise<Dictionary>>> = {
+  en: () => import("./locales/en.json").then(m => m.default),
+  sk: () => import("./locales/sk.json").then(m => m.default),
+  cs: () => import("./locales/cs.json").then(m => m.default),
+  de: () => import("./locales/de.json").then(m => m.default),
+  pl: () => import("./locales/pl.json").then(m => m.default),
+  fr: () => import("./locales/fr.json").then(m => m.default),
+  hu: () => import("./locales/hu.json").then(m => m.default),
+  es: () => import("./locales/es.json").then(m => m.default),
+  uk: () => import("./locales/uk.json").then(m => m.default),
+  ru: () => import("./locales/ru.json").then(m => m.default),
 }
 
 function isDict(v: unknown): v is Dict {
@@ -36,10 +36,10 @@ function deepMerge(a: Dict, b: Dict): Dict {
 }
 
 export async function getDictionary(locale: Locale): Promise<Dictionary> {
-  const base = DICTS[BASE_LOCALE]
-  const override = DICTS[locale]
-  // ak daný jazyk nepoznáme, vrátime aspoň base
-  if (!override) return base
-  // inak spravíme fallback: base -> override
+  const baseLoader = LOADERS[BASE_LOCALE]!
+  const base = await baseLoader()
+  const load = LOADERS[locale]
+  if (!load) return base
+  const override = await load()
   return deepMerge(base as Dict, override as Dict) as Dictionary
 }
