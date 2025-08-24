@@ -25,7 +25,7 @@ export default function AdminWizard() {
   const [game, setGame] = useState<Game | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
-  const { session } = useAuth()
+  const { session, loading } = useAuth()
 
   // konfig
   const [totalRounds, setTotalRounds] = useState(3)
@@ -43,27 +43,7 @@ export default function AdminWizard() {
     return fetch(url, { ...options, headers })
   }, [session])
 
-  const ensureGame = useCallback(async () => {
-    try {
-      const r = await authFetch('/api/games/active', { cache: 'no-store' })
-      if (r.ok) {
-        const j = await r.json()
-        if (j?.code) {
-          setCode(j.code)
-          return
-        }
-      }
-    } catch {}
-    try {
-      const r = await authFetch('/api/games', { method: 'POST' })
-      if (r.ok) {
-        const j = await r.json()
-        setCode(j.code || j.gameCode)
-      }
-    } catch {}
-  }, [authFetch])
-
-  useEffect(() => { ensureGame() }, [ensureGame])
+  // žiadna kontrola aktívnej hry – moderátor vždy začína novú
 
   // 2) polling stavu hry
   const refresh = useMemo(() => async () => {
@@ -97,7 +77,7 @@ export default function AdminWizard() {
     finally { setBusy(false) }
   }
 
-  async function createGame() {
+  const createGame = useCallback(async () => {
     setBusy(true); setErr(null)
     try {
       const r = await authFetch('/api/games', { method: 'POST' })
@@ -105,9 +85,16 @@ export default function AdminWizard() {
       const j = await r.json()
       setCode(j.code || j.gameCode)
       setGame(null)
+      // reset konfigurácie pre novú hru
+      setTotalRounds(3)
+      setPrepSec(10)
+      setQSec(45)
+      setScoring('simple')
+      setRoundIx(0)
+      setRoundCfg({ topic: '', questions: 5 })
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
     finally { setBusy(false) }
-  }
+  }, [authFetch])
 
   async function endGame() {
     if (!code) return
@@ -117,13 +104,39 @@ export default function AdminWizard() {
       if (!r.ok) throw new Error(await r.text())
       setCode(null)
       setGame(null)
-      await ensureGame()
+      setTotalRounds(3)
+      setPrepSec(10)
+      setQSec(45)
+      setScoring('simple')
+      setRoundIx(0)
+      setRoundCfg({ topic: '', questions: 5 })
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
     finally { setBusy(false) }
   }
 
+  // automaticky vytvor hru až keď je načítaná session
+  useEffect(() => {
+    if (!loading && session && !code && !busy) {
+      createGame()
+    }
+  }, [loading, session, code, busy, createGame])
+
   if (!code) {
-    return <div className="rounded border p-4">Načítavam...</div>
+    // ak sa nepodarilo založiť hru, umožni manuálne zopakovať pokus
+    if (err) {
+      return (
+        <div className="rounded border p-4 space-y-2">
+          <div className="text-sm text-red-600">Chyba: {err}</div>
+          <button
+            className="rounded bg-black text-white px-3 py-1"
+            onClick={createGame}
+          >
+            Nová hra
+          </button>
+        </div>
+      )
+    }
+    return null
   }
 
   const g = game
