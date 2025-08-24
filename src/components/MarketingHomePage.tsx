@@ -48,14 +48,12 @@ export default function MarketingHomePage() {
                 budovať dôveru a vytvárať skutočné spojenie.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                {/* hero size -> lg (typované), hero variant nechávame */}
                 <Button asChild variant="hero" size="lg" className="group">
                   <Link href="/sk/apps/couplesync" aria-label="CoupleSync dotazník">
                     CoupleSync
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
-                {/* glass -> outline, xl -> lg */}
                 <Button asChild variant="outline" size="lg" className="glass-effect">
                   <Link href="/sk/apps/spoznajme-sa" aria-label="Kartičky Spoznajme sa">
                     Kartičky

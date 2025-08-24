@@ -29,8 +29,7 @@ export function MarketingHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          {/* pôvodne variant="glass" – nahradený za typovaný variant */}
-          <Button variant="secondary" size="sm" className="glass-effect">
+          <Button variant="secondary" size="sm">
             Aplikácia
           </Button>
         </div>
