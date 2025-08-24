@@ -16,6 +16,7 @@ export default async function AppsPage({ params }: P) {
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
   const dict = await getDictionary(lang as Locale)
   const apps = dict.apps
+  if (!apps) notFound()
   const games = apps.games
   const categories = [
     { key: 'quizzes', slugs: ['quiz'] },
