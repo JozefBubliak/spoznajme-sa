@@ -25,6 +25,7 @@ export default function AdminWizard() {
   const [game, setGame] = useState<Game | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [initializing, setInitializing] = useState(true)
   const { session } = useAuth()
 
   // konfig
