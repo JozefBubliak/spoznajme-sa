@@ -115,21 +115,29 @@ export default function AdminWizard() {
     finally { setBusy(false) }
   }
 
-  if (initializing) {
-    return null
-  }
+  // automaticky vytvor hru pri prvej návšteve stránky
+  useEffect(() => {
+    if (!code && !busy && !err) {
+      createGame()
+    }
+  }, [code, busy, err])
 
   if (!code) {
-    return (
-      <div className="rounded border p-4 space-y-2">
-        <button
-          className="rounded bg-black text-white px-3 py-1"
-          onClick={createGame}
-        >
-          Nová hra
-        </button>
-      </div>
-    )
+    // ak sa nepodarilo založiť hru, umožni manuálne zopakovať pokus
+    if (err) {
+      return (
+        <div className="rounded border p-4 space-y-2">
+          <div className="text-sm text-red-600">Chyba: {err}</div>
+          <button
+            className="rounded bg-black text-white px-3 py-1"
+            onClick={createGame}
+          >
+            Nová hra
+          </button>
+        </div>
+      )
+    }
+    return null
   }
 
   const g = game
