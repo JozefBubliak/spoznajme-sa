@@ -1,0 +1,145 @@
+{
+  "brand": "DeepTalks",
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "tools": "Communication Compass",
+    "blog": "Blog",
+    "downloads": "Downloads",
+    "apps": "Conversation games"
+  },
+  "aud": {
+    "parentChild": "Parent–Child",
+    "couples": "Couples",
+    "friendsParty": "Friends & Party",
+    "family": "Family"
+  },
+  "topics": {
+    "openers": "Openers & rituals",
+    "emotions": "Emotions & regulation",
+    "choices": "Choices & motivation",
+    "changes": "Changes & transitions",
+    "conflict": "Conflict & cooperation",
+    "strengths": "Gratitude & strengths",
+    "digital": "Digital life",
+    "school": "School & learning",
+    "health": "Health & tough topics",
+    "identity": "Identity & body"
+  },
+  "kompas": {
+    "title": "Communication Compass",
+    "forWhom": "For whom",
+    "topicsTitle": "Topics"
+  },
+  "hero": {
+    "badge": "New",
+    "title": "Conversations that bring people closer.",
+    "lead": "Practical phrases for everyday moments and thoughtful question games. For couples, parents & kids, friends and families.",
+    "ctaStart": "Open Compass",
+    "ctaTry": "Launch game",
+    "sample": {
+      "label": "Sample question",
+      "question": "Which memory from the last year truly made you happy—and why?",
+      "next": "Next question",
+      "save": "Save favorite"
+    }
+  },
+  "what": {
+    "title": "What you'll find",
+    "appsT": "Conversation games: cards, prompts and quizzes — quick fun and deeper talks.",
+    "productsT": "Curated packs, printables and ebooks.",
+    "compasT": "Short, ready-to-use phrases and mini-steps for tough moments — emotions, limits, agreements, transitions and screen-time."
+  },
+  "apps": {
+    "bannerTitle": "Discover games & apps for couples, families and friends",
+    "bannerSubtitle": "Games that get you off the screen and back together.",
+    "bannerCTA": "Start now",
+    "categories": {
+      "quizzes": "Quizzes",
+      "cards": "Conversation cards",
+      "puzzles": "Riddles & logic games",
+      "surveys": "Couple questionnaires"
+    },
+    "games": {
+      "quiz": {
+        "name": "Herd Vote – team quiz",
+        "description": "Test how well you know each other. Fun questions from easy to unexpected – who knows you best?",
+        "cta": "Start quiz",
+        "link": "/apps/herd-vote",
+        "manual": [
+          "Create or join a game",
+          "Answer the questions",
+          "Compare who matches best"
+        ]
+      },
+      "spoznajme-sa": {
+        "name": "Conversation cards",
+        "description": "Conversations that bring you closer. Cards full of questions to get to know partner, friends or family.",
+        "cta": "Pick cards",
+        "link": "/apps/spoznajme-sa",
+        "manual": [
+          "Choose a deck",
+          "Draw a card",
+          "Share your answers"
+        ]
+      },
+      "hadacka": {
+        "name": "Riddle – Guess the answer",
+        "description": "A fun game for quick thinking. Can you guess what your partner has in mind?",
+        "cta": "Start riddle",
+        "link": "/apps/hadacka",
+        "manual": [
+          "Start the game",
+          "Guess the word",
+          "Score points"
+        ]
+      },
+      "couplesync": {
+        "name": "CoupleSync",
+        "description": "A relationship questionnaire that helps align expectations and desires. Each partner fills it in separately and you compare the results together.",
+        "cta": "Start questionnaire",
+        "link": "https://couplesync.deeptalks.eu",
+        "manual": [
+          "Answer honestly",
+          "Compare results",
+          "Discuss together"
+        ],
+        "heroTitle": "CoupleSync",
+        "heroSubtitle": "A safe, two-partner questionnaire to map what you want, don't want, and where you match — from daily rituals to intimate preferences (18+).",
+        "ctaEmail": "Sign in with email",
+        "ctaMagic": "Create private room (magic link)",
+        "whyTitle": "Why this questionnaire matters",
+        "whyPoints": [
+          "Only ~62% are satisfied with their love/sex life (≈ 38% are not).",
+          "Partners know roughly ~62% of what the other likes and ~26% of what they dislike.",
+          "When issues exist, full honesty is rare – fewer than 25% of couples say they're always honest.",
+          "About 14–15% of marriages are 'sexless' (≤10×/year)."
+        ],
+        "benefitsTitle": "What CoupleSync gives you",
+        "benefitsList": [
+          "Map of matches and differences",
+          "No shame, no pressure",
+          "Results you can talk about"
+        ],
+        "barriersTitle": "What usually blocks intimacy",
+        "barriersCards": ["Stress and fatigue", "Desire discrepancy", "Postpartum / health periods"],
+        "howTitle": "How it works",
+        "howSteps": [
+          "Create a private room",
+          "Each answers on their own",
+          "Shared overview with respect for boundaries"
+        ],
+        "privacyTitle": "Privacy & Security",
+        "privacyPoints": [
+          "No names or required profiles",
+          "Private room via unguessable link",
+          "Option to use email or not",
+          "Delete with one click"
+        ],
+        "footerNotice": "Content intended for 18+ only"
+      },
+      "ctaBack": "Want to try another game?",
+      "how": "How it works"
+    }
+  }
+}
