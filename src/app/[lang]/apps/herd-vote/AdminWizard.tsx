@@ -26,6 +26,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [game, setGame] = useState<Game | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [transitioning, setTransitioning] = useState(false)
   const { session } = useAuth()
 
   // konfig
@@ -59,24 +60,47 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
     return fetch(url, { ...options, headers })
   }
 
+  function toPhase(status?: string): Phase {
+    switch (status) {
+      case 'lobby': return 'lobby'
+      case 'setup': return 'config'
+      case 'running': return 'playing'
+      case 'ended': return 'final'
+      default: return 'lobby'
+    }
+  }
+
   const refresh = useMemo(() => async () => {
     if (!code) return
     setErr(null)
     try {
       const r = await authFetch(`/api/games/${code}`, { cache: 'no-store' })
       if (!r.ok) throw new Error(await r.text())
-      setGame(await r.json())
+      const raw = await r.json()
+      const normalized: Game = {
+        code: raw.code ?? code,
+        phase: raw.phase ?? toPhase(raw.status),
+        lobby_locked: raw.lobby_locked ?? (raw.is_open === false),
+        total_rounds: raw.total_rounds ?? raw.roundsCount ?? 3,
+        active_round_index: raw.active_round_index ?? raw.activeRoundIndex ?? 0,
+        prep_seconds: raw.prep_seconds ?? raw.prepSeconds ?? 10,
+        question_seconds: raw.question_seconds ?? raw.questionSeconds ?? 45,
+        scoring_mode: raw.scoring_mode ?? raw.scoringMode ?? 'simple',
+        timer_deadline: raw.timer_deadline ?? raw.timerDeadline ?? null,
+      }
+      setGame(normalized)
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
   }, [code])
 
   useEffect(() => {
+    if (transitioning) return
     refresh()
     const t = setInterval(refresh, 2500)
     return () => clearInterval(t)
-  }, [refresh])
+  }, [refresh, transitioning])
 
   async function post(url: string, body?: any) {
-    setBusy(true); setErr(null)
+    setBusy(true); setErr(null); setTransitioning(true)
     try {
       const r = await authFetch(url, {
         method: 'POST',
@@ -86,7 +110,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       if (!r.ok) throw new Error(await r.text())
       await refresh()
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
-    finally { setBusy(false) }
+    finally { setBusy(false); setTransitioning(false) }
   }
 
   if (!code) {
