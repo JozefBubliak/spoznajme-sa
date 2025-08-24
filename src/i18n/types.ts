@@ -1,3 +1,6 @@
+// Univerzálny „mapový“ typ pre hlboké mergovanie slovníkov
+export type Dict = Record<string, unknown>
+
 export interface GameEntry {
   name: string
   description: string
