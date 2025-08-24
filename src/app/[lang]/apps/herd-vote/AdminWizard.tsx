@@ -25,6 +25,7 @@ export default function AdminWizard() {
   const [game, setGame] = useState<Game | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [initializing, setInitializing] = useState(true)
   const { session } = useAuth()
 
   // konfig
@@ -44,24 +45,25 @@ export default function AdminWizard() {
   }, [session])
 
   const ensureGame = useCallback(async () => {
+    setInitializing(true)
     try {
       const r = await authFetch('/api/games/active', { cache: 'no-store' })
       if (r.ok) {
         const j = await r.json()
         if (j?.code) {
-          setCode(j.code)
-          return
+          if (window.confirm('Existuje aktívna hra. Chcete sa k nej pripojiť?')) {
+            setCode(j.code)
+            return
+          }
         }
       }
-    } catch {}
-    try {
-      const r = await authFetch('/api/games', { method: 'POST' })
-      if (r.ok) {
-        const j = await r.json()
-        setCode(j.code || j.gameCode)
-      }
-    } catch {}
-  }, [authFetch])
+      await createGame()
+    } catch {
+      setCode(null)
+    } finally {
+      setInitializing(false)
+    }
+  }, [authFetch, createGame])
 
   useEffect(() => { ensureGame() }, [ensureGame])
 
@@ -122,8 +124,21 @@ export default function AdminWizard() {
     finally { setBusy(false) }
   }
 
+  if (initializing) {
+    return null
+  }
+
   if (!code) {
-    return <div className="rounded border p-4">Načítavam...</div>
+    return (
+      <div className="rounded border p-4 space-y-2">
+        <button
+          className="rounded bg-black text-white px-3 py-1"
+          onClick={createGame}
+        >
+          Začať hru
+        </button>
+      </div>
+    )
   }
 
   const g = game
