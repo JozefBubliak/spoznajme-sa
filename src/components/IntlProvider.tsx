@@ -1,40 +1,60 @@
 'use client'
-import { createContext, useContext } from 'react'
-import type { Locale } from '@/i18n/config'
+
+import React, { createContext, useContext, type ReactNode } from 'react'
 
 type Dict = Record<string, unknown>
-type Ctx = { lang: Locale; dict: Dict }
-const I18nCtx = createContext<Ctx | null>(null)
 
-// minimalistický EN fallback (UI nespadne, kým sa provider nenačíta)
-const FALLBACK_DICT = {
-  brand: 'DeepTalks',
-  nav: { home: 'Home', products: 'Products', tools: 'Tools', blog: 'Blog', downloads: 'Downloads' },
+type IntlContextValue = {
+  locale: string
+  dict: Dict
 }
 
-export function IntlProvider({ lang, dict, children }: { lang: Locale; dict: Dict; children: React.ReactNode }) {
-  return <I18nCtx.Provider value={{ lang, dict }}>{children}</I18nCtx.Provider>
+const IntlContext = createContext<IntlContextValue | null>(null)
+
+type IntlProviderProps = {
+  locale: string
+  dict: Dict
+  children: ReactNode
 }
 
-export function useI18n() {
-  const ctx = useContext(I18nCtx)
+/**
+ * Provider, ktorý sprístupní preklady (dict) a locale.
+ */
+export function IntlProvider({ locale, dict, children }: IntlProviderProps) {
+  return (
+    <IntlContext.Provider value={{ locale, dict }}>
+      {children}
+    </IntlContext.Provider>
+  )
+}
+
+/**
+ * Hook na používanie prekladov.
+ * - vráti { locale, dict, t }
+ * - t('a.b.c', 'fallback') -> vyhľadá hodnotu v slovníku; ak chýba, vráti fallback alebo samotnú cestu
+ */
+export function useIntl() {
+  const ctx = useContext(IntlContext)
+
+  // Dôležité: ak Provider nie je nad stromom, nech to zlyhá zrozumiteľne
   if (!ctx) {
-    const t = (path: string, fallback?: string) =>
-      path
-        .split('.')
-        .reduce<unknown>((acc, k) =>
-          acc && typeof acc === 'object' ? (acc as Dict)[k] : undefined,
-        FALLBACK_DICT) ?? (fallback ?? path)
-    return { lang: 'en' as Locale, dict: FALLBACK_DICT, t }
+    throw new Error('useIntl must be used within <IntlProvider>')
   }
-  function t(path: string, fallback?: string) {
-    return (
-      path
-        .split('.')
-        .reduce<unknown>((acc, k) =>
+
+  const t = (path: string, fallback?: string) => {
+    const value = path
+      .split('.')
+      .reduce<unknown>(
+        (acc, k) =>
           acc && typeof acc === 'object' ? (acc as Dict)[k] : undefined,
-        ctx.dict) ?? (fallback ?? path)
-    )
+        ctx.dict
+      )
+
+    // ak sa nenašlo, použi fallback alebo kľúč
+    const resolved = value ?? (fallback ?? path)
+    return typeof resolved === 'string' ? resolved : String(resolved)
   }
+
   return { ...ctx, t }
 }
+
