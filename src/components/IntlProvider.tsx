@@ -1,66 +1,54 @@
-'use client'
+'use client';
 
-import React, { createContext, useContext, type ReactNode } from 'react'
+import React, { createContext, useContext, useMemo } from 'react';
 
-type Dict = Record<string, unknown>
+export type Dictionary = Record<string, unknown>;
+type Lang = 'en' | 'sk' | 'cs' | 'pl' | 'hu' | 'fr' | 'de' | 'uk' | 'ru' | 'es';
 
 type IntlContextValue = {
-  locale: string
-  dict: Dict
-}
+  lang: Lang;
+  dict: Dictionary;
+  t: (path: string, fallback?: string, vars?: Record<string, string | number>) => string;
+};
 
-const IntlContext = createContext<IntlContextValue | null>(null)
+const defaultValue: IntlContextValue = {
+  lang: 'sk',
+  dict: {},
+  t: (path, fallback) => fallback ?? path,
+};
 
-type IntlProviderProps = {
-  /** preferované meno prop-u */
-  locale?: string
-  /** spätná kompatibilita – používajúci kód môže posielať `lang` */
-  lang?: string
-  dict: Dict
-  children: ReactNode
-}
+const IntlContext = createContext<IntlContextValue>(defaultValue);
 
-/**
- * Provider, ktorý sprístupní preklady (dict) a jazyk (locale/lang).
- * Ak dostane `locale` aj `lang`, prednosť má `locale`.
- */
-export function IntlProvider({ locale, lang, dict, children }: IntlProviderProps) {
-  const resolvedLocale = locale ?? lang ?? 'en'
-  return (
-    <IntlContext.Provider value={{ locale: resolvedLocale, dict }}>
-      {children}
-    </IntlContext.Provider>
-  )
-}
+export type IntlProviderProps = {
+  lang: Lang;
+  dict: Dictionary;
+  children: React.ReactNode;
+};
 
-/**
- * Hook s prekladovou funkciou t(path, fallback)
- */
-export function useIntl() {
-  const ctx = useContext(IntlContext)
-  if (!ctx) {
-    throw new Error('useIntl must be used within <IntlProvider>')
-  }
+export default function IntlProvider({ lang, dict, children }: IntlProviderProps) {
+  const value = useMemo<IntlContextValue>(() => {
+    const t = (path: string, fallback?: string, vars?: Record<string, string | number>) => {
+      const raw = path.split('.').reduce<any>((acc, key) => {
+        if (acc && typeof acc === 'object' && key in acc) return acc[key];
+        return undefined;
+      }, dict);
 
-  const t = (path: string, fallback?: string): string => {
-    let acc: unknown = ctx.dict
-    for (const k of path.split('.')) {
-      if (acc && typeof acc === 'object') {
-        acc = (acc as Dict)[k]
-      } else {
-        acc = undefined
-        break
+      let out = (typeof raw === 'string' ? raw : undefined) ?? fallback ?? path;
+
+      if (vars) {
+        for (const [k, v] of Object.entries(vars)) {
+          out = out.replaceAll(`{${k}}`, String(v));
+        }
       }
-    }
-    const val = acc ?? (fallback ?? path)
-    return typeof val === 'string' ? val : String(val)
-  }
+      return out;
+    };
 
-  return { ...ctx, t }
+    return { lang, dict, t };
+  }, [lang, dict]);
+
+  return <IntlContext.Provider value={value}>{children}</IntlContext.Provider>;
 }
 
-/** Back-compat alias pre existujúci kód */
-export function useI18n() {
-  return useIntl()
-}
+// toto je to, čo si importuje SiteHeader:
+export const useI18n = () => useContext(IntlContext);
 
