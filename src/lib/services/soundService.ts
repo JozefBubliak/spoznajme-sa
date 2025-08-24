@@ -1,18 +1,34 @@
+declare global {
+  interface Window {
+    // staršie Safari
+    webkitAudioContext?: {
+      new (contextOptions?: AudioContextOptions): AudioContext
+      prototype: AudioContext
+    }
+  }
+}
+
 export class SoundService {
   private static audioContext: AudioContext | null = null
   private static volume = 0.7
   private static enabled = true
 
   static init(): void {
-    if (typeof window === 'undefined') return
-    
     try {
-      const AudioCtx =
-        window.AudioContext ||
-        (window as Window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+      if (typeof window === "undefined") return
+
+      const AudioCtx:
+        | (new (contextOptions?: AudioContextOptions) => AudioContext)
+        | undefined = window.AudioContext ?? window.webkitAudioContext
+
+      if (!AudioCtx) {
+        console.warn("AudioContext nie je v tomto prehliadači dostupný")
+        return
+      }
+
       this.audioContext = new AudioCtx()
     } catch (error) {
-      console.warn('AudioContext not supported:', error)
+      console.warn("AudioContext nepodporovaný:", error)
     }
   }
 
