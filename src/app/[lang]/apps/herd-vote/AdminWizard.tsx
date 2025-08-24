@@ -33,6 +33,7 @@ export default function AdminWizard() {
   const [scoring, setScoring] = useState<'simple'|'weighted'>('simple')
   const [roundIx, setRoundIx] = useState(0)
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
+  const [players, setPlayers] = useState<{id:string; name:string}[]>([])
 
   // helper: map status z API na fázu UI
   function toPhase(status?: string): Phase {
@@ -75,6 +76,15 @@ export default function AdminWizard() {
         timer_deadline: raw.timer_deadline ?? raw.timerDeadline ?? null,
       }
       setGame(normalized)
+
+      // Fetch current players in lobby/ game
+      try {
+        const rp = await authFetch(`/api/games/${code}/players`, { cache: 'no-store' })
+        if (rp.ok) {
+          const pj = await rp.json()
+          setPlayers(pj.players || [])
+        }
+      } catch {}
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
   }, [code, authFetch])
 
@@ -119,6 +129,7 @@ export default function AdminWizard() {
       setScoring('simple')
       setRoundIx(0)
       setRoundCfg({ topic: '', questions: 5 })
+      setPlayers([])
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
     finally { setBusy(false) }
   }, [authFetch])
@@ -137,6 +148,7 @@ export default function AdminWizard() {
       setScoring('simple')
       setRoundIx(0)
       setRoundCfg({ topic: '', questions: 5 })
+      setPlayers([])
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
     finally { setBusy(false) }
   }
@@ -181,13 +193,7 @@ export default function AdminWizard() {
 
   return (
     <div className="rounded-lg border p-4 space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="font-medium">Panel moderátora</div>
-        <div className="flex items-center gap-2 text-sm">
-          <button className="rounded bg-black text-white px-3 py-1 disabled:opacity-50" disabled={busy} onClick={createGame}>Nová hra</button>
-          <div>Kód: <span className="font-mono">{code}</span></div>
-        </div>
-      </div>
+      <div className="font-medium">Panel moderátora</div>
 
       {err && <div className="text-sm text-red-600">Chyba: {err}</div>}
 
@@ -203,7 +209,14 @@ export default function AdminWizard() {
               src={`https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(joinUrl)}`}
             />
             <div className="space-y-2">
-              <div className="font-mono text-sm break-all">{joinUrl}</div>
+              <a
+                href={joinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-sm break-all text-blue-600 underline"
+              >
+                {joinUrl}
+              </a>
               <button
                 className="rounded bg-slate-800 text-white px-3 py-1"
                 onClick={() => navigator.clipboard?.writeText(joinUrl)}
@@ -211,6 +224,15 @@ export default function AdminWizard() {
                 Skopírovať link
               </button>
             </div>
+          </div>
+
+          <div>
+            <div className="text-sm font-medium">Prihlásení hráči ({players.length}):</div>
+            <ul className="text-sm list-disc pl-6">
+              {players.map(p => (
+                <li key={p.id}>{p.name}</li>
+              ))}
+            </ul>
           </div>
 
           <div>
@@ -226,26 +248,23 @@ export default function AdminWizard() {
       {/* KROK 2: Konfigurácia hry (po zamknutí lobby) */}
       {g?.phase === 'config' && (
         <div className="space-y-3">
+          <div>
+            <div className="text-sm font-medium">Prihlásení hráči ({players.length}):</div>
+            <ul className="text-sm list-disc pl-6">
+              {players.map(p => (
+                <li key={p.id}>{p.name}</li>
+              ))}
+            </ul>
+          </div>
+
           <div className="font-medium text-sm">Nastavenie hry</div>
+          <div className="text-xs text-muted-foreground">
+            Zadajte počet kôl. Detaily jednotlivých kôl nastavíte v ďalšom kroku.
+          </div>
           <div className="flex flex-wrap gap-3 items-end">
             <label className="text-sm">Počet kôl
               <input type="number" min={1} className="block border rounded px-2 py-1"
                      value={totalRounds} onChange={e=>setTotalRounds(parseInt(e.target.value||'1',10))}/>
-            </label>
-            <label className="text-sm">Príprava (s)
-              <input type="number" min={0} className="block border rounded px-2 py-1"
-                     value={prepSec} onChange={e=>setPrepSec(parseInt(e.target.value||'0',10))}/>
-            </label>
-            <label className="text-sm">Čas na otázku (s)
-              <input type="number" min={10} className="block border rounded px-2 py-1"
-                     value={qSec} onChange={e=>setQSec(parseInt(e.target.value||'10',10))}/>
-            </label>
-            <label className="text-sm">Bodovanie
-              <select className="block border rounded px-2 py-1"
-                      value={scoring} onChange={e=>setScoring(e.target.value as any)}>
-                <option value="simple">Jednoduché</option>
-                <option value="weighted">Hmotnostné</option>
-              </select>
             </label>
             <button className="rounded bg-green-600 text-white px-3 py-1 disabled:opacity-50"
                     disabled={busy}
