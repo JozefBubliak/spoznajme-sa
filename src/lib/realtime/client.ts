@@ -3,12 +3,6 @@
 import type { HerdEvent, RealtimeCallback } from './types'
 import { log } from '../logger'
 
-declare global {
-  interface Window {
-    RealtimeClient?: RealtimeClientImpl
-  }
-}
-
 class RealtimeClientImpl {
   private subscribers = new Map<string, Set<RealtimeCallback>>()
   private isConnected = false
