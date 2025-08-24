@@ -34,6 +34,17 @@ export default function AdminWizard() {
   const [roundIx, setRoundIx] = useState(0)
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
 
+  // helper: map status z API na fázu UI
+  function toPhase(status?: string): Phase {
+    switch (status) {
+      case 'lobby': return 'lobby'
+      case 'setup': return 'config'
+      case 'running': return 'playing'
+      case 'ended': return 'final'
+      default: return 'lobby'
+    }
+  }
+
   const authFetch = useCallback((url: string, options: RequestInit = {}) => {
     const headers = {
       ...(options.headers || {}),
@@ -51,7 +62,19 @@ export default function AdminWizard() {
     try {
       const r = await authFetch(`/api/games/${code}`, { cache: 'no-store' })
       if (!r.ok) throw new Error(await r.text())
-      setGame(await r.json())
+      const raw = await r.json()
+      const normalized: Game = {
+        code: raw.code ?? code,
+        phase: raw.phase ?? toPhase(raw.status),
+        lobby_locked: raw.lobby_locked ?? (raw.is_open === false),
+        total_rounds: raw.total_rounds ?? raw.roundsCount ?? 3,
+        active_round_index: raw.active_round_index ?? raw.activeRoundIndex ?? 0,
+        prep_seconds: raw.prep_seconds ?? raw.prepSeconds ?? 10,
+        question_seconds: raw.question_seconds ?? raw.questionSeconds ?? 45,
+        scoring_mode: raw.scoring_mode ?? raw.scoringMode ?? 'simple',
+        timer_deadline: raw.timer_deadline ?? raw.timerDeadline ?? null,
+      }
+      setGame(normalized)
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
   }, [code, authFetch])
 
@@ -153,7 +176,8 @@ export default function AdminWizard() {
   }
 
   const g = game
-  const joinUrl = typeof window !== 'undefined' ? `${window.location.origin}/play/${code}` : ''
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? (typeof window !== 'undefined' ? window.location.origin : '')
+  const joinUrl = `${base}/play/${code}`
 
   return (
     <div className="rounded-lg border p-4 space-y-4">
@@ -169,13 +193,27 @@ export default function AdminWizard() {
 
       {/* KROK 1: Lobby + zamknutie */}
       {g?.phase === 'lobby' && (
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div className="text-sm">Zdieľaj link / QR, počkaj na hráčov.</div>
-          <div className="flex gap-4 items-center">
-            <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(joinUrl)}`} alt="QR" className="border"/>
-            <a href={joinUrl} className="text-sm underline break-all">{joinUrl}</a>
+
+          <div className="flex flex-wrap items-start gap-4">
+            <img
+              alt="QR kód na pripojenie"
+              className="h-40 w-40 rounded border bg-white p-2"
+              src={`https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(joinUrl)}`}
+            />
+            <div className="space-y-2">
+              <div className="font-mono text-sm break-all">{joinUrl}</div>
+              <button
+                className="rounded bg-slate-800 text-white px-3 py-1"
+                onClick={() => navigator.clipboard?.writeText(joinUrl)}
+              >
+                Skopírovať link
+              </button>
+            </div>
           </div>
-          <div className="flex gap-2">
+
+          <div>
             <button className="rounded bg-amber-600 text-white px-3 py-1 disabled:opacity-50"
                     disabled={busy}
                     onClick={()=>post(`/api/games/${code}/lock-lobby`, { locked: true })}>
