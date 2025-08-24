@@ -30,6 +30,6 @@ export interface AppsDictionary {
 }
 
 export interface Dictionary {
-  apps: AppsDictionary
+  apps?: AppsDictionary
   [key: string]: unknown
 }
