@@ -26,7 +26,6 @@ export default function AdminWizard() {
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const { session, loading } = useAuth()
-
   // konfig
   const [totalRounds, setTotalRounds] = useState(3)
   const [prepSec, setPrepSec] = useState(10)
