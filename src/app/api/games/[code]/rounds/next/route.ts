@@ -7,14 +7,14 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-  export async function POST(
-    req: Request,
-    ctx: { params: Record<string, string | string[]> }
-  ) {
+export async function POST(
+  req: Request,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-    const code = String(ctx.params?.code || '').toUpperCase()
+  const code = params.code.toUpperCase()
 
   const body = await req.json().catch(() => ({})) as { roundId?: string }
   const s = supabaseServer(session.access_token)
