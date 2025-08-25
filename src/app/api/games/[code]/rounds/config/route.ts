@@ -5,11 +5,15 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, context: any) {
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ code?: string }> }
+) {
+  const { code: rawCode = '' } = await params
+
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  // Next 15 je prísny na typ 2. argumentu – použijeme voľný "context: any"
-  const { code } = (context?.params ?? {}) as { code: string }
+  const code = rawCode
 
   // bezpečné načítanie body
   const body = await req.json().catch(() => ({} as any))
