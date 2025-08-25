@@ -13,7 +13,8 @@ export async function POST(req: Request, context: any) {
   const body = await req.json().catch(() => ({} as any))
   const index = typeof body?.index === 'number' ? body.index : 0
 
-  const s = supabaseServer()
+  const s = supabaseServer(session.access_token)
+
 
   // načítaj konfiguráciu kola
   const { data: round, error: roundErr } = await s

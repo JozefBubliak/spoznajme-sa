@@ -15,7 +15,7 @@ export async function POST(req: Request, context: any) {
   const body = await req.json().catch(() => ({} as any))
   const { index, categoryId, questions } = body
 
-  const s = supabaseServer() as any // "as any" obíde TS typy generované zo Supabase
+  const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
 
   // uloženie/aktualizácia kola (idempotentne podľa game_code + idx)
   const { error } = await s
