@@ -73,7 +73,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
 
   // načítanie kategórií z databázy
   useEffect(() => {
-    if (!code) return
+    if (!code || !session) return
     ;(async () => {
       try {
         const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
@@ -97,7 +97,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
         }
       } catch {}
     })()
-  }, [code])
+  }, [code, session])
 
   function toPhase(status?: string): Phase {
     switch (status) {
