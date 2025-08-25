@@ -1,5 +1,6 @@
 // tailwind.config.ts
 import type { Config } from "tailwindcss"
+import defaultTheme from "tailwindcss/defaultTheme"
 
 const config: Config = {
   darkMode: ["class"],
@@ -50,6 +51,19 @@ const config: Config = {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
+      },
+      fontFamily: {
+        sans: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
+        mono: ["var(--font-geist-mono)", ...defaultTheme.fontFamily.mono],
+        heading: ["var(--font-geist-sans)", ...defaultTheme.fontFamily.sans],
+      },
+      backgroundImage: {
+        "gradient-hero": "var(--gradient-hero)",
+        "gradient-warm": "var(--gradient-warm)",
+        "gradient-connection": "var(--gradient-trust)",
+      },
+      fontSize: {
+        "display-2xl": ["4.5rem", { lineHeight: "1" }],
       },
       borderRadius: {
         lg: "var(--radius)",
