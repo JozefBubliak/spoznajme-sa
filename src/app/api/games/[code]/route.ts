@@ -10,41 +10,30 @@ export async function GET(_req: Request, context: any) {
   const { code } = (context?.params ?? {}) as { code: string }
 
   const gameCode = String(code || '').toUpperCase()
-  const supabase = supabaseServer()
+  const supabase = supabaseServer(session.access_token)
 
-  const { data: room } = await supabase
-    .from('rooms')
-    .select('id, code')
+  const { data: game, error: gameErr } = await supabase
+    .from('herd_games')
+    .select('code, phase, total_rounds, active_round_index')
     .eq('code', gameCode)
     .eq('owner_id', session.user.id)
     .single()
 
-  if (!room) {
+  if (gameErr || !game) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  const { data: sessionRow } = await supabase
-    .from('game_sessions')
-    .select('id, status')
-    .eq('room_id', room.id)
-    .in('status', ['lobby', 'setup', 'running'])
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  let playersCount = 0
-  if (sessionRow) {
-    const { data: participants } = await supabase
-      .from('participants')
-      .select('id')
-      .eq('session_id', sessionRow.id)
-    playersCount = participants?.length || 0
-  }
+  const { count: roundsCount } = await supabase
+    .from('herd_rounds')
+    .select('idx', { count: 'exact', head: true })
+    .eq('game_code', gameCode)
 
   return NextResponse.json({
-    code: gameCode,
-    status: sessionRow?.status || 'ended',
-    roundsCount: 0,
-    playersCount,
+    code: game.code,
+    phase: game.phase ?? 'lobby',
+    total_rounds: game.total_rounds ?? 0,
+    active_round_index: game.active_round_index ?? 0,
+    roundsCount: roundsCount ?? 0,
+    playersCount: 0,
   })
 }

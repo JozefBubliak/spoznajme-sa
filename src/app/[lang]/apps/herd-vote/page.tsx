@@ -7,7 +7,7 @@ import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
 import { UserCircle } from 'lucide-react'
 
-type Category = { name: string; count: number }
+type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 
@@ -48,6 +48,9 @@ export default function HerdVoteAdminPage() {
   const [pIncorrect, setPIncorrect] = useState<number>(-3)
   const [pNone, setPNone] = useState<number>(0)
 
+  const [totalRounds, setTotalRounds] = useState<number>(0)
+  const [roundInput, setRoundInput] = useState<number>(1)
+
   const [rounds, setRounds] = useState<{ id: string; category: string }[]>([])
   const [players, setPlayers] = useState<Player[]>([])
   const [currentRound, setCurrentRound] = useState<Round | null>(null)
@@ -66,20 +69,12 @@ export default function HerdVoteAdminPage() {
     const load = async () => {
       try {
         const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
-        if (!r.ok) throw new Error('HTTP ' + r.status)
+        if (!r.ok) return
         const j = await r.json()
         const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
         setCategories(cats)
-        if (cats.length && !selectedCat) setSelectedCat(cats[0].name)
-      } catch {
-        const fallback: Category[] = [
-          { name: 'Všeobecné', count: 50 },
-          { name: 'Geografia', count: 30 },
-          { name: 'Veda', count: 25 },
-        ]
-        setCategories(fallback)
-        if (!selectedCat) setSelectedCat(fallback[0].name)
-      }
+        if (!selectedCat && cats.length > 0) setSelectedCat(cats[0].id)
+      } catch {}
     }
     load()
   }, []) // raz pri načítaní
@@ -144,11 +139,18 @@ export default function HerdVoteAdminPage() {
     const r = await authFetch(`/api/games/${gameCode}/rounds`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ category: selectedCat, count, settings: { timeLimit, scoring } }),
+      body: JSON.stringify({ categoryId: selectedCat, count, settings: { timeLimit, scoring } }),
     })
     const j = await r.json()
     if (j.roundId) {
-      setRounds((prev) => [...prev, { id: j.roundId, category: selectedCat }])
+      const newCount = rounds.length + 1
+      const catName = categories.find(c => c.id === selectedCat)?.name || selectedCat
+      setRounds((prev) => [...prev, { id: j.roundId, category: catName }])
+      if (totalRounds && newCount >= totalRounds) {
+        await authFetch(`/api/games/${gameCode}/start`, { method: 'POST' })
+        await authFetch(`/api/games/${gameCode}/rounds/start`, { method: 'POST' })
+        setGameStatus('running')
+      }
     } else {
       alert(j.error || 'Nepodarilo sa pridať kolo')
     }
@@ -307,170 +309,177 @@ export default function HerdVoteAdminPage() {
 
           {gameStatus === 'configuring' && (
             <div className="rounded-xl border p-4 space-y-3">
-              <h2 className="font-semibold">Nové kolo</h2>
-
-              <div className="grid md:grid-cols-3 gap-3">
-                <div className="md:col-span-2">
-                  <label className="block text-sm mb-1">Kategória</label>
-                  <select
-                    value={selectedCat}
-                    onChange={(e) => setSelectedCat(e.target.value)}
-                    className="w-full border rounded px-3 py-2"
-                  >
-                    {categories.map((c) => (
-                      <option key={c.name} value={c.name}>
-                        {c.name} ({c.count})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm mb-1">Počet otázok</label>
+              {totalRounds === 0 ? (
+                <>
+                  <h2 className="font-semibold">Zvoľte si počet kôl</h2>
                   <input
                     type="number"
                     min={1}
-                    max={100}
-                    value={count}
-                    onChange={(e) => setCount(parseInt(e.target.value || '1', 10))}
+                    value={roundInput}
+                    onChange={(e) => setRoundInput(parseInt(e.target.value || '1', 10))}
                     className="w-full border rounded px-3 py-2"
                   />
-                </div>
-
-                <div>
-                  <label className="block text-sm mb-1">Čas na otázku (s)</label>
-                  <input
-                    type="number"
-                    min={5}
-                    max={180}
-                    value={timeLimit}
-                    onChange={(e) => setTimeLimit(parseInt(e.target.value || '30', 10))}
-                    className="w-full border rounded px-3 py-2"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm mb-1">Režim bodovania</label>
-                  <select
-                    value={mode}
-                    onChange={(e) => setMode(e.target.value as Mode)}
-                    className="w-full border rounded px-3 py-2"
-                  >
-                    <option value="classic">Klasik (+/-)</option>
-                    <option value="podium">Pódium (10-5-3)</option>
-                  </select>
-                </div>
-
-                {mode === 'classic' ? (
-                  <>
-                    <div>
-                      <label className="block text-sm mb-1">Správna odpoveď</label>
-                      <input
-                        type="number"
-                        value={correct}
-                        onChange={(e) => setCorrect(parseInt(e.target.value || '5', 10))}
-                        className="w-full border rounded px-3 py-2"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm mb-1">Zlá odpoveď</label>
-                      <input
-                        type="number"
-                        value={incorrect}
-                        onChange={(e) => setIncorrect(parseInt(e.target.value || '-3', 10))}
-                        className="w-full border rounded px-3 py-2"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm mb-1">Žiadna odpoveď</label>
-                      <input
-                        type="number"
-                        value={none}
-                        onChange={(e) => setNone(parseInt(e.target.value || '0', 10))}
-                        className="w-full border rounded px-3 py-2"
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <label className="block text-sm mb-1">1. miesto</label>
-                      <input
-                        type="number"
-                        value={tier1}
-                        onChange={(e) => setTier1(parseInt(e.target.value || '10', 10))}
-                        className="w-full border rounded px-3 py-2"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm mb-1">2. miesto</label>
-                      <input
-                        type="number"
-                        value={tier2}
-                        onChange={(e) => setTier2(parseInt(e.target.value || '5', 10))}
-                        className="w-full border rounded px-3 py-2"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm mb-1">3. miesto</label>
-                      <input
-                        type="number"
-                        value={tier3}
-                        onChange={(e) => setTier3(parseInt(e.target.value || '3', 10))}
-                        className="w-full border rounded px-3 py-2"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm mb-1">Zlá odpoveď</label>
-                      <input
-                        type="number"
-                        value={pIncorrect}
-                        onChange={(e) => setPIncorrect(parseInt(e.target.value || '-3', 10))}
-                        className="w-full border rounded px-3 py-2"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm mb-1">Žiadna odpoveď</label>
-                      <input
-                        type="number"
-                        value={pNone}
-                        onChange={(e) => setPNone(parseInt(e.target.value || '0', 10))}
-                        className="w-full border rounded px-3 py-2"
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <button onClick={addRound} className="mt-3 px-4 py-2 rounded bg-blue-600 text-white">
-                Pridať kolo
-              </button>
-
-              {rounds.length > 0 && (
-                <div className="text-sm text-gray-600 mt-2">
-                  Kolá:{' '}
-                  {rounds.map((r, i) => (
-                    <span key={r.id} className="mr-2">
-                      #{i + 1} – {r.category}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {rounds.length > 0 && (
-                <div className="pt-3">
                   <button
-                    onClick={async () => {
-                      const r = await authFetch(`/api/games/${gameCode}/start`, { method: 'POST' })
-                      const j = await r.json()
-                      if (!r.ok) return alert(j.error || 'Nepodarilo sa spustiť hru')
-                      setGameStatus('running')
-                    }}
-                    className="px-4 py-2 rounded bg-green-600 text-white"
+                    onClick={() => setTotalRounds(roundInput)}
+                    className="px-4 py-2 rounded bg-blue-600 text-white"
                   >
-                    Začať hrať
+                    Potvrdiť
                   </button>
-                </div>
+                </>
+              ) : (
+                <>
+                  <h2 className="font-semibold">
+                    Kolo {rounds.length + 1}/{totalRounds}
+                  </h2>
+
+                  <div className="grid md:grid-cols-3 gap-3">
+                    <div className="md:col-span-2">
+                      <label className="block text-sm mb-1">Kategória</label>
+                      <select
+                        value={selectedCat}
+                        onChange={(e) => setSelectedCat(e.target.value)}
+                        className="w-full border rounded px-3 py-2"
+                      >
+                        {categories.map((c) => (
+                          <option key={c.id} value={c.id}>
+                            {c.name} ({c.count})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm mb-1">Počet otázok</label>
+                      <input
+                        type="number"
+                        min={1}
+                        max={100}
+                        value={count}
+                        onChange={(e) => setCount(parseInt(e.target.value || '1', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm mb-1">Čas na otázku (s)</label>
+                      <input
+                        type="number"
+                        min={5}
+                        max={180}
+                        value={timeLimit}
+                        onChange={(e) => setTimeLimit(parseInt(e.target.value || '30', 10))}
+                        className="w-full border rounded px-3 py-2"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm mb-1">Režim bodovania</label>
+                      <select
+                        value={mode}
+                        onChange={(e) => setMode(e.target.value as Mode)}
+                        className="w-full border rounded px-3 py-2"
+                      >
+                        <option value="classic">Klasik (+/-)</option>
+                        <option value="podium">Pódium (10-5-3)</option>
+                      </select>
+                    </div>
+
+                    {mode === 'classic' ? (
+                      <>
+                        <div>
+                          <label className="block text-sm mb-1">Správna odpoveď</label>
+                          <input
+                            type="number"
+                            value={correct}
+                            onChange={(e) => setCorrect(parseInt(e.target.value || '5', 10))}
+                            className="w-full border rounded px-3 py-2"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm mb-1">Zlá odpoveď</label>
+                          <input
+                            type="number"
+                            value={incorrect}
+                            onChange={(e) => setIncorrect(parseInt(e.target.value || '-3', 10))}
+                            className="w-full border rounded px-3 py-2"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm mb-1">Žiadna odpoveď</label>
+                          <input
+                            type="number"
+                            value={none}
+                            onChange={(e) => setNone(parseInt(e.target.value || '0', 10))}
+                            className="w-full border rounded px-3 py-2"
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div>
+                          <label className="block text-sm mb-1">1. miesto</label>
+                          <input
+                            type="number"
+                            value={tier1}
+                            onChange={(e) => setTier1(parseInt(e.target.value || '10', 10))}
+                            className="w-full border rounded px-3 py-2"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm mb-1">2. miesto</label>
+                          <input
+                            type="number"
+                            value={tier2}
+                            onChange={(e) => setTier2(parseInt(e.target.value || '5', 10))}
+                            className="w-full border rounded px-3 py-2"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm mb-1">3. miesto</label>
+                          <input
+                            type="number"
+                            value={tier3}
+                            onChange={(e) => setTier3(parseInt(e.target.value || '3', 10))}
+                            className="w-full border rounded px-3 py-2"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm mb-1">Zlá odpoveď</label>
+                          <input
+                            type="number"
+                            value={pIncorrect}
+                            onChange={(e) => setPIncorrect(parseInt(e.target.value || '-3', 10))}
+                            className="w-full border rounded px-3 py-2"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm mb-1">Žiadna odpoveď</label>
+                          <input
+                            type="number"
+                            value={pNone}
+                            onChange={(e) => setPNone(parseInt(e.target.value || '0', 10))}
+                            className="w-full border rounded px-3 py-2"
+                          />
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  <button onClick={addRound} className="mt-3 px-4 py-2 rounded bg-blue-600 text-white">
+                    {rounds.length + 1 === totalRounds ? 'Ideme hrať' : 'Nastaviť ďalšie kolo'}
+                  </button>
+
+                  {rounds.length > 0 && (
+                    <div className="text-sm text-gray-600 mt-2">
+                      Kolá:{' '}
+                      {rounds.map((r, i) => (
+                        <span key={r.id} className="mr-2">
+                          #{i + 1} – {r.category}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           )}
