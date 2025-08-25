@@ -14,7 +14,7 @@ export async function GET() {
     .order('name', { ascending: true })
 
 
-  if (error || !cats) {
+  if (error || !data) {
     return NextResponse.json({ categories: [] })
 
   }
