@@ -158,7 +158,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
     try {
       const r = await authFetch(`/api/games/${code}/end`, { method: 'POST' })
       if (!r.ok) throw new Error(await r.text())
-      setCode(null)
+      setCode('')
       setGame(null)
       setTotalRounds(3)
       setPrepSec(10)
