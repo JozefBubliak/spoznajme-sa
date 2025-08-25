@@ -7,11 +7,14 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, { params }: { params: { code: string } }) {
+export async function POST(
+  req: Request,
+  context: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const code = String(params.code || '').toUpperCase()
+  const code = String(context.params.code || '').toUpperCase()
   const body = await req.json().catch(() => ({})) as { roundId?: string }
 
   const s = supabaseServer(session.access_token)
@@ -37,6 +40,7 @@ export async function POST(req: Request, { params }: { params: { code: string } 
     .eq('id', roundId)
     .eq('game_code', code)
     .single()
+
 
   if (!round || round.status !== 'running') {
     return NextResponse.json({ error: 'No running round to lock' }, { status: 400 })

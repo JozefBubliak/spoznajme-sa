@@ -5,9 +5,11 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(
   req: Request,
-  { params }: { params: { code: string } }
+
+  context: { params: { code: string } }
 ) {
-  const code = String(params.code || '').toUpperCase()
+  const code = String(context.params.code || '').toUpperCase()
+
   const body = await req.json().catch(() => ({})) as {
     playerId?: string
     roundId?: string

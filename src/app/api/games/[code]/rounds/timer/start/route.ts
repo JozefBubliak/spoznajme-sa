@@ -8,12 +8,14 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(
   req: Request,
-  { params }: { params: { code: string } }
+  context: { params: { code: string } }
+
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const code = String(params.code || '').toUpperCase()
+  const code = String(context.params.code || '').toUpperCase()
+
   const body = await req.json().catch(() => ({})) as {
     seconds?: number
     duration?: number
