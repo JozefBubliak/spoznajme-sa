@@ -57,6 +57,22 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [roundIx, setRoundIx] = useState(0)
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
   const [players, setPlayers] = useState<{id:string; name:string}[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
+        if (!r.ok) return
+        const j = await r.json()
+        const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
+        setCategories(cats)
+        if (cats.length > 0) {
+          setRoundCfg(cfg => ({ ...cfg, categoryId: cfg.categoryId ?? cats[0].id }))
+        }
+      } catch {}
+    })()
+  }, [authFetch])
 
   function toPhase(status?: string): Phase {
     switch (status) {
@@ -189,6 +205,19 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   }
 
   const g = game
+
+  const joinUrl = useMemo(() => {
+    if (!code) return ''
+    const origin =
+      typeof window !== 'undefined'
+        ? window.location.origin
+        : process.env.NEXT_PUBLIC_SITE_URL || ''
+    const langSegment =
+      typeof window !== 'undefined'
+        ? window.location.pathname.split('/')[1]
+        : ''
+    return `${origin}/${langSegment}/play/${encodeURIComponent(code)}`
+  }, [code])
 
   return (
     <div className="rounded-lg border p-4 space-y-4">
