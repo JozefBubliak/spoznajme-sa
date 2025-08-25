@@ -4,36 +4,48 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(_req: Request, context: any) {
+export async function GET(
+  _req: Request,
+  { params }: { params: Promise<{ code?: string }> }
+) {
+  const { code: rawCode = '' } = await params
+
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
 
-  const gameCode = String(code || '').toUpperCase()
-  const supabase = supabaseServer(session.access_token)
+  const code = String(rawCode).toUpperCase()
+  const s = supabaseServer(session.access_token)
 
-  const { data: game, error: gameErr } = await supabase
+  const { data: game, error } = await s
     .from('herd_games')
-    .select('code, phase, total_rounds, active_round_index')
-    .eq('code', gameCode)
+    .select('code, phase, total_rounds, active_round_index, lobby_locked')
+    .eq('code', code)
     .eq('owner_id', session.user.id)
     .single()
 
-  if (gameErr || !game) {
-    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  if (error || !game) {
+    return NextResponse.json('Game not found', { status: 404 })
   }
 
-  const { count: roundsCount } = await supabase
+  const { count: roundsCount } = await s
     .from('herd_rounds')
     .select('idx', { count: 'exact', head: true })
-    .eq('game_code', gameCode)
+    .eq('game_code', code)
+
+  const phase =
+    game.phase === 'setup'
+      ? 'config'
+      : game.phase === 'running'
+        ? 'playing'
+        : game.phase === 'ended'
+          ? 'final'
+          : (game.phase as any) ?? 'lobby'
 
   return NextResponse.json({
     code: game.code,
-    phase: game.phase ?? 'lobby',
-    total_rounds: game.total_rounds ?? 0,
+    phase,
+    lobby_locked: !!game.lobby_locked,
+    total_rounds: game.total_rounds ?? roundsCount ?? 0,
     active_round_index: game.active_round_index ?? 0,
-    roundsCount: roundsCount ?? 0,
-    playersCount: 0,
   })
 }
