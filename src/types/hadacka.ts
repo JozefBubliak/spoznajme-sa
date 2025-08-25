@@ -2,6 +2,7 @@ export interface WordVM {
   id: string
   word: string
   categoryCode: string
+  categoryName?: string
   difficultyLevel: number
   modeCode: string
 }

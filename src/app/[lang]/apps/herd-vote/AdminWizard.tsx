@@ -1,9 +1,10 @@
+// src/app/[lang]/apps/herd-vote/AdminWizard.tsx
 'use client'
-import { useEffect, useMemo, useState, useCallback } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 
 type Phase =
-  | 'lobby' | 'config' | 'round_setup' | 'ready'
+  | 'lobby' | 'config' | 'round_setup'
   | 'playing' | 'locked' | 'reveal' | 'round_results' | 'final'
 
 type Game = {
@@ -18,14 +19,26 @@ type Game = {
   timer_deadline?: string | null
 }
 
-type RoundCfg = { topic?: string; questions?: number }
+type RoundCfg = {
+  topic?: string
+  categoryId?: string
+  questions?: number
+}
 
-export default function AdminWizard() {
-  const [code, setCode] = useState<string | null>(null)
+type Category = {
+  id: string
+  name: string
+  count?: number
+}
+
+export default function AdminWizard({ code: codeProp }: { code?: string }) {
+  const [code, setCode] = useState(codeProp ?? '')
   const [game, setGame] = useState<Game | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
-  const { session, loading } = useAuth()
+  const [transitioning, setTransitioning] = useState(false)
+  const { session } = useAuth()
+
   // konfig
   const [totalRounds, setTotalRounds] = useState(3)
   const [prepSec, setPrepSec] = useState(10)
@@ -35,7 +48,6 @@ export default function AdminWizard() {
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
   const [players, setPlayers] = useState<{id:string; name:string}[]>([])
 
-  // helper: map status z API na fázu UI
   function toPhase(status?: string): Phase {
     switch (status) {
       case 'lobby': return 'lobby'
@@ -46,17 +58,6 @@ export default function AdminWizard() {
     }
   }
 
-  const authFetch = useCallback((url: string, options: RequestInit = {}) => {
-    const headers = {
-      ...(options.headers || {}),
-      ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
-    }
-    return fetch(url, { ...options, headers })
-  }, [session])
-
-  // žiadna kontrola aktívnej hry – moderátor vždy začína novú
-
-  // 2) polling stavu hry
   const refresh = useMemo(() => async () => {
     if (!code) return
     setErr(null)
@@ -92,17 +93,17 @@ export default function AdminWizard() {
         }
       } catch {}
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
-  }, [code, authFetch])
+  }, [code])
 
   useEffect(() => {
-    if (!code) return
+    if (transitioning) return
     refresh()
     const t = setInterval(refresh, 2500)
     return () => clearInterval(t)
-  }, [code, refresh])
+  }, [refresh, transitioning])
 
   async function post(url: string, body?: any) {
-    setBusy(true); setErr(null)
+    setBusy(true); setErr(null); setTransitioning(true)
     try {
       const r = await authFetch(url, {
         method: 'POST',
@@ -112,6 +113,7 @@ export default function AdminWizard() {
       if (!r.ok) throw new Error(await r.text())
       await refresh()
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
+
     finally { setBusy(false) }
   }
 
@@ -157,55 +159,37 @@ export default function AdminWizard() {
       setPlayers([])
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
     finally { setBusy(false) }
+
   }
 
-  // automaticky vytvor hru až keď je načítaná session
-  useEffect(() => {
-    if (!loading && session && !code && !busy) {
-      createGame()
-    }
-  }, [loading, session, code, busy, createGame])
-
-  if (!loading && !session) {
+  if (!code) {
     return (
-      <div className="rounded border p-4 space-y-2">
-        <div className="text-sm">Pre moderovanie sa musíte prihlásiť.</div>
-        <a href="/login" className="text-sm underline">Prihlásiť sa</a>
+      <div className="rounded border p-4">
+        <div className="font-medium mb-1">Panel moderátora</div>
+        <div className="text-sm text-muted-foreground">Zadaj kód hry alebo vytvor novú.</div>
+        <div className="mt-2 flex gap-2">
+          <input className="border rounded px-2 py-1"
+                 placeholder="Kód (napr. BNQ7R2)"
+                 value={code}
+                 onChange={(e)=>setCode(e.target.value.toUpperCase().trim())}/>
+          <button className="rounded bg-black text-white px-3 py-1" onClick={refresh}>Načítať</button>
+        </div>
       </div>
     )
   }
 
-  if (!code) {
-    // ak sa nepodarilo založiť hru, umožni manuálne zopakovať pokus
-    if (err) {
-      return (
-        <div className="rounded border p-4 space-y-2">
-          <div className="text-sm text-red-600">Chyba: {err}</div>
-          <button
-            className="rounded bg-black text-white px-3 py-1"
-            onClick={createGame}
-          >
-            Nová hra
-          </button>
-        </div>
-      )
-    }
-    return null
-  }
-
   const g = game
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? (typeof window !== 'undefined' ? window.location.origin : '')
-  const joinUrl = `${base}/play/${code}`
 
   return (
     <div className="rounded-lg border p-4 space-y-4">
       <div className="font-medium">Panel moderátora</div>
 
+
       {err && <div className="text-sm text-red-600">Chyba: {err}</div>}
 
       {/* KROK 1: Lobby + zamknutie */}
       {g?.phase === 'lobby' && (
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="text-sm">Zdieľaj link / QR, počkaj na hráčov.</div>
 
           <div className="flex flex-wrap items-start gap-4">
@@ -242,6 +226,7 @@ export default function AdminWizard() {
           </div>
 
           <div>
+
             <button className="rounded bg-amber-600 text-white px-3 py-1 disabled:opacity-50"
                     disabled={busy}
                     onClick={()=>post(`/api/games/${code}/lock-lobby`, { locked: true })}>
@@ -267,6 +252,7 @@ export default function AdminWizard() {
           <div className="text-xs text-muted-foreground">
             Zadajte počet kôl. Detaily jednotlivých kôl nastavíte v ďalšom kroku.
           </div>
+
           <div className="flex flex-wrap gap-3 items-end">
             <label className="text-sm">Počet kôl
               <input type="number" min={1} className="block border rounded px-2 py-1"
@@ -299,9 +285,15 @@ export default function AdminWizard() {
         <div className="space-y-2">
           <div className="text-sm">Nastavenie kola {roundIx+1}/{g.total_rounds}</div>
           <div className="flex gap-3 items-end">
-            <label className="text-sm">Téma
-              <input className="block border rounded px-2 py-1"
-                     value={roundCfg.topic ?? ''} onChange={e=>setRoundCfg(c=>({ ...c, topic: e.target.value }))}/>
+            <label className="text-sm">Kategória
+              <select className="block border rounded px-2 py-1"
+                      value={roundCfg.categoryId ?? ''}
+                      onChange={e=>setRoundCfg(c=>({ ...c, categoryId: e.target.value }))}>
+
+                {categories.map(c => (
+                  <option key={c.id} value={c.id}>{c.name}</option>
+                ))}
+              </select>
             </label>
             <label className="text-sm">Počet otázok
               <input type="number" min={1} className="block border rounded px-2 py-1"
@@ -312,34 +304,25 @@ export default function AdminWizard() {
                     disabled={busy}
                     onClick={async ()=>{
                       await post(`/api/games/${code}/rounds/config`, {
-                        index: roundIx, ...roundCfg
+                        index: roundIx,
+                        categoryId: roundCfg.categoryId,
+                        questions: roundCfg.questions,
                       })
-                      // posuň sa na ďalšie kolo, až do READY fázy
-                      setRoundIx(x=>x+1)
-                      await refresh()
+                      const last = (roundIx + 1) >= (g.total_rounds || 1)
+                      if (last) {
+                        await post(`/api/games/${code}/rounds/start`, { index: 0 })
+                      } else {
+                        setRoundIx(x=>x+1)
+                        await refresh()
+                      }
                     }}>
-              Uložiť toto kolo
+              {(roundIx + 1) >= (g.total_rounds || 1) ? 'Ideme hrať' : 'Nastaviť ďalšie kolo'}
             </button>
           </div>
-          <div className="text-xs text-muted-foreground">
-            Po uložení posledného kola sa fáza prepne na <b>ready</b> a objaví sa tlačidlo „Začať hru“.
-          </div>
         </div>
       )}
 
-      {/* KROK 4: Pripravené – štart hry */}
-      {g?.phase === 'ready' && (
-        <div className="space-y-2">
-          <div className="text-sm">Všetky kolá pripravené.</div>
-          <button className="rounded bg-emerald-600 text-white px-3 py-1 disabled:opacity-50"
-                  disabled={busy}
-                  onClick={()=>post(`/api/games/${code}/rounds/start`, { index: 0 })}>
-            Začať hru (kolo 1)
-          </button>
-        </div>
-      )}
-
-      {/* KROK 5: Priebeh kola – odpočet, lock, reveal */}
+      {/* KROK 4: Priebeh kola – odpočet, lock, reveal */}
       {(g?.phase === 'playing' || g?.phase === 'locked' || g?.phase === 'reveal') && (
         <div className="space-y-2">
           <div className="text-sm">
@@ -377,12 +360,7 @@ export default function AdminWizard() {
 
       {/* KROK 6: Záverečné výsledky s „revealom“ odspodu */}
       {g?.phase === 'final' && (
-        <div className="space-y-2">
-          <FinalReveal code={code}/>
-          <button className="rounded bg-red-600 text-white px-3 py-1 disabled:opacity-50" disabled={busy} onClick={endGame}>
-            Ukončiť hru
-          </button>
-        </div>
+        <FinalReveal code={code}/>
       )}
     </div>
   )

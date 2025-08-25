@@ -13,26 +13,38 @@ export async function POST(req: Request, context: any) {
 
   // bezpečné načítanie body
   const body = await req.json().catch(() => ({} as any))
-  const { index, topic, questions } = body
+  const { index, categoryId, questions, prepSeconds, questionSeconds, scoringMode } = body
 
-  const s = supabaseServer() as any // "as any" obíde TS typy generované zo Supabase
+  const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
 
-  // uloženie/aktualizácia kola (idempotentne podľa game_code + index)
+  // uloženie/aktualizácia kola (idempotentne podľa game_code + idx)
   const { error } = await s
     .from('herd_rounds')
     .upsert(
-      { game_code: code, index, topic, questions },
-      { onConflict: 'game_code,index' }
+      {
+        game_code: code,
+        idx: index,
+        category: categoryId,
+        count: questions,
+        prep_seconds: prepSeconds,
+        question_seconds: questionSeconds,
+        scoring_mode: scoringMode,
+        status: 'setup',
+      },
+      { onConflict: 'game_code,idx' }
     )
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
+  // udržujeme phase v herd_games
+  await s.from('herd_games').update({ phase: 'round_setup' }).eq('code', code)
 
   // voliteľne: ak je to posledné potvrdené kolo, prepneme hru do "ready"
   try {
     const g = await s.from('herd_games').select('total_rounds').eq('code', code).single()
     const have = await s
       .from('herd_rounds')
-      .select('index', { count: 'exact', head: true })
+      .select('idx', { count: 'exact', head: true })
       .eq('game_code', code)
 
     if (!g.error && !have.error && (have.count ?? 0) >= (g.data?.total_rounds ?? 0)) {
@@ -42,5 +54,5 @@ export async function POST(req: Request, context: any) {
     // nič – len nech to nepadne, keď typy/kolónky chýbajú
   }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, phase: 'round_setup', savedIndex: index })
 }

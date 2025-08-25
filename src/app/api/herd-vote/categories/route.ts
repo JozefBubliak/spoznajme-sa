@@ -1,21 +1,34 @@
 import { NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabaseAdmin'
+import { getSession } from '@/app/api/games/_session'
+import { supabaseServer } from '@/integrations/supabase/server'
+
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const { data, error } = await supabase
-    .from('kviz_questions')
-    .select('theme')
+  const session = await getSession().catch(() => null)
+  const s = session ? supabaseServer(session.access_token) : supabaseServer()
 
-  if (error || !data) {
-    return NextResponse.json({ categories: [] })
+  let { data, error } = await s
+    .from('herd_categories_with_counts')
+    .select('id,name,count,is_active')
+    .order('name', { ascending: true })
+
+  if (error) {
+    const { data: cats, error: e1 } = await s
+      .from('herd_categories')
+      .select('id,name,is_active')
+      .order('name', { ascending: true })
+    if (e1 || !cats) return NextResponse.json({ categories: [] })
+
+    data = cats.map((c: any) => ({ id: c.id, name: c.name, count: 0, is_active: c.is_active }))
   }
 
-  const map = new Map<string, number>()
-  for (const q of data) {
-    const theme = (q.theme as string) || 'Nezaradené'
-    map.set(theme, (map.get(theme) || 0) + 1)
-  }
-
-  const categories = Array.from(map.entries()).map(([name, count]) => ({ name, count }))
-  return NextResponse.json({ categories })
+  const active = (data || []).filter((c: any) => c.is_active !== false)
+  return NextResponse.json({
+    categories: active.map((c: any) => ({
+      id: c.id,
+      name: c.name,
+      count: c.count ?? 0,
+    })),
+  })
 }
