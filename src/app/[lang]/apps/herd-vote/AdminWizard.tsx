@@ -1,6 +1,6 @@
 // src/app/[lang]/apps/herd-vote/AdminWizard.tsx
 'use client'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 
 type Phase =
@@ -38,6 +38,16 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [busy, setBusy] = useState(false)
   const [transitioning, setTransitioning] = useState(false)
   const { session } = useAuth()
+
+  const authFetch = useCallback((url: string, options: RequestInit = {}) => {
+    const headers: Record<string, string> = {
+      ...(options.headers as Record<string, string> | undefined),
+    }
+    if (session?.access_token) {
+      headers.Authorization = `Bearer ${session.access_token}`
+    }
+    return fetch(url, { ...options, headers })
+  }, [session?.access_token])
 
   // konfig
   const [totalRounds, setTotalRounds] = useState(3)
