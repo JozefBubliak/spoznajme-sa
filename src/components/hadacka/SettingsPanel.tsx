@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useGameStore } from '@/lib/stores/gameStore'
 import { WordService } from '@/lib/services/wordService'
 
@@ -17,7 +17,11 @@ interface SettingsPanelProps {
 
 export function SettingsPanel({ onStartGame }: SettingsPanelProps) {
   const { settings, updateSettings } = useGameStore()
-  const [availableCategories] = useState(WordService.getFallbackCategories())
+  const [availableCategories, setAvailableCategories] = useState<Array<{ code: string; name: string }>>([])
+
+  useEffect(() => {
+    WordService.getAvailableCategories().then(setAvailableCategories)
+  }, [])
 
   const handleCategoryToggle = (categoryCode: string) => {
     const newCategories = settings.categories.includes(categoryCode)
