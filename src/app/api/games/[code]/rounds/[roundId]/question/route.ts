@@ -1,54 +1,65 @@
 // PATH: src/app/api/games/[code]/rounds/[roundId]/question/route.ts
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
-import { getSession } from '@/app/api/games/_session'
+import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-type FourAnswers = { answer_a?: string; answer_b?: string; answer_c?: string; answer_d?: string }
+type FourAnswers = {
+  answer_a?: string
+  answer_b?: string
+  answer_c?: string
+  answer_d?: string
+}
 
-export async function GET(_req: Request, context: any) {
-  const session = await getSession()
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code, roundId } = (context?.params ?? {}) as { code: string; roundId: string }
-  const gameCode = String(code || '').toUpperCase()
+export async function GET(
+  req: Request,
+  context: { params: { code: string; roundId: string } }
+) {
+  const code = String(context.params.code || '').toUpperCase()
+  const roundId = context.params.roundId
 
-  const game = store.getGame(gameCode)
-  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
-
-  const round = game.rounds.find(r => r.id === roundId)
-  if (!round) return NextResponse.json({ error: 'Round not found' }, { status: 404 })
-
-  const url = new URL(_req.url)
+  const url = new URL(req.url)
   const qIndexParam = url.searchParams.get('qIndex')
-  const qIndex = qIndexParam ? parseInt(qIndexParam, 10) : (round.qIndex || 0)
 
-  const question = round.questions[qIndex]
-  if (!question) return NextResponse.json({ error: 'Question not found' }, { status: 404 })
+  const s = supabaseServer()
 
-  // koľko sekúnd ostáva
-  let timeLeft = 0
-  if (round.status === 'running' && round.startedAt) {
-    const elapsed = Date.now() - round.startedAt
-    const timeLimitMs = (round.settings?.timeLimit ?? 0) * 1000
-    timeLeft = Math.max(0, timeLimitMs - elapsed)
+  const { data: round } = await s
+    .from('herd_rounds')
+    .select('q_index, status, settings')
+    .eq('id', roundId)
+    .eq('game_code', code)
+    .single()
+
+  if (!round) {
+    return NextResponse.json({ error: 'Round not found' }, { status: 404 })
   }
 
-  // Bezpečný fallback pre možnosti:
-  let optionsArray: string[]
-  if (Array.isArray((question as any).options) && (question as any).options.length > 0) {
-    optionsArray = (question as any).options as string[]
-  } else {
-    const q = question as unknown as FourAnswers
-    optionsArray = [q.answer_a, q.answer_b, q.answer_c, q.answer_d].filter(Boolean) as string[]
+  const qIndex = qIndexParam ? parseInt(qIndexParam, 10) : round.q_index || 0
+  const questions: string[] = (round.settings as any)?.questions || []
+  const questionId = questions[qIndex]
+  if (!questionId) {
+    return NextResponse.json({ error: 'Question not found' }, { status: 404 })
   }
+
+  const { data: question } = await s
+    .from('herd_questions')
+    .select('question_text, answer_a, answer_b, answer_c, answer_d')
+    .eq('id', questionId)
+    .single()
+
+  if (!question) {
+    return NextResponse.json({ error: 'Question not found' }, { status: 404 })
+  }
+
+  const q = question as FourAnswers & { question_text?: string }
+  const optionsArray = [q.answer_a, q.answer_b, q.answer_c, q.answer_d].filter(Boolean) as string[]
 
   return NextResponse.json({
-    text: (question as any).question_text ?? (question as any).text ?? '',
+    text: q.question_text || '',
     options: optionsArray,
-    timeLeft: Math.ceil(timeLeft / 1000),
+    timeLeft: 0,
     qIndex,
-    totalQuestions: round.questions.length,
+    totalQuestions: questions.length,
     roundStatus: round.status,
   })
 }

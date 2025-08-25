@@ -15,11 +15,13 @@ export const dynamic = 'force-dynamic'
  *   "settings": { timeLimit: 30, scoring: {...} } as RoundSettings
  * }
  */
-export async function POST(req: Request, context: any) {
+export async function POST(
+  req: Request,
+  context: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
-  const gameCode = String(code || '').toUpperCase()
+  const gameCode = String(context.params.code || '').toUpperCase()
 
   const supabase = supabaseServer(session.access_token)
 

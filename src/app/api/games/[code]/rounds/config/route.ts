@@ -7,9 +7,9 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(
   req: Request,
-  { params }: { params: Promise<{ code?: string }> }
+  context: { params: Promise<{ code?: string }> }
 ) {
-  const { code: rawCode = '' } = await params
+  const { code: rawCode = '' } = await context.params
 
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

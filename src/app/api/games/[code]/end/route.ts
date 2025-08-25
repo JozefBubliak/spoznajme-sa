@@ -1,15 +1,17 @@
 import { NextResponse } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
-import store from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(_req: Request, context: any) {
+export async function POST(
+  _req: Request,
+  context: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
-  const gameCode = String(code || '').toUpperCase()
+
+  const gameCode = String(context.params.code || '').toUpperCase()
 
   const supabase = supabaseServer(session.access_token)
 
@@ -34,8 +36,6 @@ export async function POST(_req: Request, context: any) {
   if (gs) {
     await supabase.from('game_sessions').update({ status: 'ended' }).eq('id', gs.id)
   }
-
-  store.games.delete(gameCode)
 
   return NextResponse.json({ success: true })
 }
