@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { store } from '@/lib/herdvote/store'
 import type { RoundSettings } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
+import { supabase } from '@/lib/supabaseAdmin'
 
 export const dynamic = 'force-dynamic'
 
@@ -10,7 +11,7 @@ export const dynamic = 'force-dynamic'
  * POST /api/games/[code]/rounds
  * Body:
  * {
- *   "category": "vseobecne" | "Všeobecné",
+ *   "categoryId": "uuid",
  *   "count": 10,
  *   "settings": { timeLimit: 30, scoring: {...} } as RoundSettings
  * }
@@ -27,61 +28,46 @@ export async function POST(req: Request, context: any) {
   }
 
   const body = await req.json().catch(() => ({} as any))
-  const rawCategory = String(body?.category || '').trim()
+  const categoryId = String(body?.categoryId || '').trim()
   const count = Math.max(1, Math.min(100, Number(body?.count || 10)))
   const settings = body?.settings as RoundSettings | undefined
 
-  if (!rawCategory) {
+  if (!categoryId) {
     return NextResponse.json({ error: 'Missing category' }, { status: 400 })
   }
   if (!settings?.timeLimit || !settings?.scoring) {
     return NextResponse.json({ error: 'Missing round settings' }, { status: 400 })
   }
-
-  // Jednoduché mapovanie kategórií (kým nepripájaš DB)
-  const categoryMap: Record<string, { id: string; name: string; is_active: boolean }> = {
-    'vseobecne': { id: '1', name: 'Všeobecné', is_active: true },
-    'všeobecné': { id: '1', name: 'Všeobecné', is_active: true },
-    'geografia': { id: '2', name: 'Geografia', is_active: true },
-    'veda': { id: '3', name: 'Veda', is_active: true },
-  }
-  const cat = categoryMap[rawCategory.toLowerCase()] || categoryMap['všeobecné']
-  if (!cat || cat.is_active === false) {
-    return NextResponse.json({ error: 'Category not available' }, { status: 400 })
-  }
-
   const usedIds: string[] = (game as any).usedQuestionIds || []
   ;(game as any).usedQuestionIds = usedIds
 
-  // Mock otázky (kým nemáš prístup k herd_questions)
-  const mockQuestions = Array.from({ length: count }, (_, i) => ({
-    // Použi unikátne ID, aby sme mohli pridať viac kôl počas jednej hry
-    id: globalThis.crypto?.randomUUID?.() ?? `q${Date.now()}-${i}`,
-    question_text: `Otázka ${i + 1} z kategórie ${cat.name}?`,
-    answer_a: 'Možnosť A',
-    answer_b: 'Možnosť B',
-    answer_c: 'Možnosť C',
-    answer_d: 'Možnosť D',
-    correct_answer: 'A',
-    time_limit_seconds: settings.timeLimit,
-  }))
-
-  const available = mockQuestions
-  const unused = available.filter(q => !usedIds.includes(q.id))
-  if (unused.length < 1) {
-    return NextResponse.json(
-      { error: 'No unused questions available for this category in this game' },
-      { status: 400 }
-    )
+  const { data: cat, error: catErr } = await supabase
+    .from('herd_categories')
+    .select('id,name,is_active')
+    .eq('id', categoryId)
+    .single()
+  if (catErr || !cat || cat.is_active === false) {
+    return NextResponse.json({ error: 'Category not available' }, { status: 400 })
   }
-  if (unused.length < count) {
+
+  const { data: qdata, error: qErr } = await supabase
+    .from('herd_questions')
+    .select('id, question_text, answer_a, answer_b, answer_c, answer_d, correct_answer, time_limit_seconds')
+    .eq('category_id', cat.id)
+
+  if (qErr || !qdata) {
+    return NextResponse.json({ error: 'Failed to load questions' }, { status: 500 })
+  }
+
+  const available = qdata.filter(q => !usedIds.includes(q.id))
+  if (available.length < count) {
     return NextResponse.json(
-      { error: `Not enough new questions in '${cat.name}'. Need ${count}, have ${unused.length}.` },
+      { error: `Not enough new questions in '${cat.name}'. Need ${count}, have ${available.length}.` },
       { status: 400 }
     )
   }
 
-  const picked = [...unused].sort(() => Math.random() - 0.5).slice(0, count)
+  const picked = [...available].sort(() => Math.random() - 0.5).slice(0, count)
 
   const questions = picked.map(q => ({
     id: q.id,
