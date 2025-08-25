@@ -1,10 +1,8 @@
 // PATH: src/app/api/games/[code]/rounds/route.ts
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
 import type { RoundSettings } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
-import { supabase } from '@/lib/supabaseAdmin'
-
+import { supabaseServer } from '@/integrations/supabase/server'
 export const dynamic = 'force-dynamic'
 
 /**
@@ -22,8 +20,15 @@ export async function POST(req: Request, context: any) {
   const { code } = (context?.params ?? {}) as { code: string }
   const gameCode = String(code || '').toUpperCase()
 
-  const game = store.getGame(gameCode)
-  if (!game) {
+  const supabase = supabaseServer(session.access_token)
+
+  const { data: game, error: gameErr } = await supabase
+    .from('herd_games')
+    .select('code')
+    .eq('code', gameCode)
+    .single()
+
+  if (gameErr || !game) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
@@ -38,9 +43,6 @@ export async function POST(req: Request, context: any) {
   if (!settings?.timeLimit || !settings?.scoring) {
     return NextResponse.json({ error: 'Missing round settings' }, { status: 400 })
   }
-  const usedIds: string[] = (game as any).usedQuestionIds || []
-  ;(game as any).usedQuestionIds = usedIds
-
   const { data: cat, error: catErr } = await supabase
     .from('herd_categories')
     .select('id,name,is_active')
@@ -52,41 +54,37 @@ export async function POST(req: Request, context: any) {
 
   const { data: qdata, error: qErr } = await supabase
     .from('herd_questions')
-    .select('id, question_text, answer_a, answer_b, answer_c, answer_d, correct_answer, time_limit_seconds')
+    .select('id')
     .eq('category_id', cat.id)
 
-  if (qErr || !qdata) {
-    return NextResponse.json({ error: 'Failed to load questions' }, { status: 500 })
-  }
-
-  const available = qdata.filter(q => !usedIds.includes(q.id))
-  if (available.length < count) {
+  if (qErr || !qdata || qdata.length < count) {
     return NextResponse.json(
-      { error: `Not enough new questions in '${cat.name}'. Need ${count}, have ${available.length}.` },
+      { error: `Not enough questions in '${cat.name}'. Need ${count}, have ${qdata?.length || 0}.` },
       { status: 400 }
     )
   }
 
-  const picked = [...available].sort(() => Math.random() - 0.5).slice(0, count)
+  const { count: existingCount } = await supabase
+    .from('herd_rounds')
+    .select('index', { count: 'exact', head: true })
+    .eq('game_code', gameCode)
 
-  const questions = picked.map(q => ({
-    id: q.id,
-    question_text: q.question_text,
-    options: [q.answer_a, q.answer_b, q.answer_c, q.answer_d] as [string, string, string, string],
-    correct_answer: q.correct_answer as 'A' | 'B' | 'C' | 'D',
-    time_limit: q.time_limit_seconds || settings.timeLimit,
-    points_correct: 10,
-    points_incorrect: 0,
-    theme: cat.name,
-  }))
+  const nextIndex = existingCount ?? 0
 
-  const round = store.addRound(gameCode, cat.name, questions, settings)
-  if (!round) {
+  const { data: roundInsert, error: roundErr } = await supabase
+    .from('herd_rounds')
+    .insert({
+      game_code: gameCode,
+      index: nextIndex,
+      topic: cat.name,
+      questions: count,
+    })
+    .select('id')
+    .single()
+
+  if (roundErr || !roundInsert) {
     return NextResponse.json({ error: 'Failed to create round' }, { status: 500 })
   }
 
-  usedIds.push(...picked.map(p => p.id))
-  ;(game as any).usedQuestionIds = Array.from(new Set(usedIds))
-
-  return NextResponse.json({ roundId: round.id })
+  return NextResponse.json({ roundId: roundInsert.id, index: nextIndex })
 }
