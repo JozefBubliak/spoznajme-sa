@@ -12,12 +12,11 @@ type FourAnswers = {
 }
 
 export async function GET(
-    req: Request,
-    ctx: { params: Record<string, string | string[]> }
-  ) {
-    const code = String(ctx.params?.code || '').toUpperCase()
-    const roundId = String(ctx.params?.roundId || '')
-n
+  req: Request,
+  { params }: { params: { code: string; roundId: string } }
+) {
+  const code = params.code.toUpperCase()
+  const roundId = params.roundId
 
   const url = new URL(req.url)
   const qIndexParam = url.searchParams.get('qIndex')
