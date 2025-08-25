@@ -13,7 +13,7 @@ export async function POST(req: Request, context: any) {
 
   // bezpečné načítanie body
   const body = await req.json().catch(() => ({} as any))
-  const { index, categoryId, questions } = body
+  const { index, categoryId, questions, prepSeconds, questionSeconds, scoringMode } = body
 
   const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
 
@@ -26,12 +26,18 @@ export async function POST(req: Request, context: any) {
         idx: index,
         category: categoryId,
         count: questions,
+        prep_seconds: prepSeconds,
+        question_seconds: questionSeconds,
+        scoring_mode: scoringMode,
         status: 'setup',
       },
       { onConflict: 'game_code,idx' }
     )
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
+  // udržujeme phase v herd_games
+  await s.from('herd_games').update({ phase: 'round_setup' }).eq('code', code)
 
   // voliteľne: ak je to posledné potvrdené kolo, prepneme hru do "ready"
   try {
@@ -48,5 +54,5 @@ export async function POST(req: Request, context: any) {
     // nič – len nech to nepadne, keď typy/kolónky chýbajú
   }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, phase: 'round_setup', savedIndex: index })
 }
