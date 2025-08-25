@@ -5,15 +5,12 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: Request,
-  { params }: { params: { code: string } }
-) {
-  const rawCode = params.code
-
+export async function POST(req: Request, ctx: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = rawCode
+  const code = String(
+    Array.isArray(ctx?.params?.code) ? ctx.params.code[0] : ctx?.params?.code
+  ).toUpperCase()
 
   // bezpečné načítanie body
   const body = await req.json().catch(() => ({} as any))
