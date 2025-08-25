@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server'
 import type { RoundSettings } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
-
 export const dynamic = 'force-dynamic'
 
 /**
@@ -82,6 +81,7 @@ export async function POST(req: Request, context: any) {
     })
     .select('id')
     .single()
+
 
   if (roundErr || !roundInsert) {
     return NextResponse.json({ error: 'Failed to create round' }, { status: 500 })

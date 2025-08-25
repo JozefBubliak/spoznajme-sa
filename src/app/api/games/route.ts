@@ -4,7 +4,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
-
 /**
  * Example (unauthenticated):
  *   curl -i -X POST http://localhost:3000/api/games

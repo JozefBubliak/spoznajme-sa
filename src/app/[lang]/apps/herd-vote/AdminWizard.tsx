@@ -20,7 +20,6 @@ type Game = {
 }
 
 type RoundCfg = { categoryId?: string; questions?: number }
-type Category = { id: string; name: string }
 
 export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [code, setCode] = useState(codeProp ?? '')
@@ -37,7 +36,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [scoring, setScoring] = useState<'simple'|'weighted'>('simple')
   const [roundIx, setRoundIx] = useState(0)
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ categoryId: '', questions: 5 })
-  const [categories, setCategories] = useState<Category[]>([])
+
 
   // 1) zisti kód aktívnej hry (ak ho wizard nedostal cez props)
   useEffect(() => {
@@ -217,6 +216,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
               <select className="block border rounded px-2 py-1"
                       value={roundCfg.categoryId ?? ''}
                       onChange={e=>setRoundCfg(c=>({ ...c, categoryId: e.target.value }))}>
+
                 {categories.map(c => (
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
