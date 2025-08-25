@@ -83,7 +83,7 @@ export function WordCard({
               {word.word}
             </h1>
             <p className="text-muted-foreground capitalize">
-              {word.categoryCode.replace('-', ' ')}
+              {(word.categoryName || word.categoryCode).replace('-', ' ')}
             </p>
           </div>
 
