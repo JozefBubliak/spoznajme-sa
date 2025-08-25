@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import type { RoundSettings } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
+
 export const dynamic = 'force-dynamic'
 
 /**

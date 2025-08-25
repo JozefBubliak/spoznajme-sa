@@ -9,6 +9,7 @@ export async function GET() {
     .select('id,name')
     .eq('is_active', true)
     .order('name')
+
   if (error || !cats) {
     return NextResponse.json({ categories: [] })
   }

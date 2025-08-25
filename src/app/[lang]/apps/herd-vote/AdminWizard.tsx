@@ -19,7 +19,18 @@ type Game = {
   timer_deadline?: string | null
 }
 
-type RoundCfg = { categoryId?: string; questions?: number }
+type RoundCfg = {
+  topic?: string
+  categoryId?: string
+  questions?: number
+}
+
+type Category = {
+  id: string
+  name: string
+  count?: number
+}
+
 
 export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [code, setCode] = useState(codeProp ?? '')
@@ -36,6 +47,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [scoring, setScoring] = useState<'simple'|'weighted'>('simple')
   const [roundIx, setRoundIx] = useState(0)
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ categoryId: '', questions: 5 })
+  const [categories, setCategories] = useState<Category[]>([])
 
 
   // 1) zisti kód aktívnej hry (ak ho wizard nedostal cez props)
@@ -69,7 +81,18 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
         const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
         if (!r.ok) return
         const j = await r.json()
-        const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
+        const cats: Category[] = Array.isArray(j.categories)
+          ? j.categories.map((c: any) => ({
+              id: String(c.id ?? c.slug ?? c.value ?? ''),
+              name: String(c.name ?? c.title ?? c.label ?? c.slug ?? ''),
+              count:
+                typeof c.count === 'number'
+                  ? c.count
+                  : typeof c.questionsCount === 'number'
+                    ? c.questionsCount
+                    : undefined,
+            }))
+          : []
         setCategories(cats)
         if (!roundCfg.categoryId && cats.length > 0) {
           setRoundCfg(c => ({ ...c, categoryId: cats[0].id }))
