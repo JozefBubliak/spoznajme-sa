@@ -24,14 +24,19 @@ export async function POST(req: Request, ctx: any) {
 
   const supabase = supabaseServer(session.access_token)
 
-  const { data: game, error: gameErr } = await supabase
+  const { data: game } = await supabase
     .from('herd_games')
     .select('code')
     .eq('code', gameCode)
-    .single()
+    .maybeSingle()
 
-  if (gameErr || !game) {
-    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  if (!game) {
+    await supabase
+      .from('herd_games')
+      .upsert(
+        { code: gameCode, owner_id: session.user.id, phase: 'round_setup' },
+        { onConflict: 'code' }
+      )
   }
 
   const body = await req.json().catch(() => ({} as any))
