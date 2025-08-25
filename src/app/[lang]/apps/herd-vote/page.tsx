@@ -7,7 +7,7 @@ import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
 import { UserCircle } from 'lucide-react'
 
-type Category = { name: string; count: number }
+type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 
@@ -69,21 +69,13 @@ export default function HerdVoteAdminPage() {
     const load = async () => {
       try {
         const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
-        if (!r.ok) throw new Error('HTTP ' + r.status)
+        if (!r.ok) return
         const j = await r.json()
         const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
         if (cats.length === 0) throw new Error('No categories')
         setCategories(cats)
-        if (!selectedCat) setSelectedCat(cats[0].name)
-      } catch {
-        const fallback: Category[] = [
-          { name: 'Všeobecné', count: 50 },
-          { name: 'Geografia', count: 30 },
-          { name: 'Veda', count: 25 },
-        ]
-        setCategories(fallback)
-        if (!selectedCat) setSelectedCat(fallback[0].name)
-      }
+        if (!selectedCat && cats.length > 0) setSelectedCat(cats[0].id)
+      } catch {}
     }
     load()
   }, []) // raz pri načítaní
@@ -148,12 +140,13 @@ export default function HerdVoteAdminPage() {
     const r = await authFetch(`/api/games/${gameCode}/rounds`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ category: selectedCat, count, settings: { timeLimit, scoring } }),
+      body: JSON.stringify({ categoryId: selectedCat, count, settings: { timeLimit, scoring } }),
     })
     const j = await r.json()
     if (j.roundId) {
       const newCount = rounds.length + 1
-      setRounds((prev) => [...prev, { id: j.roundId, category: selectedCat }])
+      const catName = categories.find(c => c.id === selectedCat)?.name || selectedCat
+      setRounds((prev) => [...prev, { id: j.roundId, category: catName }])
       if (totalRounds && newCount >= totalRounds) {
         await authFetch(`/api/games/${gameCode}/start`, { method: 'POST' })
         await authFetch(`/api/games/${gameCode}/rounds/start`, { method: 'POST' })
@@ -349,7 +342,7 @@ export default function HerdVoteAdminPage() {
                         className="w-full border rounded px-3 py-2"
                       >
                         {categories.map((c) => (
-                          <option key={c.name} value={c.name}>
+                          <option key={c.id} value={c.id}>
                             {c.name} ({c.count})
                           </option>
                         ))}
