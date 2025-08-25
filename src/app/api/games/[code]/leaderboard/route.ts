@@ -1,25 +1,25 @@
 // PATH: src/app/api/games/[code]/leaderboard/route.ts
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
+import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(_req: Request, context: any) {
+export async function GET(
+  _req: Request,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
-  const gameCode = String(code || '').toUpperCase()
 
-  const game = store.getGame(gameCode)
-  if (!game) {
-    // UX-friendly: prázdny leaderboard namiesto chyby
-    return NextResponse.json([])
-  }
+  const code = String(params.code || '').toUpperCase()
+  const s = supabaseServer(session.access_token)
 
-  const leaderboard = [...(game.players ?? [])]
-    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
-    .map(p => ({ name: p.name, score: p.score ?? 0 }))
+  const { data: players } = await s
+    .from('herd_players')
+    .select('name, score')
+    .eq('game_code', code)
+    .order('score', { ascending: false })
 
-  return NextResponse.json(leaderboard)
+  return NextResponse.json(players || [])
 }

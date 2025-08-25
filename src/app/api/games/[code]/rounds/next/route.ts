@@ -1,76 +1,91 @@
 // PATH: src/app/api/games/[code]/rounds/next/route.ts
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
+import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, context: any) {
+export async function POST(req: Request, { params }: { params: { code: string } }) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
-  const gameCode = String(code || '').toUpperCase()
 
-  const game = store.getGame(gameCode)
-  if (!game) {
-    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
-  }
-
-  const body = await req.json().catch(() => ({} as any))
-  const { roundId } = body
+  const code = String(params.code || '').toUpperCase()
+  const body = await req.json().catch(() => ({})) as { roundId?: string }
+  const s = supabaseServer(session.access_token)
 
   // nájdi kolo v stave "results"
-  const targetRound = roundId
-    ? game.rounds.find(r => r.id === roundId)
-    : store.getActiveRound(gameCode)
+  let roundId = body.roundId
+  if (!roundId) {
+    const { data: resRound } = await s
+      .from('herd_rounds')
+      .select('id, q_index, settings')
+      .eq('game_code', code)
+      .eq('status', 'results')
+      .single()
+    if (!resRound) {
+      return NextResponse.json({ error: 'No round in results state' }, { status: 400 })
+    }
+    roundId = resRound.id
+  }
 
-  if (!targetRound || targetRound.status !== 'results') {
+  const { data: round } = await s
+    .from('herd_rounds')
+    .select('id, q_index, status, settings')
+    .eq('id', roundId)
+    .eq('game_code', code)
+    .single()
+
+  if (!round || round.status !== 'results') {
     return NextResponse.json({ error: 'No round in results state' }, { status: 400 })
   }
 
-  const currentQIndex = targetRound.qIndex || 0
+  const currentQIndex = round.q_index || 0
+  const questions: string[] = (round.settings as any)?.questions || []
   const nextQIndex = currentQIndex + 1
 
-  // ak už nie sú otázky, kolo je hotové
-  if (nextQIndex >= targetRound.questions.length) {
-    targetRound.status = 'finished'
+  if (nextQIndex >= questions.length) {
+    await s.from('herd_rounds').update({ status: 'finished' }).eq('id', round.id)
 
-    const leaderboard = [...game.players].sort((a, b) => b.score - a.score)
+    const { data: leaderboard } = await s
+      .from('herd_players')
+      .select('id, name, score')
+      .eq('game_code', code)
+      .order('score', { ascending: false })
 
-    await RealtimeServer.publish(channelFor(gameCode), {
+    await RealtimeServer.publish(channelFor(code), {
       type: 'round:finish',
-      code: gameCode,
-      roundId: targetRound.id,
+      code,
+      roundId: round.id,
       leaderboard,
       at: Date.now(),
     })
 
     return NextResponse.json({
       success: true,
-      roundId: targetRound.id,
+      roundId: round.id,
       finished: true,
       leaderboard,
     })
   }
 
-  // ďalšia otázka
-  targetRound.qIndex = nextQIndex
-  targetRound.status = 'running'
-  targetRound.startedAt = Date.now()
+  await s
+    .from('herd_rounds')
+    .update({ q_index: nextQIndex, status: 'running' })
+    .eq('id', round.id)
 
-  await RealtimeServer.publish(channelFor(gameCode), {
+  await RealtimeServer.publish(channelFor(code), {
     type: 'game:start',
-    code: gameCode,
-    roundId: targetRound.id,
+    code,
+    roundId: round.id,
     qIndex: nextQIndex,
     at: Date.now(),
   })
 
   return NextResponse.json({
     success: true,
-    roundId: targetRound.id,
+    roundId: round.id,
     qIndex: nextQIndex,
     finished: false,
   })
