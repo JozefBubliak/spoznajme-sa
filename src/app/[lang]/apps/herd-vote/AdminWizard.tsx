@@ -289,7 +289,6 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
               <select className="block border rounded px-2 py-1"
                       value={roundCfg.categoryId ?? ''}
                       onChange={e=>setRoundCfg(c=>({ ...c, categoryId: e.target.value }))}>
-
                 {categories.map(c => (
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}

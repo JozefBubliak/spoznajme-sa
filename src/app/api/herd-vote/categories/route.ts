@@ -13,14 +13,10 @@ export async function GET() {
     .select('id,name,count,is_active')
     .order('name', { ascending: true })
 
-  if (error) {
-    const { data: cats, error: e1 } = await s
-      .from('herd_categories')
-      .select('id,name,is_active')
-      .order('name', { ascending: true })
-    if (e1 || !cats) return NextResponse.json({ categories: [] })
 
-    data = cats.map((c: any) => ({ id: c.id, name: c.name, count: 0, is_active: c.is_active }))
+  if (error || !cats) {
+    return NextResponse.json({ categories: [] })
+
   }
 
   const active = (data || []).filter((c: any) => c.is_active !== false)
