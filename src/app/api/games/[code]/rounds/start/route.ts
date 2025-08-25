@@ -15,7 +15,6 @@ export async function POST(req: Request, context: any) {
 
   const s = supabaseServer(session.access_token)
 
-
   // načítaj konfiguráciu kola
   const { data: round, error: roundErr } = await s
     .from('herd_rounds')
