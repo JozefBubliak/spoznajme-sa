@@ -66,7 +66,7 @@ export async function POST(req: Request, context: any) {
 
   const { count: existingCount } = await supabase
     .from('herd_rounds')
-    .select('index', { count: 'exact', head: true })
+    .select('idx', { count: 'exact', head: true })
     .eq('game_code', gameCode)
 
   const nextIndex = existingCount ?? 0
@@ -75,12 +75,14 @@ export async function POST(req: Request, context: any) {
     .from('herd_rounds')
     .insert({
       game_code: gameCode,
-      index: nextIndex,
-      topic: cat.name,
-      questions: count,
+      idx: nextIndex,
+      category: cat.id,
+      count: count,
     })
     .select('id')
     .single()
+
+
   if (roundErr || !roundInsert) {
     return NextResponse.json({ error: 'Failed to create round' }, { status: 500 })
   }

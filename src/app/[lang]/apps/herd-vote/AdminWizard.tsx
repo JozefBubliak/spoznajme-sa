@@ -19,8 +19,7 @@ type Game = {
   timer_deadline?: string | null
 }
 
-type RoundCfg = { topic?: string; questions?: number }
-type Category = { id: string; name: string }
+type RoundCfg = { categoryId?: string; questions?: number }
 
 export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [code, setCode] = useState(codeProp ?? '')
@@ -36,8 +35,8 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [qSec, setQSec] = useState(45)
   const [scoring, setScoring] = useState<'simple'|'weighted'>('simple')
   const [roundIx, setRoundIx] = useState(0)
-  const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
-  const [categories, setCategories] = useState<Category[]>([])
+  const [roundCfg, setRoundCfg] = useState<RoundCfg>({ categoryId: '', questions: 5 })
+
 
   // 1) zisti kód aktívnej hry (ak ho wizard nedostal cez props)
   useEffect(() => {
@@ -72,8 +71,8 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
         const j = await r.json()
         const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
         setCategories(cats)
-        if (!roundCfg.topic && cats.length > 0) {
-          setRoundCfg(c => ({ ...c, topic: cats[0].id }))
+        if (!roundCfg.categoryId && cats.length > 0) {
+          setRoundCfg(c => ({ ...c, categoryId: cats[0].id }))
         }
       } catch {}
     })()
@@ -215,8 +214,9 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
           <div className="flex gap-3 items-end">
             <label className="text-sm">Kategória
               <select className="block border rounded px-2 py-1"
-                      value={roundCfg.topic ?? ''}
-                      onChange={e=>setRoundCfg(c=>({ ...c, topic: e.target.value }))}>
+                      value={roundCfg.categoryId ?? ''}
+                      onChange={e=>setRoundCfg(c=>({ ...c, categoryId: e.target.value }))}>
+
                 {categories.map(c => (
                   <option key={c.id} value={c.id}>{c.name}</option>
                 ))}
@@ -231,7 +231,9 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
                     disabled={busy}
                     onClick={async ()=>{
                       await post(`/api/games/${code}/rounds/config`, {
-                        index: roundIx, ...roundCfg
+                        index: roundIx,
+                        categoryId: roundCfg.categoryId,
+                        questions: roundCfg.questions,
                       })
                       const last = (roundIx + 1) >= (g.total_rounds || 1)
                       if (last) {
