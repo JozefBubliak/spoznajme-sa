@@ -1,44 +1,56 @@
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
-import { getSession } from '@/app/api/games/_session'
+import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, context: any) {
-  const session = await getSession()
-  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
-  const gameCode = String(code || '').toUpperCase()
-  const game = store.getGame(gameCode)
-  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
-
-  const body = await req.json().catch(() => ({} as any))
-  const { playerId, roundId, qIndex, answer } = body as {
-    playerId: string
-    roundId: string
-    qIndex: number
-    answer: 'A'|'B'|'C'|'D'|null
+export async function POST(
+  req: Request,
+  { params }: { params: { code: string } }
+) {
+  const code = String(params.code || '').toUpperCase()
+  const body = await req.json().catch(() => ({})) as {
+    playerId?: string
+    roundId?: string
+    qIndex?: number
+    answer?: 'A' | 'B' | 'C' | 'D' | null
   }
+
+  const { playerId, roundId, qIndex, answer } = body
 
   if (!playerId || !roundId || typeof qIndex !== 'number') {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
-  const player = game.players.find(p => p.id === playerId)
-  if (!player) return NextResponse.json({ error: 'Player not found' }, { status: 404 })
-  const round = game.rounds.find(r => r.id === roundId)
-  if (!round) return NextResponse.json({ error: 'Round not found' }, { status: 404 })
-  if (round.status !== 'running') {
-    return NextResponse.json({ error: 'Round is not accepting answers' }, { status: 400 })
+
+  const s = supabaseServer()
+
+  // over existenciu hry
+  const { data: game } = await s
+    .from('herd_games')
+    .select('code')
+    .eq('code', code)
+    .single()
+
+  if (!game) {
+    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  // bez typovej kolízie – držíme odpovede na úrovni hry
-  ;(game as any).answers = (game as any).answers ?? []
-  const key = `${playerId}:${roundId}:${qIndex}`
-  const existing = (game as any).answers.findIndex((a: any) => a.key === key)
-  const entry = { key, playerId, roundId, qIndex, answer, ts: Date.now() }
+  const { error } = await s
+    .from('herd_answers')
+    .upsert(
+      {
+        game_code: code,
+        player_id: playerId,
+        round_id: roundId,
+        q_index: qIndex,
+        answer,
+        ts: new Date().toISOString(),
+      },
+      { onConflict: 'player_id,round_id,q_index' }
+    )
 
-  if (existing >= 0) (game as any).answers[existing] = entry
-  else (game as any).answers.push(entry)
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
 
   return NextResponse.json({ ok: true })
 }

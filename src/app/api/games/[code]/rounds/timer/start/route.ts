@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 import { supabaseServer } from '@/integrations/supabase/server'
@@ -7,48 +6,59 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, context: any) {
+export async function POST(
+  req: Request,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = (context?.params ?? {}) as { code: string }
-  const gameCode = String(code || '').toUpperCase()
 
-  const game = store.getGame(gameCode)
-  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  const code = String(params.code || '').toUpperCase()
+  const body = await req.json().catch(() => ({})) as {
+    seconds?: number
+    duration?: number
+    roundId?: string
+  }
+  const seconds = Number(body.seconds ?? body.duration ?? 45)
 
-  const body = await req.json().catch(() => ({} as any))
-  const seconds = Number(body?.seconds ?? body?.duration ?? 45)
-  const round = body?.roundId
-    ? game.rounds.find((r: any) => r.id === body.roundId)
-    : store.getActiveRound(gameCode)
+  const s = supabaseServer(session.access_token)
 
-  if (!round) return NextResponse.json({ error: 'Round not found' }, { status: 404 })
-  if (round.status !== 'shown') {
+  let roundId = body.roundId
+  if (!roundId) {
+    const { data: shown } = await s
+      .from('herd_rounds')
+      .select('id, q_index')
+      .eq('game_code', code)
+      .eq('status', 'shown')
+      .single()
+    if (!shown) return NextResponse.json({ error: 'Round not found' }, { status: 404 })
+    roundId = shown.id
+  }
+
+  const { data: round } = await s
+    .from('herd_rounds')
+    .select('id, q_index, status')
+    .eq('id', roundId)
+    .eq('game_code', code)
+    .single()
+
+  if (!round || round.status !== 'shown') {
     return NextResponse.json({ error: 'Round must be in "shown" state' }, { status: 400 })
   }
 
   const startedAt = Date.now()
-  const deadlineMs = startedAt + seconds * 1000
-  round.status = 'running'
-  round.startedAt = startedAt
-  ;(round as any).deadline = deadlineMs
+  const deadline = new Date(startedAt + seconds * 1000).toISOString()
 
-  // Best-effort persist do DB (pre refreshy klientov) - commented out due to missing table
-  // try {
-  //   const s = supabaseServer()
-  //   await s
-  //     .from('herd_games')
-  //     .update({ timer_deadline: new Date(deadlineMs).toISOString() })
-  //     .eq('code', gameCode)
-  // } catch {
-  //   // neblokuj hru, ak by zápis zlyhal
-  // }
+  await s
+    .from('herd_rounds')
+    .update({ status: 'running', timer_deadline: deadline })
+    .eq('id', round.id)
 
-  await RealtimeServer.publish(channelFor(gameCode), {
+  await RealtimeServer.publish(channelFor(code), {
     type: 'timer:start',
-    code: gameCode,
+    code,
     roundId: round.id,
-    qIndex: round.qIndex || 0,
+    qIndex: round.q_index || 0,
     startedAt,
     durationSec: seconds,
   })
@@ -56,8 +66,8 @@ export async function POST(req: Request, context: any) {
   return NextResponse.json({
     success: true,
     roundId: round.id,
-    qIndex: round.qIndex || 0,
+    qIndex: round.q_index || 0,
     seconds,
-    deadline: new Date(deadlineMs).toISOString(),
+    deadline,
   })
 }

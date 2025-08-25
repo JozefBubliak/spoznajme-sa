@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
-import store from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,7 +34,6 @@ export async function GET() {
   const last = new Date(gs.updated_at ?? gs.created_at ?? Date.now())
   if (Date.now() - last.getTime() > INACTIVITY_MS) {
     await supabase.from('game_sessions').update({ status: 'ended' }).eq('id', gs.id)
-    store.games.delete(room.code)
     return NextResponse.json({}, { status: 204 })
   }
 

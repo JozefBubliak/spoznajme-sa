@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
-import store from '@/lib/herdvote/store'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,8 +33,6 @@ export async function POST(_req: Request, context: any) {
   if (gs) {
     await supabase.from('game_sessions').update({ status: 'ended' }).eq('id', gs.id)
   }
-
-  store.games.delete(gameCode)
 
   return NextResponse.json({ success: true })
 }
