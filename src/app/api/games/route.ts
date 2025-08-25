@@ -28,6 +28,19 @@ export async function POST(_req: NextRequest) {
   if (lobbyError) {
     return NextResponse.json({ error: lobbyError.message }, { status: 500 })
   }
+  await supabase
+    .from('herd_games')
+    .upsert(
+      {
+        code: room.code,
+        owner_id: session.user.id,
+        phase: 'lobby',
+        total_rounds: 0,
+        active_round_index: 0,
+        lobby_locked: false,
+      },
+      { onConflict: 'code' }
+    )
 
   return NextResponse.json({ gameCode: room.code })
 }

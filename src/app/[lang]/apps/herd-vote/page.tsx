@@ -322,7 +322,28 @@ export default function HerdVoteAdminPage() {
                     className="w-full border rounded px-3 py-2"
                   />
                   <button
-                    onClick={() => setTotalRounds(roundInput)}
+                    onClick={async () => {
+                      try {
+                        const r = await authFetch(`/api/games/${gameCode}/config`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            totalRounds: roundInput,
+                            prepSeconds: timeLimit,
+                            questionSeconds: timeLimit,
+                            scoringMode: mode === 'classic' ? 'simple' : 'weighted',
+                          }),
+                        })
+                        const j = await r.json()
+                        if (r.ok && j?.ok) {
+                          setTotalRounds(roundInput)
+                        } else {
+                          alert(j.error || 'Nepodarilo sa uložiť konfiguráciu')
+                        }
+                      } catch {
+                        alert('Nepodarilo sa uložiť konfiguráciu')
+                      }
+                    }}
                     className="px-4 py-2 rounded bg-blue-600 text-white"
                   >
                     Potvrdiť
