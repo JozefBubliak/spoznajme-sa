@@ -66,6 +66,7 @@ export default function HerdVoteAdminPage() {
 
   // --- Kategórie ---
   useEffect(() => {
+    if (!session) return
     const load = async () => {
       try {
         const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
@@ -78,7 +79,7 @@ export default function HerdVoteAdminPage() {
       } catch {}
     }
     load()
-  }, []) // raz pri načítaní
+  }, [session])
 
   // --- Vytvorenie hry ---
 

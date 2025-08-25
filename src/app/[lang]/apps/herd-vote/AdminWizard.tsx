@@ -45,59 +45,8 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [qSec, setQSec] = useState(45)
   const [scoring, setScoring] = useState<'simple'|'weighted'>('simple')
   const [roundIx, setRoundIx] = useState(0)
-  const [roundCfg, setRoundCfg] = useState<RoundCfg>({ categoryId: '', questions: 5 })
-  const [categories, setCategories] = useState<Category[]>([])
-
-  // 1) zisti kód aktívnej hry (ak ho wizard nedostal cez props)
-  useEffect(() => {
-    if (codeProp) return
-    ;(async () => {
-      try {
-        const r = await authFetch('/api/games/active', { cache: 'no-store' })
-        if (r.ok) {
-          const j = await r.json()
-          if (j?.code) setCode(j.code)
-        }
-      } catch {}
-    })()
-  }, [codeProp])
-
-  // 2) polling stavu hry
-  const authFetch = (url: string, options: RequestInit = {}) => {
-    const headers = {
-      ...(options.headers || {}),
-      ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
-    }
-    return fetch(url, { ...options, headers })
-  }
-
-  // načítanie kategórií z databázy
-  useEffect(() => {
-    if (!code) return
-    ;(async () => {
-      try {
-        const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
-        if (!r.ok) return
-        const j = await r.json()
-        const cats: Category[] = Array.isArray(j.categories)
-          ? j.categories.map((c: any) => ({
-              id: String(c.id ?? c.slug ?? c.value ?? ''),
-              name: String(c.name ?? c.title ?? c.label ?? c.slug ?? ''),
-              count:
-                typeof c.count === 'number'
-                  ? c.count
-                  : typeof c.questionsCount === 'number'
-                    ? c.questionsCount
-                    : undefined,
-            }))
-          : []
-        setCategories(cats)
-        if (!roundCfg.categoryId && cats.length > 0) {
-          setRoundCfg(c => ({ ...c, categoryId: cats[0].id }))
-        }
-      } catch {}
-    })()
-  }, [code])
+  const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
+  const [players, setPlayers] = useState<{id:string; name:string}[]>([])
 
   function toPhase(status?: string): Phase {
     switch (status) {
@@ -127,7 +76,22 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
         scoring_mode: raw.scoring_mode ?? raw.scoringMode ?? 'simple',
         timer_deadline: raw.timer_deadline ?? raw.timerDeadline ?? null,
       }
-      setGame(normalized)
+      setGame(prev => {
+        // Ak server ešte neprepol fázu, zachovaj lokálne rozpracované "round_setup"
+        if (prev?.phase === 'round_setup' && normalized.phase === 'config') {
+          return { ...prev, ...normalized, phase: 'round_setup' }
+        }
+        return normalized
+      })
+
+      // Fetch current players in lobby/ game
+      try {
+        const rp = await authFetch(`/api/games/${code}/players`, { cache: 'no-store' })
+        if (rp.ok) {
+          const pj = await rp.json()
+          setPlayers(pj.players || [])
+        }
+      } catch {}
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
   }, [code])
 
@@ -149,7 +113,53 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       if (!r.ok) throw new Error(await r.text())
       await refresh()
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
-    finally { setBusy(false); setTransitioning(false) }
+
+    finally { setBusy(false) }
+  }
+
+  const createGame = useCallback(async () => {
+    setBusy(true); setErr(null)
+    try {
+      const r = await authFetch('/api/games', { method: 'POST' })
+      if (r.status === 401) {
+        // session expirovala alebo chýba – presmeruj na login
+        if (typeof window !== 'undefined') window.location.href = '/login'
+        return
+      }
+      if (!r.ok) throw new Error(await r.text())
+      const j = await r.json()
+      setCode(j.code || j.gameCode)
+      setGame(null)
+      // reset konfigurácie pre novú hru
+      setTotalRounds(3)
+      setPrepSec(10)
+      setQSec(45)
+      setScoring('simple')
+      setRoundIx(0)
+      setRoundCfg({ topic: '', questions: 5 })
+      setPlayers([])
+    } catch (e:any) { setErr(e?.message ?? 'Chyba') }
+    finally { setBusy(false) }
+  }, [authFetch])
+
+  async function endGame() {
+    if (!code) return
+    setBusy(true); setErr(null)
+    try {
+      const r = await authFetch(`/api/games/${code}/end`, { method: 'POST' })
+      if (!r.ok) throw new Error(await r.text())
+      setCode(null)
+      setGame(null)
+      setTotalRounds(3)
+      setPrepSec(10)
+      setQSec(45)
+      setScoring('simple')
+      setRoundIx(0)
+      setRoundCfg({ topic: '', questions: 5 })
+      setPlayers([])
+    } catch (e:any) { setErr(e?.message ?? 'Chyba') }
+    finally { setBusy(false) }
+
   }
 
   if (!code) {
@@ -172,10 +182,8 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
 
   return (
     <div className="rounded-lg border p-4 space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="font-medium">Panel moderátora</div>
-        <div className="text-sm">Kód hry: <span className="font-mono">{code}</span></div>
-      </div>
+      <div className="font-medium">Panel moderátora</div>
+
 
       {err && <div className="text-sm text-red-600">Chyba: {err}</div>}
 
@@ -183,7 +191,42 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       {g?.phase === 'lobby' && (
         <div className="space-y-2">
           <div className="text-sm">Zdieľaj link / QR, počkaj na hráčov.</div>
-          <div className="flex gap-2">
+
+          <div className="flex flex-wrap items-start gap-4">
+            <img
+              alt="QR kód na pripojenie"
+              className="h-40 w-40 rounded border bg-white p-2"
+              src={`https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(joinUrl)}`}
+            />
+            <div className="space-y-2">
+              <a
+                href={joinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-sm break-all text-blue-600 underline"
+              >
+                {joinUrl}
+              </a>
+              <button
+                className="rounded bg-slate-800 text-white px-3 py-1"
+                onClick={() => navigator.clipboard?.writeText(joinUrl)}
+              >
+                Skopírovať link
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <div className="text-sm font-medium">Prihlásení hráči ({players.length}):</div>
+            <ul className="text-sm list-disc pl-6">
+              {players.map(p => (
+                <li key={p.id}>{p.name}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+
             <button className="rounded bg-amber-600 text-white px-3 py-1 disabled:opacity-50"
                     disabled={busy}
                     onClick={()=>post(`/api/games/${code}/lock-lobby`, { locked: true })}>
@@ -196,32 +239,41 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       {/* KROK 2: Konfigurácia hry (po zamknutí lobby) */}
       {g?.phase === 'config' && (
         <div className="space-y-3">
-          <div className="font-medium text-sm">Zvoľte si počet kôl</div>
+          <div>
+            <div className="text-sm font-medium">Prihlásení hráči ({players.length}):</div>
+            <ul className="text-sm list-disc pl-6">
+              {players.map(p => (
+                <li key={p.id}>{p.name}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="font-medium text-sm">Nastavenie hry</div>
+          <div className="text-xs text-muted-foreground">
+            Zadajte počet kôl. Detaily jednotlivých kôl nastavíte v ďalšom kroku.
+          </div>
+
           <div className="flex flex-wrap gap-3 items-end">
             <label className="text-sm">Počet kôl
               <input type="number" min={1} className="block border rounded px-2 py-1"
                      value={totalRounds} onChange={e=>setTotalRounds(parseInt(e.target.value||'1',10))}/>
             </label>
-            <label className="text-sm">Príprava (s)
-              <input type="number" min={0} className="block border rounded px-2 py-1"
-                     value={prepSec} onChange={e=>setPrepSec(parseInt(e.target.value||'0',10))}/>
-            </label>
-            <label className="text-sm">Čas na otázku (s)
-              <input type="number" min={10} className="block border rounded px-2 py-1"
-                     value={qSec} onChange={e=>setQSec(parseInt(e.target.value||'10',10))}/>
-            </label>
-            <label className="text-sm">Bodovanie
-              <select className="block border rounded px-2 py-1"
-                      value={scoring} onChange={e=>setScoring(e.target.value as any)}>
-                <option value="simple">Jednoduché</option>
-                <option value="weighted">Hmotnostné</option>
-              </select>
-            </label>
-            <button className="rounded bg-green-600 text-white px-3 py-1 disabled:opacity-50"
-                    disabled={busy}
-                    onClick={()=>post(`/api/games/${code}/config`, {
-                      totalRounds, prepSeconds: prepSec, questionSeconds: qSec, scoringMode: scoring
-                    })}>
+            <button
+              className="rounded bg-green-600 text-white px-3 py-1 disabled:opacity-50"
+              disabled={busy}
+              onClick={async () => {
+                await post(`/api/games/${code}/config`, {
+                  rounds: totalRounds,
+                  prepSeconds: prepSec,
+                  questionSeconds: qSec,
+                  scoring: scoring,
+                })
+                // Prepnime lokálnu fázu na nastavovanie jednotlivých kôl
+                setGame(g => g ? { ...g, phase: 'round_setup', total_rounds: totalRounds } : g)
+                setRoundIx(0)
+                setRoundCfg({ topic: '', questions: 5 })
+              }}
+            >
               Uložiť & pokračovať
             </button>
           </div>

@@ -5,7 +5,7 @@ export class WordService {
   static async getWordsByCategories(categories: string[]): Promise<WordVM[]> {
     const query = supabase
       .from('had_words')
-      .select('id, word, category_code, difficulty_level, mode_code')
+      .select('id, word, category_code, difficulty_level, mode_code, category:had_categories(name)')
     if (categories && categories.length > 0) {
       query.in('category_code', categories)
     }
@@ -15,6 +15,7 @@ export class WordService {
       id: String(w.id),
       word: w.word as string,
       categoryCode: w.category_code as string,
+      categoryName: ((w as any).category?.name as string) || undefined,
       difficultyLevel: w.difficulty_level as number,
       modeCode: w.mode_code as string,
     }))
