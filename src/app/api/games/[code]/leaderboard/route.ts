@@ -7,14 +7,13 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(
   _req: Request,
+  ctx: { params: Record<string, string | string[]> }
 
-  context: { params: { code: string } }
-
-) {
+  ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const code = String(context.params.code || '').toUpperCase()
+  const code = String(ctx.params?.code || '').toUpperCase()
 
   const s = supabaseServer(session.access_token)
 

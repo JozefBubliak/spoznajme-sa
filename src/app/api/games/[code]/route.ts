@@ -6,9 +6,9 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(
   _req: Request,
-  context: { params: Promise<{ code?: string }> }
+  ctx: { params: Record<string, string | string[]> }
 ) {
-  const { code: rawCode = '' } = await context.params
+  const rawCode = String(ctx.params?.code || '')
 
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

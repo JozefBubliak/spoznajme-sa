@@ -12,11 +12,11 @@ type FourAnswers = {
 }
 
 export async function GET(
-  req: Request,
-  context: { params: { code: string; roundId: string } }
-) {
-  const code = String(context.params.code || '').toUpperCase()
-  const roundId = context.params.roundId
+    req: Request,
+    ctx: { params: Record<string, string | string[]> }
+  ) {
+    const code = String(ctx.params?.code || '').toUpperCase()
+    const roundId = String(ctx.params?.roundId || '')
 n
 
   const url = new URL(req.url)

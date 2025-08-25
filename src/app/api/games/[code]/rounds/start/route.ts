@@ -6,12 +6,12 @@ import { getSession } from '@/app/api/games/_session'
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: Request,
-  context: { params: { code: string } }
-) {
+    req: Request,
+    ctx: { params: Record<string, string | string[]> }
+  ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = context.params
+    const code = String(ctx.params?.code || '')
 
   const body = await req.json().catch(() => ({} as any))
   const index = typeof body?.index === 'number' ? body.index : 0
