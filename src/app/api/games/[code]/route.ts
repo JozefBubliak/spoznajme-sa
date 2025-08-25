@@ -16,6 +16,7 @@ export async function GET(
   const code = String(rawCode).toUpperCase()
   const s = supabaseServer(session.access_token)
 
+
   const { data: game, error } = await s
     .from('herd_games')
     .select('code, phase, total_rounds, active_round_index, lobby_locked')
