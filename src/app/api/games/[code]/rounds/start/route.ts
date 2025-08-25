@@ -1,8 +1,6 @@
 // PATH: src/app/api/games/[code]/rounds/start/route.ts
 import { NextResponse } from 'next/server'
-import { store } from '@/lib/herdvote/store'
-import { RealtimeServer } from '@/lib/realtime/server'
-import { channelFor } from '@/lib/realtime/types'
+import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
@@ -12,35 +10,51 @@ export async function POST(req: Request, context: any) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const { code } = (context?.params ?? {}) as { code: string }
 
-  const gameCode = String(code || '').toUpperCase()
-  const game = store.getGame(gameCode)
-  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
-
   const body = await req.json().catch(() => ({} as any))
-  const { roundId } = body
+  const index = typeof body?.index === 'number' ? body.index : 0
 
-  // vyber kolo: buď podľa roundId, alebo prvé pending/ready
-  const round =
-    roundId
-      ? game.rounds.find(r => r.id === roundId)
-      : game.rounds.find(r => r.status === 'pending' || r.status === 'ready')
+  const s = supabaseServer(session.access_token)
 
-  if (!round) return NextResponse.json({ error: 'No round to start' }, { status: 400 })
+  // načítaj konfiguráciu kola
+  const { data: round, error: roundErr } = await s
+    .from('herd_rounds')
+    .select('id, category, count')
+    .eq('game_code', code)
+    .eq('idx', index)
+    .single()
 
-  // len ukáž otázku (bez odpočtu)
-  game.status = 'active'
-  game.activeRoundId = round.id
-  round.status = 'shown'
-  round.qIndex = round.qIndex ?? 0
-  round.startedAt = undefined
+  if (roundErr || !round) {
+    return NextResponse.json({ error: 'ROUND_NOT_FOUND' }, { status: 404 })
+  }
 
-  await RealtimeServer.publish(channelFor(gameCode), {
-    type: 'game:start',
-    code: gameCode,
-    roundId: round.id,
-    qIndex: round.qIndex,
-    at: Date.now(),
-  })
+  // vyber náhodné otázky z danej kategórie
+  const { data: qs, error: qErr } = await s
+    .from('herd_questions')
+    .select('id')
+    .eq('category_id', round.category)
+    .order('random()')
+    .limit(round.count)
 
-  return NextResponse.json({ success: true, roundId: round.id, qIndex: round.qIndex })
+  if (qErr || !qs || qs.length < round.count) {
+    return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
+  }
+
+  const questionIds = qs.map(q => q.id)
+
+  const { error: updErr } = await s
+    .from('herd_rounds')
+    .update({ settings: { questions: questionIds }, status: 'running', q_index: 0 })
+    .eq('id', round.id)
+
+  if (updErr) {
+    return NextResponse.json({ error: updErr.message }, { status: 400 })
+  }
+
+  await s
+    .from('herd_games')
+    .update({ phase: 'playing', active_round_index: index })
+    .eq('code', code)
+
+  return NextResponse.json({ ok: true, phase: 'playing' })
 }
+
