@@ -2,33 +2,33 @@ import { NextResponse } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
-  const session = await getSession()
-  if (!session) {
-    return NextResponse.json({ categories: [] }, { status: 401 })
+  const session = await getSession().catch(() => null)
+  const s = session ? supabaseServer(session.access_token) : supabaseServer()
+
+  let { data, error } = await s
+    .from('herd_categories_with_counts')
+    .select('id,name,count,is_active')
+    .order('name', { ascending: true })
+
+  if (error) {
+    const { data: cats, error: e1 } = await s
+      .from('herd_categories')
+      .select('id,name,is_active')
+      .order('name', { ascending: true })
+    if (e1 || !cats) return NextResponse.json({ categories: [] })
+
+    data = cats.map((c: any) => ({ id: c.id, name: c.name, count: 0, is_active: c.is_active }))
   }
-  const s = supabaseServer(session.access_token)
 
-  const { data: cats, error } = await s
-    .from('herd_categories')
-    .select('id,name')
-    .eq('is_active', true)
-    .order('name')
-
-
-  if (error || !cats) {
-    return NextResponse.json({ categories: [] })
-  }
-
-  const categories = await Promise.all(
-    cats.map(async (c) => {
-      const { count } = await s
-        .from('herd_questions')
-        .select('id', { count: 'exact', head: true })
-        .eq('category_id', c.id)
-      return { id: c.id as string, name: c.name as string, count: count || 0 }
-    })
-  )
-
-  return NextResponse.json({ categories })
+  const active = (data || []).filter((c: any) => c.is_active !== false)
+  return NextResponse.json({
+    categories: active.map((c: any) => ({
+      id: c.id,
+      name: c.name,
+      count: c.count ?? 0,
+    })),
+  })
 }
