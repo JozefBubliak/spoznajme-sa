@@ -3,10 +3,11 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, ctx: any) {
-  const code = String(
-    Array.isArray(ctx?.params?.code) ? ctx.params.code[0] : ctx?.params?.code
-  ).toUpperCase()
+export async function POST(
+  req: Request,
+  { params }: { params: { code: string } }
+) {
+  const code = String(params.code).toUpperCase()
 
   const body = await req.json().catch(() => ({})) as {
     playerId?: string
@@ -43,7 +44,7 @@ export async function POST(req: Request, ctx: any) {
         round_id: roundId,
         q_index: qIndex,
         answer,
-        ts: new Date().toISOString(),
+        answered_at: new Date().toISOString(),
       },
       { onConflict: 'player_id,round_id,q_index' }
     )

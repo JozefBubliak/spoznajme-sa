@@ -8,12 +8,13 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request, ctx: any) {
+export async function POST(
+  req: Request,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = String(
-    Array.isArray(ctx?.params?.code) ? ctx.params.code[0] : ctx?.params?.code
-  ).toUpperCase()
+  const code = String(params.code).toUpperCase()
 
   const body = await req.json().catch(() => ({})) as { roundId?: string }
 
@@ -64,7 +65,7 @@ export async function POST(req: Request, ctx: any) {
 
   const { data: answers } = await s
     .from('herd_answers')
-    .select('player_id, answer, ts')
+    .select('player_id, answer, answered_at')
     .eq('round_id', round.id)
     .eq('q_index', qIndex)
 
@@ -73,7 +74,7 @@ export async function POST(req: Request, ctx: any) {
     roundId: round.id,
     qIndex,
     answer: a.answer as any,
-    ts: new Date(a.ts as any).getTime(),
+    ts: new Date(a.answered_at as any).getTime(),
   }))
 
   const scoring = { mode: 'classic', correct: 1, incorrect: 0, none: 0 } as const

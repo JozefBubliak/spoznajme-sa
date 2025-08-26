@@ -4,13 +4,14 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(_req: Request, ctx: any) {
+export async function POST(
+  _req: Request,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const gameCode = String(
-    Array.isArray(ctx?.params?.code) ? ctx.params.code[0] : ctx?.params?.code
-  ).toUpperCase()
+  const gameCode = String(params.code).toUpperCase()
 
   const supabase = supabaseServer(session.access_token)
 
