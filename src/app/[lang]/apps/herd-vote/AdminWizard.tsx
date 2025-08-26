@@ -136,7 +136,13 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
         headers: { 'Content-Type': 'application/json' },
         body: body ? JSON.stringify(body) : undefined,
       })
-      if (!r.ok) throw new Error(await r.text())
+      if (!r.ok) {
+        let msg = await r.text()
+        try {
+          msg = JSON.parse(msg).error || msg
+        } catch {}
+        throw new Error(msg)
+      }
       await refresh()
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
 

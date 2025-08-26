@@ -149,8 +149,18 @@ export default function HerdVoteAdminPage() {
       const catName = categories.find(c => c.id === selectedCat)?.name || selectedCat
       setRounds((prev) => [...prev, { id: j.roundId, category: catName }])
       if (totalRounds && newCount >= totalRounds) {
-        await authFetch(`/api/games/${gameCode}/start`, { method: 'POST' })
-        await authFetch(`/api/games/${gameCode}/rounds/start`, { method: 'POST' })
+        const startResp = await authFetch(`/api/games/${gameCode}/start`, { method: 'POST' })
+        const startJson = await startResp.json().catch(() => ({}))
+        if (!startResp.ok) {
+          alert(startJson.error || 'Nepodarilo sa spustiť hru')
+          return
+        }
+        const roundResp = await authFetch(`/api/games/${gameCode}/rounds/start`, { method: 'POST' })
+        const roundJson = await roundResp.json().catch(() => ({}))
+        if (!roundResp.ok || (!roundJson.ok && !roundJson.success)) {
+          alert(roundJson.error || 'Nepodarilo sa spustiť kolo')
+          return
+        }
         setGameStatus('running')
       }
     } else {
@@ -166,8 +176,8 @@ export default function HerdVoteAdminPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ roundId }),
     })
-    const j = await r.json()
-    if (!j.success) alert(j.error || 'Nepodarilo sa spustiť kolo')
+    const j = await r.json().catch(() => ({}))
+    if (!r.ok || !j.success) alert(j.error || 'Nepodarilo sa spustiť kolo')
   }
   const lockRound = async (roundId?: string) => {
     if (!gameCode) return

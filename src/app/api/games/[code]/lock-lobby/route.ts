@@ -1,27 +1,25 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  _req: Request,
-  ctx: any
+  _req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const code = String(ctx.params.code).toUpperCase()
+  const code = params.code.toUpperCase()
+  const s = supabaseServer(session.access_token)
 
-  const supabase = supabaseServer(session.access_token)
-  const { data, error } = await supabase.rpc('lock_lobby')
-  if (error || !data) {
-    return NextResponse.json(
-      { error: error?.message || 'Unable to lock lobby' },
-      { status: 400 },
-    )
-  }
+  const { error } = await s
+    .from('herd_games')
+    .update({ lobby_locked: true })
+    .eq('code', code)
+    .eq('owner_id', session.user.id)
 
-  return NextResponse.json({ success: true, status: data.status })
-
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  return NextResponse.json({ success: true, status: 'locked' })
 }

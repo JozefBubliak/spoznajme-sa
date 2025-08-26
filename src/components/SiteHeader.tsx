@@ -19,9 +19,7 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
     { href: `/${l}`,                label: t("nav.home","Domov") },
     { href: `/${l}/produkty`,       label: t("nav.products","Produkty") },
     { href: `/${l}/kompas`,         label: t("nav.tools","Komunikačný kompas") },
-    { href: `/${l}/blog`,           label: t("nav.blog","Blog") },
-    { href: `/${l}/downloads`,      label: t("nav.downloads","Downloady") },
-    { href: `/${l}/apps`,           label: t("nav.apps","Konverzačné hry") },
+    { href: `/${l}/apps#games`,     label: t("nav.apps","Konverzačné hry") },
   ]
 
   return (
