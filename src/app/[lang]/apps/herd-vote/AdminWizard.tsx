@@ -1,6 +1,6 @@
 // src/app/[lang]/apps/herd-vote/AdminWizard.tsx
 'use client'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 
 type Phase =
@@ -58,6 +58,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
   const [players, setPlayers] = useState<{id:string; name:string}[]>([])
   const [categories, setCategories] = useState<Category[]>([])
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     (async () => {
@@ -73,6 +74,12 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       } catch {}
     })()
   }, [authFetch])
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
+  }, [])
 
   function toPhase(status?: string): Phase {
     switch (status) {
@@ -211,6 +218,18 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   }
 
   const g = game
+
+  async function startCountdown() {
+    if (!code || !g) return
+    const seconds = g.question_seconds ?? 45
+    await post(`/api/games/${code}/rounds/timer/start`, { seconds })
+    if (timerRef.current) clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(async () => {
+      await post(`/api/games/${code}/rounds/lock`)
+      await post(`/api/games/${code}/rounds/results`)
+      await post(`/api/games/${code}/rounds/next`)
+    }, seconds * 1000)
+  }
 
   const joinUrl = useMemo(() => {
     if (!code) return ''
@@ -373,26 +392,16 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
             Kolo { (g.active_round_index ?? 0)+1 } / {g.total_rounds} • Fáza: <b>{g.phase}</b>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button className="rounded bg-slate-800 text-white px-3 py-1 disabled:opacity-50"
-                    disabled={busy}
-                    onClick={()=>post(`/api/games/${code}/rounds/timer/start`, { seconds: g.question_seconds ?? 45 })}>
+            <button
+              className="rounded bg-slate-800 text-white px-3 py-1 disabled:opacity-50"
+              disabled={busy || g.phase !== 'playing'}
+              onClick={startCountdown}
+            >
               Spustiť odpočet
             </button>
-            <button className="rounded bg-violet-700 text-white px-3 py-1 disabled:opacity-50"
-                    disabled={busy}
-                    onClick={()=>post(`/api/games/${code}/rounds/lock`)}>
-              Uzamknúť odpovede
-            </button>
-            <button className="rounded bg-indigo-700 text-white px-3 py-1 disabled:opacity-50"
-                    disabled={busy}
-                    onClick={()=>post(`/api/games/${code}/rounds/results`)}>
-              Zobraziť správnu odpoveď (hráčom)
-            </button>
-            <button className="rounded bg-blue-600 text-white px-3 py-1 disabled:opacity-50"
-                    disabled={busy}
-                    onClick={()=>post(`/api/games/${code}/rounds/next`)}>
-              Ďalšia otázka / kolo
-            </button>
+          </div>
+          <div className="text-xs text-muted-foreground">
+            Uzamknutie, vyhodnotenie aj prechod na ďalšiu otázku prebehne automaticky po odpočte.
           </div>
           {g.timer_deadline && (
             <div className="text-xs text-muted-foreground">
