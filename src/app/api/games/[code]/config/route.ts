@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/config/route.ts
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 
@@ -7,12 +7,12 @@ export const dynamic = 'force-dynamic'
 
 // Načítanie aktuálnej konfigurácie hry
 export async function GET(
-  _req: Request,
-  ctx: any
+  _req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = String(ctx.params.code).toUpperCase()
+  const code = String(params.code).toUpperCase()
 
   const s = supabaseServer(session.access_token)
   const { data, error } = await s
@@ -40,12 +40,12 @@ export async function GET(
 
 // Uloženie / update konfigurácie hry
 export async function POST(
-  req: Request,
-  ctx: any
+  req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = String(ctx.params.code).toUpperCase()
+  const code = String(params.code).toUpperCase()
 
   const body = await req.json().catch(() => ({} as any))
   const totalRounds =

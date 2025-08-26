@@ -1,17 +1,17 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  _req: Request,
-  ctx: any
+  _req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const gameCode = String(ctx.params.code).toUpperCase()
+  const gameCode = String(params.code).toUpperCase()
 
   const supabase = supabaseServer(session.access_token)
 

@@ -62,29 +62,34 @@ const router = useRouter()
   const loadFavorites = async () => {
     if (!group || !user) return
 
-    const { data } = await supabase
-      .from('user_favorites')
-      .select(`
+    if (false) {
+      const { data } = await supabase
+        .from('user_favorites')
+        .select(`
         question_id,
         questions (
           id, text, partneri, kamarati, rodina, rodic_dieta
         )
       `)
-      .eq('user_id', user.id)
+        .eq('user_id', user.id)
 
-    const filteredFavorites = data?.filter(
-      (item: any) =>
-        item.questions &&
-        Array.isArray(item.questions) &&
-        item.questions.length > 0 &&
-        item.questions[0][group]
-    ) || []
+      const filteredFavorites = data?.filter(
+        (item: any) =>
+          item.questions &&
+          Array.isArray(item.questions) &&
+          item.questions.length > 0 &&
+          item.questions[0][group]
+      ) || []
 
-    setFavoritesList(filteredFavorites)
-    if (filteredFavorites.length > 0 && filteredFavorites[0]?.questions?.[0]) {
-      setCurrentQuestion(filteredFavorites[0].questions[0])
-      setCurrentFavoriteIndex(0)
+      setFavoritesList(filteredFavorites)
+      if (filteredFavorites.length > 0 && filteredFavorites[0]?.questions?.[0]) {
+        setCurrentQuestion(filteredFavorites[0].questions[0])
+        setCurrentFavoriteIndex(0)
+      } else {
+        setCurrentQuestion(null)
+      }
     } else {
+      setFavoritesList([])
       setCurrentQuestion(null)
     }
   }

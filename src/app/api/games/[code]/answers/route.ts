@@ -1,12 +1,13 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request) {
-  const url = new URL(req.url)
-  const segs = url.pathname.split('/')
-  const code = (segs[3] || '').toUpperCase()
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { code: string } }
+) {
+  const code = String(params.code).toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as {
     playerId?: string

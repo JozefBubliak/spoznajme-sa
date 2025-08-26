@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/rounds/[roundId]/question/route.ts
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
@@ -12,11 +12,11 @@ type FourAnswers = {
 }
 
 export async function GET(
-  req: Request,
-  ctx: any
+  req: NextRequest,
+  { params }: { params: { code: string; roundId: string } }
 ) {
-  const code = String(ctx.params.code).toUpperCase()
-  const roundId = String(ctx.params.roundId)
+  const code = String(params.code).toUpperCase()
+  const roundId = String(params.roundId)
 
   const url = new URL(req.url)
   const qIndexParam = url.searchParams.get('qIndex')

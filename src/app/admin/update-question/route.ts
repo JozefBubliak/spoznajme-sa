@@ -1,12 +1,12 @@
 ﻿
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseAdmin'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
 const ADMIN_EMAILS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     // Get the user's session with proper arguments
     const supabaseServer = createServerComponentClient({ cookies })

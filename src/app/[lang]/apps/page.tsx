@@ -30,9 +30,6 @@ export default async function AppsPage({ params }: P) {
           {apps.bannerTitle}
         </h1>
         <p className="text-lg text-muted-foreground">{apps.bannerSubtitle}</p>
-        <Button asChild size="lg">
-          <Link href="#games">{apps.bannerCTA}</Link>
-        </Button>
         <nav className="flex justify-center gap-4 pt-4 text-sm">
           {categories.map((cat) => (
             <Link key={cat.key} href={`#${cat.key}`} className="hover:underline">
