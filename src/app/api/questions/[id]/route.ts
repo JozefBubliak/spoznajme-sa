@@ -6,10 +6,10 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(
   _req: Request,
-  { params }: { params: { id: string } }
+  ctx: { params: Record<string, string | string[]> }
 ) {
   try {
-    const questionId = parseInt(params.id, 10)
+    const questionId = parseInt(String(ctx.params.id), 10)
 
     if (!Number.isFinite(questionId) || questionId <= 0) {
       return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 })
