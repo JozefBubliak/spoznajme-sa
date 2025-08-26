@@ -13,7 +13,7 @@ type FourAnswers = {
 
 export async function GET(
   req: Request,
-  ctx: { params: Record<string, string | string[]> }
+  ctx: any
 ) {
   const code = String(ctx.params.code).toUpperCase()
   const roundId = String(ctx.params.roundId)

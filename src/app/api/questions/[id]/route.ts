@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(
   _req: Request,
-  ctx: { params: Record<string, string | string[]> }
+  ctx: any
 ) {
   try {
     const questionId = parseInt(String(ctx.params.id), 10)
