@@ -13,9 +13,10 @@ type Participant = {
 }
 
 // GET – vráti lobby (zoznam hráčov)
-type Ctx = { params: { code: string } }
-
-export async function GET(_req: NextRequest, { params }: Ctx) {
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const gameCode = String(params.code).toUpperCase()
 
   const supabase = supabaseServer()
@@ -56,7 +57,10 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
-export async function POST(req: NextRequest, { params }: Ctx) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const gameCode = String(params.code).toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as {

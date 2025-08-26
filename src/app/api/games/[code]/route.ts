@@ -4,9 +4,10 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-type Ctx = { params: { code: string } }
-
-export async function GET(_req: NextRequest, { params }: Ctx) {
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const code = String(params.code).toUpperCase()
 
   const session = await getSession()

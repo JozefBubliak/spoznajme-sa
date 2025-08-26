@@ -5,9 +5,10 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-type Ctx = { params: { code: string } }
-
-export async function POST(req: NextRequest, { params }: Ctx) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const code = String(params.code).toUpperCase()
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest, { params }: Ctx) {
   const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
 
   // uloženie/aktualizácia kola (idempotentne podľa game_code + idx)
-  const { error } = await s
+  const { data: saved, error } = await s
     .from('herd_rounds')
     .upsert(
       {
@@ -34,8 +35,12 @@ export async function POST(req: NextRequest, { params }: Ctx) {
       },
       { onConflict: 'game_code,idx' }
     )
+    .select('id')
+    .single()
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  if (error || !saved) {
+    return NextResponse.json({ error: error?.message || 'Unable to save round' }, { status: 400 })
+  }
 
   // udržujeme phase v herd_games
   await s.from('herd_games').update({ phase: 'round_setup' }).eq('code', code)
@@ -55,5 +60,5 @@ export async function POST(req: NextRequest, { params }: Ctx) {
     // nič – len nech to nepadne, keď typy/kolónky chýbajú
   }
 
-  return NextResponse.json({ ok: true, phase: 'round_setup', savedIndex: index })
+  return NextResponse.json({ ok: true, roundId: saved.id, phase: 'round_setup', savedIndex: index })
 }

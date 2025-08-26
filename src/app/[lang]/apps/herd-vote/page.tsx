@@ -138,27 +138,34 @@ export default function HerdVoteAdminPage() {
         ? { mode, correct, incorrect, none }
         : { mode, tiers: [tier1, tier2, tier3], incorrect: pIncorrect, none: pNone }
 
-    const r = await authFetch(`/api/games/${gameCode}/rounds`, {
+    // uloženie konfigurácie konkrétneho kola (index = poradie)
+    const r = await authFetch(`/api/games/${gameCode}/rounds/config`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ categoryId: selectedCat, count, settings: { timeLimit, scoring } }),
+      body: JSON.stringify({
+        index: rounds.length,
+        categoryId: selectedCat,
+        questions: count,
+        prepSeconds: timeLimit,
+        questionSeconds: timeLimit,
+        scoringMode: scoring.mode === 'classic' ? 'simple' : 'weighted',
+      }),
     })
     const j = await r.json()
     if (j.roundId) {
       const newCount = rounds.length + 1
       const catName = categories.find(c => c.id === selectedCat)?.name || selectedCat
-      setRounds((prev) => [...prev, { id: j.roundId, category: catName }])
+      setRounds(prev => [...prev, { id: j.roundId, category: catName }])
       if (totalRounds && newCount >= totalRounds) {
-        const startResp = await authFetch(`/api/games/${gameCode}/start`, { method: 'POST' })
+        // štart prvej otázky prvého kola
+        const startResp = await authFetch(`/api/games/${gameCode}/rounds/start`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ index: 0 }),
+        })
         const startJson = await startResp.json().catch(() => ({}))
         if (!startResp.ok) {
           alert(startJson.error || 'Nepodarilo sa spustiť hru')
-          return
-        }
-        const roundResp = await authFetch(`/api/games/${gameCode}/rounds/start`, { method: 'POST' })
-        const roundJson = await roundResp.json().catch(() => ({}))
-        if (!roundResp.ok || (!roundJson.ok && !roundJson.success)) {
-          alert(roundJson.error || 'Nepodarilo sa spustiť kolo')
           return
         }
         setGameStatus('running')

@@ -7,9 +7,10 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-type Ctx = { params: { code: string } }
-
-export async function POST(req: NextRequest, { params }: Ctx) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
@@ -75,7 +76,7 @@ export async function POST(req: NextRequest, { params }: Ctx) {
 
   await s
     .from('herd_rounds')
-    .update({ q_index: nextQIndex, status: 'running' })
+    .update({ q_index: nextQIndex, status: 'shown' })
     .eq('id', round.id)
 
   await RealtimeServer.publish(channelFor(code), {

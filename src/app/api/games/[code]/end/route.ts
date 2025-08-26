@@ -4,37 +4,28 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-type Ctx = { params: { code: string } }
-
-export async function POST(_req: NextRequest, { params }: Ctx) {
+export async function POST(
+  _req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const gameCode = String(params.code).toUpperCase()
+  const code = String(params.code).toUpperCase()
+  const s = supabaseServer(session.access_token)
 
-  const supabase = supabaseServer(session.access_token)
-
-  const { data: room } = await supabase
-    .from('rooms')
-    .select('id')
-    .eq('code', gameCode)
+  const { data: game } = await s
+    .from('herd_games')
+    .select('code, owner_id')
+    .eq('code', code)
     .eq('owner_id', session.user.id)
     .single()
 
-  if (!room) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
-  const { data: gs } = await supabase
-    .from('game_sessions')
-    .select('id')
-    .eq('room_id', room.id)
-    .in('status', ['lobby', 'setup', 'running'])
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
-
-  if (gs) {
-    await supabase.from('game_sessions').update({ status: 'ended' }).eq('id', gs.id)
-  }
+  await s.from('herd_rounds').update({ status: 'finished' }).eq('game_code', code)
+  await s.from('herd_games').update({ phase: 'final' }).eq('code', code)
 
   return NextResponse.json({ success: true })
 }
+
