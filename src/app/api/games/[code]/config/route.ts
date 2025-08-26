@@ -1,15 +1,14 @@
 // PATH: src/app/api/games/[code]/config/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
 // Načítanie aktuálnej konfigurácie hry
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { code: string } }
-) {
+type Ctx = { params: { code: string } }
+
+export async function GET(_req: NextRequest, { params }: Ctx) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const code = String(params.code).toUpperCase()
@@ -39,10 +38,7 @@ export async function GET(
 }
 
 // Uloženie / update konfigurácie hry
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
-) {
+export async function POST(req: NextRequest, { params }: Ctx) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const code = String(params.code).toUpperCase()

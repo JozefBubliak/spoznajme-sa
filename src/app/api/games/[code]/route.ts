@@ -1,13 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { code: string } }
-) {
+type Ctx = { params: { code: string } }
+
+export async function GET(_req: NextRequest, { params }: Ctx) {
   const code = String(params.code).toUpperCase()
 
   const session = await getSession()
