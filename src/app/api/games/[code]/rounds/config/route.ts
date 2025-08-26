@@ -7,11 +7,11 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(
   req: Request,
-  { params }: { params: { code: string } }
+  ctx: { params: Record<string, string | string[]> }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = String(params.code).toUpperCase()
+  const code = String(ctx.params.code).toUpperCase()
 
   // bezpečné načítanie body
   const body = await req.json().catch(() => ({} as any))
