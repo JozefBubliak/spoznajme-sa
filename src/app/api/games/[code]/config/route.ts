@@ -6,9 +6,11 @@ import { getSession } from '@/app/api/games/_session'
 export const dynamic = 'force-dynamic'
 
 // Načítanie aktuálnej konfigurácie hry
-type Ctx = { params: { code: string } }
 
-export async function GET(_req: NextRequest, { params }: Ctx) {
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const code = String(params.code).toUpperCase()
@@ -38,7 +40,10 @@ export async function GET(_req: NextRequest, { params }: Ctx) {
 }
 
 // Uloženie / update konfigurácie hry
-export async function POST(req: NextRequest, { params }: Ctx) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const code = String(params.code).toUpperCase()

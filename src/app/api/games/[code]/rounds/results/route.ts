@@ -8,9 +8,10 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-type Ctx = { params: { code: string } }
-
-export async function POST(req: NextRequest, { params }: Ctx) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const code = String(params.code).toUpperCase()
@@ -76,7 +77,23 @@ export async function POST(req: NextRequest, { params }: Ctx) {
     ts: new Date(a.answered_at as any).getTime(),
   }))
 
-  const scoring = { mode: 'classic', correct: 1, incorrect: 0, none: 0 } as const
+  // načítaj scoring z kola (preferuj settings, inak fallback)
+  const mode = (round.settings as any)?.scoring?.mode
+    ?? (round as any).scoring_mode
+    ?? 'classic'
+
+  let scoring: any
+  if (mode === 'podium') {
+    const tiers = (round.settings as any)?.scoring?.tiers ?? [10,5,3]
+    const incorrect = (round.settings as any)?.scoring?.incorrect ?? -3
+    const none = (round.settings as any)?.scoring?.none ?? 0
+    scoring = { mode: 'podium', tiers, incorrect, none } as const
+  } else {
+    const correct = (round.settings as any)?.scoring?.correct ?? 5
+    const incorrect = (round.settings as any)?.scoring?.incorrect ?? -3
+    const none = (round.settings as any)?.scoring?.none ?? 0
+    scoring = { mode: 'classic', correct, incorrect, none } as const
+  }
 
   const questionScores = calculateRoundScores(
     playerAnswers,

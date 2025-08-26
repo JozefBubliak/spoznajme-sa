@@ -11,9 +11,10 @@ type FourAnswers = {
   answer_d?: string
 }
 
-type Ctx = { params: { code: string; roundId: string } }
-
-export async function GET(req: NextRequest, { params }: Ctx) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { code: string; roundId: string } }
+) {
   const code = String(params.code).toUpperCase()
   const roundId = String(params.roundId)
 

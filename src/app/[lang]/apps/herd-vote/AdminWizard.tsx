@@ -58,7 +58,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
   const [players, setPlayers] = useState<{id:string; name:string}[]>([])
   const [categories, setCategories] = useState<Category[]>([])
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     (async () => {

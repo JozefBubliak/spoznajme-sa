@@ -5,9 +5,10 @@ import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-type Ctx = { params: { code: string } }
-
-export async function POST(req: NextRequest, { params }: Ctx) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { code: string } }
+) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   const code = String(params.code).toUpperCase()
@@ -47,7 +48,7 @@ export async function POST(req: NextRequest, { params }: Ctx) {
 
   const { error: updErr } = await s
     .from('herd_rounds')
-    .update({ settings: newSettings, status: 'running', q_index: 0 })
+    .update({ settings: newSettings, status: 'shown', q_index: 0 })
     .eq('id', round.id)
 
   if (updErr) {
