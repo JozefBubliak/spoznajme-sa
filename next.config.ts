@@ -4,6 +4,14 @@ const SUP = ["en","sk","cs","pl","hu","fr","de","uk","ru","es"]
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
+  },
   async redirects() {
     const r: { source: string; destination: string; permanent: boolean }[] = []
     for (const l of SUP) {
