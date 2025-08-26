@@ -4,11 +4,12 @@ import { supabase } from '@/lib/supabaseAdmin' // server-side client (service ro
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(req: Request) {
+export async function GET(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const url = new URL(req.url)
-    const idFromPath = url.pathname.split('/').filter(Boolean).pop()
-    const questionId = idFromPath ? parseInt(idFromPath, 10) : NaN
+    const questionId = parseInt(params.id, 10)
 
     if (!Number.isFinite(questionId) || questionId <= 0) {
       return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 })

@@ -4,10 +4,11 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(_req: Request, ctx: any) {
-  const code = String(
-    Array.isArray(ctx?.params?.code) ? ctx.params.code[0] : ctx?.params?.code
-  ).toUpperCase()
+export async function GET(
+  _req: Request,
+  { params }: { params: { code: string } }
+) {
+  const code = String(params.code).toUpperCase()
 
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

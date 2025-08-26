@@ -11,13 +11,12 @@ type FourAnswers = {
   answer_d?: string
 }
 
-export async function GET(req: Request, ctx: any) {
-  const code = String(
-    Array.isArray(ctx?.params?.code) ? ctx.params.code[0] : ctx?.params?.code
-  ).toUpperCase()
-  const roundId = String(
-    Array.isArray(ctx?.params?.roundId) ? ctx.params.roundId[0] : ctx?.params?.roundId
-  )
+export async function GET(
+  req: Request,
+  { params }: { params: { code: string; roundId: string } }
+) {
+  const code = String(params.code).toUpperCase()
+  const roundId = String(params.roundId)
 
   const url = new URL(req.url)
   const qIndexParam = url.searchParams.get('qIndex')
