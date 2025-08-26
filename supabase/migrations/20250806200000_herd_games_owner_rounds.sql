@@ -28,7 +28,7 @@ alter table public.herd_rounds
   add column if not exists created_at timestamptz default now();
 
 create index if not exists herd_rounds_game_idx on public.herd_rounds (game_code);
-create index if not exists herd_rounds_game_idx_idx on public.herd_rounds (game_code, idx);
+create unique index if not exists herd_rounds_game_idx_idx on public.herd_rounds (game_code, idx);
 
 -- RLS policies for herd_games
 alter table public.herd_games enable row level security;

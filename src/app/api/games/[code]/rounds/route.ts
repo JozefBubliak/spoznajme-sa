@@ -85,6 +85,8 @@ export async function POST(req: Request, ctx: any) {
       idx: nextIndex,
       category: cat.id,
       count: count,
+      settings,
+      status: 'setup',
     })
     .select('id')
     .single()
