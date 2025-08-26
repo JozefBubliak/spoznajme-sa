@@ -1,7 +1,7 @@
 // PATH: src/app/api/games/route.ts
 // Create game: POST /api/games  ->  { gameCode }
 
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 

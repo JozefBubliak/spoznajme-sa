@@ -1,12 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
-) {
+type Ctx = { params: { code: string } }
+
+export async function POST(req: NextRequest, { params }: Ctx) {
   const code = String(params.code).toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as {

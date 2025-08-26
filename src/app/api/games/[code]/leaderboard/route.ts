@@ -1,14 +1,13 @@
 // PATH: src/app/api/games/[code]/leaderboard/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { code: string } }
-) {
+type Ctx = { params: { code: string } }
+
+export async function GET(_req: NextRequest, { params }: Ctx) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 

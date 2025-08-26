@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/players/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { randomUUID } from 'crypto'
 
@@ -13,10 +13,9 @@ type Participant = {
 }
 
 // GET – vráti lobby (zoznam hráčov)
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { code: string } }
-) {
+type Ctx = { params: { code: string } }
+
+export async function GET(_req: NextRequest, { params }: Ctx) {
   const gameCode = String(params.code).toUpperCase()
 
   const supabase = supabaseServer()
@@ -57,10 +56,7 @@ export async function GET(
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
-) {
+export async function POST(req: NextRequest, { params }: Ctx) {
   const gameCode = String(params.code).toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as {
