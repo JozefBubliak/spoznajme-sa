@@ -20,7 +20,7 @@ export async function POST(req: Request, ctx: any) {
   // načítaj konfiguráciu kola
   const { data: round, error: roundErr } = await s
     .from('herd_rounds')
-    .select('id, category, count')
+    .select('id, category, count, settings')
     .eq('game_code', code)
     .eq('idx', index)
     .single()
@@ -43,9 +43,11 @@ export async function POST(req: Request, ctx: any) {
 
   const questionIds = qs.map(q => q.id)
 
+  const newSettings = { ...(round.settings as any || {}), questions: questionIds }
+
   const { error: updErr } = await s
     .from('herd_rounds')
-    .update({ settings: { questions: questionIds }, status: 'running', q_index: 0 })
+    .update({ settings: newSettings, status: 'running', q_index: 0 })
     .eq('id', round.id)
 
   if (updErr) {
