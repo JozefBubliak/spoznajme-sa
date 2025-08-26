@@ -3,13 +3,12 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: Request,
-  ctx: { params: Record<string, string | string[]> }
-) {
-  const code = String(ctx.params.code).toUpperCase()
+export async function POST(req: Request) {
+  const url = new URL(req.url)
+  const segs = url.pathname.split('/')
+  const code = (segs[3] || '').toUpperCase()
 
-  const body = await req.json().catch(() => ({})) as {
+  const body = (await req.json().catch(() => ({}))) as {
     playerId?: string
     roundId?: string
     qIndex?: number
@@ -17,23 +16,20 @@ export async function POST(
   }
 
   const { playerId, roundId, qIndex, answer } = body
-
-  if (!playerId || !roundId || typeof qIndex !== 'number') {
+  if (!code || !playerId || !roundId || typeof qIndex !== 'number') {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
   const s = supabaseServer()
 
-  // over existenciu hry
-  const { data: game } = await s
+  const { data: game, error: gErr } = await s
     .from('herd_games')
     .select('code')
     .eq('code', code)
-    .single()
+    .maybeSingle()
 
-  if (!game) {
-    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
-  }
+  if (gErr) return NextResponse.json({ error: gErr.message }, { status: 500 })
+  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
   const { error } = await s
     .from('herd_answers')
@@ -55,3 +51,4 @@ export async function POST(
 
   return NextResponse.json({ ok: true })
 }
+
