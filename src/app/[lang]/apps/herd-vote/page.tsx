@@ -11,12 +11,15 @@ type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 
-function mapStatus(status: string): GameStatus {
-  const s = status.toLowerCase().trim()
-  if (s === 'lobby') return 'waiting'
-  if (s === 'locked' || s === 'setup') return 'configuring'
-  if (s === 'running') return 'running'
-  if (s === 'ended') return 'finished'
+
+function mapPhase(phase: string): GameStatus {
+  const p = phase.toLowerCase().trim()
+  if (p === 'lobby') return 'waiting'
+  if (p === 'setup' || p === 'config' || p === 'round_setup' || p === 'ready' || p === 'locked')
+    return 'configuring'
+  if (p === 'running' || p === 'playing') return 'running'
+  if (p === 'ended' || p === 'final') return 'finished'
+
   return 'waiting'
 }
 
@@ -119,8 +122,8 @@ export default function HerdVoteAdminPage() {
         }
         if (gr && gr.ok) {
           const gj = await gr.json()
-          if (gj?.status) {
-            setGameStatus(mapStatus(String(gj.status)))
+          if (gj?.phase) {
+            setGameStatus(mapPhase(String(gj.phase)))
 
           }
         }
@@ -316,8 +319,8 @@ export default function HerdVoteAdminPage() {
                   onClick={async () => {
                     const r = await authFetch(`/api/games/${gameCode}/lock-lobby`, { method: 'POST' })
                     const j = await r.json()
-                    if (!r.ok || !j.status) return alert(j.error || 'Nepodarilo sa zamknúť lobby')
-                    setGameStatus(mapStatus(String(j.status)))
+                    if (!r.ok || !j.phase) return alert(j.error || 'Nepodarilo sa zamknúť lobby')
+                    setGameStatus(mapPhase(String(j.phase)))
                   }}
                   className="px-3 py-2 rounded bg-black text-white text-sm"
                 >

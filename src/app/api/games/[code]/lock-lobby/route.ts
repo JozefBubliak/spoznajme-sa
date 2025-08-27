@@ -16,10 +16,12 @@ export async function POST(_req: NextRequest, context: any) {
 
   const { error } = await s
     .from('herd_games')
-    .update({ lobby_locked: true })
+    .update({ lobby_locked: true, phase: 'locked' })
     .eq('code', gameCode)
     .eq('owner_id', session.user.id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json({ success: true, status: 'setup' })
+
+  return NextResponse.json({ success: true, phase: 'locked' })
+
 }

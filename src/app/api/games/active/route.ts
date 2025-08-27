@@ -20,6 +20,6 @@ export async function GET(_req: NextRequest) {
 
   if (!g) return NextResponse.json({}, { status: 204 })
 
-  return NextResponse.json({ code: g.code, status: g.phase || 'lobby' })
+  return NextResponse.json({ code: g.code, phase: g.phase || 'lobby' })
 }
 
