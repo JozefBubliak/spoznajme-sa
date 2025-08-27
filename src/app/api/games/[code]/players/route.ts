@@ -15,11 +15,11 @@ type Participant = {
 }
 
 // GET – vráti lobby (zoznam hráčov)
-  export async function GET(
-    _req: NextRequest,
-    context: { params: { code: string } }
-  ) {
-    const gameCode = String(context.params.code).toUpperCase()
+  export async function GET(_req: NextRequest, context: any) {
+    const gameCode = String(context?.params?.code ?? '').toUpperCase()
+    if (!gameCode) {
+      return NextResponse.json({ players: [] })
+    }
 
   const supabase = supabaseServer()
 
@@ -58,11 +58,11 @@ type Participant = {
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
-  export async function POST(
-    req: NextRequest,
-    context: { params: { code: string } }
-  ) {
-    const gameCode = String(context.params.code).toUpperCase()
+  export async function POST(req: NextRequest, context: any) {
+    const gameCode = String(context?.params?.code ?? '').toUpperCase()
+    if (!gameCode) {
+      return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
+    }
 
   const body = (await req.json().catch(() => ({}))) as {
     name?: string

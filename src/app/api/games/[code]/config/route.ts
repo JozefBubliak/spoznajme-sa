@@ -8,13 +8,13 @@ export const dynamic = 'force-dynamic'
 
 // Načítanie aktuálnej konfigurácie hry
 
-export async function GET(
-  _req: NextRequest,
-  context: { params: { code: string } }
-) {
+export async function GET(_req: NextRequest, context: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const gameCode = String(context.params.code).toUpperCase()
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  if (!gameCode) {
+    return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
+  }
 
   const s = supabaseServer(session.access_token)
   const { data, error } = await s
@@ -41,13 +41,13 @@ export async function GET(
 }
 
 // Uloženie / update konfigurácie hry
-export async function POST(
-  req: NextRequest,
-  context: { params: { code: string } }
-) {
+export async function POST(req: NextRequest, context: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const gameCode = String(context.params.code).toUpperCase()
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  if (!gameCode) {
+    return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
+  }
 
   const body = await req.json().catch(() => ({} as any))
   const totalRounds =

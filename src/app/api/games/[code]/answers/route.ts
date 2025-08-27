@@ -1,14 +1,18 @@
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: NextRequest,
-  context: { params: { code: string } }
-) {
-  const gameCode = context.params.code.toUpperCase()
+export async function POST(req: Request) {
+  const pathname = new URL(req.url).pathname
+  const match = pathname.match(/\/api\/games\/([^/]+)\/answers/i)
+  const gameCode = (match?.[1] ?? '').toUpperCase()
+  if (!gameCode) {
+    return NextResponse.json(
+      { error: 'Invalid route (missing game code)' },
+      { status: 400 }
+    )
+  }
 
   const body = (await req.json().catch(() => ({}))) as {
     playerId?: string

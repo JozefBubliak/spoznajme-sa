@@ -18,13 +18,13 @@ export const dynamic = 'force-dynamic'
  * }
  */
 
-export async function POST(
-  req: NextRequest,
-  context: { params: { code: string } }
-) {
+export async function POST(req: NextRequest, context: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const gameCode = String(context.params.code).toUpperCase()
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  if (!gameCode) {
+    return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
+  }
 
   const supabase = supabaseServer(session.access_token)
 
