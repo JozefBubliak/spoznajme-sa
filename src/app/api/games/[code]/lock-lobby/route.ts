@@ -21,5 +21,7 @@ export async function POST(_req: NextRequest, context: any) {
     .eq('owner_id', session.user.id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
   return NextResponse.json({ success: true, phase: 'locked' })
+
 }

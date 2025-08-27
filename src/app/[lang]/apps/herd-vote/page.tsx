@@ -11,6 +11,7 @@ type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 
+
 function mapPhase(phase: string): GameStatus {
   const p = phase.toLowerCase().trim()
   if (p === 'lobby') return 'waiting'
@@ -18,6 +19,7 @@ function mapPhase(phase: string): GameStatus {
     return 'configuring'
   if (p === 'running' || p === 'playing') return 'running'
   if (p === 'ended' || p === 'final') return 'finished'
+
   return 'waiting'
 }
 
