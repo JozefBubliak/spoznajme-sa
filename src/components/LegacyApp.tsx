@@ -59,43 +59,44 @@ const router = useRouter()
     setQuestionCounts(counts)
   }
 
-  const loadFavorites = async () => {
-    if (!group || !user) return
+    const loadFavorites = async () => {
+      const uid = user?.id
+      if (!group || !uid) return
 
-    const groupKey = group as GroupKey
+      const groupKey = group as GroupKey
 
-    if (false) {
-      const { data } = await supabase
-        .from('user_favorites')
-        .select(`
-        question_id,
-        questions (
-          id, text, partneri, kamarati, rodina, rodic_dieta
-        )
-      `)
-        // user is guaranteed to be defined here by the guard above
-        .eq('user_id', user!.id)
+      if (false) {
+        const { data } = await supabase
+          .from('user_favorites')
+          .select(`
+          question_id,
+          questions (
+            id, text, partneri, kamarati, rodina, rodic_dieta
+          )
+        `)
+          .eq('user_id', uid)
 
-      const filteredFavorites = data?.filter(
-        (item: any) =>
-          item.questions &&
-          Array.isArray(item.questions) &&
-          item.questions.length > 0 &&
-          item.questions[0][groupKey]
-      ) || []
+        const filteredFavorites =
+          data?.filter(
+            (item: any) =>
+              item.questions &&
+              Array.isArray(item.questions) &&
+              item.questions.length > 0 &&
+              item.questions[0][groupKey]
+          ) || []
 
-      setFavoritesList(filteredFavorites)
-      if (filteredFavorites.length > 0 && filteredFavorites[0]?.questions?.[0]) {
-        setCurrentQuestion(filteredFavorites[0].questions[0])
-        setCurrentFavoriteIndex(0)
+        setFavoritesList(filteredFavorites)
+        if (filteredFavorites.length > 0 && filteredFavorites[0]?.questions?.[0]) {
+          setCurrentQuestion(filteredFavorites[0].questions[0])
+          setCurrentFavoriteIndex(0)
+        } else {
+          setCurrentQuestion(null)
+        }
       } else {
+        setFavoritesList([])
         setCurrentQuestion(null)
       }
-    } else {
-      setFavoritesList([])
-      setCurrentQuestion(null)
     }
-  }
 
   const handleNextQuestion = async () => {
     if (!group) return

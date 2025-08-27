@@ -35,14 +35,21 @@ export function useQuestions() {
   }, [user])
 
   const fetchUserData = async () => {
-    if (!user) return
+    const uid = user?.id
+    if (!uid) {
+      // Ensure state is reset for guests
+      setViewedQuestions([])
+      setFavorites([])
+      setDailyCount(0)
+      return
+    }
 
     // Fetch viewed questions (disabled until user_question_history exists)
     if (false) {
       const { data: historyData } = await supabase
         .from('user_question_history')
         .select('question_id')
-        .eq('user_id', user.id)
+        .eq('user_id', uid)
 
       if (historyData) {
         setViewedQuestions(historyData.map(h => h.question_id))
@@ -56,7 +63,7 @@ export function useQuestions() {
       const { data: favData } = await supabase
         .from('user_favorites')
         .select('question_id')
-        .eq('user_id', user.id)
+        .eq('user_id', uid)
 
       if (favData) {
         setFavorites(favData.map(f => f.question_id))
@@ -79,7 +86,7 @@ export function useQuestions() {
             daily_questions_date: today,
             daily_questions_used: 0
           })
-          .eq('id', user.id)
+          .eq('id', uid)
       }
     } else {
       setDailyCount(0)
@@ -87,11 +94,12 @@ export function useQuestions() {
   }
 
   const fetchQuestion = async (group: GroupKey, favoritesOnly = false) => {
-    if (!user && !FREE_IDS[group]) return null
+    const uid = user?.id
+    if (!uid && !FREE_IDS[group]) return null
 
     let availableIds: number[] = []
 
-    if (!user) {
+    if (!uid) {
       // Non-authenticated users get free questions
       availableIds = FREE_IDS[group]
     } else if (favoritesOnly) {
@@ -141,13 +149,13 @@ export function useQuestions() {
       .eq('id', randomId)
       .single()
 
-    if (question && user) {
+    if (question && uid) {
       // Mark as viewed (disabled until user_question_history exists)
       if (false) {
         await supabase
           .from('user_question_history')
           .upsert({
-            user_id: user.id,
+            user_id: uid,
             question_id: question.id
           })
       }
@@ -165,7 +173,7 @@ export function useQuestions() {
             .update({
               daily_questions_used: newCount
             })
-            .eq('id', user.id)
+            .eq('id', uid)
         }
       }
     }
@@ -174,16 +182,17 @@ export function useQuestions() {
   }
 
   const toggleFavorite = async (questionId: number) => {
-    if (!user) return
+    const uid = user?.id
+    if (!uid) return
 
     const isFavorite = favorites.includes(questionId)
-    
+
     if (isFavorite) {
       if (false) {
         await supabase
           .from('user_favorites')
           .delete()
-          .eq('user_id', user.id)
+          .eq('user_id', uid)
           .eq('question_id', questionId)
       }
       setFavorites(prev => prev.filter(id => id !== questionId))
@@ -192,7 +201,7 @@ export function useQuestions() {
         await supabase
           .from('user_favorites')
           .insert({
-            user_id: user.id,
+            user_id: uid,
             question_id: questionId
           })
       }
