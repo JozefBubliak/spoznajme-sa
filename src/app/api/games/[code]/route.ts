@@ -6,11 +6,11 @@ import { must } from '@/lib/supabase/safe'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: { code: string } }
-) {
-  const gameCode = String(params.code).toUpperCase()
+export async function GET(_req: NextRequest, context: any) {
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  if (!gameCode) {
+    return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
+  }
 
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

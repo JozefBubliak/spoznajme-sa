@@ -12,12 +12,12 @@ type FourAnswers = {
   answer_d?: string
 }
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { code: string; roundId: string } }
-) {
-  const gameCode = String(params.code).toUpperCase()
-  const rId = String(params.roundId)
+export async function GET(req: NextRequest, context: any) {
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  const rId = String(context?.params?.roundId ?? '')
+  if (!gameCode || !rId) {
+    return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
+  }
 
   const url = new URL(req.url)
   const qIndexParam = url.searchParams.get('qIndex')

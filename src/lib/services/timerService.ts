@@ -2,9 +2,9 @@ export class TimerService {
   private static instances = new Map<string, TimerService>()
   
   private intervalId: NodeJS.Timeout | null = null
-  private onTick?: (timeLeft: number) => void
-  private onEnd?: () => void
-  private onWarning?: (seconds: number) => void
+  private onTick: ((timeLeft: number) => void) | undefined
+  private onEnd: (() => void) | undefined
+  private onWarning: ((seconds: number) => void) | undefined
   private timeLeft = 0
   private isRunning = false
 
@@ -62,11 +62,15 @@ export class TimerService {
 
   resume(): void {
     if (!this.isRunning && this.timeLeft > 0) {
-      this.start(this.timeLeft, {
-        onTick: this.onTick,
-        onEnd: this.onEnd,
-        onWarning: this.onWarning,
-      })
+      const callbacks: {
+        onTick?: (timeLeft: number) => void
+        onEnd?: () => void
+        onWarning?: (seconds: number) => void
+      } = {}
+      if (this.onTick) callbacks.onTick = this.onTick
+      if (this.onEnd) callbacks.onEnd = this.onEnd
+      if (this.onWarning) callbacks.onWarning = this.onWarning
+      this.start(this.timeLeft, callbacks)
     }
   }
 

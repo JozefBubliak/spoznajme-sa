@@ -29,7 +29,7 @@ function get(obj: any, path: string) {
 function normalizeLocale(code: string | null | undefined): Locale | null {
   if (!code) return null
   const lower = code.toLowerCase()
-  const base = lower.split('-')[0] // sk-sk -> sk
+  const base = lower.split('-')[0] || lower // sk-sk -> sk
   const tryList = [lower, base]
 
   for (const c of tryList) {

@@ -7,13 +7,13 @@ import { asArray } from '@/lib/supabase/safe'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
-) {
+export async function POST(req: NextRequest, context: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const gameCode = String(params.code).toUpperCase()
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  if (!gameCode) {
+    return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
+  }
 
   const body = await req.json().catch(() => ({} as any))
   const index = typeof body?.index === 'number' ? body.index : 0
@@ -41,7 +41,7 @@ export async function POST(
   if (qErr) {
     return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
   }
-  const ids = asArray(qs).map(q => q.id)
+  const ids = asArray<{ id: string }>(qs).map(q => q.id)
   if (ids.length < round.count) {
     return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
   }

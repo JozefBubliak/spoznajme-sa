@@ -75,7 +75,8 @@ export default function HerdVoteAdminPage() {
         const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
         if (cats.length === 0) throw new Error('No categories')
         setCategories(cats)
-        if (!selectedCat && cats.length > 0) setSelectedCat(cats[0].id)
+        const first = cats[0]
+        if (!selectedCat && first) setSelectedCat(first.id)
       } catch {}
     }
     load()

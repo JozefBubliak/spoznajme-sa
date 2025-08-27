@@ -36,7 +36,7 @@ export function calculatePodiumScore(
   const position = correctAnswers.findIndex(a => a.playerId === playerId)
   
   if (position < scoring.tiers.length) {
-    return scoring.tiers[position]
+    return scoring.tiers[position]!
   }
 
   // Beyond podium tiers, give base correct points (last tier)

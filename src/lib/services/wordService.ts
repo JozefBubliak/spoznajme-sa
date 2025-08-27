@@ -12,15 +12,18 @@ export class WordService {
     }
       const { data, error } = await query
       if (error) throw error
-      return asArray(data).map(w => ({
-      id: String(w.id),
-      word: w.word as string,
-      categoryCode: w.category_code as string,
-      categoryName: ((w as any).category?.name as string) || undefined,
-      difficultyLevel: w.difficulty_level as number,
-      modeCode: w.mode_code as string,
-    }))
-  }
+      return asArray(data).map(w => {
+        const catName = (w as any).category?.name as string | undefined
+        return {
+          id: String(w.id),
+          word: w.word as string,
+          categoryCode: w.category_code as string,
+          ...(catName ? { categoryName: catName } : {}),
+          difficultyLevel: w.difficulty_level as number,
+          modeCode: w.mode_code as string,
+        }
+      })
+    }
 
   static async getAvailableCategories(): Promise<Array<{ code: string; name: string }>> {
       const { data, error } = await supabase

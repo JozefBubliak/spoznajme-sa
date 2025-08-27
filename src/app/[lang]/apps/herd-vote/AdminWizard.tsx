@@ -69,7 +69,10 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
         const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
         setCategories(cats)
         if (cats.length > 0) {
-          setRoundCfg(cfg => ({ ...cfg, categoryId: cfg.categoryId ?? cats[0].id }))
+          const firstId = cats[0]?.id
+          if (firstId) {
+            setRoundCfg(cfg => ({ ...cfg, categoryId: cfg.categoryId ?? firstId }))
+          }
         }
       } catch {}
     })()
@@ -141,7 +144,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       const r = await authFetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: body ? JSON.stringify(body) : undefined,
+        body: body ? JSON.stringify(body) : null,
       })
       if (!r.ok) {
         let msg = await r.text()

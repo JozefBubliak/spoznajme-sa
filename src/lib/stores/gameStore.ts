@@ -145,13 +145,15 @@ export const useGameStore = create<GameStore>()(
 
           if (isTeamMode) {
             const teamIndex = settings.teams.findIndex(t => t.id === targetId)
-            if (teamIndex >= 0) {
-              settings.teams[teamIndex].score += 1
+            const team = settings.teams[teamIndex]
+            if (team) {
+              team.score += 1
             }
           } else {
             const playerIndex = settings.players.findIndex(p => p.id === targetId)
-            if (playerIndex >= 0) {
-              settings.players[playerIndex].score += 1
+            const player = settings.players[playerIndex]
+            if (player) {
+              player.score += 1
             }
           }
 
@@ -183,15 +185,15 @@ export const useGameStore = create<GameStore>()(
 
             if (isTeamMode) {
               const teamIndex = settings.teams.findIndex(t => t.id === targetId)
-              if (teamIndex >= 0) {
-                settings.teams[teamIndex].score = Math.max(0, 
-                  settings.teams[teamIndex].score - settings.skipPenaltyValue)
+              const team = settings.teams[teamIndex]
+              if (team) {
+                team.score = Math.max(0, team.score - settings.skipPenaltyValue)
               }
             } else {
               const playerIndex = settings.players.findIndex(p => p.id === targetId)
-              if (playerIndex >= 0) {
-                settings.players[playerIndex].score = Math.max(0, 
-                  settings.players[playerIndex].score - settings.skipPenaltyValue)
+              const player = settings.players[playerIndex]
+              if (player) {
+                player.score = Math.max(0, player.score - settings.skipPenaltyValue)
               }
             }
           }
@@ -387,7 +389,7 @@ export const useGameStore = create<GameStore>()(
         if (availableWords.length === 0) return null
         
         const randomIndex = Math.floor(Math.random() * availableWords.length)
-        const selectedWord = availableWords[randomIndex]
+        const selectedWord = availableWords[randomIndex]!
         
         set((state) => ({
           gameState: {
