@@ -14,7 +14,7 @@ type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 function mapStatus(status: string): GameStatus {
   const s = status.toLowerCase().trim()
   if (s === 'lobby') return 'waiting'
-  if (s === 'setup') return 'configuring'
+  if (s === 'locked' || s === 'setup') return 'configuring'
   if (s === 'running') return 'running'
   if (s === 'ended') return 'finished'
   return 'waiting'
