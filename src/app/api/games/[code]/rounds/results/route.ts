@@ -1,21 +1,22 @@
 // PATH: src/app/api/games/[code]/rounds/results/route.ts
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 import { calculateRoundScores } from '@/lib/herdvote/scoring'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
+import { asArray } from '@/lib/supabase/safe'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: Request,
-  ctx: { params: Promise<{ code: string }> }
+  req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = await ctx.params
-  const gameCode = String(code).toUpperCase()
+  const gameCode = String(params.code).toUpperCase()
 
   const body = await req.json().catch(() => ({})) as { roundId?: string }
 
@@ -24,26 +25,26 @@ export async function POST(
   // načítaj kolo, ktoré je uzamknuté
   let roundId = body.roundId
   if (!roundId) {
-    const { data: locked } = await s
+    const { data: locked, error: lockedErr } = await s
       .from('herd_rounds')
       .select('id, q_index, settings')
       .eq('game_code', gameCode)
       .eq('status', 'locked')
-      .single()
-    if (!locked) {
+      .maybeSingle()
+    if (lockedErr || !locked) {
       return NextResponse.json({ error: 'No locked round to evaluate' }, { status: 400 })
     }
     roundId = locked.id
   }
 
-  const { data: round } = await s
+  const { data: round, error: roundErr } = await s
     .from('herd_rounds')
     .select('id, q_index, status, settings')
     .eq('id', roundId)
     .eq('game_code', gameCode)
-    .single()
+    .maybeSingle()
 
-  if (!round || round.status !== 'locked') {
+  if (roundErr || !round || round.status !== 'locked') {
     return NextResponse.json({ error: 'No locked round to evaluate' }, { status: 400 })
   }
 
@@ -54,23 +55,27 @@ export async function POST(
     return NextResponse.json({ error: 'No current question' }, { status: 400 })
   }
 
-  const { data: question } = await s
+  const { data: question, error: questionErr } = await s
     .from('herd_questions')
     .select('id, correct_answer')
     .eq('id', questionId)
-    .single()
+    .maybeSingle()
 
-  if (!question) {
+  if (questionErr || !question) {
     return NextResponse.json({ error: 'Question not found' }, { status: 404 })
   }
 
-  const { data: answers } = await s
+  const { data: answers, error: ansErr } = await s
     .from('herd_answers')
     .select('player_id, answer, answered_at')
     .eq('round_id', round.id)
     .eq('q_index', qIndex)
 
-  const playerAnswers = (answers || []).map(a => ({
+  if (ansErr) {
+    return NextResponse.json({ error: ansErr.message }, { status: 400 })
+  }
+
+  const playerAnswers = asArray(answers).map(a => ({
     playerId: a.player_id,
     roundId: round.id,
     qIndex,
@@ -78,23 +83,8 @@ export async function POST(
     ts: new Date(a.answered_at as any).getTime(),
   }))
 
-  // načítaj scoring z kola (preferuj settings, inak fallback)
-  const mode = (round.settings as any)?.scoring?.mode
-    ?? (round as any).scoring_mode
-    ?? 'classic'
-
-  let scoring: any
-  if (mode === 'podium') {
-    const tiers = (round.settings as any)?.scoring?.tiers ?? [10,5,3]
-    const incorrect = (round.settings as any)?.scoring?.incorrect ?? -3
-    const none = (round.settings as any)?.scoring?.none ?? 0
-    scoring = { mode: 'podium', tiers, incorrect, none } as const
-  } else {
-    const correct = (round.settings as any)?.scoring?.correct ?? 5
-    const incorrect = (round.settings as any)?.scoring?.incorrect ?? -3
-    const none = (round.settings as any)?.scoring?.none ?? 0
-    scoring = { mode: 'classic', correct, incorrect, none } as const
-  }
+  const roundSettings = (round.settings as any) ?? {}
+  const scoring = roundSettings.scoring ?? { mode: 'classic', correct: 1, incorrect: 0, none: 0 }
 
   const questionScores = calculateRoundScores(
     playerAnswers,

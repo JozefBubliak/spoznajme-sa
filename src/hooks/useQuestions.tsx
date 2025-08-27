@@ -24,7 +24,7 @@ const FREE_IDS: Record<GroupKey, number[]> = {
 export function useQuestions() {
   const { user, profile, isPaid } = useAuth()
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null)
-  const [viewedQuestions, setViewedQuestions] = useState<number[]>([])
+    const [viewedQuestions, setViewedQuestions] = useState<number[]>([])
   const [favorites, setFavorites] = useState<number[]>([])
   const [dailyCount, setDailyCount] = useState(0)
 
@@ -44,17 +44,17 @@ export function useQuestions() {
       return
     }
 
-    // Fetch viewed questions (disabled until user_question_history exists)
-    if (false) {
-      const { data: historyData = [] } = await supabase
+      const { data: historyData, error: historyError } = await supabase
         .from('user_question_history')
         .select('question_id')
         .eq('user_id', uid)
 
-      setViewedQuestions(historyData.map(h => h.question_id))
-    } else {
-      setViewedQuestions([])
-    }
+      if (historyError) {
+        console.error(historyError)
+        setViewedQuestions([])
+      } else {
+        setViewedQuestions((historyData ?? []).map(h => h.question_id))
+      }
 
     // Fetch favorites (disabled until user_favorites exists)
     if (false) {

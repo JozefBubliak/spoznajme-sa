@@ -1,8 +1,10 @@
 // PATH: src/app/api/games/[code]/rounds/route.ts
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import type { RoundSettings } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
+import { asArray, must } from '@/lib/supabase/safe'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,13 +19,12 @@ export const dynamic = 'force-dynamic'
  */
 
 export async function POST(
-  req: Request,
-  ctx: { params: Promise<{ code: string }> }
+  req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = await ctx.params
-  const gameCode = String(code).toUpperCase()
+  const gameCode = String(params.code).toUpperCase()
 
   const supabase = supabaseServer(session.access_token)
 
@@ -53,26 +54,34 @@ export async function POST(
   if (!settings?.timeLimit || !settings?.scoring) {
     return NextResponse.json({ error: 'Missing round settings' }, { status: 400 })
   }
-  const { data: cat, error: catErr } = await supabase
-    .from('herd_categories')
-    .select('id,name,is_active')
-    .eq('id', categoryId)
-    .single()
-  if (catErr || !cat || cat.is_active === false) {
-    return NextResponse.json({ error: 'Category not available' }, { status: 400 })
-  }
+    const { data: cat, error: catErr } = await supabase
+      .from('herd_categories')
+      .select('id,name,is_active')
+      .eq('id', categoryId)
+      .maybeSingle()
+    if (catErr) {
+      return NextResponse.json({ error: catErr.message }, { status: 400 })
+    }
+    const catRow = must(cat, 'Category not available')
+    if (catRow.is_active === false) {
+      return NextResponse.json({ error: 'Category not available' }, { status: 400 })
+    }
 
-  const { data: qdata, error: qErr } = await supabase
-    .from('herd_questions')
-    .select('id')
-    .eq('category_id', cat.id)
+    const { data: qdata, error: qErr } = await supabase
+      .from('herd_questions')
+      .select('id')
+      .eq('category_id', catRow.id)
 
-  if (qErr || !qdata || qdata.length < count) {
-    return NextResponse.json(
-      { error: `Not enough questions in '${cat.name}'. Need ${count}, have ${qdata?.length || 0}.` },
-      { status: 400 }
-    )
-  }
+    if (qErr) {
+      return NextResponse.json({ error: qErr.message }, { status: 400 })
+    }
+    const questions = asArray(qdata)
+    if (questions.length < count) {
+      return NextResponse.json(
+        { error: `Not enough questions in '${catRow.name}'. Need ${count}, have ${questions.length}.` },
+        { status: 400 }
+      )
+    }
 
   const { count: existingCount } = await supabase
     .from('herd_rounds')
@@ -81,22 +90,23 @@ export async function POST(
 
   const nextIndex = existingCount ?? 0
 
-  const { data: roundInsert, error: roundErr } = await supabase
-    .from('herd_rounds')
-    .insert({
-      game_code: gameCode,
-      idx: nextIndex,
-      category: cat.id,
-      count: count,
-      settings,
-      status: 'setup',
-    })
-    .select('id')
-    .single()
+    const { data: roundInsert, error: roundErr } = await supabase
+      .from('herd_rounds')
+      .insert({
+        game_code: gameCode,
+        idx: nextIndex,
+        category: catRow.id,
+        count: count,
+        settings,
+        status: 'setup',
+      })
+      .select('id')
+      .maybeSingle()
 
-  if (roundErr || !roundInsert) {
-    return NextResponse.json({ error: 'Failed to create round' }, { status: 500 })
-  }
+    if (roundErr) {
+      return NextResponse.json({ error: roundErr.message }, { status: 500 })
+    }
+    const savedRound = must(roundInsert, 'Failed to create round')
 
-  return NextResponse.json({ roundId: roundInsert.id, index: nextIndex })
+    return NextResponse.json({ roundId: savedRound.id, index: nextIndex })
 }
