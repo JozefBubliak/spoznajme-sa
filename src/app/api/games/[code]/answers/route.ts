@@ -4,12 +4,11 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-interface RouteContext {
-  params: { code: string }
-}
-
-export async function POST(req: NextRequest, context: RouteContext) {
-  const gameCode = String(context.params.code).toUpperCase()
+export async function POST(
+  req: NextRequest,
+  { params }: { params: { code: string } }
+) {
+  const gameCode = params.code.toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as {
     playerId?: string
