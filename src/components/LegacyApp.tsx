@@ -62,6 +62,8 @@ const router = useRouter()
   const loadFavorites = async () => {
     if (!group || !user) return
 
+    const groupKey = group as GroupKey
+
     if (false) {
       const { data } = await supabase
         .from('user_favorites')
@@ -79,7 +81,7 @@ const router = useRouter()
           item.questions &&
           Array.isArray(item.questions) &&
           item.questions.length > 0 &&
-          item.questions[0][group]
+          item.questions[0][groupKey]
       ) || []
 
       setFavoritesList(filteredFavorites)
