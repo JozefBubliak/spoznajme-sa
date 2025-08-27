@@ -86,12 +86,10 @@ const router = useRouter()
           ) || []
 
         setFavoritesList(filteredFavorites)
-        const first = filteredFavorites[0]?.questions?.[0]
+        const first = filteredFavorites[0]?.questions?.[0] ?? null
+        setCurrentQuestion(first)
         if (filteredFavorites.length > 0 && first) {
-          setCurrentQuestion(first)
           setCurrentFavoriteIndex(0)
-        } else {
-          setCurrentQuestion(null)
         }
       } else {
         setFavoritesList([])
@@ -108,9 +106,8 @@ const router = useRouter()
       if (favoritesMode) {
         const nextIndex = (currentFavoriteIndex + 1) % favoritesList.length
         setCurrentFavoriteIndex(nextIndex)
-        if (favoritesList[nextIndex]?.questions?.[0]) {
-          setCurrentQuestion(favoritesList[nextIndex].questions[0])
-        }
+        const nextQuestion = favoritesList[nextIndex]?.questions?.[0] ?? null
+        setCurrentQuestion(nextQuestion)
       } else {
         const question = await fetchQuestion(group)
         if (question) {
@@ -140,9 +137,8 @@ const router = useRouter()
       ? currentFavoriteIndex - 1
       : favoritesList.length - 1
     setCurrentFavoriteIndex(prevIndex)
-    if (favoritesList[prevIndex]?.questions?.[0]) {
-      setCurrentQuestion(favoritesList[prevIndex].questions[0])
-    }
+    const prevQuestion = favoritesList[prevIndex]?.questions?.[0] ?? null
+    setCurrentQuestion(prevQuestion)
   }
 
   const handleGroupSelect = async (selectedGroup: GroupKey) => {
