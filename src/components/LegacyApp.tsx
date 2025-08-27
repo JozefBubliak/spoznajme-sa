@@ -71,7 +71,8 @@ const router = useRouter()
           id, text, partneri, kamarati, rodina, rodic_dieta
         )
       `)
-        .eq('user_id', user.id)
+        // user is guaranteed to be defined here by the guard above
+        .eq('user_id', user!.id)
 
       const filteredFavorites = data?.filter(
         (item: any) =>
