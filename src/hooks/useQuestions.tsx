@@ -46,28 +46,24 @@ export function useQuestions() {
 
     // Fetch viewed questions (disabled until user_question_history exists)
     if (false) {
-      const { data: historyData } = await supabase
+      const { data: historyData = [] } = await supabase
         .from('user_question_history')
         .select('question_id')
         .eq('user_id', uid)
 
-      if (historyData) {
-        setViewedQuestions(historyData.map(h => h.question_id))
-      }
+      setViewedQuestions(historyData.map(h => h.question_id))
     } else {
       setViewedQuestions([])
     }
 
     // Fetch favorites (disabled until user_favorites exists)
     if (false) {
-      const { data: favData } = await supabase
+      const { data: favData = [] } = await supabase
         .from('user_favorites')
         .select('question_id')
         .eq('user_id', uid)
 
-      if (favData) {
-        setFavorites(favData.map(f => f.question_id))
-      }
+      setFavorites(favData.map(f => f.question_id))
     } else {
       setFavorites([])
     }
