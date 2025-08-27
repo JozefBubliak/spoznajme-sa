@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "npm run typecheck && npm run lint && next build",
     "build:dev": "vite build --mode development",
     "start": "next start",
     "preview": "vite preview",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit",
     "test": "vitest"
   },
   "dependencies": {

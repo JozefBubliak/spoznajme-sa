@@ -1,5 +1,6 @@
 // PATH: src/app/api/games/[code]/rounds/next/route.ts
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 import { supabaseServer } from '@/integrations/supabase/server'
@@ -8,14 +9,12 @@ import { getSession } from '@/app/api/games/_session'
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: Request,
-  ctx: { params: Promise<{ code: string }> }
+  req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const { code } = await ctx.params
-  const gameCode = String(code).toUpperCase()
+  const gameCode = String(params.code).toUpperCase()
 
   const body = await req.json().catch(() => ({})) as { roundId?: string }
   const s = supabaseServer(session.access_token)

@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: Request,
-  ctx: { params: Promise<{ code: string }> }
+  req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
-  const { code } = await ctx.params
-  const gameCode = String(code).toUpperCase()
+  const gameCode = String(params.code).toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as {
     playerId?: string

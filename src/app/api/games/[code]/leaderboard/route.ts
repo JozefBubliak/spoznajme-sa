@@ -1,19 +1,19 @@
 // PATH: src/app/api/games/[code]/leaderboard/route.ts
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
+import { asArray } from '@/lib/supabase/safe'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(
-  _req: Request,
-  ctx: { params: Promise<{ code: string }> }
+  _req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-  const { code } = await ctx.params
-  const gameCode = String(code).toUpperCase()
+  const gameCode = String(params.code).toUpperCase()
 
   const s = supabaseServer(session.access_token)
 
@@ -23,5 +23,5 @@ export async function GET(
     .eq('game_code', gameCode)
     .order('score', { ascending: false })
 
-  return NextResponse.json(players || [])
+  return NextResponse.json(asArray(players))
 }

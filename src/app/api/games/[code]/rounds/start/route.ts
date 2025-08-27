@@ -1,18 +1,19 @@
 // PATH: src/app/api/games/[code]/rounds/start/route.ts
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
+import { asArray } from '@/lib/supabase/safe'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: Request,
-  ctx: { params: Promise<{ code: string }> }
+  req: NextRequest,
+  { params }: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const { code } = await ctx.params
-  const gameCode = String(code).toUpperCase()
+  const gameCode = String(params.code).toUpperCase()
 
   const body = await req.json().catch(() => ({} as any))
   const index = typeof body?.index === 'number' ? body.index : 0
@@ -32,20 +33,20 @@ export async function POST(
   }
 
   // vyber náhodné otázky z danej kategórie
-  const { data: qs, error: qErr } = await s
-    .from('herd_questions')
-    .select('id')
-    .eq('category_id', round.category)
-    .order('random()')
-    .limit(round.count)
+  const { data: qs, error: qErr } = await s.rpc('random_herd_questions', {
+    cat: round.category,
+    n: round.count,
+  })
 
-  if (qErr || !qs || qs.length < round.count) {
+  if (qErr) {
+    return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
+  }
+  const ids = asArray(qs).map(q => q.id)
+  if (ids.length < round.count) {
     return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
   }
 
-  const questionIds = qs.map(q => q.id)
-
-  const newSettings = { ...(round.settings as any || {}), questions: questionIds }
+  const newSettings = { ...(round.settings as any || {}), questions: ids }
 
   const { error: updErr } = await s
     .from('herd_rounds')

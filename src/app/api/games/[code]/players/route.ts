@@ -1,7 +1,9 @@
 // PATH: src/app/api/games/[code]/players/route.ts
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { randomUUID } from 'crypto'
+import { asArray } from '@/lib/supabase/safe'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,12 +15,11 @@ type Participant = {
 }
 
 // GET – vráti lobby (zoznam hráčov)
-export async function GET(
-  _req: Request,
-  ctx: { params: Promise<{ code: string }> }
-) {
-  const { code } = await ctx.params
-  const gameCode = String(code).toUpperCase()
+  export async function GET(
+    _req: NextRequest,
+    { params }: { params: { code: string } }
+  ) {
+    const gameCode = String(params.code).toUpperCase()
 
   const supabase = supabaseServer()
 
@@ -41,14 +42,13 @@ export async function GET(
 
   if (!session) return NextResponse.json({ players: [] })
 
-  const { data: participants } = await supabase
-    .from('participants')
-    .select('id, nickname, guest_id')
-    .eq('session_id', session.id)
+    const { data: participants } = await supabase
+      .from('participants')
+      .select('id, nickname, guest_id')
+      .eq('session_id', session.id)
 
-  // ⬇️ odstránený implicitný `any` – pretypujeme pole alebo typujeme parameter
-  const list = (participants ?? []) as Participant[]
-  const players = list.map((p) => ({
+    const list = asArray(participants) as Participant[]
+    const players = list.map((p) => ({
     id: p.id,
     name: p.nickname,
     guestId: p.guest_id ?? undefined,
@@ -58,12 +58,11 @@ export async function GET(
 }
 
 // POST – pridá hráča (kým je lobby otvorená)
-export async function POST(
-  req: Request,
-  ctx: { params: Promise<{ code: string }> }
-) {
-  const { code } = await ctx.params
-  const gameCode = String(code).toUpperCase()
+  export async function POST(
+    req: NextRequest,
+    { params }: { params: { code: string } }
+  ) {
+    const gameCode = String(params.code).toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as {
     name?: string
