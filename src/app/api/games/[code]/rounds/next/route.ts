@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/rounds/next/route.ts
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 import { supabaseServer } from '@/integrations/supabase/server'
@@ -8,13 +8,14 @@ import { getSession } from '@/app/api/games/_session'
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
+  req: Request,
+  ctx: { params: Promise<{ code: string }> }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const code = String(params.code).toUpperCase()
+  const { code } = await ctx.params
+  const gameCode = String(code).toUpperCase()
 
   const body = await req.json().catch(() => ({})) as { roundId?: string }
   const s = supabaseServer(session.access_token)
@@ -25,7 +26,7 @@ export async function POST(
     const { data: resRound } = await s
       .from('herd_rounds')
       .select('id, q_index, settings')
-      .eq('game_code', code)
+      .eq('game_code', gameCode)
       .eq('status', 'results')
       .single()
     if (!resRound) {
@@ -38,7 +39,7 @@ export async function POST(
     .from('herd_rounds')
     .select('id, q_index, status, settings')
     .eq('id', roundId)
-    .eq('game_code', code)
+    .eq('game_code', gameCode)
     .single()
 
   if (!round || round.status !== 'results') {
@@ -55,12 +56,12 @@ export async function POST(
     const { data: leaderboard } = await s
       .from('herd_players')
       .select('id, name, score')
-      .eq('game_code', code)
+      .eq('game_code', gameCode)
       .order('score', { ascending: false })
 
-    await RealtimeServer.publish(channelFor(code), {
+    await RealtimeServer.publish(channelFor(gameCode), {
       type: 'round:finish',
-      code,
+      code: gameCode,
       roundId: round.id,
       leaderboard,
       at: Date.now(),
@@ -79,9 +80,9 @@ export async function POST(
     .update({ q_index: nextQIndex, status: 'shown' })
     .eq('id', round.id)
 
-  await RealtimeServer.publish(channelFor(code), {
+  await RealtimeServer.publish(channelFor(gameCode), {
     type: 'game:start',
-    code,
+    code: gameCode,
     roundId: round.id,
     qIndex: nextQIndex,
     at: Date.now(),

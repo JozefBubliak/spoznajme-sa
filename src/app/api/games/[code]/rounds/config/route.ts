@@ -1,17 +1,18 @@
 // PATH: src/app/api/games/[code]/rounds/config/route.ts
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
+  req: Request,
+  ctx: { params: Promise<{ code: string }> }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = String(params.code).toUpperCase()
+  const { code } = await ctx.params
+  const gameCode = String(code).toUpperCase()
 
   // bezpečné načítanie body
   const body = await req.json().catch(() => ({} as any))
@@ -24,7 +25,7 @@ export async function POST(
     .from('herd_rounds')
     .upsert(
       {
-        game_code: code,
+        game_code: gameCode,
         idx: index,
         category: categoryId,
         count: questions,
@@ -43,18 +44,18 @@ export async function POST(
   }
 
   // udržujeme phase v herd_games
-  await s.from('herd_games').update({ phase: 'round_setup' }).eq('code', code)
+  await s.from('herd_games').update({ phase: 'round_setup' }).eq('code', gameCode)
 
   // voliteľne: ak je to posledné potvrdené kolo, prepneme hru do "ready"
   try {
-    const g = await s.from('herd_games').select('total_rounds').eq('code', code).single()
+    const g = await s.from('herd_games').select('total_rounds').eq('code', gameCode).single()
     const have = await s
       .from('herd_rounds')
       .select('idx', { count: 'exact', head: true })
-      .eq('game_code', code)
+      .eq('game_code', gameCode)
 
     if (!g.error && !have.error && (have.count ?? 0) >= (g.data?.total_rounds ?? 0)) {
-      await s.from('herd_games').update({ phase: 'ready' }).eq('code', code)
+      await s.from('herd_games').update({ phase: 'ready' }).eq('code', gameCode)
     }
   } catch {
     // nič – len nech to nepadne, keď typy/kolónky chýbajú

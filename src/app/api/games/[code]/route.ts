@@ -1,14 +1,15 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(
-  _req: NextRequest,
-  { params }: { params: { code: string } }
+  _req: Request,
+  ctx: { params: Promise<{ code: string }> }
 ) {
-  const code = String(params.code).toUpperCase()
+  const { code } = await ctx.params
+  const gameCode = String(code).toUpperCase()
 
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -19,7 +20,7 @@ export async function GET(
   const { data: game, error } = await s
     .from('herd_games')
     .select('code, phase, total_rounds, active_round_index, lobby_locked')
-    .eq('code', code)
+    .eq('code', gameCode)
     .eq('owner_id', session.user.id)
     .single()
 
@@ -30,7 +31,7 @@ export async function GET(
   const { count: roundsCount } = await s
     .from('herd_rounds')
     .select('idx', { count: 'exact', head: true })
-    .eq('game_code', code)
+    .eq('game_code', gameCode)
 
   const phase =
     game.phase === 'setup'

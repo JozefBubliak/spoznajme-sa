@@ -1,13 +1,14 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
+  req: Request,
+  ctx: { params: Promise<{ code: string }> }
 ) {
-  const code = String(params.code).toUpperCase()
+  const { code } = await ctx.params
+  const gameCode = String(code).toUpperCase()
 
   const body = (await req.json().catch(() => ({}))) as {
     playerId?: string
@@ -17,7 +18,7 @@ export async function POST(
   }
 
   const { playerId, roundId, qIndex, answer } = body
-  if (!code || !playerId || !roundId || typeof qIndex !== 'number') {
+  if (!gameCode || !playerId || !roundId || typeof qIndex !== 'number') {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
@@ -26,7 +27,7 @@ export async function POST(
   const { data: game, error: gErr } = await s
     .from('herd_games')
     .select('code')
-    .eq('code', code)
+    .eq('code', gameCode)
     .maybeSingle()
 
   if (gErr) return NextResponse.json({ error: gErr.message }, { status: 500 })
@@ -36,7 +37,7 @@ export async function POST(
     .from('herd_answers')
     .upsert(
       {
-        game_code: code,
+        game_code: gameCode,
         player_id: playerId,
         round_id: roundId,
         q_index: qIndex,
