@@ -14,10 +14,10 @@ type FourAnswers = {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { code: string; roundId: string } }
+  context: { params: { code: string; roundId: string } }
 ) {
-  const gameCode = String(params.code).toUpperCase()
-  const rId = String(params.roundId)
+  const gameCode = String(context.params.code).toUpperCase()
+  const rId = String(context.params.roundId)
 
   const url = new URL(req.url)
   const qIndexParam = url.searchParams.get('qIndex')

@@ -7,11 +7,11 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(
   _req: NextRequest,
-  { params }: { params: { code: string } }
+  context: { params: { code: string } }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const gameCode = params.code.toUpperCase()
+  const gameCode = context.params.code.toUpperCase()
   const s = supabaseServer(session.access_token)
 
   const { error } = await s
