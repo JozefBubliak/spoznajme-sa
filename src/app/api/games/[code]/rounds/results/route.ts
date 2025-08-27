@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/rounds/results/route.ts
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 import { calculateRoundScores } from '@/lib/herdvote/scoring'
@@ -9,12 +9,13 @@ import { getSession } from '@/app/api/games/_session'
 export const dynamic = 'force-dynamic'
 
 export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
+  req: Request,
+  ctx: { params: Promise<{ code: string }> }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const code = String(params.code).toUpperCase()
+  const { code } = await ctx.params
+  const gameCode = String(code).toUpperCase()
 
   const body = await req.json().catch(() => ({})) as { roundId?: string }
 
@@ -26,7 +27,7 @@ export async function POST(
     const { data: locked } = await s
       .from('herd_rounds')
       .select('id, q_index, settings')
-      .eq('game_code', code)
+      .eq('game_code', gameCode)
       .eq('status', 'locked')
       .single()
     if (!locked) {
@@ -39,7 +40,7 @@ export async function POST(
     .from('herd_rounds')
     .select('id, q_index, status, settings')
     .eq('id', roundId)
-    .eq('game_code', code)
+    .eq('game_code', gameCode)
     .single()
 
   if (!round || round.status !== 'locked') {
@@ -119,12 +120,12 @@ export async function POST(
   const { data: leaderboard } = await s
     .from('herd_players')
     .select('id, name, score')
-    .eq('game_code', code)
+    .eq('game_code', gameCode)
     .order('score', { ascending: false })
 
-  await RealtimeServer.publish(channelFor(code), {
+  await RealtimeServer.publish(channelFor(gameCode), {
     type: 'round:results',
-    code,
+    code: gameCode,
     roundId: round.id,
     qIndex,
     correct: question.correct_answer as any,

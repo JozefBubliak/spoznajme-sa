@@ -1,5 +1,5 @@
 // PATH: src/app/api/games/[code]/rounds/route.ts
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import type { RoundSettings } from '@/lib/herdvote/store'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
@@ -17,12 +17,13 @@ export const dynamic = 'force-dynamic'
  */
 
 export async function POST(
-  req: NextRequest,
-  { params }: { params: { code: string } }
+  req: Request,
+  ctx: { params: Promise<{ code: string }> }
 ) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  const gameCode = String(params.code).toUpperCase()
+  const { code } = await ctx.params
+  const gameCode = String(code).toUpperCase()
 
   const supabase = supabaseServer(session.access_token)
 

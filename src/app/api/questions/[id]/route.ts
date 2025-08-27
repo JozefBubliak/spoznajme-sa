@@ -1,15 +1,16 @@
 // src/app/api/questions/[id]/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseAdmin' // server-side client (service role)
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(
-  _req: NextRequest,
-  { params }: { params: { id: string } }
+  _req: Request,
+  ctx: { params: Promise<{ id: string }> }
 ) {
   try {
-    const questionId = parseInt(String(params.id), 10)
+    const { id } = await ctx.params
+    const questionId = parseInt(String(id), 10)
 
     if (!Number.isFinite(questionId) || questionId <= 0) {
       return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 })
