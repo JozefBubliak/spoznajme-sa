@@ -84,16 +84,6 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
     }
   }, [])
 
-  function toPhase(status?: string): Phase {
-    switch (status) {
-      case 'lobby': return 'lobby'
-      case 'setup': return 'config'
-      case 'running': return 'playing'
-      case 'ended': return 'final'
-      default: return 'lobby'
-    }
-  }
-
   const refresh = useMemo(() => async () => {
     if (!code) return
     setErr(null)
@@ -103,7 +93,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       const raw = await r.json()
       const normalized: Game = {
         code: raw.code ?? code,
-        phase: raw.phase ?? toPhase(raw.status),
+        phase: raw.phase ?? 'lobby',
         lobby_locked: raw.lobby_locked ?? (raw.is_open === false),
         total_rounds: raw.total_rounds ?? raw.roundsCount ?? 3,
         active_round_index: raw.active_round_index ?? raw.activeRoundIndex ?? 0,
