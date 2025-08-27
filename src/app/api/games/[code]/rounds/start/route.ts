@@ -41,7 +41,7 @@ export async function POST(
   if (qErr) {
     return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
   }
-  const ids = asArray(qs).map(q => q.id)
+  const ids = asArray<{ id: string }>(qs).map(q => q.id)
   if (ids.length < round.count) {
     return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
   }

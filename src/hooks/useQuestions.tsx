@@ -58,12 +58,12 @@ export function useQuestions() {
 
     // Fetch favorites (disabled until user_favorites exists)
     if (false) {
-      const { data: favData = [] } = await supabase
+      const { data: favData } = await supabase
         .from('user_favorites')
         .select('question_id')
         .eq('user_id', uid)
 
-      setFavorites(favData.map(f => f.question_id))
+      setFavorites((favData ?? []).map(f => f.question_id))
     } else {
       setFavorites([])
     }
@@ -71,8 +71,8 @@ export function useQuestions() {
     // Check daily usage
     if (false && profile) {
       const today = new Date().toISOString().split('T')[0]
-      if (profile.daily_questions_date === today) {
-        setDailyCount(profile.daily_questions_used)
+      if (profile?.daily_questions_date === today) {
+        setDailyCount(profile?.daily_questions_used ?? 0)
       } else {
         setDailyCount(0)
         // Reset daily count

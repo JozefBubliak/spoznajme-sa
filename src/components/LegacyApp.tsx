@@ -86,8 +86,9 @@ const router = useRouter()
           ) || []
 
         setFavoritesList(filteredFavorites)
-        if (filteredFavorites.length > 0 && filteredFavorites[0]?.questions?.[0]) {
-          setCurrentQuestion(filteredFavorites[0].questions[0])
+        const first = filteredFavorites[0]?.questions?.[0]
+        if (filteredFavorites.length > 0 && first) {
+          setCurrentQuestion(first)
           setCurrentFavoriteIndex(0)
         } else {
           setCurrentQuestion(null)
