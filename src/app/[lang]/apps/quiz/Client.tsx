@@ -3,59 +3,108 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { useAuth } from '@/hooks/useAuth'
-import { UserCircle } from 'lucide-react'
+
 type Props = {
   dict: any
   lang: string
 }
 
 export default function QuizPageClient({ dict, lang }: Props) {
-  const { user, loading } = useAuth()
-  const game = dict.apps.games.quiz
   const back = dict.apps.games.ctaBack
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-end text-sm text-muted-foreground gap-2 items-center">
-        <UserCircle className="h-5 w-5" />
-        {loading ? '...' : user ? user.email : 'Neprihlásený'}
-      </div>
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold">{game.name}</h1>
-        <p className="text-lg text-muted-foreground">{game.description}</p>
-        <Image
-          src="/images/placeholder.jpg"
-          alt=""
-          width={600}
-          height={300}
-          className="mx-auto rounded-lg"
-        />
-        <Button asChild size="lg" className="mt-4">
-          {user ? (
-            <Link href={`/${lang}${game.link}`}>{game.cta}</Link>
-          ) : (
-            <Link href={`/login?next=/${lang}/apps/quiz`}>
-              Prihlásiť sa ako moderátor
-            </Link>
-          )}
-        </Button>
-        {!user && (
-          <p className="text-sm text-muted-foreground">
-            Rola moderátora je dostupná iba registrovaným používateľom. Po
-            vytvorení hry získate trvalý odkaz na svoju miestnosť viazaný na
-            váš účet.
-          </p>
-        )}
-      </div>
+    <div className="space-y-16">
+      {/* Hero */}
+      <section className="text-center space-y-6">
+        <h1 className="text-4xl md:text-6xl font-bold">🧠 Kvíz</h1>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Zábavná tímová hra, ktorá preverí vaše vedomosti a spestrí každý event.
+          Stačí mobil a dobrá nálada.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button asChild size="lg" className="btn-primary">
+            <Link href={`/${lang}/apps/quiz/admin`}>🎮 Spustiť hru</Link>
+          </Button>
+          <Button asChild variant="outline" size="lg">
+            <Link href={`/${lang}/apps/quiz/play`}>👤 Pripojiť sa</Link>
+          </Button>
+        </div>
+      </section>
 
-      <section className="mx-auto max-w-xl space-y-4">
-        <h2 className="text-2xl font-semibold text-center">Ako to funguje</h2>
-        <ol className="list-decimal list-inside space-y-2 text-left">
-          {game.manual.map((step: string, i: number) => (
-            <li key={i}>{step}</li>
-          ))}
-        </ol>
+      {/* How it works */}
+      <section className="max-w-3xl mx-auto space-y-8">
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-center">Ako to funguje?</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Moderátor vytvorí miestnosť a zdieľa QR alebo link</li>
+            <li>Hráči sa pripoja cez mobil</li>
+            <li>Odpovedáte na otázky a zbierate body</li>
+          </ol>
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-center">Prečo práve Kvíz?</h2>
+          <ul className="list-disc list-inside space-y-2">
+            <li>🎉 Skvelá zábava na teambuildingy, školy a večierky</li>
+            <li>📱 Bez registrácie – stačí mobil</li>
+            <li>⚡ Jednoduché ovládanie pre hráčov aj moderátora</li>
+            <li>👥 Hrá sa v malých aj veľkých skupinách</li>
+          </ul>
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-center">Ukážky z hry</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <Image
+              src="/images/quiz-lobby.png"
+              alt="Lobby s QR kódom"
+              width={400}
+              height={300}
+              className="rounded-lg mx-auto"
+            />
+            <Image
+              src="/images/quiz-question.png"
+              alt="Ukážka otázky"
+              width={400}
+              height={300}
+              className="rounded-lg mx-auto"
+            />
+            <Image
+              src="/images/quiz-results.png"
+              alt="Priebežné výsledky"
+              width={400}
+              height={300}
+              className="rounded-lg mx-auto"
+            />
+            <Image
+              src="/images/quiz-winner.png"
+              alt="Finálny rebríček"
+              width={400}
+              height={300}
+              className="rounded-lg mx-auto"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-center">Návod pre moderátora</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Klikni na „Spustiť hru“</li>
+            <li>Nastav počet kôl a otázky</li>
+            <li>Zdieľaj QR kód hráčom</li>
+            <li>Spusti hru a sleduj priebežné výsledky</li>
+          </ol>
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold text-center">Návod pre hráča</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Pripoj sa cez odkaz alebo QR kód</li>
+            <li>Zadaj svoje meno a čakaj v lobby</li>
+            <li>Odpovedaj na otázky čo najlepšie</li>
+            <li>Po každom kole sleduj priebežné poradie</li>
+          </ol>
+        </div>
       </section>
 
       <div className="text-center">
