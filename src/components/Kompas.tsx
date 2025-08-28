@@ -12,6 +12,92 @@ const groupImages: Record<string, string> = {
   'Citlivé témy': '/images/kompas/citlive.png',
 }
 
+interface KompasItem {
+  group: string
+  topic: string
+  subtopic: string
+  phrases: string[]
+}
+
+function SubtopicCard({ item }: { item: KompasItem }) {
+  const [mode, setMode] = useState<'all' | 'step'>('all')
+  const [visibleCount, setVisibleCount] = useState(1)
+
+  const phrasesToShow =
+    mode === 'all' ? item.phrases : item.phrases.slice(0, visibleCount)
+
+  return (
+    <div className='bg-white rounded-xl shadow-md p-6 transition hover:shadow-lg'>
+      <div className='flex justify-between items-center mb-4'>
+        <h3 className='text-xl font-semibold'>{item.subtopic}</h3>
+        <div className='flex gap-2'>
+          <button
+            onClick={() => setMode('all')}
+            className={`px-3 py-1 rounded ${
+              mode === 'all'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            Všetky
+          </button>
+          <button
+            onClick={() => {
+              setMode('step')
+              setVisibleCount(1)
+            }}
+            className={`px-3 py-1 rounded ${
+              mode === 'step'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            Postupne
+          </button>
+        </div>
+      </div>
+
+      {item.phrases.length > 0 ? (
+        <div className='space-y-4'>
+          {phrasesToShow.map((phrase, i) => (
+            <div
+              key={i}
+              className={`flex ${
+                i % 2 === 0 ? 'justify-start' : 'justify-end'
+              }`}
+            >
+              <div
+                className={`max-w-[80%] px-4 py-2 rounded-2xl shadow-sm ${
+                  i % 2 === 0
+                    ? 'bg-blue-100 text-blue-900 rounded-bl-none'
+                    : 'bg-green-100 text-green-900 rounded-br-none'
+                }`}
+              >
+                {phrase}
+              </div>
+            </div>
+          ))}
+
+          {mode === 'step' && visibleCount < item.phrases.length && (
+            <div className='text-center mt-4'>
+              <button
+                onClick={() => setVisibleCount(visibleCount + 1)}
+                className='px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700'
+              >
+                Ďalšia veta →
+              </button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <p className='text-gray-400 italic text-center'>
+          (Obsah zatiaľ čaká na doplnenie)
+        </p>
+      )}
+    </div>
+  )
+}
+
 export default function Kompas() {
   const groups = Array.from(new Set(KOMPAS_DATA.map((item) => item.group)))
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
@@ -126,28 +212,9 @@ export default function Kompas() {
             />
           </div>
 
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+          <div className='space-y-8'>
             {subtopics.map((item, idx) => (
-              <div
-                key={idx}
-                className='bg-white rounded-xl shadow-md p-6 transition hover:shadow-lg'
-              >
-                <h3 className='text-lg font-semibold mb-4'>{item.subtopic}</h3>
-                {item.phrases.length > 0 ? (
-                  <ul className='space-y-2 text-gray-700'>
-                    {item.phrases.map((phrase, i) => (
-                      <li
-                        key={i}
-                        className='bg-gray-50 p-3 rounded-lg shadow-sm border-l-4 border-blue-400'
-                      >
-                        {phrase}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className='text-gray-400 italic'>(Obsah zatiaľ čaká na doplnenie)</p>
-                )}
-              </div>
+              <SubtopicCard key={idx} item={item} />
             ))}
           </div>
         </div>
