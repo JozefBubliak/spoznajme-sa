@@ -25,7 +25,7 @@ export default async function Page({ params }: P) {
 
       <section>
         <h2 className="text-xl font-semibold mb-3">Pre koho</h2>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-3 gap-4">
           <Link
             href={go("/kompas/rodic-dieta")}
             className="rounded-xl border p-5 hover:bg-muted transition block"
@@ -42,6 +42,15 @@ export default async function Page({ params }: P) {
             <h3 className="font-medium">Páry</h3>
             <p className="text-sm text-muted-foreground mt-1">
               Vyjadrenie potrieb, prevencia hádok, zdravý konflikt, rituály spojenia.
+            </p>
+          </Link>
+          <Link
+            href={go("/kompas/deti")}
+            className="rounded-xl border p-5 hover:bg-muted transition block"
+          >
+            <h3 className="font-medium">Deti</h3>
+            <p className="text-sm text-muted-foreground mt-1">
+              Témy a minipostupy priamo pre deti.
             </p>
           </Link>
         </div>

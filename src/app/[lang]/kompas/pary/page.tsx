@@ -1,7 +1,8 @@
 // PATH: src/app/[lang]/kompas/pary/page.tsx
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { KOMPAS_SECTIONS } from '@/config/kompas-sections'
+
+import { KOMPAS_SECTIONS_PARY } from '@/config/kompas-sections'
 
 
 export const metadata: Metadata = {
@@ -30,7 +31,9 @@ export default async function Page({ params }: P) {
       <section>
         <h2 className="text-xl font-semibold mb-3">Témy</h2>
         <div className="grid md:grid-cols-2 gap-3">
-          {KOMPAS_SECTIONS.map((t) => (
+
+          {KOMPAS_SECTIONS_PARY.map((t) => (
+
             <Link
               key={t.slug}
               href={go(`/kompas/tema/${t.slug}`)}
