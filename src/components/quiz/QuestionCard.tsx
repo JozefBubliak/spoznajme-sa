@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Button from './Button'
 
 interface Question {
   text: string
@@ -20,24 +21,19 @@ export default function QuestionCard({ question, onAnswer }: QuestionCardProps) 
   }
 
   const renderButton = (label: string, text: string) => (
-    <button
+    <Button
       key={label}
       onClick={() => handleClick(label)}
+      type={selected === label ? 'primary' : 'secondary'}
+      disabled={!!selected}
       style={{
-        backgroundColor: selected === label ? '#1e90ff' : '#f0f0f0',
-        color: selected === label ? '#fff' : '#000',
-        padding: '1rem',
-        margin: '0.5rem 0',
         width: '100%',
-        fontSize: '1rem',
-        borderRadius: '8px',
-        cursor: selected ? 'default' : 'pointer',
+        margin: '0.5rem 0',
         border: '1px solid #ccc'
       }}
-      disabled={!!selected}
     >
       {label}. {text}
-    </button>
+    </Button>
   )
 
   return (
