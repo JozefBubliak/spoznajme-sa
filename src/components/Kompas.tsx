@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { KOMPAS_DATA } from '@/data/kompas'
 
 const groupImages: Record<string, string> = {
-  Deti: '/images/kompas/deti.png',
+  'Rodič → Dieťa': '/images/kompas/rodic-dieta.png',
+  Deti: '/images/kompas/dieta.png',
   Páry: '/images/kompas/pary.png',
   Práca: '/images/kompas/praca.png',
   Priatelia: '/images/kompas/priatelia.png',
@@ -43,7 +44,7 @@ export default function Kompas() {
       </p>
 
       {/* Výber skupiny */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'>
         {groups.map((group) => (
           <button
             key={group}
@@ -51,15 +52,17 @@ export default function Kompas() {
               setSelectedGroup(group)
               setSelectedTopic(null)
             }}
-            className={`rounded-xl overflow-hidden shadow hover:shadow-lg transition ${
+            className={`flex flex-col rounded-xl overflow-hidden shadow hover:shadow-lg transition text-left ${
               selectedGroup === group ? 'ring-4 ring-blue-400' : ''
             }`}
           >
-            <img
-              src={groupImages[group] || '/images/kompas/default.png'}
-              alt={group}
-              className='w-full h-40 object-cover'
-            />
+            <div className='w-full aspect-video overflow-hidden'>
+              <img
+                src={groupImages[group] || '/images/kompas/default.png'}
+                alt={group}
+                className='w-full h-full object-cover'
+              />
+            </div>
             <div className='p-3 text-center font-semibold bg-white'>{group}</div>
           </button>
         ))}
