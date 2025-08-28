@@ -6,6 +6,7 @@ import { KOMPAS_DATA } from '@/data/kompas'
 export default function Kompas() {
   // dynamicky zoznam skupín, tém a podtém
   const groups = Array.from(new Set(KOMPAS_DATA.map((item) => item.group)))
+
   const groupIcons: Record<string, string> = {
     Deti: '🧒',
     Páry: '❤️',
@@ -13,6 +14,7 @@ export default function Kompas() {
     Priatelia: '👥',
     'Citlivé témy': '⚠️',
   }
+
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
 
   const topics = selectedGroup
@@ -51,7 +53,9 @@ export default function Kompas() {
               setSelectedGroup(group)
               setSelectedTopic(null)
             }}
+
             className={`flex items-center gap-2 px-4 py-2 rounded-full border transition ${
+
               selectedGroup === group
                 ? 'bg-blue-600 text-white'
                 : 'bg-gray-100 hover:bg-gray-200'
@@ -59,6 +63,7 @@ export default function Kompas() {
           >
             <span className='text-xl'>{groupIcons[group] || '🔹'}</span>
             <span>{group}</span>
+
           </button>
         ))}
       </div>
@@ -89,6 +94,7 @@ export default function Kompas() {
           </ul>
         </div>
       )}
+
 
       {/* Výber témy */}
       {selectedGroup && (
