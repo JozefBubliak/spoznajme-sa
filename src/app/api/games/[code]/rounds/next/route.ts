@@ -41,8 +41,14 @@ export async function POST(req: NextRequest, context: any) {
     .eq('game_code', gameCode)
     .single()
 
-  if (!round || round.status !== 'results') {
-    return NextResponse.json({ error: 'No round in results state' }, { status: 400 })
+  if (!round) {
+    return NextResponse.json({ error: 'Round not found' }, { status: 404 })
+  }
+  if (round.status === 'finished') {
+    return NextResponse.json({ success: true, finished: true, roundId: round.id })
+  }
+  if (round.status !== 'results') {
+    return NextResponse.json({ error: 'Round not in results state' }, { status: 400 })
   }
 
   const currentQIndex = round.q_index || 0
@@ -66,6 +72,16 @@ export async function POST(req: NextRequest, context: any) {
       at: Date.now(),
     })
 
+    const { count: remaining } = await s
+      .from('herd_rounds')
+      .select('id', { count: 'exact', head: true })
+      .eq('game_code', gameCode)
+      .in('status', ['ready', 'shown', 'running', 'locked', 'results'])
+
+    if (!remaining || remaining.count === 0) {
+      await s.from('herd_games').update({ phase: 'final' }).eq('code', gameCode)
+    }
+
     return NextResponse.json({
       success: true,
       roundId: round.id,
@@ -80,7 +96,7 @@ export async function POST(req: NextRequest, context: any) {
     .eq('id', round.id)
 
   await RealtimeServer.publish(channelFor(gameCode), {
-    type: 'game:start',
+    type: 'question:show',
     code: gameCode,
     roundId: round.id,
     qIndex: nextQIndex,

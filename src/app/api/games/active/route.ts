@@ -14,6 +14,7 @@ export async function GET(_req: NextRequest) {
     .from('herd_games')
     .select('code, phase, updated_at')
     .eq('owner_id', session.user.id)
+    .in('phase', ['lobby', 'config', 'round_setup', 'playing'])
     .order('updated_at', { ascending: false })
     .limit(1)
     .maybeSingle()
