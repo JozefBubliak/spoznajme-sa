@@ -538,7 +538,7 @@ export default function HerdVoteAdminPage() {
             </div>
           )}
 
-          {rounds.length > 0 && (
+          {rounds.length > 0 && gameStatus === 'running' && (
             <div className="rounded-xl border p-4 space-y-3">
               <h2 className="font-semibold">Ovládanie kola</h2>
               <div className="flex gap-2 flex-wrap">
