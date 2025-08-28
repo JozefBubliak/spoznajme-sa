@@ -19,14 +19,11 @@ export default function QuizPageClient({ dict, lang }: Props) {
         <h1 className="text-4xl md:text-6xl font-bold">🧠 Kvíz</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           Zábavná tímová hra, ktorá preverí vaše vedomosti a spestrí každý event.
-          Stačí mobil a dobrá nálada.
+          Moderátor vytvorí hru a hráči sa pripoja cez QR kód alebo zdieľaný link.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild size="lg" className="btn-primary">
-            <Link href={`/${lang}/apps/quiz/admin`}>🎮 Spustiť hru</Link>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <Link href={`/${lang}/apps/quiz/play`}>👤 Pripojiť sa</Link>
+            <Link href={`/${lang}/apps/quiz/admin`}>🎮 Vytvoriť hru (moderátor)</Link>
           </Button>
         </div>
       </section>
@@ -89,7 +86,7 @@ export default function QuizPageClient({ dict, lang }: Props) {
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold text-center">Návod pre moderátora</h2>
           <ol className="list-decimal list-inside space-y-2">
-            <li>Klikni na „Spustiť hru“</li>
+            <li>Klikni na „Vytvoriť hru“</li>
             <li>Nastav počet kôl a otázky</li>
             <li>Zdieľaj QR kód hráčom</li>
             <li>Spusti hru a sleduj priebežné výsledky</li>
