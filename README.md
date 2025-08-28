@@ -2,6 +2,13 @@
 
 Modern Next.js web app providing interactive questions and mini‑games for building deeper connections.
 
+## Features
+
+- Slovak and English localisation
+- Realtime team quiz with responsive mobile-first UI
+- Animations, sounds and confetti for a playful experience
+- Jest and Cypress tests for core flows
+
 ## Repository structure
 
 ```

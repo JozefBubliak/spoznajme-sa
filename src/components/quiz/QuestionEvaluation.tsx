@@ -1,3 +1,6 @@
+import { useEffect } from 'react'
+import { playSound } from '../../utils/playSound'
+
 interface QuestionEvaluationProps {
   playerAnswer: string | null
   correctAnswer: string
@@ -5,6 +8,12 @@ interface QuestionEvaluationProps {
 
 export default function QuestionEvaluation({ playerAnswer, correctAnswer }: QuestionEvaluationProps) {
   const isCorrect = playerAnswer === correctAnswer
+
+  useEffect(() => {
+    if (playerAnswer) {
+      playSound(isCorrect ? 'correct' : 'wrong')
+    }
+  }, [playerAnswer, isCorrect])
 
   return (
     <div

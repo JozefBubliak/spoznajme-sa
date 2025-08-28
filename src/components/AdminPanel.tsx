@@ -6,6 +6,7 @@ import QuestionCard from './quiz/QuestionCard'
 import QuestionTimer from './quiz/QuestionTimer'
 import Leaderboard from './quiz/Leaderboard'
 import QuestionEvaluation from './quiz/QuestionEvaluation'
+import Loader from './Loader'
 
 interface AdminPanelProps {
   code: string
@@ -29,7 +30,7 @@ export default function AdminPanel({ code }: AdminPanelProps) {
     onFinish: () => setResults(null),
   })
 
-  if (loading || !game) return <p>Načítavam hru…</p>
+  if (loading || !game) return <Loader />
 
   return (
     <div style={{ padding: '2rem' }}>
