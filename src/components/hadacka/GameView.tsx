@@ -135,9 +135,9 @@ export function GameView() {
             <div className="space-y-4">
               {sortedEntities.slice(0, 3).map((entity, index) => (
                 <div key={entity.id} className={`flex items-center justify-center gap-4 p-4 rounded-lg ${
-                  index === 0 ? 'bg-yellow-100 dark:bg-yellow-900/20' :
-                  index === 1 ? 'bg-gray-100 dark:bg-gray-800/20' :
-                  'bg-amber-100 dark:bg-amber-900/20'
+                  index === 0 ? 'bg-warning/20 dark:bg-warning/20' :
+                  index === 1 ? 'bg-muted dark:bg-muted/20' :
+                  'bg-warning/10 dark:bg-warning/20'
                 }`}>
                   <span className="text-2xl">
                     {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}

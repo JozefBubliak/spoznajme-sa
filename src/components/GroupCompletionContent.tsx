@@ -87,38 +87,38 @@ export default function GroupCompletionContent({
         <div className="text-6xl mb-4">🎉</div>
         <div className="text-4xl mb-4">{content.emoji}</div>
 
-        <h3 className="text-xl font-bold text-gray-800 mb-2">
+        <h3 className="text-xl font-bold text-foreground mb-2">
           {content.title}
         </h3>
-        <p className="text-gray-700 mb-2 font-medium">
+        <p className="text-muted-foreground mb-2 font-medium">
           {content.subtitle}
         </p>
-        <p className="text-gray-600 italic">{content.description}</p>
+        <p className="text-muted-foreground italic">{content.description}</p>
       </div>
 
-      <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-6 text-left">
-        <h4 className="font-semibold text-purple-800 mb-3 text-center">
+      <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg p-6 text-left">
+        <h4 className="font-semibold text-primary mb-3 text-center">
           ✨ Chceš sa spoznať ešte hlbšie?
         </h4>
-        <p className="text-gray-700 mb-4 text-center">
+        <p className="text-muted-foreground mb-4 text-center">
           Spoznávanie nekončí! 🚀
           <br />
           Získaj neobmedzený prístup k stovkám premyslených otázok, ktoré ti
           pomôžu:
         </p>
-        <ul className="space-y-2 text-gray-700 mb-4">
+        <ul className="space-y-2 text-muted-foreground mb-4">
           {content.benefits.map((benefit, index) => (
             <li key={index} className="flex items-start gap-2">
-              <span className="text-purple-600 mt-1">•</span>
+              <span className="text-primary mt-1">•</span>
               <span>{benefit}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg p-4 border border-amber-200">
-        <h4 className="font-semibold text-amber-800 mb-2">🎁 Bonus pre nových členov:</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-amber-700">
+      <div className="bg-gradient-to-r from-warning/10 to-warning/20 rounded-lg p-4 border border-warning/20">
+        <h4 className="font-semibold text-warning mb-2">🎁 Bonus pre nových členov:</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-warning/80">
           <div className="flex items-center gap-2">
             <span>🏅</span>
             <span>Každý deň 2 otázky zadarmo z každej skupiny</span>
@@ -139,12 +139,12 @@ export default function GroupCompletionContent({
       </div>
 
       <div className="space-y-4">
-        <h4 className="font-semibold text-gray-800">🧭 Čo chceš spraviť teraz?</h4>
+        <h4 className="font-semibold text-foreground">🧭 Čo chceš spraviť teraz?</h4>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Button
             onClick={() => router.push('/upgrade')}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:brightness-110 text-white h-12"
+            className="bg-gradient-to-r from-primary to-accent hover:brightness-110 text-primary-foreground h-12"
           >
             🗝️ Chcem plný prístup
           </Button>
@@ -152,7 +152,7 @@ export default function GroupCompletionContent({
           {!user && (
             <Button
               onClick={() => router.push('/auth/login')}
-              className="bg-gray-100 text-gray-800 hover:bg-gray-200 h-12"
+              className="bg-muted text-foreground hover:bg-muted/80 h-12"
             >
               ✍️ Registrovať sa a získať 2 otázky denne
             </Button>
