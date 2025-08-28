@@ -6,6 +6,7 @@ type Handlers = {
   onTimerStart?: () => void
   onRoundLock?: () => void
   onResults?: (data: any) => void
+  onRoundFinish?: (payload: any) => void
   onFinish?: () => void
 }
 
@@ -32,6 +33,10 @@ export default function useRealtimeGame(code: string, handlers: Handlers) {
             handlers.onResults?.(payload)
             break
           case 'round:finish':
+            if (handlers.onRoundFinish) handlers.onRoundFinish(payload)
+            else handlers.onFinish?.()
+            break
+          case 'game:finish':
             handlers.onFinish?.()
             break
           default:
