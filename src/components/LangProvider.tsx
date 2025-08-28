@@ -1,18 +1,20 @@
 'use client'
 import { createContext, useContext, useState, ReactNode } from 'react'
 
+type Lang = 'sk' | 'en'
+
 type LangContextType = {
-  lang: string
-  setLang: (lang: string) => void
+  lang: Lang
+  setLang: (lang: Lang) => void
   t: (key: string) => string
 }
 
 const LangContext = createContext<LangContextType | undefined>(undefined)
 
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState('sk')
+  const [lang, setLang] = useState<Lang>('sk')
 
-  const t = (key: string) => translations[lang][key] || key
+  const t = (key: string) => translations[lang][key] ?? key
 
   return (
     <LangContext.Provider value={{ lang, setLang, t }}>
@@ -27,7 +29,7 @@ export function useLang() {
   return ctx
 }
 
-const translations: Record<string, Record<string, string>> = {
+const translations: Record<Lang, Record<string, string>> = {
   sk: {
     startGame: 'Začať hru',
     joinGame: 'Pripojiť sa',
