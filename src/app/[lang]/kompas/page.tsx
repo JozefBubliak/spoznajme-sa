@@ -1,24 +1,12 @@
 ﻿// PATH: src/app/[lang]/kompas/page.tsx
 import Link from "next/link"
+import { KOMPAS_SECTIONS } from "@/config/kompas-sections"
 
 export const metadata = {
   title: "Komunikačný kompas | DeepTalks",
   description:
     "Krátke vety a minipostupy do bežných situácií. Vyber si pre koho alebo otvor tému.",
 }
-
-const topics = [
-  { slug: "otvarace-ritualy",     label: "Začať rozhovor & rituály", desc: "Ľahké vety na úvod, check-iny a drobné rituály spojenia" },
-  { slug: "emocie-a-regulacia",   label: "Emócie & regulácia",       desc: "ako pomenovať pocity, upokojiť sa a pomôcť druhému" },
-  { slug: "hranice-a-dohody",     label: "Hranice & dohody",         desc: "jasné požiadavky, dohody a následky bez kriku" },
-  { slug: "konflikt-a-spolupraca",label: "Konflikt & spolupráca",    desc: "odlišné názory bez hádok, hľadanie riešení" },
-  { slug: "zmeny-a-prechody",     label: "Zmeny & prechody",         desc: "rána, odchody, návraty, nové zvyky – čo povedať" },
-  { slug: "spomienky-a-spojenie", label: "Spomienky & spojenie",     desc: "vďačnosť, oceňovanie, budovanie blízkosti" },
-  { slug: "digitalny-zivot",      label: "Digitálny život",          desc: "obrazovky, dohody a prevencia konfliktov" },
-  { slug: "skola-a-ucenie",       label: "Škola & učenie",           desc: "podpora bez tlaku, motivácia a rutiny" },
-  { slug: "zdravie-a-tazke-temy", label: "Zdravie & ťažké témy",     desc: "choroba, smútok, úzkosť – citlivé, ale praktické vety" },
-  { slug: "identita-a-telo",      label: "Identita & telo",          desc: "sebaobraz, rešpekt a citlivé hranice" },
-]
 
 type P = { params: Promise<{ lang: string }> }
 
@@ -62,7 +50,7 @@ export default async function Page({ params }: P) {
       <section>
         <h2 className="text-xl font-semibold mb-3">Témy</h2>
         <div className="grid md:grid-cols-2 gap-3">
-          {topics.map((t) => (
+          {KOMPAS_SECTIONS.map((t) => (
             <Link
               key={t.slug}
               href={go(`/kompas/tema/${t.slug}`)}
