@@ -79,34 +79,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
     })()
   }, [authFetch])
 
-  // realtime events
-  useEffect(() => {
-    if (!code) return
-    const ch = channelFor(code)
-    const unsub = RealtimeClient.subscribe(ch, ev => {
-      if (ev.type === 'question:show') {
-        setRoundStatus('shown')
-        setGame(g => g ? { ...g, phase: 'playing', timer_deadline: null } : g)
-      }
-      if (ev.type === 'timer:start') {
-        setRoundStatus('running')
-        setGame(g => g ? { ...g, timer_deadline: new Date(ev.startedAt + ev.durationSec * 1000).toISOString() } : g)
-      }
-      if (ev.type === 'round:lock') {
-        setRoundStatus('locked')
-      }
-      if (ev.type === 'round:results') {
-        setRoundStatus('results')
-      }
-      if (ev.type === 'round:finish') {
-        setRoundStatus('finished')
-        refresh()
-      }
-    })
-    return () => unsub()
-  }, [code, refresh])
-
-  const refresh = useMemo(() => async () => {
+  const refresh = useCallback(async () => {
     if (!code) return
     setErr(null)
     try {
@@ -141,7 +114,34 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
         }
       } catch {}
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
-  }, [code])
+  }, [authFetch, code])
+
+  // realtime events
+  useEffect(() => {
+    if (!code) return
+    const ch = channelFor(code)
+    const unsub = RealtimeClient.subscribe(ch, ev => {
+      if (ev.type === 'question:show') {
+        setRoundStatus('shown')
+        setGame(g => g ? { ...g, phase: 'playing', timer_deadline: null } : g)
+      }
+      if (ev.type === 'timer:start') {
+        setRoundStatus('running')
+        setGame(g => g ? { ...g, timer_deadline: new Date(ev.startedAt + ev.durationSec * 1000).toISOString() } : g)
+      }
+      if (ev.type === 'round:lock') {
+        setRoundStatus('locked')
+      }
+      if (ev.type === 'round:results') {
+        setRoundStatus('results')
+      }
+      if (ev.type === 'round:finish') {
+        setRoundStatus('finished')
+        refresh()
+      }
+    })
+    return () => unsub()
+  }, [code, refresh])
 
   useEffect(() => {
     if (transitioning) return

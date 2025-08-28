@@ -78,7 +78,7 @@ export async function POST(req: NextRequest, context: any) {
       .eq('game_code', gameCode)
       .in('status', ['ready', 'shown', 'running', 'locked', 'results'])
 
-    if (!remaining || remaining.count === 0) {
+    if (!remaining || remaining === 0) {
       await s.from('herd_games').update({ phase: 'final' }).eq('code', gameCode)
     }
 
