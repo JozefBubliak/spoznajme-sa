@@ -6,6 +6,7 @@ import QuestionCard from './quiz/QuestionCard'
 import QuestionTimer from './quiz/QuestionTimer'
 import Leaderboard from './quiz/Leaderboard'
 import QuestionEvaluation from './quiz/QuestionEvaluation'
+import Button from './quiz/Button'
 import Loader from './Loader'
 
 interface AdminPanelProps {
@@ -42,21 +43,21 @@ export default function AdminPanel({ code }: AdminPanelProps) {
       {game.phase === 'lobby' && (
         <div>
           <p>Hráči sa pripájajú…</p>
-          <button>🔒 Zamknúť lobby</button>
+          <Button>🔒 Zamknúť lobby</Button>
         </div>
       )}
 
       {game.phase === 'config' && (
         <div>
           <p>Nastav počet kôl a parametre</p>
-          <button>✅ Uložiť konfiguráciu</button>
+          <Button>✅ Uložiť konfiguráciu</Button>
         </div>
       )}
 
       {game.phase === 'round_setup' && (
         <div>
           <p>Nastavenie kôl</p>
-          <button>🎮 Ideme hrať</button>
+          <Button>🎮 Ideme hrať</Button>
         </div>
       )}
 
@@ -68,10 +69,20 @@ export default function AdminPanel({ code }: AdminPanelProps) {
               {timerRunning && (
                 <QuestionTimer duration={30} onTimeout={() => setTimerRunning(false)} />
               )}
-              {!timerRunning && <button onClick={() => setTimerRunning(true)}>⏱️ Spustiť odpočet</button>}
-              {timerRunning && <button onClick={() => setTimerRunning(false)}>🔒 Uzamknúť odpovede</button>}
-              {results && <QuestionEvaluation {...results} />}
-              {results && <button>➡️ Ďalšia otázka</button>}
+              {!timerRunning && (
+                <Button onClick={() => setTimerRunning(true)}>⏱️ Spustiť odpočet</Button>
+              )}
+              {timerRunning && (
+                <Button onClick={() => setTimerRunning(false)}>🔒 Uzamknúť odpovede</Button>
+              )}
+              {results && (
+                <QuestionEvaluation
+                  playerAnswer={results.playerAnswer}
+                  correctAnswer={results.correctAnswer}
+                  funFact={currentQuestion?.fun_fact}
+                />
+              )}
+              {results && <Button>➡️ Ďalšia otázka</Button>}
             </>
           )}
         </div>
