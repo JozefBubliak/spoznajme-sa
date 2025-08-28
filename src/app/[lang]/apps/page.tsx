@@ -110,17 +110,6 @@ export default async function AppsPage({ params }: P) {
         </div>
       </section>
 
-      {/* How to play manual */}
-      <section className="py-16 px-4 border-t">
-        <div className="max-w-4xl mx-auto space-y-4 text-sm">
-          <h2 className="text-2xl font-bold">Ako hrať</h2>
-          <p>
-            Vyberte si hru zo zoznamu a riaďte sa pokynmi na jej stránke. Tímový kvíz{' '}
-            <Link href={`/${lang}/apps/herd-vote`} className="text-blue-600 underline">Herd Vote</Link>
-            {' '}spustíte v prehliadači a hráči sa pripoja cez zdieľaný odkaz alebo QR kód.
-          </p>
-        </div>
-      </section>
     </div>
   )
 }
