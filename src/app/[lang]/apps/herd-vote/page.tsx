@@ -138,6 +138,7 @@ export default function HerdVoteAdminPage() {
   // --- Pridanie kola ---
   const addRound = async () => {
     if (!gameCode || !selectedCat) return
+    if (totalRounds && rounds.length >= totalRounds) return
     const scoring =
       mode === 'classic'
         ? { mode, correct, incorrect, none }
@@ -158,26 +159,26 @@ export default function HerdVoteAdminPage() {
     })
     const j = await r.json()
     if (j.roundId) {
-      const newCount = rounds.length + 1
       const catName = categories.find(c => c.id === selectedCat)?.name || selectedCat
       setRounds(prev => [...prev, { id: j.roundId, category: catName }])
-      if (totalRounds && newCount >= totalRounds) {
-        // štart prvej otázky prvého kola
-        const startResp = await authFetch(`/api/games/${gameCode}/rounds/start`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ index: 0 }),
-        })
-        const startJson = await startResp.json().catch(() => ({}))
-        if (!startResp.ok) {
-          alert(startJson.error || 'Nepodarilo sa spustiť hru')
-          return
-        }
-        setGameStatus('running')
-      }
     } else {
       alert(j.error || 'Nepodarilo sa pridať kolo')
     }
+  }
+
+  const startGame = async () => {
+    if (!gameCode) return
+    const startResp = await authFetch(`/api/games/${gameCode}/rounds/start`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ index: 0 }),
+    })
+    const startJson = await startResp.json().catch(() => ({}))
+    if (!startResp.ok) {
+      alert(startJson.error || 'Nepodarilo sa spustiť hru')
+      return
+    }
+    setGameStatus('running')
   }
 
   // --- Ovládanie kola ---
@@ -371,11 +372,9 @@ export default function HerdVoteAdminPage() {
                     Potvrdiť
                   </button>
                 </>
-              ) : (
+              ) : rounds.length < totalRounds ? (
                 <>
-                  <h2 className="font-semibold">
-                    Kolo {rounds.length + 1}/{totalRounds}
-                  </h2>
+                  <h2 className="font-semibold">Kolo {rounds.length + 1}/{totalRounds}</h2>
 
                   <div className="grid md:grid-cols-3 gap-3">
                     <div className="md:col-span-2">
@@ -511,20 +510,30 @@ export default function HerdVoteAdminPage() {
                   </div>
 
                   <button onClick={addRound} className="mt-3 px-4 py-2 rounded bg-blue-600 text-white">
-                    {rounds.length + 1 === totalRounds ? 'Ideme hrať' : 'Nastaviť ďalšie kolo'}
+                    Nastaviť kolo
                   </button>
-
-                  {rounds.length > 0 && (
-                    <div className="text-sm text-gray-600 mt-2">
-                      Kolá:{' '}
-                      {rounds.map((r, i) => (
-                        <span key={r.id} className="mr-2">
-                          #{i + 1} – {r.category}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                 </>
+              ) : (
+                <div className="space-y-2">
+                  <h2 className="font-semibold">Všetky kolá nastavené</h2>
+                  <button
+                    onClick={startGame}
+                    className="px-4 py-2 rounded bg-blue-600 text-white"
+                  >
+                    Ideme hrať
+                  </button>
+                </div>
+              )}
+
+              {rounds.length > 0 && (
+                <div className="text-sm text-gray-600 mt-2">
+                  Kolá:{' '}
+                  {rounds.map((r, i) => (
+                    <span key={r.id} className="mr-2">
+                      #{i + 1} – {r.category}
+                    </span>
+                  ))}
+                </div>
               )}
             </div>
           )}

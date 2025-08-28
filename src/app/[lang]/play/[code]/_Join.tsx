@@ -65,6 +65,10 @@ export default function PlayJoin({ code: passedCode }: { code?: string }) {
   return (
     <div className="mx-auto max-w-xl p-6 space-y-4">
       <h1 className="text-2xl font-bold">Herd Vote – pripojenie</h1>
+      <p className="text-sm text-gray-600">
+        Naskenujte QR kód od moderátora alebo použite zdieľaný odkaz. Zadajte svoje meno a
+        počkajte na spustenie hry.
+      </p>
       <div className="text-sm text-gray-600">
         Kód hry: <b>{code || '—'}</b>
       </div>
