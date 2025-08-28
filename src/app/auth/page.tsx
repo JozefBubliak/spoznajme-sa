@@ -17,7 +17,7 @@ function AuthPageContent() {
 
   const params = useSearchParams()
   const router = useRouter()
-  const next = safeNext(params.get('next'))
+  const next = safeNext(params?.get('next'))
 
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
