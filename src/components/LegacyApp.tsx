@@ -172,8 +172,8 @@ const router = useRouter()
       <Layout>
         <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
-            <Brain className="animate-spin h-8 w-8 mx-auto mb-4 text-purple-600" />
-            <p className="text-gray-600">Načítavam...</p>
+            <Brain className="animate-spin h-8 w-8 mx-auto mb-4 text-primary" />
+            <p className="text-muted-foreground">Načítavam...</p>
           </div>
         </div>
       </Layout>
@@ -183,20 +183,20 @@ const router = useRouter()
   return (
     <Layout>
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6">
+        <div className="bg-card shadow-xl rounded-2xl overflow-hidden">
+          <div className="bg-gradient-to-r from-primary to-accent text-primary-foreground p-6">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold mb-2">
                   {group ? groupLabels[group] : 'Vyber si skupinu'}
                 </h1>
                 {user && (
-                  <div className="text-purple-100 text-sm">
+                  <div className="text-primary-foreground/80 text-sm">
                     {isPaid ? (
                       <div className="flex items-center gap-4">
                         <span>✨ Plný prístup</span>
                         {group && !favoritesMode && (
-                          <span className="flex items-center gap-1">
+                        <span className="flex items-center gap-1">
                             <BarChart3 className="h-4 w-4" />
                             Zostáva: {questionCounts.remaining}/{questionCounts.total}
                           </span>
@@ -216,7 +216,7 @@ const router = useRouter()
                       variant={favoritesMode ? "secondary" : "outline"}
                       size="sm"
                       onClick={handleFavoritesToggle}
-                      className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+                      className="bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground border-primary-foreground/30"
                     >
                       <Heart className="h-4 w-4 mr-1" />
                       Obľúbené
@@ -230,7 +230,7 @@ const router = useRouter()
                       setCurrentQuestion(null)
                       setFavoritesMode(false)
                     }}
-                    className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+                    className="bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground border-primary-foreground/30"
                   >
                     Zmeniť skupinu
                   </Button>
@@ -242,7 +242,7 @@ const router = useRouter()
           <div className="p-6 md:p-8">
             {!group ? (
               <div className="space-y-6">
-                <p className="text-gray-600 text-center text-lg">
+                <p className="text-muted-foreground text-center text-lg">
                   S kým sa chceš lepšie spoznať?
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -250,7 +250,7 @@ const router = useRouter()
                     <Button
                       key={option}
                       onClick={() => handleGroupSelect(option)}
-                      className="h-16 text-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white"
+                      className="h-16 text-lg bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground"
                       disabled={isLoading}
                     >
                       {groupLabels[option]}
@@ -258,9 +258,9 @@ const router = useRouter()
                   ))}
                 </div>
                 {!user && (
-                  <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <h3 className="font-semibold text-blue-900 mb-2">💡 Tip</h3>
-                    <p className="text-blue-800 text-sm">
+                  <div className="mt-8 p-4 bg-primary/10 rounded-lg border border-primary/20">
+                    <h3 className="font-semibold text-primary mb-2">💡 Tip</h3>
+                    <p className="text-primary/80 text-sm">
                       Prihlás sa a získaj každý deň 2 nové otázky zo každej skupiny ZADARMO!
                       Plus možnosť označiť si obľúbené otázky.
                     </p>
@@ -278,8 +278,8 @@ const router = useRouter()
             ) : currentQuestion ? (
               <div className="space-y-6">
                 <div className="text-center">
-                  <div className="bg-gray-50 rounded-lg p-6 md:p-8">
-                    <p className="text-lg md:text-xl font-medium text-gray-800 leading-relaxed">
+                  <div className="bg-muted rounded-lg p-6 md:p-8">
+                    <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
                       {currentQuestion.text}
                     </p>
                   </div>
@@ -291,7 +291,7 @@ const router = useRouter()
                       <Button variant="outline" size="sm" onClick={handlePrevQuestion}>
                         <ChevronLeft className="h-4 w-4" />
                       </Button>
-                      <span className="text-sm text-gray-600 px-3">
+                      <span className="text-sm text-muted-foreground px-3">
                         {currentFavoriteIndex + 1} / {favoritesList.length}
                       </span>
                       <Button variant="outline" size="sm" onClick={handleNextQuestion}>
@@ -302,7 +302,7 @@ const router = useRouter()
                     <Button
                       onClick={handleNextQuestion}
                       disabled={isLoading || (!user && !canViewMore)}
-                      className="bg-purple-600 hover:bg-purple-700"
+                      className="bg-primary hover:bg-primary/90"
                     >
                       {isLoading ? 'Načítavam...' : 'Ďalšia otázka'}
                     </Button>
@@ -315,13 +315,13 @@ const router = useRouter()
                       onClick={() => toggleFavorite(currentQuestion.id)}
                       className={`flex items-center gap-2 ${
                         favorites.includes(currentQuestion.id)
-                          ? 'text-red-600 border-red-300'
-                          : 'text-gray-600'
+                          ? 'text-destructive border-destructive/30'
+                          : 'text-muted-foreground'
                       }`}
                     >
                       <Heart
                         className={`h-4 w-4 ${
-                          favorites.includes(currentQuestion.id) ? 'fill-red-600' : ''
+                          favorites.includes(currentQuestion.id) ? 'fill-destructive' : ''
                         }`}
                       />
                       {favorites.includes(currentQuestion.id) ? 'Obľúbené' : 'Pridať k obľúbeným'}
@@ -330,13 +330,13 @@ const router = useRouter()
                 </div>
 
                 {!user && (
-                  <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                    <p className="text-yellow-800 text-sm">
+                  <div className="text-center p-4 bg-warning/10 rounded-lg border border-warning/20">
+                    <p className="text-warning text-sm">
                       🎁 Vidíš otázky zadarmo! Pre viac funkcií sa
                       <Button
                         variant="link"
                         size="sm"
-                        className="text-yellow-800 underline px-1"
+                        className="text-warning underline px-1"
                         onClick={() => router.push('/auth/login')}
                       >
                         prihlás
@@ -345,7 +345,7 @@ const router = useRouter()
                       <Button
                         variant="link"
                         size="sm"
-                        className="text-yellow-800 underline px-1"
+                        className="text-warning underline px-1"
                         onClick={() => router.push('/upgrade')}
                       >
                         kúp plný prístup

@@ -46,7 +46,7 @@ export default function Hero({ lang }: { lang: string }) {
         <div className="relative animate-slide-up">
           <div className="card-connection p-8 space-y-6">
             <div className="flex items-center gap-3">
-              <div className="h-3 w-3 rounded-full bg-green-500 animate-pulse-connection"></div>
+              <div className="h-3 w-3 rounded-full bg-success animate-pulse-connection"></div>
               <span className="text-sm font-medium text-muted-foreground">
                 {t("hero.sample.label", "Ukážka otázky")}
               </span>

@@ -39,15 +39,15 @@ export default function Layout({ children }: LayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-background shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2">
-              <Brain className="text-pink-500 h-8 w-8" />
-              <span className="text-xl font-bold text-purple-700">Spoznajme sa</span>
+              <Brain className="text-accent h-8 w-8" />
+              <span className="text-xl font-bold text-primary">Spoznajme sa</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -71,7 +71,7 @@ export default function Layout({ children }: LayoutProps) {
                 <div className="flex items-center gap-3">
                   <div className="text-sm">
                     <div className="font-medium">{user.email}</div>
-                    <div className="text-gray-500">{isPaid ? '✨ Plný prístup' : '🆓 Základný'}</div>
+                    <div className="text-muted-foreground">{isPaid ? '✨ Plný prístup' : '🆓 Základný'}</div>
                   </div>
                   <Button variant="outline" size="sm" onClick={handleSignOut}>
                     <LogOut className="h-4 w-4" />
@@ -102,7 +102,7 @@ export default function Layout({ children }: LayoutProps) {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t">
+          <div className="md:hidden bg-background border-t">
             <div className="px-4 py-2 space-y-2">
               {menuItems.map((item) => (
                 <Button
