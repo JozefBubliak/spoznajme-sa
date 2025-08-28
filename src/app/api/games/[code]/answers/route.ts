@@ -28,28 +28,38 @@ export async function POST(req: Request) {
 
   const s = supabaseServer()
 
-  const { data: game, error: gErr } = await s
-    .from('herd_games')
-    .select('code')
-    .eq('code', gameCode)
+  const { data: round } = await s
+    .from('herd_rounds')
+    .select('status, q_index')
+    .eq('id', roundId)
+    .eq('game_code', gameCode)
     .maybeSingle()
 
-  if (gErr) return NextResponse.json({ error: gErr.message }, { status: 500 })
-  if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  if (!round || round.status !== 'running' || (round.q_index || 0) !== qIndex) {
+    return NextResponse.json({ error: 'Round not accepting answers' }, { status: 400 })
+  }
 
-  const { error } = await s
+  const { data: existing } = await s
     .from('herd_answers')
-    .upsert(
-      {
-        game_code: gameCode,
-        player_id: playerId,
-        round_id: roundId,
-        q_index: qIndex,
-        answer,
-        answered_at: new Date().toISOString(),
-      },
-      { onConflict: 'player_id,round_id,q_index' }
-    )
+    .select('player_id')
+    .eq('game_code', gameCode)
+    .eq('player_id', playerId)
+    .eq('round_id', roundId)
+    .eq('q_index', qIndex)
+    .maybeSingle()
+
+  if (existing) {
+    return NextResponse.json({ ok: true, ignored: true })
+  }
+
+  const { error } = await s.from('herd_answers').insert({
+    game_code: gameCode,
+    player_id: playerId,
+    round_id: roundId,
+    q_index: qIndex,
+    answer,
+    answered_at: new Date().toISOString(),
+  })
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })

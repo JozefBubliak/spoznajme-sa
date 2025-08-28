@@ -48,23 +48,26 @@ export default function PlayJoinPage() {
     const unsub = RealtimeClient.subscribe(ch, async (ev) => {
       console.log('[PLAYER] Event received:', ev)
       
-      if (ev.type === 'game:start') {
-        // Load the current question
+      if (ev.type === 'question:show') {
         setCurrentRoundId(ev.roundId)
         setSelectedAnswer(null)
         setCorrectAnswer(null)
         setGameState('question')
-        
         try {
           const r = await fetch(`/api/games/${code}/rounds/${ev.roundId}/question?qIndex=${ev.qIndex}`)
           if (r.ok) {
             const questionData = await r.json()
             setCurrentQuestion(questionData)
-            setTimeLeft(questionData.timeLeft || 0)
+            setTimeLeft(0)
           }
         } catch (error) {
           console.error('Failed to load question:', error)
         }
+      }
+
+      if (ev.type === 'timer:start') {
+        setGameState('question')
+        setTimeLeft(ev.durationSec)
       }
       
       if (ev.type === 'round:lock') {

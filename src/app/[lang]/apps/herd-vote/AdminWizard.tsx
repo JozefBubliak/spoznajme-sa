@@ -1,11 +1,12 @@
 // src/app/[lang]/apps/herd-vote/AdminWizard.tsx
 'use client'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { RealtimeClient } from '@/lib/realtime/client'
+import { channelFor } from '@/lib/realtime/types'
 import { useAuth } from '@/hooks/useAuth'
 
-type Phase =
-  | 'lobby' | 'config' | 'round_setup'
-  | 'playing' | 'locked' | 'reveal' | 'round_results' | 'final'
+type Phase = 'lobby' | 'config' | 'round_setup' | 'playing' | 'final'
+type RoundStatus = 'ready' | 'shown' | 'running' | 'locked' | 'results' | 'finished'
 
 type Game = {
   code: string
@@ -58,7 +59,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
   const [players, setPlayers] = useState<{id:string; name:string}[]>([])
   const [categories, setCategories] = useState<Category[]>([])
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [roundStatus, setRoundStatus] = useState<RoundStatus>('ready')
 
   useEffect(() => {
     (async () => {
@@ -78,13 +79,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
     })()
   }, [authFetch])
 
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current)
-    }
-  }, [])
-
-  const refresh = useMemo(() => async () => {
+  const refresh = useCallback(async () => {
     if (!code) return
     setErr(null)
     try {
@@ -119,7 +114,34 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
         }
       } catch {}
     } catch (e:any) { setErr(e?.message ?? 'Chyba') }
-  }, [code])
+  }, [authFetch, code])
+
+  // realtime events
+  useEffect(() => {
+    if (!code) return
+    const ch = channelFor(code)
+    const unsub = RealtimeClient.subscribe(ch, ev => {
+      if (ev.type === 'question:show') {
+        setRoundStatus('shown')
+        setGame(g => g ? { ...g, phase: 'playing', timer_deadline: null } : g)
+      }
+      if (ev.type === 'timer:start') {
+        setRoundStatus('running')
+        setGame(g => g ? { ...g, timer_deadline: new Date(ev.startedAt + ev.durationSec * 1000).toISOString() } : g)
+      }
+      if (ev.type === 'round:lock') {
+        setRoundStatus('locked')
+      }
+      if (ev.type === 'round:results') {
+        setRoundStatus('results')
+      }
+      if (ev.type === 'round:finish') {
+        setRoundStatus('finished')
+        refresh()
+      }
+    })
+    return () => unsub()
+  }, [code, refresh])
 
   useEffect(() => {
     if (transitioning) return
@@ -216,12 +238,6 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
     if (!code || !g) return
     const seconds = g.question_seconds ?? 45
     await post(`/api/games/${code}/rounds/timer/start`, { seconds })
-    if (timerRef.current) clearTimeout(timerRef.current)
-    timerRef.current = setTimeout(async () => {
-      await post(`/api/games/${code}/rounds/lock`)
-      await post(`/api/games/${code}/rounds/results`)
-      await post(`/api/games/${code}/rounds/next`)
-    }, seconds * 1000)
   }
 
   const joinUrl = useMemo(() => {
@@ -247,7 +263,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       {/* KROK 1: Lobby + zamknutie */}
       {g?.phase === 'lobby' && (
         <div className="space-y-2">
-          <div className="text-sm">Zdieľaj link / QR, počkaj na hráčov.</div>
+          <div className="text-sm">Hráči: naskenujte QR alebo otvorte link a zadajte meno.</div>
 
           <div className="flex flex-wrap items-start gap-4">
             <img
@@ -340,7 +356,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       {/* KROK 3: Nastavenie kôl po jednom */}
       {g?.phase === 'round_setup' && (
         <div className="space-y-2">
-          <div className="text-sm">Nastavenie kola {roundIx+1}/{g.total_rounds}</div>
+          <div className="text-sm">Nastavenie kola {roundIx + 1}/{g.total_rounds}</div>
           <div className="flex gap-3 items-end">
             <label className="text-sm">Kategória
               <select className="block border rounded px-2 py-1"
@@ -364,37 +380,57 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
                         categoryId: roundCfg.categoryId,
                         questions: roundCfg.questions,
                       })
-                      const last = (roundIx + 1) >= (g.total_rounds || 1)
+                      const last = roundIx >= (g.total_rounds || 1) - 1
                       if (last) {
                         await post(`/api/games/${code}/rounds/start`, { index: 0 })
+                        setGame(g => g ? { ...g, phase: 'playing', active_round_index: 0 } : g)
+                        setRoundStatus('shown')
                       } else {
-                        setRoundIx(x=>x+1)
+                        setRoundIx(x => Math.min(x + 1, (g.total_rounds || 1) - 1))
                         await refresh()
                       }
                     }}>
-              {(roundIx + 1) >= (g.total_rounds || 1) ? 'Ideme hrať' : 'Nastaviť ďalšie kolo'}
+              {roundIx >= (g.total_rounds || 1) - 1 ? 'Ideme hrať' : 'Nastaviť ďalšie kolo'}
             </button>
           </div>
         </div>
       )}
 
       {/* KROK 4: Priebeh kola – odpočet, lock, reveal */}
-      {(g?.phase === 'playing' || g?.phase === 'locked' || g?.phase === 'reveal') && (
+      {g?.phase === 'playing' && (
         <div className="space-y-2">
           <div className="text-sm">
-            Kolo { (g.active_round_index ?? 0)+1 } / {g.total_rounds} • Fáza: <b>{g.phase}</b>
+            Kolo {(g.active_round_index ?? 0) + 1} / {g.total_rounds} • Stav: <b>{roundStatus}</b>
           </div>
           <div className="flex flex-wrap gap-2">
             <button
               className="rounded bg-slate-800 text-white px-3 py-1 disabled:opacity-50"
-              disabled={busy || g.phase !== 'playing'}
+              disabled={busy || roundStatus !== 'shown'}
               onClick={startCountdown}
             >
               Spustiť odpočet
             </button>
-          </div>
-          <div className="text-xs text-muted-foreground">
-            Uzamknutie, vyhodnotenie aj prechod na ďalšiu otázku prebehne automaticky po odpočte.
+            <button
+              className="rounded bg-slate-800 text-white px-3 py-1 disabled:opacity-50"
+              disabled={busy || roundStatus !== 'running'}
+              onClick={() => post(`/api/games/${code}/rounds/lock`)}
+            >
+              Uzamknúť
+            </button>
+            <button
+              className="rounded bg-slate-800 text-white px-3 py-1 disabled:opacity-50"
+              disabled={busy || roundStatus !== 'locked'}
+              onClick={() => post(`/api/games/${code}/rounds/results`)}
+            >
+              Vyhodnotiť
+            </button>
+            <button
+              className="rounded bg-slate-800 text-white px-3 py-1 disabled:opacity-50"
+              disabled={busy || roundStatus !== 'results'}
+              onClick={() => post(`/api/games/${code}/rounds/next`)}
+            >
+              Ďalšia otázka
+            </button>
           </div>
           {g.timer_deadline && (
             <div className="text-xs text-muted-foreground">

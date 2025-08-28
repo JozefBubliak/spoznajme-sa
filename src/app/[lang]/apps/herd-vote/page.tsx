@@ -25,7 +25,8 @@ function mapPhase(phase: string): GameStatus {
 
 export default function HerdVoteAdminPage() {
   // Lang získame zo URL cez useParams (vyhneme sa typovým „PageProps“ problémom)
-  const { lang } = useParams<{ lang: string }>()
+  const params = useParams<{ lang: string }>()
+  const lang = params?.lang ?? 'sk'
   const router = useRouter()
   const { user, loading, session } = useAuth()
   useEffect(() => {

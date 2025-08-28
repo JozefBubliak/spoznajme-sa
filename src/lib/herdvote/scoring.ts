@@ -76,3 +76,10 @@ export function calculateRoundScores(
 
   return scores
 }
+
+export function mapFromGameScoringMode(mode: string): ScoringClassic | ScoringPodium {
+  if (mode === 'weighted') {
+    return { mode: 'podium', tiers: [5, 3, 1], incorrect: 0, none: 0 }
+  }
+  return { mode: 'classic', correct: 1, incorrect: 0, none: 0 }
+}
