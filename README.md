@@ -28,6 +28,24 @@ npm run dev
 
 Pages live in `src/app/` and UI components in `src/components/`. Edits reload automatically while the dev server runs.
 
+## Ako upraviť dizajn
+
+Hlavné farby, medzery, rádiusy a animácie sú definované ako CSS premenné v súbore [`src/app/globals.css`](src/app/globals.css). Úprava hodnôt v bloku `:root` (a zodpovedajúcich tmavých variantov v `.dark`) mení vzhľad celého projektu. Štýly jednotlivých prvkov sú zoskupené v komponentoch v adresári `src/components/`.
+
+### Príklady použitia
+
+```html
+<section class="bg-[hsl(var(--background))] text-[hsl(var(--foreground))] p-[var(--space-xl)]">
+  <h2 class="gradient-text text-[var(--font-size-3xl)]">Nadpis sekcie</h2>
+  <div class="card-modern p-[var(--space-lg)] mt-[var(--space-lg)]">
+    <p>Obsah karty…</p>
+    <button class="btn-hero mt-[var(--space-md)]">Primárne tlačidlo</button>
+  </div>
+</section>
+```
+
+V ukážke sa používajú premenné ako `--background`, `--foreground` či veľkosti z `--space-*` a `--font-size-*`. Pre rýchle skladanie rozhraní sú k dispozícii aj triedy komponentov ako `card-modern`, `card-connection`, `btn-hero` alebo `btn-warm`.
+
 ## Checklist
 
 - [x] Removed obsolete root placeholder files.
