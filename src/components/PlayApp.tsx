@@ -38,7 +38,7 @@ export default function PlayApp() {
   } = useQuestions()
 
   const [group, setGroup] = useState<GroupKey | null>(null)
-  the [favoritesMode, setFavoritesMode] = useState(false)
+  const [favoritesMode, setFavoritesMode] = useState(false)
   const [favoritesList, setFavoritesList] = useState<any[]>([])
   const [currentFavoriteIndex, setCurrentFavoriteIndex] = useState(0)
   const [questionCounts, setQuestionCounts] = useState({ total: 0, remaining: 0 })
