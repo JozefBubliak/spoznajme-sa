@@ -3,10 +3,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { KOMPAS_SECTIONS } from '@/config/kompas-sections'
 
+
 export const metadata: Metadata = {
   title: 'Komunikačný kompas – Páry | DeepTalks',
   description:
+
     'Vety a minipostupy pre komunikáciu v pároch. Vyberte si tému.',
+
 }
 
 type P = { params: Promise<{ lang: string }> }
