@@ -7,9 +7,8 @@ import { supabase } from '@/lib/supabaseClient'
 function AuthCallbackContent() {
   const router = useRouter()
   const params = useSearchParams()
-  const next = params.get('next') && params.get('next')!.startsWith('/')
-    ? params.get('next')!
-    : '/'
+  const nextParam = params?.get('next')
+  const next = nextParam && nextParam.startsWith('/') ? nextParam : '/'
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {

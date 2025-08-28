@@ -8,7 +8,7 @@ import { useSearchParams } from 'next/navigation'
 
 function LoginPageContent() {
   const params = useSearchParams()
-  const raw = params.get('next')
+  const raw = params?.get('next')
   const next = raw && raw.startsWith('/') ? raw : '/'
 
   const loginWithGoogle = async () => {

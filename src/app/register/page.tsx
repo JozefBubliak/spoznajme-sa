@@ -10,8 +10,8 @@ function RegisterPageContent() {
 
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const currentPath =
-    pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '')
+  const searchString = searchParams?.toString() ?? ''
+  const currentPath = pathname + (searchString ? `?${searchString}` : '')
 
   const registerWithGoogle = async () => {
     const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent(

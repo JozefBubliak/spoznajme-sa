@@ -42,7 +42,8 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+# Do not ignore the Next.js type declarations so TypeScript can resolve imports
+!next-env.d.ts
 
 # IDE/editor
 .vscode/
