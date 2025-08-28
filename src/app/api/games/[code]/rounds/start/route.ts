@@ -1,6 +1,8 @@
 // PATH: src/app/api/games/[code]/rounds/start/route.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { RealtimeServer } from '@/lib/realtime/server'
+import { channelFor } from '@/lib/realtime/types'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { asArray } from '@/lib/supabase/safe'
@@ -61,6 +63,14 @@ export async function POST(req: NextRequest, context: any) {
     .from('herd_games')
     .update({ phase: 'playing', active_round_index: index })
     .eq('code', gameCode)
+
+  await RealtimeServer.publish(channelFor(gameCode), {
+    type: 'question:show',
+    code: gameCode,
+    roundId: round.id,
+    qIndex: 0,
+    at: Date.now(),
+  })
 
   return NextResponse.json({ ok: true, phase: 'playing' })
 }

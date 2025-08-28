@@ -68,7 +68,7 @@ export default async function AppsPage({ params }: P) {
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid gap-8 md:grid-cols-2">
-            {categories.map((cat) => 
+            {categories.map((cat) =>
               cat.slugs.map((slug) => {
                 const g = games[slug]
                 const gameImage = imageMap[slug]
@@ -107,6 +107,18 @@ export default async function AppsPage({ params }: P) {
               })
             )}
           </div>
+        </div>
+      </section>
+
+      {/* How to play manual */}
+      <section className="py-16 px-4 border-t">
+        <div className="max-w-4xl mx-auto space-y-4 text-sm">
+          <h2 className="text-2xl font-bold">Ako hrať</h2>
+          <p>
+            Vyberte si hru zo zoznamu a riaďte sa pokynmi na jej stránke. Tímový kvíz{' '}
+            <Link href={`/${lang}/apps/herd-vote`} className="text-blue-600 underline">Herd Vote</Link>
+            {' '}spustíte v prehliadači a hráči sa pripoja cez zdieľaný odkaz alebo QR kód.
+          </p>
         </div>
       </section>
     </div>

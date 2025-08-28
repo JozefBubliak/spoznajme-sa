@@ -41,8 +41,13 @@ export async function POST(req: NextRequest, context: any) {
     .eq('game_code', gameCode)
     .single()
 
-
-  if (!round || round.status !== 'running') {
+  if (!round) {
+    return NextResponse.json({ error: 'No running round to lock' }, { status: 400 })
+  }
+  if (round.status === 'locked') {
+    return NextResponse.json({ success: true, roundId: round.id, qIndex: round.q_index || 0 })
+  }
+  if (round.status !== 'running') {
     return NextResponse.json({ error: 'No running round to lock' }, { status: 400 })
   }
 

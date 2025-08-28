@@ -3,7 +3,6 @@
 import type { Player } from '../herdvote/store'
 
 export type HerdEvent =
-  | { type: 'game:start'; code: string; roundId: string; qIndex: number; at: number }
   | { type: 'question:show'; code: string; roundId: string; qIndex: number; at: number }
   | { type: 'timer:start';   code: string; roundId: string; qIndex: number; startedAt: number; durationSec: number }
   | { type: 'round:lock';    code: string; roundId: string; qIndex: number; at: number }

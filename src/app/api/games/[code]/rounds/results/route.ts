@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
-import { calculateRoundScores } from '@/lib/herdvote/scoring'
+import { calculateRoundScores, mapFromGameScoringMode } from '@/lib/herdvote/scoring'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { asArray } from '@/lib/supabase/safe'
@@ -44,7 +44,13 @@ export async function POST(req: NextRequest, context: any) {
     .eq('game_code', gameCode)
     .maybeSingle()
 
-  if (roundErr || !round || round.status !== 'locked') {
+  if (roundErr || !round) {
+    return NextResponse.json({ error: 'No locked round to evaluate' }, { status: 400 })
+  }
+  if (round.status === 'results') {
+    return NextResponse.json({ success: true })
+  }
+  if (round.status !== 'locked') {
     return NextResponse.json({ error: 'No locked round to evaluate' }, { status: 400 })
   }
 
@@ -84,7 +90,15 @@ export async function POST(req: NextRequest, context: any) {
   }))
 
   const roundSettings = (round.settings as any) ?? {}
-  const scoring = roundSettings.scoring ?? { mode: 'classic', correct: 1, incorrect: 0, none: 0 }
+  let scoring = roundSettings.scoring
+  if (!scoring) {
+    const { data: g } = await s
+      .from('herd_games')
+      .select('scoring_mode')
+      .eq('code', gameCode)
+      .maybeSingle()
+    scoring = mapFromGameScoringMode((g?.scoring_mode as any) ?? 'simple')
+  }
 
   const questionScores = calculateRoundScores(
     playerAnswers,
