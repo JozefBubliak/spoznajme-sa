@@ -70,7 +70,7 @@ export default function PlayerPanel({ code }: PlayerPanelProps) {
             <QuestionEvaluation
               playerAnswer={results.playerAnswer}
               correctAnswer={results.correctAnswer}
-              funFact={currentQuestion.funFact}
+              funFact={currentQuestion.fun_fact}
             />
           )}
         </>

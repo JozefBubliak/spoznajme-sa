@@ -75,7 +75,13 @@ export default function AdminPanel({ code }: AdminPanelProps) {
               {timerRunning && (
                 <Button onClick={() => setTimerRunning(false)}>🔒 Uzamknúť odpovede</Button>
               )}
-              {results && <QuestionEvaluation {...results} />}
+              {results && (
+                <QuestionEvaluation
+                  playerAnswer={results.playerAnswer}
+                  correctAnswer={results.correctAnswer}
+                  funFact={currentQuestion?.fun_fact}
+                />
+              )}
               {results && <Button>➡️ Ďalšia otázka</Button>}
             </>
           )}
