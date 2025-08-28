@@ -1,12 +1,16 @@
 // PATH: src/app/[lang]/kompas/rodic-dieta/page.tsx
 import type { Metadata } from 'next'
+
 import Link from 'next/link'
 import { KOMPAS_SECTIONS_RODIC_DIETA } from '@/config/kompas-sections'
+
 
 export const metadata: Metadata = {
   title: 'Komunikačný kompas – Rodič–dieťa | DeepTalks',
   description:
+
     'Vety a minipostupy pre komunikáciu medzi rodičom a dieťaťom. Vyber si tému.',
+
 }
 
 type P = { params: Promise<{ lang: string }> }
@@ -27,7 +31,9 @@ export default async function Page({ params }: P) {
       <section>
         <h2 className="text-xl font-semibold mb-3">Témy</h2>
         <div className="grid md:grid-cols-2 gap-3">
+
           {KOMPAS_SECTIONS_RODIC_DIETA.map((t) => (
+
             <Link
               key={t.slug}
               href={go(`/kompas/tema/${t.slug}`)}
@@ -39,6 +45,7 @@ export default async function Page({ params }: P) {
           ))}
         </div>
       </section>
+
     </div>
   )
 }

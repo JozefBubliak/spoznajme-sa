@@ -1,6 +1,8 @@
 export type KompasSection = { slug: string; label: string; desc: string }
 
+
 export const KOMPAS_SECTIONS_RODIC_DIETA: KompasSection[] = [
+
   { slug: "otvarace-ritualy",     label: "Začať rozhovor & rituály",     desc: "Ľahké vety na úvod, check-iny a drobné rituály spojenia" },
   { slug: "emocie-a-regulacia",   label: "Emócie & regulácia",           desc: "ako pomenovať pocity, upokojiť sa a pomôcť druhému" },
   { slug: "hranice-a-dohody",     label: "Hranice & dohody",             desc: "jasné požiadavky, dohody a následky bez kriku" },
@@ -13,6 +15,7 @@ export const KOMPAS_SECTIONS_RODIC_DIETA: KompasSection[] = [
   { slug: "identita-a-telo",      label: "Identita & telo",              desc: "sebaobraz, rešpekt a citlivé hranice" },
 ]
 
+
 export const KOMPAS_SECTIONS_PARY: KompasSection[] = [
   ...KOMPAS_SECTIONS_RODIC_DIETA,
 ]
@@ -22,3 +25,4 @@ export const KOMPAS_SECTIONS_DETI: KompasSection[] = [
 ]
 
 export const KOMPAS_SECTIONS = KOMPAS_SECTIONS_RODIC_DIETA
+
