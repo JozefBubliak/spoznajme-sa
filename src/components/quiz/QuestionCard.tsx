@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 interface Question {
   text: string
-  options: string[]
+  options: [string, string, string, string]
 }
 
 interface QuestionCardProps {

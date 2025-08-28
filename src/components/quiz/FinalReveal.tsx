@@ -10,8 +10,8 @@ interface FinalRevealProps {
 
 export default function FinalReveal({ players }: FinalRevealProps) {
   const sorted = [...players].sort((a, b) => b.score - a.score)
-
-  if (sorted.length === 0) return null
+  const winner = sorted[0]
+  if (!winner) return null
 
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
@@ -20,7 +20,7 @@ export default function FinalReveal({ players }: FinalRevealProps) {
       <h1
         style={{ fontSize: '2.5rem', margin: '1rem 0', color: '#1e90ff' }}
       >
-        🏆 {sorted[0].name}
+        🏆 {winner.name}
       </h1>
 
       <ul style={{ listStyle: 'none', padding: 0 }}>
