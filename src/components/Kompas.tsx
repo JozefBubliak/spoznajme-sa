@@ -3,18 +3,16 @@
 import { useState } from 'react'
 import { KOMPAS_DATA } from '@/data/kompas'
 
+const groupImages: Record<string, string> = {
+  Deti: '/images/kompas/deti.png',
+  Páry: '/images/kompas/pary.png',
+  Práca: '/images/kompas/praca.png',
+  Priatelia: '/images/kompas/priatelia.png',
+  'Citlivé témy': '/images/kompas/citlive.png',
+}
+
 export default function Kompas() {
-  // dynamicky zoznam skupín, tém a podtém
   const groups = Array.from(new Set(KOMPAS_DATA.map((item) => item.group)))
-
-  const groupIcons: Record<string, string> = {
-    Deti: '🧒',
-    Páry: '❤️',
-    Práca: '💼',
-    Priatelia: '👥',
-    'Citlivé témy': '⚠️',
-  }
-
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
 
   const topics = selectedGroup
@@ -45,7 +43,7 @@ export default function Kompas() {
       </p>
 
       {/* Výber skupiny */}
-      <div className='flex flex-wrap justify-center gap-3 mb-8'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12'>
         {groups.map((group) => (
           <button
             key={group}
@@ -53,17 +51,16 @@ export default function Kompas() {
               setSelectedGroup(group)
               setSelectedTopic(null)
             }}
-
-            className={`flex items-center gap-2 px-4 py-2 rounded-full border transition ${
-
-              selectedGroup === group
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-100 hover:bg-gray-200'
+            className={`rounded-xl overflow-hidden shadow hover:shadow-lg transition ${
+              selectedGroup === group ? 'ring-4 ring-blue-400' : ''
             }`}
           >
-            <span className='text-xl'>{groupIcons[group] || '🔹'}</span>
-            <span>{group}</span>
-
+            <img
+              src={groupImages[group] || '/images/kompas/default.png'}
+              alt={group}
+              className='w-full h-40 object-cover'
+            />
+            <div className='p-3 text-center font-semibold bg-white'>{group}</div>
           </button>
         ))}
       </div>
@@ -75,8 +72,8 @@ export default function Kompas() {
             Ak je ti ťažko, nie si na to sám ❤️
           </h2>
           <p className='text-red-600 mb-4'>
-            Ak máš pocit, že to nezvládaš, skús sa porozprávať s niekým, komu veríš.
-            {"  "}Alebo sa môžeš obrátiť na odbornú pomoc:
+            Ak máš pocit, že to nezvládaš, skús sa porozprávať s niekým, komu veríš.{' '}
+            Alebo sa môžeš obrátiť na odbornú pomoc:
           </p>
           <ul className='space-y-2 text-red-800 font-medium'>
             <li>
@@ -94,7 +91,6 @@ export default function Kompas() {
           </ul>
         </div>
       )}
-
 
       {/* Výber témy */}
       {selectedGroup && (
@@ -117,28 +113,43 @@ export default function Kompas() {
 
       {/* Výpis subtopics */}
       {selectedGroup && selectedTopic && (
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-          {subtopics.map((item, idx) => (
-            <div
-              key={idx}
-              className='bg-white rounded-xl shadow-md p-6 transition hover:shadow-lg'
-            >
-              <h3 className='text-lg font-semibold mb-4'>{item.subtopic}</h3>
-              {item.phrases.length > 0 ? (
-                <ul className='space-y-2 list-disc list-inside text-gray-700'>
-                  {item.phrases.map((phrase, i) => (
-                    <li key={i}>{phrase}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p className='text-gray-400 italic'>(Obsah zatiaľ čaká na doplnenie)</p>
-              )}
-            </div>
-          ))}
+        <div>
+          {/* Obrázok pre danú skupinu */}
+          <div className='mb-6'>
+            <img
+              src={groupImages[selectedGroup]}
+              alt={selectedGroup}
+              className='w-full h-64 object-cover rounded-xl shadow'
+            />
+          </div>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+            {subtopics.map((item, idx) => (
+              <div
+                key={idx}
+                className='bg-white rounded-xl shadow-md p-6 transition hover:shadow-lg'
+              >
+                <h3 className='text-lg font-semibold mb-4'>{item.subtopic}</h3>
+                {item.phrases.length > 0 ? (
+                  <ul className='space-y-2 text-gray-700'>
+                    {item.phrases.map((phrase, i) => (
+                      <li
+                        key={i}
+                        className='bg-gray-50 p-3 rounded-lg shadow-sm border-l-4 border-blue-400'
+                      >
+                        {phrase}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className='text-gray-400 italic'>(Obsah zatiaľ čaká na doplnenie)</p>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Ak ešte nič nevybral */}
       {!selectedGroup && (
         <p className='text-center text-gray-400 mt-12'>
           Vyber si, s kým chceš lepšie komunikovať 👆
@@ -147,3 +158,4 @@ export default function Kompas() {
     </div>
   )
 }
+
