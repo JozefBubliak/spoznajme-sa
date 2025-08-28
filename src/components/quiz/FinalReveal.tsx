@@ -1,3 +1,7 @@
+import { useEffect } from 'react'
+import { launchConfetti } from '../../utils/launchConfetti'
+import { playSound } from '../../utils/playSound'
+
 interface Player {
   id: string
   name: string
@@ -11,6 +15,12 @@ interface FinalRevealProps {
 export default function FinalReveal({ players }: FinalRevealProps) {
   const sorted = [...players].sort((a, b) => b.score - a.score)
   const winner = sorted[0]
+  useEffect(() => {
+    if (winner) {
+      launchConfetti()
+      playSound('win')
+    }
+  }, [winner])
   if (!winner) return null
 
   return (

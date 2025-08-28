@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from '@jest/globals';
 
 import { isRejectionAnswer } from '../rejection';
 import type { AnswerOption } from '../../types/domain';
