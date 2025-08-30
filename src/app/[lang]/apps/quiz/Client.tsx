@@ -22,9 +22,9 @@ function mapPhase(phase: string): GameStatus {
   return 'waiting'
 }
 
-type Props = { lang: string }
+type Props = { dict: any; lang: string }
 
-export default function QuizAdminClient({ lang }: Props) {
+export default function QuizAdminClient({ dict, lang }: Props) {
   const router = useRouter()
   const { user, loading, session } = useAuth()
   useEffect(() => {
