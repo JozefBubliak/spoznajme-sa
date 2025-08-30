@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
 import { UserCircle } from 'lucide-react'
-import type { Locale } from '@/i18n/config'
 
 type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
@@ -23,9 +22,9 @@ function mapPhase(phase: string): GameStatus {
   return 'waiting'
 }
 
-type Props = { dict: Record<string, unknown>; lang: Locale }
+type Props = { lang: string }
 
-export default function QuizAdminClient({ dict, lang }: Props) {
+export default function QuizAdminClient({ lang }: Props) {
   const router = useRouter()
   const { user, loading, session } = useAuth()
   useEffect(() => {
@@ -57,6 +56,7 @@ export default function QuizAdminClient({ dict, lang }: Props) {
   const [players, setPlayers] = useState<Player[]>([])
   const [currentRound, setCurrentRound] = useState<Round | null>(null)
   const [leaderboard, setLeaderboard] = useState<Player[]>([])
+  const [showConfig, setShowConfig] = useState(false)
 
   const hasCreated = useRef(false)
 
@@ -189,6 +189,14 @@ export default function QuizAdminClient({ dict, lang }: Props) {
     setGameStatus('running')
   }
 
+  const quickStart = async () => {
+    if (!gameCode) return
+    if (rounds.length === 0) {
+      await addRound()
+    }
+    await startGame()
+  }
+
   // --- Ovládanie kola ---
   const startRound = async (roundId?: string) => {
     if (!gameCode) return
@@ -242,6 +250,20 @@ export default function QuizAdminClient({ dict, lang }: Props) {
     return `${origin}/${urlLang}/play/${gameCode}`
   }, [gameCode, lang])
 
+  const shareJoinUrl = async () => {
+    if (!joinUrl) return
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Herd Vote', url: joinUrl })
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(joinUrl)
+        alert('Link skopírovaný do schránky')
+      }
+    } catch {
+      // ignoruj chyby zdieľania
+    }
+  }
+
   if (loading || !user) {
     return (
       <div className="mx-auto max-w-3xl p-6">
@@ -270,39 +292,88 @@ export default function QuizAdminClient({ dict, lang }: Props) {
             <span className="font-medium">Kód hry:</span> {gameCode || '—'}
           </div>
           {joinUrl && (
-            <div className="break-all">
-              <span className="font-medium">Link pre hráčov:</span> {joinUrl}
-            </div>
+            <>
+              <div className="break-all">
+                <span className="font-medium">Link pre hráčov:</span>{' '}
+                <a
+                  href={joinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  {joinUrl}
+                </a>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={shareJoinUrl}
+                  className="px-2 py-1 text-sm rounded border"
+                >
+                  Zdieľať
+                </button>
+              </div>
+              <div className="flex justify-center pt-2">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinUrl)}`}
+                  alt="QR kód"
+                />
+              </div>
+            </>
           )}
         </div>
       </div>
 
       {gameStatus === 'waiting' && (
-        <div className="rounded-xl border p-4 space-y-4">
-          <h2 className="font-semibold">Lobby</h2>
-          <div className="space-y-2">
-            {players.length > 0 ? (
-              players.map(p => (
-                <div key={p.id} className="border rounded p-2">
-                  {p.name}
-                </div>
-              ))
-            ) : (
-              <p className="text-sm text-muted-foreground">Zatiaľ sa nikto nepripojil</p>
+        <>
+          <div className="rounded-xl border p-4 space-y-4">
+            <h2 className="font-semibold">Lobby</h2>
+            <div className="space-y-2">
+              {players.length > 0 ? (
+                players.map(p => (
+                  <div key={p.id} className="border rounded p-2">
+                    {p.name}
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground">Zatiaľ sa nikto nepripojil</p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <button
+              onClick={quickStart}
+              className="px-4 py-2 rounded bg-blue-600 text-white"
+            >
+              Začať hru
+            </button>
+            {!showConfig && (
+              <button
+                onClick={() => setShowConfig(true)}
+                className="px-4 py-2 rounded border"
+              >
+                Podrobné nastavenia
+              </button>
             )}
           </div>
-        </div>
-      )}
 
-      {gameStatus === 'waiting' && (
-        <div className="rounded-xl border p-4 space-y-4">
-          <h2 className="font-semibold">Konfigurácia hier</h2>
-          <div className="space-y-2">
-            <div>
-              <label className="block text-sm mb-1">Celkový počet kôl</label>
-              <input
-                type="number"
-                value={totalRounds || ''}
+          {showConfig && (
+            <div className="rounded-xl border p-4 space-y-4">
+              <div className="flex justify-between items-center">
+                <h2 className="font-semibold">Konfigurácia hier</h2>
+                <button
+                  onClick={() => setShowConfig(false)}
+                  className="text-sm underline"
+                >
+                  Skryť
+                </button>
+              </div>
+              <div className="space-y-2">
+                <div>
+                  <label className="block text-sm mb-1">Celkový počet kôl</label>
+                  <input
+                    type="number"
+                    value={totalRounds || ''}
                 onChange={(e) => setTotalRounds(parseInt(e.target.value || '0', 10))}
                 className="w-full border rounded px-3 py-2"
                 placeholder="0"
@@ -456,26 +527,22 @@ export default function QuizAdminClient({ dict, lang }: Props) {
           ) : (
             <div className="space-y-2">
               <h2 className="font-semibold">Všetky kolá nastavené</h2>
-              <button
-                onClick={startGame}
-                className="px-4 py-2 rounded bg-blue-600 text-white"
-              >
-                Ideme hrať
-              </button>
             </div>
           )}
 
-          {rounds.length > 0 && (
-            <div className="text-sm text-gray-600 mt-2">
-              Kolá:{' '}
-              {rounds.map((r, i) => (
-                <span key={r.id} className="mr-2">
-                  #{i + 1} – {r.category}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
+            {rounds.length > 0 && (
+              <div className="text-sm text-gray-600 mt-2">
+                Kolá:{' '}
+                {rounds.map((r, i) => (
+                  <span key={r.id} className="mr-2">
+                    #{i + 1} – {r.category}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </>
       )}
 
       {rounds.length > 0 && gameStatus === 'running' && (
