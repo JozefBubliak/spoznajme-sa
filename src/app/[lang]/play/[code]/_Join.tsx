@@ -12,6 +12,7 @@ export default function PlayJoin({ code: passedCode }: { code?: string }) {
   const [me, setMe] = useState<Player | null>(null)
   const [players, setPlayers] = useState<Player[]>([])
   const [err, setErr] = useState<string>('')
+  const [leaderboard, setLeaderboard] = useState<Player[]>([])
 
   useEffect(() => {
     let t: ReturnType<typeof setTimeout> | undefined
@@ -36,6 +37,25 @@ export default function PlayJoin({ code: passedCode }: { code?: string }) {
     return () => {
       if (t) clearTimeout(t)
     }
+  }, [code])
+
+  useEffect(() => {
+    let t: ReturnType<typeof setTimeout> | undefined
+    const tick = async () => {
+      if (!code) return
+      try {
+        const r = await fetch(`/api/games/${code}/leaderboard`, { cache: 'no-store' })
+        if (r.ok) {
+          const j = await r.json()
+          setLeaderboard(Array.isArray(j) ? j : j.leaderboard || [])
+        }
+      } catch {}
+      finally {
+        t = setTimeout(tick, 5000)
+      }
+    }
+    tick()
+    return () => { if (t) clearTimeout(t) }
   }, [code])
 
   const join = async () => {
@@ -64,6 +84,13 @@ export default function PlayJoin({ code: passedCode }: { code?: string }) {
 
   return (
     <div className="mx-auto max-w-xl p-6 space-y-4">
+      {leaderboard.length > 0 && (
+        <div className="flex justify-center gap-4 text-sm">
+          {leaderboard.slice(0, 3).map((p) => (
+            <span key={p.id}>{p.name}: {p.score}</span>
+          ))}
+        </div>
+      )}
       <h1 className="text-2xl font-bold">Herd Vote – pripojenie</h1>
       <p className="text-sm text-gray-600">
         Naskenujte QR kód od moderátora alebo použite zdieľaný odkaz. Zadajte svoje meno a

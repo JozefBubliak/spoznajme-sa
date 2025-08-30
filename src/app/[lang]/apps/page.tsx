@@ -97,7 +97,13 @@ export default async function AppsPage({ params }: P) {
                         asChild 
                         className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0 shadow-md hover:shadow-lg transition-all duration-300"
                       >
-                        <Link href={slug === 'couplesync' ? g.link : `/${lang}/apps/${slug}`}>
+                        <Link href={
+                          slug === 'couplesync'
+                            ? g.link
+                            : slug === 'herd-vote'
+                              ? `/${lang}/apps/herd-vote/entry`
+                              : `/${lang}/apps/${slug}`
+                        }>
                           {g.cta}
                         </Link>
                       </Button>

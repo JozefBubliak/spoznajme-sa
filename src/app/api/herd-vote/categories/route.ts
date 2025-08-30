@@ -6,25 +6,26 @@ import { asArray } from '@/lib/supabase/safe'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
+  const url = new URL(req.url)
+  const country = (url.searchParams.get('country') || 'GLOBAL').toUpperCase()
+
   const session = await getSession().catch(() => null)
   const s = session ? supabaseServer(session.access_token) : supabaseServer()
 
-  const { data, error } = await s
+  const { data } = await s
     .from('herd_categories_with_counts')
-    .select('id,name,count,is_active')
+    .select('id,name,count,is_active,country_code')
+    .in('country_code', [country, 'GLOBAL'])
+    .eq('is_active', true)
     .order('name', { ascending: true })
 
-  if (error) {
-    return NextResponse.json({ categories: [] })
-  }
-
-  const active = asArray(data).filter((c: any) => c.is_active !== false)
   return NextResponse.json({
-    categories: active.map((c: any) => ({
+    categories: asArray(data).map((c: any) => ({
       id: c.id,
       name: c.name,
       count: c.count ?? 0,
+      country_code: c.country_code || 'GLOBAL',
     })),
   })
 }

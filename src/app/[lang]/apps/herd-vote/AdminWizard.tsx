@@ -30,6 +30,12 @@ type Category = {
   id: string
   name: string
   count?: number
+  country_code?: string
+}
+
+const flag = (c?: string) => {
+  const map: Record<string, string> = { DE: '🇩🇪', AT: '🇦🇹', SK: '🇸🇰', GLOBAL: '🌐' }
+  return map[(c || 'GLOBAL').toUpperCase()] || '🌐'
 }
 
 export default function AdminWizard({ code: codeProp }: { code?: string }) {
@@ -59,12 +65,13 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
   const [roundCfg, setRoundCfg] = useState<RoundCfg>({ topic: '', questions: 5 })
   const [players, setPlayers] = useState<{id:string; name:string}[]>([])
   const [categories, setCategories] = useState<Category[]>([])
+  const [country, setCountry] = useState('GLOBAL')
   const [roundStatus, setRoundStatus] = useState<RoundStatus>('ready')
 
   useEffect(() => {
     (async () => {
       try {
-        const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
+        const r = await authFetch(`/api/herd-vote/categories?country=${country}`, { cache: 'no-store' })
         if (!r.ok) return
         const j = await r.json()
         const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
@@ -77,7 +84,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
         }
       } catch {}
     })()
-  }, [authFetch])
+  }, [authFetch, country])
 
   const refresh = useCallback(async () => {
     if (!code) return
@@ -263,7 +270,7 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
       {/* KROK 1: Lobby + zamknutie */}
       {g?.phase === 'lobby' && (
         <div className="space-y-2">
-          <div className="text-sm">Hráči: naskenujte QR alebo otvorte link a zadajte meno.</div>
+          <div className="text-sm">Hráči: naskenujte QR alebo zadajte kód a pripojte sa.</div>
 
           <div className="flex flex-wrap items-start gap-4">
             <img
@@ -327,6 +334,14 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
           </div>
 
           <div className="flex flex-wrap gap-3 items-end">
+            <label className="text-sm">Štát
+              <select className="block border rounded px-2 py-1" value={country} onChange={e=>setCountry(e.target.value.toUpperCase())}>
+                <option value="GLOBAL">🌐 Global</option>
+                <option value="DE">🇩🇪 DE</option>
+                <option value="AT">🇦🇹 AT</option>
+                <option value="SK">🇸🇰 SK</option>
+              </select>
+            </label>
             <label className="text-sm">Počet kôl
               <input type="number" min={1} className="block border rounded px-2 py-1"
                      value={totalRounds} onChange={e=>setTotalRounds(parseInt(e.target.value||'1',10))}/>
@@ -363,7 +378,9 @@ export default function AdminWizard({ code: codeProp }: { code?: string }) {
                       value={roundCfg.categoryId ?? ''}
                       onChange={e=>setRoundCfg(c=>({ ...c, categoryId: e.target.value }))}>
                 {categories.map(c => (
-                  <option key={c.id} value={c.id}>{c.name}</option>
+                  <option key={c.id} value={c.id}>
+                    {flag(c.country_code)} {c.name} ({c.count ?? 0})
+                  </option>
                 ))}
               </select>
             </label>
