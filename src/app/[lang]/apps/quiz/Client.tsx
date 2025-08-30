@@ -52,6 +52,7 @@ export default function QuizAdminClient({ dict, lang }: Props) {
 
   const [totalRounds, setTotalRounds] = useState<number>(0)
   const [roundInput, setRoundInput] = useState<number>(1)
+  const [showConfig, setShowConfig] = useState(false)
 
   const [rounds, setRounds] = useState<{ id: string; category: string }[]>([])
   const [players, setPlayers] = useState<Player[]>([])
@@ -59,6 +60,7 @@ export default function QuizAdminClient({ dict, lang }: Props) {
   const [leaderboard, setLeaderboard] = useState<Player[]>([])
 
   const hasCreated = useRef(false)
+  const autoConfigured = useRef(false)
 
   const authFetch = (url: string, options: RequestInit = {}) => {
     const headers = {
@@ -173,6 +175,14 @@ export default function QuizAdminClient({ dict, lang }: Props) {
       alert(j.error || 'Nepodarilo sa pridať kolo')
     }
   }
+
+  useEffect(() => {
+    if (!autoConfigured.current && gameCode && categories.length > 0) {
+      autoConfigured.current = true
+      setTotalRounds(1)
+      addRound()
+    }
+  }, [gameCode, categories])
 
   const startGame = async () => {
     if (!gameCode) return
@@ -294,9 +304,30 @@ export default function QuizAdminClient({ dict, lang }: Props) {
         </div>
       )}
 
-      {gameStatus === 'waiting' && (
+      {gameStatus === 'waiting' && rounds.length > 0 && (
+        <div className="rounded-xl border p-4 space-y-2">
+          <button onClick={startGame} className="px-4 py-2 rounded bg-blue-600 text-white">
+            Začať hru
+          </button>
+          {!showConfig && (
+            <button
+              onClick={() => setShowConfig(true)}
+              className="px-4 py-2 rounded border"
+            >
+              Podrobné nastavenia
+            </button>
+          )}
+        </div>
+      )}
+
+      {gameStatus === 'waiting' && showConfig && (
         <div className="rounded-xl border p-4 space-y-4">
-          <h2 className="font-semibold">Konfigurácia hier</h2>
+          <div className="flex justify-between items-center">
+            <h2 className="font-semibold">Konfigurácia hier</h2>
+            <button onClick={() => setShowConfig(false)} className="text-sm underline">
+              Skryť
+            </button>
+          </div>
           <div className="space-y-2">
             <div>
               <label className="block text-sm mb-1">Celkový počet kôl</label>
@@ -456,12 +487,6 @@ export default function QuizAdminClient({ dict, lang }: Props) {
           ) : (
             <div className="space-y-2">
               <h2 className="font-semibold">Všetky kolá nastavené</h2>
-              <button
-                onClick={startGame}
-                className="px-4 py-2 rounded bg-blue-600 text-white"
-              >
-                Ideme hrať
-              </button>
             </div>
           )}
 
