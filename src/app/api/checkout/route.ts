@@ -4,9 +4,6 @@ import Stripe from 'stripe'
 
 const stripe = new Stripe(
   "sk_test_51Ro77dAciFxB09IeiOU1ulLk0JlI4YY35WnkdqJ4XLLMb8x18tbqm2jb3Et90bv2MZrWazw1ej2KFox6JCBfqqcY00tT8svLfQ",
-  {
-    apiVersion: '2025-08-27.basil',
-  },
 )
 
 export async function POST() {
