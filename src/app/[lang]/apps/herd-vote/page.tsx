@@ -1,7 +1,7 @@
 // PATH: src/app/[lang]/apps/herd-vote/page.tsx
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
@@ -60,6 +60,8 @@ export default function HerdVoteAdminPage() {
   const [currentRound, setCurrentRound] = useState<Round | null>(null)
   const [leaderboard, setLeaderboard] = useState<Player[]>([])
 
+  const hasCreated = useRef(false)
+
   const authFetch = (url: string, options: RequestInit = {}) => {
     const headers = {
       ...(options.headers || {}),
@@ -106,6 +108,14 @@ export default function HerdVoteAdminPage() {
       alert(j.error || 'Nepodarilo sa vytvoriť hru')
     }
   }
+
+  useEffect(() => {
+    if (!session) return
+    if (!gameCode && !hasCreated.current) {
+      hasCreated.current = true
+      createGame()
+    }
+  }, [session, gameCode])
 
   // --- Polling lobby + statusu hry ---
   useEffect(() => {
@@ -255,9 +265,10 @@ export default function HerdVoteAdminPage() {
       <h1 className="text-2xl font-bold">Herd Vote – moderátor</h1>
 
       <div className="rounded-xl border p-4 space-y-3">
-        {(!gameCode || gameStatus === 'finished') && (
+        {!gameCode && <div>Vytvárame hru...</div>}
+        {gameStatus === 'finished' && (
           <button onClick={createGame} className="px-4 py-2 rounded bg-purple-600 text-white">
-            {gameCode ? 'Vytvoriť novú hru' : 'Vytvoriť hru'}
+            Vytvoriť novú hru
           </button>
         )}
 
