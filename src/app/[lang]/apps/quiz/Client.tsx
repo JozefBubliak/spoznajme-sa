@@ -23,9 +23,7 @@ export default function QuizPageClient({ dict, lang }: Props) {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild size="lg" className="btn-primary">
-
-            <Link href={`/${lang}/apps/herd-vote`}>🎮 Vytvoriť hru (moderátor)</Link>
-
+            <Link href="/apps/quiz">🎮 Vytvoriť hru (moderátor)</Link>
           </Button>
         </div>
       </section>

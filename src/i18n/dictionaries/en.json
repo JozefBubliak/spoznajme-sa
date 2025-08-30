@@ -65,7 +65,7 @@
         "name": "Herd Vote – team quiz",
         "description": "Test how well you know each other. Fun questions from easy to unexpected – who knows you best?",
         "cta": "Start quiz",
-        "link": "/apps/herd-vote",
+        "link": "/apps/quiz",
         "manual": [
           "Create or join a game",
           "Answer the questions",
