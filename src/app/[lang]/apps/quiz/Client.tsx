@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
 import { UserCircle } from 'lucide-react'
+import type { Locale } from '@/i18n/config'
 
 type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
@@ -22,9 +23,9 @@ function mapPhase(phase: string): GameStatus {
   return 'waiting'
 }
 
-type Props = { lang: string }
+type Props = { dict: Record<string, unknown>; lang: Locale }
 
-export default function QuizAdminClient({ lang }: Props) {
+export default function QuizAdminClient({ dict, lang }: Props) {
   const router = useRouter()
   const { user, loading, session } = useAuth()
   useEffect(() => {
