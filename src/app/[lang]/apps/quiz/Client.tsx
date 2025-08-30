@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
 import { UserCircle } from 'lucide-react'
-import type { Locale } from '@/i18n/config'
 
 type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
@@ -23,9 +22,9 @@ function mapPhase(phase: string): GameStatus {
   return 'waiting'
 }
 
-type Props = { dict: Record<string, unknown>; lang: Locale }
+type Props = { lang: string }
 
-export default function QuizAdminClient({ dict, lang }: Props) {
+export default function QuizAdminClient({ lang }: Props) {
   const router = useRouter()
   const { user, loading, session } = useAuth()
   useEffect(() => {
@@ -242,6 +241,20 @@ export default function QuizAdminClient({ dict, lang }: Props) {
     return `${origin}/${urlLang}/play/${gameCode}`
   }, [gameCode, lang])
 
+  const shareJoinUrl = async () => {
+    if (!joinUrl) return
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Herd Vote', url: joinUrl })
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(joinUrl)
+        alert('Link skopírovaný do schránky')
+      }
+    } catch {
+      // ignoruj chyby zdieľania
+    }
+  }
+
   if (loading || !user) {
     return (
       <div className="mx-auto max-w-3xl p-6">
@@ -270,9 +283,33 @@ export default function QuizAdminClient({ dict, lang }: Props) {
             <span className="font-medium">Kód hry:</span> {gameCode || '—'}
           </div>
           {joinUrl && (
-            <div className="break-all">
-              <span className="font-medium">Link pre hráčov:</span> {joinUrl}
-            </div>
+            <>
+              <div className="break-all">
+                <span className="font-medium">Link pre hráčov:</span>{' '}
+                <a
+                  href={joinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  {joinUrl}
+                </a>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={shareJoinUrl}
+                  className="px-2 py-1 text-sm rounded border"
+                >
+                  Zdieľať
+                </button>
+              </div>
+              <div className="flex justify-center pt-2">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinUrl)}`}
+                  alt="QR kód"
+                />
+              </div>
+            </>
           )}
         </div>
       </div>
