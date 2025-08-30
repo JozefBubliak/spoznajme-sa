@@ -19,6 +19,7 @@ export default function QuizAdminClient({ lang }: Props) {
     if (!loading && !user) router.replace(`/login?next=/${lang}/apps/quiz`)
   }, [loading, user, router, lang])
 
+
   const [gameCode, setGameCode] = useState('')
   const [players, setPlayers] = useState<Player[]>([])
 
@@ -69,6 +70,7 @@ export default function QuizAdminClient({ lang }: Props) {
     return () => clearInterval(id)
   }, [gameCode])
 
+
   const joinUrl = useMemo(() => {
     if (!gameCode) return ''
     const origin = typeof window !== 'undefined' ? window.location.origin : ''
@@ -85,7 +87,9 @@ export default function QuizAdminClient({ lang }: Props) {
         alert('Link skopírovaný do schránky')
       }
     } catch {
+
       // ignore
+
     }
   }
 
@@ -109,11 +113,12 @@ export default function QuizAdminClient({ lang }: Props) {
 
       <div className="rounded-xl border p-4 space-y-4">
         <h2 className="font-semibold">Informácie o hre</h2>
-        <div className="space-y-1">
+        <div className="space-y-2">
           <div>
             <span className="font-medium">Kód hry:</span> {gameCode || '—'}
           </div>
           {joinUrl && (
+
             <>
               <div className="break-all">
                 <span className="font-medium">Link pre hráčov:</span>{' '}
