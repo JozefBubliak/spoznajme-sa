@@ -254,10 +254,12 @@ export default function QuizAdminClient({ lang }: Props) {
     )
   }
 
+
   return (
     <div className="mx-auto max-w-3xl p-6 space-y-6">
       <div className="flex justify-end text-sm text-muted-foreground gap-2 items-center">
         <UserCircle className="h-5 w-5" />
+
         {loading ? '...' : user?.email}
       </div>
       <h1 className="text-2xl font-bold">Kvíz – moderátor</h1>
@@ -311,6 +313,7 @@ export default function QuizAdminClient({ lang }: Props) {
 
           </div>
         )}
+
       </div>
 
       {gameCode && (

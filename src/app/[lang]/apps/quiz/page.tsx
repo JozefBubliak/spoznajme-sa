@@ -11,5 +11,7 @@ export default async function QuizPage({ params }: P) {
   const { lang: raw } = await params
   const lang = normalizeUrlLocale(raw)
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
+
   return <QuizAdminClient lang={lang} />
+
 }
