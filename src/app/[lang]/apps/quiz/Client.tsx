@@ -323,47 +323,7 @@ export default function QuizAdminClient({ lang }: Props) {
           </button>
         )}
 
-        {/* Link + QR len kým je lobby otvorené */}
-        {gameCode && gameStatus === 'waiting' && (
-          <div className="space-y-2">
-            <div>
-              <b>Kód hry:</b> {gameCode}
-            </div>
-            <div>
-              <b>Link pre hráčov:</b>{' '}
-              <a className="text-blue-600 underline" href={joinUrl} target="_blank" rel="noopener noreferrer">
-                {joinUrl}
-              </a>
-            </div>
-            <div className="pt-2">
-              <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`}
-                alt="QR pre pripojenie hráčov"
-                className="border rounded"
-              />
-            </div>
-            <div className="flex gap-2">
-              <button onClick={() => navigator.clipboard.writeText(joinUrl)} className="px-3 py-2 rounded border text-sm">
-                Kopírovať link
-              </button>
-              <button
-                onClick={async () => {
-                  if ((navigator as any).share) {
-                    try {
-                      await (navigator as any).share({ title: 'Herd Vote', url: joinUrl })
-                    } catch {}
-                  } else {
-                    alert('Zdieľanie nie je podporované – použite Kopírovať link.')
-                  }
-                }}
-                className="px-3 py-2 rounded bg-black text-white text-sm"
-              >
-                Zdieľať
-              </button>
-            </div>
-
-          </div>
-        )}
+        {/* QR a link pre pripojenie sú zobrazené vyššie v sekcii Informácie o hre */}
 
       </div>
 
