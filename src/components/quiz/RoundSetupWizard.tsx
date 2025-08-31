@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface RoundConfig {
   category: string
@@ -43,6 +43,14 @@ interface RoundFormProps {
 function RoundForm({ onSubmit }: RoundFormProps) {
   const [category, setCategory] = useState('')
   const [count, setCount] = useState(3)
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([])
+
+  useEffect(() => {
+    fetch('/api/herd-vote/categories')
+      .then(res => res.json())
+      .then(data => setCategories(data))
+      .catch(() => setCategories([]))
+  }, [])
 
   return (
     <form
@@ -59,8 +67,11 @@ function RoundForm({ onSubmit }: RoundFormProps) {
         style={{ display: 'block', marginBottom: '1rem' }}
       >
         <option value="">-- Vyber kategóriu --</option>
-        <option value="team">Tím</option>
-        <option value="fun">Zábava</option>
+        {categories.map(c => (
+          <option key={c.id} value={c.id}>
+            {c.name}
+          </option>
+        ))}
       </select>
 
       <label>Počet otázok</label>
