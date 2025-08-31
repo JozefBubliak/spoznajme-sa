@@ -41,7 +41,7 @@ export async function POST(req: NextRequest, context: any) {
   })
 
   if (qErr) {
-    console.error('random_herd_questions error:', qErr.message)
+    console.error('random_herd_questions RPC failed:', qErr.message, qErr)
     return NextResponse.json({ error: qErr.message }, { status: 400 })
   }
   const ids = asArray<{ id: string }>(qs).map(q => q.id)
