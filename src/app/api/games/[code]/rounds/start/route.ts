@@ -41,7 +41,8 @@ export async function POST(req: NextRequest, context: any) {
   })
 
   if (qErr) {
-    return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
+    console.error('random_herd_questions error:', qErr.message)
+    return NextResponse.json({ error: qErr.message }, { status: 400 })
   }
   const ids = asArray<{ id: string }>(qs).map(q => q.id)
   if (ids.length < round.count) {
