@@ -21,6 +21,21 @@ export async function POST(req: NextRequest, context: any) {
 
   const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
 
+  // over dostupný počet otázok v danej kategórii podľa rovnakých filtrov ako RPC random_herd_questions
+  const { count: available } = await s
+    .from('herd_questions')
+    .select('id', { count: 'exact', head: true })
+    .eq('category_id', categoryId)
+    .eq('classic', true)
+    .or('locale.is.null,locale.eq.sk')
+
+  if ((available ?? 0) < Number(questions)) {
+    return NextResponse.json(
+      { error: 'NOT_ENOUGH_QUESTIONS', available },
+      { status: 400 }
+    )
+  }
+
   // uloženie/aktualizácia kola (idempotentne podľa game_code + idx)
     const { data: saved, error } = await s
       .from('herd_rounds')
