@@ -240,6 +240,20 @@ export default function QuizAdminClient({ lang }: Props) {
     return `${origin}/${urlLang}/play/${gameCode}`
   }, [gameCode, lang])
 
+  const shareJoinUrl = async () => {
+    if (!joinUrl) return
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Herd Vote', url: joinUrl })
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(joinUrl)
+        alert('Link skopírovaný do schránky')
+      }
+    } catch {
+      // ignoruj chyby zdieľania
+    }
+  }
+
   if (loading || !user) {
     return (
       <div className="mx-auto max-w-3xl p-6">
@@ -260,7 +274,43 @@ export default function QuizAdminClient({ lang }: Props) {
       <div className="flex justify-end text-sm text-muted-foreground gap-2 items-center">
         <UserCircle className="h-5 w-5" />
 
-        {loading ? '...' : user?.email}
+      <div className="rounded-xl border p-4 space-y-4">
+        <h2 className="font-semibold">Informácie o hre</h2>
+        <div className="space-y-1">
+          <div>
+            <span className="font-medium">Kód hry:</span> {gameCode || '—'}
+          </div>
+          {joinUrl && (
+            <>
+              <div className="break-all">
+                <span className="font-medium">Link pre hráčov:</span>{' '}
+                <a
+                  href={joinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline"
+                >
+                  {joinUrl}
+                </a>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={shareJoinUrl}
+                  className="px-2 py-1 text-sm rounded border"
+                >
+                  Zdieľať
+                </button>
+              </div>
+              <div className="flex justify-center pt-2">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinUrl)}`}
+                  alt="QR kód"
+                />
+              </div>
+            </>
+          )}
+        </div>
+
       </div>
       <h1 className="text-2xl font-bold">Kvíz – moderátor</h1>
 
