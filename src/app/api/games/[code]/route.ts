@@ -35,14 +35,11 @@ export async function GET(_req: NextRequest, context: any) {
     .select('idx', { count: 'exact', head: true })
     .eq('game_code', gameCode)
 
-  const phase =
-    g.phase === 'setup'
-      ? 'config'
-        : g.phase === 'running'
-        ? 'playing'
-          : g.phase === 'ended'
-          ? 'final'
-            : (g.phase as any) ?? 'lobby'
+  let phase: string = (g.phase as any) ?? 'lobby'
+  if (g.phase === 'setup') phase = 'config'
+  else if (g.phase === 'running') phase = 'playing'
+  else if (g.phase === 'ended') phase = 'final'
+  else if (g.phase === 'round_setup' && !g.lobby_locked) phase = 'lobby'
 
   return NextResponse.json({
       code: g.code,
