@@ -273,6 +273,7 @@ export default function QuizAdminClient({ lang }: Props) {
     <div className="mx-auto max-w-3xl p-6 space-y-6">
       <div className="flex justify-end text-sm text-muted-foreground gap-2 items-center">
         <UserCircle className="h-5 w-5" />
+      </div>
 
       <div className="rounded-xl border p-4 space-y-4">
         <h2 className="font-semibold">Informácie o hre</h2>
