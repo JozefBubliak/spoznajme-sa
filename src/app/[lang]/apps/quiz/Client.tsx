@@ -15,9 +15,9 @@ type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 function mapPhase(phase: string): GameStatus {
   const p = phase.toLowerCase().trim()
   if (p === 'lobby') return 'waiting'
-  if (p === 'setup' || p === 'config' || p === 'round_setup' || p === 'ready')
+  if (p === 'setup' || p === 'config' || p === 'round_setup' || p === 'ready' || p === 'locked')
     return 'configuring'
-  if (p === 'running' || p === 'playing' || p === 'locked' || p === 'reveal') return 'running'
+  if (p === 'running' || p === 'playing' || p === 'reveal') return 'running'
   if (p === 'ended' || p === 'final') return 'finished'
 
   return 'waiting'
