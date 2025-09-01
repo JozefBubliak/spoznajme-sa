@@ -16,7 +16,7 @@ interface SettingsPanelProps {
 }
 
 export function SettingsPanel({ onStartGame }: SettingsPanelProps) {
-  const { settings, updateSettings } = useGameStore()
+  const { settings, updateSettings, gameState } = useGameStore()
   const [availableCategories, setAvailableCategories] = useState<Array<{ code: string; name: string }>>([])
 
   useEffect(() => {
@@ -177,6 +177,30 @@ export function SettingsPanel({ onStartGame }: SettingsPanelProps) {
               Vybraté: {settings.categories.length} kategórií
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Word Preview */}
+      <Card className="card-elegant lg:col-span-3">
+        <CardHeader>
+          <CardTitle>🔍 Náhľad slov</CardTitle>
+          <CardDescription>Slová pripravené pre hru (max 20)</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {gameState.wordPool.length > 0 ? (
+            <ul className="list-disc pl-4 space-y-1 max-h-48 overflow-y-auto">
+              {gameState.wordPool.slice(0, 20).map((w) => (
+                <li key={w.id}>
+                  {w.word}
+                  {w.categoryName && (
+                    <span className="text-muted-foreground"> ({w.categoryName})</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-muted-foreground">Žiadne slová nenačítané</p>
+          )}
         </CardContent>
       </Card>
 
