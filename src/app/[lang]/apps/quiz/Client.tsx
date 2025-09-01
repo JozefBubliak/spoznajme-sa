@@ -15,9 +15,9 @@ type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 function mapPhase(phase: string): GameStatus {
   const p = phase.toLowerCase().trim()
   if (p === 'lobby') return 'waiting'
-  if (p === 'setup' || p === 'config' || p === 'round_setup' || p === 'ready' || p === 'locked')
+  if (p === 'setup' || p === 'config' || p === 'round_setup' || p === 'ready')
     return 'configuring'
-  if (p === 'running' || p === 'playing') return 'running'
+  if (p === 'running' || p === 'playing' || p === 'locked' || p === 'reveal') return 'running'
   if (p === 'ended' || p === 'final') return 'finished'
 
   return 'waiting'
@@ -281,7 +281,7 @@ export default function QuizAdminClient({ lang }: Props) {
           <div>
             <span className="font-medium">Kód hry:</span> {gameCode || '—'}
           </div>
-          {joinUrl && (
+          {gameStatus === 'waiting' && joinUrl && (
             <>
               <div className="break-all">
                 <span className="font-medium">Link pre hráčov:</span>{' '}
@@ -304,8 +304,9 @@ export default function QuizAdminClient({ lang }: Props) {
               </div>
               <div className="flex justify-center pt-2">
                 <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinUrl)}`}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`}
                   alt="QR kód"
+                  className="border rounded"
                 />
               </div>
             </>
