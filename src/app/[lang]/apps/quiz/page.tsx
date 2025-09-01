@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { type Locale, SUPPORTED_LOCALES } from '@/i18n/config'
 import QuizAdminClient from './Client'
+import SiteHeader from '@/components/SiteHeader'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,6 +13,11 @@ export default async function QuizPage({ params }: P) {
   const lang = normalizeUrlLocale(raw)
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
 
-  return <QuizAdminClient lang={lang} />
+  return (
+    <>
+      <SiteHeader lang={lang} />
+      <QuizAdminClient lang={lang} />
+    </>
+  )
 
 }
