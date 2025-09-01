@@ -26,7 +26,6 @@ export async function POST(req: NextRequest, context: any) {
     .from('herd_questions')
     .select('id', { count: 'exact', head: true })
     .eq('category_id', categoryId)
-    .eq('classic', true)
     .or('locale.is.null,locale.eq.sk')
 
   if ((available ?? 0) < Number(questions)) {
