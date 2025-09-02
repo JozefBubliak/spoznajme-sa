@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "paths": { "@/*": ["./src/*"] },
 
-    "types": ["node", "next", "jest"],
+    "types": ["node", "next", "jest", "@testing-library/jest-dom"],
 
     "allowJs": true,
     "skipLibCheck": true,
@@ -33,5 +33,5 @@
     "src/**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/app/api/kviz"]
 }

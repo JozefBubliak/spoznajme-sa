@@ -35,6 +35,17 @@ npm run dev
 
 Pages live in `src/app/` and UI components in `src/components/`. Edits reload automatically while the dev server runs.
 
+### Supabase configuration for quiz API
+
+The realtime quiz uses a Supabase backend. Create an `.env` file inside `src/app/api/kviz` based on `.env.example` and provide your project credentials:
+
+```
+EXPO_PUBLIC_SUPABASE_URL=https://<your-project>.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
+```
+
+Restart the Expo client after changing these values.
+
 ## Ako upraviť dizajn
 
 Hlavné farby, medzery, rádiusy a animácie sú definované ako CSS premenné v súbore [`src/app/globals.css`](src/app/globals.css). Úprava hodnôt v bloku `:root` (a zodpovedajúcich tmavých variantov v `.dark`) mení vzhľad celého projektu. Štýly jednotlivých prvkov sú zoskupené v komponentoch v adresári `src/components/`.

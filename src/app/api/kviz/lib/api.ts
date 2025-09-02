@@ -1,226 +1,216 @@
 import { Game, Player, Round, Question, Answer, CategoryWithCount, LeaderboardEntry } from '@/types/database';
+import supabase from './upabase';
 
-// Mock API for development - replace with actual Supabase calls when backend is ready
+// API wrapper using Supabase backend
 export class GameAPI {
-  private static games = new Map<string, Game>();
-  private static players = new Map<string, Player[]>();
-  private static rounds = new Map<string, Round[]>();
-  private static questions = new Map<string, Question[]>();
-  private static answers = new Map<string, Answer[]>();
-
-  static async createGame(code: string, locale: string): Promise<Game> {
-    const game: Game = {
-      id: `game_${Date.now()}`,
-      code,
-      locale,
-      status: 'lobby',
-      lobby_locked: false,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-    
-    this.games.set(game.id, game);
-    this.players.set(game.id, []);
-    console.log('Game created:', game);
-    return game;
+  static async createGame(
+    code: string,
+    locale: string,
+    mode: 'country' | 'global' = 'country',
+    countryCode?: string
+  ): Promise<Game> {
+    const { data, error } = await supabase
+      .from('herd_games')
+      .insert({
+        code,
+        locale,
+        mode,
+        country_code: countryCode ?? null,
+        status: 'lobby',
+        lobby_locked: false,
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return data as Game;
   }
 
   static async getGame(code: string): Promise<Game | null> {
-    for (const game of this.games.values()) {
-      if (game.code === code) {
-        return game;
-      }
-    }
-    return null;
+    const { data, error } = await supabase
+      .from('herd_games')
+      .select('*')
+      .eq('code', code)
+      .maybeSingle();
+    if (error) throw error;
+    return data as Game | null;
   }
 
   static async lockLobby(gameId: string): Promise<void> {
-    const game = this.games.get(gameId);
-    if (game) {
-      game.lobby_locked = true;
-      game.updated_at = new Date().toISOString();
-      this.games.set(gameId, game);
-      console.log('Lobby locked:', gameId);
-    }
+    const { error } = await supabase
+      .from('herd_games')
+      .update({ lobby_locked: true })
+      .eq('id', gameId);
+    if (error) throw error;
   }
 
-  static async updateGameStatus(gameId: string, status: 'lobby' | 'playing' | 'finished'): Promise<void> {
-    const game = this.games.get(gameId);
-    if (game) {
-      game.status = status;
-      game.updated_at = new Date().toISOString();
-      this.games.set(gameId, game);
-      console.log('Game status updated:', gameId, status);
-    }
+  static async updateGameStatus(
+    gameId: string,
+    status: 'lobby' | 'playing' | 'finished'
+  ): Promise<void> {
+    const { error } = await supabase
+      .from('herd_games')
+      .update({ status })
+      .eq('id', gameId);
+    if (error) throw error;
   }
 
   static async addPlayer(gameId: string, name: string): Promise<Player> {
-    const player: Player = {
-      id: `player_${Date.now()}_${Math.random()}`,
-      game_id: gameId,
-      name,
-      score: 0,
-      joined_at: new Date().toISOString(),
-    };
-    
-    const players = this.players.get(gameId) || [];
-    players.push(player);
-    this.players.set(gameId, players);
-    console.log('Player added:', player);
-    return player;
+    const { data, error } = await supabase
+      .from('herd_players')
+      .insert({ game_id: gameId, name, score: 0 })
+      .select()
+      .single();
+    if (error) throw error;
+    return data as Player;
   }
 
   static async getPlayers(gameId: string): Promise<Player[]> {
-    return this.players.get(gameId) || [];
+    const { data, error } = await supabase
+      .from('herd_players')
+      .select('*')
+      .eq('game_id', gameId)
+      .order('joined_at', { ascending: true });
+    if (error) throw error;
+    return (data as Player[]) || [];
   }
 
   static async getCategories(locale: string): Promise<CategoryWithCount[]> {
-    // Mock categories with question counts
-    const categories: CategoryWithCount[] = [
-      { id: 'general', name: 'General Knowledge', is_active: true, created_at: new Date().toISOString(), question_count: 50 },
-      { id: 'science', name: 'Science', is_active: true, created_at: new Date().toISOString(), question_count: 30 },
-      { id: 'history', name: 'History', is_active: true, created_at: new Date().toISOString(), question_count: 25 },
-      { id: 'sports', name: 'Sports', is_active: true, created_at: new Date().toISOString(), question_count: 20 },
-      { id: 'culture', name: 'Culture', is_active: true, created_at: new Date().toISOString(), question_count: 35 },
-    ];
-    
-    console.log('Categories fetched for locale:', locale);
-    return categories;
+    const { data, error } = await supabase
+      .from('herd_categories_with_counts')
+      .select('id,name,is_active,created_at,question_count')
+      .eq('is_active', true)
+      .order('name');
+    if (error) throw error;
+    return (data as CategoryWithCount[]) || [];
   }
 
-  static async createRound(gameId: string, categoryId: string, questionCount: number, timerSeconds?: number): Promise<Round> {
-    const round: Round = {
-      id: `round_${Date.now()}`,
-      game_id: gameId,
-      category_id: categoryId,
-      question_count: questionCount,
-      current_question: 0,
-      status: 'pending',
-      timer_seconds: timerSeconds || null,
-      created_at: new Date().toISOString(),
-    };
-    
-    const rounds = this.rounds.get(gameId) || [];
-    rounds.push(round);
-    this.rounds.set(gameId, rounds);
-    console.log('Round created:', round);
-    return round;
-  }
-
-  static async getRounds(gameId: string): Promise<Round[]> {
-    return this.rounds.get(gameId) || [];
-  }
-
-  static async getRandomQuestions(categoryId: string, locale: string, count: number): Promise<Question[]> {
-    // Mock questions - in real implementation, this would query the database
-    const mockQuestions: Question[] = [];
-    
-    for (let i = 0; i < count; i++) {
-      mockQuestions.push({
-        id: `question_${categoryId}_${i}`,
+  static async createRound(
+    gameId: string,
+    categoryId: string,
+    questionCount: number,
+    timerSeconds?: number
+  ): Promise<Round> {
+    const { data, error } = await supabase
+      .from('herd_rounds')
+      .insert({
+        game_id: gameId,
         category_id: categoryId,
-        text: `Sample question ${i + 1} for ${categoryId}?`,
-        options: ['Option A', 'Option B', 'Option C', 'Option D'],
-        correct_answer: Math.floor(Math.random() * 4),
-        explanation: `This is the explanation for question ${i + 1}`,
-        classic: true,
-        locale: locale,
-        created_at: new Date().toISOString(),
-      });
-    }
-    
-    console.log('Random questions generated:', mockQuestions.length);
-    return mockQuestions;
+        question_count: questionCount,
+        current_question: 0,
+        status: 'pending',
+        timer_seconds: timerSeconds ?? null,
+      })
+      .select()
+      .single();
+    if (error) throw error;
+    return data as Round;
+  }
+
+  static async getRandomQuestions(
+    categoryId: string,
+    locale: string,
+    count: number,
+    countryCode?: string
+  ): Promise<Question[]> {
+    const { data: ids, error: idErr } = await supabase.rpc(
+      'random_herd_questions',
+      { cat: categoryId, n: count }
+    );
+    if (idErr) throw idErr;
+    const idList = (ids as any[] || []).map((r: any) => r.id);
+    if (idList.length === 0) return [];
+    const { data, error } = await supabase
+      .from('herd_questions')
+      .select('*')
+      .in('id', idList);
+    if (error) throw error;
+    return (data as Question[]) || [];
   }
 
   static async startRound(roundId: string): Promise<void> {
-    // Find and update round status
-    for (const rounds of this.rounds.values()) {
-      const round = rounds.find(r => r.id === roundId);
-      if (round) {
-        round.status = 'active';
-        console.log('Round started:', roundId);
-        break;
-      }
-    }
+    const { error } = await supabase
+      .from('herd_rounds')
+      .update({ status: 'active', current_question: 0 })
+      .eq('id', roundId);
+    if (error) throw error;
   }
 
   static async nextQuestion(roundId: string): Promise<void> {
-    // Find and increment current question
-    for (const rounds of this.rounds.values()) {
-      const round = rounds.find(r => r.id === roundId);
-      if (round) {
-        round.current_question += 1;
-        console.log('Next question:', roundId, round.current_question);
-        break;
-      }
-    }
+    const { data } = await supabase
+      .from('herd_rounds')
+      .select('current_question')
+      .eq('id', roundId)
+      .single();
+    const next = ((data as any)?.current_question ?? 0) + 1;
+    const { error } = await supabase
+      .from('herd_rounds')
+      .update({ current_question: next })
+      .eq('id', roundId);
+    if (error) throw error;
   }
 
   static async lockRound(roundId: string): Promise<void> {
-    // Find and update round status
-    for (const rounds of this.rounds.values()) {
-      const round = rounds.find(r => r.id === roundId);
-      if (round) {
-        round.status = 'finished';
-        console.log('Round locked:', roundId);
-        break;
-      }
-    }
+    const { error } = await supabase
+      .from('herd_rounds')
+      .update({ status: 'finished' })
+      .eq('id', roundId);
+    if (error) throw error;
   }
 
-  static async submitAnswer(playerId: string, questionId: string, answerIndex: number, isCorrect: boolean): Promise<Answer> {
-    const answer: Answer = {
-      id: `answer_${Date.now()}`,
-      player_id: playerId,
-      question_id: questionId,
-      answer_index: answerIndex,
-      is_correct: isCorrect,
-      answered_at: new Date().toISOString(),
-    };
-    
-    const answers = this.answers.get(playerId) || [];
-    answers.push(answer);
-    this.answers.set(playerId, answers);
-    
-    // Update player score
+  static async submitAnswer(
+    playerId: string,
+    questionId: string,
+    answerIndex: number,
+    isCorrect: boolean
+  ): Promise<Answer> {
+    const { data, error } = await supabase
+      .from('herd_answers')
+      .insert({
+        player_id: playerId,
+        question_id: questionId,
+        answer_index: answerIndex,
+        is_correct: isCorrect,
+      })
+      .select()
+      .single();
+    if (error) throw error;
+
     if (isCorrect) {
-      for (const players of this.players.values()) {
-        const player = players.find(p => p.id === playerId);
-        if (player) {
-          player.score += 10;
-          break;
-        }
-      }
+      const { data: player } = await supabase
+        .from('herd_players')
+        .select('score')
+        .eq('id', playerId)
+        .single();
+      const score = ((player as any)?.score ?? 0) + 10;
+      await supabase.from('herd_players').update({ score }).eq('id', playerId);
     }
-    
-    console.log('Answer submitted:', answer);
-    return answer;
+    return data as Answer;
   }
 
   static async getLeaderboard(gameId: string): Promise<LeaderboardEntry[]> {
-    const players = this.players.get(gameId) || [];
-    const sorted = [...players].sort((a, b) => b.score - a.score);
-    
-    return sorted.map((player, index) => ({
-      player_id: player.id,
-      name: player.name,
-      score: player.score,
-      rank: index + 1,
+    const { data, error } = await supabase
+      .from('herd_players')
+      .select('id, name, score')
+      .eq('game_id', gameId)
+      .order('score', { ascending: false });
+    if (error) throw error;
+    const list = (data as Player[]) || [];
+    return list.map((p, idx) => ({
+      player_id: p.id,
+      name: p.name,
+      score: p.score,
+      rank: idx + 1,
     }));
   }
 
-  static subscribeToGame(gameId: string, callback: (payload: any) => void) {
-    // Mock subscription - in real implementation, this would use Supabase realtime
-    console.log('Subscribed to game:', gameId);
-    return {
-      unsubscribe: () => {
-        console.log('Unsubscribed from game:', gameId);
-      }
-    };
+  static subscribeToGame(_gameId: string, _callback: (payload: any) => void) {
+    // Realtime events can be wired here later
+    return { unsubscribe: () => {} };
   }
 
-  static unsubscribeFromGame(gameId: string) {
-    console.log('Unsubscribed from game:', gameId);
+  static unsubscribeFromGame(_gameId: string) {
+    /* no-op */
   }
 }
+
+export default GameAPI;
