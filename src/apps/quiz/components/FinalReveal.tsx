@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { launchConfetti } from '../../utils/launchConfetti'
-import { playSound } from '../../utils/playSound'
+import { launchConfetti } from '@/utils/launchConfetti'
+import { playSound } from '@/utils/playSound'
 
 interface Player {
   id: string

@@ -4,12 +4,12 @@ import { useState } from 'react'
 import useGameState from '../hooks/useGameState'
 import useRealtimeGame from '../hooks/useRealtimeGame'
 
-import Button from './quiz/Button'
-import Leaderboard from './quiz/Leaderboard'
+import Button from '@/apps/quiz/components/Button'
+import Leaderboard from '@/apps/quiz/components/Leaderboard'
 import Loader from './Loader'
-import QuestionCard from './quiz/QuestionCard'
-import QuestionEvaluation from './quiz/QuestionEvaluation'
-import QuestionTimer from './quiz/QuestionTimer'
+import QuestionCard from '@/apps/quiz/components/QuestionCard'
+import QuestionEvaluation from '@/apps/quiz/components/QuestionEvaluation'
+import QuestionTimer from '@/apps/quiz/components/QuestionTimer'
 
 interface AdminPanelProps {
   code: string

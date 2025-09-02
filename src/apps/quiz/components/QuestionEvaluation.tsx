@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { playSound } from '../../utils/playSound'
+import { playSound } from '@/utils/playSound'
 
 interface QuestionEvaluationProps {
   playerAnswer: string | null

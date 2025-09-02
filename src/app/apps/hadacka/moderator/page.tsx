@@ -9,9 +9,9 @@ import { TimerService } from '@/lib/services/timerService'
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts'
 import { useAuth } from '@/hooks/useAuth'
 
-import { ModeratorShell } from '@/components/hadacka/ModeratorShell'
-import { SettingsPanel } from '@/components/hadacka/SettingsPanel'
-import { GameView } from '@/components/hadacka/GameView'
+import { ModeratorShell } from '@/apps/hadacka/components/ModeratorShell'
+import { SettingsPanel } from '@/apps/hadacka/components/SettingsPanel'
+import { GameView } from '@/apps/hadacka/components/GameView'
 
 export default function ModeratorPage() {
   const { gameState, settings, startGame, soundSettings } = useGameStore()
