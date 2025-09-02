@@ -2,11 +2,11 @@
 import { useState } from 'react'
 import useGameState from '../hooks/useGameState'
 import useRealtimeGame from '../hooks/useRealtimeGame'
-import QuestionCard from './quiz/QuestionCard'
-import QuestionTimer from './quiz/QuestionTimer'
-import QuestionEvaluation from './quiz/QuestionEvaluation'
-import RoundResults from './quiz/RoundResults'
-import Leaderboard from './quiz/Leaderboard'
+import QuestionCard from '@/apps/quiz/components/QuestionCard'
+import QuestionTimer from '@/apps/quiz/components/QuestionTimer'
+import QuestionEvaluation from '@/apps/quiz/components/QuestionEvaluation'
+import RoundResults from '@/apps/quiz/components/RoundResults'
+import Leaderboard from '@/apps/quiz/components/Leaderboard'
 import Loader from './Loader'
 
 interface PlayerPanelProps {

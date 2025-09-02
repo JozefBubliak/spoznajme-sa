@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { TimerRing } from '@/components/hadacka/TimerRing'
+import { TimerRing } from '@/apps/hadacka/components/TimerRing'
 
 export default function DisplayPage() {
   const [isFullScreen, setIsFullScreen] = useState(false)

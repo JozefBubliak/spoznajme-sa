@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { playSound } from '../../utils/playSound'
+import { playSound } from '@/utils/playSound'
 
 interface QuestionTimerProps {
   duration: number

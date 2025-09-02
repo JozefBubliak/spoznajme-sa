@@ -13,11 +13,14 @@ Modern Next.js web app providing interactive questions and mini‑games for buil
 
 ```
 .
-├── content/        # static text and translations
+├── content/        # lokalizované markdown súbory podľa sekcií
+│   ├── en/marketing/...
+│   └── sk/marketing/...
 ├── public/         # images and other static assets
 ├── src/
 │   ├── app/        # Next.js routes and API handlers
-│   ├── components/ # shared UI components
+│   ├── apps/       # komponenty konkrétnych aplikácií
+│   ├── components/ # zdieľané UI komponenty
 │   ├── hooks/      # custom React hooks
 │   ├── lib/        # utilities and Supabase client
 │   └── types/      # shared TypeScript types
@@ -33,7 +36,7 @@ npm install
 npm run dev
 ```
 
-Pages live in `src/app/` and UI components in `src/components/`. Edits reload automatically while the dev server runs.
+Stránky sídlia v `src/app/`, zdieľané komponenty v `src/components/` a špecifické časti aplikácií v `src/apps/<app>/components`. Zmeny sa počas behu dev servera načítajú automaticky.
 
 ### Supabase configuration for quiz API
 
