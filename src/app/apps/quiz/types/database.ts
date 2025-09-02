@@ -6,8 +6,6 @@ export interface Database {
           id: string;
           code: string;
           locale: string;
-          mode: 'country' | 'global';
-          country_code: string | null;
           status: 'lobby' | 'playing' | 'finished';
           lobby_locked: boolean;
           created_at: string;
@@ -17,8 +15,6 @@ export interface Database {
           id?: string;
           code: string;
           locale: string;
-          mode?: 'country' | 'global';
-          country_code?: string | null;
           status?: 'lobby' | 'playing' | 'finished';
           lobby_locked?: boolean;
           created_at?: string;
@@ -28,8 +24,6 @@ export interface Database {
           id?: string;
           code?: string;
           locale?: string;
-          mode?: 'country' | 'global';
-          country_code?: string | null;
           status?: 'lobby' | 'playing' | 'finished';
           lobby_locked?: boolean;
           created_at?: string;
@@ -101,8 +95,6 @@ export interface Database {
           explanation: string | null;
           classic: boolean;
           locale: string | null;
-          country_code: string | null;
-          is_universal: boolean;
           created_at: string;
         };
         Insert: {
@@ -114,8 +106,6 @@ export interface Database {
           explanation?: string | null;
           classic?: boolean;
           locale?: string | null;
-          country_code?: string | null;
-          is_universal?: boolean;
           created_at?: string;
         };
         Update: {
@@ -127,8 +117,6 @@ export interface Database {
           explanation?: string | null;
           classic?: boolean;
           locale?: string | null;
-          country_code?: string | null;
-          is_universal?: boolean;
           created_at?: string;
         };
       };

@@ -47,30 +47,21 @@ export const [GameProvider, useGame] = createContextHook(() => {
 
   // Queries
   const playersQuery = useQuery({
-    queryKey: ['players', currentGame?.id],
-    queryFn: async () => {
-      if (!currentGame) return [];
-      return GameAPI.getPlayers(currentGame.id);
-    },
+    queryKey: ['players', currentGame?.id, currentGame],
+    queryFn: () => currentGame ? GameAPI.getPlayers(currentGame.id) : Promise.resolve([]),
     enabled: !!currentGame,
     refetchInterval: 2000, // Poll every 2 seconds for real-time updates
   });
 
   const categoriesQuery = useQuery({
-    queryKey: ['categories', selectedLanguage?.code],
-    queryFn: async () => {
-      if (!selectedLanguage) return [];
-      return GameAPI.getCategories(selectedLanguage.code);
-    },
+    queryKey: ['categories', selectedLanguage?.code, selectedLanguage],
+    queryFn: () => selectedLanguage ? GameAPI.getCategories(selectedLanguage.code) : Promise.resolve([]),
     enabled: !!selectedLanguage,
   });
 
   const leaderboardQuery = useQuery({
-    queryKey: ['leaderboard', currentGame?.id],
-    queryFn: async () => {
-      if (!currentGame) return [];
-      return GameAPI.getLeaderboard(currentGame.id);
-    },
+    queryKey: ['leaderboard', currentGame?.id, currentGame],
+    queryFn: () => currentGame ? GameAPI.getLeaderboard(currentGame.id) : Promise.resolve([]),
     enabled: !!currentGame && showResults,
   });
 
@@ -122,12 +113,7 @@ export const [GameProvider, useGame] = createContextHook(() => {
     mutationFn: async ({ categoryId, questionCount, timerSeconds }: { categoryId: string; questionCount: number; timerSeconds?: number }) => {
       if (!currentGame) throw new Error('No current game');
       const round = await GameAPI.createRound(currentGame.id, categoryId, questionCount, timerSeconds);
-      const questions = await GameAPI.getRandomQuestions(
-        categoryId,
-        currentGame.locale,
-        questionCount,
-        currentGame.country_code || undefined
-      );
+      const questions = await GameAPI.getRandomQuestions(categoryId, currentGame.locale, questionCount);
       return { round, questions };
     },
     onSuccess: ({ round, questions }) => {
@@ -279,7 +265,6 @@ export const [GameProvider, useGame] = createContextHook(() => {
     setShowResults,
     createGame: createGameMutation.mutate,
     joinGame: joinGameMutation.mutate,
-    joinSession: joinGameMutation.mutate,
     lockLobby: lockLobbyMutation.mutate,
     createRound: createRoundMutation.mutate,
     startRound: startRoundMutation.mutate,
