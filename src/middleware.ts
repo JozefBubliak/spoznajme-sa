@@ -46,7 +46,9 @@ export function middleware(req: NextRequest) {
   if (pathname === "/") {
     if (isBot(req.headers.get("user-agent"))) return NextResponse.next();
     const lang = negotiate(req, FALLBACK);
-    const res = NextResponse.next();
+    const url = req.nextUrl.clone();
+    url.pathname = `/${lang}`;
+    const res = NextResponse.redirect(url, 302);
     res.cookies.set("dl_lang", lang, { path: "/", maxAge: 60 * 60 * 24 * 365 });
     return res;
   }
