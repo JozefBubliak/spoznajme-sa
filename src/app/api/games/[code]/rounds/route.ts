@@ -1,7 +1,7 @@
 // PATH: src/app/api/games/[code]/rounds/route.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import type { RoundSettings } from '@/lib/herdvote/store'
+import type { RoundSettings } from '@/lib/quiz/store'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { asArray, must } from '@/lib/supabase/safe'

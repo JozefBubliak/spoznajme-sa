@@ -62,7 +62,7 @@
     },
     "games": {
       "quiz": {
-        "name": "Herd Vote – team quiz",
+        "name": "Quiz – team quiz",
         "description": "Test how well you know each other. Fun questions from easy to unexpected – who knows you best?",
         "cta": "Start quiz",
         "link": "/apps/quiz",

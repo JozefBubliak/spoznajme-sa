@@ -3,7 +3,7 @@
 
 import { useEffect, useMemo, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import type { Player, Round } from '@/lib/herdvote/store'
+import type { Player, Round } from '@/lib/quiz/store'
 import { useAuth } from '@/hooks/useAuth'
 import { UserCircle } from 'lucide-react'
 
@@ -73,7 +73,7 @@ export default function QuizAdminClient({ lang }: Props) {
     if (!session) return
     const load = async () => {
       try {
-        const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
+        const r = await authFetch('/api/quiz/categories', { cache: 'no-store' })
         if (!r.ok) return
         const j = await r.json()
         const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
@@ -244,7 +244,7 @@ export default function QuizAdminClient({ lang }: Props) {
     if (!joinUrl) return
     try {
       if (navigator.share) {
-        await navigator.share({ title: 'Herd Vote', url: joinUrl })
+        await navigator.share({ title: 'Quiz', url: joinUrl })
       } else if (navigator.clipboard) {
         await navigator.clipboard.writeText(joinUrl)
         alert('Link skopírovaný do schránky')

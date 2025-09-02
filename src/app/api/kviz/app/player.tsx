@@ -6,24 +6,24 @@ import { ArrowLeft, LogIn } from 'lucide-react-native';
 import { useGame } from '@/store/game-store';
 
 export default function PlayerScreen() {
-  const { selectedLanguage, joinSession, playerName, setPlayerName } = useGame();
+  const { selectedLanguage, joinGame, playerName, setPlayerName } = useGame();
   const [sessionCode, setSessionCode] = useState('');
 
-  const handleJoinSession = () => {
+  const handleJoinGame = async () => {
     if (!playerName.trim()) {
       Alert.alert('Name Required', 'Please enter your name to join the game.');
       return;
     }
-    
+
     if (!sessionCode.trim()) {
       Alert.alert('Session Code Required', 'Please enter a valid session code.');
       return;
     }
 
-    const success = joinSession(sessionCode.toUpperCase(), playerName.trim());
-    if (success) {
+    try {
+      await joinGame(sessionCode.toUpperCase(), playerName.trim());
       router.push('/game');
-    } else {
+    } catch (error) {
       Alert.alert('Invalid Code', 'Session not found. Please check the code and try again.');
     }
   };
@@ -79,7 +79,7 @@ export default function PlayerScreen() {
 
             <TouchableOpacity
               style={styles.joinButton}
-              onPress={handleJoinSession}
+              onPress={handleJoinGame}
               activeOpacity={0.8}
             >
               <LogIn size={20} color="white" />

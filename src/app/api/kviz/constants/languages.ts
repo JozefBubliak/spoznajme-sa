@@ -1,75 +1,25 @@
+import { SUPPORTED_LANGUAGES } from '@/lib/languages';
+
 export interface Language {
-  code: string;
+  code: typeof SUPPORTED_LANGUAGES[number];
   name: string;
   nativeName: string;
   flag: string;
 }
 
-export const LANGUAGES: Language[] = [
-  {
-    code: 'en',
-    name: 'English',
-    nativeName: 'English',
-    flag: '🇺🇸',
-  },
-  {
-    code: 'es',
-    name: 'Spanish',
-    nativeName: 'Español',
-    flag: '🇪🇸',
-  },
-  {
-    code: 'de',
-    name: 'German',
-    nativeName: 'Deutsch',
-    flag: '🇩🇪',
-  },
-  {
-    code: 'fr',
-    name: 'French',
-    nativeName: 'Français',
-    flag: '🇫🇷',
-  },
-  {
-    code: 'it',
-    name: 'Italian',
-    nativeName: 'Italiano',
-    flag: '🇮🇹',
-  },
-  {
-    code: 'pt-br',
-    name: 'Portuguese (Brazil)',
-    nativeName: 'Português (Brasil)',
-    flag: '🇧🇷',
-  },
-  {
-    code: 'zh',
-    name: 'Chinese (Mandarin)',
-    nativeName: '中文',
-    flag: '🇨🇳',
-  },
-  {
-    code: 'ja',
-    name: 'Japanese',
-    nativeName: '日本語',
-    flag: '🇯🇵',
-  },
-  {
-    code: 'ko',
-    name: 'Korean',
-    nativeName: '한국어',
-    flag: '🇰🇷',
-  },
-  {
-    code: 'hi',
-    name: 'Hindi',
-    nativeName: 'हिन्दी',
-    flag: '🇮🇳',
-  },
-  {
-    code: 'sk',
-    name: 'Slovak',
-    nativeName: 'Slovenčina',
-    flag: '🇸🇰',
-  },
-];
+const LANGUAGE_DETAILS: Record<typeof SUPPORTED_LANGUAGES[number], Omit<Language, 'code'>> = {
+  en: { name: 'English', nativeName: 'English', flag: '🇺🇸' },
+  sk: { name: 'Slovak', nativeName: 'Slovenčina', flag: '🇸🇰' },
+  cs: { name: 'Czech', nativeName: 'Čeština', flag: '🇨🇿' },
+  pl: { name: 'Polish', nativeName: 'Polski', flag: '🇵🇱' },
+  hu: { name: 'Hungarian', nativeName: 'Magyar', flag: '🇭🇺' },
+  fr: { name: 'French', nativeName: 'Français', flag: '🇫🇷' },
+  de: { name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
+  uk: { name: 'Ukrainian', nativeName: 'Українська', flag: '🇺🇦' },
+  ru: { name: 'Russian', nativeName: 'Русский', flag: '🇷🇺' },
+  es: { name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
+};
+
+export const LANGUAGES: Language[] = SUPPORTED_LANGUAGES.map(
+  (code) => ({ code, ...LANGUAGE_DETAILS[code] })
+);

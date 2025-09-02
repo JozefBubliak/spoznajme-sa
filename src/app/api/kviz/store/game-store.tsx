@@ -113,7 +113,12 @@ export const [GameProvider, useGame] = createContextHook(() => {
     mutationFn: async ({ categoryId, questionCount, timerSeconds }: { categoryId: string; questionCount: number; timerSeconds?: number }) => {
       if (!currentGame) throw new Error('No current game');
       const round = await GameAPI.createRound(currentGame.id, categoryId, questionCount, timerSeconds);
-      const questions = await GameAPI.getRandomQuestions(categoryId, currentGame.locale, questionCount);
+      const questions = await GameAPI.getRandomQuestions(
+        categoryId,
+        currentGame.locale,
+        questionCount,
+        currentGame.country_code || undefined
+      );
       return { round, questions };
     },
     onSuccess: ({ round, questions }) => {
@@ -264,7 +269,8 @@ export const [GameProvider, useGame] = createContextHook(() => {
     setTimeLeft,
     setShowResults,
     createGame: createGameMutation.mutate,
-    joinGame: joinGameMutation.mutate,
+    joinGame: (code: string, name: string) =>
+      joinGameMutation.mutateAsync({ code, name }),
     lockLobby: lockLobbyMutation.mutate,
     createRound: createRoundMutation.mutate,
     startRound: startRoundMutation.mutate,
@@ -283,7 +289,7 @@ export const [GameProvider, useGame] = createContextHook(() => {
     createGameMutation.isPending, joinGameMutation.isPending, createRoundMutation.isPending,
     startRoundMutation.isPending, submitAnswerMutation.isPending, setUserRole,
     setSelectedLanguage, savePlayerName, setTimeLeft, setShowResults,
-    createGameMutation.mutate, joinGameMutation.mutate, lockLobbyMutation.mutate,
+    createGameMutation.mutate, joinGameMutation.mutateAsync, lockLobbyMutation.mutate,
     createRoundMutation.mutate, startRoundMutation.mutate, submitAnswerMutation.mutate,
     nextQuestionMutation.mutate, resetGame, createGameMutation.error, joinGameMutation.error
   ]);
