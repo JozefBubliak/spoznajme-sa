@@ -14,7 +14,7 @@ export default function useRealtimeGame(code: string, handlers: Handlers) {
   useEffect(() => {
     if (!code) return
 
-    const socket = new WebSocket(`/herd-vote:${code}`)
+    const socket = new WebSocket(`/quiz:${code}`)
 
     socket.addEventListener('message', (event) => {
       try {

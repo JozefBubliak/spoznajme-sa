@@ -46,7 +46,7 @@ function RoundForm({ onSubmit }: RoundFormProps) {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([])
 
   useEffect(() => {
-    fetch('/api/herd-vote/categories')
+    fetch('/api/quiz/categories')
       .then(res => res.json())
       .then(data => setCategories(data))
       .catch(() => setCategories([]))
