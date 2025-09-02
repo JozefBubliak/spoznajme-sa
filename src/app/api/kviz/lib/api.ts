@@ -8,11 +8,18 @@ export class GameAPI {
   private static questions = new Map<string, Question[]>();
   private static answers = new Map<string, Answer[]>();
 
-  static async createGame(code: string, locale: string): Promise<Game> {
+  static async createGame(
+    code: string,
+    locale: string,
+    mode: 'country' | 'global' = 'country',
+    countryCode?: string
+  ): Promise<Game> {
     const game: Game = {
       id: `game_${Date.now()}`,
       code,
       locale,
+      mode,
+      country_code: countryCode ?? null,
       status: 'lobby',
       lobby_locked: false,
       created_at: new Date().toISOString(),
@@ -111,10 +118,15 @@ export class GameAPI {
     return this.rounds.get(gameId) || [];
   }
 
-  static async getRandomQuestions(categoryId: string, locale: string, count: number): Promise<Question[]> {
+  static async getRandomQuestions(
+    categoryId: string,
+    locale: string,
+    count: number,
+    countryCode?: string
+  ): Promise<Question[]> {
     // Mock questions - in real implementation, this would query the database
     const mockQuestions: Question[] = [];
-    
+
     for (let i = 0; i < count; i++) {
       mockQuestions.push({
         id: `question_${categoryId}_${i}`,
@@ -125,10 +137,12 @@ export class GameAPI {
         explanation: `This is the explanation for question ${i + 1}`,
         classic: true,
         locale: locale,
+        country_code: countryCode ?? null,
+        is_universal: !countryCode,
         created_at: new Date().toISOString(),
       });
     }
-    
+
     console.log('Random questions generated:', mockQuestions.length);
     return mockQuestions;
   }
