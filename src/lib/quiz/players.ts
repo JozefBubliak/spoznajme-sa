@@ -1,4 +1,4 @@
-// PATH: src/lib/herdvote/players.ts
+// PATH: src/lib/quiz/players.ts
 // Pomocné funkcie pre prácu s hráčmi (niektoré routy to importovali)
 
 import { store, type Player } from './store';
