@@ -47,21 +47,30 @@ export const [GameProvider, useGame] = createContextHook(() => {
 
   // Queries
   const playersQuery = useQuery({
-    queryKey: ['players', currentGame?.id, currentGame],
-    queryFn: () => currentGame ? GameAPI.getPlayers(currentGame.id) : Promise.resolve([]),
+    queryKey: ['players', currentGame?.id],
+    queryFn: async () => {
+      if (!currentGame) return [];
+      return GameAPI.getPlayers(currentGame.id);
+    },
     enabled: !!currentGame,
     refetchInterval: 2000, // Poll every 2 seconds for real-time updates
   });
 
   const categoriesQuery = useQuery({
-    queryKey: ['categories', selectedLanguage?.code, selectedLanguage],
-    queryFn: () => selectedLanguage ? GameAPI.getCategories(selectedLanguage.code) : Promise.resolve([]),
+    queryKey: ['categories', selectedLanguage?.code],
+    queryFn: async () => {
+      if (!selectedLanguage) return [];
+      return GameAPI.getCategories(selectedLanguage.code);
+    },
     enabled: !!selectedLanguage,
   });
 
   const leaderboardQuery = useQuery({
-    queryKey: ['leaderboard', currentGame?.id, currentGame],
-    queryFn: () => currentGame ? GameAPI.getLeaderboard(currentGame.id) : Promise.resolve([]),
+    queryKey: ['leaderboard', currentGame?.id],
+    queryFn: async () => {
+      if (!currentGame) return [];
+      return GameAPI.getLeaderboard(currentGame.id);
+    },
     enabled: !!currentGame && showResults,
   });
 

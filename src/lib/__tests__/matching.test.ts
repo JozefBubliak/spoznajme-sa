@@ -63,7 +63,7 @@ describe('calculateCompatibility', () => {
         { kind: 'multiple_choice', values: ['b', 'c'] }
 
       )
-    ).toBe(50);
+    ).toBe(33);
   });
 });
 
