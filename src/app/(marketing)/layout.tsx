@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import ClientLayout from './ClientLayout'
 import { MarketingHeader } from '@/components/MarketingHeader'
 import { MarketingFooter } from '@/components/MarketingFooter'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'DeepTalks – Questions that connect deeply',
