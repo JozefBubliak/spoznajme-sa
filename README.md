@@ -13,6 +13,7 @@ Modern Next.js web app providing interactive questions and mini‑games for buil
 
 ```
 .
+├── apps/          # standalone application builds (cards, hadacka, quiz, couplesync)
 ├── content/        # lokalizované markdown súbory podľa sekcií
 │   ├── en/marketing/...
 │   └── sk/marketing/...
