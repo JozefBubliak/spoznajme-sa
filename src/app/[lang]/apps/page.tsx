@@ -24,7 +24,7 @@ export default async function AppsPage({ params }: P) {
   const games = apps.games
   const categories = [
     { key: 'quizzes', slugs: ['quiz', 'quiz-master'], image: quizGameImage },
-    { key: 'cards', slugs: ['spoznajme-sa'], image: spoznajmeSaImage },
+    { key: 'cards', slugs: ['spoznajme-sa', 'cards2'], image: spoznajmeSaImage },
     { key: 'puzzles', slugs: ['hadacka'], image: hadackaImage },
     { key: 'surveys', slugs: ['couplesync'], image: couplesyncImage },
   ]
@@ -33,6 +33,7 @@ export default async function AppsPage({ params }: P) {
     'quiz': quizGameImage,
     'quiz-master': quizGameImage,
     'spoznajme-sa': spoznajmeSaImage,
+    'cards2': spoznajmeSaImage,
     'hadacka': hadackaImage,
     'couplesync': couplesyncImage,
   }

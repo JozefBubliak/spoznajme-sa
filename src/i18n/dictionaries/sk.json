@@ -96,6 +96,17 @@
           "Zdieľajte odpovede"
         ]
       },
+      "cards2": {
+        "name": "Konverzačné kartičky (beta)",
+        "description": "Rozhovory, ktoré vás zblížia. Kartičky plné otázok na hlbšie spoznanie partnera, kamarátov, rodiny.",
+        "cta": "Vybrať kartičky",
+        "link": "/apps/cards2",
+        "manual": [
+          "Vyberte balíček",
+          "Potiahnite kartičku",
+          "Zdieľajte odpovede"
+        ]
+      },
       "hadacka": {
         "name": "Hádanka – Hádaj odpoveď",
         "description": "Zábavná hra na rýchle myslenie. Dokážete uhádnuť, čo má partner na mysli?",

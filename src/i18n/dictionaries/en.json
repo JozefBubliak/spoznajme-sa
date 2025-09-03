@@ -94,6 +94,17 @@
           "Share your answers"
         ]
       },
+      "cards2": {
+        "name": "Conversation cards (beta)",
+        "description": "Conversations that bring you closer. Cards full of questions to get to know partner, friends or family.",
+        "cta": "Pick cards",
+        "link": "/apps/cards2",
+        "manual": [
+          "Choose a deck",
+          "Draw a card",
+          "Share your answers"
+        ]
+      },
       "hadacka": {
         "name": "Riddle – Guess the answer",
         "description": "A fun game for quick thinking. Can you guess what your partner has in mind?",
