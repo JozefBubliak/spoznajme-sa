@@ -74,6 +74,17 @@
           "Porovnajte, kto sa pozná najlepšie"
         ]
       },
+      "quiz-master": {
+        "name": "Quiz – tímový kvíz (beta)",
+        "description": "Otestujte, ako dobre sa poznáte. Zábavné otázky od ľahkých až po nečakané – kto vás pozná lepšie?",
+        "cta": "Začať kvíz",
+        "link": "/apps/quiz-master",
+        "manual": [
+          "Vytvorte alebo sa pripojte k hre",
+          "Odpovedajte na otázky",
+          "Porovnajte, kto sa pozná najlepšie"
+        ]
+      },
       "spoznajme-sa": {
         "name": "Konverzačné kartičky",
         "description": "Rozhovory, ktoré vás zblížia. Kartičky plné otázok na hlbšie spoznanie partnera, kamarátov, rodiny.",
@@ -124,7 +135,11 @@
           "Výsledky, o ktorých sa dá rozprávať"
         ],
         "barriersTitle": "Čo typicky brzdí intimitu",
-        "barriersCards": ["Stres a únava", "Rozdiel v túžbe", "Obdobia po pôrode / zdravie"],
+        "barriersCards": [
+          "Stres a únava",
+          "Rozdiel v túžbe",
+          "Obdobia po pôrode / zdravie"
+        ],
         "howTitle": "Ako to funguje",
         "howSteps": [
           "Vytvoríte súkromnú miestnosť",
