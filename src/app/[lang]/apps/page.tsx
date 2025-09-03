@@ -23,15 +23,17 @@ export default async function AppsPage({ params }: P) {
   const apps = dict.apps
   const games = apps.games
   const categories = [
-    { key: 'quizzes', slugs: ['quiz'], image: quizGameImage },
-    { key: 'cards', slugs: ['spoznajme-sa'], image: spoznajmeSaImage },
+    { key: 'quizzes', slugs: ['quiz', 'quiz-master'], image: quizGameImage },
+    { key: 'cards', slugs: ['spoznajme-sa', 'cards2'], image: spoznajmeSaImage },
     { key: 'puzzles', slugs: ['hadacka'], image: hadackaImage },
     { key: 'surveys', slugs: ['couplesync'], image: couplesyncImage },
   ]
 
   const imageMap: Record<string, any> = {
     'quiz': quizGameImage,
+    'quiz-master': quizGameImage,
     'spoznajme-sa': spoznajmeSaImage,
+    'cards2': spoznajmeSaImage,
     'hadacka': hadackaImage,
     'couplesync': couplesyncImage,
   }

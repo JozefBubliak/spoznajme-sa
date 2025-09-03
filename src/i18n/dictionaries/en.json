@@ -72,11 +72,33 @@
           "Compare who matches best"
         ]
       },
+      "quiz-master": {
+        "name": "Quiz – team quiz (beta)",
+        "description": "Test how well you know each other. Fun questions from easy to unexpected – who knows you best?",
+        "cta": "Start quiz",
+        "link": "/apps/quiz-master",
+        "manual": [
+          "Create or join a game",
+          "Answer the questions",
+          "Compare who matches best"
+        ]
+      },
       "spoznajme-sa": {
         "name": "Conversation cards",
         "description": "Conversations that bring you closer. Cards full of questions to get to know partner, friends or family.",
         "cta": "Pick cards",
         "link": "/apps/spoznajme-sa",
+        "manual": [
+          "Choose a deck",
+          "Draw a card",
+          "Share your answers"
+        ]
+      },
+      "cards2": {
+        "name": "Conversation cards (beta)",
+        "description": "Conversations that bring you closer. Cards full of questions to get to know partner, friends or family.",
+        "cta": "Pick cards",
+        "link": "/apps/cards2",
         "manual": [
           "Choose a deck",
           "Draw a card",
@@ -122,7 +144,11 @@
           "Results you can talk about"
         ],
         "barriersTitle": "What usually blocks intimacy",
-        "barriersCards": ["Stress and fatigue", "Desire discrepancy", "Postpartum / health periods"],
+        "barriersCards": [
+          "Stress and fatigue",
+          "Desire discrepancy",
+          "Postpartum / health periods"
+        ],
         "howTitle": "How it works",
         "howSteps": [
           "Create a private room",
