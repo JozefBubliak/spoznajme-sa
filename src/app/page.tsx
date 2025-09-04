@@ -1,5 +1,8 @@
-import HomePage, { metadata } from './(marketing)/page'
+import MarketingHomePage from '@/components/MarketingHomePage'
+import { metadata } from './(marketing)/metadata'
 
 export { metadata }
 
-export default HomePage
+export default function Home() {
+  return <MarketingHomePage />
+}

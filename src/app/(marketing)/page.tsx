@@ -1,16 +1,6 @@
-import type { Metadata } from 'next'
 import MarketingHomePage from '@/components/MarketingHomePage'
-import { buildHreflangAlternates } from '@/lib/i18n-routing'
 
-export const metadata: Metadata = {
-  title: 'DeepTalks – praktická komunikácia pre rodiny a páry',
-  description:
-    'Krátke vety, minipostupy a nástroje na lepšie rozhovory. Pre rodičov, páry a učiteľov.',
-  alternates: {
-    canonical: 'https://deeptalks.eu/',
-    languages: buildHreflangAlternates('/'),
-  },
-}
+export { metadata } from './metadata'
 
 export default function Page() {
   return <MarketingHomePage />
