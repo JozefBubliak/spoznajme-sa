@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import MarketingHomePage from '@/components/MarketingHomePage'
 import { buildHreflangAlternates } from '@/lib/i18n-routing'
 
 export const metadata: Metadata = {
@@ -12,6 +11,3 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Page() {
-  return <MarketingHomePage />
-}
