@@ -34,25 +34,37 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'ROUND_NOT_FOUND' }, { status: 404 })
   }
 
+  const roundSettings = ((round.settings as any) ?? {}) as Record<string, unknown>
+  const localePrefix = typeof roundSettings.localePrefix === 'string' && roundSettings.localePrefix
+    ? roundSettings.localePrefix
+    : 'sk'
+
   // vyber náhodné otázky z danej kategórie
   const { data: qs, error: qErr } = await s.rpc('random_herd_questions', {
     cat: round.category,
     n: round.count,
+    locale_prefix: localePrefix,
   })
 
   if (qErr) {
     return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
   }
   const ids = asArray<{ id: string }>(qs).map(q => q.id)
-  if (ids.length < round.count) {
+  if (ids.length === 0) {
     return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
   }
 
-  const newSettings = { ...(round.settings as any || {}), questions: ids }
+  const configuredCount =
+    typeof round.count === 'number'
+      ? round.count
+      : Number(round.count ?? ids.length) || ids.length
+  const effectiveCount = Math.min(ids.length, configuredCount)
+
+  const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
 
   const { error: updErr } = await s
     .from('herd_rounds')
-    .update({ settings: newSettings, status: 'shown', q_index: 0 })
+    .update({ settings: newSettings, status: 'shown', q_index: 0, count: effectiveCount })
     .eq('id', round.id)
 
   if (updErr) {
