@@ -34,10 +34,16 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'ROUND_NOT_FOUND' }, { status: 404 })
   }
 
+  const roundSettings = ((round.settings as any) ?? {}) as Record<string, unknown>
+  const localePrefix = typeof roundSettings.localePrefix === 'string' && roundSettings.localePrefix
+    ? roundSettings.localePrefix
+    : 'sk'
+
   // vyber náhodné otázky z danej kategórie
   const { data: qs, error: qErr } = await s.rpc('random_herd_questions', {
     cat: round.category,
     n: round.count,
+    locale_prefix: localePrefix,
   })
 
   if (qErr) {
@@ -48,7 +54,7 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
   }
 
-  const newSettings = { ...(round.settings as any || {}), questions: ids }
+  const newSettings = { ...roundSettings, questions: ids }
 
   const { error: updErr } = await s
     .from('herd_rounds')
