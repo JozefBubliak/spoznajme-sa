@@ -60,13 +60,16 @@ export async function POST(req: NextRequest, context: any) {
       : Number(round.count ?? ids.length) || ids.length
   const effectiveCount = Math.min(ids.length, configuredCount)
 
-  const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
+
+  const updatedSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
 
 
   const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
   const { error: updErr } = await s
     .from('herd_rounds')
-    .update({ settings: newSettings, status: 'shown', q_index: 0, count: effectiveCount })
+
+    .update({ settings: updatedSettings, status: 'shown', q_index: 0, count: effectiveCount })
+
     .eq('id', round.id)
 
   if (updErr) {
