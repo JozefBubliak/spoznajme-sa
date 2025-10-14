@@ -6,6 +6,7 @@ language sql stable as $$
   where q.category_id = cat
     and coalesce(q.classic, true)
     and (q.locale is null or q.locale = 'sk')
+
   order by random()
   limit n
 $$;

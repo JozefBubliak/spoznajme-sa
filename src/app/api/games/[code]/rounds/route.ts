@@ -68,11 +68,13 @@ export async function POST(req: NextRequest, context: any) {
     }
 
     const { data: qdata, error: qErr } = await supabase
+
       .from('herd_questions')
       .select('id')
       .eq('category_id', catRow.id)
       .eq('classic', true)
       .or('locale.is.null,locale.eq.sk')
+
 
     if (qErr) {
       return NextResponse.json({ error: qErr.message }, { status: 400 })
