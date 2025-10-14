@@ -53,12 +53,17 @@ export async function POST(req: NextRequest, context: any) {
     .eq('classic', true)
     .or(localeFilter)
 
-  if ((available ?? 0) < normalizedCount) {
+
+  const availableCount = typeof available === 'number' ? available : 0
+  if (availableCount <= 0) {
+
     return NextResponse.json(
-      { error: 'NOT_ENOUGH_QUESTIONS', available },
+      { error: 'NOT_ENOUGH_QUESTIONS', available: 0 },
       { status: 400 }
     )
   }
+
+  const selectedCount = Math.min(availableCount, normalizedCount)
 
   // uloženie/aktualizácia kola (idempotentne podľa game_code + idx)
   const roundSettings = {
@@ -73,7 +78,9 @@ export async function POST(req: NextRequest, context: any) {
         game_code: gameCode,
         idx: index,
         category: categoryId,
-        count: normalizedCount,
+
+        count: selectedCount,
+
         prep_seconds: prepSeconds,
         question_seconds: questionSeconds,
         scoring_mode: scoringMode,
@@ -99,5 +106,8 @@ export async function POST(req: NextRequest, context: any) {
     phase: 'round_setup',
     savedIndex: index,
     localePrefix,
+
+    questions: selectedCount,
+
   })
 }
