@@ -49,7 +49,7 @@ Balíčky otázok pre každú príležitosť
 - Zábavné: Pre smiech a relaxáciu
 **CTA:** Otvor balíčky
 
-**Product 2: Quiz (tímový kvíz)**
+**Product 2: Herd Vote (tímový kvíz)**  
 Rýchly kvíz s kolami a bodovaním
 - Otázky pre všetky vekové kategórie
 - Automatické vyhodnocovanie
@@ -184,7 +184,7 @@ Card decks for every occasion
 - Fun: For laughter and relaxation
 **CTA:** Open card decks
 
-**Product 2: Quiz (team quiz)**
+**Product 2: Herd Vote (team quiz)**  
 Fast quiz with rounds and scoring
 - Questions for all age groups
 - Automatic scoring
@@ -435,11 +435,11 @@ track('change_language', { from: string, to: string })
 - `/sk` - Slovak homepage  
 - `/en` - English homepage
 - `/sk/apps/spoznajme-sa` - Conversation cards
-- `/sk/apps/quiz` - Team quiz
+- `/sk/apps/herd-vote` - Team quiz
 - `/sk/o-projekte` - About page
 - `/sk/kontakt` - Contact
 - `/en/apps/get-to-know` - Conversation cards (EN)
-- `/en/apps/quiz` - Team quiz (EN)
+- `/en/apps/herd-vote` - Team quiz (EN)
 - `/en/about` - About page (EN)
 - `/en/contact` - Contact (EN)
 

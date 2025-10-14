@@ -1,8 +1,6 @@
+﻿// app/page.tsx
 import MarketingHomePage from '@/components/MarketingHomePage'
-import { metadata } from './(marketing)/metadata'
 
-export { metadata }
-
-export default function Home() {
+export default function HomePage() {
   return <MarketingHomePage />
 }

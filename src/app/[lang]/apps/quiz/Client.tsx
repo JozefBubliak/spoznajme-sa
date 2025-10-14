@@ -3,7 +3,7 @@
 
 import { useEffect, useMemo, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import type { Player, Round } from '@/lib/quiz/store'
+import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
 import { UserCircle } from 'lucide-react'
 
@@ -17,7 +17,7 @@ function mapPhase(phase: string): GameStatus {
   if (p === 'lobby') return 'waiting'
   if (p === 'setup' || p === 'config' || p === 'round_setup' || p === 'ready' || p === 'locked')
     return 'configuring'
-  if (p === 'running' || p === 'playing' || p === 'reveal') return 'running'
+  if (p === 'running' || p === 'playing') return 'running'
   if (p === 'ended' || p === 'final') return 'finished'
 
   return 'waiting'
@@ -73,7 +73,7 @@ export default function QuizAdminClient({ lang }: Props) {
     if (!session) return
     const load = async () => {
       try {
-        const r = await authFetch('/api/quiz/categories', { cache: 'no-store' })
+        const r = await authFetch('/api/herd-vote/categories', { cache: 'no-store' })
         if (!r.ok) return
         const j = await r.json()
         const cats: Category[] = Array.isArray(j.categories) ? j.categories : []
@@ -244,7 +244,7 @@ export default function QuizAdminClient({ lang }: Props) {
     if (!joinUrl) return
     try {
       if (navigator.share) {
-        await navigator.share({ title: 'Quiz', url: joinUrl })
+        await navigator.share({ title: 'Herd Vote', url: joinUrl })
       } else if (navigator.clipboard) {
         await navigator.clipboard.writeText(joinUrl)
         alert('Link skopírovaný do schránky')
@@ -281,7 +281,7 @@ export default function QuizAdminClient({ lang }: Props) {
           <div>
             <span className="font-medium">Kód hry:</span> {gameCode || '—'}
           </div>
-          {gameStatus === 'waiting' && joinUrl && (
+          {joinUrl && (
             <>
               <div className="break-all">
                 <span className="font-medium">Link pre hráčov:</span>{' '}
@@ -304,9 +304,8 @@ export default function QuizAdminClient({ lang }: Props) {
               </div>
               <div className="flex justify-center pt-2">
                 <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`}
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(joinUrl)}`}
                   alt="QR kód"
-                  className="border rounded"
                 />
               </div>
             </>

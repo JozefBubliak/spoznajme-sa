@@ -1,6 +1,6 @@
 // src/lib/realtime/types.ts
 
-import type { Player } from '../quiz/store'
+import type { Player } from '../herdvote/store'
 
 export type HerdEvent =
   | { type: 'question:show'; code: string; roundId: string; qIndex: number; at: number }
@@ -12,5 +12,5 @@ export type HerdEvent =
 export type RealtimeCallback = (event: HerdEvent) => void
 
 export function channelFor(gameCode: string): string {
-  return `quiz:${gameCode.toUpperCase()}`
+  return `herd-vote:${gameCode.toUpperCase()}`
 }
