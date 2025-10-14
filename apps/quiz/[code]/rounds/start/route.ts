@@ -19,6 +19,9 @@ export async function POST(req: NextRequest, context: any) {
 
   const body = await req.json().catch(() => ({} as any))
   const index = typeof body?.index === 'number' ? body.index : 0
+  const localePrefix = typeof body?.localePrefix === 'string' && body.localePrefix.trim()
+    ? body.localePrefix.trim().toLowerCase()
+    : 'sk'
 
   const s = supabaseServer(session.access_token)
 
@@ -38,6 +41,7 @@ export async function POST(req: NextRequest, context: any) {
   const { data: qs, error: qErr } = await s.rpc('random_herd_questions', {
     cat: round.category,
     n: round.count,
+    locale_prefix: localePrefix,
   })
 
   if (qErr) {
@@ -48,7 +52,8 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
   }
 
-  const newSettings = { ...(round.settings as any || {}), questions: ids }
+  const baseSettings = ((round.settings ?? {}) as Record<string, any>)
+  const newSettings = { ...baseSettings, questions: ids, localePrefix }
 
   const { error: updErr } = await s
     .from('herd_rounds')
