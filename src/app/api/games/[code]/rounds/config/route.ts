@@ -76,7 +76,9 @@ export async function POST(req: NextRequest, context: any) {
         game_code: gameCode,
         idx: index,
         category: categoryId,
+
         count: selectedCount,
+
         prep_seconds: prepSeconds,
         question_seconds: questionSeconds,
         scoring_mode: scoringMode,
@@ -103,5 +105,6 @@ export async function POST(req: NextRequest, context: any) {
     savedIndex: index,
     localePrefix,
     questions: selectedCount,
+
   })
 }
