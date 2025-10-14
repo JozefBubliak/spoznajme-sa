@@ -13,15 +13,11 @@ Modern Next.js web app providing interactive questions and mini‑games for buil
 
 ```
 .
-├── apps/          # standalone application builds (cards, hadacka, quiz, couplesync)
-├── content/        # lokalizované markdown súbory podľa sekcií
-│   ├── en/marketing/...
-│   └── sk/marketing/...
+├── content/        # static text and translations
 ├── public/         # images and other static assets
 ├── src/
 │   ├── app/        # Next.js routes and API handlers
-│   ├── apps/       # komponenty konkrétnych aplikácií
-│   ├── components/ # zdieľané UI komponenty
+│   ├── components/ # shared UI components
 │   ├── hooks/      # custom React hooks
 │   ├── lib/        # utilities and Supabase client
 │   └── types/      # shared TypeScript types
@@ -37,18 +33,7 @@ npm install
 npm run dev
 ```
 
-Stránky sídlia v `src/app/`, zdieľané komponenty v `src/components/` a špecifické časti aplikácií v `src/apps/<app>/components`. Zmeny sa počas behu dev servera načítajú automaticky.
-
-### Supabase configuration for quiz API
-
-The realtime quiz uses a Supabase backend. Create an `.env` file inside `src/app/api/kviz` based on `.env.example` and provide your project credentials:
-
-```
-EXPO_PUBLIC_SUPABASE_URL=https://<your-project>.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=<your-anon-key>
-```
-
-Restart the Expo client after changing these values.
+Pages live in `src/app/` and UI components in `src/components/`. Edits reload automatically while the dev server runs.
 
 ## Ako upraviť dizajn
 
