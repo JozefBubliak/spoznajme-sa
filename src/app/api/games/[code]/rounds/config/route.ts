@@ -53,8 +53,10 @@ export async function POST(req: NextRequest, context: any) {
     .eq('classic', true)
     .or(localeFilter)
 
+
   const availableCount = typeof available === 'number' ? available : 0
   if (availableCount <= 0) {
+
     return NextResponse.json(
       { error: 'NOT_ENOUGH_QUESTIONS', available: 0 },
       { status: 400 }
@@ -76,7 +78,9 @@ export async function POST(req: NextRequest, context: any) {
         game_code: gameCode,
         idx: index,
         category: categoryId,
+
         count: selectedCount,
+
         prep_seconds: prepSeconds,
         question_seconds: questionSeconds,
         scoring_mode: scoringMode,
@@ -102,6 +106,8 @@ export async function POST(req: NextRequest, context: any) {
     phase: 'round_setup',
     savedIndex: index,
     localePrefix,
+
     questions: selectedCount,
+
   })
 }
