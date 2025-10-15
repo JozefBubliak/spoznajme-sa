@@ -2,15 +2,18 @@
 import type { PostgrestError } from '@supabase/supabase-js'
 
 export type RunRecord = {
+
   id: string | null
   run_number: number | null
   status?: string | null
   disabled?: boolean
+
 }
 
 function isPostgrestError(error: unknown): error is PostgrestError {
   return Boolean(error && typeof error === 'object' && 'message' in error)
 }
+
 
 function messageIncludes(error: PostgrestError, fragment: string) {
   return String(error.message ?? '').toLowerCase().includes(fragment.toLowerCase())
@@ -54,8 +57,10 @@ export async function getActiveRun(
     .limit(1)
 
   const { data, error } = await query.maybeSingle()
+
   if (error) {
     if (isRunStorageUnavailable(error)) return null
+
     throw error
   }
   if (!data) return null
@@ -70,7 +75,9 @@ export async function ensureActiveRun(
   const existing = await getActiveRun(client, gameCode, ownerId)
   if (existing) return existing
 
+
   const { data: last, error: lastErr } = await client
+
     .from('herd_game_runs')
     .select('run_number')
     .eq('game_code', gameCode)
@@ -79,10 +86,12 @@ export async function ensureActiveRun(
     .limit(1)
     .maybeSingle()
 
+
   if (lastErr) {
     if (isRunStorageUnavailable(lastErr)) return { ...FALLBACK_RUN }
     throw lastErr
   }
+
 
   const nextNumber = typeof last?.run_number === 'number' ? last.run_number + 1 : 1
 
@@ -97,11 +106,13 @@ export async function ensureActiveRun(
     .select('id, run_number, status')
     .single()
 
+
   if (error) {
     if (isRunStorageUnavailable(error)) return { ...FALLBACK_RUN }
     throw error
   }
   if (!data) return { ...FALLBACK_RUN }
+
   return data as RunRecord
 }
 
@@ -113,18 +124,22 @@ export async function archiveActiveRunAndStartNext(
   const active = await getActiveRun(client, gameCode, ownerId)
 
   let nextNumber = 1
+
   if (active && active.id) {
+
     nextNumber = (active.run_number || 0) + 1
     const { error: archiveErr } = await client
       .from('herd_game_runs')
       .update({ status: 'archived', ended_at: new Date().toISOString() })
       .eq('id', active.id)
+
     if (archiveErr) {
       if (!isRunStorageUnavailable(archiveErr)) throw archiveErr
       return { previous: null, run: { ...FALLBACK_RUN } }
     }
   } else {
     const { data: last, error: lastErr } = await client
+
       .from('herd_game_runs')
       .select('run_number')
       .eq('game_code', gameCode)
@@ -132,12 +147,14 @@ export async function archiveActiveRunAndStartNext(
       .order('run_number', { ascending: false })
       .limit(1)
       .maybeSingle()
+
     if (lastErr) {
       if (isRunStorageUnavailable(lastErr)) {
         return { previous: null, run: { ...FALLBACK_RUN } }
       }
       throw lastErr
     }
+
     nextNumber = typeof last?.run_number === 'number' ? last.run_number + 1 : 1
   }
 
@@ -157,6 +174,7 @@ export async function archiveActiveRunAndStartNext(
     throw error
   }
   if (!data) return { previous: null, run: { ...FALLBACK_RUN } }
+
 
   return { previous: active ?? null, run: data as RunRecord }
 }

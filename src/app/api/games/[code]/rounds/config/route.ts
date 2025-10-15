@@ -4,7 +4,9 @@ import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { must } from '@/lib/supabase/safe'
+
 import { ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
+
 
 export const dynamic = 'force-dynamic'
 
@@ -36,9 +38,11 @@ export async function POST(req: NextRequest, context: any) {
 
   const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
 
+
   const run = await ensureActiveRun(s, gameCode, session.user.id)
   const runId = run?.id ?? null
   const runDisabled = !runId || run?.disabled
+
 
   const { data: existingRound } = await s
     .from('herd_rounds')
@@ -51,6 +55,7 @@ export async function POST(req: NextRequest, context: any) {
 
   // over dostupný počet otázok v danej kategórii podľa rovnakých filtrov ako RPC random_herd_questions
   const localeFilter = `locale.is.null,locale.ilike.${localePrefix}%`
+
 
   let usedIds = new Set<string>()
   if (!runDisabled) {
@@ -74,11 +79,13 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const availableQuery = s
+
     .from('herd_questions')
     .select('id', { count: 'exact', head: true })
     .eq('category_id', categoryId)
     .eq('classic', true)
     .or(localeFilter)
+
 
   if (usedIds.size > 0) {
     const inList = `(${Array.from(usedIds).map((id) => `'${id}'`).join(',')})`
@@ -86,6 +93,7 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const { count: available } = await availableQuery
+
 
   const availableCount = typeof available === 'number' ? available : 0
   if (availableCount <= 0) {
@@ -98,6 +106,7 @@ export async function POST(req: NextRequest, context: any) {
   const selectedCount = Math.min(availableCount, normalizedCount)
 
   // uloženie/aktualizácia kola (idempotentne podľa game_code + idx)
+
   const roundSettings: Record<string, unknown> = {
     ...existingSettings,
     localePrefix,
@@ -106,6 +115,7 @@ export async function POST(req: NextRequest, context: any) {
     roundSettings.runId = runId
   } else {
     delete (roundSettings as any).runId
+
   }
 
   const { data: saved, error } = await s
@@ -115,7 +125,9 @@ export async function POST(req: NextRequest, context: any) {
         game_code: gameCode,
         idx: index,
         category: categoryId,
+
         count: selectedCount,
+
         prep_seconds: prepSeconds,
         question_seconds: questionSeconds,
         scoring_mode: scoringMode,
@@ -141,8 +153,10 @@ export async function POST(req: NextRequest, context: any) {
     phase: 'round_setup',
     savedIndex: index,
     localePrefix,
+
     runId,
     runNumber: run.run_number ?? null,
     questions: selectedCount,
+
   })
 }

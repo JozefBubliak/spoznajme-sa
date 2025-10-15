@@ -6,7 +6,9 @@ import { channelFor } from '@/lib/realtime/types'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { asArray } from '@/lib/supabase/safe'
+
 import { ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
+
 
 export const dynamic = 'force-dynamic'
 
@@ -23,7 +25,9 @@ export async function POST(req: NextRequest, context: any) {
 
   const s = supabaseServer(session.access_token)
   const run = await ensureActiveRun(s, gameCode, session.user.id)
+
   const runId = run?.id ?? null
+
 
   // načítaj konfiguráciu kola
   const { data: round, error: roundErr } = await s
@@ -38,6 +42,7 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const roundSettings = ((round.settings as any) ?? {}) as Record<string, unknown>
+
   const storedRunId =
     typeof (roundSettings as any).runId === 'string' && (roundSettings as any).runId
       ? String((roundSettings as any).runId)
@@ -45,6 +50,7 @@ export async function POST(req: NextRequest, context: any) {
   const storedQuestions = Array.isArray((roundSettings as any).questions)
     ? ((roundSettings as any).questions as unknown[]).map((value) => String(value))
     : []
+
 
   const localePrefix = typeof roundSettings.localePrefix === 'string' && roundSettings.localePrefix
     ? roundSettings.localePrefix
@@ -68,13 +74,14 @@ export async function POST(req: NextRequest, context: any) {
     if (ids.length === 0) {
       return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
     }
-  }
+
 
   const configuredCount =
     typeof round.count === 'number'
       ? round.count
       : Number(round.count ?? ids.length) || ids.length
   const effectiveCount = Math.min(ids.length, configuredCount)
+
   const chosenIds = ids.slice(0, effectiveCount)
 
   const updatedSettings: Record<string, unknown> = { ...roundSettings, questions: chosenIds }
@@ -84,20 +91,29 @@ export async function POST(req: NextRequest, context: any) {
     delete (updatedSettings as any).runId
   }
 
+
+  const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }
+
+
+  const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
   const { error: updErr } = await s
     .from('herd_rounds')
+
     .update({ settings: updatedSettings, status: 'shown', q_index: 0, count: effectiveCount })
+
     .eq('id', round.id)
 
   if (updErr) {
     return NextResponse.json({ error: updErr.message }, { status: 400 })
   }
 
+
   if (chosenIds.length > 0 && runId) {
     const rows = chosenIds.map((questionId) => ({
       owner_id: session.user.id,
       game_code: gameCode,
       run_id: runId,
+
       category_id: round.category,
       round_id: round.id,
       question_id: questionId,
@@ -105,7 +121,9 @@ export async function POST(req: NextRequest, context: any) {
     const { error: usageErr } = await s
       .from('herd_question_usage')
       .upsert(rows, { onConflict: 'run_id,question_id' })
+
     if (usageErr && !isUsageStorageUnavailable(usageErr)) {
+
       return NextResponse.json({ error: usageErr.message }, { status: 400 })
     }
   }

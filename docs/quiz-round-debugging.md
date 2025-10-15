@@ -17,6 +17,7 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 - `usageRecordedIds` / `usageRecordedCount` – otázky zapísané v tabuľke `herd_question_usage`, teda tie, ktoré sa už v danom behu nemajú zobraziť.
 - `usageMissingIds` – ID otázok, ktoré sú síce uložené pri kole, ale v databáze zatiaľ nemajú záznam o použití (napr. kolo nebolo spustené).
 
+
 ### Ako endpoint zavolať
 
 1. **V prehliadači (prihlásený admin):**
@@ -50,3 +51,4 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 V administrácii pribudlo tlačidlo **Reset otázok**, ktoré zavolá endpoint `/api/games/[code]/runs/reset`. Reset vytvorí nový beh (napr. H2), vymaže uložené otázky pri kolách a umožní znovu zaradiť už odohrané otázky do výberu.
 
 Týmto spôsobom rýchlo zistíte, či problém spôsobuje konfigurácia kola, chýbajúce dáta, nezapísaná história použitia otázok alebo samotné RPC.
+
