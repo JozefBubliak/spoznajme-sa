@@ -12,6 +12,25 @@ type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 
 
+function translateRoundStatus(status: string): string {
+  const normalized = status.toLowerCase()
+  switch (normalized) {
+    case 'ready':
+      return 'pripravené'
+    case 'running':
+    case 'active':
+      return 'spustené'
+    case 'locked':
+      return 'uzamknuté'
+    case 'results':
+      return 'výsledky'
+    case 'setup':
+    default:
+      return 'príprava'
+  }
+}
+
+
 function mapPhase(phase: string): GameStatus {
   const p = phase.toLowerCase().trim()
   if (p === 'lobby') return 'waiting'
@@ -38,6 +57,9 @@ type RoundDiagnostic = {
   storedQuestionIds: string[]
   runId: string | null
   runNumber: number | null
+
+  status: string
+
   usageTrackingDisabled: boolean
   usageRecordedCount: number
   usageRecordedIds: string[]
@@ -60,6 +82,14 @@ export default function QuizAdminClient({ lang }: Props) {
 
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCat, setSelectedCat] = useState<string>('')
+
+  const categoryLabelById = useMemo(() => {
+    const map = new Map<string, string>()
+    for (const cat of categories) {
+      map.set(cat.id, cat.name)
+    }
+    return map
+  }, [categories])
 
   const [count, setCount] = useState<number>(10)
   const [timeLimit, setTimeLimit] = useState<number>(30)
@@ -123,6 +153,9 @@ export default function QuizAdminClient({ lang }: Props) {
         typeof raw?.runNumber === 'number' && Number.isFinite(raw.runNumber)
           ? Number(raw.runNumber)
           : null,
+
+      status: typeof raw?.status === 'string' ? String(raw.status) : 'setup',
+
       usageTrackingDisabled: Boolean(raw?.usageTrackingDisabled),
       usageRecordedCount:
         typeof raw?.usageRecordedCount === 'number' && Number.isFinite(raw.usageRecordedCount)
@@ -734,17 +767,26 @@ export default function QuizAdminClient({ lang }: Props) {
               </p>
             )}
             <div className="space-y-3">
-              {diagnostics.map((diag) => (
-                <div key={`${diag.roundId}-${diag.index}`} className="rounded border bg-gray-50 p-3 text-sm space-y-2">
-                  <div className="flex flex-wrap justify-between gap-2">
-                    <div>
-                      <span className="font-semibold">Kolo #{diag.index + 1}</span>{' '}
-                      <span className="text-muted-foreground">({diag.categoryId})</span>
+
+              {diagnostics.map((diag) => {
+                const categoryLabel = categoryLabelById.get(diag.categoryId) ?? diag.categoryId
+                const statusLabel = translateRoundStatus(diag.status)
+                return (
+                  <div
+                    key={`${diag.roundId}-${diag.index}`}
+                    className="rounded border bg-gray-50 p-3 text-sm space-y-2"
+                  >
+                    <div className="flex flex-wrap justify-between gap-2">
+                      <div>
+                        <span className="font-semibold">Kolo #{diag.index + 1}</span>{' '}
+                        <span className="text-muted-foreground">• {categoryLabel}</span>
+                      </div>
+                      <div className="text-muted-foreground flex flex-col text-xs text-right">
+                        <span>Locale: <code>{diag.localePrefix || '—'}</code></span>
+                        <span>Stav: {statusLabel}</span>
+                      </div>
                     </div>
-                    <div>
-                      Locale: <code>{diag.localePrefix || '—'}</code>
-                    </div>
-                  </div>
+
                   <div className="grid md:grid-cols-4 gap-2">
                     <div>
                       Požadovaný počet: <strong>{diag.configuredCount}</strong>
@@ -780,7 +822,6 @@ export default function QuizAdminClient({ lang }: Props) {
                     </div>
                   )}
                   <div>
-
                     Otázky označené v databáze: <strong>{diag.usageRecordedCount}</strong>
                   </div>
                   {diag.usageMissingIds.length > 0 && (
@@ -816,8 +857,10 @@ export default function QuizAdminClient({ lang }: Props) {
                       </div>
                     </details>
                   )}
-                </div>
-              ))}
+                  </div>
+                )
+              })}
+
             </div>
           </div>
 

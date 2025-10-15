@@ -18,6 +18,29 @@ function sanitizeLocalePrefix(raw: unknown): string {
   return sanitized || 'sk'
 }
 
+type DiagnosticEntry = {
+  roundId: string
+  index: number
+  categoryId: string
+  configuredCount: number
+  localePrefix: string
+  availableCount: number | null
+  countError: string | null
+  rpcIds: string[]
+  rpcCount: number
+  rpcError: string | null
+  storedQuestionCount: number
+  storedQuestionIds: string[]
+  runId: string | null
+  runNumber: number | null
+  status: string
+  usageTrackingDisabled: boolean
+  usageRecordedCount: number
+  usageRecordedIds: string[]
+  usageMissingIds: string[]
+}
+
+
 export async function GET(req: NextRequest, context: any) {
   const session = await getSession()
   if (!session) {
@@ -43,7 +66,9 @@ export async function GET(req: NextRequest, context: any) {
 
   const query = s
     .from('herd_rounds')
-    .select('id, idx, category, count, settings')
+
+    .select('id, idx, category, count, status, settings')
+
     .eq('game_code', gameCode)
     .order('idx', { ascending: true })
 
@@ -62,6 +87,8 @@ export async function GET(req: NextRequest, context: any) {
     idx: number
     category: string
     count: number | null
+    status: string | null
+
     settings: Record<string, unknown> | null
   }>(rounds)
 
@@ -114,18 +141,38 @@ export async function GET(req: NextRequest, context: any) {
     }
   }
 
-  const diagnostics = await Promise.all(
-    list.map(async (round) => {
+  const diagnostics: DiagnosticEntry[] = []
+
+  for (const round of list) {
       const settings = (round.settings ?? {}) as Record<string, unknown>
-      const localePrefix = sanitizeLocalePrefix((settings as any).localePrefix)
+      const rawLocale =
+        typeof (settings as any).localePrefix === 'string'
+          ? String((settings as any).localePrefix)
+          : ''
+      const localePrefix = sanitizeLocalePrefix(rawLocale)
       const runId = typeof (settings as any).runId === 'string' ? String((settings as any).runId) : null
       const runMeta = runId ? runMap.get(runId) ?? null : null
       const usageTrackingDisabled = Boolean((settings as any).usageTrackingDisabled)
+      const status = typeof round.status === 'string' ? round.status : 'setup'
       const localeFilter = `locale.is.null,locale.ilike.${localePrefix}%`
       const configuredCount =
         typeof round.count === 'number'
           ? round.count
           : Number(round.count ?? 0) || 0
+
+      const storedQuestions = Array.isArray((settings as any).questions)
+        ? ((settings as any).questions as unknown[])
+        : []
+
+      const shouldSkip =
+        status === 'setup' &&
+        storedQuestions.length === 0 &&
+        rawLocale.trim().length === 0 &&
+        !runId
+
+      if (shouldSkip) {
+        continue
+      }
 
       const { count: availableCount, error: countErr } = await s
         .from('herd_questions')
@@ -164,15 +211,14 @@ export async function GET(req: NextRequest, context: any) {
         }
       }
 
-      const storedQuestions = Array.isArray((settings as any).questions)
-        ? ((settings as any).questions as unknown[])
-        : []
       const storedIds = storedQuestions.map((value) => String(value))
       const usageKey = runId ? `${runId}:${round.category}` : null
       const usageIds = usageKey ? usageMap.get(usageKey) ?? [] : []
       const missingUsage = storedIds.filter((id) => !usageIds.includes(id))
 
-      return {
+
+      diagnostics.push({
+
         roundId: round.id,
         index: round.idx,
         categoryId: round.category,
@@ -187,13 +233,15 @@ export async function GET(req: NextRequest, context: any) {
         storedQuestionIds: storedIds,
         runId,
         runNumber: runMeta?.run_number ?? null,
+        status,
+
         usageTrackingDisabled: usageTrackingDisabled || trackingUnavailable,
         usageRecordedCount: usageIds.length,
         usageRecordedIds: usageIds,
         usageMissingIds: missingUsage,
-      }
-    })
-  )
+      })
+  }
+
 
   return NextResponse.json({ ok: true, rounds: diagnostics })
 }

@@ -4,7 +4,8 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
-import { ensureActiveRun, isMissingRelationError, isPostgrestError } from './[code]/_runs'
+import { ensureActiveRun } from './[code]/_runs'
+import { resetGameArtifacts } from './[code]/_reset'
 
 
 /**
@@ -44,43 +45,20 @@ export async function POST(_req: NextRequest) {
       { onConflict: 'code' }
     )
 
-  const resetErrors: string[] = []
-
   try {
     await ensureActiveRun(supabase, room.code, session.user.id)
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Failed to initialise run' }, { status: 500 })
   }
 
-  const isRelationMissing = (error: unknown, relation: string) =>
-    isPostgrestError(error) && isMissingRelationError(error, relation)
-
-  const { error: roundResetErr } = await supabase
-    .from('herd_rounds')
-    .delete()
-    .eq('game_code', room.code)
-  if (roundResetErr && !isRelationMissing(roundResetErr, 'herd_rounds')) {
-    resetErrors.push(roundResetErr.message || 'Failed to reset rounds')
+  try {
+    await resetGameArtifacts(supabase, room.code)
+  } catch (err) {
+    if (err instanceof Error) {
+      return NextResponse.json({ error: err.message }, { status: 500 })
+    }
+    return NextResponse.json({ error: 'Failed to reset game data' }, { status: 500 })
   }
 
-  const { error: answersResetErr } = await supabase
-    .from('herd_answers')
-    .delete()
-    .eq('game_code', room.code)
-  if (answersResetErr && !isRelationMissing(answersResetErr, 'herd_answers')) {
-    resetErrors.push(answersResetErr.message || 'Failed to reset answers')
-  }
-
-  const { error: playersResetErr } = await supabase
-    .from('herd_players')
-    .delete()
-    .eq('game_code', room.code)
-  if (playersResetErr && !isRelationMissing(playersResetErr, 'herd_players')) {
-    resetErrors.push(playersResetErr.message || 'Failed to reset players')
-  }
-
-  if (resetErrors.length > 0) {
-    return NextResponse.json({ error: resetErrors[0] ?? 'Failed to reset game data' }, { status: 500 })
-  }
   return NextResponse.json({ gameCode: room.code })
 }

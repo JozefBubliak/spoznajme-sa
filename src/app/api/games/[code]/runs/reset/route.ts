@@ -5,7 +5,10 @@ import type { NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { archiveActiveRunAndStartNext, ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
+
 export const dynamic = 'force-dynamic'
+
+
 export async function POST(_req: NextRequest, context: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -30,6 +33,9 @@ export async function POST(_req: NextRequest, context: any) {
 
   const current = await ensureActiveRun(s, gameCode, session.user.id)
   const runId = current?.id ?? null
+
+
+
   const { run } = await archiveActiveRunAndStartNext(s, gameCode, session.user.id)
 
   const { data: rounds } = await s
