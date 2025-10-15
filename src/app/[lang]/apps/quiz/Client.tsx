@@ -196,6 +196,10 @@ export default function QuizAdminClient({ lang }: Props) {
       setRunNumber(null)
       setRunId(null)
       setGameStatus('waiting')
+      setTotalRounds(0)
+      setRoundInput(1)
+      setDiagnostics([])
+      setDiagError(null)
     } else {
       alert(j.error || 'Nepodarilo sa vytvoriť hru')
     }

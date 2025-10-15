@@ -7,7 +7,11 @@ import { supabaseServer } from '@/integrations/supabase/server'
 import type { SupabaseClient } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { asArray } from '@/lib/supabase/safe'
-import { ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
+import {
+  ensureActiveRun,
+  isRandomQuestionRpcUnavailable,
+  isUsageStorageUnavailable,
+} from '../../_runs'
 
 function buildLocaleFilter(prefix: string) {
   const clean = typeof prefix === 'string' && prefix.trim() ? prefix.trim() : 'sk'
@@ -70,8 +74,6 @@ export async function POST(req: NextRequest, context: any) {
   const run = await ensureActiveRun(s, gameCode, session.user.id)
   const runId = run?.id ?? null
   let usageDisabled = !runId || run?.disabled
-
-
   // načítaj konfiguráciu kola
   const { data: round, error: roundErr } = await s
     .from('herd_rounds')
@@ -89,9 +91,7 @@ export async function POST(req: NextRequest, context: any) {
     typeof (roundSettings as any).runId === 'string' && (roundSettings as any).runId
       ? String((roundSettings as any).runId)
       : null
-
   const storedUsageDisabled = Boolean((roundSettings as any).usageTrackingDisabled)
-
   const storedQuestions = Array.isArray((roundSettings as any).questions)
     ? ((roundSettings as any).questions as unknown[]).map((value) => String(value))
     : []
@@ -122,7 +122,7 @@ export async function POST(req: NextRequest, context: any) {
       })
 
       if (qErr) {
-        if (isUsageStorageUnavailable(qErr)) {
+        if (isUsageStorageUnavailable(qErr) || isRandomQuestionRpcUnavailable(qErr)) {
           usageDisabled = true
         } else {
           return NextResponse.json({ error: qErr.message || 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
@@ -169,9 +169,6 @@ export async function POST(req: NextRequest, context: any) {
   } else {
     delete (nextSettings as any).runId
   }
-
-  const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }
-
 
   const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
   const { error: updErr } = await s
