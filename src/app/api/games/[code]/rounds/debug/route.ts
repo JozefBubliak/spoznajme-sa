@@ -10,7 +10,6 @@ import {
   isRunStorageUnavailable,
   isUsageStorageUnavailable,
 } from '../../_runs'
-
 export const dynamic = 'force-dynamic'
 
 function sanitizeLocalePrefix(raw: unknown): string {
@@ -35,6 +34,7 @@ type DiagnosticEntry = {
   fallbackIds: string[]
   fallbackCount: number
   fallbackError: string | null
+
   storedQuestionCount: number
   storedQuestionIds: string[]
   runId: string | null
@@ -72,6 +72,7 @@ export async function GET(req: NextRequest, context: any) {
   const query = s
     .from('herd_rounds')
     .select('id, idx, category, count, status, settings')
+
     .eq('game_code', gameCode)
     .order('idx', { ascending: true })
 
@@ -91,6 +92,8 @@ export async function GET(req: NextRequest, context: any) {
     category: string
     count: number | null
     status: string | null
+
+
     settings: Record<string, unknown> | null
   }>(rounds)
 
@@ -166,7 +169,9 @@ export async function GET(req: NextRequest, context: any) {
         ? ((settings as any).questions as unknown[])
         : []
 
+
       const fallbackLimit = Math.max(1, configuredCount)
+
       const shouldSkip =
         status === 'setup' &&
         storedQuestions.length === 0 &&
@@ -187,10 +192,12 @@ export async function GET(req: NextRequest, context: any) {
       let rpcError: string | null = null
       let rpcIds: string[] = []
       let trackingUnavailable = false
+
       let fallbackTried = false
       let fallbackClassicFilter = true
       let fallbackIds: string[] = []
       let fallbackError: string | null = null
+
 
       if (countErr) {
         rpcError = countErr.message
@@ -262,12 +269,15 @@ export async function GET(req: NextRequest, context: any) {
         }
       }
 
+
       const storedIds = storedQuestions.map((value) => String(value))
       const usageKey = runId ? `${runId}:${round.category}` : null
       const usageIds = usageKey ? usageMap.get(usageKey) ?? [] : []
       const missingUsage = storedIds.filter((id) => !usageIds.includes(id))
 
+
       diagnostics.push({
+
         roundId: round.id,
         index: round.idx,
         categoryId: round.category,
@@ -283,6 +293,7 @@ export async function GET(req: NextRequest, context: any) {
         fallbackIds,
         fallbackCount: fallbackIds.length,
         fallbackError,
+
         storedQuestionCount: storedQuestions.length,
         storedQuestionIds: storedIds,
         runId,

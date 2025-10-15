@@ -12,15 +12,19 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 - `configuredCount` – počet otázok, ktoré má kolo podľa konfigurácie očakávať.
 - `availableCount` – počet otázok, ktoré Supabase vie poskytnúť pre danú kategóriu a locale.
 - `rpcIds` – zoznam ID otázok, ktoré vrátila funkcia `random_herd_questions`.
+
 - `fallbackIds` / `fallbackCount` – otázky, ktoré vybral záložný dotaz na tabuľku `herd_questions`, ak RPC nevrátilo nič.
 - `fallbackClassicFilter` – či fallback ešte filtroval stĺpec `classic = true` (ak je `false`, otázky nemajú nastavený flag `classic`).
 - `fallbackError` – chyba, ktorá vznikla pri fallback dopyte.
+
 - `storedQuestionIds` – ID otázok, ktoré sú uložené priamo pri kole.
 - `runNumber` – poradové číslo behu otázok (H1, H2, …), ktoré sa zvýši po resete.
 - `usageRecordedIds` / `usageRecordedCount` – otázky zapísané v tabuľke `herd_question_usage`, teda tie, ktoré sa už v danom behu nemajú zobraziť.
 - `usageMissingIds` – ID otázok, ktoré sú síce uložené pri kole, ale v databáze zatiaľ nemajú záznam o použití (napr. kolo nebolo spustené).
+
 - `usageTrackingDisabled` – ak je `true`, backend nenašiel tabuľky na sledovanie behov a zvolil dočasný fallback, pri ktorom sa otázky vyberajú náhodne bez zapisovania použitia, ale vždy iba z tabuľky `herd_questions`.
 - `status` – aktuálny stav kola. Zoznam ignoruje kolá v stave „príprava“, ktoré nemajú uložené otázky ani nastavený locale, takže sa nezobrazia staré alebo resetované záznamy.
+
 
 ### Ako endpoint zavolať
 
@@ -50,6 +54,7 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 - Ak `availableCount` je menší ako `configuredCount`, v databáze nie je dosť otázok pre zvolenú kategóriu a locale.
 - Ak `rpcIds` je prázdne, RPC funkcia nenašla žiadne otázky (skontrolujte `rpcError`). Vtedy sa automaticky spustí fallback, ktorého výsledky vidíte v poliach `fallback*`.
 - Ak `fallbackIds` je prázdne a `fallbackError` ostane `null`, v tabuľke `herd_questions` pre danú kategóriu a locale nie sú žiadne záznamy. Ak je `fallbackClassicFilter = false`, otázky existujú, ale nemajú nastavený príznak `classic`.
+
 - Ak `storedQuestionIds` obsahuje menej položiek než očakávate, štart kola neuložil všetky otázky – skontrolujte logy endpointu `/rounds/start`.
 - Ak `usageMissingIds` nie je prázdne, otázky sa síce zobrazujú v kole, ale ešte nie sú označené ako použité pre daný beh. Skontrolujte, či bolo kolo reálne spustené.
 
