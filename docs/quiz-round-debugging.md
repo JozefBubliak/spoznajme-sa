@@ -19,6 +19,7 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 - `usageTrackingDisabled` – ak je `true`, backend nenašiel tabuľky na sledovanie behov a zvolil dočasný fallback, pri ktorom sa otázky vyberajú náhodne bez zapisovania použitia.
 - `status` – aktuálny stav kola. Zoznam ignoruje kolá v stave „príprava“, ktoré nemajú uložené otázky ani nastavený locale, takže sa nezobrazia staré alebo resetované záznamy.
 
+
 ### Ako endpoint zavolať
 
 1. **V prehliadači (prihlásený admin):**
@@ -62,3 +63,4 @@ Týmto spôsobom rýchlo zistíte, či problém spôsobuje konfigurácia kola, c
 3. **Diagnostika (`GET /api/games/[code]/rounds/debug`)** – zobrazuje iba kolá, ktoré už majú reálne nastavenia (alebo uložené otázky). Prázdne placeholdery v stave „príprava“ sa ignorujú, aby UI neukazovalo staré údaje po resete.
 4. **Štart kola (`POST /rounds/start`)** – vyberie konkrétne otázky cez RPC `random_herd_questions`. Ak RPC chýba, použije fallback výber z `herd_questions`, nastaví flag `usageTrackingDisabled` a diagnostika zobrazí upozornenie.
 5. **Reset otázok (`POST /runs/reset`)** – archivuje aktuálny beh, založí nový (H2, H3, …), vymaže uložené ID otázok a väzbu na starý beh. Kolá sa vrátia do stavu „príprava“, a preto sa v diagnostike opäť nezobrazia, kým moderátor nenastaví nové otázky.
+

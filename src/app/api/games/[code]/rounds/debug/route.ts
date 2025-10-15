@@ -10,7 +10,6 @@ import {
   isRunStorageUnavailable,
   isUsageStorageUnavailable,
 } from '../../_runs'
-
 export const dynamic = 'force-dynamic'
 
 function sanitizeLocalePrefix(raw: unknown): string {
@@ -41,6 +40,7 @@ type DiagnosticEntry = {
   usageMissingIds: string[]
 }
 
+
 export async function GET(req: NextRequest, context: any) {
   const session = await getSession()
   if (!session) {
@@ -66,7 +66,9 @@ export async function GET(req: NextRequest, context: any) {
 
   const query = s
     .from('herd_rounds')
+
     .select('id, idx, category, count, status, settings')
+
     .eq('game_code', gameCode)
     .order('idx', { ascending: true })
 
@@ -86,6 +88,7 @@ export async function GET(req: NextRequest, context: any) {
     category: string
     count: number | null
     status: string | null
+
     settings: Record<string, unknown> | null
   }>(rounds)
 
@@ -181,7 +184,6 @@ export async function GET(req: NextRequest, context: any) {
       let rpcError: string | null = null
       let rpcIds: string[] = []
       let trackingUnavailable = false
-
       if (countErr) {
         rpcError = countErr.message
       } else if (usageTrackingDisabled) {
@@ -214,7 +216,9 @@ export async function GET(req: NextRequest, context: any) {
       const usageIds = usageKey ? usageMap.get(usageKey) ?? [] : []
       const missingUsage = storedIds.filter((id) => !usageIds.includes(id))
 
+
       diagnostics.push({
+
         roundId: round.id,
         index: round.idx,
         categoryId: round.category,
@@ -230,12 +234,14 @@ export async function GET(req: NextRequest, context: any) {
         runId,
         runNumber: runMeta?.run_number ?? null,
         status,
+
         usageTrackingDisabled: usageTrackingDisabled || trackingUnavailable,
         usageRecordedCount: usageIds.length,
         usageRecordedIds: usageIds,
         usageMissingIds: missingUsage,
       })
   }
+
 
   return NextResponse.json({ ok: true, rounds: diagnostics })
 }

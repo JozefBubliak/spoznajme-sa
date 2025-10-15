@@ -57,7 +57,9 @@ type RoundDiagnostic = {
   storedQuestionIds: string[]
   runId: string | null
   runNumber: number | null
+
   status: string
+
   usageTrackingDisabled: boolean
   usageRecordedCount: number
   usageRecordedIds: string[]
@@ -151,7 +153,9 @@ export default function QuizAdminClient({ lang }: Props) {
         typeof raw?.runNumber === 'number' && Number.isFinite(raw.runNumber)
           ? Number(raw.runNumber)
           : null,
+
       status: typeof raw?.status === 'string' ? String(raw.status) : 'setup',
+
       usageTrackingDisabled: Boolean(raw?.usageTrackingDisabled),
       usageRecordedCount:
         typeof raw?.usageRecordedCount === 'number' && Number.isFinite(raw.usageRecordedCount)
@@ -763,6 +767,7 @@ export default function QuizAdminClient({ lang }: Props) {
               </p>
             )}
             <div className="space-y-3">
+
               {diagnostics.map((diag) => {
                 const categoryLabel = categoryLabelById.get(diag.categoryId) ?? diag.categoryId
                 const statusLabel = translateRoundStatus(diag.status)
@@ -781,6 +786,7 @@ export default function QuizAdminClient({ lang }: Props) {
                         <span>Stav: {statusLabel}</span>
                       </div>
                     </div>
+
                   <div className="grid md:grid-cols-4 gap-2">
                     <div>
                       Požadovaný počet: <strong>{diag.configuredCount}</strong>
@@ -854,6 +860,7 @@ export default function QuizAdminClient({ lang }: Props) {
                   </div>
                 )
               })}
+
             </div>
           </div>
 
