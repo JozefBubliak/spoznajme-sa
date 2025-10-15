@@ -55,7 +55,6 @@ export function isRpcUnavailable(error: unknown, functionName: string): boolean 
 export function isRandomQuestionRpcUnavailable(error: unknown): boolean {
   return isRpcUnavailable(error, 'random_herd_questions')
 }
-
 export async function getActiveRun(
   client: ServiceClient,
   gameCode: string,
@@ -100,7 +99,6 @@ export async function ensureActiveRun(
     if (isRunStorageUnavailable(lastErr)) return { ...FALLBACK_RUN }
     throw lastErr
   }
-
   const nextNumber = typeof last?.run_number === 'number' ? last.run_number + 1 : 1
 
   const { data, error } = await client

@@ -39,7 +39,6 @@ export async function POST(req: NextRequest, context: any) {
   const run = await ensureActiveRun(s, gameCode, session.user.id)
   const runId = run?.id ?? null
   const runDisabled = !runId || run?.disabled
-
   const { data: existingRound } = await s
     .from('herd_rounds')
     .select('id, settings')
@@ -86,7 +85,6 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const { count: available } = await availableQuery
-
   const availableCount = typeof available === 'number' ? available : 0
   if (availableCount <= 0) {
     return NextResponse.json(

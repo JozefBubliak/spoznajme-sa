@@ -18,6 +18,7 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 - `usageMissingIds` – ID otázok, ktoré sú síce uložené pri kole, ale v databáze zatiaľ nemajú záznam o použití (napr. kolo nebolo spustené).
 - `usageTrackingDisabled` – ak je `true`, backend nenašiel tabuľky na sledovanie behov a zvolil dočasný fallback, pri ktorom sa otázky vyberajú náhodne bez zapisovania použitia.
 
+
 ### Ako endpoint zavolať
 
 1. **V prehliadači (prihlásený admin):**

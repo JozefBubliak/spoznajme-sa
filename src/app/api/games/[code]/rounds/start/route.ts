@@ -74,7 +74,6 @@ export async function POST(req: NextRequest, context: any) {
   const run = await ensureActiveRun(s, gameCode, session.user.id)
   const runId = run?.id ?? null
   let usageDisabled = !runId || run?.disabled
-
   // načítaj konfiguráciu kola
   const { data: round, error: roundErr } = await s
     .from('herd_rounds')
@@ -171,6 +170,7 @@ export async function POST(req: NextRequest, context: any) {
     delete (nextSettings as any).runId
   }
 
+  const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
   const { error: updErr } = await s
     .from('herd_rounds')
     .update({ settings: nextSettings, status: 'shown', q_index: 0, count: effectiveCount })

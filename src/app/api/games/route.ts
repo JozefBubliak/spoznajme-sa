@@ -6,6 +6,7 @@ import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { ensureActiveRun, isMissingRelationError, isPostgrestError } from './[code]/_runs'
 
+
 /**
  * Example (unauthenticated):
  *   curl -i -X POST http://localhost:3000/api/games
@@ -81,6 +82,5 @@ export async function POST(_req: NextRequest) {
   if (resetErrors.length > 0) {
     return NextResponse.json({ error: resetErrors[0] ?? 'Failed to reset game data' }, { status: 500 })
   }
-
   return NextResponse.json({ gameCode: room.code })
 }

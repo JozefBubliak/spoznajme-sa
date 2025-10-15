@@ -780,6 +780,7 @@ export default function QuizAdminClient({ lang }: Props) {
                     </div>
                   )}
                   <div>
+
                     Otázky označené v databáze: <strong>{diag.usageRecordedCount}</strong>
                   </div>
                   {diag.usageMissingIds.length > 0 && (

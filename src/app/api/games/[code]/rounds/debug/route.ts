@@ -10,7 +10,6 @@ import {
   isRunStorageUnavailable,
   isUsageStorageUnavailable,
 } from '../../_runs'
-
 export const dynamic = 'force-dynamic'
 
 function sanitizeLocalePrefix(raw: unknown): string {
@@ -138,7 +137,6 @@ export async function GET(req: NextRequest, context: any) {
       let rpcError: string | null = null
       let rpcIds: string[] = []
       let trackingUnavailable = false
-
       if (countErr) {
         rpcError = countErr.message
       } else if (usageTrackingDisabled) {
