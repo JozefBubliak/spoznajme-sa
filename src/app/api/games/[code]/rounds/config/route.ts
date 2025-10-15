@@ -40,6 +40,7 @@ export async function POST(req: NextRequest, context: any) {
   const runId = run?.id ?? null
   const runDisabled = !runId || run?.disabled
 
+
   const { data: existingRound } = await s
     .from('herd_rounds')
     .select('id, settings')
@@ -106,6 +107,7 @@ export async function POST(req: NextRequest, context: any) {
     roundSettings.runId = runId
   } else {
     delete (roundSettings as any).runId
+
   }
 
   const { data: saved, error } = await s
@@ -116,6 +118,7 @@ export async function POST(req: NextRequest, context: any) {
         idx: index,
         category: categoryId,
         count: selectedCount,
+
         prep_seconds: prepSeconds,
         question_seconds: questionSeconds,
         scoring_mode: scoringMode,
@@ -144,5 +147,6 @@ export async function POST(req: NextRequest, context: any) {
     runId,
     runNumber: run.run_number ?? null,
     questions: selectedCount,
+
   })
 }

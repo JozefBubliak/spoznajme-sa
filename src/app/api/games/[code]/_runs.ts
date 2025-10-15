@@ -86,7 +86,6 @@ export async function ensureActiveRun(
     if (isRunStorageUnavailable(lastErr)) return { ...FALLBACK_RUN }
     throw lastErr
   }
-
   const nextNumber = typeof last?.run_number === 'number' ? last.run_number + 1 : 1
 
   const { data, error } = await client
@@ -100,6 +99,7 @@ export async function ensureActiveRun(
     .select('id, run_number, status')
     .single()
 
+
   if (error) {
     if (isRunStorageUnavailable(error)) return { ...FALLBACK_RUN }
     throw error
@@ -109,7 +109,9 @@ export async function ensureActiveRun(
 }
 
 export async function archiveActiveRunAndStartNext(
+
   client: ServiceClient,
+
   gameCode: string,
   ownerId: string
 ): Promise<{ previous: RunRecord | null; run: RunRecord }> {
@@ -117,6 +119,7 @@ export async function archiveActiveRunAndStartNext(
 
   let nextNumber = 1
   if (active && active.id) {
+
     nextNumber = (active.run_number || 0) + 1
     const { error: archiveErr } = await client
       .from('herd_game_runs')
@@ -128,6 +131,7 @@ export async function archiveActiveRunAndStartNext(
     }
   } else {
     const { data: last, error: lastErr } = await client
+
       .from('herd_game_runs')
       .select('run_number')
       .eq('game_code', gameCode)
@@ -160,6 +164,7 @@ export async function archiveActiveRunAndStartNext(
     throw error
   }
   if (!data) return { previous: null, run: { ...FALLBACK_RUN } }
+
 
   return { previous: active ?? null, run: data as RunRecord }
 }

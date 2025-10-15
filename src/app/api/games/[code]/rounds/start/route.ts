@@ -71,6 +71,7 @@ export async function POST(req: NextRequest, context: any) {
   const runId = run?.id ?? null
   let usageDisabled = !runId || run?.disabled
 
+
   // načítaj konfiguráciu kola
   const { data: round, error: roundErr } = await s
     .from('herd_rounds')
@@ -88,7 +89,9 @@ export async function POST(req: NextRequest, context: any) {
     typeof (roundSettings as any).runId === 'string' && (roundSettings as any).runId
       ? String((roundSettings as any).runId)
       : null
+
   const storedUsageDisabled = Boolean((roundSettings as any).usageTrackingDisabled)
+
   const storedQuestions = Array.isArray((roundSettings as any).questions)
     ? ((roundSettings as any).questions as unknown[]).map((value) => String(value))
     : []
@@ -167,6 +170,10 @@ export async function POST(req: NextRequest, context: any) {
     delete (nextSettings as any).runId
   }
 
+  const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }
+
+
+  const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
   const { error: updErr } = await s
     .from('herd_rounds')
     .update({ settings: nextSettings, status: 'shown', q_index: 0, count: effectiveCount })
