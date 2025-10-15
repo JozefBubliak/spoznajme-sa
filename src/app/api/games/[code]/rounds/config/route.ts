@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { must } from '@/lib/supabase/safe'
+import { ensureActiveRun } from '../../_runs'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,6 +36,9 @@ export async function POST(req: NextRequest, context: any) {
 
   const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
 
+
+  const run = await ensureActiveRun(s, gameCode, session.user.id)
+
   const { data: existingRound } = await s
     .from('herd_rounds')
     .select('id, settings')
@@ -46,12 +50,36 @@ export async function POST(req: NextRequest, context: any) {
 
   // over dostupný počet otázok v danej kategórii podľa rovnakých filtrov ako RPC random_herd_questions
   const localeFilter = `locale.is.null,locale.ilike.${localePrefix}%`
-  const { count: available } = await s
+
+
+  const { data: usedRows } = await s
+    .from('herd_question_usage')
+    .select('question_id')
+    .eq('owner_id', session.user.id)
+    .eq('run_id', run.id)
+    .eq('game_code', gameCode)
+    .eq('category_id', categoryId)
+
+  const usedIds = new Set<string>(
+    Array.isArray(usedRows) ? usedRows.map((row: any) => String(row.question_id)) : []
+  )
+
+  const availableQuery = s
+
     .from('herd_questions')
     .select('id', { count: 'exact', head: true })
     .eq('category_id', categoryId)
     .eq('classic', true)
     .or(localeFilter)
+
+
+  if (usedIds.size > 0) {
+    const inList = `(${Array.from(usedIds).map((id) => `'${id}'`).join(',')})`
+    availableQuery.not('id', 'in', inList)
+  }
+
+  const { count: available } = await availableQuery
+
 
   const availableCount = typeof available === 'number' ? available : 0
   if (availableCount <= 0) {
@@ -67,6 +95,9 @@ export async function POST(req: NextRequest, context: any) {
   const roundSettings = {
     ...existingSettings,
     localePrefix,
+
+    runId: run.id,
+
   }
 
   const { data: saved, error } = await s
@@ -104,6 +135,9 @@ export async function POST(req: NextRequest, context: any) {
     phase: 'round_setup',
     savedIndex: index,
     localePrefix,
+
+    runId: run.id,
+    runNumber: run.run_number ?? 1,
     questions: selectedCount,
 
   })

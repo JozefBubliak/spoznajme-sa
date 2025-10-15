@@ -4,6 +4,8 @@ Keď sa pri štarte kola zobrazí chyba `NOT_ENOUGH_QUESTIONS`, môžete si over
 
 ## GET `/api/games/[code]/rounds/debug`
 
+Diagnostiku teraz nájdete priamo v administrácii kvízu v sekcii „Diagnostika otázok“. Panel načítava tieto údaje pomocou nasledujúceho API, takže informácie v UI zodpovedajú tomu, čo vracia server.
+
 Endpoint vracia prehľad všetkých kôl v hre vrátane:
 
 - `localePrefix` – prefix lokalizácie, ktorý sa použije pri filtrovaní otázok.
@@ -11,6 +13,10 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 - `availableCount` – počet otázok, ktoré Supabase vie poskytnúť pre danú kategóriu a locale.
 - `rpcIds` – zoznam ID otázok, ktoré vrátila funkcia `random_herd_questions`.
 - `storedQuestionIds` – ID otázok, ktoré sú uložené priamo pri kole.
+- `runNumber` – poradové číslo behu otázok (H1, H2, …), ktoré sa zvýši po resete.
+- `usageRecordedIds` / `usageRecordedCount` – otázky zapísané v tabuľke `herd_question_usage`, teda tie, ktoré sa už v danom behu nemajú zobraziť.
+- `usageMissingIds` – ID otázok, ktoré sú síce uložené pri kole, ale v databáze zatiaľ nemajú záznam o použití (napr. kolo nebolo spustené).
+
 
 ### Ako endpoint zavolať
 
@@ -40,5 +46,9 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 - Ak `availableCount` je menší ako `configuredCount`, v databáze nie je dosť otázok pre zvolenú kategóriu a locale.
 - Ak `rpcIds` je prázdne, RPC funkcia nenašla žiadne otázky (skontrolujte `rpcError`).
 - Ak `storedQuestionIds` obsahuje menej položiek než očakávate, štart kola neuložil všetky otázky – skontrolujte logy endpointu `/rounds/start`.
+- Ak `usageMissingIds` nie je prázdne, otázky sa síce zobrazujú v kole, ale ešte nie sú označené ako použité pre daný beh. Skontrolujte, či bolo kolo reálne spustené.
 
-Týmto spôsobom rýchlo zistíte, či problém spôsobuje konfigurácia kola, chýbajúce dáta alebo samotné RPC.
+V administrácii pribudlo tlačidlo **Reset otázok**, ktoré zavolá endpoint `/api/games/[code]/runs/reset`. Reset vytvorí nový beh (napr. H2), vymaže uložené otázky pri kolách a umožní znovu zaradiť už odohrané otázky do výberu.
+
+Týmto spôsobom rýchlo zistíte, či problém spôsobuje konfigurácia kola, chýbajúce dáta, nezapísaná história použitia otázok alebo samotné RPC.
+

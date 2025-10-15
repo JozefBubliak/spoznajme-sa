@@ -61,10 +61,54 @@ export async function GET(req: NextRequest, context: any) {
     settings: Record<string, unknown> | null
   }>(rounds)
 
+
+  const runIds = new Set<string>()
+  for (const round of list) {
+    const settings = (round.settings ?? {}) as Record<string, unknown>
+    const runId = typeof (settings as any).runId === 'string' ? String((settings as any).runId) : null
+    if (runId) runIds.add(runId)
+  }
+
+  const runIdArray = Array.from(runIds)
+  const runMap = new Map<string, { run_number: number | null; status: string | null }>()
+  if (runIdArray.length > 0) {
+    const { data: runRows } = await s
+      .from('herd_game_runs')
+      .select('id, run_number, status')
+      .in('id', runIdArray)
+
+    asArray(runRows).forEach((row: any) => {
+      runMap.set(String(row.id), {
+        run_number: typeof row.run_number === 'number' ? row.run_number : null,
+        status: typeof row.status === 'string' ? row.status : null,
+      })
+    })
+  }
+
+  const usageMap = new Map<string, string[]>()
+  if (runIdArray.length > 0) {
+    const { data: usageRows } = await s
+      .from('herd_question_usage')
+      .select('run_id, question_id, category_id')
+      .in('run_id', runIdArray)
+      .eq('game_code', gameCode)
+
+    asArray(usageRows).forEach((row: any) => {
+      const key = `${row.run_id}:${row.category_id}`
+      const existing = usageMap.get(key) ?? []
+      existing.push(String(row.question_id))
+      usageMap.set(key, existing)
+    })
+  }
+
   const diagnostics = await Promise.all(
     list.map(async (round) => {
       const settings = (round.settings ?? {}) as Record<string, unknown>
       const localePrefix = sanitizeLocalePrefix((settings as any).localePrefix)
+
+      const runId = typeof (settings as any).runId === 'string' ? String((settings as any).runId) : null
+      const runMeta = runId ? runMap.get(runId) ?? null : null
+
       const localeFilter = `locale.is.null,locale.ilike.${localePrefix}%`
       const configuredCount =
         typeof round.count === 'number'
@@ -88,6 +132,9 @@ export async function GET(req: NextRequest, context: any) {
           cat: round.category,
           n: Math.max(0, configuredCount),
           locale_prefix: localePrefix,
+
+          run: runId,
+
         })
 
         if (rpcErr) {
@@ -101,6 +148,12 @@ export async function GET(req: NextRequest, context: any) {
         ? ((settings as any).questions as unknown[])
         : []
 
+      const storedIds = storedQuestions.map((value) => String(value))
+      const usageKey = runId ? `${runId}:${round.category}` : null
+      const usageIds = usageKey ? usageMap.get(usageKey) ?? [] : []
+      const missingUsage = storedIds.filter((id) => !usageIds.includes(id))
+
+
       return {
         roundId: round.id,
         index: round.idx,
@@ -113,7 +166,14 @@ export async function GET(req: NextRequest, context: any) {
         rpcCount: rpcIds.length,
         rpcError,
         storedQuestionCount: storedQuestions.length,
-        storedQuestionIds: storedQuestions.map((value) => String(value)),
+
+        storedQuestionIds: storedIds,
+        runId,
+        runNumber: runMeta?.run_number ?? null,
+        usageRecordedCount: usageIds.length,
+        usageRecordedIds: usageIds,
+        usageMissingIds: missingUsage,
+
       }
     })
   )
