@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { must } from '@/lib/supabase/safe'
+import { getActiveRun } from './_runs'
 
 export const dynamic = 'force-dynamic'
 
@@ -41,11 +42,15 @@ export async function GET(_req: NextRequest, context: any) {
   else if (g.phase === 'ended') phase = 'final'
   else if (g.phase === 'round_setup' && !g.lobby_locked) phase = 'lobby'
 
+  const run = await getActiveRun(s, gameCode, session.user.id)
+
   return NextResponse.json({
       code: g.code,
       phase,
       lobby_locked: !!g.lobby_locked,
       total_rounds: g.total_rounds ?? roundsCount ?? 0,
       active_round_index: g.active_round_index ?? 0,
+      run_id: run?.id ?? null,
+      run_number: run?.run_number ?? null,
     })
 }

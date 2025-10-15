@@ -4,6 +4,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
+import { ensureActiveRun } from './[code]/_runs'
 
 /**
  * Example (unauthenticated):
@@ -41,6 +42,12 @@ export async function POST(_req: NextRequest) {
       },
       { onConflict: 'code' }
     )
+
+  try {
+    await ensureActiveRun(supabase, room.code, session.user.id)
+  } catch (err) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Failed to initialise run' }, { status: 500 })
+  }
 
   return NextResponse.json({ gameCode: room.code })
 }
