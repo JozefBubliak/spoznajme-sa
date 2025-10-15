@@ -37,6 +37,7 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const roundSettings = ((round.settings as any) ?? {}) as Record<string, unknown>
+
   const storedRunId =
     typeof (roundSettings as any).runId === 'string' && (roundSettings as any).runId
       ? String((roundSettings as any).runId)
@@ -67,6 +68,7 @@ export async function POST(req: NextRequest, context: any) {
     if (ids.length === 0) {
       return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
     }
+
   }
 
   const configuredCount =
@@ -74,13 +76,18 @@ export async function POST(req: NextRequest, context: any) {
       ? round.count
       : Number(round.count ?? ids.length) || ids.length
   const effectiveCount = Math.min(ids.length, configuredCount)
+
   const chosenIds = ids.slice(0, effectiveCount)
 
   const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }
 
+
+  const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
   const { error: updErr } = await s
     .from('herd_rounds')
+
     .update({ settings: updatedSettings, status: 'shown', q_index: 0, count: effectiveCount })
+
     .eq('id', round.id)
 
   if (updErr) {

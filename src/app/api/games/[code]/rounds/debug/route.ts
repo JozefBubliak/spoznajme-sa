@@ -61,6 +61,7 @@ export async function GET(req: NextRequest, context: any) {
     settings: Record<string, unknown> | null
   }>(rounds)
 
+
   const runIds = new Set<string>()
   for (const round of list) {
     const settings = (round.settings ?? {}) as Record<string, unknown>
@@ -104,8 +105,10 @@ export async function GET(req: NextRequest, context: any) {
     list.map(async (round) => {
       const settings = (round.settings ?? {}) as Record<string, unknown>
       const localePrefix = sanitizeLocalePrefix((settings as any).localePrefix)
+
       const runId = typeof (settings as any).runId === 'string' ? String((settings as any).runId) : null
       const runMeta = runId ? runMap.get(runId) ?? null : null
+
       const localeFilter = `locale.is.null,locale.ilike.${localePrefix}%`
       const configuredCount =
         typeof round.count === 'number'
@@ -129,7 +132,9 @@ export async function GET(req: NextRequest, context: any) {
           cat: round.category,
           n: Math.max(0, configuredCount),
           locale_prefix: localePrefix,
+
           run: runId,
+
         })
 
         if (rpcErr) {
@@ -142,10 +147,12 @@ export async function GET(req: NextRequest, context: any) {
       const storedQuestions = Array.isArray((settings as any).questions)
         ? ((settings as any).questions as unknown[])
         : []
+
       const storedIds = storedQuestions.map((value) => String(value))
       const usageKey = runId ? `${runId}:${round.category}` : null
       const usageIds = usageKey ? usageMap.get(usageKey) ?? [] : []
       const missingUsage = storedIds.filter((id) => !usageIds.includes(id))
+
 
       return {
         roundId: round.id,
@@ -159,12 +166,14 @@ export async function GET(req: NextRequest, context: any) {
         rpcCount: rpcIds.length,
         rpcError,
         storedQuestionCount: storedQuestions.length,
+
         storedQuestionIds: storedIds,
         runId,
         runNumber: runMeta?.run_number ?? null,
         usageRecordedCount: usageIds.length,
         usageRecordedIds: usageIds,
         usageMissingIds: missingUsage,
+
       }
     })
   )
