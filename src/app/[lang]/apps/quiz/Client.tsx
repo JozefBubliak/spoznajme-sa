@@ -1,7 +1,7 @@
 // PATH: src/app/[lang]/apps/quiz/Client.tsx
 'use client'
 
-import { useEffect, useMemo, useState, useRef } from 'react'
+import { useEffect, useMemo, useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
@@ -10,6 +10,25 @@ import { UserCircle } from 'lucide-react'
 type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
+
+
+function translateRoundStatus(status: string): string {
+  const normalized = status.toLowerCase()
+  switch (normalized) {
+    case 'ready':
+      return 'pripravené'
+    case 'running':
+    case 'active':
+      return 'spustené'
+    case 'locked':
+      return 'uzamknuté'
+    case 'results':
+      return 'výsledky'
+    case 'setup':
+    default:
+      return 'príprava'
+  }
+}
 
 
 function mapPhase(phase: string): GameStatus {
@@ -23,6 +42,33 @@ function mapPhase(phase: string): GameStatus {
   return 'waiting'
 }
 
+type RoundDiagnostic = {
+  roundId: string
+  index: number
+  categoryId: string
+  configuredCount: number
+  localePrefix: string
+  availableCount: number | null
+  countError: string | null
+  rpcIds: string[]
+  rpcCount: number
+  rpcError: string | null
+  fallbackTried: boolean
+  fallbackClassicFilter: boolean
+  fallbackIds: string[]
+  fallbackCount: number
+  fallbackError: string | null
+  storedQuestionCount: number
+  storedQuestionIds: string[]
+  runId: string | null
+  runNumber: number | null
+  status: string
+  usageTrackingDisabled: boolean
+  usageRecordedCount: number
+  usageRecordedIds: string[]
+  usageMissingIds: string[]
+}
+
 type Props = { lang: string }
 
 export default function QuizAdminClient({ lang }: Props) {
@@ -34,9 +80,19 @@ export default function QuizAdminClient({ lang }: Props) {
 
   const [gameCode, setGameCode] = useState<string>('')
   const [gameStatus, setGameStatus] = useState<GameStatus>('waiting')
+  const [runNumber, setRunNumber] = useState<number | null>(null)
+  const [runId, setRunId] = useState<string | null>(null)
 
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCat, setSelectedCat] = useState<string>('')
+
+  const categoryLabelById = useMemo(() => {
+    const map = new Map<string, string>()
+    for (const cat of categories) {
+      map.set(cat.id, cat.name)
+    }
+    return map
+  }, [categories])
 
   const [count, setCount] = useState<number>(10)
   const [timeLimit, setTimeLimit] = useState<number>(30)
@@ -57,16 +113,93 @@ export default function QuizAdminClient({ lang }: Props) {
   const [players, setPlayers] = useState<Player[]>([])
   const [currentRound, setCurrentRound] = useState<Round | null>(null)
   const [leaderboard, setLeaderboard] = useState<Player[]>([])
+  const [diagnostics, setDiagnostics] = useState<RoundDiagnostic[]>([])
+  const [diagLoading, setDiagLoading] = useState(false)
+  const [diagError, setDiagError] = useState<string | null>(null)
 
   const hasCreated = useRef(false)
 
-  const authFetch = (url: string, options: RequestInit = {}) => {
+  const authFetch = useCallback((url: string, options: RequestInit = {}) => {
     const headers = {
       ...(options.headers || {}),
       ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
     }
     return fetch(url, { ...options, headers })
+  }, [session?.access_token])
+
+  const normalizeDiagnostics = (payload: any): RoundDiagnostic[] => {
+    if (!payload || !Array.isArray(payload.rounds)) return []
+    return payload.rounds.map((raw: any): RoundDiagnostic => ({
+      roundId: String(raw?.roundId ?? ''),
+      index: Number.isFinite(Number(raw?.index)) ? Number(raw.index) : 0,
+      categoryId: String(raw?.categoryId ?? ''),
+      configuredCount: Number.isFinite(Number(raw?.configuredCount))
+        ? Number(raw.configuredCount)
+        : 0,
+      localePrefix: String(raw?.localePrefix ?? ''),
+      availableCount:
+        typeof raw?.availableCount === 'number' && Number.isFinite(raw.availableCount)
+          ? raw.availableCount
+          : null,
+      countError: raw?.countError ? String(raw.countError) : null,
+      rpcIds: Array.isArray(raw?.rpcIds) ? raw.rpcIds.map((id: any) => String(id)) : [],
+      rpcCount: Number.isFinite(Number(raw?.rpcCount)) ? Number(raw.rpcCount) : 0,
+      rpcError: raw?.rpcError ? String(raw.rpcError) : null,
+      fallbackTried: Boolean(raw?.fallbackTried),
+      fallbackClassicFilter: Boolean(raw?.fallbackClassicFilter),
+      fallbackIds: Array.isArray(raw?.fallbackIds)
+        ? raw.fallbackIds.map((id: any) => String(id))
+        : [],
+      fallbackCount: Number.isFinite(Number(raw?.fallbackCount)) ? Number(raw.fallbackCount) : 0,
+      fallbackError: raw?.fallbackError ? String(raw.fallbackError) : null,
+      storedQuestionCount: Number.isFinite(Number(raw?.storedQuestionCount))
+        ? Number(raw.storedQuestionCount)
+        : 0,
+      storedQuestionIds: Array.isArray(raw?.storedQuestionIds)
+        ? raw.storedQuestionIds.map((id: any) => String(id))
+        : [],
+      runId: raw?.runId ? String(raw.runId) : null,
+      runNumber:
+        typeof raw?.runNumber === 'number' && Number.isFinite(raw.runNumber)
+          ? Number(raw.runNumber)
+          : null,
+      status: typeof raw?.status === 'string' ? String(raw.status) : 'setup',
+      usageTrackingDisabled: Boolean(raw?.usageTrackingDisabled),
+      usageRecordedCount:
+        typeof raw?.usageRecordedCount === 'number' && Number.isFinite(raw.usageRecordedCount)
+          ? Number(raw.usageRecordedCount)
+          : 0,
+      usageRecordedIds: Array.isArray(raw?.usageRecordedIds)
+        ? raw.usageRecordedIds.map((id: any) => String(id))
+        : [],
+      usageMissingIds: Array.isArray(raw?.usageMissingIds)
+        ? raw.usageMissingIds.map((id: any) => String(id))
+        : [],
+    }))
   }
+
+  const fetchDiagnostics = useCallback(async (index?: number) => {
+    if (!gameCode) return
+    setDiagLoading(true)
+    setDiagError(null)
+    try {
+      const url =
+        typeof index === 'number'
+          ? `/api/games/${gameCode}/rounds/debug?index=${index}`
+          : `/api/games/${gameCode}/rounds/debug`
+      const resp = await authFetch(url, { cache: 'no-store' })
+      const data = await resp.json().catch(() => ({}))
+      if (!resp.ok) {
+        throw new Error(data?.error || 'Diagnostický prehľad sa nepodarilo načítať')
+      }
+      setDiagnostics(normalizeDiagnostics(data))
+    } catch (err) {
+      setDiagnostics([])
+      setDiagError(err instanceof Error ? err.message : 'Diagnostika zlyhala')
+    } finally {
+      setDiagLoading(false)
+    }
+  }, [authFetch, gameCode])
 
   // --- Kategórie ---
   useEffect(() => {
@@ -101,9 +234,40 @@ export default function QuizAdminClient({ lang }: Props) {
       setPlayers([])
       setCurrentRound(null)
       setLeaderboard([])
+      setRunNumber(null)
+      setRunId(null)
       setGameStatus('waiting')
+      setTotalRounds(0)
+      setRoundInput(1)
+      setDiagnostics([])
+      setDiagError(null)
     } else {
       alert(j.error || 'Nepodarilo sa vytvoriť hru')
+    }
+  }
+
+  const resetQuestionPool = async () => {
+    if (!gameCode) return
+    const confirmed = window.confirm(
+      'Reset otázok vymaže históriu výberu pre aktuálny účet. Pokračovať?'
+    )
+    if (!confirmed) return
+    try {
+      const r = await authFetch(`/api/games/${gameCode}/runs/reset`, { method: 'POST' })
+      const j = await r.json().catch(() => ({}))
+      if (!r.ok || !j?.ok) {
+        alert(j.error || 'Reset sa nepodaril')
+        return
+      }
+      setRunNumber(
+        typeof j.runNumber === 'number' && Number.isFinite(j.runNumber)
+          ? Number(j.runNumber)
+          : null
+      )
+      setRunId(j?.runId ? String(j.runId) : null)
+      await fetchDiagnostics()
+    } catch {
+      alert('Reset sa nepodaril')
     }
   }
 
@@ -135,6 +299,12 @@ export default function QuizAdminClient({ lang }: Props) {
             setGameStatus(mapPhase(String(gj.phase)))
 
           }
+          setRunNumber(
+            typeof gj?.run_number === 'number' && Number.isFinite(gj.run_number)
+              ? Number(gj.run_number)
+              : null
+          )
+          setRunId(gj?.run_id ? String(gj.run_id) : null)
         }
       } catch {}
     }
@@ -169,10 +339,16 @@ export default function QuizAdminClient({ lang }: Props) {
     if (j.roundId) {
       const catName = categories.find(c => c.id === selectedCat)?.name || selectedCat
       setRounds(prev => [...prev, { id: j.roundId, category: catName }])
+      await fetchDiagnostics(rounds.length)
     } else {
       alert(j.error || 'Nepodarilo sa pridať kolo')
     }
   }
+
+  useEffect(() => {
+    if (!gameCode) return
+    fetchDiagnostics().catch(() => undefined)
+  }, [fetchDiagnostics, gameCode, rounds.length])
 
   const startGame = async () => {
     if (!gameCode) return
@@ -281,6 +457,23 @@ export default function QuizAdminClient({ lang }: Props) {
           <div>
             <span className="font-medium">Kód hry:</span> {gameCode || '—'}
           </div>
+          <div>
+            <span className="font-medium">Beh otázok:</span>{' '}
+            {runNumber !== null ? `H${runNumber}` : '—'}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={resetQuestionPool}
+              disabled={!gameCode}
+              className="px-2 py-1 text-sm rounded border disabled:opacity-60"
+            >
+              Reset otázok
+            </button>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Reset uvoľní už použité otázky pre aktuálneho moderátora. Otázky sa znova
+            zaradia do výberu až po resete.
+          </p>
           {joinUrl && (
             <>
               <div className="break-all">
@@ -561,6 +754,146 @@ export default function QuizAdminClient({ lang }: Props) {
               )}
             </div>
           )}
+
+          <div className="rounded-xl border p-4 space-y-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className="font-semibold">Diagnostika otázok</h2>
+              <button
+                onClick={() => {
+                  fetchDiagnostics().catch(() => undefined)
+                }}
+                disabled={!gameCode || diagLoading}
+                className="px-3 py-2 rounded border text-sm disabled:opacity-60"
+              >
+                {diagLoading ? 'Načítavam…' : 'Obnoviť prehľad'}
+              </button>
+            </div>
+            {diagError && <p className="text-sm text-red-600">{diagError}</p>}
+            {!diagError && diagnostics.length === 0 && !diagLoading && (
+              <p className="text-sm text-muted-foreground">
+                Prehľad je zatiaľ prázdny. Po nastavení kôl alebo spustení kola sa tu zobrazia detaily o otázkach.
+              </p>
+            )}
+            <div className="space-y-3">
+              {diagnostics.map((diag) => {
+                const categoryLabel = categoryLabelById.get(diag.categoryId) ?? diag.categoryId
+                const statusLabel = translateRoundStatus(diag.status)
+                return (
+                  <div
+                    key={`${diag.roundId}-${diag.index}`}
+                    className="rounded border bg-gray-50 p-3 text-sm space-y-2"
+                  >
+                    <div className="flex flex-wrap justify-between gap-2">
+                      <div>
+                        <span className="font-semibold">Kolo #{diag.index + 1}</span>{' '}
+                        <span className="text-muted-foreground">• {categoryLabel}</span>
+                      </div>
+                      <div className="text-muted-foreground flex flex-col text-xs text-right">
+                        <span>Locale: <code>{diag.localePrefix || '—'}</code></span>
+                        <span>Stav: {statusLabel}</span>
+                      </div>
+                    </div>
+                  <div className="grid md:grid-cols-4 gap-2">
+                    <div>
+                      Požadovaný počet: <strong>{diag.configuredCount}</strong>
+                    </div>
+                    <div>
+                      Dostupné otázky: <strong>{diag.availableCount ?? 'neznáme'}</strong>
+                    </div>
+                    <div>
+                      RPC vrátilo: <strong>{diag.rpcCount}</strong>
+                    </div>
+                    <div>
+                      Beh: <strong>{diag.runNumber ? `H${diag.runNumber}` : '—'}</strong>
+                    </div>
+                  </div>
+                  {diag.fallbackTried && (
+                    <div className="grid md:grid-cols-4 gap-2 text-sm">
+                      <div>
+                        Fallback ID: <strong>{diag.fallbackCount}</strong>
+                      </div>
+                      <div>
+                        Filter classic:{' '}
+                        <strong>{diag.fallbackClassicFilter ? 'áno' : 'nie'}</strong>
+                      </div>
+                      <div className="md:col-span-2">
+                        {diag.fallbackError ? (
+                          <span className="text-red-600">Chyba fallbacku: {diag.fallbackError}</span>
+                        ) : (
+                          <span className="text-muted-foreground">Fallback prebehol bez chyby.</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {diag.countError && (
+                    <div className="text-red-600">Chyba pri načítaní počtu: {diag.countError}</div>
+                  )}
+                  {diag.rpcError && (
+                    <div className="text-red-600">Chyba RPC: {diag.rpcError}</div>
+                  )}
+                  <div>
+                    Uložené otázky v kole: <strong>{diag.storedQuestionCount}</strong>
+                  </div>
+                  <div>
+                    Sledovanie použitých otázok:{' '}
+                    <strong className={diag.usageTrackingDisabled ? 'text-red-600' : undefined}>
+                      {diag.usageTrackingDisabled ? 'vypnuté' : 'zapnuté'}
+                    </strong>
+                  </div>
+                  {diag.usageTrackingDisabled && (
+                    <div className="text-orange-600 text-sm">
+                      Fallback režim – otázky sa vyberajú bez zapisovania do databázy.
+                    </div>
+                  )}
+                  <div>
+                    Otázky označené v databáze: <strong>{diag.usageRecordedCount}</strong>
+                  </div>
+                  {diag.usageMissingIds.length > 0 && (
+                    <div className="text-orange-600 text-sm">
+                      Chýbajúce záznamy v DB pre ID:{' '}
+                      <code className="whitespace-pre-wrap break-all">
+                        {diag.usageMissingIds.join(', ')}
+                      </code>
+                    </div>
+                  )}
+                  {(diag.rpcIds.length > 0 || diag.storedQuestionIds.length > 0 || diag.fallbackIds.length > 0) && (
+                    <details className="bg-white rounded border p-2">
+                      <summary className="cursor-pointer">Zobraziť ID otázok</summary>
+                      <div className="mt-2 space-y-2">
+                        <div>
+                          <div className="font-medium">RPC ID</div>
+                          <code className="block whitespace-pre-wrap break-all">
+                            {diag.rpcIds.join(', ')}
+                          </code>
+                        </div>
+                        <div>
+                          <div className="font-medium">Uložené ID</div>
+                          <code className="block whitespace-pre-wrap break-all">
+                            {diag.storedQuestionIds.join(', ')}
+                          </code>
+                        </div>
+                        {diag.fallbackIds.length > 0 && (
+                          <div>
+                            <div className="font-medium">ID z fallbacku</div>
+                            <code className="block whitespace-pre-wrap break-all">
+                              {diag.fallbackIds.join(', ')}
+                            </code>
+                          </div>
+                        )}
+                        <div>
+                          <div className="font-medium">ID v tabuľke použitia</div>
+                          <code className="block whitespace-pre-wrap break-all">
+                            {diag.usageRecordedIds.join(', ')}
+                          </code>
+                        </div>
+                      </div>
+                    </details>
+                  )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
 
           {rounds.length > 0 && gameStatus === 'running' && (
             <div className="rounded-xl border p-4 space-y-3">
