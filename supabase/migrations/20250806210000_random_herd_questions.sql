@@ -1,10 +1,16 @@
-create or replace function random_herd_questions(cat uuid, n int)
-returns table(id bigint)
+create or replace function random_herd_questions(cat uuid, n int, locale_prefix text default 'sk')
+returns table(id uuid)
 language sql stable as $$
   select q.id
-  from questions q
+  from herd_questions q
   where q.category_id = cat
-    and q.admin_status = 3
+    and coalesce(q.classic, false) = true
+    and (
+      locale_prefix is null
+      or locale_prefix = ''
+      or q.locale is null
+      or q.locale ilike locale_prefix || '%'
+    )
   order by random()
-  limit n
+  limit greatest(1, coalesce(n, 0))
 $$;
