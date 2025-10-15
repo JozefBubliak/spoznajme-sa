@@ -42,6 +42,17 @@ export function isUsageStorageUnavailable(error: unknown): boolean {
   return isPostgrestError(error) && isMissingRelationError(error, 'herd_question_usage')
 }
 
+export function isMissingColumnError(error: unknown, column: string): boolean {
+  if (!isPostgrestError(error)) return false
+  const lowered = column.toLowerCase()
+  return (
+    error.code === '42703' ||
+    messageIncludes(error, `${lowered} does not exist`) ||
+    messageIncludes(error, `column ${lowered}`) ||
+    messageIncludes(error, `column "${lowered}"`)
+  )
+}
+
 export function isRpcUnavailable(error: unknown, functionName: string): boolean {
   return (
     isPostgrestError(error) &&

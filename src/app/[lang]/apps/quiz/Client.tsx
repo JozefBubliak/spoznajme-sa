@@ -53,13 +53,16 @@ type RoundDiagnostic = {
   rpcIds: string[]
   rpcCount: number
   rpcError: string | null
+  fallbackTried: boolean
+  fallbackClassicFilter: boolean
+  fallbackIds: string[]
+  fallbackCount: number
+  fallbackError: string | null
   storedQuestionCount: number
   storedQuestionIds: string[]
   runId: string | null
   runNumber: number | null
-
   status: string
-
   usageTrackingDisabled: boolean
   usageRecordedCount: number
   usageRecordedIds: string[]
@@ -142,6 +145,13 @@ export default function QuizAdminClient({ lang }: Props) {
       rpcIds: Array.isArray(raw?.rpcIds) ? raw.rpcIds.map((id: any) => String(id)) : [],
       rpcCount: Number.isFinite(Number(raw?.rpcCount)) ? Number(raw.rpcCount) : 0,
       rpcError: raw?.rpcError ? String(raw.rpcError) : null,
+      fallbackTried: Boolean(raw?.fallbackTried),
+      fallbackClassicFilter: Boolean(raw?.fallbackClassicFilter),
+      fallbackIds: Array.isArray(raw?.fallbackIds)
+        ? raw.fallbackIds.map((id: any) => String(id))
+        : [],
+      fallbackCount: Number.isFinite(Number(raw?.fallbackCount)) ? Number(raw.fallbackCount) : 0,
+      fallbackError: raw?.fallbackError ? String(raw.fallbackError) : null,
       storedQuestionCount: Number.isFinite(Number(raw?.storedQuestionCount))
         ? Number(raw.storedQuestionCount)
         : 0,
@@ -153,9 +163,7 @@ export default function QuizAdminClient({ lang }: Props) {
         typeof raw?.runNumber === 'number' && Number.isFinite(raw.runNumber)
           ? Number(raw.runNumber)
           : null,
-
       status: typeof raw?.status === 'string' ? String(raw.status) : 'setup',
-
       usageTrackingDisabled: Boolean(raw?.usageTrackingDisabled),
       usageRecordedCount:
         typeof raw?.usageRecordedCount === 'number' && Number.isFinite(raw.usageRecordedCount)
@@ -767,7 +775,6 @@ export default function QuizAdminClient({ lang }: Props) {
               </p>
             )}
             <div className="space-y-3">
-
               {diagnostics.map((diag) => {
                 const categoryLabel = categoryLabelById.get(diag.categoryId) ?? diag.categoryId
                 const statusLabel = translateRoundStatus(diag.status)
@@ -786,7 +793,6 @@ export default function QuizAdminClient({ lang }: Props) {
                         <span>Stav: {statusLabel}</span>
                       </div>
                     </div>
-
                   <div className="grid md:grid-cols-4 gap-2">
                     <div>
                       Požadovaný počet: <strong>{diag.configuredCount}</strong>
@@ -801,6 +807,24 @@ export default function QuizAdminClient({ lang }: Props) {
                       Beh: <strong>{diag.runNumber ? `H${diag.runNumber}` : '—'}</strong>
                     </div>
                   </div>
+                  {diag.fallbackTried && (
+                    <div className="grid md:grid-cols-4 gap-2 text-sm">
+                      <div>
+                        Fallback ID: <strong>{diag.fallbackCount}</strong>
+                      </div>
+                      <div>
+                        Filter classic:{' '}
+                        <strong>{diag.fallbackClassicFilter ? 'áno' : 'nie'}</strong>
+                      </div>
+                      <div className="md:col-span-2">
+                        {diag.fallbackError ? (
+                          <span className="text-red-600">Chyba fallbacku: {diag.fallbackError}</span>
+                        ) : (
+                          <span className="text-muted-foreground">Fallback prebehol bez chyby.</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                   {diag.countError && (
                     <div className="text-red-600">Chyba pri načítaní počtu: {diag.countError}</div>
                   )}
@@ -832,7 +856,7 @@ export default function QuizAdminClient({ lang }: Props) {
                       </code>
                     </div>
                   )}
-                  {(diag.rpcIds.length > 0 || diag.storedQuestionIds.length > 0) && (
+                  {(diag.rpcIds.length > 0 || diag.storedQuestionIds.length > 0 || diag.fallbackIds.length > 0) && (
                     <details className="bg-white rounded border p-2">
                       <summary className="cursor-pointer">Zobraziť ID otázok</summary>
                       <div className="mt-2 space-y-2">
@@ -848,6 +872,14 @@ export default function QuizAdminClient({ lang }: Props) {
                             {diag.storedQuestionIds.join(', ')}
                           </code>
                         </div>
+                        {diag.fallbackIds.length > 0 && (
+                          <div>
+                            <div className="font-medium">ID z fallbacku</div>
+                            <code className="block whitespace-pre-wrap break-all">
+                              {diag.fallbackIds.join(', ')}
+                            </code>
+                          </div>
+                        )}
                         <div>
                           <div className="font-medium">ID v tabuľke použitia</div>
                           <code className="block whitespace-pre-wrap break-all">
@@ -860,7 +892,6 @@ export default function QuizAdminClient({ lang }: Props) {
                   </div>
                 )
               })}
-
             </div>
           </div>
 

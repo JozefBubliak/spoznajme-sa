@@ -7,7 +7,6 @@ import { supabaseServer } from '@/integrations/supabase/server'
 import { ensureActiveRun } from './[code]/_runs'
 import { resetGameArtifacts } from './[code]/_reset'
 
-
 /**
  * Example (unauthenticated):
  *   curl -i -X POST http://localhost:3000/api/games

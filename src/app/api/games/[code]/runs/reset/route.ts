@@ -34,8 +34,6 @@ export async function POST(_req: NextRequest, context: any) {
   const current = await ensureActiveRun(s, gameCode, session.user.id)
   const runId = current?.id ?? null
 
-
-
   const { run } = await archiveActiveRunAndStartNext(s, gameCode, session.user.id)
 
   const { data: rounds } = await s

@@ -12,11 +12,17 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 - `configuredCount` – počet otázok, ktoré má kolo podľa konfigurácie očakávať.
 - `availableCount` – počet otázok, ktoré Supabase vie poskytnúť pre danú kategóriu a locale.
 - `rpcIds` – zoznam ID otázok, ktoré vrátila funkcia `random_herd_questions`.
+
+- `fallbackIds` / `fallbackCount` – otázky, ktoré vybral záložný dotaz na tabuľku `herd_questions`, ak RPC nevrátilo nič.
+- `fallbackClassicFilter` – či fallback ešte filtroval stĺpec `classic = true` (ak je `false`, otázky nemajú nastavený flag `classic`).
+- `fallbackError` – chyba, ktorá vznikla pri fallback dopyte.
+
 - `storedQuestionIds` – ID otázok, ktoré sú uložené priamo pri kole.
 - `runNumber` – poradové číslo behu otázok (H1, H2, …), ktoré sa zvýši po resete.
 - `usageRecordedIds` / `usageRecordedCount` – otázky zapísané v tabuľke `herd_question_usage`, teda tie, ktoré sa už v danom behu nemajú zobraziť.
 - `usageMissingIds` – ID otázok, ktoré sú síce uložené pri kole, ale v databáze zatiaľ nemajú záznam o použití (napr. kolo nebolo spustené).
-- `usageTrackingDisabled` – ak je `true`, backend nenašiel tabuľky na sledovanie behov a zvolil dočasný fallback, pri ktorom sa otázky vyberajú náhodne bez zapisovania použitia.
+
+- `usageTrackingDisabled` – ak je `true`, backend nenašiel tabuľky na sledovanie behov a zvolil dočasný fallback, pri ktorom sa otázky vyberajú náhodne bez zapisovania použitia, ale vždy iba z tabuľky `herd_questions`.
 - `status` – aktuálny stav kola. Zoznam ignoruje kolá v stave „príprava“, ktoré nemajú uložené otázky ani nastavený locale, takže sa nezobrazia staré alebo resetované záznamy.
 
 
@@ -46,7 +52,9 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 ### Ako interpretovať výsledky
 
 - Ak `availableCount` je menší ako `configuredCount`, v databáze nie je dosť otázok pre zvolenú kategóriu a locale.
-- Ak `rpcIds` je prázdne, RPC funkcia nenašla žiadne otázky (skontrolujte `rpcError`).
+- Ak `rpcIds` je prázdne, RPC funkcia nenašla žiadne otázky (skontrolujte `rpcError`). Vtedy sa automaticky spustí fallback, ktorého výsledky vidíte v poliach `fallback*`.
+- Ak `fallbackIds` je prázdne a `fallbackError` ostane `null`, v tabuľke `herd_questions` pre danú kategóriu a locale nie sú žiadne záznamy. Ak je `fallbackClassicFilter = false`, otázky existujú, ale nemajú nastavený príznak `classic`.
+
 - Ak `storedQuestionIds` obsahuje menej položiek než očakávate, štart kola neuložil všetky otázky – skontrolujte logy endpointu `/rounds/start`.
 - Ak `usageMissingIds` nie je prázdne, otázky sa síce zobrazujú v kole, ale ešte nie sú označené ako použité pre daný beh. Skontrolujte, či bolo kolo reálne spustené.
 
@@ -61,6 +69,5 @@ Týmto spôsobom rýchlo zistíte, či problém spôsobuje konfigurácia kola, c
 1. **Vytvorenie miestnosti (`POST /api/games`)** – server vygeneruje kód, otvorí lobby, vymaže staré kolá, odpovede aj hráčov a pokúsi sa založiť aktívny beh otázok (`herd_game_runs`). Ak behy v databáze chýbajú, systém okamžite prepne diagnostiku do fallback režimu.
 2. **Konfigurácia kola (`POST /api/games/[code]/rounds/config`)** – uloží kategóriu, počet otázok a časovače so stavom `ready`, priradí `runId` a normalizuje počet otázok podľa reálnej dostupnosti.
 3. **Diagnostika (`GET /api/games/[code]/rounds/debug`)** – zobrazuje iba kolá, ktoré už majú reálne nastavenia (alebo uložené otázky). Prázdne placeholdery v stave „príprava“ sa ignorujú, aby UI neukazovalo staré údaje po resete.
-4. **Štart kola (`POST /rounds/start`)** – vyberie konkrétne otázky cez RPC `random_herd_questions`. Ak RPC chýba, použije fallback výber z `herd_questions`, nastaví flag `usageTrackingDisabled` a diagnostika zobrazí upozornenie.
+4. **Štart kola (`POST /rounds/start`)** – vyberie konkrétne otázky cez RPC `random_herd_questions`. Ak RPC chýba alebo sa nedá použiť, backend padne do fallback režimu a načíta otázky priamo z `herd_questions`. Ak ani tam nie sú dostupné záznamy pre danú kategóriu a locale, endpoint vráti chybu `NOT_ENOUGH_QUESTIONS` a kolo sa nespustí.
 5. **Reset otázok (`POST /runs/reset`)** – archivuje aktuálny beh, založí nový (H2, H3, …), vymaže uložené ID otázok a väzbu na starý beh. Kolá sa vrátia do stavu „príprava“, a preto sa v diagnostike opäť nezobrazia, kým moderátor nenastaví nové otázky.
-

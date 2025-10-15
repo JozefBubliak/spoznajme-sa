@@ -29,6 +29,12 @@ type DiagnosticEntry = {
   rpcIds: string[]
   rpcCount: number
   rpcError: string | null
+  fallbackTried: boolean
+  fallbackClassicFilter: boolean
+  fallbackIds: string[]
+  fallbackCount: number
+  fallbackError: string | null
+
   storedQuestionCount: number
   storedQuestionIds: string[]
   runId: string | null
@@ -39,7 +45,6 @@ type DiagnosticEntry = {
   usageRecordedIds: string[]
   usageMissingIds: string[]
 }
-
 
 export async function GET(req: NextRequest, context: any) {
   const session = await getSession()
@@ -66,7 +71,6 @@ export async function GET(req: NextRequest, context: any) {
 
   const query = s
     .from('herd_rounds')
-
     .select('id, idx, category, count, status, settings')
 
     .eq('game_code', gameCode)
@@ -88,6 +92,7 @@ export async function GET(req: NextRequest, context: any) {
     category: string
     count: number | null
     status: string | null
+
 
     settings: Record<string, unknown> | null
   }>(rounds)
@@ -164,6 +169,9 @@ export async function GET(req: NextRequest, context: any) {
         ? ((settings as any).questions as unknown[])
         : []
 
+
+      const fallbackLimit = Math.max(1, configuredCount)
+
       const shouldSkip =
         status === 'setup' &&
         storedQuestions.length === 0 &&
@@ -184,6 +192,13 @@ export async function GET(req: NextRequest, context: any) {
       let rpcError: string | null = null
       let rpcIds: string[] = []
       let trackingUnavailable = false
+
+      let fallbackTried = false
+      let fallbackClassicFilter = true
+      let fallbackIds: string[] = []
+      let fallbackError: string | null = null
+
+
       if (countErr) {
         rpcError = countErr.message
       } else if (usageTrackingDisabled) {
@@ -211,6 +226,50 @@ export async function GET(req: NextRequest, context: any) {
         }
       }
 
+      const fetchFallback = async (requireClassic: boolean) => {
+        let query = s
+          .from('herd_questions')
+          .select('id')
+          .eq('category_id', round.category)
+          .or(localeFilter)
+
+        if (requireClassic) {
+          query = query.eq('classic', true)
+        }
+
+        const { data, error } = await query
+        return { ids: asArray<{ id: string }>(data).map((row) => row.id), error }
+      }
+
+      if (rpcIds.length === 0) {
+        fallbackTried = true
+        const primary = await fetchFallback(true)
+        if (primary.error) {
+          if (primary.error.code === '42703') {
+            fallbackClassicFilter = false
+            const secondary = await fetchFallback(false)
+            if (secondary.error) {
+              fallbackError = secondary.error.message
+            } else {
+              fallbackIds = secondary.ids.slice(0, fallbackLimit)
+            }
+          } else {
+            fallbackError = primary.error.message
+          }
+        } else if (primary.ids.length > 0) {
+          fallbackIds = primary.ids.slice(0, fallbackLimit)
+        } else {
+          fallbackClassicFilter = false
+          const secondary = await fetchFallback(false)
+          if (secondary.error) {
+            fallbackError = secondary.error.message
+          } else {
+            fallbackIds = secondary.ids.slice(0, fallbackLimit)
+          }
+        }
+      }
+
+
       const storedIds = storedQuestions.map((value) => String(value))
       const usageKey = runId ? `${runId}:${round.category}` : null
       const usageIds = usageKey ? usageMap.get(usageKey) ?? [] : []
@@ -229,19 +288,23 @@ export async function GET(req: NextRequest, context: any) {
         rpcIds,
         rpcCount: rpcIds.length,
         rpcError,
+        fallbackTried,
+        fallbackClassicFilter,
+        fallbackIds,
+        fallbackCount: fallbackIds.length,
+        fallbackError,
+
         storedQuestionCount: storedQuestions.length,
         storedQuestionIds: storedIds,
         runId,
         runNumber: runMeta?.run_number ?? null,
         status,
-
         usageTrackingDisabled: usageTrackingDisabled || trackingUnavailable,
         usageRecordedCount: usageIds.length,
         usageRecordedIds: usageIds,
         usageMissingIds: missingUsage,
       })
   }
-
 
   return NextResponse.json({ ok: true, rounds: diagnostics })
 }

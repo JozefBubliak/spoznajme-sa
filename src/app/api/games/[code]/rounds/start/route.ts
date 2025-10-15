@@ -9,6 +9,8 @@ import { getSession } from '@/app/api/games/_session'
 import { asArray } from '@/lib/supabase/safe'
 import {
   ensureActiveRun,
+  isMissingColumnError,
+
   isRandomQuestionRpcUnavailable,
   isUsageStorageUnavailable,
 } from '../../_runs'
@@ -27,34 +29,61 @@ async function fetchFallbackQuestions(
   count: number,
   localePrefix: string
 ) {
+  const limit = Math.max(1, Math.floor(Number(count) || 0))
   const { filter } = buildLocaleFilter(localePrefix)
-  const { data, error } = await client
-    .from('herd_questions')
-    .select('id')
-    .eq('category_id', categoryId)
-    .eq('classic', true)
-    .or(filter)
 
-  if (error) {
-    return { ids: [] as string[], error: error.message }
+  const runQuery = async (requireClassic: boolean) => {
+    let query = client
+      .from('herd_questions')
+      .select('id')
+      .eq('category_id', categoryId)
+      .or(filter)
+
+    if (requireClassic) {
+      query = query.eq('classic', true)
+    }
+
+    const { data, error } = await query
+    return { rows: asArray<{ id: string }>(data), error }
   }
 
-  const rawIds = asArray<{ id: string }>(data).map((row) => String(row.id))
-  if (rawIds.length === 0) {
-    return { ids: [] as string[], error: null }
+  const first = await runQuery(true)
+  if (first.error) {
+    if (isMissingColumnError(first.error, 'classic')) {
+      const fallback = await runQuery(false)
+      if (fallback.error) {
+        return { ids: [] as string[], error: fallback.error.message }
+      }
+      return {
+        ids: shuffleIds(fallback.rows).slice(0, limit),
+        error: null,
+      }
+    }
+    return { ids: [] as string[], error: first.error.message }
   }
 
-  const shuffled = [...rawIds]
+  let pool = first.rows
+  if (pool.length === 0) {
+    const fallback = await runQuery(false)
+    if (fallback.error) {
+      return { ids: [] as string[], error: fallback.error.message }
+    }
+    pool = fallback.rows
+  }
+
+  return { ids: shuffleIds(pool).slice(0, limit), error: null }
+}
+
+function shuffleIds(rows: { id: string }[]) {
+  const shuffled = rows.map((row) => String(row.id))
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     const tmp = shuffled[i]!
     shuffled[i] = shuffled[j]!
     shuffled[j] = tmp
   }
+  return shuffled
 
-  const limit = Math.max(1, Number.isFinite(count) ? Number(count) : 0)
-  const sliceCount = Math.min(limit, shuffled.length)
-  return { ids: shuffled.slice(0, sliceCount), error: null }
 }
 
 export const dynamic = 'force-dynamic'
@@ -131,6 +160,7 @@ export async function POST(req: NextRequest, context: any) {
         ids = asArray<{ id: string }>(qs).map((q) => q.id)
       }
     }
+
 
     if (ids.length === 0) {
       const { ids: fallbackIds, error: fallbackErr } = await fetchFallbackQuestions(
