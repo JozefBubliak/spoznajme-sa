@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server'
 
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
+
 import { archiveActiveRunAndStartNext, ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
 
 export const dynamic = 'force-dynamic'
@@ -31,7 +32,9 @@ export async function POST(_req: NextRequest, context: any) {
   }
 
   const current = await ensureActiveRun(s, gameCode, session.user.id)
+
   const runId = current?.id ?? null
+
 
   const { run } = await archiveActiveRunAndStartNext(s, gameCode, session.user.id)
 
@@ -75,4 +78,5 @@ export async function POST(_req: NextRequest, context: any) {
     runNumber: run?.run_number ?? null,
     disabled: run?.disabled ?? false,
   })
+
 }
