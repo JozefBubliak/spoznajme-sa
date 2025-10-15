@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { must } from '@/lib/supabase/safe'
-import { ensureActiveRun } from '../../_runs'
+import { ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,8 +36,10 @@ export async function POST(req: NextRequest, context: any) {
 
   const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
 
-
   const run = await ensureActiveRun(s, gameCode, session.user.id)
+  const runId = run?.id ?? null
+  const runDisabled = !runId || run?.disabled
+
 
   const { data: existingRound } = await s
     .from('herd_rounds')
@@ -51,27 +53,33 @@ export async function POST(req: NextRequest, context: any) {
   // over dostupný počet otázok v danej kategórii podľa rovnakých filtrov ako RPC random_herd_questions
   const localeFilter = `locale.is.null,locale.ilike.${localePrefix}%`
 
+  let usedIds = new Set<string>()
+  if (!runDisabled) {
+    const { data: usedRows, error: usedErr } = await s
+      .from('herd_question_usage')
+      .select('question_id')
+      .eq('owner_id', session.user.id)
+      .eq('run_id', runId)
+      .eq('game_code', gameCode)
+      .eq('category_id', categoryId)
 
-  const { data: usedRows } = await s
-    .from('herd_question_usage')
-    .select('question_id')
-    .eq('owner_id', session.user.id)
-    .eq('run_id', run.id)
-    .eq('game_code', gameCode)
-    .eq('category_id', categoryId)
-
-  const usedIds = new Set<string>(
-    Array.isArray(usedRows) ? usedRows.map((row: any) => String(row.question_id)) : []
-  )
+    if (usedErr) {
+      if (!isUsageStorageUnavailable(usedErr)) {
+        return NextResponse.json({ error: usedErr.message }, { status: 400 })
+      }
+    } else {
+      usedIds = new Set<string>(
+        Array.isArray(usedRows) ? usedRows.map((row: any) => String(row.question_id)) : []
+      )
+    }
+  }
 
   const availableQuery = s
-
     .from('herd_questions')
     .select('id', { count: 'exact', head: true })
     .eq('category_id', categoryId)
     .eq('classic', true)
     .or(localeFilter)
-
 
   if (usedIds.size > 0) {
     const inList = `(${Array.from(usedIds).map((id) => `'${id}'`).join(',')})`
@@ -79,7 +87,6 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const { count: available } = await availableQuery
-
 
   const availableCount = typeof available === 'number' ? available : 0
   if (availableCount <= 0) {
@@ -92,11 +99,14 @@ export async function POST(req: NextRequest, context: any) {
   const selectedCount = Math.min(availableCount, normalizedCount)
 
   // uloženie/aktualizácia kola (idempotentne podľa game_code + idx)
-  const roundSettings = {
+  const roundSettings: Record<string, unknown> = {
     ...existingSettings,
     localePrefix,
-
-    runId: run.id,
+  }
+  if (runId) {
+    roundSettings.runId = runId
+  } else {
+    delete (roundSettings as any).runId
 
   }
 
@@ -107,7 +117,6 @@ export async function POST(req: NextRequest, context: any) {
         game_code: gameCode,
         idx: index,
         category: categoryId,
-
         count: selectedCount,
 
         prep_seconds: prepSeconds,
@@ -135,9 +144,8 @@ export async function POST(req: NextRequest, context: any) {
     phase: 'round_setup',
     savedIndex: index,
     localePrefix,
-
-    runId: run.id,
-    runNumber: run.run_number ?? 1,
+    runId,
+    runNumber: run.run_number ?? null,
     questions: selectedCount,
 
   })

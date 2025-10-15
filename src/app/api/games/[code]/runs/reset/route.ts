@@ -4,7 +4,8 @@ import type { NextRequest } from 'next/server'
 
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
-import { archiveActiveRunAndStartNext, ensureActiveRun } from '../../_runs'
+import { archiveActiveRunAndStartNext, ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
+
 
 export const dynamic = 'force-dynamic'
 
@@ -31,10 +32,7 @@ export async function POST(_req: NextRequest, context: any) {
   }
 
   const current = await ensureActiveRun(s, gameCode, session.user.id)
-  if (!current) {
-    return NextResponse.json({ error: 'Unable to determine active run' }, { status: 400 })
-  }
-
+  const runId = current?.id ?? null
   const { run } = await archiveActiveRunAndStartNext(s, gameCode, session.user.id)
 
   const { data: rounds } = await s
@@ -58,5 +56,24 @@ export async function POST(_req: NextRequest, context: any) {
     await Promise.all(updates)
   }
 
-  return NextResponse.json({ ok: true, runId: run.id, runNumber: run.run_number })
+  if (runId && !run?.disabled) {
+    const { error: deleteErr } = await s
+      .from('herd_question_usage')
+      .delete()
+      .eq('owner_id', session.user.id)
+      .eq('game_code', gameCode)
+      .eq('run_id', runId)
+
+    if (deleteErr && !isUsageStorageUnavailable(deleteErr)) {
+      return NextResponse.json({ error: deleteErr.message }, { status: 400 })
+    }
+  }
+
+  return NextResponse.json({
+    ok: true,
+    runId: run?.id ?? null,
+    runNumber: run?.run_number ?? null,
+    disabled: run?.disabled ?? false,
+  })
+
 }

@@ -38,6 +38,7 @@ type RoundDiagnostic = {
   storedQuestionIds: string[]
   runId: string | null
   runNumber: number | null
+  usageTrackingDisabled: boolean
   usageRecordedCount: number
   usageRecordedIds: string[]
   usageMissingIds: string[]
@@ -122,6 +123,7 @@ export default function QuizAdminClient({ lang }: Props) {
         typeof raw?.runNumber === 'number' && Number.isFinite(raw.runNumber)
           ? Number(raw.runNumber)
           : null,
+      usageTrackingDisabled: Boolean(raw?.usageTrackingDisabled),
       usageRecordedCount:
         typeof raw?.usageRecordedCount === 'number' && Number.isFinite(raw.usageRecordedCount)
           ? Number(raw.usageRecordedCount)
@@ -763,6 +765,18 @@ export default function QuizAdminClient({ lang }: Props) {
                     Uložené otázky v kole: <strong>{diag.storedQuestionCount}</strong>
                   </div>
                   <div>
+                    Sledovanie použitých otázok:{' '}
+                    <strong className={diag.usageTrackingDisabled ? 'text-red-600' : undefined}>
+                      {diag.usageTrackingDisabled ? 'vypnuté' : 'zapnuté'}
+                    </strong>
+                  </div>
+                  {diag.usageTrackingDisabled && (
+                    <div className="text-orange-600 text-sm">
+                      Fallback režim – otázky sa vyberajú bez zapisovania do databázy.
+                    </div>
+                  )}
+                  <div>
+
                     Otázky označené v databáze: <strong>{diag.usageRecordedCount}</strong>
                   </div>
                   {diag.usageMissingIds.length > 0 && (
