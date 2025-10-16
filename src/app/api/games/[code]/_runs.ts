@@ -1,5 +1,12 @@
 // PATH: src/app/api/games/[code]/_runs.ts
 import type { PostgrestError } from '@supabase/supabase-js'
+import type { SupabaseClient } from '@/integrations/supabase/server'
+
+type ServiceClient = SupabaseClient<any, any, any>
+
+import type { SupabaseClient } from '@/integrations/supabase/server'
+
+type ServiceClient = SupabaseClient<any, any, any>
 
 export type RunRecord = {
 
@@ -10,7 +17,7 @@ export type RunRecord = {
 
 }
 
-function isPostgrestError(error: unknown): error is PostgrestError {
+export function isPostgrestError(error: unknown): error is PostgrestError {
   return Boolean(error && typeof error === 'object' && 'message' in error)
 }
 
@@ -43,7 +50,8 @@ export function isUsageStorageUnavailable(error: unknown): boolean {
 }
 
 export async function getActiveRun(
-  client: any,
+  client: ServiceClient,
+
   gameCode: string,
   ownerId: string
 ): Promise<RunRecord | null> {
@@ -68,7 +76,9 @@ export async function getActiveRun(
 }
 
 export async function ensureActiveRun(
-  client: any,
+
+  client: ServiceClient,
+
   gameCode: string,
   ownerId: string
 ): Promise<RunRecord> {
@@ -117,7 +127,9 @@ export async function ensureActiveRun(
 }
 
 export async function archiveActiveRunAndStartNext(
-  client: any,
+
+  client: ServiceClient,
+
   gameCode: string,
   ownerId: string
 ): Promise<{ previous: RunRecord | null; run: RunRecord }> {
