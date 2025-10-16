@@ -200,6 +200,7 @@ export default function QuizAdminClient({ lang }: Props) {
 
       usageTrackingDisabled: Boolean(raw?.usageTrackingDisabled),
 
+
       usageRecordedCount:
         typeof raw?.usageRecordedCount === 'number' && Number.isFinite(raw.usageRecordedCount)
           ? Number(raw.usageRecordedCount)
@@ -1040,6 +1041,7 @@ export default function QuizAdminClient({ lang }: Props) {
                     Uložené otázky v kole: <strong>{diag.storedQuestionCount}</strong>
                   </div>
                   <div>
+
                     Sledovanie použitých otázok:{' '}
                     <strong className={diag.usageTrackingDisabled ? 'text-red-600' : undefined}>
                       {diag.usageTrackingDisabled ? 'vypnuté' : 'zapnuté'}

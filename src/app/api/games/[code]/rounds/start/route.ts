@@ -16,10 +16,8 @@ function buildLocaleFilter(prefix: string) {
   return { sanitized, filter: `locale.is.null,locale.ilike.${sanitized}%` }
 }
 
-type ServiceClient = SupabaseClient<any, any, any>
-
 async function fetchFallbackQuestions(
-  client: ServiceClient,
+  client: any,
   categoryId: string,
   count: number,
   localePrefix: string
@@ -70,6 +68,9 @@ export async function POST(req: NextRequest, context: any) {
 
   const s = supabaseServer(session.access_token)
   const run = await ensureActiveRun(s, gameCode, session.user.id)
+  const runId = run?.id ?? null
+  let usageDisabled = !runId || run?.disabled
+
 
   const runId = run?.id ?? null
   let usageDisabled = !runId || run?.disabled
@@ -94,11 +95,9 @@ export async function POST(req: NextRequest, context: any) {
       : null
 
   const storedUsageDisabled = Boolean((roundSettings as any).usageTrackingDisabled)
-
   const storedQuestions = Array.isArray((roundSettings as any).questions)
     ? ((roundSettings as any).questions as unknown[]).map((value) => String(value))
     : []
-
 
   const localeMeta = buildLocaleFilter(roundSettings.localePrefix as string)
   const localePrefix = localeMeta.sanitized
@@ -173,6 +172,7 @@ export async function POST(req: NextRequest, context: any) {
   } else {
     delete (updatedSettings as any).runId
   }
+veCount)
 
 
   const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }

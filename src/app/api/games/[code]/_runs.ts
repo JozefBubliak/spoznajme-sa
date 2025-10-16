@@ -9,6 +9,7 @@ import type { SupabaseClient } from '@/integrations/supabase/server'
 type ServiceClient = SupabaseClient<any, any, any>
 
 export type RunRecord = {
+
   id: string | null
   run_number: number | null
   status?: string | null
@@ -47,6 +48,7 @@ export function isRunStorageUnavailable(error: unknown): boolean {
 export function isUsageStorageUnavailable(error: unknown): boolean {
   return isPostgrestError(error) && isMissingRelationError(error, 'herd_question_usage')
 }
+
 
 export async function getActiveRun(
   client: ServiceClient,
