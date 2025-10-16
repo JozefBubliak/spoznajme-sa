@@ -229,6 +229,28 @@ export default function QuizAdminClient({ lang }: Props) {
     [authFetch, gameCode],
   )
 
+  const startGame = useCallback(async () => {
+    if (!gameCode) return false
+    try {
+      const startResp = await authFetch(`/api/games/${gameCode}/rounds/start`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ index: 0 }),
+      })
+      const startJson = await startResp.json().catch(() => ({}))
+      if (!startResp.ok || (!startJson?.ok && !startJson?.success)) {
+        alert(startJson.error || 'Nepodarilo sa spustiť hru')
+        return false
+      }
+      setGameStatus('running')
+      await fetchDiagnostics().catch(() => undefined)
+      return true
+    } catch (error) {
+      alert('Nepodarilo sa spustiť hru')
+      return false
+    }
+  }, [authFetch, fetchDiagnostics, gameCode])
+
   // --- Kategórie ---
   useEffect(() => {
     if (!session) return
@@ -371,6 +393,7 @@ export default function QuizAdminClient({ lang }: Props) {
       const latest = await fetchDiagnostics(rounds.length)
       if (totalRounds && newLength >= totalRounds) {
         await ensureInitialRoundStarted(latest)
+
       }
     } else {
       alert(j.error || 'Nepodarilo sa pridať kolo')
@@ -904,6 +927,7 @@ export default function QuizAdminClient({ lang }: Props) {
                     }}
                     disabled={startRoundLoading}
                     className="px-4 py-2 rounded bg-blue-600 text-white disabled:opacity-60 disabled:cursor-not-allowed"
+
                   >
                     Začať prvé kolo manuálne
                   </button>
