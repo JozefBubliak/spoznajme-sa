@@ -49,7 +49,6 @@ export function isUsageStorageUnavailable(error: unknown): boolean {
   return isPostgrestError(error) && isMissingRelationError(error, 'herd_question_usage')
 }
 
-
 export async function getActiveRun(
   client: ServiceClient,
 
@@ -181,7 +180,6 @@ export async function archiveActiveRunAndStartNext(
     })
     .select('id, run_number, status')
     .single()
-
 
   if (error) {
     if (isRunStorageUnavailable(error)) return { previous: null, run: { ...FALLBACK_RUN } }

@@ -7,6 +7,7 @@ import { supabaseServer } from '@/integrations/supabase/server'
 
 import { archiveActiveRunAndStartNext, ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
 
+
 export const dynamic = 'force-dynamic'
 
 
@@ -59,6 +60,7 @@ export async function POST(_req: NextRequest, context: any) {
   if (updates.length > 0) {
     await Promise.all(updates)
   }
+
 
   if (runId && !run?.disabled) {
     const { error: deleteErr } = await s

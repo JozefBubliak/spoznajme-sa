@@ -10,48 +10,6 @@ import { asArray } from '@/lib/supabase/safe'
 
 import { ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
 
-function buildLocaleFilter(prefix: string) {
-  const clean = typeof prefix === 'string' && prefix.trim() ? prefix.trim() : 'sk'
-  const sanitized = clean.replace(/[^A-Za-z0-9_-]/g, '') || 'sk'
-  return { sanitized, filter: `locale.is.null,locale.ilike.${sanitized}%` }
-}
-
-async function fetchFallbackQuestions(
-  client: any,
-  categoryId: string,
-  count: number,
-  localePrefix: string
-) {
-  const { filter } = buildLocaleFilter(localePrefix)
-  const { data, error } = await client
-    .from('herd_questions')
-    .select('id')
-    .eq('category_id', categoryId)
-    .eq('classic', true)
-    .or(filter)
-
-  if (error) {
-    return { ids: [] as string[], error: error.message }
-  }
-
-  const rawIds = asArray<{ id: string }>(data).map((row) => String(row.id))
-  if (rawIds.length === 0) {
-    return { ids: [] as string[], error: null }
-  }
-
-  const shuffled = [...rawIds]
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    const tmp = shuffled[i]!
-    shuffled[i] = shuffled[j]!
-    shuffled[j] = tmp
-  }
-
-  const limit = Math.max(1, Number.isFinite(count) ? Number(count) : 0)
-  const sliceCount = Math.min(limit, shuffled.length)
-  return { ids: shuffled.slice(0, sliceCount), error: null }
-}
-
 
 export const dynamic = 'force-dynamic'
 
@@ -74,6 +32,9 @@ export async function POST(req: NextRequest, context: any) {
 
   const runId = run?.id ?? null
   let usageDisabled = !runId || run?.disabled
+
+
+  const runId = run?.id ?? null
 
 
   // načítaj konfiguráciu kola
@@ -99,40 +60,24 @@ export async function POST(req: NextRequest, context: any) {
     ? ((roundSettings as any).questions as unknown[]).map((value) => String(value))
     : []
 
-  const localeMeta = buildLocaleFilter(roundSettings.localePrefix as string)
-  const localePrefix = localeMeta.sanitized
 
-  const requestedCount =
-    typeof round.count === 'number'
-      ? round.count
-      : Number(round.count ?? 0) || 0
-  const fallbackLimit = Math.max(1, requestedCount)
+  const localePrefix = typeof roundSettings.localePrefix === 'string' && roundSettings.localePrefix
+    ? roundSettings.localePrefix
+    : 'sk'
 
   let ids: string[] = []
-  const canReuseStored =
-    storedQuestions.length > 0 &&
-    ((runId && storedRunId === runId) || (!runId && !storedRunId) || (storedUsageDisabled && !storedRunId))
-
-  if (canReuseStored) {
+  if (storedQuestions.length > 0 && runId && storedRunId === runId) {
     ids = storedQuestions
   } else {
-    if (!usageDisabled) {
-      const { data: qs, error: qErr } = await s.rpc('random_herd_questions', {
-        cat: round.category,
-        n: round.count,
-        locale_prefix: localePrefix,
-        run: runId,
-      })
+    const { data: qs, error: qErr } = await s.rpc('random_herd_questions', {
+      cat: round.category,
+      n: round.count,
+      locale_prefix: localePrefix,
+      run: runId,
+    })
 
-      if (qErr) {
-        if (isUsageStorageUnavailable(qErr)) {
-          usageDisabled = true
-        } else {
-          return NextResponse.json({ error: qErr.message || 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
-        }
-      } else {
-        ids = asArray<{ id: string }>(qs).map((q) => q.id)
-      }
+    if (qErr) {
+      return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
     }
 
     if (ids.length === 0) {
@@ -148,10 +93,6 @@ export async function POST(req: NextRequest, context: any) {
       ids = fallbackIds
     }
 
-    if (ids.length === 0) {
-      return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
-    }
-  }
 
   const configuredCount =
     typeof round.count === 'number'
@@ -161,18 +102,11 @@ export async function POST(req: NextRequest, context: any) {
   const chosenIds = ids.slice(0, effectiveCount)
 
   const updatedSettings: Record<string, unknown> = { ...roundSettings, questions: chosenIds }
-  if (usageDisabled) {
-    updatedSettings.usageTrackingDisabled = true
-  } else {
-    delete (updatedSettings as any).usageTrackingDisabled
-  }
-
-  if (runId && !usageDisabled) {
+  if (runId) {
     updatedSettings.runId = runId
   } else {
     delete (updatedSettings as any).runId
   }
-veCount)
 
 
   const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }
@@ -194,7 +128,7 @@ veCount)
   }
 
 
-  if (chosenIds.length > 0 && runId && !usageDisabled) {
+  if (chosenIds.length > 0 && runId) {
     const rows = chosenIds.map((questionId) => ({
       owner_id: session.user.id,
       game_code: gameCode,
