@@ -45,10 +45,21 @@ function translateRoundStatus(status: string): string {
       return 'uzamknuté'
     case 'results':
       return 'výsledky'
+    case 'complete':
+      return 'dokončené'
     case 'setup':
     default:
       return 'príprava'
   }
+}
+
+const ROUND_STATUS_STYLE: Record<NormalizedRoundStatus, string> = {
+  setup: 'bg-gray-100 text-gray-600 border-gray-200',
+  ready: 'bg-blue-50 text-blue-700 border-blue-200',
+  running: 'bg-green-50 text-green-700 border-green-200',
+  locked: 'bg-orange-50 text-orange-700 border-orange-200',
+  results: 'bg-purple-50 text-purple-700 border-purple-200',
+  complete: 'bg-emerald-50 text-emerald-700 border-emerald-200',
 }
 
 
@@ -1146,6 +1157,17 @@ export default function QuizAdminClient({ lang }: Props) {
                 Odpovede sa po uplynutí času uzamknú automaticky. Manuálne zásahy použite len pri výnimočných situáciách
                 (napríklad keď chcete kolo ukončiť skôr alebo ak časovač zlyhá).
               </p>
+              {startableRound && !canStartNextRound && (
+                <p className="text-xs text-muted-foreground">
+                  Ďalšie kolo #{startableRound.index + 1} sa pripraví po dokončení aktuálneho kola a zobrazení výsledkov.
+                </p>
+              )}
+              {!startableRound && diagnostics.length > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  Všetky kolá sú spracované. Po ukončení výsledkov sa hra automaticky presunie do ďalšieho kroku.
+                </p>
+              )}
+
             </div>
           )}
 
