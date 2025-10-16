@@ -20,23 +20,78 @@ type RoundFlowSummary = {
   nextRound: RoundDiagnostic | null
 }
 
+const RUNNING_STATUS_KEYWORDS = new Set([
+  'running',
+  'active',
+  'playing',
+  'showing',
+  'shown',
+  'in_progress',
+  'prebieha',
+  'aktivne',
+  'spustene',
+])
+
+const LOCKED_STATUS_KEYWORDS = new Set([
+  'locked',
+  'closed',
+  'ended_answering',
+  'uzamknute',
+  'uzatvorene',
+  'uzamknute_odpovede',
+])
+
+const RESULTS_STATUS_KEYWORDS = new Set([
+  'results',
+  'scoring',
+  'scoreboard',
+  'showing_results',
+  'vysledky',
+  'vyhodnotenie',
+])
+
+const READY_STATUS_KEYWORDS = new Set([
+  'ready',
+  'queued',
+  'pending',
+  'prepared',
+  'pripravene',
+  'nachystane',
+  'priprava_hotova',
+])
+
+const COMPLETE_STATUS_KEYWORDS = new Set([
+  'complete',
+  'finished',
+  'done',
+  'dokoncone',
+  'ukoncene',
+])
+
 function normalizeRoundStatus(status: string | null | undefined): NormalizedRoundStatus {
-  const normalized = String(status ?? '').toLowerCase()
-  if (['running', 'active', 'playing', 'showing', 'shown', 'in_progress'].includes(normalized)) {
+  const normalized = String(status ?? '').trim().toLowerCase()
+  const ascii = normalized.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+
+  if (RUNNING_STATUS_KEYWORDS.has(normalized) || RUNNING_STATUS_KEYWORDS.has(ascii)) {
     return 'running'
   }
-  if (['locked', 'closed', 'ended_answering'].includes(normalized)) {
+
+  if (LOCKED_STATUS_KEYWORDS.has(normalized) || LOCKED_STATUS_KEYWORDS.has(ascii)) {
     return 'locked'
   }
-  if (['results', 'scoring', 'scoreboard', 'showing_results'].includes(normalized)) {
+
+  if (RESULTS_STATUS_KEYWORDS.has(normalized) || RESULTS_STATUS_KEYWORDS.has(ascii)) {
     return 'results'
   }
-  if (['ready', 'queued', 'pending', 'prepared'].includes(normalized)) {
+
+  if (READY_STATUS_KEYWORDS.has(normalized) || READY_STATUS_KEYWORDS.has(ascii)) {
     return 'ready'
   }
-  if (['complete', 'finished', 'done'].includes(normalized)) {
+
+  if (COMPLETE_STATUS_KEYWORDS.has(normalized) || COMPLETE_STATUS_KEYWORDS.has(ascii)) {
     return 'complete'
   }
+
   return 'setup'
 }
 
@@ -112,6 +167,8 @@ function translateRoundStatus(status: string): string {
       return 'uzamknuté'
     case 'results':
       return 'výsledky'
+    case 'complete':
+      return 'dokončené'
     case 'setup':
     default:
       return 'príprava'
@@ -379,10 +436,15 @@ export default function QuizAdminClient({ lang }: Props) {
 
       try {
         setStartRoundLoading(true)
+        const payload: { index: number; roundId?: string } = { index: resolvedIndex }
+        if (candidate.roundId) {
+          payload.roundId = candidate.roundId
+        }
+
         const r = await authFetch(`/api/games/${gameCode}/rounds/start`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ index: resolvedIndex }),
+          body: JSON.stringify(payload),
         })
         const j = await r.json().catch(() => ({}))
         if (!r.ok || (!j?.ok && !j?.success)) {
