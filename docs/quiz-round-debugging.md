@@ -22,8 +22,7 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 - `usageRecordedIds` / `usageRecordedCount` – otázky zapísané v tabuľke `herd_question_usage`, teda tie, ktoré sa už v danom behu nemajú zobraziť.
 - `usageMissingIds` – ID otázok, ktoré sú síce uložené pri kole, ale v databáze zatiaľ nemajú záznam o použití (napr. kolo nebolo spustené).
 
-- `usageTrackingDisabled` – ak je `true`, backend nenašiel tabuľky na sledovanie behov a zvolil dočasný fallback, pri ktorom sa otázky vyberajú náhodne bez zapisovania použitia, ale vždy iba z tabuľky `herd_questions`.
-- `status` – aktuálny stav kola. Zoznam ignoruje kolá v stave „príprava“, ktoré nemajú uložené otázky ani nastavený locale, takže sa nezobrazia staré alebo resetované záznamy.
+- `usageTrackingDisabled` – ak je `true`, backend nenašiel tabuľky na sledovanie behov a zvolil dočasný fallback, pri ktorom sa otázky vyberajú náhodne bez zapisovania použitia.
 
 
 ### Ako endpoint zavolať
@@ -57,6 +56,7 @@ Endpoint vracia prehľad všetkých kôl v hre vrátane:
 
 - Ak `storedQuestionIds` obsahuje menej položiek než očakávate, štart kola neuložil všetky otázky – skontrolujte logy endpointu `/rounds/start`.
 - Ak `usageMissingIds` nie je prázdne, otázky sa síce zobrazujú v kole, ale ešte nie sú označené ako použité pre daný beh. Skontrolujte, či bolo kolo reálne spustené.
+
 
 Ak Supabase ešte neobsahuje nové tabuľky `herd_game_runs` a `herd_question_usage`, backend automaticky prepne do fallback režimu. Otázky sa načítajú priamo z `herd_questions`, nastavenia kola si pamätajú vybranú sadu ID (`questions`) a flag `usageTrackingDisabled: true`, ale nezapisujú sa nové riadky do `herd_question_usage`. V praxi to znamená, že kolo pôjde spustiť aj na staršej databáze, len sa nebude sledovať história použitia otázok.
 

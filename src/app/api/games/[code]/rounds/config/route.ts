@@ -4,7 +4,9 @@ import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { must } from '@/lib/supabase/safe'
+
 import { ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
+
 
 export const dynamic = 'force-dynamic'
 
@@ -39,6 +41,8 @@ export async function POST(req: NextRequest, context: any) {
   const run = await ensureActiveRun(s, gameCode, session.user.id)
   const runId = run?.id ?? null
   const runDisabled = !runId || run?.disabled
+
+
   const { data: existingRound } = await s
     .from('herd_rounds')
     .select('id, settings')
@@ -50,6 +54,7 @@ export async function POST(req: NextRequest, context: any) {
 
   // over dostupný počet otázok v danej kategórii podľa rovnakých filtrov ako RPC random_herd_questions
   const localeFilter = `locale.is.null,locale.ilike.${localePrefix}%`
+
 
   let usedIds = new Set<string>()
   if (!runDisabled) {
@@ -96,6 +101,7 @@ export async function POST(req: NextRequest, context: any) {
   const selectedCount = Math.min(availableCount, normalizedCount)
 
   // uloženie/aktualizácia kola (idempotentne podľa game_code + idx)
+
   const roundSettings: Record<string, unknown> = {
     ...existingSettings,
     localePrefix,
@@ -104,6 +110,7 @@ export async function POST(req: NextRequest, context: any) {
     roundSettings.runId = runId
   } else {
     delete (roundSettings as any).runId
+
   }
 
   const { data: saved, error } = await s
@@ -139,6 +146,7 @@ export async function POST(req: NextRequest, context: any) {
     phase: 'round_setup',
     savedIndex: index,
     localePrefix,
+
     runId,
     runNumber: run.run_number ?? null,
     questions: selectedCount,

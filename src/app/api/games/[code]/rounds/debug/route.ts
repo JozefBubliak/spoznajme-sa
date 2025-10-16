@@ -5,11 +5,10 @@ import type { NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { asArray } from '@/lib/supabase/safe'
-import {
-  isRandomQuestionRpcUnavailable,
-  isRunStorageUnavailable,
-  isUsageStorageUnavailable,
-} from '../../_runs'
+
+import { isRunStorageUnavailable, isUsageStorageUnavailable } from '../../_runs'
+
+
 export const dynamic = 'force-dynamic'
 
 function sanitizeLocalePrefix(raw: unknown): string {
@@ -107,10 +106,13 @@ export async function GET(req: NextRequest, context: any) {
   const runIdArray = Array.from(runIds)
   const runMap = new Map<string, { run_number: number | null; status: string | null }>()
   if (runIdArray.length > 0) {
+
     const { data: runRows, error: runErr } = await s
+
       .from('herd_game_runs')
       .select('id, run_number, status')
       .in('id', runIdArray)
+
 
     if (!runErr || !isRunStorageUnavailable(runErr)) {
       if (runErr) {
@@ -123,15 +125,19 @@ export async function GET(req: NextRequest, context: any) {
         })
       })
     }
+
   }
 
   const usageMap = new Map<string, string[]>()
   if (runIdArray.length > 0) {
+
     const { data: usageRows, error: usageErr } = await s
+
       .from('herd_question_usage')
       .select('run_id, question_id, category_id')
       .in('run_id', runIdArray)
       .eq('game_code', gameCode)
+
 
     if (!usageErr || !isUsageStorageUnavailable(usageErr)) {
       if (usageErr) {
@@ -144,6 +150,7 @@ export async function GET(req: NextRequest, context: any) {
         usageMap.set(key, existing)
       })
     }
+
   }
 
   const diagnostics: DiagnosticEntry[] = []
@@ -158,7 +165,7 @@ export async function GET(req: NextRequest, context: any) {
       const runId = typeof (settings as any).runId === 'string' ? String((settings as any).runId) : null
       const runMeta = runId ? runMap.get(runId) ?? null : null
       const usageTrackingDisabled = Boolean((settings as any).usageTrackingDisabled)
-      const status = typeof round.status === 'string' ? round.status : 'setup'
+
       const localeFilter = `locale.is.null,locale.ilike.${localePrefix}%`
       const configuredCount =
         typeof round.count === 'number'
@@ -201,8 +208,10 @@ export async function GET(req: NextRequest, context: any) {
 
       if (countErr) {
         rpcError = countErr.message
+
       } else if (usageTrackingDisabled) {
         rpcError = 'Sledovanie použitých otázok je vypnuté'
+
       } else {
         const { data: rpcData, error: rpcErr } = await s.rpc('random_herd_questions', {
           cat: round.category,
@@ -298,8 +307,7 @@ export async function GET(req: NextRequest, context: any) {
         storedQuestionIds: storedIds,
         runId,
         runNumber: runMeta?.run_number ?? null,
-        status,
-        usageTrackingDisabled: usageTrackingDisabled || trackingUnavailable,
+        usageTrackingDisabled,
         usageRecordedCount: usageIds.length,
         usageRecordedIds: usageIds,
         usageMissingIds: missingUsage,

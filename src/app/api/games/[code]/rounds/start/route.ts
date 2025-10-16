@@ -7,13 +7,8 @@ import { supabaseServer } from '@/integrations/supabase/server'
 import type { SupabaseClient } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { asArray } from '@/lib/supabase/safe'
-import {
-  ensureActiveRun,
-  isMissingColumnError,
 
-  isRandomQuestionRpcUnavailable,
-  isUsageStorageUnavailable,
-} from '../../_runs'
+import { ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
 
 function buildLocaleFilter(prefix: string) {
   const clean = typeof prefix === 'string' && prefix.trim() ? prefix.trim() : 'sk'
@@ -29,62 +24,36 @@ async function fetchFallbackQuestions(
   count: number,
   localePrefix: string
 ) {
-  const limit = Math.max(1, Math.floor(Number(count) || 0))
   const { filter } = buildLocaleFilter(localePrefix)
+  const { data, error } = await client
+    .from('herd_questions')
+    .select('id')
+    .eq('category_id', categoryId)
+    .eq('classic', true)
+    .or(filter)
 
-  const runQuery = async (requireClassic: boolean) => {
-    let query = client
-      .from('herd_questions')
-      .select('id')
-      .eq('category_id', categoryId)
-      .or(filter)
-
-    if (requireClassic) {
-      query = query.eq('classic', true)
-    }
-
-    const { data, error } = await query
-    return { rows: asArray<{ id: string }>(data), error }
+  if (error) {
+    return { ids: [] as string[], error: error.message }
   }
 
-  const first = await runQuery(true)
-  if (first.error) {
-    if (isMissingColumnError(first.error, 'classic')) {
-      const fallback = await runQuery(false)
-      if (fallback.error) {
-        return { ids: [] as string[], error: fallback.error.message }
-      }
-      return {
-        ids: shuffleIds(fallback.rows).slice(0, limit),
-        error: null,
-      }
-    }
-    return { ids: [] as string[], error: first.error.message }
+  const rawIds = asArray<{ id: string }>(data).map((row) => String(row.id))
+  if (rawIds.length === 0) {
+    return { ids: [] as string[], error: null }
   }
 
-  let pool = first.rows
-  if (pool.length === 0) {
-    const fallback = await runQuery(false)
-    if (fallback.error) {
-      return { ids: [] as string[], error: fallback.error.message }
-    }
-    pool = fallback.rows
-  }
-
-  return { ids: shuffleIds(pool).slice(0, limit), error: null }
-}
-
-function shuffleIds(rows: { id: string }[]) {
-  const shuffled = rows.map((row) => String(row.id))
+  const shuffled = [...rawIds]
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     const tmp = shuffled[i]!
     shuffled[i] = shuffled[j]!
     shuffled[j] = tmp
   }
-  return shuffled
 
+  const limit = Math.max(1, Number.isFinite(count) ? Number(count) : 0)
+  const sliceCount = Math.min(limit, shuffled.length)
+  return { ids: shuffled.slice(0, sliceCount), error: null }
 }
+
 
 export const dynamic = 'force-dynamic'
 
@@ -101,8 +70,11 @@ export async function POST(req: NextRequest, context: any) {
 
   const s = supabaseServer(session.access_token)
   const run = await ensureActiveRun(s, gameCode, session.user.id)
+
   const runId = run?.id ?? null
   let usageDisabled = !runId || run?.disabled
+
+
   // načítaj konfiguráciu kola
   const { data: round, error: roundErr } = await s
     .from('herd_rounds')
@@ -120,10 +92,13 @@ export async function POST(req: NextRequest, context: any) {
     typeof (roundSettings as any).runId === 'string' && (roundSettings as any).runId
       ? String((roundSettings as any).runId)
       : null
+
   const storedUsageDisabled = Boolean((roundSettings as any).usageTrackingDisabled)
+
   const storedQuestions = Array.isArray((roundSettings as any).questions)
     ? ((roundSettings as any).questions as unknown[]).map((value) => String(value))
     : []
+
 
   const localeMeta = buildLocaleFilter(roundSettings.localePrefix as string)
   const localePrefix = localeMeta.sanitized
@@ -151,7 +126,7 @@ export async function POST(req: NextRequest, context: any) {
       })
 
       if (qErr) {
-        if (isUsageStorageUnavailable(qErr) || isRandomQuestionRpcUnavailable(qErr)) {
+        if (isUsageStorageUnavailable(qErr)) {
           usageDisabled = true
         } else {
           return NextResponse.json({ error: qErr.message || 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
@@ -160,7 +135,6 @@ export async function POST(req: NextRequest, context: any) {
         ids = asArray<{ id: string }>(qs).map((q) => q.id)
       }
     }
-
 
     if (ids.length === 0) {
       const { ids: fallbackIds, error: fallbackErr } = await fetchFallbackQuestions(
@@ -187,12 +161,21 @@ export async function POST(req: NextRequest, context: any) {
   const effectiveCount = Math.min(ids.length, configuredCount)
   const chosenIds = ids.slice(0, effectiveCount)
 
-  const nextSettings: Record<string, unknown> = { ...roundSettings, questions: chosenIds }
+  const updatedSettings: Record<string, unknown> = { ...roundSettings, questions: chosenIds }
   if (usageDisabled) {
-    nextSettings.usageTrackingDisabled = true
+    updatedSettings.usageTrackingDisabled = true
   } else {
-    delete (nextSettings as any).usageTrackingDisabled
+    delete (updatedSettings as any).usageTrackingDisabled
   }
+
+  if (runId && !usageDisabled) {
+    updatedSettings.runId = runId
+  } else {
+    delete (updatedSettings as any).runId
+  }
+
+
+  const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }
 
   if (runId && !usageDisabled) {
     nextSettings.runId = runId
@@ -210,11 +193,13 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: updErr.message }, { status: 400 })
   }
 
+
   if (chosenIds.length > 0 && runId && !usageDisabled) {
     const rows = chosenIds.map((questionId) => ({
       owner_id: session.user.id,
       game_code: gameCode,
       run_id: runId,
+
       category_id: round.category,
       round_id: round.id,
       question_id: questionId,
@@ -222,7 +207,9 @@ export async function POST(req: NextRequest, context: any) {
     const { error: usageErr } = await s
       .from('herd_question_usage')
       .upsert(rows, { onConflict: 'run_id,question_id' })
+
     if (usageErr && !isUsageStorageUnavailable(usageErr)) {
+
       return NextResponse.json({ error: usageErr.message }, { status: 400 })
     }
   }
