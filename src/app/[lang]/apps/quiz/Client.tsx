@@ -503,6 +503,28 @@ export default function QuizAdminClient({ lang }: Props) {
     [diagnostics, gameCode, startRound, totalRounds],
   )
 
+  const startGame = useCallback(async () => {
+    if (!gameCode) return false
+    try {
+      const startResp = await authFetch(`/api/games/${gameCode}/rounds/start`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ index: 0 }),
+      })
+      const startJson = await startResp.json().catch(() => ({}))
+      if (!startResp.ok || (!startJson?.ok && !startJson?.success)) {
+        alert(startJson.error || 'Nepodarilo sa spustiť hru')
+        return false
+      }
+      setGameStatus('running')
+      await fetchDiagnostics().catch(() => undefined)
+      return true
+    } catch (error) {
+      alert('Nepodarilo sa spustiť hru')
+      return false
+    }
+  }, [authFetch, fetchDiagnostics, gameCode])
+
   // --- Kategórie ---
   useEffect(() => {
     if (!session) return
@@ -645,6 +667,7 @@ export default function QuizAdminClient({ lang }: Props) {
       const latest = await fetchDiagnostics()
       if (totalRounds && newLength >= totalRounds) {
         await ensureInitialRoundStarted(latest)
+
       }
     } else {
       alert(j.error || 'Nepodarilo sa pridať kolo')
@@ -655,6 +678,7 @@ export default function QuizAdminClient({ lang }: Props) {
     if (!gameCode) return
     fetchDiagnostics().catch(() => undefined)
   }, [fetchDiagnostics, gameCode, rounds.length])
+
 
   useEffect(() => {
     if (!totalRounds) return
@@ -696,6 +720,7 @@ export default function QuizAdminClient({ lang }: Props) {
     if (ordinal === 1) return 'Začať 1. kolo'
     return `Spustiť ${ordinal}. kolo`
   }, [startableRound])
+
 
   const lockRound = async (roundId?: string) => {
     if (!gameCode) return
@@ -1078,6 +1103,7 @@ export default function QuizAdminClient({ lang }: Props) {
                     }}
                     disabled={startRoundLoading}
                     className="px-4 py-2 rounded bg-blue-600 text-white disabled:opacity-60 disabled:cursor-not-allowed"
+
                   >
                     Začať prvé kolo manuálne
                   </button>
@@ -1284,6 +1310,7 @@ export default function QuizAdminClient({ lang }: Props) {
                   className="px-3 py-2 rounded bg-orange-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   Uzamknúť odpovede
+
                 </button>
                 <button
                   onClick={() => {
@@ -1292,7 +1319,9 @@ export default function QuizAdminClient({ lang }: Props) {
                   disabled={!lockedRound}
                   className="px-3 py-2 rounded bg-blue-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                 >
+
                   Zobraziť výsledky
+
                 </button>
                 <button
                   onClick={() => {
@@ -1318,6 +1347,7 @@ export default function QuizAdminClient({ lang }: Props) {
                   Všetky kolá sú spracované. Po ukončení výsledkov sa hra automaticky presunie do ďalšieho kroku.
                 </p>
               )}
+
             </div>
           )}
 
