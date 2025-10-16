@@ -88,7 +88,6 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const roundSettings = ((round.settings as any) ?? {}) as Record<string, unknown>
-
   const storedRunId =
     typeof (roundSettings as any).runId === 'string' && (roundSettings as any).runId
       ? String((roundSettings as any).runId)
@@ -178,13 +177,16 @@ export async function POST(req: NextRequest, context: any) {
 
   const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }
 
+  if (runId && !usageDisabled) {
+    nextSettings.runId = runId
+  } else {
+    delete (nextSettings as any).runId
+  }
 
   const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
   const { error: updErr } = await s
     .from('herd_rounds')
-
-    .update({ settings: updatedSettings, status: 'shown', q_index: 0, count: effectiveCount })
-
+    .update({ settings: nextSettings, status: 'shown', q_index: 0, count: effectiveCount })
     .eq('id', round.id)
 
   if (updErr) {

@@ -1,5 +1,8 @@
 // PATH: src/app/api/games/[code]/_runs.ts
 import type { PostgrestError } from '@supabase/supabase-js'
+import type { SupabaseClient } from '@/integrations/supabase/server'
+
+type ServiceClient = SupabaseClient<any, any, any>
 
 import type { SupabaseClient } from '@/integrations/supabase/server'
 
@@ -13,7 +16,7 @@ export type RunRecord = {
 
 }
 
-function isPostgrestError(error: unknown): error is PostgrestError {
+export function isPostgrestError(error: unknown): error is PostgrestError {
   return Boolean(error && typeof error === 'object' && 'message' in error)
 }
 
