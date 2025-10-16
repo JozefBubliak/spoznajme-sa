@@ -12,147 +12,25 @@ type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 
 type NormalizedRoundStatus = 'setup' | 'ready' | 'running' | 'locked' | 'results' | 'complete'
-type RoundFlowSummary = {
-  ordered: RoundDiagnostic[]
-  activeRound: RoundDiagnostic | null
-  lockedRound: RoundDiagnostic | null
-  resultsRound: RoundDiagnostic | null
-  nextRound: RoundDiagnostic | null
-}
-
-const RUNNING_STATUS_KEYWORDS = new Set([
-  'running',
-  'active',
-  'playing',
-  'showing',
-  'shown',
-  'in_progress',
-  'prebieha',
-  'aktivne',
-  'spustene',
-])
-
-const LOCKED_STATUS_KEYWORDS = new Set([
-  'locked',
-  'closed',
-  'ended_answering',
-  'uzamknute',
-  'uzatvorene',
-  'uzamknute_odpovede',
-])
-
-const RESULTS_STATUS_KEYWORDS = new Set([
-  'results',
-  'scoring',
-  'scoreboard',
-  'showing_results',
-  'vysledky',
-  'vyhodnotenie',
-])
-
-const READY_STATUS_KEYWORDS = new Set([
-  'ready',
-  'queued',
-  'pending',
-  'prepared',
-  'pripravene',
-  'nachystane',
-  'priprava_hotova',
-])
-
-const COMPLETE_STATUS_KEYWORDS = new Set([
-  'complete',
-  'finished',
-  'done',
-  'dokoncone',
-  'ukoncene',
-])
 
 function normalizeRoundStatus(status: string | null | undefined): NormalizedRoundStatus {
-  const normalized = String(status ?? '').trim().toLowerCase()
-  const ascii = normalized.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-
-  if (RUNNING_STATUS_KEYWORDS.has(normalized) || RUNNING_STATUS_KEYWORDS.has(ascii)) {
+  const normalized = String(status ?? '').toLowerCase()
+  if (['running', 'active', 'playing', 'showing', 'shown', 'in_progress'].includes(normalized)) {
     return 'running'
   }
-
-  if (LOCKED_STATUS_KEYWORDS.has(normalized) || LOCKED_STATUS_KEYWORDS.has(ascii)) {
+  if (['locked', 'closed', 'ended_answering'].includes(normalized)) {
     return 'locked'
   }
-
-  if (RESULTS_STATUS_KEYWORDS.has(normalized) || RESULTS_STATUS_KEYWORDS.has(ascii)) {
+  if (['results', 'scoring', 'scoreboard', 'showing_results'].includes(normalized)) {
     return 'results'
   }
-
-  if (READY_STATUS_KEYWORDS.has(normalized) || READY_STATUS_KEYWORDS.has(ascii)) {
+  if (['ready', 'queued', 'pending', 'prepared'].includes(normalized)) {
     return 'ready'
   }
-
-  if (COMPLETE_STATUS_KEYWORDS.has(normalized) || COMPLETE_STATUS_KEYWORDS.has(ascii)) {
+  if (['complete', 'finished', 'done'].includes(normalized)) {
     return 'complete'
   }
-
   return 'setup'
-}
-
-
-function summarizeRoundFlow(rounds: RoundDiagnostic[]): RoundFlowSummary {
-  if (!rounds.length) {
-    return {
-      ordered: [],
-      activeRound: null,
-      lockedRound: null,
-      resultsRound: null,
-      nextRound: null,
-    }
-  }
-
-  const ordered = [...rounds].sort((a, b) => a.index - b.index)
-  let activeRound: RoundDiagnostic | null = null
-  let lockedRound: RoundDiagnostic | null = null
-  let resultsRound: RoundDiagnostic | null = null
-
-  const isSettledStatus = (status: NormalizedRoundStatus) =>
-    status === 'results' || status === 'complete'
-
-  for (const diag of ordered) {
-    const normalized = normalizeRoundStatus(diag.status)
-    if (!activeRound && normalized === 'running') {
-      activeRound = diag
-    }
-    if (!lockedRound && normalized === 'locked') {
-      lockedRound = diag
-    }
-    if (!resultsRound && normalized === 'results') {
-      resultsRound = diag
-    }
-  }
-
-  let nextRound: RoundDiagnostic | null = null
-  for (let idx = 0; idx < ordered.length; idx += 1) {
-    const diag = ordered[idx]
-    const normalized = normalizeRoundStatus(diag.status)
-    if (!['setup', 'ready'].includes(normalized)) {
-      continue
-    }
-
-    let readyToStart = true
-    for (let prevIdx = 0; prevIdx < idx; prevIdx += 1) {
-      const prev = ordered[prevIdx]
-      const prevStatus = normalizeRoundStatus(prev.status)
-      if (!isSettledStatus(prevStatus)) {
-        readyToStart = false
-        break
-      }
-    }
-
-    if (readyToStart) {
-      nextRound = diag
-      break
-    }
-  }
-
-  return { ordered, activeRound, lockedRound, resultsRound, nextRound }
 }
 
 
@@ -334,12 +212,16 @@ export default function QuizAdminClient({ lang }: Props) {
   }
 
   const fetchDiagnostics = useCallback(
-    async (): Promise<RoundDiagnostic[]> => {
+    async (index?: number): Promise<RoundDiagnostic[]> => {
       if (!gameCode) return []
       setDiagLoading(true)
       setDiagError(null)
       try {
-        const resp = await authFetch(`/api/games/${gameCode}/rounds/debug`, { cache: 'no-store' })
+        const url =
+          typeof index === 'number'
+            ? `/api/games/${gameCode}/rounds/debug?index=${index}`
+            : `/api/games/${gameCode}/rounds/debug`
+        const resp = await authFetch(url, { cache: 'no-store' })
         const data = await resp.json().catch(() => ({}))
         if (!resp.ok) {
           throw new Error(data?.error || 'Diagnostický prehľad sa nepodarilo načítať')
@@ -356,151 +238,6 @@ export default function QuizAdminClient({ lang }: Props) {
       }
     },
     [authFetch, gameCode],
-  )
-
-  const autoStartAttempts = useRef(new Set<string>())
-
-  useEffect(() => {
-    autoStartAttempts.current.clear()
-  }, [gameCode, runId])
-
-  // --- Ovládanie kola ---
-  type StartRoundOptions = {
-    roundId?: string
-    index?: number
-    diagnosticsOverride?: RoundDiagnostic[]
-    silent?: boolean
-  }
-
-  const startRound = useCallback(
-    async ({ roundId, index, diagnosticsOverride, silent }: StartRoundOptions = {}) => {
-      if (!gameCode || startRoundLoading) return false
-
-      const diagSource = diagnosticsOverride ?? diagnostics
-      const summary = summarizeRoundFlow(diagSource)
-      let resolvedIndex: number | null =
-        typeof index === 'number' && Number.isFinite(index) ? index : null
-
-      if (resolvedIndex === null && roundId) {
-        const diag = summary.ordered.find((d) => d.roundId === roundId)
-        if (typeof diag?.index === 'number') {
-          resolvedIndex = diag.index
-        } else {
-          const fallbackIndex = rounds.findIndex((r) => r.id === roundId)
-          if (fallbackIndex >= 0) {
-            resolvedIndex = fallbackIndex
-          }
-        }
-      }
-
-      if (resolvedIndex === null && summary.nextRound) {
-        resolvedIndex = summary.nextRound.index
-      }
-
-      if (resolvedIndex === null || resolvedIndex < 0) {
-        if (!silent) {
-          alert('Žiadne kolo nie je pripravené na spustenie')
-        }
-        return false
-      }
-
-      const candidate = summary.ordered.find((diag) => diag.index === resolvedIndex)
-      if (!candidate) {
-        if (!silent) {
-          alert('Nepodarilo sa nájsť kolo na spustenie')
-        }
-        return false
-      }
-
-      const candidateStatus = normalizeRoundStatus(candidate.status)
-      const previousSettled = summary.ordered
-        .filter((diag) => diag.index < candidate.index)
-        .every((diag) => {
-          const status = normalizeRoundStatus(diag.status)
-          return status === 'results' || status === 'complete'
-        })
-
-      if (!previousSettled) {
-        if (!silent) {
-          alert('Najprv dokončite predchádzajúce kolo (uzamknutie a výsledky)')
-        }
-        return false
-      }
-
-      if (!['ready', 'setup'].includes(candidateStatus)) {
-        if (!silent) {
-          alert('Kolo už beží alebo bolo uzavreté')
-        }
-        return false
-      }
-
-      try {
-        setStartRoundLoading(true)
-        const payload: { index: number; roundId?: string } = { index: resolvedIndex }
-        if (candidate.roundId) {
-          payload.roundId = candidate.roundId
-        }
-
-        const r = await authFetch(`/api/games/${gameCode}/rounds/start`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
-        const j = await r.json().catch(() => ({}))
-        if (!r.ok || (!j?.ok && !j?.success)) {
-          if (!silent) {
-            alert(j.error || 'Nepodarilo sa spustiť kolo')
-          }
-          return false
-        }
-        await fetchDiagnostics().catch(() => undefined)
-        return true
-      } catch (error) {
-        if (!silent) {
-          alert('Nepodarilo sa spustiť kolo')
-        }
-        return false
-      } finally {
-        setStartRoundLoading(false)
-      }
-    },
-    [authFetch, diagnostics, fetchDiagnostics, gameCode, rounds, startRoundLoading],
-  )
-
-  const ensureInitialRoundStarted = useCallback(
-    async (latestDiagnostics?: RoundDiagnostic[]) => {
-      if (!gameCode || !totalRounds) return
-
-      const source = latestDiagnostics && latestDiagnostics.length > 0 ? latestDiagnostics : diagnostics
-      if (source.length < totalRounds) return
-
-      const summary = summarizeRoundFlow(source)
-      if (!summary.ordered.length) return
-
-      if (summary.activeRound || summary.lockedRound || summary.resultsRound) {
-        return
-      }
-
-      const firstRound = summary.ordered.find((diag) => diag.index === 0) ?? null
-      if (!firstRound) return
-
-      const normalized = normalizeRoundStatus(firstRound.status)
-      if (!['ready', 'setup'].includes(normalized)) return
-
-      const attemptKey = firstRound.roundId || `index:${firstRound.index}`
-      if (autoStartAttempts.current.has(attemptKey)) return
-
-      autoStartAttempts.current.add(attemptKey)
-      const started = await startRound({
-        index: firstRound.index,
-        diagnosticsOverride: summary.ordered,
-        silent: true,
-      })
-      if (!started) {
-        autoStartAttempts.current.delete(attemptKey)
-      }
-    },
-    [diagnostics, gameCode, startRound, totalRounds],
   )
 
   const startGame = useCallback(async () => {
@@ -664,7 +401,7 @@ export default function QuizAdminClient({ lang }: Props) {
       const catName = categories.find(c => c.id === selectedCat)?.name || selectedCat
       const newLength = rounds.length + 1
       setRounds(prev => [...prev, { id: j.roundId, category: catName }])
-      const latest = await fetchDiagnostics()
+      const latest = await fetchDiagnostics(rounds.length)
       if (totalRounds && newLength >= totalRounds) {
         await ensureInitialRoundStarted(latest)
 
@@ -679,15 +416,139 @@ export default function QuizAdminClient({ lang }: Props) {
     fetchDiagnostics().catch(() => undefined)
   }, [fetchDiagnostics, gameCode, rounds.length])
 
-
   useEffect(() => {
+    if (gameStatus !== 'configuring') return
     if (!totalRounds) return
     if (diagnostics.length === 0) return
     ensureInitialRoundStarted().catch(() => undefined)
-  }, [diagnostics, ensureInitialRoundStarted, totalRounds])
+  }, [diagnostics, ensureInitialRoundStarted, gameStatus, totalRounds])
 
-  const roundFlow = useMemo(() => summarizeRoundFlow(diagnostics), [diagnostics])
-  const { activeRound: runningRound, lockedRound, resultsRound, nextRound: startableRound } = roundFlow
+  // --- Ovládanie kola ---
+  type StartRoundOptions = {
+    roundId?: string
+    index?: number
+    diagnosticsOverride?: RoundDiagnostic[]
+    silent?: boolean
+  }
+
+  const startRound = useCallback(
+    async ({ roundId, index, diagnosticsOverride, silent }: StartRoundOptions = {}) => {
+      if (!gameCode || startRoundLoading) return false
+
+      const diagSource = diagnosticsOverride ?? diagnostics
+      let resolvedIndex: number | null =
+        typeof index === 'number' && Number.isFinite(index) ? index : null
+
+      if (resolvedIndex === null && roundId) {
+        const diag = diagSource.find((d) => d.roundId === roundId)
+        if (typeof diag?.index === 'number') {
+          resolvedIndex = diag.index
+        } else {
+          const fallbackIndex = rounds.findIndex((r) => r.id === roundId)
+          if (fallbackIndex >= 0) {
+            resolvedIndex = fallbackIndex
+          }
+        }
+      }
+
+      if (resolvedIndex === null) {
+        const sorted = [...diagSource].sort((a, b) => a.index - b.index)
+        const firstStartable = sorted.find((diag) => {
+          const status = normalizeRoundStatus(diag.status)
+          return status === 'ready' || status === 'setup'
+        })
+        if (firstStartable) {
+          resolvedIndex = firstStartable.index
+        }
+      }
+
+      if (resolvedIndex === null || resolvedIndex < 0) {
+        if (!silent) {
+          alert('Žiadne kolo nie je pripravené na spustenie')
+        }
+        return false
+      }
+
+      try {
+        setStartRoundLoading(true)
+        const r = await authFetch(`/api/games/${gameCode}/rounds/start`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ index: resolvedIndex }),
+        })
+        const j = await r.json().catch(() => ({}))
+        if (!r.ok || (!j?.ok && !j?.success)) {
+          if (!silent) {
+            alert(j.error || 'Nepodarilo sa spustiť kolo')
+          }
+          return false
+        }
+        setGameStatus('running')
+        await fetchDiagnostics(resolvedIndex).catch(() => undefined)
+        return true
+      } catch (error) {
+        if (!silent) {
+          alert('Nepodarilo sa spustiť kolo')
+        }
+        return false
+      } finally {
+        setStartRoundLoading(false)
+      }
+    },
+    [authFetch, diagnostics, fetchDiagnostics, gameCode, rounds, startRoundLoading],
+  )
+
+  const ensureInitialRoundStarted = useCallback(
+    async (latestDiagnostics?: RoundDiagnostic[]) => {
+      if (!gameCode) return
+      const diagList = (latestDiagnostics && latestDiagnostics.length > 0
+        ? latestDiagnostics
+        : diagnostics
+      ).slice()
+      if (!diagList.length) return
+      if (totalRounds && diagList.length < totalRounds) return
+
+      const hasProgress = diagList.some((diag) => {
+        const status = normalizeRoundStatus(diag.status)
+        return ['running', 'locked', 'results', 'complete'].includes(status)
+      })
+      if (hasProgress) return
+
+      const sorted = diagList.sort((a, b) => a.index - b.index)
+      const firstStartable = sorted.find((diag) => {
+        const status = normalizeRoundStatus(diag.status)
+        return status === 'ready' || status === 'setup'
+      })
+      if (!firstStartable) return
+
+      await startRound({ index: firstStartable.index, diagnosticsOverride: diagList, silent: true })
+    },
+    [diagnostics, gameCode, startRound, totalRounds],
+  )
+
+  const startableRound = useMemo(() => {
+    if (diagnostics.length === 0) return null
+    const sorted = [...diagnostics].sort((a, b) => a.index - b.index)
+    return (
+      sorted.find((diag) => {
+        const status = normalizeRoundStatus(diag.status)
+        return status === 'ready' || status === 'setup'
+      }) || null
+    )
+  }, [diagnostics])
+
+  const runningRound = useMemo(
+    () => diagnostics.find((diag) => normalizeRoundStatus(diag.status) === 'running') || null,
+    [diagnostics],
+  )
+  const lockedRound = useMemo(
+    () => diagnostics.find((diag) => normalizeRoundStatus(diag.status) === 'locked') || null,
+    [diagnostics],
+  )
+  const resultsRound = useMemo(
+    () => diagnostics.find((diag) => normalizeRoundStatus(diag.status) === 'results') || null,
+    [diagnostics],
+  )
 
   const canStartNextRound =
     Boolean(startableRound) && !runningRound && !lockedRound && !resultsRound && !startRoundLoading
@@ -695,32 +556,6 @@ export default function QuizAdminClient({ lang }: Props) {
   const showRoundControls =
     diagnostics.length > 0 &&
     (gameStatus === 'running' || runningRound !== null || lockedRound !== null || resultsRound !== null)
-
-  const roundTimeline = useMemo(
-    () =>
-      roundFlow.ordered.map((diag) => {
-        const normalized = normalizeRoundStatus(diag.status)
-        const isCurrent =
-          (runningRound && runningRound.index === diag.index) ||
-          (lockedRound && lockedRound.index === diag.index) ||
-          (resultsRound && resultsRound.index === diag.index)
-        return {
-          index: diag.index,
-          label: translateRoundStatus(diag.status),
-          normalized,
-          isCurrent,
-        }
-      }),
-    [lockedRound, resultsRound, roundFlow, runningRound],
-  )
-
-  const startRoundLabel = useMemo(() => {
-    if (!startableRound) return 'Začať pripravené kolo'
-    const ordinal = startableRound.index + 1
-    if (ordinal === 1) return 'Začať 1. kolo'
-    return `Spustiť ${ordinal}. kolo`
-  }, [startableRound])
-
 
   const lockRound = async (roundId?: string) => {
     if (!gameCode) return
@@ -1280,18 +1115,6 @@ export default function QuizAdminClient({ lang }: Props) {
                   )}
                 </div>
               </div>
-              {roundTimeline.length > 0 && (
-                <div className="flex flex-wrap gap-2 text-xs">
-                  {roundTimeline.map((item) => (
-                    <span
-                      key={`timeline-${item.index}`}
-                      className={`px-3 py-1 rounded-full border font-medium transition ${ROUND_STATUS_STYLE[item.normalized]} ${item.isCurrent ? 'ring-2 ring-offset-1 ring-current' : ''}`}
-                    >
-                      #{item.index + 1} • {item.label}
-                    </span>
-                  ))}
-                </div>
-              )}
               <div className="flex gap-2 flex-wrap">
                 <button
                   onClick={() => {
@@ -1300,7 +1123,7 @@ export default function QuizAdminClient({ lang }: Props) {
                   disabled={!canStartNextRound}
                   className="px-3 py-2 rounded bg-green-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {startRoundLoading ? 'Spúšťam…' : startRoundLabel}
+                  {startRoundLoading ? 'Spúšťam…' : 'Začať pripravené kolo'}
                 </button>
                 <button
                   onClick={() => {
@@ -1310,7 +1133,6 @@ export default function QuizAdminClient({ lang }: Props) {
                   className="px-3 py-2 rounded bg-orange-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   Uzamknúť odpovede
-
                 </button>
                 <button
                   onClick={() => {
@@ -1319,9 +1141,7 @@ export default function QuizAdminClient({ lang }: Props) {
                   disabled={!lockedRound}
                   className="px-3 py-2 rounded bg-blue-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-
                   Zobraziť výsledky
-
                 </button>
                 <button
                   onClick={() => {
