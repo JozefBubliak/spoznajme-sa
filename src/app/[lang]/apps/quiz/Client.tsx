@@ -11,6 +11,57 @@ type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
 type GameStatus = 'waiting' | 'configuring' | 'running' | 'finished'
 
+type NormalizedRoundStatus = 'setup' | 'ready' | 'running' | 'locked' | 'results' | 'complete'
+
+function normalizeRoundStatus(status: string | null | undefined): NormalizedRoundStatus {
+  const normalized = String(status ?? '').toLowerCase()
+  if (['running', 'active', 'playing', 'showing', 'shown', 'in_progress'].includes(normalized)) {
+    return 'running'
+  }
+  if (['locked', 'closed', 'ended_answering'].includes(normalized)) {
+    return 'locked'
+  }
+  if (['results', 'scoring', 'scoreboard', 'showing_results'].includes(normalized)) {
+    return 'results'
+  }
+  if (['ready', 'queued', 'pending', 'prepared'].includes(normalized)) {
+    return 'ready'
+  }
+  if (['complete', 'finished', 'done'].includes(normalized)) {
+    return 'complete'
+  }
+  return 'setup'
+}
+
+
+function translateRoundStatus(status: string): string {
+  const normalized = normalizeRoundStatus(status)
+  switch (normalized) {
+    case 'ready':
+      return 'pripravené'
+    case 'running':
+      return 'spustené'
+    case 'locked':
+      return 'uzamknuté'
+    case 'results':
+      return 'výsledky'
+    case 'complete':
+      return 'dokončené'
+    case 'setup':
+    default:
+      return 'príprava'
+  }
+}
+
+const ROUND_STATUS_STYLE: Record<NormalizedRoundStatus, string> = {
+  setup: 'bg-gray-100 text-gray-600 border-gray-200',
+  ready: 'bg-blue-50 text-blue-700 border-blue-200',
+  running: 'bg-green-50 text-green-700 border-green-200',
+  locked: 'bg-orange-50 text-orange-700 border-orange-200',
+  results: 'bg-purple-50 text-purple-700 border-purple-200',
+  complete: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+}
+
 
 function mapPhase(phase: string): GameStatus {
   const p = phase.toLowerCase().trim()
@@ -34,6 +85,11 @@ type RoundDiagnostic = {
   rpcIds: string[]
   rpcCount: number
   rpcError: string | null
+  fallbackTried: boolean
+  fallbackClassicFilter: boolean
+  fallbackIds: string[]
+  fallbackCount: number
+  fallbackError: string | null
   storedQuestionCount: number
   storedQuestionIds: string[]
   runId: string | null
@@ -63,6 +119,14 @@ export default function QuizAdminClient({ lang }: Props) {
   const [categories, setCategories] = useState<Category[]>([])
   const [selectedCat, setSelectedCat] = useState<string>('')
 
+  const categoryLabelById = useMemo(() => {
+    const map = new Map<string, string>()
+    for (const cat of categories) {
+      map.set(cat.id, cat.name)
+    }
+    return map
+  }, [categories])
+
   const [count, setCount] = useState<number>(10)
   const [timeLimit, setTimeLimit] = useState<number>(30)
   const [mode, setMode] = useState<Mode>('classic')
@@ -85,6 +149,7 @@ export default function QuizAdminClient({ lang }: Props) {
   const [diagnostics, setDiagnostics] = useState<RoundDiagnostic[]>([])
   const [diagLoading, setDiagLoading] = useState(false)
   const [diagError, setDiagError] = useState<string | null>(null)
+  const [startRoundLoading, setStartRoundLoading] = useState(false)
 
   const hasCreated = useRef(false)
 
@@ -114,6 +179,13 @@ export default function QuizAdminClient({ lang }: Props) {
       rpcIds: Array.isArray(raw?.rpcIds) ? raw.rpcIds.map((id: any) => String(id)) : [],
       rpcCount: Number.isFinite(Number(raw?.rpcCount)) ? Number(raw.rpcCount) : 0,
       rpcError: raw?.rpcError ? String(raw.rpcError) : null,
+      fallbackTried: Boolean(raw?.fallbackTried),
+      fallbackClassicFilter: Boolean(raw?.fallbackClassicFilter),
+      fallbackIds: Array.isArray(raw?.fallbackIds)
+        ? raw.fallbackIds.map((id: any) => String(id))
+        : [],
+      fallbackCount: Number.isFinite(Number(raw?.fallbackCount)) ? Number(raw.fallbackCount) : 0,
+      fallbackError: raw?.fallbackError ? String(raw.fallbackError) : null,
       storedQuestionCount: Number.isFinite(Number(raw?.storedQuestionCount))
         ? Number(raw.storedQuestionCount)
         : 0,
@@ -142,28 +214,56 @@ export default function QuizAdminClient({ lang }: Props) {
     }))
   }
 
-  const fetchDiagnostics = useCallback(async (index?: number) => {
-    if (!gameCode) return
-    setDiagLoading(true)
-    setDiagError(null)
-    try {
-      const url =
-        typeof index === 'number'
-          ? `/api/games/${gameCode}/rounds/debug?index=${index}`
-          : `/api/games/${gameCode}/rounds/debug`
-      const resp = await authFetch(url, { cache: 'no-store' })
-      const data = await resp.json().catch(() => ({}))
-      if (!resp.ok) {
-        throw new Error(data?.error || 'Diagnostický prehľad sa nepodarilo načítať')
+  const fetchDiagnostics = useCallback(
+    async (index?: number): Promise<RoundDiagnostic[]> => {
+      if (!gameCode) return []
+      setDiagLoading(true)
+      setDiagError(null)
+      try {
+        const url =
+          typeof index === 'number'
+            ? `/api/games/${gameCode}/rounds/debug?index=${index}`
+            : `/api/games/${gameCode}/rounds/debug`
+        const resp = await authFetch(url, { cache: 'no-store' })
+        const data = await resp.json().catch(() => ({}))
+        if (!resp.ok) {
+          throw new Error(data?.error || 'Diagnostický prehľad sa nepodarilo načítať')
+        }
+        const normalized = normalizeDiagnostics(data)
+        setDiagnostics(normalized)
+        return normalized
+      } catch (err) {
+        setDiagnostics([])
+        setDiagError(err instanceof Error ? err.message : 'Diagnostika zlyhala')
+        return []
+      } finally {
+        setDiagLoading(false)
       }
-      setDiagnostics(normalizeDiagnostics(data))
-    } catch (err) {
-      setDiagnostics([])
-      setDiagError(err instanceof Error ? err.message : 'Diagnostika zlyhala')
-    } finally {
-      setDiagLoading(false)
+    },
+    [authFetch, gameCode],
+  )
+
+  const startGame = useCallback(async () => {
+    if (!gameCode) return false
+    try {
+      const startResp = await authFetch(`/api/games/${gameCode}/rounds/start`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ index: 0 }),
+      })
+      const startJson = await startResp.json().catch(() => ({}))
+      if (!startResp.ok || (!startJson?.ok && !startJson?.success)) {
+        alert(startJson.error || 'Nepodarilo sa spustiť hru')
+        return false
+      }
+      setGameStatus('running')
+      await fetchDiagnostics().catch(() => undefined)
+      return true
+    } catch (error) {
+      alert('Nepodarilo sa spustiť hru')
+      return false
     }
-  }, [authFetch, gameCode])
+  }, [authFetch, fetchDiagnostics, gameCode])
 
   // --- Kategórie ---
   useEffect(() => {
@@ -201,6 +301,10 @@ export default function QuizAdminClient({ lang }: Props) {
       setRunNumber(null)
       setRunId(null)
       setGameStatus('waiting')
+      setTotalRounds(0)
+      setRoundInput(1)
+      setDiagnostics([])
+      setDiagError(null)
     } else {
       alert(j.error || 'Nepodarilo sa vytvoriť hru')
     }
@@ -298,8 +402,13 @@ export default function QuizAdminClient({ lang }: Props) {
     const j = await r.json()
     if (j.roundId) {
       const catName = categories.find(c => c.id === selectedCat)?.name || selectedCat
+      const newLength = rounds.length + 1
       setRounds(prev => [...prev, { id: j.roundId, category: catName }])
-      await fetchDiagnostics(rounds.length)
+      const latest = await fetchDiagnostics(rounds.length)
+      if (totalRounds && newLength >= totalRounds) {
+        await ensureInitialRoundStarted(latest)
+
+      }
     } else {
       alert(j.error || 'Nepodarilo sa pridať kolo')
     }
@@ -310,32 +419,147 @@ export default function QuizAdminClient({ lang }: Props) {
     fetchDiagnostics().catch(() => undefined)
   }, [fetchDiagnostics, gameCode, rounds.length])
 
-  const startGame = async () => {
-    if (!gameCode) return
-    const startResp = await authFetch(`/api/games/${gameCode}/rounds/start`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ index: 0 }),
-    })
-    const startJson = await startResp.json().catch(() => ({}))
-    if (!startResp.ok) {
-      alert(startJson.error || 'Nepodarilo sa spustiť hru')
-      return
-    }
-    setGameStatus('running')
-  }
+  useEffect(() => {
+    if (gameStatus !== 'configuring') return
+    if (!totalRounds) return
+    if (diagnostics.length === 0) return
+    ensureInitialRoundStarted().catch(() => undefined)
+  }, [diagnostics, ensureInitialRoundStarted, gameStatus, totalRounds])
 
   // --- Ovládanie kola ---
-  const startRound = async (roundId?: string) => {
-    if (!gameCode) return
-    const r = await authFetch(`/api/games/${gameCode}/rounds/start`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ roundId }),
-    })
-    const j = await r.json().catch(() => ({}))
-    if (!r.ok || !j.success) alert(j.error || 'Nepodarilo sa spustiť kolo')
+  type StartRoundOptions = {
+    roundId?: string
+    index?: number
+    diagnosticsOverride?: RoundDiagnostic[]
+    silent?: boolean
   }
+
+  const startRound = useCallback(
+    async ({ roundId, index, diagnosticsOverride, silent }: StartRoundOptions = {}) => {
+      if (!gameCode || startRoundLoading) return false
+
+      const diagSource = diagnosticsOverride ?? diagnostics
+      let resolvedIndex: number | null =
+        typeof index === 'number' && Number.isFinite(index) ? index : null
+
+      if (resolvedIndex === null && roundId) {
+        const diag = diagSource.find((d) => d.roundId === roundId)
+        if (typeof diag?.index === 'number') {
+          resolvedIndex = diag.index
+        } else {
+          const fallbackIndex = rounds.findIndex((r) => r.id === roundId)
+          if (fallbackIndex >= 0) {
+            resolvedIndex = fallbackIndex
+          }
+        }
+      }
+
+      if (resolvedIndex === null) {
+        const sorted = [...diagSource].sort((a, b) => a.index - b.index)
+        const firstStartable = sorted.find((diag) => {
+          const status = normalizeRoundStatus(diag.status)
+          return status === 'ready' || status === 'setup'
+        })
+        if (firstStartable) {
+          resolvedIndex = firstStartable.index
+        }
+      }
+
+      if (resolvedIndex === null || resolvedIndex < 0) {
+        if (!silent) {
+          alert('Žiadne kolo nie je pripravené na spustenie')
+        }
+        return false
+      }
+
+      try {
+        setStartRoundLoading(true)
+        const r = await authFetch(`/api/games/${gameCode}/rounds/start`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ index: resolvedIndex }),
+        })
+        const j = await r.json().catch(() => ({}))
+        if (!r.ok || (!j?.ok && !j?.success)) {
+          if (!silent) {
+            alert(j.error || 'Nepodarilo sa spustiť kolo')
+          }
+          return false
+        }
+        setGameStatus('running')
+        await fetchDiagnostics(resolvedIndex).catch(() => undefined)
+        return true
+      } catch (error) {
+        if (!silent) {
+          alert('Nepodarilo sa spustiť kolo')
+        }
+        return false
+      } finally {
+        setStartRoundLoading(false)
+      }
+    },
+    [authFetch, diagnostics, fetchDiagnostics, gameCode, rounds, startRoundLoading],
+  )
+
+  const ensureInitialRoundStarted = useCallback(
+    async (latestDiagnostics?: RoundDiagnostic[]) => {
+      if (!gameCode) return
+      const diagList = (latestDiagnostics && latestDiagnostics.length > 0
+        ? latestDiagnostics
+        : diagnostics
+      ).slice()
+      if (!diagList.length) return
+      if (totalRounds && diagList.length < totalRounds) return
+
+      const hasProgress = diagList.some((diag) => {
+        const status = normalizeRoundStatus(diag.status)
+        return ['running', 'locked', 'results', 'complete'].includes(status)
+      })
+      if (hasProgress) return
+
+      const sorted = diagList.sort((a, b) => a.index - b.index)
+      const firstStartable = sorted.find((diag) => {
+        const status = normalizeRoundStatus(diag.status)
+        return status === 'ready' || status === 'setup'
+      })
+      if (!firstStartable) return
+
+      await startRound({ index: firstStartable.index, diagnosticsOverride: diagList, silent: true })
+    },
+    [diagnostics, gameCode, startRound, totalRounds],
+  )
+
+  const startableRound = useMemo(() => {
+    if (diagnostics.length === 0) return null
+    const sorted = [...diagnostics].sort((a, b) => a.index - b.index)
+    return (
+      sorted.find((diag) => {
+        const status = normalizeRoundStatus(diag.status)
+        return status === 'ready' || status === 'setup'
+      }) || null
+    )
+  }, [diagnostics])
+
+  const runningRound = useMemo(
+    () => diagnostics.find((diag) => normalizeRoundStatus(diag.status) === 'running') || null,
+    [diagnostics],
+  )
+  const lockedRound = useMemo(
+    () => diagnostics.find((diag) => normalizeRoundStatus(diag.status) === 'locked') || null,
+    [diagnostics],
+  )
+  const resultsRound = useMemo(
+    () => diagnostics.find((diag) => normalizeRoundStatus(diag.status) === 'results') || null,
+    [diagnostics],
+  )
+
+  const canStartNextRound =
+    Boolean(startableRound) && !runningRound && !lockedRound && !resultsRound && !startRoundLoading
+
+  const showRoundControls =
+    diagnostics.length > 0 &&
+    (gameStatus === 'running' || runningRound !== null || lockedRound !== null || resultsRound !== null)
+
   const lockRound = async (roundId?: string) => {
     if (!gameCode) return
     const r = await authFetch(`/api/games/${gameCode}/rounds/lock`, {
@@ -343,9 +567,14 @@ export default function QuizAdminClient({ lang }: Props) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ roundId }),
     })
-    const j = await r.json()
-    if (!j.success) alert(j.error || 'Nepodarilo sa uzamknúť kolo')
+    const j = await r.json().catch(() => ({}))
+    if (!j.success) {
+      alert(j.error || 'Nepodarilo sa uzamknúť kolo')
+      return
+    }
+    await fetchDiagnostics().catch(() => undefined)
   }
+
   const showResults = async (roundId?: string) => {
     if (!gameCode) return
     const r = await authFetch(`/api/games/${gameCode}/rounds/results`, {
@@ -354,9 +583,14 @@ export default function QuizAdminClient({ lang }: Props) {
       body: JSON.stringify({ roundId }),
     })
     const j = await r.json()
-    if (j.success && j.leaderboard) setLeaderboard(j.leaderboard)
-    else alert(j.error || 'Nepodarilo sa vyhodnotiť')
+    if (j.success && j.leaderboard) {
+      setLeaderboard(j.leaderboard)
+      await fetchDiagnostics().catch(() => undefined)
+    } else {
+      alert(j.error || 'Nepodarilo sa vyhodnotiť')
+    }
   }
+
   const nextQuestion = async (roundId?: string) => {
     if (!gameCode) return
     const r = await authFetch(`/api/games/${gameCode}/rounds/next`, {
@@ -365,7 +599,11 @@ export default function QuizAdminClient({ lang }: Props) {
       body: JSON.stringify({ roundId }),
     })
     const j = await r.json()
-    if (!j.success) alert(j.error || 'Nepodarilo sa prejsť na ďalšiu otázku')
+    if (!j.success) {
+      alert(j.error || 'Nepodarilo sa prejsť na ďalšiu otázku')
+      return
+    }
+    await fetchDiagnostics().catch(() => undefined)
   }
 
   // Link pre hráčov – musí obsahovať aj jazykový segment
@@ -691,13 +929,21 @@ export default function QuizAdminClient({ lang }: Props) {
                   </button>
                 </>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <h2 className="font-semibold">Všetky kolá nastavené</h2>
+                  <p className="text-sm text-muted-foreground">
+                    Prvá otázka sa spustí automaticky hneď po spracovaní nastavení. Ak sa projekcia
+                    nerozbehne do niekoľkých sekúnd, spustite prvé kolo manuálne.
+                  </p>
                   <button
-                    onClick={startGame}
-                    className="px-4 py-2 rounded bg-blue-600 text-white"
+                    onClick={() => {
+                      void startRound({ index: 0 })
+                    }}
+                    disabled={startRoundLoading}
+                    className="px-4 py-2 rounded bg-blue-600 text-white disabled:opacity-60 disabled:cursor-not-allowed"
+
                   >
-                    Ideme hrať
+                    Začať prvé kolo manuálne
                   </button>
                 </div>
               )}
@@ -735,17 +981,24 @@ export default function QuizAdminClient({ lang }: Props) {
               </p>
             )}
             <div className="space-y-3">
-              {diagnostics.map((diag) => (
-                <div key={`${diag.roundId}-${diag.index}`} className="rounded border bg-gray-50 p-3 text-sm space-y-2">
-                  <div className="flex flex-wrap justify-between gap-2">
-                    <div>
-                      <span className="font-semibold">Kolo #{diag.index + 1}</span>{' '}
-                      <span className="text-muted-foreground">({diag.categoryId})</span>
+              {diagnostics.map((diag) => {
+                const categoryLabel = categoryLabelById.get(diag.categoryId) ?? diag.categoryId
+                const statusLabel = translateRoundStatus(diag.status)
+                return (
+                  <div
+                    key={`${diag.roundId}-${diag.index}`}
+                    className="rounded border bg-gray-50 p-3 text-sm space-y-2"
+                  >
+                    <div className="flex flex-wrap justify-between gap-2">
+                      <div>
+                        <span className="font-semibold">Kolo #{diag.index + 1}</span>{' '}
+                        <span className="text-muted-foreground">• {categoryLabel}</span>
+                      </div>
+                      <div className="text-muted-foreground flex flex-col text-xs text-right">
+                        <span>Locale: <code>{diag.localePrefix || '—'}</code></span>
+                        <span>Stav: {statusLabel}</span>
+                      </div>
                     </div>
-                    <div>
-                      Locale: <code>{diag.localePrefix || '—'}</code>
-                    </div>
-                  </div>
                   <div className="grid md:grid-cols-4 gap-2">
                     <div>
                       Požadovaný počet: <strong>{diag.configuredCount}</strong>
@@ -760,6 +1013,24 @@ export default function QuizAdminClient({ lang }: Props) {
                       Beh: <strong>{diag.runNumber ? `H${diag.runNumber}` : '—'}</strong>
                     </div>
                   </div>
+                  {diag.fallbackTried && (
+                    <div className="grid md:grid-cols-4 gap-2 text-sm">
+                      <div>
+                        Fallback ID: <strong>{diag.fallbackCount}</strong>
+                      </div>
+                      <div>
+                        Filter classic:{' '}
+                        <strong>{diag.fallbackClassicFilter ? 'áno' : 'nie'}</strong>
+                      </div>
+                      <div className="md:col-span-2">
+                        {diag.fallbackError ? (
+                          <span className="text-red-600">Chyba fallbacku: {diag.fallbackError}</span>
+                        ) : (
+                          <span className="text-muted-foreground">Fallback prebehol bez chyby.</span>
+                        )}
+                      </div>
+                    </div>
+                  )}
                   {diag.countError && (
                     <div className="text-red-600">Chyba pri načítaní počtu: {diag.countError}</div>
                   )}
@@ -793,7 +1064,7 @@ export default function QuizAdminClient({ lang }: Props) {
                       </code>
                     </div>
                   )}
-                  {(diag.rpcIds.length > 0 || diag.storedQuestionIds.length > 0) && (
+                  {(diag.rpcIds.length > 0 || diag.storedQuestionIds.length > 0 || diag.fallbackIds.length > 0) && (
                     <details className="bg-white rounded border p-2">
                       <summary className="cursor-pointer">Zobraziť ID otázok</summary>
                       <div className="mt-2 space-y-2">
@@ -809,6 +1080,14 @@ export default function QuizAdminClient({ lang }: Props) {
                             {diag.storedQuestionIds.join(', ')}
                           </code>
                         </div>
+                        {diag.fallbackIds.length > 0 && (
+                          <div>
+                            <div className="font-medium">ID z fallbacku</div>
+                            <code className="block whitespace-pre-wrap break-all">
+                              {diag.fallbackIds.join(', ')}
+                            </code>
+                          </div>
+                        )}
                         <div>
                           <div className="font-medium">ID v tabuľke použitia</div>
                           <code className="block whitespace-pre-wrap break-all">
@@ -818,28 +1097,82 @@ export default function QuizAdminClient({ lang }: Props) {
                       </div>
                     </details>
                   )}
-                </div>
-              ))}
+                  </div>
+                )
+              })}
             </div>
           </div>
 
-          {rounds.length > 0 && gameStatus === 'running' && (
+          {showRoundControls && (
             <div className="rounded-xl border p-4 space-y-3">
-              <h2 className="font-semibold">Ovládanie kola</h2>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="font-semibold">Ovládanie kola</h2>
+                <div className="flex flex-col text-xs text-muted-foreground text-right">
+                  {runningRound && <span>Prebieha kolo #{runningRound.index + 1}</span>}
+                  {!runningRound && lockedRound && (
+                    <span>Čaká sa na vyhodnotenie kola #{lockedRound.index + 1}</span>
+                  )}
+                  {!runningRound && !lockedRound && resultsRound && (
+                    <span>Zobrazené výsledky kola #{resultsRound.index + 1}</span>
+                  )}
+                  {canStartNextRound && startableRound && (
+                    <span>Pripravené kolo: #{startableRound.index + 1}</span>
+                  )}
+                </div>
+              </div>
               <div className="flex gap-2 flex-wrap">
-                <button onClick={() => startRound()} className="px-3 py-2 rounded bg-green-600 text-white text-sm">
-                  Štart kola
+                <button
+                  onClick={() => {
+                    void startRound()
+                  }}
+                  disabled={!canStartNextRound}
+                  className="px-3 py-2 rounded bg-green-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {startRoundLoading ? 'Spúšťam…' : 'Začať pripravené kolo'}
                 </button>
-                <button onClick={() => lockRound()} className="px-3 py-2 rounded bg-orange-600 text-white text-sm">
-                  Uzamknúť
+                <button
+                  onClick={() => {
+                    void lockRound(runningRound?.roundId)
+                  }}
+                  disabled={!runningRound}
+                  className="px-3 py-2 rounded bg-orange-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  Uzamknúť odpovede
                 </button>
-                <button onClick={() => showResults()} className="px-3 py-2 rounded bg-blue-600 text-white text-sm">
-                  Vyhodnotiť
+                <button
+                  onClick={() => {
+                    void showResults(lockedRound?.roundId)
+                  }}
+                  disabled={!lockedRound}
+                  className="px-3 py-2 rounded bg-blue-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  Zobraziť výsledky
                 </button>
-                <button onClick={() => nextQuestion()} className="px-3 py-2 rounded bg-purple-600 text-white text-sm">
-                  Ďalšia otázka
+                <button
+                  onClick={() => {
+                    void nextQuestion(resultsRound?.roundId)
+                  }}
+                  disabled={!resultsRound}
+                  className="px-3 py-2 rounded bg-purple-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  Ďalšia otázka v kole
                 </button>
               </div>
+              <p className="text-xs text-muted-foreground">
+                Odpovede sa po uplynutí času uzamknú automaticky. Manuálne zásahy použite len pri výnimočných situáciách
+                (napríklad keď chcete kolo ukončiť skôr alebo ak časovač zlyhá).
+              </p>
+              {startableRound && !canStartNextRound && (
+                <p className="text-xs text-muted-foreground">
+                  Ďalšie kolo #{startableRound.index + 1} sa pripraví po dokončení aktuálneho kola a zobrazení výsledkov.
+                </p>
+              )}
+              {!startableRound && diagnostics.length > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  Všetky kolá sú spracované. Po ukončení výsledkov sa hra automaticky presunie do ďalšieho kroku.
+                </p>
+              )}
+
             </div>
           )}
 

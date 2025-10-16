@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { channelFor } from '@/lib/realtime/types'
 import { supabaseServer } from '@/integrations/supabase/server'
+import type { SupabaseClient } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
 import { asArray } from '@/lib/supabase/safe'
 
@@ -71,6 +72,10 @@ export async function POST(req: NextRequest, context: any) {
   let usageDisabled = !runId || run?.disabled
 
 
+  const runId = run?.id ?? null
+  let usageDisabled = !runId || run?.disabled
+
+
   // načítaj konfiguráciu kola
   const { data: round, error: roundErr } = await s
     .from('herd_rounds')
@@ -84,7 +89,6 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const roundSettings = ((round.settings as any) ?? {}) as Record<string, unknown>
-
   const storedRunId =
     typeof (roundSettings as any).runId === 'string' && (roundSettings as any).runId
       ? String((roundSettings as any).runId)
@@ -173,13 +177,16 @@ veCount)
 
   const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }
 
+  if (runId && !usageDisabled) {
+    nextSettings.runId = runId
+  } else {
+    delete (nextSettings as any).runId
+  }
 
   const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
   const { error: updErr } = await s
     .from('herd_rounds')
-
-    .update({ settings: updatedSettings, status: 'shown', q_index: 0, count: effectiveCount })
-
+    .update({ settings: nextSettings, status: 'shown', q_index: 0, count: effectiveCount })
     .eq('id', round.id)
 
   if (updErr) {

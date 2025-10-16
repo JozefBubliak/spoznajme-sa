@@ -38,7 +38,6 @@ export async function POST(req: NextRequest, context: any) {
 
   const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
 
-
   const run = await ensureActiveRun(s, gameCode, session.user.id)
   const runId = run?.id ?? null
   const runDisabled = !runId || run?.disabled
@@ -79,13 +78,11 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const availableQuery = s
-
     .from('herd_questions')
     .select('id', { count: 'exact', head: true })
     .eq('category_id', categoryId)
     .eq('classic', true)
     .or(localeFilter)
-
 
   if (usedIds.size > 0) {
     const inList = `(${Array.from(usedIds).map((id) => `'${id}'`).join(',')})`
@@ -93,8 +90,6 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const { count: available } = await availableQuery
-
-
   const availableCount = typeof available === 'number' ? available : 0
   if (availableCount <= 0) {
     return NextResponse.json(
@@ -125,9 +120,7 @@ export async function POST(req: NextRequest, context: any) {
         game_code: gameCode,
         idx: index,
         category: categoryId,
-
         count: selectedCount,
-
         prep_seconds: prepSeconds,
         question_seconds: questionSeconds,
         scoring_mode: scoringMode,
@@ -157,6 +150,5 @@ export async function POST(req: NextRequest, context: any) {
     runId,
     runNumber: run.run_number ?? null,
     questions: selectedCount,
-
   })
 }
