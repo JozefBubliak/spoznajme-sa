@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Player, Round } from '@/lib/herdvote/store'
 import { useAuth } from '@/hooks/useAuth'
-import { UserCircle } from 'lucide-react'
+import { Trophy, UserCircle } from 'lucide-react'
 
 type Category = { id: string; name: string; count: number }
 type Mode = 'classic' | 'podium'
@@ -1177,18 +1177,66 @@ export default function QuizAdminClient({ lang }: Props) {
           )}
 
           {leaderboard.length > 0 && (
-            <div className="rounded-xl border p-4 space-y-3">
-              <h2 className="font-semibold">Rebríček</h2>
-              <div className="space-y-2">
-                {leaderboard.map((pl, idx) => (
-                  <div key={pl.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                    <span className="font-medium">
-                      #{idx + 1} {pl.name}
-                    </span>
-                    <span className="font-bold">{pl.score} bodov</span>
-                  </div>
-                ))}
+            <div className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm">
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
+                  <Trophy className="h-5 w-5 text-amber-500" /> Priebežný rebríček
+                </h2>
+                <span className="text-xs uppercase tracking-wide text-slate-400">
+                  Aktualizované po poslednej otázke
+                </span>
               </div>
+              <p className="mt-1 text-sm text-slate-500">
+                Body sa sčítavajú naprieč otázkami v aktuálnom kole. Vedenie sa môže meniť po každej odpovedi,
+                preto sledujte poradie priebežne.
+              </p>
+              <ul className="mt-4 space-y-2">
+                {leaderboard.map((pl, idx) => {
+                  const styles = [
+                    {
+                      card: 'border-amber-200 bg-amber-50 text-amber-800',
+                      badge: 'border-amber-300 bg-amber-100 text-amber-700',
+                      caption: 'Vedúci tím',
+                    },
+                    {
+                      card: 'border-sky-200 bg-sky-50 text-sky-800',
+                      badge: 'border-sky-300 bg-sky-100 text-sky-700',
+                      caption: 'Na dostrel víťazstva',
+                    },
+                    {
+                      card: 'border-violet-200 bg-violet-50 text-violet-800',
+                      badge: 'border-violet-300 bg-violet-100 text-violet-700',
+                      caption: 'Ešte v medailovej hre',
+                    },
+                  ][idx] ?? {
+                    card: 'border-slate-200 bg-white text-slate-700',
+                    badge: 'border-slate-300 bg-slate-100 text-slate-600',
+                    caption: 'Pripravení zabrať v ďalšej otázke',
+                  }
+
+                  const cardClasses = [
+                    'flex items-center justify-between gap-4 rounded-xl border px-4 py-3 transition',
+                    styles.card,
+                  ].join(' ')
+                  const badgeClasses = [
+                    'flex h-10 w-10 items-center justify-center rounded-full border text-base font-semibold',
+                    styles.badge,
+                  ].join(' ')
+
+                  return (
+                    <li key={pl.id} className={cardClasses}>
+                      <div className="flex items-center gap-3">
+                        <span className={badgeClasses}>{idx + 1}</span>
+                        <div>
+                          <p className="text-sm font-semibold text-current">{pl.name || '—'}</p>
+                          <p className="text-xs text-slate-500">{styles.caption}</p>
+                        </div>
+                      </div>
+                      <span className="text-lg font-bold text-current">{pl.score} bodov</span>
+                    </li>
+                  )
+                })}
+              </ul>
             </div>
           )}
         </>
