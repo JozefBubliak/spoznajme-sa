@@ -64,7 +64,7 @@ export default function QuizClient({ lang }: ClientProps) {
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-8">
       <header className="space-y-2 text-center">
-        <p className="text-sm uppercase tracking-wide text-slate-500">Herd Vote</p>
+        <p className="text-sm uppercase tracking-wide text-slate-500">Quiz</p>
         <h1 className="text-3xl font-bold text-slate-900">Tímový kvíz pripravený na rýchlu zábavu</h1>
         <p className="text-base text-slate-600">
           Vyberte si úlohu moderátora alebo hráča a pripojte sa do spoločnej hry pomocou zdieľaného kódu.

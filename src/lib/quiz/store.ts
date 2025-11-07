@@ -1,4 +1,4 @@
-// PATH: src/lib/herdvote/store.ts
+// PATH: src/lib/quiz/store.ts
 // Kompletný, ujednotený model + jednoduchý in‑memory store
 
 export type Player = { id: string; name: string; score: number };

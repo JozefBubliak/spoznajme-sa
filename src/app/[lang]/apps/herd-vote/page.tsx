@@ -3,7 +3,7 @@ import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { type Locale, SUPPORTED_LOCALES } from '@/i18n/config'
 import { notFound } from 'next/navigation'
 
-// Merge Herd Vote route into quiz page
+// Legacy Herd Vote route redirecting to quiz page
 export const dynamic = 'force-dynamic'
 
 type P = { params: Promise<{ lang: string }> }
