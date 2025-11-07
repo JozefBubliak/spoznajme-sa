@@ -152,7 +152,7 @@ export default function PlayJoinPage() {
   if (!me) {
     return (
       <div className='mx-auto max-w-xl p-6 space-y-4'>
-        <h1 className='text-2xl font-bold'>Herd Vote – pripojenie</h1>
+        <h1 className='text-2xl font-bold'>Quiz – pripojenie</h1>
         <div className='text-sm text-gray-600'>Kód hry: <b>{code}</b></div>
 
         <div className='rounded border p-4 space-y-3'>
@@ -267,7 +267,7 @@ export default function PlayJoinPage() {
 
   return (
     <div className='mx-auto max-w-xl p-6 space-y-4'>
-      <h1 className='text-2xl font-bold'>Herd Vote</h1>
+      <h1 className='text-2xl font-bold'>Quiz</h1>
       <div className='text-sm text-gray-600'>Kód hry: <b>{code}</b></div>
       
       <div className='rounded border p-4'>

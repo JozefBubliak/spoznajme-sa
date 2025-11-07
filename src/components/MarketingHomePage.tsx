@@ -50,7 +50,7 @@ export default function MarketingHomePage() {
     {
       icon: Gamepad2,
       title: 'Aplikácie & Hry',
-      description: 'Rýchly kvíz Fast Herd Vote a "Spoznajme sa" – kartové výzvy v balíčkoch.',
+      description: 'Rýchly tímový kvíz Quiz a "Spoznajme sa" – kartové výzvy v balíčkoch.',
       link: '/sk/apps'
     },
     {

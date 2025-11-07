@@ -1,5 +1,5 @@
 ﻿$ErrorActionPreference = "Stop"
-$store = "src/lib/herdvote/store.ts"
+$store = "src/lib/quiz/store.ts"
 
 if (-not (Test-Path -LiteralPath $store)) {
   Write-Host "⚠️  Nenájdem $store" -ForegroundColor Yellow

@@ -15,6 +15,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/herd-vote/:path*',
+        destination: '/api/quiz/:path*',
+      },
+    ]
+  },
   async redirects() {
     const r: { source: string; destination: string; permanent: boolean }[] = []
     for (const l of SUP) {

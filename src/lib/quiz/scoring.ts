@@ -1,4 +1,4 @@
-// src/lib/herdvote/scoring.ts
+// src/lib/quiz/scoring.ts
 
 import type { ScoringClassic, ScoringPodium, PlayerAnswer, Question } from './store'
 
