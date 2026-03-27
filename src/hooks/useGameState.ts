@@ -1,11 +1,11 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 export default function useGameState(code: string) {
   const [game, setGame] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
+  const refetch = useCallback(() => {
     if (!code) return
     setLoading(true)
     fetch(`/api/games/${code}`)
@@ -14,5 +14,9 @@ export default function useGameState(code: string) {
       .finally(() => setLoading(false))
   }, [code])
 
-  return { game, loading }
+  useEffect(() => {
+    refetch()
+  }, [refetch])
+
+  return { game, loading, refetch }
 }

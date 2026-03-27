@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
+import { RealtimeServer } from '@/lib/realtime/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,5 +22,13 @@ export async function POST(_req: NextRequest, context: any) {
     .eq('owner_id', session.user.id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+
+  // Broadcast game started event
+  await RealtimeServer.publish(`herd-game-${gameCode.toLowerCase()}`, {
+    type: 'game:started',
+    code: gameCode,
+    at: Date.now()
+  })
+
   return NextResponse.json({ success: true, status: 'playing' })
 }

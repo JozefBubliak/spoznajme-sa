@@ -55,7 +55,7 @@ export async function POST(req: NextRequest, context: any) {
     .update({ status: 'running', timer_deadline: deadline })
     .eq('id', round.id)
 
-  await RealtimeServer.publish(channelFor(gameCode), {
+  await RealtimeServer.publish(`herd-game-${gameCode.toLowerCase()}`, {
     type: 'timer:start',
     code: gameCode,
     roundId: round.id,

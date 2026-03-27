@@ -1,9 +1,7 @@
 'use client'
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
 import useGameState from '../hooks/useGameState'
 import useRealtimeGame from '../hooks/useRealtimeGame'
-
 import Button from './quiz/Button'
 import Leaderboard from './quiz/Leaderboard'
 import Loader from './Loader'
@@ -16,22 +14,54 @@ interface AdminPanelProps {
 }
 
 export default function AdminPanel({ code }: AdminPanelProps) {
-  const { game, loading } = useGameState(code)
+  const { game, loading, refetch } = useGameState(code)
   const [currentQuestion, setCurrentQuestion] = useState<any>(null)
   const [timerRunning, setTimerRunning] = useState(false)
   const [results, setResults] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   useRealtimeGame(code, {
     onQuestionShow: (q: any) => {
       setCurrentQuestion(q)
       setTimerRunning(false)
       setResults(null)
+      refetch()
     },
     onTimerStart: () => setTimerRunning(true),
-    onRoundLock: () => setTimerRunning(false),
-    onResults: (data: any) => setResults(data),
-    onFinish: () => setResults(null),
+    onRoundLock: () => {
+      setTimerRunning(false)
+      refetch()
+    },
+    onResults: (data: any) => {
+      setResults(data)
+      refetch()
+    },
+    onRoundFinish: () => {
+      setResults(null)
+      refetch()
+    },
+    onGameStarted: () => refetch(),
+    onLobbyLocked: () => refetch(),
   })
+
+  const apiCall = async (endpoint: string, body?: any) => {
+    setIsLoading(true)
+    try {
+      const res = await fetch(`/api/games/${code}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body ? JSON.stringify(body) : undefined
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      return data
+    } catch (error) {
+      console.error('API call failed:', error)
+      alert(`Error: ${error.message}`)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   if (loading || !game) return <Loader />
 
@@ -49,7 +79,12 @@ export default function AdminPanel({ code }: AdminPanelProps) {
       <div style={{ padding: '2rem' }}>
         {header}
         <p>Hráči sa pripájajú…</p>
-        <Button>🔒 Zamknúť lobby</Button>
+        <Button
+          disabled={isLoading}
+          onClick={() => apiCall('/lock-lobby')}
+        >
+          🔒 Zamknúť lobby
+        </Button>
       </div>
     )
   }
@@ -59,17 +94,12 @@ export default function AdminPanel({ code }: AdminPanelProps) {
       <div style={{ padding: '2rem' }}>
         {header}
         <p>Nastav počet kôl a parametre</p>
-        <Button>✅ Uložiť konfiguráciu</Button>
-      </div>
-    )
-  }
-
-  if (game.phase === 'round_setup') {
-    return (
-      <div style={{ padding: '2rem' }}>
-        {header}
-        <p>Nastavenie kôl</p>
-        <Button>🎮 Ideme hrať</Button>
+        <Button
+          disabled={isLoading}
+          onClick={() => apiCall('/start')}
+        >
+          🎮 Spustiť hru
+        </Button>
       </div>
     )
   }
@@ -85,10 +115,20 @@ export default function AdminPanel({ code }: AdminPanelProps) {
               <QuestionTimer duration={30} onTimeout={() => setTimerRunning(false)} />
             )}
             {!timerRunning && (
-              <Button onClick={() => setTimerRunning(true)}>⏱️ Spustiť odpočet</Button>
+              <Button
+                disabled={isLoading}
+                onClick={() => apiCall('/rounds/timer/start', { seconds: 30 })}
+              >
+                ⏱️ Spustiť odpočet
+              </Button>
             )}
             {timerRunning && (
-              <Button onClick={() => setTimerRunning(false)}>🔒 Uzamknúť odpovede</Button>
+              <Button
+                disabled={isLoading}
+                onClick={() => apiCall('/rounds/lock')}
+              >
+                🔒 Uzamknúť odpovede
+              </Button>
             )}
             {results && (
               <QuestionEvaluation
@@ -97,19 +137,24 @@ export default function AdminPanel({ code }: AdminPanelProps) {
                 funFact={currentQuestion?.fun_fact}
               />
             )}
-            {results && <Button>➡️ Ďalšia otázka</Button>}
+            {results && (
+              <Button
+                disabled={isLoading}
+                onClick={() => apiCall('/rounds/next')}
+              >
+                ➡️ Ďalšia otázka
+              </Button>
+            )}
           </>
         )}
-      </div>
-    )
-  }
-
-  if (game.phase === 'round_results') {
-    return (
-      <div style={{ padding: '2rem' }}>
-        {header}
-        <Leaderboard players={game.players} />
-        <Button>▶️ Pokračovať do ďalšieho kola</Button>
+        {!currentQuestion && (
+          <Button
+            disabled={isLoading}
+            onClick={() => apiCall('/rounds/start', { index: game.active_round_index || 0 })}
+          >
+            🎯 Spustiť kolo
+          </Button>
+        )}
       </div>
     )
   }
@@ -118,10 +163,16 @@ export default function AdminPanel({ code }: AdminPanelProps) {
     return (
       <div style={{ padding: '2rem' }}>
         {header}
-        <Leaderboard players={game.players} />
+        <p>Hra skončila!</p>
+        <Leaderboard players={[]} />
       </div>
     )
   }
 
-  return null
+  return (
+    <div style={{ padding: '2rem' }}>
+      {header}
+      <p>Neznáma fáza hry</p>
+    </div>
+  )
 }

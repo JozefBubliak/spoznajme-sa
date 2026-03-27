@@ -2,8 +2,8 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import { RealtimeClient } from '@/lib/realtime/client'
-import { channelFor } from '@/lib/realtime/types'
+import { supabaseClient } from '@/integrations/supabase/client'
+import AdminPanel from '@/components/AdminPanel'
 
 type Player = { id: string; name: string; score: number }
 
@@ -11,10 +11,43 @@ export default function PlayJoinPage() {
   const params = useParams()
   const code = String((params as any)?.code || '').toUpperCase()
 
+  const [user, setUser] = useState<any>(null)
+  const [isOwner, setIsOwner] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [name, setName] = useState('')
   const [me, setMe] = useState<Player | null>(null)
   const [players, setPlayers] = useState<Player[]>([])
   const [err, setErr] = useState<string>('')
+
+  // Check if user is authenticated and if they're the owner
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { session } } = await supabaseClient.auth.getSession()
+      setUser(session?.user || null)
+
+      if (session?.user) {
+        // Check if user is the owner of this game
+        try {
+          const response = await fetch(`/api/games/${code}`)
+          if (response.ok) {
+            const gameData = await response.json()
+            setIsOwner(gameData.owner_id === session.user.id)
+          }
+        } catch (error) {
+          console.error('Failed to check game ownership:', error)
+        }
+      }
+
+      setLoading(false)
+    }
+
+    checkUser()
+  }, [code])
+
+  // If user is the owner, show admin panel
+  if (!loading && isOwner) {
+    return <AdminPanel code={code} />
+  }
 
   // polling lobby
   useEffect(() => {
@@ -44,57 +77,69 @@ export default function PlayJoinPage() {
   // realtime odbery – START/LOCK/RESULTS
   useEffect(() => {
     if (!code || !me) return
-    const ch = channelFor(code)
-    const unsub = RealtimeClient.subscribe(ch, async (ev) => {
-      console.log('[PLAYER] Event received:', ev)
-      
-      if (ev.type === 'question:show') {
-        setCurrentRoundId(ev.roundId)
-        setSelectedAnswer(null)
-        setCorrectAnswer(null)
-        setGameState('question')
-        try {
-          const r = await fetch(`/api/games/${code}/rounds/${ev.roundId}/question?qIndex=${ev.qIndex}`)
-          if (r.ok) {
-            const questionData = await r.json()
-            setCurrentQuestion(questionData)
-            setTimeLeft(0)
+    const channel = supabaseClient.channel(`herd-game-${code.toLowerCase()}`)
+
+    channel
+      .on('broadcast', { event: 'herd-event' }, (payload) => {
+        const ev = payload.payload
+        console.log('[PLAYER] Event received:', ev)
+
+        if (ev.type === 'question:show') {
+          setCurrentRoundId(ev.roundId)
+          setSelectedAnswer(null)
+          setCorrectAnswer(null)
+          setGameState('question')
+          // Load question data
+          fetch(`/api/games/${code}/rounds/${ev.roundId}/question?qIndex=${ev.qIndex}`)
+            .then(r => r.ok ? r.json() : null)
+            .then(questionData => {
+              if (questionData) {
+                setCurrentQuestion(questionData)
+                setTimeLeft(0)
+              }
+            })
+            .catch(error => console.error('Failed to load question:', error))
+        }
+
+        if (ev.type === 'timer:start') {
+          setGameState('question')
+          setTimeLeft(ev.durationSec)
+        }
+
+        if (ev.type === 'round:lock') {
+          setGameState('locked')
+        }
+
+        if (ev.type === 'round:results') {
+          setCorrectAnswer(ev.correct)
+          setGameState('results')
+          // Update player scores from leaderboard
+          const updatedMe = ev.leaderboard?.find((p: any) => p.id === me?.id)
+          if (updatedMe) {
+            setMe(updatedMe)
           }
-        } catch (error) {
-          console.error('Failed to load question:', error)
         }
-      }
 
-      if (ev.type === 'timer:start') {
-        setGameState('question')
-        setTimeLeft(ev.durationSec)
-      }
-      
-      if (ev.type === 'round:lock') {
-        setGameState('locked')
-      }
-      
-      if (ev.type === 'round:results') {
-        setCorrectAnswer(ev.correct)
-        setGameState('results')
-        // Update player scores from leaderboard
-        const updatedMe = ev.leaderboard.find((p: any) => p.id === me?.id)
-        if (updatedMe) {
-          setMe(updatedMe)
+        if (ev.type === 'round:finish') {
+          setGameState('lobby')
+          setCurrentQuestion(null)
+          setSelectedAnswer(null)
+          setCorrectAnswer(null)
         }
-      }
 
-      if (ev.type === 'round:finish') {
-        setGameState('lobby')
-        setCurrentQuestion(null)
-        setSelectedAnswer(null)
-        setCorrectAnswer(null)
-      }
-    })
-    return () => unsub()
-  }, [code, me])
+        if (ev.type === 'lobby:locked') {
+          // Handle lobby locked - maybe show waiting message
+        }
 
-  // Timer countdown
+        if (ev.type === 'game:started') {
+          // Handle game started
+        }
+      })
+      .subscribe()
+
+    return () => {
+      supabaseClient.removeChannel(channel)
+    }
   useEffect(() => {
     if (gameState !== 'question' || timeLeft <= 0) return
     

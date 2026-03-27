@@ -2,14 +2,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { RealtimeServer } from '@/lib/realtime/server'
-import { channelFor } from '@/lib/realtime/types'
 import { supabaseServer } from '@/integrations/supabase/server'
-import type { SupabaseClient } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
-import { asArray } from '@/lib/supabase/safe'
-
-import { ensureActiveRun, isUsageStorageUnavailable } from '../../_runs'
-
+import { ensureActiveRun } from '../../_runs'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,19 +20,8 @@ export async function POST(req: NextRequest, context: any) {
   const index = typeof body?.index === 'number' ? body.index : 0
 
   const s = supabaseServer(session.access_token)
-  const run = await ensureActiveRun(s, gameCode, session.user.id)
-  const runId = run?.id ?? null
-  let usageDisabled = !runId || run?.disabled
 
-
-  const runId = run?.id ?? null
-  let usageDisabled = !runId || run?.disabled
-
-
-  const runId = run?.id ?? null
-
-
-  // načítaj konfiguráciu kola
+  // Get the round configuration
   const { data: round, error: roundErr } = await s
     .from('herd_rounds')
     .select('id, category, count, settings')
@@ -49,27 +33,20 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'ROUND_NOT_FOUND' }, { status: 404 })
   }
 
-  const roundSettings = ((round.settings as any) ?? {}) as Record<string, unknown>
-  const storedRunId =
-    typeof (roundSettings as any).runId === 'string' && (roundSettings as any).runId
-      ? String((roundSettings as any).runId)
-      : null
+  // Ensure we have an active run for question tracking
+  const run = await ensureActiveRun(s, gameCode, session.user.id)
+  const runId = run?.id ?? null
 
-  const storedUsageDisabled = Boolean((roundSettings as any).usageTrackingDisabled)
-  const storedQuestions = Array.isArray((roundSettings as any).questions)
-    ? ((roundSettings as any).questions as unknown[]).map((value) => String(value))
-    : []
+  const roundSettings = (round.settings as any) ?? {}
+  const localePrefix = roundSettings.localePrefix || 'sk'
 
-
-  const localePrefix = typeof roundSettings.localePrefix === 'string' && roundSettings.localePrefix
-    ? roundSettings.localePrefix
-    : 'sk'
-
-  let ids: string[] = []
-  if (storedQuestions.length > 0 && runId && storedRunId === runId) {
-    ids = storedQuestions
+  // Check if questions are already selected for this round
+  let questionIds: string[] = []
+  if (Array.isArray(roundSettings.questions) && roundSettings.questions.length > 0) {
+    questionIds = roundSettings.questions
   } else {
-    const { data: qs, error: qErr } = await s.rpc('random_herd_questions', {
+    // Select random questions for this round
+    const { data: questions, error: qErr } = await s.rpc('random_herd_questions', {
       cat: round.category,
       n: round.count,
       locale_prefix: localePrefix,
@@ -80,87 +57,80 @@ export async function POST(req: NextRequest, context: any) {
       return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
     }
 
-    if (ids.length === 0) {
-      const { ids: fallbackIds, error: fallbackErr } = await fetchFallbackQuestions(
-        s,
-        round.category,
-        fallbackLimit,
-        localePrefix
-      )
-      if (fallbackErr) {
-        return NextResponse.json({ error: fallbackErr }, { status: 400 })
-      }
-      ids = fallbackIds
+    questionIds = questions || []
+    if (questionIds.length < round.count) {
+      return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
     }
-
-
-  const configuredCount =
-    typeof round.count === 'number'
-      ? round.count
-      : Number(round.count ?? ids.length) || ids.length
-  const effectiveCount = Math.min(ids.length, configuredCount)
-  const chosenIds = ids.slice(0, effectiveCount)
-
-  const updatedSettings: Record<string, unknown> = { ...roundSettings, questions: chosenIds }
-  if (runId) {
-    updatedSettings.runId = runId
-  } else {
-    delete (updatedSettings as any).runId
   }
 
-
-  const updatedSettings = { ...roundSettings, runId: run.id, questions: chosenIds }
-
-  if (runId && !usageDisabled) {
-    nextSettings.runId = runId
-  } else {
-    delete (nextSettings as any).runId
+  // Update round with selected questions and set status to 'shown'
+  const updatedSettings = {
+    ...roundSettings,
+    questions: questionIds,
+    runId: runId
   }
 
-  const newSettings = { ...roundSettings, questions: ids.slice(0, effectiveCount) }
   const { error: updErr } = await s
     .from('herd_rounds')
-    .update({ settings: nextSettings, status: 'shown', q_index: 0, count: effectiveCount })
+    .update({
+      settings: updatedSettings,
+      status: 'shown',
+      q_index: 0,
+      count: questionIds.length
+    })
     .eq('id', round.id)
 
   if (updErr) {
     return NextResponse.json({ error: updErr.message }, { status: 400 })
   }
 
-
-  if (chosenIds.length > 0 && runId) {
-    const rows = chosenIds.map((questionId) => ({
+  // Record question usage to prevent repeats
+  if (runId && questionIds.length > 0) {
+    const usageRows = questionIds.map((questionId) => ({
       owner_id: session.user.id,
       game_code: gameCode,
       run_id: runId,
-
       category_id: round.category,
       round_id: round.id,
       question_id: questionId,
     }))
-    const { error: usageErr } = await s
-      .from('herd_question_usage')
-      .upsert(rows, { onConflict: 'run_id,question_id' })
 
-    if (usageErr && !isUsageStorageUnavailable(usageErr)) {
-
-      return NextResponse.json({ error: usageErr.message }, { status: 400 })
-    }
+    await s.from('herd_question_usage').upsert(usageRows, {
+      onConflict: 'run_id,question_id'
+    })
   }
 
+  // Update game to playing state
   await s
     .from('herd_games')
     .update({ phase: 'playing', active_round_index: index })
     .eq('code', gameCode)
 
-  await RealtimeServer.publish(channelFor(gameCode), {
+  // Get the first question to show
+  const { data: firstQuestion } = await s
+    .from('herd_questions')
+    .select('*')
+    .eq('id', questionIds[0])
+    .single()
+
+  if (!firstQuestion) {
+    return NextResponse.json({ error: 'QUESTION_NOT_FOUND' }, { status: 404 })
+  }
+
+  // Broadcast question show event
+  await RealtimeServer.publish(`herd-game-${gameCode.toLowerCase()}`, {
     type: 'question:show',
     code: gameCode,
     roundId: round.id,
     qIndex: 0,
-    at: Date.now(),
+    at: Date.now()
   })
 
-  return NextResponse.json({ ok: true, phase: 'playing' })
+  return NextResponse.json({
+    success: true,
+    roundId: round.id,
+    question: firstQuestion,
+    totalQuestions: questionIds.length
+  })
 }
 

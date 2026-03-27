@@ -127,7 +127,7 @@ export async function POST(req: NextRequest, context: any) {
     .eq('game_code', gameCode)
     .order('score', { ascending: false })
 
-  await RealtimeServer.publish(channelFor(gameCode), {
+  await RealtimeServer.publish(`herd-game-${gameCode.toLowerCase()}`, {
     type: 'round:results',
     code: gameCode,
     roundId: round.id,

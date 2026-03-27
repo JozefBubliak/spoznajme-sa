@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
+import { RealtimeServer } from '@/lib/realtime/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,12 +17,18 @@ export async function POST(_req: NextRequest, context: any) {
 
   const { error } = await s
     .from('herd_games')
-    .update({ lobby_locked: true, phase: 'locked' })
+    .update({ lobby_locked: true, phase: 'config' })
     .eq('code', gameCode)
     .eq('owner_id', session.user.id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 })
 
-  return NextResponse.json({ success: true, phase: 'locked' })
+  // Broadcast lobby locked event
+  await RealtimeServer.publish(`herd-game-${gameCode.toLowerCase()}`, {
+    type: 'lobby:locked',
+    code: gameCode,
+    at: Date.now()
+  })
 
+  return NextResponse.json({ success: true, phase: 'config' })
 }

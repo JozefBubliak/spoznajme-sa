@@ -56,7 +56,7 @@ export async function POST(req: NextRequest, context: any) {
     .update({ status: 'locked' })
     .eq('id', round.id)
 
-  await RealtimeServer.publish(channelFor(gameCode), {
+  await RealtimeServer.publish(`herd-game-${gameCode.toLowerCase()}`, {
     type: 'round:lock',
     code: gameCode,
     roundId: round.id,

@@ -10,17 +10,31 @@ export async function GET(_req: NextRequest) {
 
   const s = supabaseServer(session.access_token)
 
-  const { data: g } = await s
+  // Get all active games for the user
+  const { data: games } = await s
     .from('herd_games')
-    .select('code, phase, updated_at')
+    .select('code, phase, created_at')
     .eq('owner_id', session.user.id)
-    .in('phase', ['lobby', 'config', 'round_setup', 'playing'])
-    .order('updated_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
+    .in('phase', ['lobby', 'config', 'playing'])
+    .order('created_at', { ascending: false })
 
-  if (!g) return NextResponse.json({}, { status: 204 })
+  // Get player counts for each game
+  const gamesWithCounts = await Promise.all(
+    (games || []).map(async (game) => {
+      const { count: playerCount } = await s
+        .from('herd_players')
+        .select('id', { count: 'exact', head: true })
+        .eq('game_code', game.code)
 
-  return NextResponse.json({ code: g.code, phase: g.phase || 'lobby' })
+      return {
+        code: game.code,
+        phase: game.phase,
+        playerCount: playerCount || 0,
+        createdAt: game.created_at
+      }
+    })
+  )
+
+  return NextResponse.json({ games: gamesWithCounts })
 }
 

@@ -2,52 +2,100 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
-import { randomUUID } from 'crypto'
-import { asArray } from '@/lib/supabase/safe'
+import { RealtimeServer } from '@/lib/realtime/server'
 
 export const dynamic = 'force-dynamic'
 
-// ---- Pomocné typy ----
-type Participant = {
-  id: string
-  nickname: string
-  guest_id: string | null
-}
-
-// GET – vráti lobby (zoznam hráčov)
-  export async function GET(_req: NextRequest, context: any) {
-    const gameCode = String(context?.params?.code ?? '').toUpperCase()
-    if (!gameCode) {
-      return NextResponse.json({ players: [] })
-    }
+// GET – vráti zoznam hráčov v hre
+export async function GET(_req: NextRequest, context: any) {
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  if (!gameCode) {
+    return NextResponse.json({ players: [] })
+  }
 
   const supabase = supabaseServer()
 
-  const { data: room } = await supabase
-    .from('rooms')
-    .select('id')
+  const { data: players } = await supabase
+    .from('herd_players')
+    .select('id, name, score, joined_at')
+    .eq('game_code', gameCode)
+    .order('joined_at', { ascending: true })
+
+  return NextResponse.json({ players: players || [] })
+}
+
+// POST – pripojí hráča do hry
+export async function POST(req: NextRequest, context: any) {
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  if (!gameCode) {
+    return NextResponse.json({ error: 'Invalid game code' }, { status: 400 })
+  }
+
+  const body = await req.json().catch(() => ({})) as { name?: string }
+  const playerName = String(body.name || '').trim()
+  if (!playerName) {
+    return NextResponse.json({ error: 'Player name is required' }, { status: 400 })
+  }
+
+  const supabase = supabaseServer()
+
+  // Check if game exists and lobby is open
+  const { data: game } = await supabase
+    .from('herd_games')
+    .select('id, phase, lobby_locked')
     .eq('code', gameCode)
     .single()
 
-  if (!room) return NextResponse.json({ players: [] })
+  if (!game) {
+    return NextResponse.json({ error: 'Game not found' }, { status: 404 })
+  }
 
-  const { data: session } = await supabase
-    .from('game_sessions')
+  if (game.lobby_locked || game.phase !== 'lobby') {
+    return NextResponse.json({ error: 'Lobby is closed' }, { status: 400 })
+  }
+
+  // Check if player name is already taken
+  const { data: existing } = await supabase
+    .from('herd_players')
     .select('id')
-    .eq('room_id', room.id)
-    .in('status', ['lobby', 'setup', 'running'])
-    .order('created_at', { ascending: false })
-    .limit(1)
+    .eq('game_code', gameCode)
+    .eq('name', playerName)
     .single()
 
-  if (!session) return NextResponse.json({ players: [] })
+  if (existing) {
+    return NextResponse.json({ error: 'Player name already taken' }, { status: 400 })
+  }
 
-    const { data: participants } = await supabase
-      .from('participants')
-      .select('id, nickname, guest_id')
-      .eq('session_id', session.id)
+  // Add player to game
+  const { data: player, error } = await supabase
+    .from('herd_players')
+    .insert({
+      game_code: gameCode,
+      name: playerName,
+      score: 0
+    })
+    .select()
+    .single()
 
-    const list = asArray(participants) as Participant[]
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  // Broadcast player joined event
+  await RealtimeServer.publish(`herd-game-${gameCode.toLowerCase()}`, {
+    type: 'player:joined',
+    code: gameCode,
+    player: { id: player.id, name: player.name, score: player.score },
+    at: Date.now()
+  })
+
+  return NextResponse.json({
+    success: true,
+    playerId: player.id,
+    name: player.name,
+    score: player.score
+  })
+}
     const players = list.map((p) => ({
     id: p.id,
     name: p.nickname,

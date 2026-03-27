@@ -18,18 +18,32 @@ export async function GET(_req: NextRequest, context: any) {
 
   const s = supabaseServer(session.access_token)
 
-
-  const { data: game, error } = await s
+  // First try to get game as owner
+  let { data: game, error } = await s
     .from('herd_games')
-    .select('code, phase, total_rounds, active_round_index, lobby_locked')
+    .select('code, phase, total_rounds, active_round_index, lobby_locked, owner_id')
     .eq('code', gameCode)
     .eq('owner_id', session.user.id)
     .maybeSingle()
 
-  if (error) {
+  const isOwner = !!game
+
+  // If not owner, try to get public game info
+  if (!game) {
+    const publicResult = await supabaseServer().from('herd_games')
+      .select('code, phase, total_rounds, active_round_index, lobby_locked, owner_id')
+      .eq('code', gameCode)
+      .maybeSingle()
+
+    game = publicResult.data
+    error = publicResult.error
+  }
+
+  if (error || !game) {
     return NextResponse.json('Game not found', { status: 404 })
   }
-  const g = must(game, 'Game not found')
+
+  const g = game
 
   const { count: roundsCount } = await s
     .from('herd_rounds')
@@ -42,15 +56,21 @@ export async function GET(_req: NextRequest, context: any) {
   else if (g.phase === 'ended') phase = 'final'
   else if (g.phase === 'round_setup' && !g.lobby_locked) phase = 'lobby'
 
-  const run = await getActiveRun(s, gameCode, session.user.id)
+  const result: any = {
+    code: g.code,
+    phase,
+    lobby_locked: !!g.lobby_locked,
+    total_rounds: g.total_rounds ?? roundsCount ?? 0,
+    active_round_index: g.active_round_index ?? 0,
+  }
 
-  return NextResponse.json({
-      code: g.code,
-      phase,
-      lobby_locked: !!g.lobby_locked,
-      total_rounds: g.total_rounds ?? roundsCount ?? 0,
-      active_round_index: g.active_round_index ?? 0,
-      run_id: run?.id ?? null,
-      run_number: run?.run_number ?? null,
-    })
+  // Add owner-specific data
+  if (isOwner) {
+    const run = await getActiveRun(s, gameCode, session.user.id)
+    result.run_id = run?.id ?? null
+    result.run_number = run?.run_number ?? null
+    result.owner_id = g.owner_id
+  }
+
+  return NextResponse.json(result)
 }

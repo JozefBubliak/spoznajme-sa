@@ -1,33 +1,23 @@
 // src/lib/realtime/server.ts
 
 import type { HerdEvent } from './types'
+import { supabaseServer } from '@/integrations/supabase/server'
 
 class RealtimeServerImpl {
   async publish(channel: string, event: HerdEvent): Promise<void> {
     console.log(`[REALTIME] Publishing to ${channel}:`, event)
-    
-    // In production with Vercel Realtime:
-    // const url = process.env.REALTIME_URL
-    // const key = process.env.REALTIME_SERVER_KEY
-    // if (url && key) {
-    //   await fetch(`${url}/publish`, {
-    //     method: 'POST',
-    //     headers: { 'Authorization': `Bearer ${key}`, 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ channel, event })
-    //   })
-    //   return
-    // }
 
-    // Fallback for development: simulate client event reception
-    if (typeof window !== 'undefined') {
-      // Browser context - send to client directly
-      const client = (window as any).RealtimeClient
-      if (client?.simulateEvent) {
-        setTimeout(() => client.simulateEvent(channel, event), 50)
-      }
-    } else {
-      // Server context - for production we'd publish to external service
-      console.log('[REALTIME] Server fallback - event logged only')
+    try {
+      // Use Supabase realtime for broadcasting
+      const supabase = supabaseServer()
+      await supabase.channel(channel).send({
+        type: 'broadcast',
+        event: 'herd-event',
+        payload: event
+      })
+    } catch (error) {
+      console.error('[REALTIME] Failed to publish event:', error)
+      // Fallback: could implement polling or other mechanism
     }
   }
 }

@@ -8,9 +8,13 @@ export type HerdEvent =
   | { type: 'round:lock';    code: string; roundId: string; qIndex: number; at: number }
   | { type: 'round:results'; code: string; roundId: string; qIndex: number; correct: 'A'|'B'|'C'|'D'; leaderboard: any; at: number }
   | { type: 'round:finish';  code: string; roundId: string; leaderboard: any; at: number }
+  | { type: 'game:finish';   code: string; leaderboard: any; at: number }
+  | { type: 'player:joined'; code: string; player: Player; at: number }
+  | { type: 'lobby:locked';  code: string; at: number }
+  | { type: 'game:started';  code: string; at: number }
 
 export type RealtimeCallback = (event: HerdEvent) => void
 
 export function channelFor(gameCode: string): string {
-  return `herd-vote:${gameCode.toUpperCase()}`
+  return `herd-game-${gameCode.toLowerCase()}`
 }
