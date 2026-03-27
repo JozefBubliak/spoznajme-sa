@@ -49,7 +49,10 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    setJoinUrl(`${window.location.origin}/${language}/play/${code}`)
+    const target = new URL(`/${language}/apps/quiz`, window.location.origin)
+    target.searchParams.set('code', code)
+    target.searchParams.set('role', 'player')
+    setJoinUrl(target.toString())
   }, [code, language])
 
   const copyLink = async () => {

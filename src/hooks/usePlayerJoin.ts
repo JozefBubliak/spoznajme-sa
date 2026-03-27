@@ -1,5 +1,5 @@
 export default async function usePlayerJoin({ code, name }: { code: string; name: string }) {
-  const res = await fetch(`/api/games/${code}/join`, {
+  const res = await fetch(`/api/games/${code}/players`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name }),
@@ -11,5 +11,9 @@ export default async function usePlayerJoin({ code, name }: { code: string; name
   }
 
   const data = await res.json()
-  return data.player
+  return {
+    id: data.playerId,
+    name: data.name,
+    score: data.score ?? 0,
+  }
 }
