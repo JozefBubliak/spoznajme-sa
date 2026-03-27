@@ -7,7 +7,10 @@
       "Bash(powershell.exe -Command \"node --version; npm --version\")",
       "Bash(powershell.exe -Command \"Get-ChildItem ''C:\\\\ProgramData\\\\chocolatey\\\\bin'' | Where-Object { $_.Name -match ''node|npm'' }; Test-Path ''C:\\\\Program Files\\\\nodejs''\")",
       "Bash(powershell.exe -Command \"Get-Content ''C:\\\\Users\\\\bubli\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-bubli-spoznajme-sa\\\\2579ca4c-4012-4ff9-aefe-36dd9a01115e\\\\tasks\\\\bucn8h1ub.output'' -Tail 30\")",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(node_modules/.bin/tsc --noEmit)",
+      "Read(//usr/local/**)",
+      "Read(//usr/**)"
     ]
   }
 }

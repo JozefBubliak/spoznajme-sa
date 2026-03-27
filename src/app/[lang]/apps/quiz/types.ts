@@ -1,6 +1,12 @@
 import type { QuizQuestion } from './data/questions'
 
-export type QuizPhase = 'idle' | 'lobby' | 'question' | 'reveal' | 'finished'
+export type QuizPhase = 'idle' | 'lobby' | 'locked' | 'round-config' | 'question' | 'reveal' | 'finished'
+
+export interface RoundConfig {
+  duration: number
+  category: string
+  scoring: number
+}
 
 export interface QuizPlayerState {
   id: string
@@ -16,9 +22,14 @@ export interface QuizGameState {
   phase: QuizPhase
   questionIndex: number
   totalQuestions: number
+  totalRounds: number
+  roundSetupIndex: number
   questionStart?: number | null
   players: QuizPlayerState[]
   questions: QuizQuestion[]
+  lobbyLocked: boolean
+  roundConfigs: RoundConfig[]
+  /** @deprecated use roundConfigs[i].duration */
   roundDurations: number[]
   roundsReady: boolean
 }

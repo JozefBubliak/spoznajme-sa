@@ -99,7 +99,7 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
       <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
         {!gameState && <p className="text-sm text-slate-500">Čakám na moderátora…</p>}
 
-        {gameState?.phase === 'lobby' && (
+        {(gameState?.phase === 'lobby' || gameState?.phase === 'locked' || gameState?.phase === 'round-config') && (
           <div className="space-y-2 text-sm text-slate-600">
             <p>Moderátor pripravuje hru. Zostaňte naladení!</p>
           </div>
@@ -109,7 +109,7 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
           <div className="space-y-4">
             <div>
               <p className="text-xs uppercase tracking-wide text-slate-500">
-                Otázka {gameState.questionIndex + 1} / {gameState.totalQuestions}
+                Otázka {gameState.questionIndex + 1} / {gameState.totalRounds || gameState.totalQuestions}
               </p>
               {timeLeft != null && <p className="mt-1 text-sm font-medium text-amber-600">Zostáva {timeLeft}s</p>}
               <h2 className="mt-2 text-lg font-semibold text-slate-900">{currentQuestion.question}</h2>
