@@ -60,10 +60,15 @@ async function handler() {
   log.open_lobby = { data: lobbyData, error: lobbyErr }
 
   // ── 6. auth.uid() test (čo vracia PostgREST pre daný token) ──────────────
-  const { data: uidRow, error: uidErr } = await (authClient as any)
-    .rpc('get_auth_uid')
-    .maybeSingle()
-    .catch(() => ({ data: null, error: { message: 'RPC get_auth_uid neexistuje (OK)' } }))
+  let uidRow: unknown = null
+  let uidErr: unknown = null
+  try {
+    const res = await (authClient as any).rpc('get_auth_uid').maybeSingle()
+    uidRow = res?.data ?? null
+    uidErr = res?.error ?? null
+  } catch {
+    uidErr = { message: 'RPC get_auth_uid neexistuje (OK)' }
+  }
   log.auth_uid_rpc = { data: uidRow, error: uidErr }
 
   // Alternatíva: priamy select auth.uid() cez SQL (ak máš rpc)
