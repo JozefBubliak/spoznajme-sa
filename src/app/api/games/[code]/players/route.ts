@@ -50,7 +50,8 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
-  if (game.lobby_locked || game.phase !== 'lobby') {
+  const canJoinInCurrentPhase = game.phase === 'lobby' || game.phase === 'round_setup'
+  if (game.lobby_locked || !canJoinInCurrentPhase) {
     return NextResponse.json({ error: 'Lobby is closed' }, { status: 400 })
   }
 
