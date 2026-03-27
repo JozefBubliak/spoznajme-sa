@@ -13,3 +13,24 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     autoRefreshToken: typeof window !== 'undefined',
   },
 })
+
+/**
+ * Synchronizuje Supabase access token do cookie `sb-auth-token`, aby ho
+ * server-side `getSession()` vedel prečítať z HTTP požiadaviek.
+ * Volá sa pri každej zmene auth stavu (login, token refresh, logout).
+ */
+export function syncAuthCookie(token: string | null, expiresIn = 3600) {
+  if (typeof document === 'undefined') return
+  if (token) {
+    document.cookie = `sb-auth-token=${token}; path=/; max-age=${expiresIn}; SameSite=Lax`
+  } else {
+    document.cookie = 'sb-auth-token=; path=/; max-age=0'
+  }
+}
+
+// Automaticky udržuj cookie aktuálnu pri každej zmene session
+if (typeof window !== 'undefined') {
+  supabase.auth.onAuthStateChange((_event, session) => {
+    syncAuthCookie(session?.access_token ?? null, session?.expires_in ?? 3600)
+  })
+}

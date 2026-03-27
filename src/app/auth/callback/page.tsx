@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { supabase } from '@/lib/supabaseClient'
+import { supabase, syncAuthCookie } from '@/lib/supabaseClient'
 
 function AuthCallbackContent() {
   const router = useRouter()
@@ -13,10 +13,14 @@ function AuthCallbackContent() {
 
   useEffect(() => {
     const run = async () => {
-      const { error } = await supabase.auth.exchangeCodeForSession(window.location.href)
+      const { data, error } = await supabase.auth.exchangeCodeForSession(window.location.href)
       if (error) {
         setError(error.message)
         return
+      }
+      // Explicitne nastav cookie pred redirectom, aby ju server videl hneď na ďalšej stránke
+      if (data.session) {
+        syncAuthCookie(data.session.access_token, data.session.expires_in ?? 3600)
       }
       router.replace(next)
     }
