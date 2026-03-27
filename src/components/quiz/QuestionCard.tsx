@@ -24,7 +24,8 @@ export default function QuestionCard({ question, onAnswer }: QuestionCardProps) 
     <Button
       key={label}
       onClick={() => handleClick(label)}
-      type={selected === label ? 'primary' : 'secondary'}
+      variant={selected === label ? 'primary' : 'secondary'}
+      type="button"
       disabled={!!selected}
       style={{
         width: '100%',
