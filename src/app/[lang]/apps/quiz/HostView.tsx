@@ -173,6 +173,14 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
   const [copied, setCopied] = useState(false)
   const [roundCountInput, setRoundCountInput] = useState('3')
   const [roundConfigForm, setRoundConfigForm] = useState<RoundConfig>(DEFAULT_ROUND_CONFIG)
+  const [categories, setCategories] = useState<{ id: string; name: string; count: number }[]>([])
+
+  useEffect(() => {
+    fetch('/api/herd-vote/categories')
+      .then(r => r.json())
+      .then(d => { if (Array.isArray(d.categories)) setCategories(d.categories) })
+      .catch(() => {})
+  }, [])
 
   const [gameState, setGameState] = useState<QuizGameState>(() => ({
     code,
@@ -578,13 +586,29 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                 </label>
                 <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
                   Kategória
-                  <input
-                    type="text"
-                    placeholder="napr. História, Filmy, Veda…"
-                    value={roundConfigForm.category}
-                    onChange={e => setRoundConfigForm(prev => ({ ...prev, category: e.target.value }))}
-                    className="rounded-md border border-slate-300 px-3 py-2 text-sm"
-                  />
+                  {categories.length > 0 ? (
+                    <select
+                      value={roundConfigForm.category}
+                      onChange={e => setRoundConfigForm(prev => ({ ...prev, category: e.target.value }))}
+                      className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+                    >
+                      <option value="">— Vybrať kategóriu —</option>
+                      {categories.map(c => (
+                        <option key={c.id} value={c.id}>
+                          {c.name} ({c.count})
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      placeholder="Načítavam kategórie…"
+                      value={roundConfigForm.category}
+                      onChange={e => setRoundConfigForm(prev => ({ ...prev, category: e.target.value }))}
+                      className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+                      disabled
+                    />
+                  )}
                 </label>
               </div>
             </section>

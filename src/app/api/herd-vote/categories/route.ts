@@ -1,14 +1,12 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { asArray } from '@/lib/supabase/safe'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(_req: NextRequest) {
-  const session = await getSession().catch(() => null)
-  const s = session ? supabaseServer(session.access_token) : supabaseServer()
+  const s = supabaseServer() // service role — RLS bypass pre read-only view
 
   const { data, error } = await s
     .from('herd_categories_with_counts')
