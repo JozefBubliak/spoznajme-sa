@@ -16,6 +16,7 @@ function getPlayerStorageKey(code: string) {
 export default function PlayerView({ code, name }: PlayerViewProps) {
   const [gameState, setGameState] = useState<QuizGameState | null>(null)
   const [submittedAnswer, setSubmittedAnswer] = useState<number | null>(null)
+  const [now, setNow] = useState(Date.now())
 
   const playerId = useMemo(() => {
     if (typeof window === 'undefined') return ''
@@ -50,9 +51,37 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
     }
   }, [gameState?.questionIndex, gameState?.phase])
 
+  useEffect(() => {
+    if (gameState?.phase !== 'question') return
+    const interval = window.setInterval(() => setNow(Date.now()), 1000)
+    return () => window.clearInterval(interval)
+  }, [gameState?.phase, gameState?.questionIndex])
+
   const currentQuestion =
-    gameState && (gameState.phase === 'question' || gameState.phase === 'locked' || gameState.phase === 'reveal')
+    gameState && (gameState.phase === 'question' || gameState.phase === 'reveal')
       ? gameState.questions[gameState.questionIndex]
+      : null
+  const roundContext = (() => {
+    if (!gameState || gameState.questionIndex < 0) return null
+    let traversed = 0
+    for (const round of gameState.rounds) {
+      const end = traversed + round.questionCount
+      if (gameState.questionIndex >= traversed && gameState.questionIndex < end) {
+        return {
+          roundNumber: round.index + 1,
+          questionInRound: gameState.questionIndex - traversed + 1,
+          totalInRound: round.questionCount,
+        }
+      }
+      traversed = end
+    }
+    return null
+  })()
+  const currentRoundDuration =
+    gameState && gameState.questionIndex >= 0 ? (gameState.roundDurations[gameState.questionIndex] ?? 20) : 20
+  const timeLeft =
+    gameState?.phase === 'question' && gameState.questionStart != null
+      ? Math.max(0, Math.ceil((gameState.questionStart + currentRoundDuration * 1000 - now) / 1000))
       : null
 
   const handleAnswer = (answerIndex: number) => {
@@ -89,6 +118,17 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
         {gameState?.phase === 'lobby' && (
           <div className="space-y-2 text-sm text-slate-600">
             <p>Moderátor pripravuje hru. Zostaňte naladení!</p>
+            {gameState.lobbyLocked && <p>Lobby je uzamknuté, čaká sa na štart hry.</p>}
+          </div>
+        )}
+        {gameState?.phase === 'setup' && (
+          <div className="space-y-2 text-sm text-slate-600">
+            <p>Moderátor nastavuje kolá hry.</p>
+          </div>
+        )}
+        {gameState?.phase === 'ready' && (
+          <div className="space-y-2 text-sm text-slate-600">
+            <p>Hra je pripravená, čaká sa na spustenie prvej otázky.</p>
           </div>
         )}
 
@@ -98,6 +138,12 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 Otázka {gameState.questionIndex + 1} / {gameState.totalQuestions}
               </p>
+              {roundContext && (
+                <p className="text-xs uppercase tracking-wide text-slate-500">
+                  Kolo {roundContext.roundNumber} · otázka {roundContext.questionInRound} / {roundContext.totalInRound}
+                </p>
+              )}
+              {timeLeft != null && <p className="mt-1 text-sm font-medium text-amber-600">Zostáva {timeLeft}s</p>}
               <h2 className="mt-2 text-lg font-semibold text-slate-900">{currentQuestion.question}</h2>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -126,12 +172,6 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
               <p className="text-sm text-slate-500">Odpoveď prijatá. Čakajte na výsledok.</p>
             )}
           </div>
-        )}
-
-        {gameState && gameState.phase === 'locked' && (
-          <p className="text-sm text-slate-500">
-            Uzamknuté! Moderátor práve vyhodnocuje odpovede.
-          </p>
         )}
 
         {gameState && gameState.phase === 'reveal' && currentQuestion && (
