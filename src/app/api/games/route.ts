@@ -28,9 +28,11 @@ export async function POST(_req: NextRequest) {
 
   const { error: lobbyError } = await supabase.rpc('open_lobby')
   if (lobbyError) {
+    console.error('[POST /api/games] open_lobby RPC failed:', lobbyError.code, lobbyError.message)
     return NextResponse.json({ error: lobbyError.message }, { status: 500 })
   }
-  await supabase
+
+  const { error: upsertError } = await supabase
     .from('herd_games')
     .upsert(
       {
@@ -43,6 +45,11 @@ export async function POST(_req: NextRequest) {
       },
       { onConflict: 'code' }
     )
+
+  if (upsertError) {
+    console.error('[POST /api/games] herd_games upsert failed:', upsertError.code, upsertError.message, 'code:', room.code)
+    return NextResponse.json({ error: `Failed to save game: ${upsertError.message}` }, { status: 500 })
+  }
 
   try {
     await ensureActiveRun(supabase, room.code, session.user.id)

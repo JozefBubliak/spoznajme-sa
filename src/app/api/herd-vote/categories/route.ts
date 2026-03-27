@@ -16,7 +16,8 @@ export async function GET(_req: NextRequest) {
     .order('name', { ascending: true })
 
   if (error) {
-    return NextResponse.json({ categories: [] })
+    console.error('[/api/herd-vote/categories] Supabase error:', error.code, error.message, error.details)
+    return NextResponse.json({ categories: [], _error: error.message })
   }
 
   const active = asArray(data).filter((c: any) => c.is_active !== false)
