@@ -1,21 +1,6 @@
 import type { QuizQuestion } from './data/questions'
 
-export type QuizPhase = 'idle' | 'lobby' | 'setup' | 'ready' | 'question' | 'reveal' | 'finished'
-
-export interface QuizRoundScoring {
-  correct: number
-  wrong: number
-  noAnswer: number
-}
-
-export interface QuizRoundConfig {
-  index: number
-  categoryId: string
-  categoryName: string
-  questionCount: number
-  questionSeconds: number
-  scoring: QuizRoundScoring
-}
+export type QuizPhase = 'idle' | 'lobby' | 'question' | 'reveal' | 'finished'
 
 export interface QuizPlayerState {
   id: string
@@ -36,8 +21,6 @@ export interface QuizGameState {
   questions: QuizQuestion[]
   roundDurations: number[]
   roundsReady: boolean
-  rounds: QuizRoundConfig[]
-  lobbyLocked: boolean
 }
 
 export type QuizMessage =

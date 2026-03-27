@@ -61,22 +61,6 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
     gameState && (gameState.phase === 'question' || gameState.phase === 'reveal')
       ? gameState.questions[gameState.questionIndex]
       : null
-  const roundContext = (() => {
-    if (!gameState || gameState.questionIndex < 0) return null
-    let traversed = 0
-    for (const round of gameState.rounds) {
-      const end = traversed + round.questionCount
-      if (gameState.questionIndex >= traversed && gameState.questionIndex < end) {
-        return {
-          roundNumber: round.index + 1,
-          questionInRound: gameState.questionIndex - traversed + 1,
-          totalInRound: round.questionCount,
-        }
-      }
-      traversed = end
-    }
-    return null
-  })()
   const currentRoundDuration =
     gameState && gameState.questionIndex >= 0 ? (gameState.roundDurations[gameState.questionIndex] ?? 20) : 20
   const timeLeft =
@@ -138,11 +122,6 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
               <p className="text-xs uppercase tracking-wide text-slate-500">
                 Otázka {gameState.questionIndex + 1} / {gameState.totalQuestions}
               </p>
-              {roundContext && (
-                <p className="text-xs uppercase tracking-wide text-slate-500">
-                  Kolo {roundContext.roundNumber} · otázka {roundContext.questionInRound} / {roundContext.totalInRound}
-                </p>
-              )}
               {timeLeft != null && <p className="mt-1 text-sm font-medium text-amber-600">Zostáva {timeLeft}s</p>}
               <h2 className="mt-2 text-lg font-semibold text-slate-900">{currentQuestion.question}</h2>
             </div>

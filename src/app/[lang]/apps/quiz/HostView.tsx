@@ -64,20 +64,6 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
   const [joinUrl, setJoinUrl] = useState('')
   const [now, setNow] = useState(Date.now())
-  const [plannedRounds, setPlannedRounds] = useState(3)
-  const [roundCursor, setRoundCursor] = useState(0)
-  const [setupStep, setSetupStep] = useState<'round-count' | 'round-config'>('round-count')
-  const [categories, setCategories] = useState<CategoryOption[]>([])
-  const [roundError, setRoundError] = useState<string | null>(null)
-  const [savingRound, setSavingRound] = useState(false)
-  const [roundForm, setRoundForm] = useState({
-    categoryId: '',
-    questionCount: 3,
-    questionSeconds: 20,
-    scoreCorrect: 5,
-    scoreWrong: 0,
-    scoreNoAnswer: 0,
-  })
 
   const [gameState, setGameState] = useState<QuizGameState>(() => ({
     code,
@@ -88,10 +74,8 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     questionStart: null,
     players: [],
     questions,
-    roundDurations: [],
+    roundDurations: questions.map(() => 20),
     roundsReady: false,
-    rounds: [],
-    lobbyLocked: false,
   }))
 
   const stateRef = useRef(gameState)
@@ -103,13 +87,9 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       language,
       code,
       questions,
-      phase: 'lobby',
-      totalQuestions: 0,
-      questionIndex: -1,
-      roundDurations: [],
+      totalQuestions: questions.length,
+      roundDurations: questions.map(() => 20),
       roundsReady: false,
-      rounds: [],
-      lobbyLocked: false,
     }))
     setRoundCursor(0)
     setRoundError(null)
@@ -255,9 +235,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
           totalQuestions: 0,
           questionStart: null,
           roundsReady: false,
-          rounds: [],
-          roundDurations: [],
-          lobbyLocked: false,
+          roundDurations: prev.questions.map(() => 20),
           players: prev.players.map(player => ({
             ...player,
             score: 0,
@@ -304,130 +282,11 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       ? gameState.questions[gameState.questionIndex]
       : null
 
-  const roundContext = getRoundForQuestion(gameState.rounds, Math.max(0, gameState.questionIndex))
   const currentRoundDuration = gameState.roundDurations[gameState.questionIndex] ?? 20
   const roundTimeLeft =
     gameState.phase === 'question' && gameState.questionStart != null
       ? Math.max(0, Math.ceil((gameState.questionStart + currentRoundDuration * 1000 - now) / 1000))
       : null
-
-  const saveRound = async () => {
-    setRoundError(null)
-    const category = categories.find(item => item.id === roundForm.categoryId)
-    if (!category) {
-      setRoundError('Vyberte platnú kategóriu.')
-      return
-    }
-
-    if (roundForm.questionCount < 1 || roundForm.questionSeconds < 5) {
-      setRoundError('Počet otázok aj čas musia mať platnú hodnotu.')
-      return
-    }
-
-    const alreadyConfigured = gameState.rounds.reduce((acc, item) => acc + item.questionCount, 0)
-    const totalAfterSave = alreadyConfigured + roundForm.questionCount
-    if (totalAfterSave > questions.length) {
-      setRoundError(
-        `Pre demo otázky je dostupných len ${questions.length} unikátnych otázok. Znížte počet otázok v kolách.`,
-      )
-      return
-    }
-
-    setSavingRound(true)
-    try {
-      const response = await fetch(`/api/games/${code}/rounds/config`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          index: roundCursor,
-          categoryId: roundForm.categoryId,
-          questions: roundForm.questionCount,
-          prepSeconds: 0,
-          questionSeconds: roundForm.questionSeconds,
-          scoringMode: 'custom',
-          localePrefix: language,
-        }),
-      })
-
-      const payload = await response.json().catch(() => ({}))
-      if (!response.ok) {
-        if (payload?.error === 'NOT_ENOUGH_QUESTIONS') {
-          const available = Number(payload?.available ?? 0)
-          setRoundError(
-            `V kategórii je dostupných len ${available} vhodných otázok pre túto hru. Upravte nastavenie kola.`,
-          )
-        } else if (response.status === 401) {
-          setRoundError('Na uloženie kola do DB musíte byť prihlásený ako moderátor.')
-        } else {
-          setRoundError(String(payload?.error || 'Kolo sa nepodarilo uložiť.'))
-        }
-        return
-      }
-
-      const nextRound: QuizRoundConfig = {
-        index: roundCursor,
-        categoryId: roundForm.categoryId,
-        categoryName: category.name,
-        questionCount: roundForm.questionCount,
-        questionSeconds: roundForm.questionSeconds,
-        scoring: {
-          correct: roundForm.scoreCorrect,
-          wrong: roundForm.scoreWrong,
-          noAnswer: roundForm.scoreNoAnswer,
-        },
-      }
-
-      const updatedRounds = [...gameState.rounds]
-      updatedRounds[roundCursor] = nextRound
-
-      if (roundCursor + 1 >= plannedRounds) {
-        const totalQuestions = updatedRounds.reduce((sum, round) => sum + round.questionCount, 0)
-        setGameState(prev => ({
-          ...prev,
-          phase: 'ready',
-          rounds: updatedRounds,
-          roundsReady: true,
-          totalQuestions,
-          roundDurations: buildRoundDurations(updatedRounds),
-        }))
-      } else {
-        setGameState(prev => ({
-          ...prev,
-          rounds: updatedRounds,
-          roundsReady: false,
-          phase: 'setup',
-        }))
-        setRoundCursor(current => current + 1)
-      }
-    } finally {
-      setSavingRound(false)
-    }
-  }
-
-  const lockLobbyAndBeginSetup = () => {
-    setRoundError(null)
-    setRoundCursor(0)
-    setSetupStep('round-count')
-    setGameState(prev => ({
-      ...prev,
-      phase: 'setup',
-      lobbyLocked: true,
-      rounds: [],
-      roundsReady: false,
-      totalQuestions: 0,
-      roundDurations: [],
-    }))
-  }
-
-  const confirmRoundCount = () => {
-    if (plannedRounds < 1) {
-      setRoundError('Počet kôl musí byť aspoň 1.')
-      return
-    }
-    setRoundError(null)
-    setRoundCursor(0)
-    setSetupStep('round-config')
-  }
 
   return (
     <div className="space-y-6">
@@ -457,36 +316,36 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
           </div>
         </div>
 
-        {gameState.phase === 'lobby' && (
+        {gameState.phase === 'lobby' && gameState.players.length === 0 && (
           <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
             {joinUrl ? (
-              <>
-                <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Link pre hráčov</p>
-                <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <span className="flex-1 text-sm break-all text-slate-700">{joinUrl}</span>
-                  <button
-                    type="button"
-                    onClick={copyLink}
-                    className="rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800"
-                  >
-                    Kopírovať link
-                  </button>
-                  <button
-                    type="button"
-                    onClick={shareLink}
-                    className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-500"
-                  >
-                    Zdieľať
-                  </button>
-                </div>
-                <div className="mt-3 flex justify-center">
-                  <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`}
-                    alt="QR kód pre pripojenie do hry"
-                    className="h-44 w-44 rounded-lg"
-                  />
-                </div>
-              </>
+            <>
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Link pre hráčov</p>
+              <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center">
+                <span className="flex-1 text-sm text-slate-700 break-all">{joinUrl}</span>
+                <button
+                  type="button"
+                  onClick={copyLink}
+                  className="rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800"
+                >
+                  Kopírovať link
+                </button>
+                <button
+                  type="button"
+                  onClick={shareLink}
+                  className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-500"
+                >
+                  Zdieľať
+                </button>
+              </div>
+              <div className="mt-3 flex justify-center">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`}
+                  alt="QR kód pre pripojenie do hry"
+                  className="h-44 w-44 rounded-lg"
+                />
+              </div>
+            </>
             ) : (
               <p className="text-sm text-slate-500">Generujem link pre pripojenie...</p>
             )}
@@ -505,170 +364,58 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
           {gameState.phase === 'lobby' && (
             <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
-              <p className="text-sm text-slate-700">Po pripojení hráčov pokračujte na nastavenie jednotlivých kôl.</p>
-              <button
-                type="button"
-                onClick={lockLobbyAndBeginSetup}
-                disabled={gameState.players.length === 0}
-                className="w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
-              >
-                Uzamknúť miestnosť a nastaviť kolá
-              </button>
-            </div>
-          )}
-
-          {gameState.phase === 'setup' && (
-            <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
-              <h3 className="text-sm font-semibold text-slate-800">Nastavenie jednotlivých kôl</h3>
-
-              {setupStep === 'round-count' && (
-                <>
-                  <p className="text-xs text-slate-500">Krok 1: nastavte celkový počet kôl.</p>
-                  <label className="flex items-center justify-between text-sm text-slate-700">
-                    <span>Počet kôl</span>
-                    <input
-                      type="number"
-                      min={1}
-                      max={12}
-                      value={plannedRounds}
-                      onChange={event => setPlannedRounds(Math.max(1, Math.min(12, Number(event.target.value) || 1)))}
-                      className="w-20 rounded-md border border-slate-300 px-2 py-1 text-right"
-                    />
-                  </label>
-                  <button
-                    type="button"
-                    onClick={confirmRoundCount}
-                    className="w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-700"
-                  >
-                    Potvrdiť počet kôl
-                  </button>
-                </>
-              )}
-
-              {setupStep === 'round-config' && (
-                <>
-                  <p className="text-xs text-slate-500">
-                    Kolo {roundCursor + 1} z {plannedRounds}. Každé potvrdenie sa ukladá do DB ako samostatný záznam.
-                  </p>
-
-                  <label className="flex flex-col gap-1 text-sm text-slate-700">
-                    <span>Kategória</span>
-                    <select
-                      value={roundForm.categoryId}
-                      onChange={event => setRoundForm(prev => ({ ...prev, categoryId: event.target.value }))}
-                      className="rounded-md border border-slate-300 px-2 py-2"
-                    >
-                      <option value="">Vyber kategóriu</option>
-                      {categories.map(category => (
-                        <option key={category.id} value={category.id}>
-                          {category.name} ({category.count})
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label className="flex items-center justify-between text-sm text-slate-700">
-                    <span>Počet otázok</span>
-                    <input
-                      type="number"
-                      min={1}
-                      max={20}
-                      value={roundForm.questionCount}
-                      onChange={event =>
-                        setRoundForm(prev => ({ ...prev, questionCount: Math.max(1, Number(event.target.value) || 1) }))
-                      }
-                      className="w-20 rounded-md border border-slate-300 px-2 py-1 text-right"
-                    />
-                  </label>
-
-                  <label className="flex items-center justify-between text-sm text-slate-700">
-                    <span>Čas na otázku (s)</span>
+              <h3 className="text-sm font-semibold text-slate-800">Nastavenie kôl (čas na odpoveď)</h3>
+              <div className="space-y-2">
+                {gameState.questions.map((question, index) => (
+                  <label key={`${index}-${question.question}`} className="flex items-center justify-between gap-3 text-sm">
+                    <span className="text-slate-700">Kolo {index + 1}</span>
                     <input
                       type="number"
                       min={5}
                       max={120}
-                      value={roundForm.questionSeconds}
-                      onChange={event =>
-                        setRoundForm(prev => ({ ...prev, questionSeconds: Math.max(5, Number(event.target.value) || 5) }))
-                      }
-                      className="w-20 rounded-md border border-slate-300 px-2 py-1 text-right"
+                      value={gameState.roundDurations[index] ?? 20}
+                      onChange={event => {
+                        const value = Number(event.target.value)
+                        setGameState(prev => ({
+                          ...prev,
+                          roundDurations: prev.roundDurations.map((duration, durationIndex) =>
+                            durationIndex === index ? Math.min(120, Math.max(5, value || 20)) : duration,
+                          ),
+                          roundsReady: false,
+                        }))
+                      }}
+                      className="w-24 rounded-md border border-slate-300 px-2 py-1 text-right"
                     />
                   </label>
-
-                  <div className="grid grid-cols-3 gap-2">
-                    <label className="flex flex-col gap-1 text-xs text-slate-600">
-                      + správna
-                      <input
-                        type="number"
-                        value={roundForm.scoreCorrect}
-                        onChange={event =>
-                          setRoundForm(prev => ({ ...prev, scoreCorrect: Number(event.target.value) || 0 }))
-                        }
-                        className="rounded-md border border-slate-300 px-2 py-1"
-                      />
-                    </label>
-                    <label className="flex flex-col gap-1 text-xs text-slate-600">
-                      zlá odpoveď
-                      <input
-                        type="number"
-                        value={roundForm.scoreWrong}
-                        onChange={event =>
-                          setRoundForm(prev => ({ ...prev, scoreWrong: Number(event.target.value) || 0 }))
-                        }
-                        className="rounded-md border border-slate-300 px-2 py-1"
-                      />
-                    </label>
-                    <label className="flex flex-col gap-1 text-xs text-slate-600">
-                      bez odpovede
-                      <input
-                        type="number"
-                        value={roundForm.scoreNoAnswer}
-                        onChange={event =>
-                          setRoundForm(prev => ({ ...prev, scoreNoAnswer: Number(event.target.value) || 0 }))
-                        }
-                        className="rounded-md border border-slate-300 px-2 py-1"
-                      />
-                    </label>
-                  </div>
-                </>
-              )}
-
-              {roundError && <p className="text-xs font-medium text-rose-600">{roundError}</p>}
-
-              {setupStep === 'round-config' && (
-                <button
-                  type="button"
-                  onClick={saveRound}
-                  disabled={savingRound}
-                  className="w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
-                >
-                  {savingRound
-                    ? 'Ukladám...'
-                    : roundCursor + 1 >= plannedRounds
-                      ? 'Uložiť posledné kolo'
-                      : 'Nastaviť ďalšie kolo'}
-                </button>
-              )}
-            </div>
-          )}
-
-          {gameState.phase === 'ready' && (
-            <div className="space-y-2 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700">
-              <p>Všetky kolá sú pripravené. Hru môžete spustiť.</p>
+                ))}
+              </div>
               <button
-                className="w-full rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300"
-                onClick={controls.startGame}
-                disabled={gameState.players.length === 0}
+                type="button"
+                className="w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+                onClick={() => setGameState(prev => ({ ...prev, roundsReady: true }))}
               >
-                Spustiť kvíz
+                Potvrdiť nastavenie kôl
               </button>
+              {!gameState.roundsReady && (
+                <p className="text-xs text-slate-500">Pred spustením hry potvrďte nastavenie všetkých kôl.</p>
+              )}
             </div>
           )}
 
-          {gameState.phase === 'question' && (
+          <div className="flex flex-wrap gap-2">
             <button
-              className="w-full rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600"
+              className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+              onClick={controls.startGame}
+              disabled={
+                gameState.phase !== 'lobby' || gameState.players.length === 0 || !gameState.roundsReady
+              }
+            >
+              Spustiť kvíz
+            </button>
+            <button
+              className="rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-emerald-200"
               onClick={controls.revealAnswer}
+              disabled={gameState.phase !== 'question'}
             >
               Odhal správnu odpoveď
             </button>
@@ -678,6 +425,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             <button
               className="w-full rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600"
               onClick={controls.nextQuestion}
+              disabled={gameState.phase !== 'reveal'}
             >
               Ďalšia otázka
             </button>
@@ -723,9 +471,6 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                 <p className="text-xs uppercase tracking-wide text-slate-500">
                   Kolo {roundContext.roundNumber} · otázka {roundContext.questionInRound} /{' '}
                   {roundContext.round?.questionCount ?? gameState.totalQuestions}
-                </p>
-                <p className="text-xs uppercase tracking-wide text-slate-500">
-                  Celkom otázka {gameState.questionIndex + 1} / {gameState.totalQuestions}
                 </p>
                 {gameState.phase === 'question' && roundTimeLeft != null && (
                   <p className="mt-1 text-sm font-medium text-amber-600">Čas na odpoveď: {roundTimeLeft}s</p>
