@@ -1,4 +1,4 @@
-﻿// src/middleware.ts
+﻿// src/proxy.ts
 import { NextRequest, NextResponse } from "next/server";
 
 const SUPPORTED = ["en","sk","cs","pl","hu","fr","de","uk","ru","es"] as const;
@@ -38,7 +38,7 @@ function isBot(ua: string | null) {
   return !!ua && /(bot|crawler|spider|crawling)/i.test(ua);
 }
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (pathname.startsWith("/_next") || pathname.startsWith("/api") || pathname.startsWith("/assets")) {
     return NextResponse.next();

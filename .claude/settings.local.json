@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell.exe -Command \"Get-ChildItem ''C:\\\\Program Files\\\\nodejs'' -ErrorAction SilentlyContinue; Get-ChildItem ''C:\\\\Program Files \\(x86\\)\\\\nodejs'' -ErrorAction SilentlyContinue; Get-ChildItem ''C:\\\\Users\\\\bubli\\\\AppData\\\\Local\\\\fnm'' -ErrorAction SilentlyContinue; Get-ChildItem ''C:\\\\Users\\\\bubli\\\\AppData\\\\Roaming\\\\nvm'' -ErrorAction SilentlyContinue\")",
+      "Bash(powershell.exe -Command \"Get-AppxPackage | Where-Object { $_.Name -match ''node|npm'' }\")",
+      "Bash(powershell.exe -Command \"winget list node 2>&1\")",
+      "Bash(powershell.exe -Command \"node --version; npm --version\")",
+      "Bash(powershell.exe -Command \"Get-ChildItem ''C:\\\\ProgramData\\\\chocolatey\\\\bin'' | Where-Object { $_.Name -match ''node|npm'' }; Test-Path ''C:\\\\Program Files\\\\nodejs''\")",
+      "Bash(powershell.exe -Command \"Get-Content ''C:\\\\Users\\\\bubli\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-bubli-spoznajme-sa\\\\2579ca4c-4012-4ff9-aefe-36dd9a01115e\\\\tasks\\\\bucn8h1ub.output'' -Tail 30\")",
+      "Bash(xargs grep:*)"
+    ]
+  }
+}

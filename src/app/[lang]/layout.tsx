@@ -7,11 +7,12 @@ import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config'
 
 type P = {
   children: React.ReactNode
-  params: Promise<{ lang: Locale }>
+  params: Promise<{ lang: string }>
 }
 
 export default async function LangLayout({ children, params }: P) {
-  const { lang } = await params
+  const { lang: rawLang } = await params
+  const lang = rawLang as Locale
 
   if (!SUPPORTED_LOCALES.includes(lang)) notFound()
 
