@@ -37,12 +37,7 @@ interface Category { id: string; name: string; count: number }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const ANSWER_COLORS: Record<string, string> = {
-  A: 'from-violet-500 to-violet-700 border-violet-400',
-  B: 'from-blue-500 to-blue-700 border-blue-400',
-  C: 'from-amber-500 to-amber-700 border-amber-400',
-  D: 'from-emerald-500 to-emerald-700 border-emerald-400',
-}
+const ANSWER_COLORS = ['hv-answer-a', 'hv-answer-b', 'hv-answer-c', 'hv-answer-d']
 const ANSWER_LABELS = ['A', 'B', 'C', 'D']
 
 async function api(path: string, method = 'GET', body?: unknown) {
@@ -60,7 +55,10 @@ async function api(path: string, method = 'GET', body?: unknown) {
 function Spinner() {
   return (
     <div className="flex items-center justify-center h-full min-h-[60vh]">
-      <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin" />
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 border-3 border-purple-400 border-t-transparent rounded-full animate-spin" />
+        <p className="hv-text-muted text-sm">Načítavam…</p>
+      </div>
     </div>
   )
 }
@@ -79,33 +77,33 @@ function TimerRing({ deadline, seconds }: { deadline: string | null; seconds: nu
   }, [deadline, seconds])
 
   const pct = seconds > 0 ? remaining / seconds : 0
-  const r = 44
+  const r = 48
   const circ = 2 * Math.PI * r
   const dash = circ * pct
   const urgent = remaining <= 5
-  const color = urgent ? '#ef4444' : remaining <= 10 ? '#f59e0b' : '#22c55e'
+  const color = urgent ? 'hsl(0 70% 55%)' : remaining <= 10 ? 'hsl(40 90% 55%)' : 'hsl(150 60% 50%)'
 
   return (
     <div className="flex flex-col items-center gap-1">
-      <svg width="110" height="110" className="-rotate-90">
-        <circle cx="55" cy="55" r={r} fill="none" stroke="#374151" strokeWidth="8" />
-        <circle cx="55" cy="55" r={r} fill="none" stroke={color} strokeWidth="8"
+      <svg width="120" height="120" className="-rotate-90">
+        <circle cx="60" cy="60" r={r} fill="none" stroke="hsla(250 20% 20% / 0.6)" strokeWidth="6" />
+        <circle cx="60" cy="60" r={r} fill="none" stroke={color} strokeWidth="6"
           strokeDasharray={`${dash} ${circ}`}
           strokeLinecap="round"
           style={{ transition: 'stroke-dasharray 0.25s linear, stroke 0.3s' }}
         />
       </svg>
-      <span className={`-mt-[78px] text-3xl font-black tabular-nums ${urgent ? 'text-red-400 animate-pulse' : 'text-white'}`}>
+      <span className={`-mt-[84px] text-4xl font-black tabular-nums ${urgent ? 'text-red-400 animate-pulse' : 'text-white'}`}>
         {remaining}
       </span>
-      <span className="mt-[36px] text-xs text-gray-400">sekúnd</span>
+      <span className="mt-[38px] text-xs hv-text-dim">sekúnd</span>
     </div>
   )
 }
 
 function AnswerBtn({
-  letter, text, selected, correct, locked, onClick
-}: { letter: string; text: string; selected: boolean; correct: string | null; locked: boolean; onClick?: () => void }) {
+  letter, text, index, selected, correct, locked, onClick
+}: { letter: string; text: string; index: number; selected: boolean; correct: string | null; locked: boolean; onClick?: () => void }) {
   const isCorrect = correct === letter
   const isWrong = locked && selected && !isCorrect
   const dim = locked && !isCorrect && !selected
@@ -115,41 +113,38 @@ function AnswerBtn({
       onClick={onClick}
       disabled={locked}
       className={`
-        relative w-full flex items-center gap-3 p-4 rounded-xl border-2 text-left font-semibold
+        relative w-full flex items-center gap-3 p-4 rounded-2xl border-2 text-left font-semibold
         transition-all duration-300 select-none
-        ${selected && !locked ? 'scale-105 ring-4 ring-white/30' : ''}
-        ${isCorrect ? 'border-green-400 bg-green-500/20 text-green-200' : ''}
-        ${isWrong ? 'border-red-400 bg-red-500/20 text-red-300 line-through' : ''}
-        ${dim ? 'opacity-30' : ''}
-        ${!locked && !selected ? `bg-gradient-to-r ${ANSWER_COLORS[letter]} text-white hover:scale-105 hover:brightness-110 active:scale-100 cursor-pointer` : ''}
-        ${selected && !locked ? `bg-gradient-to-r ${ANSWER_COLORS[letter]} text-white` : ''}
+        ${selected && !locked ? 'scale-[1.02] ring-2 ring-white/20' : ''}
+        ${isCorrect ? 'hv-answer-correct border-2 !text-green-200' : ''}
+        ${isWrong ? 'hv-answer-wrong border-2 !text-red-300 line-through opacity-60' : ''}
+        ${dim ? 'opacity-20' : ''}
+        ${!locked && !selected ? `${ANSWER_COLORS[index]} text-white border-transparent hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] cursor-pointer shadow-lg` : ''}
+        ${selected && !locked ? `${ANSWER_COLORS[index]} text-white border-white/20` : ''}
       `}
     >
-      <span className="w-8 h-8 rounded-lg bg-black/20 flex items-center justify-center font-black text-lg shrink-0">
+      <span className="w-9 h-9 rounded-xl bg-black/20 backdrop-blur-sm flex items-center justify-center font-black text-base shrink-0">
         {letter}
       </span>
-      <span className="leading-tight">{text}</span>
-      {isCorrect && <span className="ml-auto text-xl">✓</span>}
-      {isWrong && <span className="ml-auto text-xl">✗</span>}
+      <span className="leading-snug flex-1">{text}</span>
+      {isCorrect && <span className="ml-auto text-2xl">✓</span>}
+      {isWrong && <span className="ml-auto text-2xl">✗</span>}
     </button>
   )
 }
 
-function Leaderboard({ players, highlight }: { players: Player[]; highlight?: string }) {
+function GameLeaderboard({ players, highlight }: { players: Player[]; highlight?: string }) {
   return (
     <div className="space-y-2">
       {players.map((p, i) => (
         <div key={p.id}
-          className={`flex items-center gap-3 p-3 rounded-xl border transition-all
-            ${p.id === highlight ? 'border-violet-400 bg-violet-500/20' : 'border-gray-700 bg-gray-800/60'}
-          `}
+          className={`hv-lb-row ${p.id === highlight ? 'highlight' : ''}`}
         >
-          <span className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm
-            ${i === 0 ? 'bg-yellow-400 text-yellow-900' : i === 1 ? 'bg-gray-300 text-gray-900' : i === 2 ? 'bg-amber-600 text-white' : 'bg-gray-700 text-gray-300'}`}>
+          <span className={`hv-lb-rank ${i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'default'}`}>
             {i + 1}
           </span>
           <span className="flex-1 font-semibold text-white truncate">{p.name}</span>
-          <span className="font-black text-violet-300 tabular-nums">{p.score} b</span>
+          <span className="font-black text-purple-300 tabular-nums">{p.score} b</span>
         </div>
       ))}
     </div>
@@ -160,7 +155,8 @@ function PlayerList({ players }: { players: Player[] }) {
   return (
     <div className="flex flex-wrap gap-2">
       {players.map(p => (
-        <span key={p.id} className="px-3 py-1 bg-gray-800 border border-gray-700 rounded-full text-sm text-gray-200">
+        <span key={p.id} className="hv-player-pill">
+          <span className="w-2 h-2 rounded-full bg-green-400" />
           {p.name}
         </span>
       ))}
@@ -192,25 +188,32 @@ function JoinForm({ code, gamePhase, lobbyLocked, onJoined }: {
 
   if (lobbyLocked) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-        <div className="text-center space-y-4 max-w-sm">
-          <div className="text-6xl">🔒</div>
+      <div className="hv-bg hv-particles flex items-center justify-center p-6">
+        <div className="text-center space-y-4 max-w-sm animate-fade-in">
+          <div className="w-20 h-20 mx-auto rounded-3xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-4xl">
+            🔒
+          </div>
           <h2 className="text-2xl font-bold text-white">Prihlasovanie uzavreté</h2>
-          <p className="text-gray-400">Moderátor uzamkol lobby. Hra prebieha.</p>
+          <p className="hv-text-muted">Moderátor uzamkol lobby. Hra prebieha.</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-sm space-y-6">
-        <div className="text-center">
-          <div className="text-5xl mb-3">🎮</div>
+    <div className="hv-bg hv-particles flex items-center justify-center p-6">
+      <div className="w-full max-w-sm space-y-6 animate-fade-in">
+        <div className="text-center space-y-3">
+          <div className="inline-flex items-center gap-2 hv-badge bg-purple-500/15 text-purple-300 border border-purple-500/20">
+            <span>🐂</span>
+            <span>Herd Vote</span>
+          </div>
           <h1 className="text-3xl font-black text-white">Pripojiť sa</h1>
-          <p className="text-gray-400 mt-1">Hra <span className="font-mono font-bold text-violet-400">{code}</span></p>
+          <p className="hv-text-muted text-sm">
+            Hra <span className="font-mono font-bold text-purple-300 tracking-widest">{code}</span>
+          </p>
         </div>
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 space-y-4">
+        <div className="hv-card-glow p-6 space-y-4">
           <input
             autoFocus
             value={name}
@@ -218,15 +221,24 @@ function JoinForm({ code, gamePhase, lobbyLocked, onJoined }: {
             onKeyDown={e => e.key === 'Enter' && join()}
             placeholder="Tvoje meno / tím"
             maxLength={30}
-            className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 text-lg"
+            className="hv-input w-full px-4 py-3.5 text-lg"
           />
-          {err && <p className="text-red-400 text-sm">{err}</p>}
+          {err && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 text-red-300 text-sm">
+              {err}
+            </div>
+          )}
           <button
             onClick={join}
             disabled={busy || !name.trim()}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600 to-violet-800 text-white font-bold text-lg hover:brightness-110 disabled:opacity-50 transition-all active:scale-95"
+            className="hv-btn-primary w-full py-3.5 text-lg"
           >
-            {busy ? 'Pripájam…' : 'Pripojiť sa →'}
+            {busy ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                Pripájam…
+              </span>
+            ) : 'Pripojiť sa →'}
           </button>
         </div>
       </div>
@@ -238,18 +250,20 @@ function JoinForm({ code, gamePhase, lobbyLocked, onJoined }: {
 
 function PlayerLobby({ gs, myName }: { gs: GameState; myName: string }) {
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 gap-8">
-      <div className="text-center">
-        <div className="text-5xl mb-3">⏳</div>
+    <div className="hv-bg hv-particles flex flex-col items-center justify-center p-6 gap-8">
+      <div className="text-center animate-fade-in space-y-3">
+        <div className="w-16 h-16 mx-auto rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-3xl animate-pulse">
+          ⏳
+        </div>
         <h2 className="text-2xl font-bold text-white">Čakáme na moderátora</h2>
-        <p className="text-gray-400 mt-1">Hra začne čoskoro…</p>
+        <p className="hv-text-muted">Hra začne čoskoro…</p>
       </div>
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 w-full max-w-sm text-center">
-        <p className="text-gray-400 text-sm mb-1">Prihlásený ako</p>
-        <p className="text-2xl font-black text-violet-300">{myName}</p>
+      <div className="hv-card-glow p-6 w-full max-w-sm text-center">
+        <p className="hv-text-dim text-xs uppercase tracking-widest mb-1">Prihlásený ako</p>
+        <p className="text-2xl font-black hv-text-gradient">{myName}</p>
       </div>
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 w-full max-w-sm">
-        <p className="text-sm text-gray-400 mb-3 font-semibold">Hráči ({gs.playerCount})</p>
+      <div className="hv-card p-5 w-full max-w-sm">
+        <p className="text-xs hv-text-dim uppercase tracking-widest font-semibold mb-3">Hráči ({gs.playerCount})</p>
         <PlayerList players={gs.players} />
       </div>
     </div>
@@ -264,7 +278,6 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
   const [myAnswer, setMyAnswer] = useState<string | null>(gs.myAnswer ?? null)
   const [sending, setSending] = useState(false)
 
-  // Sync myAnswer from server state
   useEffect(() => {
     if (gs.myAnswer !== undefined) setMyAnswer(gs.myAnswer)
   }, [gs.myAnswer])
@@ -281,12 +294,15 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
 
   if (!round || !q) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-center space-y-3">
+      <div className="hv-bg hv-particles flex items-center justify-center">
+        <div className="text-center space-y-4 animate-fade-in">
           <div className="text-4xl animate-pulse">⏳</div>
-          <p className="text-gray-400">Čakáme na ďalšiu otázku…</p>
+          <p className="hv-text-muted">Čakáme na ďalšiu otázku…</p>
           {gs.myPlayer && (
-            <p className="text-gray-600 text-sm">Skóre: <span className="text-violet-300 font-bold">{gs.myPlayer.score} b</span></p>
+            <div className="hv-card px-6 py-3 inline-block">
+              <span className="hv-text-dim text-sm">Skóre: </span>
+              <span className="text-purple-300 font-bold">{gs.myPlayer.score} b</span>
+            </div>
           )}
         </div>
       </div>
@@ -297,16 +313,21 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
   const showTimer = round.status === 'running' && round.timer_deadline
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col">
-      {/* Header */}
-      <div className="bg-gray-900 border-b border-gray-800 px-4 py-3 flex items-center justify-between">
-        <div className="text-sm text-gray-400">
-          Kolo <span className="text-white font-bold">{(round.idx ?? 0) + 1}</span>
-          <span className="mx-2 text-gray-700">·</span>
-          Otázka <span className="text-white font-bold">{q.qIndex + 1}/{q.total}</span>
+    <div className="hv-bg hv-particles flex flex-col">
+      {/* Header bar */}
+      <div className="bg-black/30 backdrop-blur-sm border-b border-white/5 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3 text-sm">
+          <span className="hv-badge bg-purple-500/15 text-purple-300 border border-purple-500/20 text-[0.65rem]">
+            Kolo {(round.idx ?? 0) + 1}
+          </span>
+          <span className="hv-text-muted">
+            Otázka <span className="text-white font-bold">{q.qIndex + 1}/{q.total}</span>
+          </span>
         </div>
         {gs.myPlayer && (
-          <div className="text-sm font-bold text-violet-300">{gs.myPlayer.score} b</div>
+          <div className="hv-badge bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs">
+            {gs.myPlayer.score} b
+          </div>
         )}
       </div>
 
@@ -317,15 +338,16 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
         </div>
       )}
 
-      {/* Question */}
-      <div className="flex-1 px-4 py-6 flex flex-col gap-6 max-w-xl mx-auto w-full">
-        <div className={`bg-gray-900 border border-gray-800 rounded-2xl p-5 ${!showTimer ? 'mt-6' : ''}`}>
+      {/* Content */}
+      <div className="flex-1 px-4 py-6 flex flex-col gap-5 max-w-xl mx-auto w-full">
+        {/* Question */}
+        <div className={`hv-card-glow p-6 ${!showTimer ? 'mt-4' : ''}`}>
           <p className="text-white text-xl font-bold leading-snug text-center">{q.text}</p>
         </div>
 
         {/* Waiting for timer */}
         {round.status === 'shown' && (
-          <div className="text-center text-gray-500 text-sm animate-pulse">Čakáme na spustenie timera…</div>
+          <div className="text-center hv-text-muted text-sm animate-pulse">Čakáme na spustenie timera…</div>
         )}
 
         {/* Answers */}
@@ -339,6 +361,7 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
                   key={letter}
                   letter={letter}
                   text={text}
+                  index={i}
                   selected={myAnswer === letter}
                   correct={locked ? (q.correct ?? null) : null}
                   locked={locked || !!myAnswer}
@@ -351,11 +374,17 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
 
         {/* Result feedback */}
         {locked && q.correct && (
-          <div className={`rounded-2xl border p-5 text-center ${myAnswer === q.correct ? 'bg-green-900/30 border-green-500' : myAnswer ? 'bg-red-900/30 border-red-500' : 'bg-gray-800 border-gray-700'}`}>
-            {!myAnswer && <p className="text-gray-400 font-semibold">Neodpovedal si</p>}
+          <div className={`rounded-2xl border-2 p-5 text-center transition-all duration-500 ${
+            myAnswer === q.correct 
+              ? 'bg-green-500/10 border-green-500/30' 
+              : myAnswer 
+                ? 'bg-red-500/10 border-red-500/30' 
+                : 'hv-card'
+          }`}>
+            {!myAnswer && <p className="hv-text-muted font-semibold">Neodpovedal si</p>}
             {myAnswer === q.correct && <p className="text-green-400 font-black text-xl">✓ Správne!</p>}
             {myAnswer && myAnswer !== q.correct && <p className="text-red-400 font-black text-xl">✗ Nesprávne</p>}
-            <p className="text-gray-300 mt-1 text-sm">
+            <p className="hv-text-muted mt-2 text-sm">
               Správna odpoveď: <span className="font-bold text-white">{q.correct} – {[q.a, q.b, q.c, q.d][['A','B','C','D'].indexOf(q.correct)]}</span>
             </p>
           </div>
@@ -363,9 +392,9 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
 
         {/* Results leaderboard */}
         {round.status === 'results' && gs.leaderboard && (
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-            <h3 className="text-gray-400 text-sm font-semibold mb-3">Priebežné poradie</h3>
-            <Leaderboard players={gs.leaderboard} highlight={playerId} />
+          <div className="hv-card p-5">
+            <h3 className="hv-text-dim text-xs uppercase tracking-widest font-semibold mb-4">Priebežné poradie</h3>
+            <GameLeaderboard players={gs.leaderboard} highlight={playerId} />
           </div>
         )}
       </div>
@@ -380,21 +409,21 @@ function PlayerFinal({ gs, playerId }: { gs: GameState; playerId: string }) {
   const myPos = lb.findIndex(p => p.id === playerId)
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 gap-8">
-      <div className="text-center">
-        <div className="text-6xl mb-3">🏆</div>
+    <div className="hv-bg hv-particles flex flex-col items-center justify-center p-6 gap-8">
+      <div className="text-center animate-fade-in space-y-3">
+        <div className="text-6xl mb-2">🏆</div>
         <h1 className="text-3xl font-black text-white">Koniec hry!</h1>
         {myPos >= 0 && (
-          <p className="text-gray-400 mt-2">
-            Skončil si na <span className="text-yellow-300 font-bold">{myPos + 1}. mieste</span>
-            <span className="text-gray-600 mx-2">·</span>
-            <span className="text-violet-300 font-bold">{lb[myPos]?.score ?? 0} bodov</span>
+          <p className="hv-text-muted">
+            Skončil si na <span className="text-amber-300 font-bold">{myPos + 1}. mieste</span>
+            <span className="hv-text-dim mx-2">·</span>
+            <span className="text-purple-300 font-bold">{lb[myPos]?.score ?? 0} bodov</span>
           </p>
         )}
       </div>
-      <div className="w-full max-w-sm bg-gray-900 border border-gray-800 rounded-2xl p-5">
-        <h3 className="text-gray-400 text-sm font-semibold mb-4">Finálne poradie</h3>
-        <Leaderboard players={lb} highlight={playerId} />
+      <div className="w-full max-w-sm hv-card-glow p-6">
+        <h3 className="hv-text-dim text-xs uppercase tracking-widest font-semibold mb-4">Finálne poradie</h3>
+        <GameLeaderboard players={lb} highlight={playerId} />
       </div>
     </div>
   )
@@ -420,39 +449,62 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
   const copyLink = () => navigator.clipboard?.writeText(joinUrl)
 
   return (
-    <div className="min-h-screen bg-gray-950 p-6 max-w-2xl mx-auto space-y-6">
-      <div className="text-center pt-4">
-        <p className="text-gray-400 text-sm mb-1">Kód hry</p>
-        <div className="text-7xl font-black text-white tracking-widest font-mono">{code}</div>
-        <p className="text-gray-500 text-sm mt-2">Pošlite hráčom tento kód alebo link</p>
-      </div>
+    <div className="hv-bg hv-particles">
+      <div className="max-w-2xl mx-auto p-6 space-y-6">
+        {/* QR Section — dominant */}
+        <div className="hv-card-glow p-8 text-center space-y-5">
+          <div className="space-y-2">
+            <p className="hv-text-dim text-xs uppercase tracking-widest font-semibold">Kód hry</p>
+            <div className="text-6xl md:text-7xl font-black text-white tracking-[0.2em] font-mono">{code}</div>
+          </div>
+          
+          {/* QR Code */}
+          <div className="flex justify-center">
+            <div className="bg-white rounded-2xl p-3 shadow-lg shadow-purple-500/10">
+              <img
+                src={`https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(joinUrl)}&color=2d1b69&bgcolor=ffffff`}
+                alt="QR kód"
+                className="w-56 h-56 md:w-64 md:h-64 rounded-xl"
+              />
+            </div>
+          </div>
 
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex items-center gap-3">
-        <span className="flex-1 text-gray-300 text-sm truncate">{joinUrl}</span>
-        <button onClick={copyLink}
-          className="px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-gray-600 text-sm text-white transition-colors">
-          Kopírovať
+          {/* Join link */}
+          <div className="flex items-center gap-2 bg-black/20 rounded-xl px-4 py-3">
+            <span className="flex-1 hv-text-muted text-sm truncate font-mono">{joinUrl}</span>
+            <button onClick={copyLink}
+              className="hv-btn-secondary px-3 py-1.5 text-xs">
+              Kopírovať
+            </button>
+          </div>
+          
+          <p className="hv-text-dim text-sm">Naskenujte QR alebo otvorte link v prehliadači</p>
+        </div>
+
+        {/* Players */}
+        <div className="hv-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-bold text-white flex items-center gap-2">
+              <span>Hráči</span>
+              <span className="hv-badge bg-purple-500/15 text-purple-300 border border-purple-500/20 text-xs">{gs.playerCount}</span>
+            </h2>
+            <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" title="Živé" />
+          </div>
+          {gs.players.length === 0
+            ? <p className="hv-text-muted text-sm">Zatiaľ sa nikto nepripojil…</p>
+            : <PlayerList players={gs.players} />
+          }
+        </div>
+
+        {/* Lock lobby */}
+        <button
+          onClick={lock}
+          disabled={locking || gs.players.length === 0}
+          className="hv-btn-primary w-full py-4 text-lg"
+        >
+          {locking ? 'Uzatváram…' : `🔒 Uzavrieť lobby (${gs.playerCount} hráčov)`}
         </button>
       </div>
-
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-bold text-white">Hráči ({gs.playerCount})</h2>
-          <span className="w-3 h-3 rounded-full bg-green-400 animate-pulse" title="Živé" />
-        </div>
-        {gs.players.length === 0
-          ? <p className="text-gray-500 text-sm">Zatiaľ sa nikto nepripojil…</p>
-          : <PlayerList players={gs.players} />
-        }
-      </div>
-
-      <button
-        onClick={lock}
-        disabled={locking || gs.players.length === 0}
-        className="w-full py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-violet-800 text-white font-bold text-lg hover:brightness-110 disabled:opacity-40 transition-all active:scale-95"
-      >
-        {locking ? 'Uzatváram…' : `🔒 Uzavrieť lobby (${gs.playerCount} hráčov)`}
-      </button>
     </div>
   )
 }
@@ -505,101 +557,118 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
   const selectedCat = categories.find(c => c.id === catId)
 
   return (
-    <div className="min-h-screen bg-gray-950 p-6 max-w-2xl mx-auto space-y-6">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-violet-600 flex items-center justify-center text-white font-bold">⚙</div>
-        <div>
-          <h1 className="text-xl font-black text-white">Nastavenie kôl</h1>
-          <p className="text-gray-500 text-sm">Hra {code}</p>
+    <div className="hv-bg hv-particles">
+      <div className="max-w-2xl mx-auto p-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-500/20 flex items-center justify-center text-xl">⚙</div>
+          <div>
+            <h1 className="text-xl font-black text-white">Nastavenie kôl</h1>
+            <p className="hv-text-dim text-sm">Hra {code}</p>
+          </div>
         </div>
-      </div>
 
-      {/* Progress */}
-      <div className="grid grid-cols-3 gap-2">
-        {Array.from({ length: totalRounds }, (_, i) => {
-          const done = i < configured.length
-          return (
-            <div key={i} className={`rounded-xl border p-3 text-center transition-all ${done ? 'border-green-500 bg-green-900/20' : i === nextIdx ? 'border-violet-500 bg-violet-900/20' : 'border-gray-700 bg-gray-900'}`}>
-              <div className={`text-lg font-bold ${done ? 'text-green-400' : i === nextIdx ? 'text-violet-300' : 'text-gray-600'}`}>
-                {done ? '✓' : `Kolo ${i + 1}`}
+        {/* Progress */}
+        <div className="grid grid-cols-3 gap-2">
+          {Array.from({ length: totalRounds }, (_, i) => {
+            const done = i < configured.length
+            return (
+              <div key={i} className={`rounded-xl border p-3 text-center transition-all ${
+                done ? 'border-green-500/30 bg-green-500/10' 
+                : i === nextIdx ? 'border-purple-500/30 bg-purple-500/10' 
+                : 'border-white/5 bg-white/[0.02]'
+              }`}>
+                <div className={`text-lg font-bold ${
+                  done ? 'text-green-400' : i === nextIdx ? 'text-purple-300' : 'hv-text-dim'
+                }`}>
+                  {done ? '✓' : `Kolo ${i + 1}`}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Players summary */}
+        <div className="hv-card p-3 flex items-center gap-3">
+          <span className="hv-text-muted text-sm">Hráči:</span>
+          <div className="flex-1 flex flex-wrap gap-1">
+            {gs.players.slice(0, 10).map(p => (
+              <span key={p.id} className="px-2 py-0.5 text-xs bg-white/5 rounded-full text-white/60">{p.name}</span>
+            ))}
+            {gs.players.length > 10 && <span className="hv-text-dim text-xs">+{gs.players.length - 10}</span>}
+          </div>
+        </div>
+
+        {/* Configure next round */}
+        {!allConfigured && (
+          <div className="hv-card-glow p-6 space-y-5">
+            <h2 className="font-bold text-white text-lg">Kolo {nextIdx + 1}</h2>
+
+            <div className="space-y-2">
+              <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Kategória</label>
+              <select value={catId} onChange={e => setCatId(e.target.value)}
+                className="hv-input w-full px-3 py-2.5">
+                {categories.map(c => (
+                  <option key={c.id} value={c.id}>{c.name} ({c.count} otázok)</option>
+                ))}
+              </select>
+              {selectedCat && <p className="hv-text-dim text-xs">{selectedCat.count} dostupných otázok</p>}
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Počet otázok</label>
+                <input type="number" min={1} max={20} value={qCount} onChange={e => setQCount(+e.target.value)}
+                  className="hv-input w-full px-3 py-2.5" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Čas (s)</label>
+                <input type="number" min={5} max={120} value={seconds} onChange={e => setSeconds(+e.target.value)}
+                  className="hv-input w-full px-3 py-2.5" />
               </div>
             </div>
-          )
-        })}
+
+            <div className="space-y-2">
+              <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Bodovanie</label>
+              <div className="grid grid-cols-2 gap-2">
+                {(['simple', 'weighted'] as const).map(m => (
+                  <button key={m} onClick={() => setScoring(m)}
+                    className={`py-2.5 rounded-xl border font-semibold text-sm transition-all ${
+                      scoring === m 
+                        ? 'border-purple-500/40 bg-purple-500/15 text-purple-300' 
+                        : 'border-white/10 text-white/40 hover:border-white/20 hover:text-white/60'
+                    }`}>
+                    {m === 'simple' ? '🎯 Klasické' : '🏎 Rýchlostné'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {err && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 text-red-300 text-sm">
+                {err}
+              </div>
+            )}
+
+            <button onClick={saveRound} disabled={saving || !catId}
+              className="hv-btn-primary w-full py-3.5 text-base">
+              {saving ? 'Ukladám…' : nextIdx < totalRounds - 1 ? `Uložiť a nastaviť kolo ${nextIdx + 2}` : 'Uložiť posledné kolo'}
+            </button>
+          </div>
+        )}
+
+        {/* Start game */}
+        {allConfigured && (
+          <div className="hv-card border-green-500/20 bg-green-500/5 p-6 space-y-4 text-center">
+            <div className="text-4xl">✅</div>
+            <p className="text-green-300 font-bold">Všetky kolá sú nastavené!</p>
+            <button onClick={startGame} disabled={starting}
+              className="hv-btn-success w-full py-4 text-lg font-black">
+              {starting ? 'Spúšťam…' : '🚀 Spustiť hru!'}
+            </button>
+          </div>
+        )}
       </div>
-
-      {/* Players summary */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-3 flex items-center gap-3">
-        <span className="text-gray-400 text-sm">Hráči:</span>
-        <div className="flex-1 flex flex-wrap gap-1">
-          {gs.players.slice(0, 10).map(p => (
-            <span key={p.id} className="px-2 py-0.5 text-xs bg-gray-800 rounded-full text-gray-300">{p.name}</span>
-          ))}
-          {gs.players.length > 10 && <span className="text-gray-500 text-xs">+{gs.players.length - 10}</span>}
-        </div>
-      </div>
-
-      {/* Configure next round */}
-      {!allConfigured && (
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 space-y-4">
-          <h2 className="font-bold text-white">Kolo {nextIdx + 1}</h2>
-
-          <div className="space-y-1">
-            <label className="text-xs text-gray-400 font-semibold uppercase tracking-wide">Kategória</label>
-            <select value={catId} onChange={e => setCatId(e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-violet-500">
-              {categories.map(c => (
-                <option key={c.id} value={c.id}>{c.name} ({c.count} otázok)</option>
-              ))}
-            </select>
-            {selectedCat && <p className="text-xs text-gray-500">{selectedCat.count} dostupných otázok</p>}
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-xs text-gray-400 font-semibold uppercase tracking-wide">Počet otázok</label>
-              <input type="number" min={1} max={20} value={qCount} onChange={e => setQCount(+e.target.value)}
-                className="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-violet-500" />
-            </div>
-            <div className="space-y-1">
-              <label className="text-xs text-gray-400 font-semibold uppercase tracking-wide">Čas (s)</label>
-              <input type="number" min={5} max={120} value={seconds} onChange={e => setSeconds(+e.target.value)}
-                className="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-violet-500" />
-            </div>
-          </div>
-
-          <div className="space-y-1">
-            <label className="text-xs text-gray-400 font-semibold uppercase tracking-wide">Bodovanie</label>
-            <div className="grid grid-cols-2 gap-2">
-              {(['simple', 'weighted'] as const).map(m => (
-                <button key={m} onClick={() => setScoring(m)}
-                  className={`py-2 rounded-xl border font-semibold text-sm transition-all ${scoring === m ? 'border-violet-500 bg-violet-900/40 text-violet-300' : 'border-gray-700 text-gray-500 hover:border-gray-600'}`}>
-                  {m === 'simple' ? '🎯 Klasické' : '🏎 Rýchlostné'}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {err && <p className="text-red-400 text-sm">{err}</p>}
-
-          <button onClick={saveRound} disabled={saving || !catId}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600 to-violet-800 text-white font-bold hover:brightness-110 disabled:opacity-40 transition-all active:scale-95">
-            {saving ? 'Ukladám…' : nextIdx < totalRounds - 1 ? `Uložiť a nastaviť kolo ${nextIdx + 2}` : 'Uložiť posledné kolo'}
-          </button>
-        </div>
-      )}
-
-      {/* Start game */}
-      {allConfigured && (
-        <div className="bg-green-900/20 border border-green-600 rounded-2xl p-5 space-y-4 text-center">
-          <div className="text-4xl">✅</div>
-          <p className="text-green-300 font-bold">Všetky kolá sú nastavené!</p>
-          <button onClick={startGame} disabled={starting}
-            className="w-full py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-700 text-white font-black text-lg hover:brightness-110 disabled:opacity-40 transition-all active:scale-95">
-            {starting ? 'Spúšťam…' : '🚀 Spustiť hru!'}
-          </button>
-        </div>
-      )}
     </div>
   )
 }
@@ -620,7 +689,7 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
     setBusy(false)
   }, [code, onRefresh])
 
-  if (!round) return <Spinner />
+  if (!round) return <div className="hv-bg"><Spinner /></div>
 
   const s = round.status
   const isRunning = s === 'running'
@@ -632,23 +701,22 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
   const stats = gs.answerStats ?? {}
   const maxStat = Math.max(1, ...Object.values(stats))
 
+  const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
+    shown: { bg: 'bg-blue-500/15 border-blue-500/25', text: 'text-blue-300', label: '👁 Zobrazená otázka' },
+    running: { bg: 'bg-green-500/15 border-green-500/25', text: 'text-green-300', label: '⏱ Timer beží' },
+    locked: { bg: 'bg-amber-500/15 border-amber-500/25', text: 'text-amber-300', label: '🔒 Odpovede uzamknuté' },
+    results: { bg: 'bg-purple-500/15 border-purple-500/25', text: 'text-purple-300', label: '📊 Výsledky' },
+    finished: { bg: 'bg-green-500/15 border-green-500/25', text: 'text-green-300', label: '✅ Kolo skončilo' },
+  }
+  const sc = statusConfig[s] ?? { bg: 'bg-white/5 border-white/10', text: 'hv-text-muted', label: s }
+
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col md:flex-row gap-0">
-      {/* Left: controls */}
-      <div className="w-full md:w-72 bg-gray-900 border-b md:border-b-0 md:border-r border-gray-800 p-5 flex flex-col gap-4">
+    <div className="hv-bg hv-particles flex flex-col md:flex-row gap-0 min-h-screen">
+      {/* Left sidebar: controls */}
+      <div className="w-full md:w-72 bg-black/20 backdrop-blur-sm border-b md:border-b-0 md:border-r border-white/5 p-5 flex flex-col gap-4">
         {/* Status badge */}
-        <div className={`rounded-xl px-3 py-2 text-center font-bold text-sm ${
-          isShown ? 'bg-blue-900/40 text-blue-300 border border-blue-700' :
-          isRunning ? 'bg-green-900/40 text-green-300 border border-green-700 animate-pulse' :
-          isLocked ? 'bg-yellow-900/40 text-yellow-300 border border-yellow-700' :
-          isResults ? 'bg-violet-900/40 text-violet-300 border border-violet-700' :
-          'bg-gray-800 text-gray-400 border border-gray-700'
-        }`}>
-          {isShown && '👁 Zobrazená otázka'}
-          {isRunning && '⏱ Timer beží'}
-          {isLocked && '🔒 Odpovede uzamknuté'}
-          {isResults && '📊 Výsledky'}
-          {isFinished && '✅ Kolo skončilo'}
+        <div className={`rounded-xl px-3 py-2.5 text-center font-bold text-sm border ${sc.bg} ${sc.text} ${isRunning ? 'animate-pulse' : ''}`}>
+          {sc.label}
         </div>
 
         {/* Timer ring when running */}
@@ -660,38 +728,38 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
 
         {/* Answered count */}
         {(isRunning || isLocked || isResults) && (
-          <div className="bg-gray-800 rounded-xl p-3 text-center">
-            <div className="text-2xl font-black text-white">
-              {gs.answeredCount ?? 0}<span className="text-gray-500 text-lg">/{gs.playerCount}</span>
+          <div className="hv-card p-4 text-center">
+            <div className="text-3xl font-black text-white">
+              {gs.answeredCount ?? 0}<span className="hv-text-dim text-xl">/{gs.playerCount}</span>
             </div>
-            <div className="text-gray-400 text-xs mt-1">odpovedí</div>
+            <div className="hv-text-dim text-xs mt-1">odpovedí</div>
           </div>
         )}
 
         {/* Action buttons */}
-        <div className="space-y-2 mt-auto">
+        <div className="space-y-2.5 mt-auto">
           {isShown && (
             <button onClick={() => act(`rounds/timer/start`, { seconds: round.question_seconds })}
               disabled={busy}
-              className="w-full py-3 rounded-xl bg-green-600 hover:bg-green-500 text-white font-bold transition-all disabled:opacity-40 active:scale-95">
+              className="hv-btn-success w-full py-3">
               ▶ Spustiť timer ({round.question_seconds}s)
             </button>
           )}
           {isRunning && (
             <button onClick={() => act('rounds/lock')} disabled={busy}
-              className="w-full py-3 rounded-xl bg-yellow-600 hover:bg-yellow-500 text-white font-bold transition-all disabled:opacity-40 active:scale-95">
+              className="hv-btn-warning w-full py-3">
               🔒 Uzamknúť odpovede
             </button>
           )}
           {isLocked && (
             <button onClick={() => act('rounds/results', { roundId: round.id })} disabled={busy}
-              className="w-full py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold transition-all disabled:opacity-40 active:scale-95">
+              className="hv-btn-primary w-full py-3">
               📊 Zobraziť výsledky
             </button>
           )}
           {isResults && (
             <button onClick={() => act('rounds/next', { roundId: round.id })} disabled={busy}
-              className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition-all disabled:opacity-40 active:scale-95">
+              className="hv-btn-primary w-full py-3">
               {q && q.qIndex < q.total - 1 ? '→ Ďalšia otázka' : '✅ Ukončiť kolo'}
             </button>
           )}
@@ -699,7 +767,7 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
 
         {/* Progress */}
         {q && (
-          <div className="text-center text-gray-500 text-xs">
+          <div className="text-center hv-text-dim text-xs">
             Kolo {(round.idx ?? 0) + 1}/{gs.total_rounds} · Otázka {q.qIndex + 1}/{q.total}
           </div>
         )}
@@ -709,7 +777,7 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
       <div className="flex-1 p-6 space-y-6 overflow-y-auto">
         {q && (
           <>
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+            <div className="hv-card-glow p-6">
               <p className="text-white text-2xl font-bold leading-snug">{q.text}</p>
               {q.correct && (
                 <p className="mt-3 text-green-400 text-sm font-semibold">
@@ -724,22 +792,28 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
                 const text = [q.a, q.b, q.c, q.d][i]
                 if (!text) return null
                 const cnt = stats[letter] ?? 0
-                const pct = Math.round((cnt / maxStat) * 100)
+                const pct = maxStat > 0 ? Math.round((cnt / maxStat) * 100) : 0
+                const isCorrectAnswer = q.correct === letter
                 return (
-                  <div key={letter} className={`rounded-xl border p-4 ${q.correct === letter ? 'border-green-500 bg-green-900/20' : 'border-gray-700 bg-gray-900'}`}>
+                  <div key={letter} className={`rounded-2xl border p-4 transition-all ${
+                    isCorrectAnswer ? 'border-green-500/30 bg-green-500/10' : 'border-white/5 bg-white/[0.03]'
+                  }`}>
                     <div className="flex items-center gap-2 mb-2">
-                      <span className={`w-7 h-7 rounded-lg flex items-center justify-center font-black text-sm
-                        ${q.correct === letter ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-300'}`}>
+                      <span className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm ${
+                        isCorrectAnswer ? 'bg-green-500/30 text-green-300' : 'bg-white/10 text-white/50'
+                      }`}>
                         {letter}
                       </span>
-                      <span className={`font-semibold flex-1 ${q.correct === letter ? 'text-green-300' : 'text-gray-200'}`}>{text}</span>
+                      <span className={`font-semibold flex-1 ${isCorrectAnswer ? 'text-green-300' : 'text-white/80'}`}>{text}</span>
                       {(isLocked || isResults) && (
-                        <span className="font-black text-white text-lg">{cnt}</span>
+                        <span className="font-black text-white text-lg tabular-nums">{cnt}</span>
                       )}
                     </div>
                     {(isLocked || isResults) && (
-                      <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full transition-all duration-500 ${q.correct === letter ? 'bg-green-500' : 'bg-gray-600'}`}
+                      <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                        <div className={`h-full rounded-full transition-all duration-700 ${
+                          isCorrectAnswer ? 'bg-green-500/70' : 'bg-white/15'
+                        }`}
                           style={{ width: `${pct}%` }} />
                       </div>
                     )}
@@ -750,9 +824,9 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
 
             {/* Leaderboard in results */}
             {isResults && gs.leaderboard && (
-              <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
-                <h3 className="text-gray-400 text-sm font-semibold mb-4">Priebežné poradie</h3>
-                <Leaderboard players={gs.leaderboard} />
+              <div className="hv-card p-5">
+                <h3 className="hv-text-dim text-xs uppercase tracking-widest font-semibold mb-4">Priebežné poradie</h3>
+                <GameLeaderboard players={gs.leaderboard} />
               </div>
             )}
           </>
@@ -773,35 +847,37 @@ function ModeratorFinal({ gs }: { gs: GameState }) {
   const toReveal = lb.length > 2 ? [...lb].reverse() : lb
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 gap-8">
-      <div className="text-center">
-        <div className="text-6xl mb-3">🏆</div>
-        <h1 className="text-3xl font-black text-white">Hra skončila!</h1>
-        <p className="text-gray-400 mt-1">Hráči ešte nevidia výsledky</p>
+    <div className="hv-bg hv-particles flex flex-col items-center justify-center p-6 gap-8">
+      <div className="text-center animate-fade-in space-y-3">
+        <div className="text-7xl mb-2">🏆</div>
+        <h1 className="text-4xl font-black hv-text-gradient">Hra skončila!</h1>
+        <p className="hv-text-muted">Odhaľte výsledky po jednom</p>
       </div>
 
       <div className="w-full max-w-md space-y-3">
         {lb.length <= 2 ? (
-          <Leaderboard players={lb} />
+          <GameLeaderboard players={lb} />
         ) : (
           <>
             {toReveal.slice(0, revealed).map((p, i) => {
               const pos = lb.length - i
               return (
                 <div key={p.id}
-                  className="flex items-center gap-4 p-4 rounded-2xl border border-gray-700 bg-gray-900 animate-in slide-in-from-bottom-4 duration-500">
-                  <span className={`w-12 h-12 rounded-full flex items-center justify-center font-black text-xl
-                    ${pos === 1 ? 'bg-yellow-400 text-yellow-900' : pos === 2 ? 'bg-gray-300 text-gray-900' : pos === 3 ? 'bg-amber-600 text-white' : 'bg-gray-700 text-gray-300'}`}>
+                  className="hv-lb-row animate-reveal-up"
+                  style={{ animationDelay: `${i * 0.1}s` }}
+                >
+                  <span className={`hv-lb-rank ${pos === 1 ? 'gold' : pos === 2 ? 'silver' : pos === 3 ? 'bronze' : 'default'}`}
+                    style={{ width: '3rem', height: '3rem', fontSize: '1.25rem' }}>
                     {pos}
                   </span>
                   <span className="flex-1 font-bold text-white text-xl">{p.name}</span>
-                  <span className="font-black text-violet-300 text-xl">{p.score} b</span>
+                  <span className="font-black text-purple-300 text-xl tabular-nums">{p.score} b</span>
                 </div>
               )
             })}
             {revealed < lb.length && (
               <button onClick={reveal}
-                className="w-full py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-violet-800 text-white font-black text-lg hover:brightness-110 transition-all active:scale-95">
+                className="hv-btn-primary w-full py-4 text-lg">
                 {lb.length - revealed === 1 ? '🥇 Odhaliť víťaza!' : `Odhaliť #${lb.length - revealed}`}
               </button>
             )}
@@ -816,13 +892,13 @@ function ModeratorFinal({ gs }: { gs: GameState }) {
 
 function PlayerWaiting({ message, gs, playerId }: { message: string; gs: GameState; playerId: string }) {
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-6 gap-6">
-      <div className="text-5xl animate-bounce">⏳</div>
-      <p className="text-gray-300 text-lg font-semibold text-center">{message}</p>
+    <div className="hv-bg hv-particles flex flex-col items-center justify-center p-6 gap-6">
+      <div className="text-5xl animate-float">⏳</div>
+      <p className="text-white/80 text-lg font-semibold text-center">{message}</p>
       {gs.myPlayer && (
-        <div className="bg-gray-900 border border-gray-800 rounded-xl px-6 py-3 text-center">
-          <p className="text-gray-500 text-sm">Tvoje skóre</p>
-          <p className="text-2xl font-black text-violet-300">{gs.myPlayer.score} b</p>
+        <div className="hv-card-glow px-8 py-4 text-center">
+          <p className="hv-text-dim text-xs uppercase tracking-widest">Tvoje skóre</p>
+          <p className="text-3xl font-black text-purple-300 mt-1">{gs.myPlayer.score} b</p>
         </div>
       )}
     </div>
@@ -841,7 +917,6 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const mountedRef = useRef(true)
 
-  // Restore player ID from session storage on mount
   useEffect(() => {
     if (!code) return
     const id = sessionStorage.getItem(`herd-player-${code}`)
@@ -866,7 +941,6 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
     } catch { /* silent */ }
   }, [code, playerId])
 
-  // Polling loop (1.5s)
   const startPolling = useCallback((pid?: string | null) => {
     if (pollRef.current) clearTimeout(pollRef.current)
     const tick = async () => {
@@ -882,7 +956,6 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
     return () => { mountedRef.current = false; if (pollRef.current) clearTimeout(pollRef.current) }
   }, [startPolling, playerId])
 
-  // Supabase realtime enhancement
   useEffect(() => {
     if (!code) return
     return RealtimeClient.subscribeToGame(code, () => fetchState())
@@ -900,18 +973,20 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
 
   // ── Render ──────────────────────────────────────────────────────────────────
 
-  if (!code) return <div className="min-h-screen bg-gray-950 flex items-center justify-center text-white">Chýba kód hry.</div>
-  if (loading) return <div className="min-h-screen bg-gray-950"><Spinner /></div>
+  if (!code) return (
+    <div className="hv-bg flex items-center justify-center text-white">Chýba kód hry.</div>
+  )
+  if (loading) return <div className="hv-bg"><Spinner /></div>
   if (notFound) return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center text-center p-6">
-      <div>
-        <div className="text-5xl mb-4">❓</div>
+    <div className="hv-bg hv-particles flex items-center justify-center text-center p-6">
+      <div className="animate-fade-in space-y-4">
+        <div className="w-20 h-20 mx-auto rounded-3xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-4xl">❓</div>
         <h2 className="text-2xl font-bold text-white">Hra nenájdená</h2>
-        <p className="text-gray-400 mt-2">Kód <code className="text-violet-400">{code}</code> neexistuje.</p>
+        <p className="hv-text-muted">Kód <code className="text-purple-300 font-mono font-bold">{code}</code> neexistuje.</p>
       </div>
     </div>
   )
-  if (!gs) return <div className="min-h-screen bg-gray-950"><Spinner /></div>
+  if (!gs) return <div className="hv-bg"><Spinner /></div>
 
   const { phase, isOwner, round, lobby_locked } = gs
 
@@ -924,7 +999,6 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   }
 
   // ── PLAYER ───────────────────────────────────────────────────────────────────
-  // Not joined yet
   if (!playerId || !gs.myPlayer) {
     return (
       <JoinForm

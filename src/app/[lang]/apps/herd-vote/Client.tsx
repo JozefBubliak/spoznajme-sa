@@ -1,230 +1,144 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabaseClient } from '@/integrations/supabase/client'
 
-interface Player { id: string; name: string; score: number }
-
-type Phase = 'idle' | 'lobby' | 'config' | 'round_setup' | 'playing' | 'final'
+interface Game { code: string; phase: string; playerCount: number }
 
 export default function HerdVoteClient({ lang }: { lang: string }) {
   const router = useRouter()
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-
-  const [gameCode, setGameCode] = useState('')
-  const [phase, setPhase] = useState<Phase>('idle')
-  const [lobbyLocked, setLobbyLocked] = useState(false)
-  const [players, setPlayers] = useState<Player[]>([])
+  const [games, setGames] = useState<Game[]>([])
   const [creating, setCreating] = useState(false)
-  const [locking, setLocking] = useState(false)
   const [err, setErr] = useState('')
-
-  const joinUrl = useMemo(() => {
-    if (!gameCode) return ''
-    if (typeof window === 'undefined') return ''
-    const origin = window.location.origin
-    return `${origin}/${lang}/play/${gameCode}`
-  }, [gameCode, lang])
 
   useEffect(() => {
     supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      if (!session?.user) {
-        router.replace(`/${lang}/auth/login`)
-        return
-      }
+      if (!session?.user) { router.replace(`/${lang}/auth/login`); return }
       setUser(session.user)
       setLoading(false)
+      fetch('/api/games/active').then(r => r.ok ? r.json() : { games: [] })
+        .then(d => setGames(d.games ?? []))
+        .catch(() => {})
     })
   }, [lang, router])
 
-  useEffect(() => {
-    if (!gameCode) return
-
-    const fetchGameState = async () => {
-      try {
-        const res = await fetch(`/api/games/${gameCode}/state`, { cache: 'no-store' })
-        if (!res.ok) return
-        const data = await res.json()
-        setPhase(data.phase ?? 'lobby')
-        setLobbyLocked(Boolean(data.lobby_locked))
-        setPlayers(data.players ?? [])
-      } catch {
-        // ignore network blips
-      }
-    }
-
-    fetchGameState()
-    const interval = setInterval(fetchGameState, 2000)
-    return () => clearInterval(interval)
-  }, [gameCode])
-
   const createGame = async () => {
-    setCreating(true)
-    setErr('')
-
+    setCreating(true); setErr('')
     try {
-      const res = await fetch('/api/games', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-      })
-      const json = await res.json()
-      if (res.ok && json.gameCode) {
-        setGameCode(String(json.gameCode).toUpperCase())
-        setPhase('lobby')
-        setLobbyLocked(false)
-        setPlayers([])
+      const r = await fetch('/api/games', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
+      const d = await r.json()
+      if (r.ok && d.gameCode) {
+        router.push(`/${lang}/play/${d.gameCode}`)
       } else {
-        setErr(json.error ?? 'Nepodarilo sa vytvoriť hru')
+        setErr(d.error ?? 'Chyba pri vytváraní hry')
+        setCreating(false)
       }
     } catch {
       setErr('Chyba spojenia')
-    } finally {
       setCreating(false)
     }
   }
 
-  const copyLink = async () => {
-    if (!joinUrl) return
-    await navigator.clipboard?.writeText(joinUrl)
-  }
+  const phaseLabel = (p: string) => ({
+    lobby: '👥 Lobby', config: '⚙ Nastavenie', round_setup: '⚙ Nastavenie kôl',
+    playing: '▶ Prebieha', final: '🏁 Skončená',
+  }[p] ?? p)
 
-  const shareLink = async () => {
-    if (!joinUrl) return
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: 'Herd Vote', text: 'Pridaj sa do hry', url: joinUrl })
-        return
-      } catch {
-        // ignore
-      }
-    }
-    await copyLink()
-  }
+  const phaseColor = (p: string) => ({
+    lobby: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+    playing: 'bg-green-500/20 text-green-300 border-green-500/30',
+    final: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  }[p] ?? 'bg-gray-500/20 text-gray-300 border-gray-500/30')
 
-  const lockLobby = async () => {
-    if (!gameCode) return
-    setLocking(true)
-    setErr('')
-
-    try {
-      const res = await fetch(`/api/games/${gameCode}/lock-lobby`, { method: 'POST' })
-      const json = await res.json()
-      if (res.ok) {
-        setPhase(json.phase ?? 'config')
-        setLobbyLocked(true)
-      } else {
-        setErr(json.error ?? 'Nepodarilo sa zamknúť lobby')
-      }
-    } catch {
-      setErr('Chyba spojenia')
-    } finally {
-      setLocking(false)
-    }
-  }
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin" />
+  if (loading) return (
+    <div className="hv-bg flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 border-3 border-purple-400 border-t-transparent rounded-full animate-spin" />
+        <p className="hv-text-muted text-sm">Načítavam…</p>
       </div>
-    )
-  }
+    </div>
+  )
 
   return (
-    <div className="min-h-screen bg-gray-950 p-6">
-      <div className="max-w-3xl mx-auto space-y-8">
-        <div className="pt-8">
-          <h1 className="text-4xl font-black text-white">Herd Vote – moderátor</h1>
-          <p className="text-gray-400 mt-2">Vytvor hru, pošli link a QR, a čakaj na pripojenie hráčov.</p>
-        </div>
+    <div className="hv-bg hv-particles">
+      <div className="max-w-2xl mx-auto px-5 py-8 space-y-8">
+        {/* Header */}
+        <header className="text-center pt-6 space-y-3">
+          <div className="inline-flex items-center gap-2 hv-badge bg-purple-500/15 text-purple-300 border border-purple-500/20 mb-2">
+            <span>🐂</span>
+            <span>Multiplayer Quiz</span>
+          </div>
+          <h1 className="text-5xl font-black tracking-tight">
+            <span className="hv-text-gradient">Herd Vote</span>
+          </h1>
+          <p className="hv-text-muted text-lg max-w-md mx-auto leading-relaxed">
+            Hraj spolu. Mysli rovnako. Vyhraj ako skupina.
+          </p>
+        </header>
 
-        <div className="rounded-2xl border border-gray-800 bg-gray-900 p-6 space-y-4">
+        {/* Create new game */}
+        <div className="hv-card-glow p-8 text-center space-y-5">
+          <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/20 flex items-center justify-center text-3xl">
+            🎮
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-white">Nová hra</h2>
+            <p className="hv-text-muted text-sm mt-1">
+              Vytvor hru, zdieľaj QR kód s hráčmi a začni.
+            </p>
+          </div>
+          {err && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 text-red-300 text-sm">
+              {err}
+            </div>
+          )}
           <button
             onClick={createGame}
             disabled={creating}
-            className="w-full py-3 rounded-xl bg-violet-600 text-white font-bold hover:bg-violet-500 disabled:opacity-50"
+            className="hv-btn-primary w-full py-4 text-lg"
           >
-            {creating ? 'Vytváram…' : 'Vytvoriť novú hru'}
+            {creating ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                Vytváram…
+              </span>
+            ) : (
+              '+ Vytvoriť hru'
+            )}
           </button>
-
-          {gameCode && (
-            <div className="space-y-3 text-white">
-              <div className="text-sm">Kód hry</div>
-              <div className="text-5xl font-black tracking-wider text-white">{gameCode}</div>
-
-              <div className="text-sm">Link pre hráčov</div>
-              <a
-                className="text-blue-400 underline break-all"
-                href={joinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {joinUrl}
-              </a>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
-                <button
-                  onClick={copyLink}
-                  className="px-3 py-2 rounded-md border border-gray-600 bg-gray-800 text-sm hover:bg-gray-700"
-                >
-                  Kopírovať link
-                </button>
-                <button
-                  onClick={shareLink}
-                  className="px-3 py-2 rounded-md border border-gray-600 bg-black text-sm text-white hover:bg-gray-800"
-                >
-                  Zdieľať
-                </button>
-              </div>
-
-              <div className="pt-3 flex justify-center">
-                <img
-                  src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`}
-                  alt="QR pre pripojenie hráčov"
-                  className="border border-gray-700 rounded-md"
-                />
-              </div>
-            </div>
-          )}
         </div>
 
-        {gameCode ? (
-          <div className="rounded-2xl border border-gray-800 bg-white p-5">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Lobby ({players.length} hráčov)</h2>
-              <span className="rounded-full px-3 py-1 text-xs font-semibold text-white bg-amber-500">
-                {phase === 'lobby' ? 'waiting' : phase}
-              </span>
+        {/* Active games */}
+        {games.length > 0 && (
+          <section className="space-y-3">
+            <div className="flex items-center gap-2">
+              <h2 className="hv-text-muted text-xs font-semibold uppercase tracking-widest">Moje aktívne hry</h2>
+              <div className="flex-1 hv-divider" />
             </div>
-
-            <div className="mt-3 grid gap-2 max-h-40 overflow-y-auto">
-              {players.length === 0 ? (
-                <p className="text-sm text-gray-500">Zatiaľ nikto neprišiel.</p>
-              ) : (
-                players.map(player => (
-                  <div key={player.id} className="flex items-center justify-between rounded-md bg-gray-100 px-3 py-2 text-sm">
-                    <span>{player.name}</span>
-                    <span>{player.score} b</span>
+            {games.map(g => (
+              <div key={g.code}
+                className="hv-card p-5 flex items-center gap-4 cursor-pointer group"
+                onClick={() => router.push(`/${lang}/play/${g.code}`)}>
+                <div className="flex-1 min-w-0">
+                  <div className="font-mono font-black text-white text-xl tracking-[0.2em]">{g.code}</div>
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <span className={`hv-badge text-[0.65rem] border ${phaseColor(g.phase)}`}>
+                      {phaseLabel(g.phase)}
+                    </span>
+                    <span className="hv-text-dim text-xs">·</span>
+                    <span className="hv-text-muted text-xs">{g.playerCount} hráčov</span>
                   </div>
-                ))
-              )}
-            </div>
-
-            <div className="mt-4">
-              <button
-                onClick={lockLobby}
-                disabled={phase !== 'lobby' || lobbyLocked || players.length === 0 || locking}
-                className="w-full px-4 py-2 rounded-lg bg-black text-white font-bold hover:bg-gray-800 disabled:opacity-40"
-              >
-                {locking ? 'Uzatváram…' : 'Zamknúť lobby a nastaviť hru'}
-              </button>
-            </div>
-
-            {err && <p className="mt-2 text-sm text-red-600">{err}</p>}
-          </div>
-        ) : null}
+                </div>
+                <button className="hv-btn-secondary px-4 py-2.5 text-sm group-hover:bg-purple-500/20 group-hover:border-purple-500/30 group-hover:text-purple-200 transition-all">
+                  Otvoriť →
+                </button>
+              </div>
+            ))}
+          </section>
+        )}
       </div>
     </div>
   )
