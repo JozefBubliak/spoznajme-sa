@@ -7,32 +7,33 @@ import { supabaseServer } from '@/integrations/supabase/server'
 import { ensureActiveRun } from './[code]/_runs'
 import { resetGameArtifacts } from './[code]/_reset'
 
-/**
- * Example (unauthenticated):
- *   curl -i -X POST http://localhost:3000/api/games
- *   -> HTTP/1.1 401 Unauthorized
- */
-
 export const dynamic = 'force-dynamic'
 
 export async function POST(_req: NextRequest) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const supabase = supabaseServer(session.access_token)
+  // authClient: passes user JWT so RPCs can call auth.uid() internally (SECURITY DEFINER functions)
+  const authClient = supabaseServer(session.access_token)
+  // adminClient: pure service role — bypasses RLS for direct table writes
+  const adminClient = supabaseServer()
 
-  const { data: room, error } = await supabase.rpc('ensure_room')
-  if (error || !room) {
-    return NextResponse.json({ error: error?.message || 'Failed to ensure room' }, { status: 500 })
+  // Step 1: ensure_room RPC needs user identity (auth.uid() inside the function)
+  const { data: room, error: roomError } = await authClient.rpc('ensure_room')
+  if (roomError || !room) {
+    console.error('[POST /api/games] ensure_room failed:', roomError?.code, roomError?.message)
+    return NextResponse.json({ error: roomError?.message || 'Failed to ensure room' }, { status: 500 })
   }
 
-  const { error: lobbyError } = await supabase.rpc('open_lobby')
+  // Step 2: open_lobby RPC also needs user identity
+  const { error: lobbyError } = await authClient.rpc('open_lobby')
   if (lobbyError) {
-    console.error('[POST /api/games] open_lobby RPC failed:', lobbyError.code, lobbyError.message)
+    console.error('[POST /api/games] open_lobby failed:', lobbyError.code, lobbyError.message)
     return NextResponse.json({ error: lobbyError.message }, { status: 500 })
   }
 
-  const { error: upsertError } = await supabase
+  // Step 3: upsert into herd_games using admin client (bypasses RLS — avoids JWT/RLS conflicts)
+  const { error: upsertError } = await adminClient
     .from('herd_games')
     .upsert(
       {
@@ -43,27 +44,28 @@ export async function POST(_req: NextRequest) {
         active_round_index: 0,
         lobby_locked: false,
       },
-      { onConflict: 'code' }
+      { onConflict: 'code' },
     )
 
   if (upsertError) {
-    console.error('[POST /api/games] herd_games upsert failed:', upsertError.code, upsertError.message, 'code:', room.code)
+    console.error('[POST /api/games] herd_games upsert failed:', upsertError.code, upsertError.message, '| game code:', room.code)
     return NextResponse.json({ error: `Failed to save game: ${upsertError.message}` }, { status: 500 })
   }
 
+  // Step 4: ensure run tracking (uses admin client, has internal fallback for missing table)
   try {
-    await ensureActiveRun(supabase, room.code, session.user.id)
+    await ensureActiveRun(adminClient, room.code, session.user.id)
   } catch (err) {
+    console.error('[POST /api/games] ensureActiveRun failed:', err)
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Failed to initialise run' }, { status: 500 })
   }
 
+  // Step 5: clear stale round/player/answer data from previous game runs
   try {
-    await resetGameArtifacts(supabase, room.code)
+    await resetGameArtifacts(adminClient, room.code)
   } catch (err) {
-    if (err instanceof Error) {
-      return NextResponse.json({ error: err.message }, { status: 500 })
-    }
-    return NextResponse.json({ error: 'Failed to reset game data' }, { status: 500 })
+    console.error('[POST /api/games] resetGameArtifacts failed:', err)
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Failed to reset game data' }, { status: 500 })
   }
 
   return NextResponse.json({ gameCode: room.code })
