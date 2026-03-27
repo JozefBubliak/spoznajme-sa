@@ -1,6 +1,6 @@
 import type { QuizQuestion } from './data/questions'
 
-export type QuizPhase = 'idle' | 'lobby' | 'question' | 'locked' | 'reveal' | 'finished'
+export type QuizPhase = 'idle' | 'lobby' | 'question' | 'reveal' | 'finished'
 
 export interface QuizPlayerState {
   id: string
@@ -19,6 +19,8 @@ export interface QuizGameState {
   questionStart?: number | null
   players: QuizPlayerState[]
   questions: QuizQuestion[]
+  roundDurations: number[]
+  roundsReady: boolean
 }
 
 export type QuizMessage =
@@ -31,7 +33,6 @@ export type QuizMessage =
 export interface HostControls {
   createLobby: (language: string, questions: QuizQuestion[]) => void
   startGame: () => void
-  lockAnswers: () => void
   revealAnswer: () => void
   nextQuestion: () => void
   resetGame: () => void
