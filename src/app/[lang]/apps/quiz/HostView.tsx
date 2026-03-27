@@ -4,7 +4,14 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { LANGUAGE_OPTIONS } from './data/languages'
 import { type QuizQuestion } from './data/questions'
 import { useQuizChannel } from './useQuizChannel'
-import type { HostControls, QuizGameState, QuizMessage, QuizPlayerState } from './types'
+import type {
+  HostControls,
+  QuizGameState,
+  QuizMessage,
+  QuizPlayerState,
+  QuizRoundConfig,
+  QuizRoundScoring,
+} from './types'
 
 interface HostViewProps {
   code: string
@@ -13,7 +20,41 @@ interface HostViewProps {
   onResetLobby: () => void
 }
 
-const SCORE_PER_CORRECT = 10
+interface CategoryOption {
+  id: string
+  name: string
+  count: number
+}
+
+const DEFAULT_SCORING: QuizRoundScoring = {
+  correct: 5,
+  wrong: 0,
+  noAnswer: 0,
+}
+
+function buildRoundDurations(rounds: QuizRoundConfig[]): number[] {
+  return rounds.flatMap(round => Array.from({ length: round.questionCount }, () => round.questionSeconds))
+}
+
+function getRoundForQuestion(rounds: QuizRoundConfig[], questionIndex: number) {
+  let traversed = 0
+  for (const round of rounds) {
+    const end = traversed + round.questionCount
+    if (questionIndex >= traversed && questionIndex < end) {
+      return {
+        round,
+        roundNumber: round.index + 1,
+        questionInRound: questionIndex - traversed + 1,
+      }
+    }
+    traversed = end
+  }
+  return {
+    round: null,
+    roundNumber: 1,
+    questionInRound: questionIndex + 1,
+  }
+}
 
 export default function HostView({ code, language, questions, onResetLobby }: HostViewProps) {
   const languageLabel = useMemo(
@@ -29,7 +70,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     language,
     phase: 'lobby',
     questionIndex: -1,
-    totalQuestions: questions.length,
+    totalQuestions: 0,
     questionStart: null,
     players: [],
     questions,
@@ -50,7 +91,26 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       roundDurations: questions.map(() => 20),
       roundsReady: false,
     }))
+    setRoundCursor(0)
+    setRoundError(null)
+    setSetupStep('round-count')
   }, [code, language, questions])
+
+  useEffect(() => {
+    fetch('/api/herd-vote/categories')
+      .then(async res => {
+        const payload = await res.json().catch(() => ({ categories: [] }))
+        const rows = Array.isArray(payload?.categories) ? payload.categories : []
+        setCategories(
+          rows.map((row: any) => ({
+            id: String(row.id),
+            name: String(row.name),
+            count: Number(row.count ?? 0),
+          })),
+        )
+      })
+      .catch(() => setCategories([]))
+  }, [])
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -68,11 +128,13 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
   const shareLink = async () => {
     if (!joinUrl) return
     if (navigator.share) {
-      await navigator.share({
-        title: 'Herd Vote - pripoj sa',
-        text: 'Pridaj sa do hry pomocou odkazu',
-        url: joinUrl,
-      }).catch(() => {})
+      await navigator
+        .share({
+          title: 'Herd Vote - pripoj sa',
+          text: 'Pridaj sa do hry pomocou odkazu',
+          url: joinUrl,
+        })
+        .catch(() => {})
       return
     }
     await copyLink()
@@ -95,7 +157,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       createLobby: () => {},
       startGame: () => {
         setGameState(prev => {
-          if (prev.phase !== 'lobby' || prev.players.length === 0) return prev
+          if (prev.phase !== 'ready' || prev.players.length === 0 || !prev.roundsReady) return prev
           return {
             ...prev,
             phase: 'question',
@@ -115,14 +177,21 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
           if (prev.phase !== 'question') return prev
           const currentQuestion = prev.questions[prev.questionIndex]
           if (!currentQuestion) return prev
+          const roundContext = getRoundForQuestion(prev.rounds, prev.questionIndex)
+          const scoring = roundContext.round?.scoring ?? DEFAULT_SCORING
+
           const players = prev.players.map(player => {
             if (player.answer == null) {
-              return { ...player, lastAnswerCorrect: false }
+              return {
+                ...player,
+                score: player.score + scoring.noAnswer,
+                lastAnswerCorrect: false,
+              }
             }
             const isCorrect = player.answer === currentQuestion.correctAnswer
             return {
               ...player,
-              score: isCorrect ? player.score + SCORE_PER_CORRECT : player.score,
+              score: player.score + (isCorrect ? scoring.correct : scoring.wrong),
               lastAnswerCorrect: isCorrect,
             }
           })
@@ -163,6 +232,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
           ...prev,
           phase: 'lobby',
           questionIndex: -1,
+          totalQuestions: 0,
           questionStart: null,
           roundsReady: false,
           roundDurations: prev.questions.map(() => 20),
@@ -173,6 +243,9 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             lastAnswerCorrect: undefined,
           })),
         }))
+        setRoundCursor(0)
+        setRoundError(null)
+        setSetupStep('round-count')
       },
     }),
     [setGameState],
@@ -346,14 +419,17 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             >
               Odhal správnu odpoveď
             </button>
+          )}
+
+          {gameState.phase === 'reveal' && (
             <button
-              className="rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-blue-200"
+              className="w-full rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600"
               onClick={controls.nextQuestion}
               disabled={gameState.phase !== 'reveal'}
             >
               Ďalšia otázka
             </button>
-          </div>
+          )}
 
           <div>
             <h3 className="text-sm font-semibold text-slate-700">Hráči v lobby</h3>
@@ -373,6 +449,19 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
               </ul>
             )}
           </div>
+
+          {gameState.rounds.length > 0 && (
+            <div>
+              <h3 className="text-sm font-semibold text-slate-700">Uložené kolá</h3>
+              <ul className="mt-2 space-y-2 text-xs text-slate-600">
+                {gameState.rounds.map(round => (
+                  <li key={round.index} className="rounded-md border border-slate-200 p-2">
+                    Kolo {round.index + 1}: {round.categoryName}, {round.questionCount} otázok, {round.questionSeconds}s
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
@@ -380,7 +469,8 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             <div className="space-y-4">
               <div>
                 <p className="text-xs uppercase tracking-wide text-slate-500">
-                  Otázka {gameState.questionIndex + 1} / {gameState.totalQuestions}
+                  Kolo {roundContext.roundNumber} · otázka {roundContext.questionInRound} /{' '}
+                  {roundContext.round?.questionCount ?? gameState.totalQuestions}
                 </p>
                 {gameState.phase === 'question' && roundTimeLeft != null && (
                   <p className="mt-1 text-sm font-medium text-amber-600">Čas na odpoveď: {roundTimeLeft}s</p>
@@ -397,23 +487,40 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                         : 'border-slate-200'
                     }`}
                   >
-                    <span>{String.fromCharCode(65 + index)}. {answer}</span>
+                    <span>
+                      {String.fromCharCode(65 + index)}. {answer}
+                    </span>
                     {gameState.phase === 'reveal' && index === currentQuestion.correctAnswer && (
                       <span className="text-xs font-semibold uppercase tracking-wide">správne</span>
                     )}
                   </li>
                 ))}
               </ol>
+
+              {gameState.phase === 'reveal' && (
+                <div className="rounded-md border border-slate-200 p-3">
+                  <h4 className="text-sm font-semibold text-slate-700">Vyhodnotenie hráčov (vidí len moderátor)</h4>
+                  <ul className="mt-2 space-y-1 text-sm">
+                    {gameState.players.map(player => (
+                      <li key={player.id} className="flex items-center justify-between">
+                        <span>{player.name}</span>
+                        <span className={player.lastAnswerCorrect ? 'text-emerald-600' : 'text-rose-600'}>
+                          {player.lastAnswerCorrect ? 'správne' : 'nesprávne / bez odpovede'}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {currentQuestion.explanation && gameState.phase === 'reveal' && (
-                <p className="rounded-md bg-slate-50 p-3 text-sm text-slate-600">
-                  {currentQuestion.explanation}
-                </p>
+                <p className="rounded-md bg-slate-50 p-3 text-sm text-slate-600">{currentQuestion.explanation}</p>
               )}
             </div>
           ) : (
             <div className="flex h-full flex-col items-center justify-center gap-2 text-center text-sm text-slate-500">
-              <p>Počas lobby pripravte hráčov a potom spustite prvú otázku.</p>
-              <p>Otázky sú vybraté automaticky podľa zvoleného jazyka.</p>
+              <p>Počas lobby sa pripájajú hráči, potom moderátor nastaví všetky kolá.</p>
+              <p>Po dokončení nastavenia prejdete do stavu pripravené a môžete spustiť hru.</p>
             </div>
           )}
         </div>
@@ -422,7 +529,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       {gameState.phase === 'finished' && (
         <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-6 text-emerald-700">
           <h3 className="text-lg font-semibold">Kvíz dokončený!</h3>
-          <p className="text-sm">Zdieľajte obrazovku s hráčmi alebo spustite nový kvíz.</p>
+          <p className="text-sm">Finálne poradie je pripravené. Moderátor môže odprezentovať výsledky.</p>
         </div>
       )}
     </div>
@@ -432,6 +539,9 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 function handleIncomingMessage(state: QuizGameState, message: QuizMessage): QuizGameState {
   switch (message.type) {
     case 'join': {
+      if (state.lobbyLocked) {
+        return state
+      }
       const exists = state.players.some(player => player.id === message.playerId)
       if (exists) {
         return state
@@ -479,6 +589,10 @@ function describePhase(phase: QuizGameState['phase'], questionIndex: number, tot
     case 'idle':
     case 'lobby':
       return 'Čakáme na pripojenie hráčov.'
+    case 'setup':
+      return 'Moderátor nastavuje jednotlivé kolá.'
+    case 'ready':
+      return 'Všetky kolá sú pripravené. Hra čaká na štart.'
     case 'question':
       return `Prebieha otázka ${questionIndex + 1} z ${total}.`
     case 'reveal':

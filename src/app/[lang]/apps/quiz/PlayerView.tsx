@@ -102,6 +102,17 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
         {gameState?.phase === 'lobby' && (
           <div className="space-y-2 text-sm text-slate-600">
             <p>Moderátor pripravuje hru. Zostaňte naladení!</p>
+            {gameState.lobbyLocked && <p>Lobby je uzamknuté, čaká sa na štart hry.</p>}
+          </div>
+        )}
+        {gameState?.phase === 'setup' && (
+          <div className="space-y-2 text-sm text-slate-600">
+            <p>Moderátor nastavuje kolá hry.</p>
+          </div>
+        )}
+        {gameState?.phase === 'ready' && (
+          <div className="space-y-2 text-sm text-slate-600">
+            <p>Hra je pripravená, čaká sa na spustenie prvej otázky.</p>
           </div>
         )}
 
