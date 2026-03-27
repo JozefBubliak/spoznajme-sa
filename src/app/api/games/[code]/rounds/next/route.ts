@@ -17,7 +17,7 @@ export async function POST(req: NextRequest, context: any) {
   }
 
   const body = await req.json().catch(() => ({})) as { roundId?: string }
-  const s = supabaseServer(session.access_token)
+  const s = supabaseServer() // service role — bypasses RLS
 
   // nájdi kolo v stave "results"
   let roundId = body.roundId

@@ -19,7 +19,7 @@ export async function POST(req: NextRequest, context: any) {
   const body = await req.json().catch(() => ({} as any))
   const index = typeof body?.index === 'number' ? body.index : 0
 
-  const s = supabaseServer(session.access_token)
+  const s = supabaseServer() // service role — bypasses RLS
 
   // Get the round configuration
   const { data: round, error: roundErr } = await s

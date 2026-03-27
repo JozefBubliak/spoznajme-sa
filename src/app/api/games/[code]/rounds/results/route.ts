@@ -20,7 +20,7 @@ export async function POST(req: NextRequest, context: any) {
 
   const body = await req.json().catch(() => ({})) as { roundId?: string }
 
-  const s = supabaseServer(session.access_token)
+  const s = supabaseServer() // service role — bypasses RLS
 
   // načítaj kolo, ktoré je uzamknuté
   let roundId = body.roundId

@@ -22,7 +22,7 @@ export async function POST(req: NextRequest, context: any) {
   }
   const seconds = Number(body.seconds ?? body.duration ?? 45)
 
-  const s = supabaseServer(session.access_token)
+  const s = supabaseServer() // service role — bypasses RLS
 
   let roundId = body.roundId
   if (!roundId) {

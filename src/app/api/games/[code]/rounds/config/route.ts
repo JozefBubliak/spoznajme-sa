@@ -36,7 +36,7 @@ export async function POST(req: NextRequest, context: any) {
   const localePrefix = localePrefixSanitized || 'sk'
   const normalizedCount = Math.max(1, Number(questions) || 0)
 
-  const s = supabaseServer(session.access_token) as any // "as any" obíde TS typy generované zo Supabase
+  const s = supabaseServer() as any // service role — bypasses RLS for table writes
 
   const run = await ensureActiveRun(s, gameCode, session.user.id)
   const runId = run?.id ?? null

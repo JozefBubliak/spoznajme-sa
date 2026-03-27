@@ -26,7 +26,7 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
   }
 
-  const supabase = supabaseServer(session.access_token)
+  const supabase = supabaseServer() // service role — bypasses RLS
 
   const { data: game } = await supabase
     .from('herd_games')

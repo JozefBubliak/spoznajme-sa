@@ -8,7 +8,7 @@ export async function GET(_req: NextRequest) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const s = supabaseServer(session.access_token)
+  const s = supabaseServer() // service role — bypasses RLS
 
   // Get all active games for the user
   const { data: games } = await s

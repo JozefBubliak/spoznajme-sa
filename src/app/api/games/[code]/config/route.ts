@@ -16,7 +16,7 @@ export async function GET(_req: NextRequest, context: any) {
     return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
   }
 
-  const s = supabaseServer(session.access_token)
+  const s = supabaseServer() // service role — bypasses RLS
   const { data, error } = await s
     .from('herd_games')
     .select('code,total_rounds,prep_seconds,question_seconds,scoring_mode')
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest, context: any) {
   if (typeof questionSeconds === 'number') updates.question_seconds = questionSeconds
   if (typeof scoringMode === 'string') updates.scoring_mode = scoringMode
 
-  const s = supabaseServer(session.access_token)
+  const s = supabaseServer() // service role — bypasses RLS for table writes
   const { error } = await s
     .from('herd_games')
     .upsert({ code: gameCode, ...updates }, { onConflict: 'code' })

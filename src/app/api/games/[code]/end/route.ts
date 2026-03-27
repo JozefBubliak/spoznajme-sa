@@ -12,7 +12,7 @@ export async function POST(_req: NextRequest, context: any) {
   if (!gameCode) {
     return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
   }
-  const s = supabaseServer(session.access_token)
+  const s = supabaseServer() // service role — bypasses RLS
 
   const { data: game } = await s
     .from('herd_games')

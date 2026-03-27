@@ -16,7 +16,7 @@ export async function GET(_req: NextRequest, context: any) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const s = supabaseServer(session.access_token)
+  const s = supabaseServer() // service role — bypasses RLS
 
   // First try to get game as owner
   let { data: game, error } = await s
@@ -30,7 +30,7 @@ export async function GET(_req: NextRequest, context: any) {
 
   // If not owner, try to get public game info
   if (!game) {
-    const publicResult = await supabaseServer().from('herd_games')
+    const publicResult = await s.from('herd_games')
       .select('code, phase, total_rounds, active_round_index, lobby_locked, owner_id')
       .eq('code', gameCode)
       .maybeSingle()
