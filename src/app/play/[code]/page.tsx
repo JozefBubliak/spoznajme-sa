@@ -140,6 +140,8 @@ export default function PlayJoinPage() {
     return () => {
       supabaseClient.removeChannel(channel)
     }
+  }, [code, me])
+
   useEffect(() => {
     if (gameState !== 'question' || timeLeft <= 0) return
     
