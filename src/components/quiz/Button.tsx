@@ -3,17 +3,13 @@ import { ReactNode, CSSProperties } from 'react'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
-  onClick?: () => void
-  type?: 'primary' | 'secondary' | 'danger'
-  disabled?: boolean
+  variant?: 'primary' | 'secondary' | 'danger' | 'outline'
   style?: CSSProperties
 }
 
 export default function Button({
   children,
-  onClick,
-  type = 'primary',
-  disabled,
+  variant = 'primary',
   style,
   className,
   ...props
@@ -23,22 +19,21 @@ export default function Button({
       padding: '0.75rem 1.5rem',
       borderRadius: '8px',
       fontSize: '1rem',
-      cursor: disabled ? 'not-allowed' : 'pointer',
-      opacity: disabled ? 0.6 : 1,
+      cursor: props.disabled ? 'not-allowed' : 'pointer',
+      opacity: props.disabled ? 0.6 : 1,
       border: 'none',
       margin: '0.25rem'
     },
     primary: { background: '#1e90ff', color: 'white' },
     secondary: { background: '#f0f0f0', color: '#111' },
-    danger: { background: '#ff4d4f', color: 'white' }
+    danger: { background: '#ff4d4f', color: 'white' },
+    outline: { background: 'transparent', color: '#1e90ff', border: '1px solid #1e90ff' }
   }
 
   return (
     <button
       className={className}
-      style={{ ...styles.base, ...styles[type], ...style }}
-      onClick={onClick}
-      disabled={disabled}
+      style={{ ...styles.base, ...styles[variant], ...style }}
       {...props}
     >
       {children}
