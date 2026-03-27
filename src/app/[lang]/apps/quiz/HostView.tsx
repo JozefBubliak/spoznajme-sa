@@ -21,6 +21,8 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     [language],
   )
 
+  const [joinUrl, setJoinUrl] = useState('')
+
   const [gameState, setGameState] = useState<QuizGameState>(() => ({
     code,
     language,
@@ -44,6 +46,29 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       totalQuestions: questions.length,
     }))
   }, [code, language, questions])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    setJoinUrl(`${window.location.origin}/${language}/play/${code}`)
+  }, [code, language])
+
+  const copyLink = async () => {
+    if (!joinUrl) return
+    await navigator.clipboard?.writeText(joinUrl)
+  }
+
+  const shareLink = async () => {
+    if (!joinUrl) return
+    if (navigator.share) {
+      await navigator.share({
+        title: 'Herd Vote - pripoj sa',
+        text: 'Pridaj sa do hry pomocou odkazu',
+        url: joinUrl,
+      }).catch(() => {})
+      return
+    }
+    await copyLink()
+  }
 
   const sendMessage = useQuizChannel(code, (message: QuizMessage) => {
     if (message.type === 'ping') {
@@ -180,6 +205,40 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
               Ukončiť lobby
             </button>
           </div>
+        </div>
+
+        <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
+          {joinUrl ? (
+            <>
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Link pre hráčov</p>
+              <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center">
+                <span className="flex-1 text-sm text-slate-700 break-all">{joinUrl}</span>
+                <button
+                  type="button"
+                  onClick={copyLink}
+                  className="rounded-lg bg-slate-900 px-3 py-2 text-xs font-semibold text-white hover:bg-slate-800"
+                >
+                  Kopírovať link
+                </button>
+                <button
+                  type="button"
+                  onClick={shareLink}
+                  className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-500"
+                >
+                  Zdieľať
+                </button>
+              </div>
+              <div className="mt-3 flex justify-center">
+                <img
+                  src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`}
+                  alt="QR kód pre pripojenie do hry"
+                  className="h-44 w-44 rounded-lg"
+                />
+              </div>
+            </>
+          ) : (
+            <p className="text-sm text-slate-500">Generujem link pre pripojenie...</p>
+          )}
         </div>
       </div>
 
