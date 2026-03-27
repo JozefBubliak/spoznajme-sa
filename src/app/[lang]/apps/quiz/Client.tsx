@@ -1,6 +1,7 @@
 'use client'
 
-import { type FormEvent, useMemo, useState } from 'react'
+import { type FormEvent, useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import HostView from './HostView'
 import PlayerView from './PlayerView'
 import { LANGUAGE_OPTIONS } from './data/languages'
@@ -22,6 +23,7 @@ function generateCode() {
 }
 
 export default function QuizClient({ lang }: ClientProps) {
+  const searchParams = useSearchParams()
   const [role, setRole] = useState<Role | null>(null)
   const [hostLanguage, setHostLanguage] = useState(() => {
     const normalized = lang.toLowerCase()
@@ -35,6 +37,14 @@ export default function QuizClient({ lang }: ClientProps) {
   const [joining, setJoining] = useState(false)
 
   const availableLanguages = useMemo(() => LANGUAGE_OPTIONS, [])
+  const codeFromUrl = (searchParams.get('code') || '').toUpperCase()
+  const roleFromUrl = searchParams.get('role')
+
+  useEffect(() => {
+    if (!codeFromUrl) return
+    setRole(roleFromUrl === 'host' ? 'host' : 'player')
+    setPlayerCode(codeFromUrl)
+  }, [codeFromUrl, roleFromUrl])
 
   const startHostLobby = () => {
     if (!hostLanguage) return
