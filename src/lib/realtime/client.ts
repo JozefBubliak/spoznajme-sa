@@ -1,73 +1,93 @@
 // src/lib/realtime/client.ts
+// Supabase realtime client – subscribes to postgres_changes for instant state updates.
+// Falls back silently if realtime is unavailable (e.g. missing env vars).
 
-import type { HerdEvent, RealtimeCallback } from './types'
+import type { RealtimeChannel } from '@supabase/supabase-js'
+
+type ChangeCallback = () => void
 
 class RealtimeClientImpl {
-  private subscribers = new Map<string, Set<RealtimeCallback>>()
-  private isConnected = false
+  private channels = new Map<string, RealtimeChannel>()
+  private callbacks = new Map<string, Set<ChangeCallback>>()
 
-  subscribe(channel: string, callback: RealtimeCallback): () => void {
-    if (!this.subscribers.has(channel)) {
-      this.subscribers.set(channel, new Set())
+  /**
+   * Subscribe to DB changes for a game. Returns unsubscribe fn.
+   * The callback is called whenever herd_games, herd_rounds, or herd_players change
+   * for the given game code.
+   */
+  subscribeToGame(gameCode: string, onChange: ChangeCallback): () => void {
+    const key = gameCode.toLowerCase()
+
+    if (!this.callbacks.has(key)) {
+      this.callbacks.set(key, new Set())
     }
-    
-    this.subscribers.get(channel)!.add(callback)
-    
-    // Auto-connect on first subscription
-    if (!this.isConnected) {
-      this.connect()
+    this.callbacks.get(key)!.add(onChange)
+
+    // Create channel if not already subscribed
+    if (!this.channels.has(key)) {
+      this._connect(key, gameCode)
     }
 
-    // Return unsubscribe function
     return () => {
-      const channelSubs = this.subscribers.get(channel)
-      if (channelSubs) {
-        channelSubs.delete(callback)
-        if (channelSubs.size === 0) {
-          this.subscribers.delete(channel)
+      const cbs = this.callbacks.get(key)
+      if (cbs) {
+        cbs.delete(onChange)
+        if (cbs.size === 0) {
+          this._disconnect(key)
         }
       }
     }
   }
 
-  private connect() {
-    if (this.isConnected) return
-    
-    console.log('[REALTIME] Client connecting...')
-    this.isConnected = true
-    
-    // Listen for events from the server via polling/EventSource/WebSocket
-    // For now, use a simple polling mechanism as fallback
-    this.startPolling()
+  private _notify(key: string) {
+    const cbs = this.callbacks.get(key)
+    if (cbs) cbs.forEach(cb => { try { cb() } catch { /* ignore */ } })
   }
 
-  private startPolling() {
-    // In a real implementation, this would connect to a WebSocket
-    // For now, we'll use a simple polling mechanism
-    setInterval(() => {
-      // This would normally receive events from server
-      // For dev, we'll rely on server.ts to simulate events
-    }, 1000)
-  }
+  private _connect(key: string, gameCode: string) {
+    try {
+      // Lazy import to avoid SSR issues
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      if (!supabaseUrl || !supabaseAnonKey) return
 
-  // Method for server to send events (dev only)
-  simulateEvent(channel: string, event: HerdEvent) {
-    const channelSubs = this.subscribers.get(channel)
-    if (channelSubs) {
-      channelSubs.forEach(callback => {
-        try {
-          callback(event)
-        } catch (error) {
-          console.error('[REALTIME] Error in callback:', error)
-        }
-      })
+      const { createClient } = require('@supabase/supabase-js')
+      const client = createClient(supabaseUrl, supabaseAnonKey)
+
+      const notify = () => this._notify(key)
+      const filter = `game_code=eq.${gameCode.toUpperCase()}`
+
+      const channel = client
+        .channel(`herd-state-${key}`)
+        .on('postgres_changes', {
+          event: '*', schema: 'public', table: 'herd_games',
+          filter: `code=eq.${gameCode.toUpperCase()}`
+        }, notify)
+        .on('postgres_changes', {
+          event: '*', schema: 'public', table: 'herd_rounds', filter
+        }, notify)
+        .on('postgres_changes', {
+          event: '*', schema: 'public', table: 'herd_players', filter
+        }, notify)
+        .on('postgres_changes', {
+          event: '*', schema: 'public', table: 'herd_answers', filter
+        }, notify)
+        .subscribe()
+
+      this.channels.set(key, channel)
+    } catch {
+      // Realtime not available – polling in the component will handle updates
     }
+  }
+
+  private _disconnect(key: string) {
+    const ch = this.channels.get(key)
+    if (ch) {
+      try { ch.unsubscribe() } catch { /* ignore */ }
+      this.channels.delete(key)
+    }
+    this.callbacks.delete(key)
   }
 }
 
 export const RealtimeClient = new RealtimeClientImpl()
-
-// Expose for server simulation in dev
-if (typeof window !== 'undefined') {
-  (window as any).RealtimeClient = RealtimeClient
-}
