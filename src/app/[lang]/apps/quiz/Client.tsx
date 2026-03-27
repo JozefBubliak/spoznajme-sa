@@ -1,10 +1,10 @@
 'use client'
 
-import { type FormEvent, useMemo, useState } from 'react'
-import HostView from './HostView'
-import PlayerView from './PlayerView'
-import { LANGUAGE_OPTIONS } from './data/languages'
-import { getQuestions } from './data/questions'
+import { useEffect, useMemo, useState, useRef, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
+import type { Player, Round } from '@/lib/herdvote/store'
+import { useAuth } from '@/hooks/useAuth'
+import { Trophy, UserCircle } from 'lucide-react'
 
 interface ClientProps {
   lang: string
@@ -210,7 +210,144 @@ export default function QuizClient({ lang }: ClientProps) {
               Odpojiť sa
             </button>
           </div>
-        </div>
+
+          {showRoundControls && (
+            <div className="rounded-xl border p-4 space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="font-semibold">Ovládanie kola</h2>
+                <div className="flex flex-col text-xs text-muted-foreground text-right">
+                  {runningRound && <span>Prebieha kolo #{runningRound.index + 1}</span>}
+                  {!runningRound && lockedRound && (
+                    <span>Čaká sa na vyhodnotenie kola #{lockedRound.index + 1}</span>
+                  )}
+                  {!runningRound && !lockedRound && resultsRound && (
+                    <span>Zobrazené výsledky kola #{resultsRound.index + 1}</span>
+                  )}
+                  {canStartNextRound && startableRound && (
+                    <span>Pripravené kolo: #{startableRound.index + 1}</span>
+                  )}
+                </div>
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                <button
+                  onClick={() => {
+                    void startRound()
+                  }}
+                  disabled={!canStartNextRound}
+                  className="px-3 py-2 rounded bg-green-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {startRoundLoading ? 'Spúšťam…' : 'Začať pripravené kolo'}
+                </button>
+                <button
+                  onClick={() => {
+                    void lockRound(runningRound?.roundId)
+                  }}
+                  disabled={!runningRound}
+                  className="px-3 py-2 rounded bg-orange-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  Uzamknúť odpovede
+                </button>
+                <button
+                  onClick={() => {
+                    void showResults(lockedRound?.roundId)
+                  }}
+                  disabled={!lockedRound}
+                  className="px-3 py-2 rounded bg-blue-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  Zobraziť výsledky
+                </button>
+                <button
+                  onClick={() => {
+                    void nextQuestion(resultsRound?.roundId)
+                  }}
+                  disabled={!resultsRound}
+                  className="px-3 py-2 rounded bg-purple-600 text-white text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  Ďalšia otázka v kole
+                </button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Odpovede sa po uplynutí času uzamknú automaticky. Manuálne zásahy použite len pri výnimočných situáciách
+                (napríklad keď chcete kolo ukončiť skôr alebo ak časovač zlyhá).
+              </p>
+              {startableRound && !canStartNextRound && (
+                <p className="text-xs text-muted-foreground">
+                  Ďalšie kolo #{startableRound.index + 1} sa pripraví po dokončení aktuálneho kola a zobrazení výsledkov.
+                </p>
+              )}
+              {!startableRound && diagnostics.length > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  Všetky kolá sú spracované. Po ukončení výsledkov sa hra automaticky presunie do ďalšieho kroku.
+                </p>
+              )}
+
+            </div>
+          )}
+
+          {leaderboard.length > 0 && (
+            <div className="rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm">
+              <div className="flex items-center justify-between gap-3">
+                <h2 className="flex items-center gap-2 text-lg font-semibold text-slate-900">
+                  <Trophy className="h-5 w-5 text-amber-500" /> Priebežný rebríček
+                </h2>
+                <span className="text-xs uppercase tracking-wide text-slate-400">
+                  Aktualizované po poslednej otázke
+                </span>
+              </div>
+              <p className="mt-1 text-sm text-slate-500">
+                Body sa sčítavajú naprieč otázkami v aktuálnom kole. Vedenie sa môže meniť po každej odpovedi,
+                preto sledujte poradie priebežne.
+              </p>
+              <ul className="mt-4 space-y-2">
+                {leaderboard.map((pl, idx) => {
+                  const styles = [
+                    {
+                      card: 'border-amber-200 bg-amber-50 text-amber-800',
+                      badge: 'border-amber-300 bg-amber-100 text-amber-700',
+                      caption: 'Vedúci tím',
+                    },
+                    {
+                      card: 'border-sky-200 bg-sky-50 text-sky-800',
+                      badge: 'border-sky-300 bg-sky-100 text-sky-700',
+                      caption: 'Na dostrel víťazstva',
+                    },
+                    {
+                      card: 'border-violet-200 bg-violet-50 text-violet-800',
+                      badge: 'border-violet-300 bg-violet-100 text-violet-700',
+                      caption: 'Ešte v medailovej hre',
+                    },
+                  ][idx] ?? {
+                    card: 'border-slate-200 bg-white text-slate-700',
+                    badge: 'border-slate-300 bg-slate-100 text-slate-600',
+                    caption: 'Pripravení zabrať v ďalšej otázke',
+                  }
+
+                  const cardClasses = [
+                    'flex items-center justify-between gap-4 rounded-xl border px-4 py-3 transition',
+                    styles.card,
+                  ].join(' ')
+                  const badgeClasses = [
+                    'flex h-10 w-10 items-center justify-center rounded-full border text-base font-semibold',
+                    styles.badge,
+                  ].join(' ')
+
+                  return (
+                    <li key={pl.id} className={cardClasses}>
+                      <div className="flex items-center gap-3">
+                        <span className={badgeClasses}>{idx + 1}</span>
+                        <div>
+                          <p className="text-sm font-semibold text-current">{pl.name || '—'}</p>
+                          <p className="text-xs text-slate-500">{styles.caption}</p>
+                        </div>
+                      </div>
+                      <span className="text-lg font-bold text-current">{pl.score} bodov</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
