@@ -47,56 +47,97 @@ export default function HerdVoteClient({ lang }: { lang: string }) {
     playing: '▶ Prebieha', final: '🏁 Skončená',
   }[p] ?? p)
 
+  const phaseColor = (p: string) => ({
+    lobby: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+    playing: 'bg-green-500/20 text-green-300 border-green-500/30',
+    final: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  }[p] ?? 'bg-gray-500/20 text-gray-300 border-gray-500/30')
+
   if (loading) return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-      <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin" />
+    <div className="hv-bg flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 border-3 border-purple-400 border-t-transparent rounded-full animate-spin" />
+        <p className="hv-text-muted text-sm">Načítavam…</p>
+      </div>
     </div>
   )
 
   return (
-    <div className="min-h-screen bg-gray-950 p-6">
-      <div className="max-w-2xl mx-auto space-y-8">
+    <div className="hv-bg hv-particles">
+      <div className="max-w-2xl mx-auto px-5 py-8 space-y-8">
         {/* Header */}
-        <div className="pt-8">
-          <h1 className="text-4xl font-black text-white">🐂 Herd Vote</h1>
-          <p className="text-gray-400 mt-2">Multiplayer kvíz — vytvor hru, pozvi hráčov, spusti súboj.</p>
-        </div>
+        <header className="text-center pt-6 space-y-3">
+          <div className="inline-flex items-center gap-2 hv-badge bg-purple-500/15 text-purple-300 border border-purple-500/20 mb-2">
+            <span>🐂</span>
+            <span>Multiplayer Quiz</span>
+          </div>
+          <h1 className="text-5xl font-black tracking-tight">
+            <span className="hv-text-gradient">Herd Vote</span>
+          </h1>
+          <p className="hv-text-muted text-lg max-w-md mx-auto leading-relaxed">
+            Hraj spolu. Mysli rovnako. Vyhraj ako skupina.
+          </p>
+        </header>
 
-        {/* Create new */}
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 text-center space-y-4">
-          <div className="text-5xl">🎮</div>
-          <h2 className="text-xl font-bold text-white">Nová hra</h2>
-          <p className="text-gray-500 text-sm">Vytvor hru, zdieľaj kód s hráčmi a začni.</p>
-          {err && <p className="text-red-400 text-sm">{err}</p>}
+        {/* Create new game */}
+        <div className="hv-card-glow p-8 text-center space-y-5">
+          <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/20 flex items-center justify-center text-3xl">
+            🎮
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-white">Nová hra</h2>
+            <p className="hv-text-muted text-sm mt-1">
+              Vytvor hru, zdieľaj QR kód s hráčmi a začni.
+            </p>
+          </div>
+          {err && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 text-red-300 text-sm">
+              {err}
+            </div>
+          )}
           <button
             onClick={createGame}
             disabled={creating}
-            className="w-full py-4 rounded-xl bg-gradient-to-r from-violet-600 to-violet-800 text-white font-black text-lg hover:brightness-110 disabled:opacity-40 transition-all active:scale-95"
+            className="hv-btn-primary w-full py-4 text-lg"
           >
-            {creating ? 'Vytváram…' : '+ Vytvoriť hru'}
+            {creating ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                Vytváram…
+              </span>
+            ) : (
+              '+ Vytvoriť hru'
+            )}
           </button>
         </div>
 
         {/* Active games */}
         {games.length > 0 && (
-          <div className="space-y-3">
-            <h2 className="text-gray-400 text-sm font-semibold uppercase tracking-wide">Moje aktívne hry</h2>
+          <section className="space-y-3">
+            <div className="flex items-center gap-2">
+              <h2 className="hv-text-muted text-xs font-semibold uppercase tracking-widest">Moje aktívne hry</h2>
+              <div className="flex-1 hv-divider" />
+            </div>
             {games.map(g => (
               <div key={g.code}
-                className="bg-gray-900 border border-gray-800 rounded-2xl p-5 flex items-center gap-4 hover:border-gray-700 transition-colors cursor-pointer"
+                className="hv-card p-5 flex items-center gap-4 cursor-pointer group"
                 onClick={() => router.push(`/${lang}/play/${g.code}`)}>
-                <div className="flex-1">
-                  <div className="font-mono font-black text-white text-lg tracking-widest">{g.code}</div>
-                  <div className="text-sm text-gray-500 mt-0.5">
-                    {phaseLabel(g.phase)} · {g.playerCount} hráčov
+                <div className="flex-1 min-w-0">
+                  <div className="font-mono font-black text-white text-xl tracking-[0.2em]">{g.code}</div>
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <span className={`hv-badge text-[0.65rem] border ${phaseColor(g.phase)}`}>
+                      {phaseLabel(g.phase)}
+                    </span>
+                    <span className="hv-text-dim text-xs">·</span>
+                    <span className="hv-text-muted text-xs">{g.playerCount} hráčov</span>
                   </div>
                 </div>
-                <button className="px-4 py-2 rounded-xl bg-violet-700 hover:bg-violet-600 text-white font-semibold text-sm transition-colors">
+                <button className="hv-btn-secondary px-4 py-2.5 text-sm group-hover:bg-purple-500/20 group-hover:border-purple-500/30 group-hover:text-purple-200 transition-all">
                   Otvoriť →
                 </button>
               </div>
             ))}
-          </div>
+          </section>
         )}
       </div>
     </div>
