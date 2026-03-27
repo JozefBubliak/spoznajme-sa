@@ -72,7 +72,7 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
     if (!gameState || !currentQuestion) return
     if (gameState.phase !== 'question') return
     if (submittedAnswer != null) return
-    sendMessage({ type: 'answer', playerId, answer: answerIndex })
+    sendMessage({ type: 'answer', playerId, answer: answerIndex, answeredAt: Date.now() })
     setSubmittedAnswer(answerIndex)
   }
 
@@ -109,7 +109,12 @@ export default function PlayerView({ code, name }: PlayerViewProps) {
           <div className="space-y-4">
             <div>
               <p className="text-xs uppercase tracking-wide text-slate-500">
-                Otázka {gameState.questionIndex + 1} / {gameState.totalRounds || gameState.totalQuestions}
+                {(() => {
+                  const cfg = gameState.roundConfigs?.[gameState.questionIndex]
+                  const total = gameState.totalRounds || gameState.totalQuestions
+                  const roundLabel = cfg?.title || `Kolo ${gameState.questionIndex + 1}`
+                  return `${roundLabel} · ${gameState.questionIndex + 1}/${total}${cfg?.category ? ` · ${cfg.category}` : ''}`
+                })()}
               </p>
               {timeLeft != null && <p className="mt-1 text-sm font-medium text-amber-600">Zostáva {timeLeft}s</p>}
               <h2 className="mt-2 text-lg font-semibold text-slate-900">{currentQuestion.question}</h2>

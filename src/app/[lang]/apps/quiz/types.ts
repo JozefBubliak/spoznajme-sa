@@ -2,9 +2,32 @@ import type { QuizQuestion } from './data/questions'
 
 export type QuizPhase = 'idle' | 'lobby' | 'locked' | 'round-config' | 'question' | 'reveal' | 'finished'
 
+export type ScoringMode = 'classic' | 'safe' | 'risk' | 'podium'
+
+export interface PodiumScores {
+  first: number
+  second: number
+  third: number
+  rest: number
+}
+
 export interface RoundConfig {
-  duration: number
+  // Identita
+  title: string
   category: string
+
+  // Čas
+  duration: number
+
+  // Bodovanie
+  scoringMode: ScoringMode
+  correctScore: number
+  wrongScore: number
+  noAnswerScore: number
+  podiumScores: PodiumScores
+  allowNegativeTotal: boolean
+
+  /** @deprecated derive from correctScore */
   scoring: number
 }
 
@@ -13,6 +36,7 @@ export interface QuizPlayerState {
   name: string
   score: number
   answer?: number | null
+  answeredAt?: number | null
   lastAnswerCorrect?: boolean
 }
 
@@ -37,7 +61,7 @@ export interface QuizGameState {
 export type QuizMessage =
   | { type: 'state'; state: QuizGameState }
   | { type: 'join'; playerId: string; name: string }
-  | { type: 'answer'; playerId: string; answer: number }
+  | { type: 'answer'; playerId: string; answer: number; answeredAt: number }
   | { type: 'leave'; playerId: string }
   | { type: 'ping' }
 
