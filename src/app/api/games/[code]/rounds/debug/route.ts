@@ -6,7 +6,7 @@ import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { asArray } from '@/lib/supabase/safe'
 
-import { isRunStorageUnavailable, isUsageStorageUnavailable } from '../../_runs'
+import { isRunStorageUnavailable, isUsageStorageUnavailable, isRandomQuestionRpcUnavailable } from '../../_runs'
 
 
 export const dynamic = 'force-dynamic'
@@ -311,6 +311,7 @@ export async function GET(req: NextRequest, context: any) {
         usageRecordedCount: usageIds.length,
         usageRecordedIds: usageIds,
         usageMissingIds: missingUsage,
+        status: 'completed'
       })
   }
 

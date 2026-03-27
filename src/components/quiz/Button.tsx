@@ -1,7 +1,7 @@
 'use client'
 import { ReactNode, CSSProperties } from 'react'
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
   onClick?: () => void
   type?: 'primary' | 'secondary' | 'danger'
@@ -14,7 +14,9 @@ export default function Button({
   onClick,
   type = 'primary',
   disabled,
-  style
+  style,
+  className,
+  ...props
 }: ButtonProps) {
   const styles = {
     base: {
@@ -33,9 +35,11 @@ export default function Button({
 
   return (
     <button
+      className={className}
       style={{ ...styles.base, ...styles[type], ...style }}
       onClick={onClick}
       disabled={disabled}
+      {...props}
     >
       {children}
     </button>

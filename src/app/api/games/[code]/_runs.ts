@@ -4,17 +4,11 @@ import type { SupabaseClient } from '@/integrations/supabase/server'
 
 type ServiceClient = SupabaseClient<any, any, any>
 
-import type { SupabaseClient } from '@/integrations/supabase/server'
-
-type ServiceClient = SupabaseClient<any, any, any>
-
 export type RunRecord = {
-
   id: string | null
   run_number: number | null
   status?: string | null
   disabled?: boolean
-
 }
 
 export function isPostgrestError(error: unknown): error is PostgrestError {
@@ -26,7 +20,7 @@ function messageIncludes(error: PostgrestError, fragment: string) {
   return String(error.message ?? '').toLowerCase().includes(fragment.toLowerCase())
 }
 
-function isMissingRelationError(error: PostgrestError, relation: string) {
+export function isMissingRelationError(error: PostgrestError, relation: string) {
   return (
     error.code === '42P01' ||
     error.code === '42501' ||
@@ -47,6 +41,13 @@ export function isRunStorageUnavailable(error: unknown): boolean {
 
 export function isUsageStorageUnavailable(error: unknown): boolean {
   return isPostgrestError(error) && isMissingRelationError(error, 'herd_question_usage')
+}
+
+export function isRandomQuestionRpcUnavailable(error: unknown): boolean {
+  return isPostgrestError(error) && (
+    error.code === '42883' || // function does not exist
+    messageIncludes(error, 'random_herd_questions')
+  )
 }
 
 export async function getActiveRun(

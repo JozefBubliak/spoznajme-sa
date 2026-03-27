@@ -56,8 +56,9 @@ export default function AdminPanel({ code }: AdminPanelProps) {
       if (!res.ok) throw new Error(data.error)
       return data
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error'
       console.error('API call failed:', error)
-      alert(`Error: ${error.message}`)
+      alert(`Error: ${message}`)
     } finally {
       setIsLoading(false)
     }
