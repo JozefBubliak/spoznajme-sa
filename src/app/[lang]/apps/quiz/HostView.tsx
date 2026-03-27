@@ -22,6 +22,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
   )
 
   const [joinUrl, setJoinUrl] = useState('')
+  const [now, setNow] = useState(Date.now())
 
   const [gameState, setGameState] = useState<QuizGameState>(() => ({
     code,
@@ -32,6 +33,8 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     questionStart: null,
     players: [],
     questions,
+    roundDurations: questions.map(() => 20),
+    roundsReady: false,
   }))
 
   const stateRef = useRef(gameState)
@@ -44,6 +47,8 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       code,
       questions,
       totalQuestions: questions.length,
+      roundDurations: questions.map(() => 20),
+      roundsReady: false,
     }))
   }, [code, language, questions])
 
@@ -105,15 +110,9 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
           }
         })
       },
-      lockAnswers: () => {
-        setGameState(prev => {
-          if (prev.phase !== 'question') return prev
-          return { ...prev, phase: 'locked' }
-        })
-      },
       revealAnswer: () => {
         setGameState(prev => {
-          if (prev.phase !== 'question' && prev.phase !== 'locked') return prev
+          if (prev.phase !== 'question') return prev
           const currentQuestion = prev.questions[prev.questionIndex]
           if (!currentQuestion) return prev
           const players = prev.players.map(player => {
@@ -137,7 +136,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       },
       nextQuestion: () => {
         setGameState(prev => {
-          if (prev.phase !== 'reveal' && prev.phase !== 'locked') return prev
+          if (prev.phase !== 'reveal') return prev
           const nextIndex = prev.questionIndex + 1
           if (nextIndex >= prev.totalQuestions) {
             return {
@@ -165,6 +164,8 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
           phase: 'lobby',
           questionIndex: -1,
           questionStart: null,
+          roundsReady: false,
+          roundDurations: prev.questions.map(() => 20),
           players: prev.players.map(player => ({
             ...player,
             score: 0,
@@ -177,9 +178,41 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     [setGameState],
   )
 
+  useEffect(() => {
+    if (gameState.phase !== 'question' || gameState.questionStart == null) return
+    const durationSeconds = gameState.roundDurations[gameState.questionIndex] ?? 20
+    const timeoutMs = gameState.questionStart + durationSeconds * 1000 - Date.now()
+    if (timeoutMs <= 0) {
+      controls.revealAnswer()
+      return
+    }
+    const timeout = window.setTimeout(() => {
+      controls.revealAnswer()
+    }, timeoutMs)
+    return () => window.clearTimeout(timeout)
+  }, [
+    controls,
+    gameState.phase,
+    gameState.questionStart,
+    gameState.questionIndex,
+    gameState.roundDurations,
+  ])
+
+  useEffect(() => {
+    if (gameState.phase !== 'question') return
+    const interval = window.setInterval(() => setNow(Date.now()), 1000)
+    return () => window.clearInterval(interval)
+  }, [gameState.phase, gameState.questionIndex])
+
   const currentQuestion =
-    gameState.phase === 'question' || gameState.phase === 'locked' || gameState.phase === 'reveal'
+    gameState.phase === 'question' || gameState.phase === 'reveal'
       ? gameState.questions[gameState.questionIndex]
+      : null
+
+  const currentRoundDuration = gameState.roundDurations[gameState.questionIndex] ?? 20
+  const roundTimeLeft =
+    gameState.phase === 'question' && gameState.questionStart != null
+      ? Math.max(0, Math.ceil((gameState.questionStart + currentRoundDuration * 1000 - now) / 1000))
       : null
 
   return (
@@ -210,8 +243,9 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
           </div>
         </div>
 
-        <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
-          {joinUrl ? (
+        {gameState.phase === 'lobby' && gameState.players.length === 0 && (
+          <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
+            {joinUrl ? (
             <>
               <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Link pre hráčov</p>
               <div className="mt-2 flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -239,10 +273,11 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                 />
               </div>
             </>
-          ) : (
-            <p className="text-sm text-slate-500">Generujem link pre pripojenie...</p>
-          )}
-        </div>
+            ) : (
+              <p className="text-sm text-slate-500">Generujem link pre pripojenie...</p>
+            )}
+          </div>
+        )}
       </div>
 
       <section className="grid gap-6 md:grid-cols-[2fr_3fr]">
@@ -254,32 +289,67 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             </p>
           </header>
 
+          {gameState.phase === 'lobby' && (
+            <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+              <h3 className="text-sm font-semibold text-slate-800">Nastavenie kôl (čas na odpoveď)</h3>
+              <div className="space-y-2">
+                {gameState.questions.map((question, index) => (
+                  <label key={`${index}-${question.question}`} className="flex items-center justify-between gap-3 text-sm">
+                    <span className="text-slate-700">Kolo {index + 1}</span>
+                    <input
+                      type="number"
+                      min={5}
+                      max={120}
+                      value={gameState.roundDurations[index] ?? 20}
+                      onChange={event => {
+                        const value = Number(event.target.value)
+                        setGameState(prev => ({
+                          ...prev,
+                          roundDurations: prev.roundDurations.map((duration, durationIndex) =>
+                            durationIndex === index ? Math.min(120, Math.max(5, value || 20)) : duration,
+                          ),
+                          roundsReady: false,
+                        }))
+                      }}
+                      className="w-24 rounded-md border border-slate-300 px-2 py-1 text-right"
+                    />
+                  </label>
+                ))}
+              </div>
+              <button
+                type="button"
+                className="w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+                onClick={() => setGameState(prev => ({ ...prev, roundsReady: true }))}
+              >
+                Potvrdiť nastavenie kôl
+              </button>
+              {!gameState.roundsReady && (
+                <p className="text-xs text-slate-500">Pred spustením hry potvrďte nastavenie všetkých kôl.</p>
+              )}
+            </div>
+          )}
+
           <div className="flex flex-wrap gap-2">
             <button
               className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
               onClick={controls.startGame}
-              disabled={gameState.phase !== 'lobby' || gameState.players.length === 0}
+              disabled={
+                gameState.phase !== 'lobby' || gameState.players.length === 0 || !gameState.roundsReady
+              }
             >
               Spustiť kvíz
             </button>
             <button
-              className="rounded-md bg-amber-500 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-600 disabled:cursor-not-allowed disabled:bg-amber-200"
-              onClick={controls.lockAnswers}
-              disabled={gameState.phase !== 'question'}
-            >
-              Uzamknúť odpovede
-            </button>
-            <button
               className="rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-emerald-200"
               onClick={controls.revealAnswer}
-              disabled={gameState.phase !== 'question' && gameState.phase !== 'locked'}
+              disabled={gameState.phase !== 'question'}
             >
               Odhal správnu odpoveď
             </button>
             <button
               className="rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-blue-200"
               onClick={controls.nextQuestion}
-              disabled={gameState.phase !== 'reveal' && gameState.phase !== 'locked'}
+              disabled={gameState.phase !== 'reveal'}
             >
               Ďalšia otázka
             </button>
@@ -312,6 +382,9 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                 <p className="text-xs uppercase tracking-wide text-slate-500">
                   Otázka {gameState.questionIndex + 1} / {gameState.totalQuestions}
                 </p>
+                {gameState.phase === 'question' && roundTimeLeft != null && (
+                  <p className="mt-1 text-sm font-medium text-amber-600">Čas na odpoveď: {roundTimeLeft}s</p>
+                )}
                 <h3 className="mt-1 text-lg font-semibold text-slate-900">{currentQuestion.question}</h3>
               </div>
               <ol className="space-y-2">
@@ -376,7 +449,7 @@ function handleIncomingMessage(state: QuizGameState, message: QuizMessage): Quiz
       }
     }
     case 'answer': {
-      if (state.phase !== 'question' && state.phase !== 'locked') {
+      if (state.phase !== 'question') {
         return state
       }
       return {
@@ -408,8 +481,6 @@ function describePhase(phase: QuizGameState['phase'], questionIndex: number, tot
       return 'Čakáme na pripojenie hráčov.'
     case 'question':
       return `Prebieha otázka ${questionIndex + 1} z ${total}.`
-    case 'locked':
-      return 'Odpovede sú uzamknuté, môžete odhaliť správne riešenie.'
     case 'reveal':
       return 'Správna odpoveď je zobrazená. Pokračujte na ďalšiu otázku.'
     case 'finished':
