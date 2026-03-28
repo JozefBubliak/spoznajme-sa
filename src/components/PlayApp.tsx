@@ -69,7 +69,9 @@ export default function PlayApp() {
       (item: any) => item.questions && item.questions[groupKey]
     )
     setFavoritesList(filtered)
-    const first = filtered[0]?.questions ?? null
+    const first = Array.isArray(filtered[0]?.questions)
+      ? (filtered[0]?.questions[0] ?? null)
+      : (filtered[0]?.questions ?? null)
     setCurrentQuestion(first)
     if (filtered.length > 0) setCurrentFavoriteIndex(0)
   }
@@ -82,7 +84,8 @@ export default function PlayApp() {
       if (favoritesMode) {
         const nextIndex = (currentFavoriteIndex + 1) % favoritesList.length
         setCurrentFavoriteIndex(nextIndex)
-        setCurrentQuestion(favoritesList[nextIndex]?.questions ?? null)
+        const nextQ = favoritesList[nextIndex]?.questions
+        setCurrentQuestion(Array.isArray(nextQ) ? (nextQ[0] ?? null) : (nextQ ?? null))
       } else {
         const question = await fetchQuestion(group)
         if (question) {
@@ -107,7 +110,8 @@ export default function PlayApp() {
     if (!favoritesMode || favoritesList.length === 0) return
     const prevIndex = currentFavoriteIndex > 0 ? currentFavoriteIndex - 1 : favoritesList.length - 1
     setCurrentFavoriteIndex(prevIndex)
-    setCurrentQuestion(favoritesList[prevIndex]?.questions ?? null)
+    const prevQ = favoritesList[prevIndex]?.questions
+    setCurrentQuestion(Array.isArray(prevQ) ? (prevQ[0] ?? null) : (prevQ ?? null))
   }
 
   const handleGroupSelect = async (selectedGroup: GroupKey) => {
