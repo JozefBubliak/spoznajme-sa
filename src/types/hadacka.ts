@@ -5,6 +5,7 @@ export interface WordVM {
   categoryName?: string
   difficultyLevel: number
   modeCode: string
+  tabooTerms?: string[]
 }
 
 export interface PackVM {

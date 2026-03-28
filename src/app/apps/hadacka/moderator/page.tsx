@@ -54,6 +54,17 @@ export default function ModeratorPage() {
     initializeApp()
   }, [settings.categories, soundSettings])
 
+  // Broadcast state to display page via BroadcastChannel
+  useEffect(() => {
+    const channel = new BroadcastChannel('hadacka-display')
+    const { settings: s, gameState: gs } = useGameStore.getState()
+    channel.postMessage({ settings: s, gameState: gs })
+    const unsub = useGameStore.subscribe((state) => {
+      channel.postMessage({ settings: state.settings, gameState: state.gameState })
+    })
+    return () => { unsub(); channel.close() }
+  }, [])
+
   // Cleanup timer on unmount
   useEffect(() => {
     return () => {

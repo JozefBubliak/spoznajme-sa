@@ -10,13 +10,15 @@ interface WordCardProps {
   playMode: PlayMode
   className?: string
   showTabooTerms?: boolean
+  tabooTerms?: string[]
 }
 
-export function WordCard({ 
-  word, 
-  playMode, 
+export function WordCard({
+  word,
+  playMode,
   className,
-  showTabooTerms = false 
+  showTabooTerms = false,
+  tabooTerms,
 }: WordCardProps) {
   if (!word) {
     return (
@@ -50,20 +52,8 @@ export function WordCard({
     }
   }
 
-  // Mock taboo terms for demonstration (would come from DB in production)
-  const getTabooTerms = (word: string): string[] => {
-    const tabooMap: Record<string, string[]> = {
-      'pes': ['šteká', 'zviera', 'mačka', 'kôstka', 'ocas'],
-      'telefón': ['hovorí', 'mobil', 'číslom', 'zvoniť', 'displej'],
-      'pizza': ['taliansky', 'syr', 'paradajky', 'kruh', 'kúsok'],
-      'auto': ['jazda', 'benzín', 'šofér', 'kolesá', 'cesta'],
-      'futbal': ['lopta', 'gól', 'jedenásť', 'kopať', 'branka'],
-    }
-    return tabooMap[word.toLowerCase()] || ['termín 1', 'termín 2', 'termín 3']
-  }
-
-  const shouldShowTaboo = playMode === 'opis-tabu' && showTabooTerms
-  const tabooTerms = shouldShowTaboo ? getTabooTerms(word.word) : []
+  const resolvedTabooTerms = tabooTerms ?? word.tabooTerms ?? []
+  const shouldShowTaboo = playMode === 'opis-tabu' && showTabooTerms && resolvedTabooTerms.length > 0
 
   return (
     <Card className={cn('card-elegant transition-all duration-300', className)}>
@@ -88,14 +78,14 @@ export function WordCard({
           </div>
 
           {/* Taboo terms */}
-          {shouldShowTaboo && tabooTerms.length > 0 && (
+          {shouldShowTaboo && (
             <div className="border-t pt-6 mt-6">
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold text-destructive flex items-center justify-center gap-2">
                   🚫 Zakázané výrazy
                 </h3>
                 <div className="flex flex-wrap justify-center gap-2">
-                  {tabooTerms.map((term, index) => (
+                  {resolvedTabooTerms.map((term, index) => (
                     <Badge 
                       key={index} 
                       variant="destructive"
