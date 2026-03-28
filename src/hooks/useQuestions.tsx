@@ -56,33 +56,30 @@ export function useQuestions() {
         setViewedQuestions((historyData ?? []).map(h => h.question_id))
       }
 
-    // Fetch favorites (disabled until user_favorites exists)
-    if (false) {
+    // Fetch favorites
+    try {
       const { data: favData } = await supabase
         .from('user_favorites')
         .select('question_id')
         .eq('user_id', uid)
-
-      setFavorites((favData ?? []).map(f => f.question_id))
-    } else {
+      setFavorites((favData ?? []).map((f: { question_id: number }) => f.question_id))
+    } catch {
       setFavorites([])
     }
 
-    // Check daily usage
-    if (false && profile) {
+    // Check daily usage from profile
+    if (profile) {
       const today = new Date().toISOString().split('T')[0]
-      if (profile?.daily_questions_date === today) {
-        setDailyCount(profile?.daily_questions_used ?? 0)
+      if (profile.daily_questions_date === today) {
+        setDailyCount(profile.daily_questions_used ?? 0)
       } else {
         setDailyCount(0)
-        // Reset daily count
-        await supabase
-          .from('user_profiles')
-          .update({
-            daily_questions_date: today,
-            daily_questions_used: 0
-          })
-          .eq('id', uid)
+        try {
+          await supabase
+            .from('user_profiles')
+            .update({ daily_questions_date: today, daily_questions_used: 0 })
+            .eq('id', uid)
+        } catch { /* ignore */ }
       }
     } else {
       setDailyCount(0)
@@ -146,15 +143,12 @@ export function useQuestions() {
       .single()
 
     if (question && uid) {
-      // Mark as viewed (disabled until user_question_history exists)
-      if (false) {
+      // Mark as viewed in history
+      try {
         await supabase
           .from('user_question_history')
-          .upsert({
-            user_id: uid,
-            question_id: question.id
-          })
-      }
+          .upsert({ user_id: uid, question_id: question.id })
+      } catch { /* ignore if table doesn't exist */ }
 
       setViewedQuestions(prev => [...prev, question.id])
 
@@ -162,15 +156,12 @@ export function useQuestions() {
       if (!isPaid) {
         const newCount = dailyCount + 1
         setDailyCount(newCount)
-
-        if (false) {
+        try {
           await supabase
             .from('user_profiles')
-            .update({
-              daily_questions_used: newCount
-            })
+            .update({ daily_questions_used: newCount })
             .eq('id', uid)
-        }
+        } catch { /* ignore */ }
       }
     }
 
@@ -184,23 +175,20 @@ export function useQuestions() {
     const isFavorite = favorites.includes(questionId)
 
     if (isFavorite) {
-      if (false) {
+      try {
         await supabase
           .from('user_favorites')
           .delete()
           .eq('user_id', uid)
           .eq('question_id', questionId)
-      }
+      } catch { /* ignore */ }
       setFavorites(prev => prev.filter(id => id !== questionId))
     } else {
-      if (false) {
+      try {
         await supabase
           .from('user_favorites')
-          .insert({
-            user_id: uid,
-            question_id: questionId
-          })
-      }
+          .insert({ user_id: uid, question_id: questionId })
+      } catch { /* ignore */ }
       setFavorites(prev => [...prev, questionId])
     }
   }

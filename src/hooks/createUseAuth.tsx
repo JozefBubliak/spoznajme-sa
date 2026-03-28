@@ -26,7 +26,7 @@ export function createUseAuth(client: SupabaseClient, cookieName?: string) {
         if (session?.user) {
           const { id, email } = session.user
           setTimeout(async () => {
-            if (false) {
+            try {
               const { data: profileData } = await client
                 .from('user_profiles')
                 .select('*')
@@ -49,7 +49,7 @@ export function createUseAuth(client: SupabaseClient, cookieName?: string) {
               } else {
                 setProfile(profileData)
               }
-            } else {
+            } catch {
               setProfile(null)
             }
           }, 0)
