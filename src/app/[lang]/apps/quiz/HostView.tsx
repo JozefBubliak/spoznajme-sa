@@ -27,8 +27,9 @@ type PresetKey = 'casual' | 'competitive' | 'speed' | 'final'
 
 const DEFAULT_PODIUM: PodiumScores = { first: 10, second: 7, third: 5, rest: 3 }
 
-const PRESETS: Record<PresetKey, Omit<RoundConfig, 'title' | 'category'>> = {
+const PRESETS: Record<PresetKey, Omit<RoundConfig, 'category'>> = {
   casual: {
+    questionCount: 5,
     duration: 15,
     scoringMode: 'safe',
     correctScore: 10,
@@ -39,16 +40,18 @@ const PRESETS: Record<PresetKey, Omit<RoundConfig, 'title' | 'category'>> = {
     scoring: 10,
   },
   competitive: {
+    questionCount: 5,
     duration: 15,
     scoringMode: 'classic',
     correctScore: 10,
-    wrongScore: -5,
+    wrongScore: -3,
     noAnswerScore: 0,
     podiumScores: DEFAULT_PODIUM,
     allowNegativeTotal: true,
     scoring: 10,
   },
   speed: {
+    questionCount: 3,
     duration: 10,
     scoringMode: 'podium',
     correctScore: 5,
@@ -59,11 +62,12 @@ const PRESETS: Record<PresetKey, Omit<RoundConfig, 'title' | 'category'>> = {
     scoring: 5,
   },
   final: {
+    questionCount: 3,
     duration: 20,
     scoringMode: 'risk',
     correctScore: 20,
-    wrongScore: -10,
-    noAnswerScore: 0,
+    wrongScore: -5,
+    noAnswerScore: -3,
     podiumScores: DEFAULT_PODIUM,
     allowNegativeTotal: true,
     scoring: 20,
@@ -78,12 +82,12 @@ const PRESET_LABELS: Record<PresetKey, string> = {
 }
 
 const DEFAULT_ROUND_CONFIG: RoundConfig = {
-  title: '',
   category: '',
+  questionCount: 3,
   duration: 20,
   scoringMode: 'classic',
   correctScore: 10,
-  wrongScore: -5,
+  wrongScore: -3,
   noAnswerScore: 0,
   podiumScores: DEFAULT_PODIUM,
   allowNegativeTotal: false,
@@ -92,27 +96,31 @@ const DEFAULT_ROUND_CONFIG: RoundConfig = {
 
 // ─── Scoring mode info ─────────────────────────────────────────────────────────
 
-const SCORING_INFO: Record<ScoringMode, { label: string; description: string; color: string }> = {
+const SCORING_INFO: Record<ScoringMode, { label: string; description: string; color: string; emoji: string }> = {
   classic: {
     label: 'Classic',
+    emoji: '🎯',
     description:
       'Správna odpoveď prinesie body, zlá odpoveď odpočíta body. Vhodné pre firemné eventy a školské kvízy.',
     color: 'bg-slate-50 border-slate-300 text-slate-700',
   },
   safe: {
     label: 'Safe',
+    emoji: '🛡️',
     description:
       'Iba správna odpoveď prinesie body. Zlá odpoveď ani neodpovedanie nie sú penalizované. Vhodné pre casual hráčov a prvohráčov.',
     color: 'bg-emerald-50 border-emerald-300 text-emerald-800',
   },
   risk: {
     label: 'Risk',
+    emoji: '⚠️',
     description:
       'Zlá odpoveď výrazne odpočíta body. Hráči musia zvážiť, či tipnúť. Vhodné pre súťažný finálový mód.',
     color: 'bg-rose-50 border-rose-300 text-rose-800',
   },
   podium: {
     label: 'Podium',
+    emoji: '🏆',
     description:
       'Prvý, druhý a tretí správny hráč dostanú vyšší počet bodov. Rýchlosť rozhoduje. Vhodné pre dynamické live eventy.',
     color: 'bg-amber-50 border-amber-300 text-amber-800',
@@ -125,7 +133,7 @@ function calculatePlayerScore(
   player: QuizPlayerState,
   isCorrect: boolean,
   config: RoundConfig,
-  podiumRank: number | null, // 0-based rank among correct answers, null if wrong/no answer
+  podiumRank: number | null,
 ): number {
   const { scoringMode, correctScore, wrongScore, noAnswerScore, podiumScores } = config
   const hasAnswered = player.answer != null
@@ -182,19 +190,24 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       .catch(() => {})
   }, [])
 
+  const getCategoryName = (id: string) =>
+    categories.find(c => c.id === id)?.name ?? id
+
   const [gameState, setGameState] = useState<QuizGameState>(() => ({
     code,
     language,
     phase: 'lobby',
     questionIndex: -1,
-    totalQuestions: questions.length,
+    totalQuestions: 0,
     totalRounds: 0,
     roundSetupIndex: 0,
     questionStart: null,
     players: [],
     questions,
+    currentQuestionData: null,
     lobbyLocked: false,
     roundConfigs: [],
+    questionToRound: [],
     roundDurations: questions.map(() => 20),
     roundsReady: false,
   }))
@@ -208,7 +221,6 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       language,
       code,
       questions,
-      totalQuestions: questions.length,
     }))
   }, [code, language, questions])
 
@@ -236,16 +248,18 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     await copyLink()
   }
 
+  // ─── Broadcast: posiela hráčom stav BEZ questions array (veľkostný limit 32KB) ──
+
   const sendMessage = useQuizChannel(code, (message: QuizMessage) => {
     if (message.type === 'ping') {
-      sendMessage({ type: 'state', state: stateRef.current })
+      sendMessage(buildBroadcast(stateRef.current))
       return
     }
     setGameState(prev => handleIncomingMessage(prev, message))
   })
 
   useEffect(() => {
-    sendMessage({ type: 'state', state: gameState })
+    sendMessage(buildBroadcast(gameState))
   }, [gameState, sendMessage])
 
   // ─── Lobby actions ────────────────────────────────────────────────────────
@@ -258,8 +272,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
   }
 
   const confirmRoundCount = () => {
-    const maxRounds = Math.min(20, gameState.questions.length)
-    const count = Math.max(1, Math.min(maxRounds, parseInt(roundCountInput) || 3))
+    const count = Math.max(1, Math.min(20, parseInt(roundCountInput) || 3))
     setGameState(prev => {
       if (prev.phase !== 'locked') return prev
       return { ...prev, phase: 'round-config', totalRounds: count, roundSetupIndex: 0, roundConfigs: [] }
@@ -277,13 +290,27 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       if (prev.phase !== 'round-config') return prev
       const newConfigs = [...prev.roundConfigs, config]
       const nextIndex = prev.roundSetupIndex + 1
+
       if (nextIndex >= prev.totalRounds) {
+        // Všetky kolá nastavené — vypočítaj questionToRound a totalQuestions
+        const questionToRound: number[] = []
+        newConfigs.forEach((rc, roundIdx) => {
+          for (let q = 0; q < rc.questionCount; q++) {
+            questionToRound.push(roundIdx)
+          }
+        })
+        const totalQuestions = questionToRound.length
+        const firstQuestion = prev.questions[0] ?? null
+
         return {
           ...prev,
           phase: 'question',
           questionIndex: 0,
-          questionStart: Date.now(),
+          questionStart: null,         // čas NEštartuje automaticky — moderátor klikne "Spustiť odpočet"
+          totalQuestions,
           roundConfigs: newConfigs,
+          questionToRound,
+          currentQuestionData: firstQuestion,
           roundDurations: newConfigs.map(c => c.duration),
           roundsReady: true,
           players: prev.players.map(player => ({
@@ -306,14 +333,22 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     () => ({
       createLobby: () => {},
       startGame: () => {},
-      revealAnswer: () => {
+      startTimer: () => {
+        // Moderátor klikol "Spustiť odpočet" — timer sa spustí
         setGameState(prev => {
           if (prev.phase !== 'question') return prev
+          return { ...prev, phase: 'answering', questionStart: Date.now() }
+        })
+      },
+      revealAnswer: () => {
+        // Moderátor klikol "Odhal správnu odpoveď" — vypočítaj skóre a ukáž hráčom
+        setGameState(prev => {
+          if (prev.phase !== 'answering' && prev.phase !== 'host-revealed') return prev
           const currentQuestion = prev.questions[prev.questionIndex]
           if (!currentQuestion) return prev
-          const config = prev.roundConfigs[prev.questionIndex] ?? DEFAULT_ROUND_CONFIG
+          const roundConfigIdx = prev.questionToRound[prev.questionIndex] ?? 0
+          const config = prev.roundConfigs[roundConfigIdx] ?? DEFAULT_ROUND_CONFIG
 
-          // Build podium ranking: sort correct players by answeredAt ascending
           const correctPlayersRanked = prev.players
             .filter(p => p.answer === currentQuestion.correctAnswer)
             .sort((a, b) => (a.answeredAt ?? Infinity) - (b.answeredAt ?? Infinity))
@@ -333,14 +368,16 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
         setGameState(prev => {
           if (prev.phase !== 'reveal') return prev
           const nextIndex = prev.questionIndex + 1
-          if (nextIndex >= prev.totalRounds) {
+          if (nextIndex >= prev.totalQuestions) {
             return { ...prev, phase: 'finished', questionStart: null }
           }
+          const nextQuestion = prev.questions[nextIndex] ?? null
           return {
             ...prev,
             phase: 'question',
             questionIndex: nextIndex,
-            questionStart: Date.now(),
+            questionStart: null,
+            currentQuestionData: nextQuestion,
             players: prev.players.map(player => ({
               ...player,
               answer: null,
@@ -359,8 +396,11 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
           roundsReady: false,
           lobbyLocked: false,
           totalRounds: 0,
+          totalQuestions: 0,
           roundSetupIndex: 0,
           roundConfigs: [],
+          questionToRound: [],
+          currentQuestionData: null,
           roundDurations: prev.questions.map(() => 20),
           players: prev.players.map(player => ({
             ...player,
@@ -375,59 +415,66 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     [],
   )
 
-  // ─── Timers ───────────────────────────────────────────────────────────────
+  // ─── Auto-reveal pre HOSTA keď čas vyprší (hráči to ešte neuvidia) ────────
 
   useEffect(() => {
-    if (gameState.phase !== 'question' || gameState.questionStart == null) return
-    const config = gameState.roundConfigs[gameState.questionIndex]
+    if (gameState.phase !== 'answering' || gameState.questionStart == null) return
+    const config = gameState.roundConfigs[gameState.questionToRound[gameState.questionIndex] ?? 0]
     const durationSeconds = config?.duration ?? 20
     const timeoutMs = gameState.questionStart + durationSeconds * 1000 - Date.now()
-    if (timeoutMs <= 0) { controls.revealAnswer(); return }
-    const timeout = window.setTimeout(() => controls.revealAnswer(), timeoutMs)
+    if (timeoutMs <= 0) {
+      setGameState(prev => prev.phase === 'answering' ? { ...prev, phase: 'host-revealed' } : prev)
+      return
+    }
+    const timeout = window.setTimeout(() => {
+      setGameState(prev => prev.phase === 'answering' ? { ...prev, phase: 'host-revealed' } : prev)
+    }, timeoutMs)
     return () => window.clearTimeout(timeout)
-  }, [controls, gameState.phase, gameState.questionStart, gameState.questionIndex, gameState.roundConfigs])
+  }, [gameState.phase, gameState.questionStart, gameState.questionIndex, gameState.roundConfigs, gameState.questionToRound])
 
   useEffect(() => {
-    if (gameState.phase !== 'question') return
-    const interval = window.setInterval(() => setNow(Date.now()), 1000)
+    if (gameState.phase !== 'answering') return
+    const interval = window.setInterval(() => setNow(Date.now()), 500)
     return () => window.clearInterval(interval)
   }, [gameState.phase, gameState.questionIndex])
 
-  const currentQuestion =
-    gameState.phase === 'question' || gameState.phase === 'reveal'
-      ? gameState.questions[gameState.questionIndex]
-      : null
-
-  const currentRoundConfig = gameState.roundConfigs[gameState.questionIndex]
+  const currentQuestion = gameState.currentQuestionData
+  const roundConfigIdx = gameState.questionToRound[gameState.questionIndex] ?? 0
+  const currentRoundConfig = gameState.roundConfigs[roundConfigIdx]
   const currentRoundDuration = currentRoundConfig?.duration ?? 20
   const roundTimeLeft =
-    gameState.phase === 'question' && gameState.questionStart != null
+    gameState.phase === 'answering' && gameState.questionStart != null
       ? Math.max(0, Math.ceil((gameState.questionStart + currentRoundDuration * 1000 - now) / 1000))
       : null
+
+  const isGamePhase = gameState.phase === 'question' || gameState.phase === 'answering'
+    || gameState.phase === 'host-revealed' || gameState.phase === 'reveal'
 
   // ─── Render ───────────────────────────────────────────────────────────────
 
   return (
     <div className="space-y-6">
 
-      {/* ── Header ─────────────────────────────────────────────────────────── */}
+      {/* ── Header: kód + jazyk iba v lobby ─────────────────────────────── */}
       <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-sm font-medium text-slate-500">Kód hry</p>
-            <p className="text-3xl font-bold tracking-widest text-slate-900">{code}</p>
+        {!isGamePhase && gameState.phase !== 'finished' && (
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-sm font-medium text-slate-500">Kód hry</p>
+              <p className="text-3xl font-bold tracking-widest text-slate-900">{code}</p>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-slate-500">Jazyk kvízu</p>
+              <p className="text-xl font-semibold text-slate-900">{languageLabel}</p>
+            </div>
+            <button
+              className="rounded-lg border border-rose-200 px-4 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50"
+              onClick={onResetLobby}
+            >
+              Ukončiť lobby
+            </button>
           </div>
-          <div>
-            <p className="text-sm font-medium text-slate-500">Jazyk kvízu</p>
-            <p className="text-xl font-semibold text-slate-900">{languageLabel}</p>
-          </div>
-          <button
-            className="rounded-lg border border-rose-200 px-4 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50"
-            onClick={onResetLobby}
-          >
-            Ukončiť lobby
-          </button>
-        </div>
+        )}
 
         {/* Join link — iba v lobby pred zamknutím */}
         {gameState.phase === 'lobby' && joinUrl && (
@@ -512,14 +559,11 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             <input
               type="number"
               min={1}
-              max={Math.min(20, gameState.questions.length)}
+              max={20}
               value={roundCountInput}
               onChange={e => setRoundCountInput(e.target.value)}
               className="w-32 rounded-md border border-slate-300 px-3 py-2 text-sm"
             />
-            <span className="text-xs font-normal text-slate-500">
-              Dostupné otázky: {gameState.questions.length}
-            </span>
           </label>
           <button
             type="button"
@@ -541,7 +585,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
               Kolo {gameState.roundSetupIndex + 1} z {gameState.totalRounds}
             </p>
             <h2 className="mt-1 text-xl font-bold text-white">
-              {roundConfigForm.title || `Kolo ${gameState.roundSetupIndex + 1}`}
+              {getCategoryName(roundConfigForm.category) || `Kolo ${gameState.roundSetupIndex + 1}`}
             </h2>
           </div>
 
@@ -568,22 +612,12 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
             <hr className="border-slate-100" />
 
-            {/* Sekcia A: Identita */}
+            {/* Sekcia A: Kategória + počet otázok */}
             <section className="space-y-3">
               <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
-                A — Identita kola
+                A — Kategória a otázky
               </h3>
               <div className="grid gap-4 sm:grid-cols-2">
-                <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
-                  Názov kola (voliteľný)
-                  <input
-                    type="text"
-                    placeholder={`Kolo ${gameState.roundSetupIndex + 1}`}
-                    value={roundConfigForm.title}
-                    onChange={e => setRoundConfigForm(prev => ({ ...prev, title: e.target.value }))}
-                    className="rounded-md border border-slate-300 px-3 py-2 text-sm"
-                  />
-                </label>
                 <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
                   Kategória
                   {categories.length > 0 ? (
@@ -603,12 +637,26 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                     <input
                       type="text"
                       placeholder="Načítavam kategórie…"
-                      value={roundConfigForm.category}
-                      onChange={e => setRoundConfigForm(prev => ({ ...prev, category: e.target.value }))}
-                      className="rounded-md border border-slate-300 px-3 py-2 text-sm"
                       disabled
+                      className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-400"
                     />
                   )}
+                </label>
+                <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+                  Počet otázok v kole
+                  <input
+                    type="number"
+                    min={1}
+                    max={30}
+                    value={roundConfigForm.questionCount}
+                    onChange={e =>
+                      setRoundConfigForm(prev => ({
+                        ...prev,
+                        questionCount: Math.max(1, Math.min(30, parseInt(e.target.value) || 3)),
+                      }))
+                    }
+                    className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+                  />
                 </label>
               </div>
             </section>
@@ -662,7 +710,6 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                 C — Bodovanie
               </h3>
 
-              {/* Výber režimu */}
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 {(Object.keys(SCORING_INFO) as ScoringMode[]).map(mode => (
                   <button
@@ -675,19 +722,15 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                         : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-blue-300'
                     }`}
                   >
-                    {SCORING_INFO[mode].label}
+                    {SCORING_INFO[mode].emoji} {SCORING_INFO[mode].label}
                   </button>
                 ))}
               </div>
 
-              {/* Popis zvoleného režimu */}
-              <div
-                className={`rounded-lg border p-3 text-sm ${SCORING_INFO[roundConfigForm.scoringMode].color}`}
-              >
+              <div className={`rounded-lg border p-3 text-sm ${SCORING_INFO[roundConfigForm.scoringMode].color}`}>
                 {SCORING_INFO[roundConfigForm.scoringMode].description}
               </div>
 
-              {/* Polia podľa režimu */}
               {roundConfigForm.scoringMode === 'safe' && (
                 <div className="grid gap-4 sm:grid-cols-3">
                   <ScoreInput
@@ -698,15 +741,11 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                   />
                   <div className="flex flex-col gap-1 text-sm font-medium text-slate-400">
                     <span>Zlá odpoveď</span>
-                    <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-slate-400">
-                      0 (safe mód)
-                    </div>
+                    <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-slate-400">0 (safe mód)</div>
                   </div>
                   <div className="flex flex-col gap-1 text-sm font-medium text-slate-400">
                     <span>Neodpoveď</span>
-                    <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-slate-400">
-                      0 (safe mód)
-                    </div>
+                    <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-slate-400">0 (safe mód)</div>
                   </div>
                 </div>
               )}
@@ -738,9 +777,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
               {roundConfigForm.scoringMode === 'podium' && (
                 <div className="space-y-3">
-                  <p className="text-xs text-slate-500">
-                    Body pre správnych hráčov podľa rýchlosti odpovede:
-                  </p>
+                  <p className="text-xs text-slate-500">Body pre správnych hráčov podľa rýchlosti odpovede:</p>
                   <div className="grid gap-3 sm:grid-cols-4">
                     {(
                       [
@@ -759,10 +796,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                           onChange={e =>
                             setRoundConfigForm(prev => ({
                               ...prev,
-                              podiumScores: {
-                                ...prev.podiumScores,
-                                [key]: Math.max(0, parseInt(e.target.value) || 0),
-                              },
+                              podiumScores: { ...prev.podiumScores, [key]: Math.max(0, parseInt(e.target.value) || 0) },
                             }))
                           }
                           className="rounded-md border border-slate-300 px-3 py-2 text-sm"
@@ -771,20 +805,10 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                     ))}
                   </div>
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <ScoreInput
-                      label="Zlá odpoveď"
-                      value={roundConfigForm.wrongScore}
-                      max={0}
-                      onChange={v => setRoundConfigForm(prev => ({ ...prev, wrongScore: v }))}
-                      hint="0 alebo záporné číslo"
-                    />
-                    <ScoreInput
-                      label="Neodpoveď"
-                      value={roundConfigForm.noAnswerScore}
-                      max={0}
-                      onChange={v => setRoundConfigForm(prev => ({ ...prev, noAnswerScore: v }))}
-                      hint="0 alebo záporné číslo"
-                    />
+                    <ScoreInput label="Zlá odpoveď" value={roundConfigForm.wrongScore} max={0}
+                      onChange={v => setRoundConfigForm(prev => ({ ...prev, wrongScore: v }))} hint="0 alebo záporné číslo" />
+                    <ScoreInput label="Neodpoveď" value={roundConfigForm.noAnswerScore} max={0}
+                      onChange={v => setRoundConfigForm(prev => ({ ...prev, noAnswerScore: v }))} hint="0 alebo záporné číslo" />
                   </div>
                 </div>
               )}
@@ -794,37 +818,30 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
             {/* Sekcia D: Špeciálne pravidlá */}
             <section className="space-y-3">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
-                D — Špeciálne pravidlá
-              </h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">D — Špeciálne pravidlá</h3>
               <label className="flex items-center gap-3 text-sm text-slate-700">
                 <input
                   type="checkbox"
                   checked={roundConfigForm.allowNegativeTotal}
-                  onChange={e =>
-                    setRoundConfigForm(prev => ({ ...prev, allowNegativeTotal: e.target.checked }))
-                  }
+                  onChange={e => setRoundConfigForm(prev => ({ ...prev, allowNegativeTotal: e.target.checked }))}
                   className="h-4 w-4 rounded border-slate-300 accent-blue-600"
                 />
                 Povoliť záporné celkové skóre
-                <span className="text-xs text-slate-400">
-                  (ak vypnuté, skóre neklesne pod 0)
-                </span>
+                <span className="text-xs text-slate-400">(ak vypnuté, skóre neklesne pod 0)</span>
               </label>
             </section>
 
-            {/* Súhrn nastavenia */}
+            {/* Súhrn */}
             <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
               <span className="font-semibold">Súhrn: </span>
               {roundConfigForm.scoringMode === 'podium'
-                ? `Podium — 1. ${roundConfigForm.podiumScores.first} / 2. ${roundConfigForm.podiumScores.second} / 3. ${roundConfigForm.podiumScores.third} / ostatní ${roundConfigForm.podiumScores.rest} bodov · zlá ${roundConfigForm.wrongScore} · neodpoveď ${roundConfigForm.noAnswerScore}`
+                ? `Podium — 1. ${roundConfigForm.podiumScores.first} / 2. ${roundConfigForm.podiumScores.second} / 3. ${roundConfigForm.podiumScores.third} / ostatní ${roundConfigForm.podiumScores.rest} b · zlá ${roundConfigForm.wrongScore} · neodpoveď ${roundConfigForm.noAnswerScore}`
                 : roundConfigForm.scoringMode === 'safe'
                   ? `Safe — správna +${roundConfigForm.correctScore} · zlá 0 · neodpoveď 0`
                   : `${SCORING_INFO[roundConfigForm.scoringMode].label} — správna +${roundConfigForm.correctScore} · zlá ${roundConfigForm.wrongScore} · neodpoveď ${roundConfigForm.noAnswerScore}`}
-              {' · '}čas {roundConfigForm.duration}s
+              {' · '}čas {roundConfigForm.duration}s{' · '}{roundConfigForm.questionCount} otázok
             </div>
 
-            {/* Potvrdiť */}
             <button
               type="button"
               onClick={confirmRoundConfig}
@@ -839,43 +856,94 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       )}
 
       {/* ── PRIEBEH HRY ───────────────────────────────────────────────────── */}
-      {(gameState.phase === 'question' || gameState.phase === 'reveal') && (
-        <section className="grid gap-6 md:grid-cols-[2fr_3fr]">
-          <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-            <header className="space-y-1">
-              <h2 className="text-lg font-semibold text-slate-900">Stav hry</h2>
-              <p className="text-sm text-slate-500">
-                {describePhase(gameState.phase, gameState.questionIndex, gameState.totalRounds)}
+      {isGamePhase && (
+        <section className="grid gap-6 md:grid-cols-[1fr_2fr]">
+
+          {/* Ľavý panel: stav + ovládanie */}
+          <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="space-y-1">
+              <p className="text-xs uppercase tracking-wide text-slate-400">
+                Kolo {(gameState.questionToRound[gameState.questionIndex] ?? 0) + 1} z {gameState.totalRounds}
+                {' · '}otázka {gameState.questionIndex + 1} z {gameState.totalQuestions}
               </p>
               {currentRoundConfig && (
-                <p className="text-xs text-slate-400">
-                  {currentRoundConfig.title || `Kolo ${gameState.questionIndex + 1}`}
-                  {currentRoundConfig.category ? ` · ${currentRoundConfig.category}` : ''}
-                  {' · '}{SCORING_INFO[currentRoundConfig.scoringMode].label}
+                <p className="text-sm font-medium text-slate-700">
+                  {getCategoryName(currentRoundConfig.category)}
+                  {' '}
+                  <span className="text-xs text-slate-400">
+                    {SCORING_INFO[currentRoundConfig.scoringMode].emoji} {SCORING_INFO[currentRoundConfig.scoringMode].label}
+                    {currentRoundConfig.scoringMode !== 'safe'
+                      ? ` · ✓+${currentRoundConfig.correctScore} ✗${currentRoundConfig.wrongScore}`
+                      : ` · ✓+${currentRoundConfig.correctScore}`}
+                  </span>
                 </p>
               )}
-            </header>
-
-            <div className="flex flex-wrap gap-2">
-              <button
-                className="rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-emerald-200"
-                onClick={controls.revealAnswer}
-                disabled={gameState.phase !== 'question'}
-              >
-                Odhal správnu odpoveď
-              </button>
-              <button
-                className="rounded-md bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-blue-200"
-                onClick={controls.nextQuestion}
-                disabled={gameState.phase !== 'reveal'}
-              >
-                {gameState.questionIndex + 1 >= gameState.totalRounds ? 'Zobraziť výsledky' : 'Ďalšia otázka'}
-              </button>
             </div>
 
+            {/* Stav hry a tlačidlá */}
+            <div className="space-y-2">
+              {gameState.phase === 'question' && (
+                <>
+                  <p className="text-sm text-slate-600">Prečítajte otázku hráčom nahlas, potom spustite odpočet.</p>
+                  <button
+                    className="w-full rounded-md bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+                    onClick={controls.startTimer}
+                  >
+                    ▶ Spustiť odpočet
+                  </button>
+                </>
+              )}
+
+              {gameState.phase === 'answering' && roundTimeLeft != null && (
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-amber-600">{roundTimeLeft}s</p>
+                  <p className="text-xs text-slate-500">Hráči odpovedajú</p>
+                </div>
+              )}
+
+              {(gameState.phase === 'host-revealed') && (
+                <>
+                  <p className="text-sm font-medium text-emerald-700">
+                    ✓ Správna odpoveď:{' '}
+                    {currentQuestion
+                      ? `${String.fromCharCode(65 + currentQuestion.correctAnswer)}. ${currentQuestion.answers[currentQuestion.correctAnswer]}`
+                      : '—'}
+                  </p>
+                  <p className="text-xs text-slate-500">Čas vypršal. Odkryte odpoveď pre hráčov keď budete pripravení.</p>
+                  <button
+                    className="w-full rounded-md bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700"
+                    onClick={controls.revealAnswer}
+                  >
+                    Odhal správnu odpoveď
+                  </button>
+                </>
+              )}
+
+              {gameState.phase === 'answering' && (
+                <button
+                  className="w-full rounded-md border border-emerald-300 px-4 py-2 text-sm font-semibold text-emerald-700 hover:bg-emerald-50"
+                  onClick={controls.revealAnswer}
+                >
+                  Odhal teraz (prerušiť čas)
+                </button>
+              )}
+
+              {gameState.phase === 'reveal' && (
+                <button
+                  className="w-full rounded-md bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+                  onClick={controls.nextQuestion}
+                >
+                  {gameState.questionIndex + 1 >= gameState.totalQuestions
+                    ? 'Zobraziť výsledky'
+                    : 'Ďalšia otázka'}
+                </button>
+              )}
+            </div>
+
+            {/* Hráči */}
             <div>
               <h3 className="text-sm font-semibold text-slate-700">Hráči ({gameState.players.length})</h3>
-              <ul className="mt-2 space-y-2 text-sm">
+              <ul className="mt-2 space-y-1.5 text-sm">
                 {gameState.players.map(player => (
                   <li
                     key={player.id}
@@ -883,11 +951,16 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                   >
                     <span className="font-medium text-slate-800">{player.name}</span>
                     <div className="flex items-center gap-2">
-                      {gameState.phase === 'question' && (
+                      {(gameState.phase === 'answering' || gameState.phase === 'host-revealed') && (
                         <span
                           className={`h-2 w-2 rounded-full ${player.answer != null ? 'bg-emerald-500' : 'bg-slate-300'}`}
                           title={player.answer != null ? 'Odpovedal' : 'Čaká'}
                         />
+                      )}
+                      {gameState.phase === 'reveal' && (
+                        <span className={player.lastAnswerCorrect ? 'text-emerald-600' : 'text-rose-500'}>
+                          {player.lastAnswerCorrect ? '✓' : '✗'}
+                        </span>
                       )}
                       <span className="text-slate-500">{player.score} b</span>
                     </div>
@@ -897,43 +970,36 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             </div>
           </div>
 
-          <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          {/* Pravý panel: otázka + odpovede */}
+          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
             {currentQuestion && (
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xs uppercase tracking-wide text-slate-500">
-                    Otázka {gameState.questionIndex + 1} / {gameState.totalRounds}
-                    {currentRoundConfig?.category ? ` · ${currentRoundConfig.category}` : ''}
-                  </p>
-                  {gameState.phase === 'question' && roundTimeLeft != null && (
-                    <p className="mt-1 text-sm font-medium text-amber-600">
-                      Čas na odpoveď: {roundTimeLeft}s
-                    </p>
-                  )}
-                  <h3 className="mt-1 text-lg font-semibold text-slate-900">
-                    {currentQuestion.question}
-                  </h3>
-                </div>
-                <ol className="space-y-2">
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold leading-snug text-slate-900">
+                  {currentQuestion.question}
+                </h2>
+
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   {currentQuestion.answers.map((answer, index) => (
-                    <li
+                    <div
                       key={answer}
-                      className={`flex items-center justify-between rounded-md border px-3 py-2 text-sm ${
-                        gameState.phase === 'reveal' && index === currentQuestion.correctAnswer
-                          ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-                          : 'border-slate-200'
+                      className={`rounded-xl border-2 px-5 py-4 text-base font-semibold transition ${
+                        (gameState.phase === 'reveal' || gameState.phase === 'host-revealed') && index === currentQuestion.correctAnswer
+                          ? 'border-emerald-500 bg-emerald-50 text-emerald-800'
+                          : 'border-slate-200 bg-slate-50 text-slate-800'
                       }`}
                     >
-                      <span>{String.fromCharCode(65 + index)}. {answer}</span>
-                      {gameState.phase === 'reveal' && index === currentQuestion.correctAnswer && (
-                        <span className="text-xs font-semibold uppercase tracking-wide">správne</span>
+                      <span className="mr-2 text-slate-400">{String.fromCharCode(65 + index)}.</span>
+                      {answer}
+                      {(gameState.phase === 'reveal' || gameState.phase === 'host-revealed') && index === currentQuestion.correctAnswer && (
+                        <span className="ml-2 text-xs font-bold uppercase tracking-wide text-emerald-600">✓ správne</span>
                       )}
-                    </li>
+                    </div>
                   ))}
-                </ol>
-                {currentQuestion.explanation && gameState.phase === 'reveal' && (
+                </div>
+
+                {currentQuestion.explanation && (gameState.phase === 'reveal' || gameState.phase === 'host-revealed') && (
                   <p className="rounded-md bg-slate-50 p-3 text-sm text-slate-600">
-                    {currentQuestion.explanation}
+                    💡 {currentQuestion.explanation}
                   </p>
                 )}
               </div>
@@ -945,7 +1011,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       {/* ── VÝSLEDKY ──────────────────────────────────────────────────────── */}
       {gameState.phase === 'finished' && (
         <div className="space-y-4 rounded-lg border border-emerald-200 bg-emerald-50 p-6">
-          <h3 className="text-lg font-semibold text-emerald-800">Kvíz dokončený!</h3>
+          <h3 className="text-lg font-semibold text-emerald-800">Kvíz dokončený! 🎉</h3>
           <ul className="space-y-2">
             {[...gameState.players]
               .sort((a, b) => b.score - a.score)
@@ -970,6 +1036,22 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       )}
     </div>
   )
+}
+
+// ─── Helper: broadcast state bez questions array ───────────────────────────────
+
+function buildBroadcast(state: QuizGameState): { type: 'state'; state: QuizGameState } {
+  // Hráčom posielame fázu 'host-revealed' ako 'answering' — ešte nevidia správnu odpoveď
+  const phaseForPlayers: QuizGameState['phase'] =
+    state.phase === 'host-revealed' ? 'answering' : state.phase
+  return {
+    type: 'state',
+    state: {
+      ...state,
+      phase: phaseForPlayers,
+      questions: [], // vymazané — neprekročíme 32KB limit Supabase Realtime
+    },
+  }
 }
 
 // ─── Helper components ─────────────────────────────────────────────────────────
@@ -1023,7 +1105,7 @@ function handleIncomingMessage(state: QuizGameState, message: QuizMessage): Quiz
       return { ...state, players: [...state.players, newPlayer] }
     }
     case 'answer': {
-      if (state.phase !== 'question') return state
+      if (state.phase !== 'answering') return state
       return {
         ...state,
         players: state.players.map(player =>
@@ -1039,18 +1121,5 @@ function handleIncomingMessage(state: QuizGameState, message: QuizMessage): Quiz
     case 'state':
     default:
       return state
-  }
-}
-
-function describePhase(phase: QuizGameState['phase'], questionIndex: number, total: number) {
-  switch (phase) {
-    case 'question':
-      return `Prebieha otázka ${questionIndex + 1} z ${total}.`
-    case 'reveal':
-      return 'Správna odpoveď je zobrazená. Pokračujte na ďalšiu otázku.'
-    case 'finished':
-      return 'Kvíz je ukončený.'
-    default:
-      return ''
   }
 }

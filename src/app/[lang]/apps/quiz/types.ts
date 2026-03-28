@@ -1,6 +1,15 @@
 import type { QuizQuestion } from './data/questions'
 
-export type QuizPhase = 'idle' | 'lobby' | 'locked' | 'round-config' | 'question' | 'reveal' | 'finished'
+export type QuizPhase =
+  | 'idle'
+  | 'lobby'
+  | 'locked'
+  | 'round-config'
+  | 'question'        // moderátor číta otázku nahlas, hráči ešte neodpovedajú
+  | 'answering'       // odpočet beží, hráči odpovedajú
+  | 'host-revealed'   // čas vypršal, moderátor vidí správnu odpoveď, hráči ešte nie
+  | 'reveal'          // moderátor odkryl odpoveď pre hráčov
+  | 'finished'
 
 export type ScoringMode = 'classic' | 'safe' | 'risk' | 'podium'
 
@@ -13,8 +22,10 @@ export interface PodiumScores {
 
 export interface RoundConfig {
   // Identita
-  title: string
   category: string
+
+  // Otázky
+  questionCount: number
 
   // Čas
   duration: number
@@ -44,16 +55,18 @@ export interface QuizGameState {
   code: string
   language: string
   phase: QuizPhase
-  questionIndex: number
-  totalQuestions: number
-  totalRounds: number
+  questionIndex: number     // globálny index (naprieč všetkými kolami)
+  totalQuestions: number    // celkový počet otázok (suma questionCount)
+  totalRounds: number       // počet kôl
   roundSetupIndex: number
   questionStart?: number | null
   players: QuizPlayerState[]
-  questions: QuizQuestion[]
+  questions: QuizQuestion[]           // celé pole — len pre hosta, NEBROADCASTOVAŤ
+  currentQuestionData: QuizQuestion | null  // aktuálna otázka — pre broadcast
   lobbyLocked: boolean
   roundConfigs: RoundConfig[]
-  /** @deprecated use roundConfigs[i].duration */
+  questionToRound: number[]           // [0,0,0,1,1,2,...] — mapuje questionIndex → roundConfig index
+  /** @deprecated use roundConfigs[questionToRound[i]].duration */
   roundDurations: number[]
   roundsReady: boolean
 }
@@ -68,6 +81,7 @@ export type QuizMessage =
 export interface HostControls {
   createLobby: (language: string, questions: QuizQuestion[]) => void
   startGame: () => void
+  startTimer: () => void
   revealAnswer: () => void
   nextQuestion: () => void
   resetGame: () => void
