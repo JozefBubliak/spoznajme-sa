@@ -2,42 +2,44 @@
 
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
-import { useI18n } from "@/components/IntlProvider"
 import { useAuth } from "@/hooks/useAuth"
+import { useState } from "react"
+import { Menu, X } from "lucide-react"
 
 export default function SiteHeader({ lang: propLang }: { lang?: string }) {
-  const { t } = useI18n()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const currentPath =
     pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "")
   const { user, signOut } = useAuth()
   const l = propLang || (pathname ? (pathname.split("/")[1] || "sk") : "sk")
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const items = [
-    { href: `/${l}/kompas`,     label: t("nav.ecosystem", "ECOSYSTEM") },
-    { href: `/${l}/apps`,       label: t("nav.experiences", "EXPERIENCES") },
-    { href: `/${l}/produkty`,   label: t("nav.philosophy", "PHILOSOPHY") },
+    { href: `/${l}/kompas`,   label: "Kompas" },
+    { href: `/${l}/apps`,     label: "Hry" },
+    { href: `/${l}/skupiny`,  label: "Skupiny" },
+    { href: `/${l}/produkty`, label: "Produkty" },
   ]
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-transparent">
-      <div className="mx-auto max-w-7xl px-6 h-20 flex items-center justify-between">
+    <header className="fixed top-0 z-50 w-full border-b border-white/8 bg-background/90 backdrop-blur-sm">
+      <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href={`/${l}`} className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center">
+        <Link href={`/${l}`} className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full border-2 border-primary flex items-center justify-center">
             <div className="w-2 h-2 rounded-full bg-primary" />
           </div>
-          <span className="text-lg font-semibold tracking-tight text-foreground">DeepTalks</span>
+          <span className="text-base font-semibold tracking-tight text-foreground">DeepTalks</span>
         </Link>
 
-        {/* Center nav */}
-        <nav className="hidden md:flex items-center gap-10">
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-8">
           {items.map((it) => (
             <Link
               key={it.href}
               href={it.href}
-              className="text-xs font-semibold tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors"
+              className="text-xs font-semibold tracking-[0.12em] uppercase text-muted-foreground hover:text-foreground transition-colors"
             >
               {it.label}
             </Link>
@@ -45,30 +47,79 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
         </nav>
 
         {/* Right side */}
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4">
           {user ? (
-            <button
-              onClick={signOut}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {t("nav.logout", "Sign Out")}
-            </button>
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-muted-foreground">Prihlásený ako {user.email}</span>
+              <button
+                onClick={signOut}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Odhlásiť
+              </button>
+            </div>
           ) : (
             <Link
               href={`/auth/login?next=${encodeURIComponent(currentPath)}`}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              {t("nav.login", "Sign In")}
+              Prihlásiť sa
             </Link>
           )}
           <Link
             href={`/${l}/kompas`}
-            className="hidden sm:inline-flex px-5 py-2.5 rounded-full border border-border text-sm font-medium text-foreground hover:border-primary hover:text-primary transition-all"
+            className="px-4 py-2 rounded-full border border-primary/30 text-sm font-medium text-primary hover:bg-primary/10 transition-all"
           >
-            Start Talking
+            Začni rozhovor
           </Link>
         </div>
+
+        {/* Mobile toggle */}
+        <button
+          className="md:hidden p-2 text-muted-foreground hover:text-foreground"
+          onClick={() => setMobileOpen(v => !v)}
+        >
+          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-white/8 bg-background/95 backdrop-blur-sm px-6 py-4 space-y-1">
+          {items.map(it => (
+            <Link
+              key={it.href}
+              href={it.href}
+              onClick={() => setMobileOpen(false)}
+              className="block py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {it.label}
+            </Link>
+          ))}
+          <div className="pt-3 border-t border-white/8 flex flex-col gap-2">
+            {user ? (
+              <button onClick={signOut} className="text-sm text-left text-muted-foreground">
+                Odhlásiť sa
+              </button>
+            ) : (
+              <Link
+                href={`/auth/login?next=${encodeURIComponent(currentPath)}`}
+                onClick={() => setMobileOpen(false)}
+                className="text-sm text-muted-foreground"
+              >
+                Prihlásiť sa
+              </Link>
+            )}
+            <Link
+              href={`/${l}/kompas`}
+              onClick={() => setMobileOpen(false)}
+              className="inline-flex px-4 py-2 rounded-full border border-primary/30 text-sm font-medium text-primary w-fit"
+            >
+              Začni rozhovor
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   )
 }
