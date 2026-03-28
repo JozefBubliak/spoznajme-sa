@@ -23,14 +23,7 @@ export default async function LangLayout({ children, params }: P) {
       <Suspense fallback={null}>
         <SiteHeader lang={lang} />
       </Suspense>
-      <main>
-        <div className="max-w-6xl mx-auto px-4 py-8">{children}</div>
-      </main>
-      <footer className="border-t">
-        <div className="max-w-6xl mx-auto px-4 py-6 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} DeepTalks
-        </div>
-      </footer>
+      <main>{children}</main>
     </IntlProvider>
   )
 }
