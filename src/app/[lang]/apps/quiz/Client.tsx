@@ -74,39 +74,39 @@ export default function QuizClient({ lang }: ClientProps) {
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-8">
       <header className="space-y-2 text-center">
-        <p className="text-sm uppercase tracking-wide text-slate-500">Herd Vote</p>
-        <h1 className="text-3xl font-bold text-slate-900">Tímový kvíz pripravený na rýchlu zábavu</h1>
-        <p className="text-base text-slate-600">
+        <p className="text-sm uppercase tracking-wide text-muted-foreground">Herd Vote</p>
+        <h1 className="text-3xl font-bold text-foreground">Tímový kvíz pripravený na rýchlu zábavu</h1>
+        <p className="text-base text-muted-foreground">
           Vyberte si úlohu moderátora alebo hráča a pripojte sa do spoločnej hry pomocou zdieľaného kódu.
         </p>
       </header>
 
       {role === null && (
         <section className="grid gap-6 md:grid-cols-2">
-          <article className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <article className="flex flex-col justify-between rounded-xl border bg-card p-6 shadow-sm">
             <div className="space-y-3">
-              <h2 className="text-xl font-semibold text-slate-900">Moderátor</h2>
-              <p className="text-sm text-slate-600">
+              <h2 className="text-xl font-semibold text-foreground">Moderátor</h2>
+              <p className="text-sm text-muted-foreground">
                 Vytvorte lobby, pozvite hráčov a riadte tempo hry. Prepínajte otázky a sledujte skóre v reálnom čase.
               </p>
             </div>
             <button
-              className="mt-6 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+              className="mt-6 rounded-lg bg-foreground px-4 py-2 text-sm font-semibold text-background hover:bg-foreground/90"
               onClick={() => setRole('host')}
             >
               Chcem moderovať
             </button>
           </article>
 
-          <article className="flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <article className="flex flex-col justify-between rounded-xl border bg-card p-6 shadow-sm">
             <div className="space-y-3">
-              <h2 className="text-xl font-semibold text-slate-900">Hráč</h2>
-              <p className="text-sm text-slate-600">
+              <h2 className="text-xl font-semibold text-foreground">Hráč</h2>
+              <p className="text-sm text-muted-foreground">
                 Zadajte kód od moderátora a súťažte s ostatnými. Každá správna odpoveď posúva váš tím bližšie k víťazstvu.
               </p>
             </div>
             <button
-              className="mt-6 rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600"
+              className="mt-6 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               onClick={() => setRole('player')}
             >
               Chcem hrať
@@ -116,18 +116,18 @@ export default function QuizClient({ lang }: ClientProps) {
       )}
 
       {role === 'host' && !hostCode && (
-        <section className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="space-y-6 rounded-xl border bg-card p-6 shadow-sm">
           <header className="space-y-1">
-            <h2 className="text-xl font-semibold text-slate-900">Nastavenie kvízu</h2>
-            <p className="text-sm text-slate-600">Vyberte jazyk otázok a spustite lobby pre svoj tím.</p>
+            <h2 className="text-xl font-semibold text-foreground">Nastavenie kvízu</h2>
+            <p className="text-sm text-muted-foreground">Vyberte jazyk otázok a spustite lobby pre svoj tím.</p>
           </header>
           <div className="grid gap-4 sm:grid-cols-1">
-            <label className="flex flex-col gap-2 text-sm text-slate-700">
+            <label className="flex flex-col gap-2 text-sm text-foreground">
               <span>Jazyk otázok</span>
               <select
                 value={hostLanguage}
                 onChange={event => setHostLanguage(event.target.value)}
-                className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+                className="rounded-md border bg-card px-3 py-2 text-sm text-foreground"
               >
                 {availableLanguages.map(option => (
                   <option key={option.code} value={option.code}>
@@ -139,13 +139,13 @@ export default function QuizClient({ lang }: ClientProps) {
           </div>
           <div className="flex items-center gap-3">
             <button
-              className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+              className="rounded-lg bg-foreground px-4 py-2 text-sm font-semibold text-background hover:bg-foreground/90"
               onClick={startHostLobby}
             >
               Vytvoriť lobby
             </button>
             <button
-              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              className="rounded-lg border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
               onClick={() => setRole(null)}
             >
               Späť
@@ -164,42 +164,42 @@ export default function QuizClient({ lang }: ClientProps) {
       )}
 
       {role === 'player' && !joining && (
-        <section className="space-y-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="space-y-6 rounded-xl border bg-card p-6 shadow-sm">
           <header className="space-y-1">
-            <h2 className="text-xl font-semibold text-slate-900">Pripojiť sa do hry</h2>
-            <p className="text-sm text-slate-600">Vyplňte kód od moderátora a svoje meno.</p>
+            <h2 className="text-xl font-semibold text-foreground">Pripojiť sa do hry</h2>
+            <p className="text-sm text-muted-foreground">Vyplňte kód od moderátora a svoje meno.</p>
           </header>
           <form className="grid gap-4 sm:grid-cols-2" onSubmit={handlePlayerJoin}>
-            <label className="flex flex-col gap-2 text-sm text-slate-700">
+            <label className="flex flex-col gap-2 text-sm text-foreground">
               <span>Kód hry</span>
               <input
                 value={playerCode}
                 onChange={event => setPlayerCode(event.target.value.toUpperCase())}
-                className="rounded-md border border-slate-300 px-3 py-2 text-sm uppercase tracking-widest"
+                className="rounded-md border bg-card px-3 py-2 text-sm uppercase tracking-widest text-foreground"
                 required
                 maxLength={6}
                 minLength={4}
               />
             </label>
-            <label className="flex flex-col gap-2 text-sm text-slate-700">
+            <label className="flex flex-col gap-2 text-sm text-foreground">
               <span>Meno hráča</span>
               <input
                 value={playerName}
                 onChange={event => setPlayerName(event.target.value)}
-                className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+                className="rounded-md border bg-card px-3 py-2 text-sm text-foreground"
                 required
               />
             </label>
             <div className="sm:col-span-2 flex items-center gap-3">
               <button
                 type="submit"
-                className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600"
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               >
                 Pridať sa do hry
               </button>
               <button
                 type="button"
-                className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                className="rounded-lg border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
                 onClick={() => setRole(null)}
               >
                 Späť
@@ -214,7 +214,7 @@ export default function QuizClient({ lang }: ClientProps) {
           <PlayerView code={playerCode} name={playerName} />
           <div className="flex justify-end">
             <button
-              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              className="rounded-lg border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
               onClick={resetPlayer}
             >
               Odpojiť sa

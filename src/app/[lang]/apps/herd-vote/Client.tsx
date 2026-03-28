@@ -48,10 +48,10 @@ export default function HerdVoteClient({ lang }: { lang: string }) {
   }[p] ?? p)
 
   const phaseColor = (p: string) => ({
-    lobby: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-    playing: 'bg-green-500/20 text-green-300 border-green-500/30',
-    final: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
-  }[p] ?? 'bg-gray-500/20 text-gray-300 border-gray-500/30')
+    lobby: 'bg-primary/15 text-primary border-primary/30',
+    playing: 'bg-success/15 text-[hsl(var(--success))] border-success/30',
+    final: 'bg-warning/15 text-[hsl(var(--warning))] border-warning/30',
+  }[p] ?? 'bg-muted text-muted-foreground border-border')
 
   if (loading) return (
     <div className="hv-bg flex items-center justify-center">
@@ -91,7 +91,7 @@ export default function HerdVoteClient({ lang }: { lang: string }) {
             </p>
           </div>
           {err && (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 text-red-300 text-sm">
+            <div className="bg-destructive/10 border border-destructive/20 rounded-xl px-4 py-2 text-destructive text-sm">
               {err}
             </div>
           )}

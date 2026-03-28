@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Heart, MessageCircle, Users, Sparkles, ArrowRight, Star, BookOpen, Gamepad2, Users2, BarChart3 } from 'lucide-react'
+import { MessageCircle, ArrowRight, BookOpen, Gamepad2, Users2, BarChart3 } from 'lucide-react'
 import coupleImage from '@/assets/couple-conversation.jpg'
 import friendsImage from '@/assets/friends-conversation.jpg'
 import familyImage from '@/assets/family-conversation.jpg'
@@ -14,11 +14,10 @@ export default function MarketingHomePage() {
     {
       id: 'couples',
       title: 'Pre páry',
-      description: 'Kvízy na objavovanie vzájomných preferencií a nastroje na zlepšenie partnerskej komunikácie',
+      description: 'Kvízy na objavovanie vzájomných preferencií a nástroje na zlepšenie partnerskej komunikácie',
       image: coupleImage,
       link: '/sk/produkty/pary',
       linkText: 'Párové rozhovory',
-      tools: ['CoupleSync', 'Spoznajme sa']
     },
     {
       id: 'families',
@@ -27,17 +26,15 @@ export default function MarketingHomePage() {
       image: familyImage,
       link: '/sk/produkty/rodic-dieta',
       linkText: 'Rodinné rozhovory',
-      tools: ['Kvíz', 'Hádačka']
     },
     {
       id: 'friends',
       title: 'Pre priateľov',
-      description: 'Konie a hry pre skupiny priateľov na zábavné a zmysluplné rozhovory',
+      description: 'Hry pre skupiny priateľov na zábavné a zmysluplné rozhovory',
       image: friendsImage,
       link: '/sk/apps/spoznajme-sa',
       linkText: 'Spoznajme sa',
-      tools: ['Kartové výzvy', 'Skupinové aktivity']
-    }
+    },
   ]
 
   const tools = [
@@ -45,47 +42,47 @@ export default function MarketingHomePage() {
       icon: MessageCircle,
       title: 'Komunikačný kompas',
       description: 'Krátke frázy a mini-príručky pre každodenné situácie – podľa témy a publika.',
-      link: '/sk/kompas'
+      link: '/sk/kompas',
     },
     {
       icon: Gamepad2,
       title: 'Aplikácie & Hry',
       description: 'Rýchly kvíz Fast Herd Vote a "Spoznajme sa" – kartové výzvy v balíčkoch.',
-      link: '/sk/apps'
+      link: '/sk/apps',
     },
     {
       icon: Users2,
       title: 'Centrum nástrojov',
       description: 'Témy, publiká a vekové mapy na jednom mieste.',
-      link: '/sk/pomocky'
+      link: '/sk/pomocky',
     },
     {
       icon: BookOpen,
       title: 'Index: čo trápi deti',
       description: 'Prehľad napísaný "detským hlasom" – praktické začiatky rozhovorov.',
-      link: '/sk/indexy/co-trapi-deti'
-    }
+      link: '/sk/indexy/co-trapi-deti',
+    },
   ]
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+      <section className="relative overflow-hidden bg-muted">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3" />
         <div className="container-modern section-spacing relative">
           <div className="text-center space-y-8 max-w-4xl mx-auto">
             <div className="space-y-4">
-              <h1 className="font-heading text-4xl lg:text-6xl font-bold leading-tight text-gray-800">
+              <h1 className="text-4xl lg:text-6xl leading-tight text-foreground">
                 Skutočné spojenie<br />
                 <span className="gradient-text">prostredníctvom rozhovorov</span>
               </h1>
-              <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
+              <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
                 Podpora hlbšej komunikácie pre páry, rodiny<br />
                 vo skutočnom svete
               </p>
             </div>
             <div className="flex justify-center">
-              <Button asChild variant="hero" size="xl" className="group bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 text-lg">
+              <Button asChild size="lg" className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg">
                 <Link href="/sk/kompas">
                   Začať rozhovor
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -97,7 +94,7 @@ export default function MarketingHomePage() {
       </section>
 
       {/* Audience Categories Section */}
-      <section className="section-spacing bg-white">
+      <section className="section-spacing bg-background">
         <div className="container-modern">
           <div className="grid gap-8 lg:grid-cols-3">
             {audienceCategories.map((category) => (
@@ -115,9 +112,9 @@ export default function MarketingHomePage() {
                     <p className="text-sm text-white/90 mb-4 leading-relaxed">
                       {category.description}
                     </p>
-                    <Link 
+                    <Link
                       href={category.link}
-                      className="inline-flex items-center text-orange-400 hover:text-orange-300 font-medium transition-colors"
+                      className="inline-flex items-center text-primary hover:text-primary/80 font-medium transition-colors"
                     >
                       {category.linkText} →
                     </Link>
@@ -130,33 +127,31 @@ export default function MarketingHomePage() {
       </section>
 
       {/* Tools Section */}
-      <section className="section-spacing bg-gradient-to-b from-gray-50 to-white">
+      <section className="section-spacing bg-muted">
         <div className="container-modern">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="font-heading text-4xl font-bold text-gray-800">
-              Začnite s <span className="text-purple-600">malými zmenami</span>
+            <h2 className="text-4xl text-foreground">
+              Začnite s <span className="gradient-text">malými zmenami</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Vyberte si tému alebo publikum a získajte frázy pripravené na použitie
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {tools.map((tool, index) => (
-              <Card key={tool.title} className="group hover:shadow-lg transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm">
+            {tools.map((tool) => (
+              <Card key={tool.title} className="group card-elegant hover:shadow-lg transition-all duration-300">
                 <CardHeader className="text-center pb-4">
-                  <div className="mx-auto mb-4 h-16 w-16 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <tool.icon className="h-8 w-8 text-purple-600" />
+                  <div className="mx-auto mb-4 h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <tool.icon className="h-8 w-8 text-primary" />
                   </div>
-                  <CardTitle className="text-lg font-semibold text-gray-800">{tool.title}</CardTitle>
+                  <CardTitle className="text-lg font-semibold text-foreground">{tool.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="text-center pt-0">
-                  <CardDescription className="text-sm leading-relaxed text-gray-600 mb-4">
+                  <CardDescription className="text-sm leading-relaxed text-muted-foreground mb-4">
                     {tool.description}
                   </CardDescription>
-                  <Button asChild variant="outline" size="sm" className="group-hover:bg-purple-50 group-hover:border-purple-200 transition-colors">
-                    <Link href={tool.link}>
-                      Otvoriť
-                    </Link>
+                  <Button asChild variant="outline" size="sm" className="group-hover:border-primary/50 transition-colors">
+                    <Link href={tool.link}>Otvoriť</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -165,34 +160,25 @@ export default function MarketingHomePage() {
         </div>
       </section>
 
-      {/* Quick Actions Section */}
-      <section className="section-spacing bg-white border-t border-gray-100">
+      {/* CTA Section */}
+      <section className="section-spacing bg-background border-t">
         <div className="container-modern">
           <div className="text-center space-y-8">
-            <h2 className="font-heading text-3xl font-bold text-gray-800 mb-8">
-              Pripravení začať?
-            </h2>
+            <h2 className="text-3xl text-foreground">Pripravení začať?</h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button asChild variant="default" size="lg" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3">
-                <Link href="/sk/kompas">
-                  Otvoriť kompas
-                </Link>
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3">
+                <Link href="/sk/kompas">Otvoriť kompas</Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-purple-200 text-purple-600 hover:bg-purple-50 px-8 py-3">
-                <Link href="/sk/apps/spoznajme-sa/play">
-                  Začať "Spoznajme sa"
-                </Link>
+              <Button asChild variant="outline" size="lg" className="border-primary/20 text-primary hover:bg-primary/10 px-8 py-3">
+                <Link href="/sk/apps/spoznajme-sa/play">Začať "Spoznajme sa"</Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-blue-200 text-blue-600 hover:bg-blue-50 px-8 py-3">
-                <Link href="/sk/apps/couplesync">
-                  Spustiť CoupleSync
-                </Link>
+              <Button asChild variant="outline" size="lg" className="border-primary/20 text-primary hover:bg-primary/10 px-8 py-3">
+                <Link href="/sk/apps/couplesync">Spustiť CoupleSync</Link>
               </Button>
             </div>
           </div>
         </div>
       </section>
-
     </div>
   )
 }

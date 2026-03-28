@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useI18n } from "@/components/IntlProvider"
-import ThemeToggle from "@/components/ThemeToggle"
 import { useAuth } from "@/hooks/useAuth"
 
 export default function SiteHeader({ lang: propLang }: { lang?: string }) {
@@ -46,7 +45,6 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
               {t("nav.login", "Prihlásiť sa")}
             </Link>
           )}
-          <ThemeToggle />
         </div>
       </div>
     </header>

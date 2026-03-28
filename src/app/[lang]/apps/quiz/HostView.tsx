@@ -102,28 +102,28 @@ const SCORING_INFO: Record<ScoringMode, { label: string; description: string; co
     emoji: '🎯',
     description:
       'Správna odpoveď prinesie body, zlá odpoveď odpočíta body. Vhodné pre firemné eventy a školské kvízy.',
-    color: 'bg-slate-50 border-slate-300 text-slate-700',
+    color: 'bg-muted border text-muted-foreground',
   },
   safe: {
     label: 'Safe',
     emoji: '🛡️',
     description:
       'Iba správna odpoveď prinesie body. Zlá odpoveď ani neodpovedanie nie sú penalizované. Vhodné pre casual hráčov a prvohráčov.',
-    color: 'bg-emerald-50 border-emerald-300 text-emerald-800',
+    color: 'bg-success/10 border-success/30 text-foreground',
   },
   risk: {
     label: 'Risk',
     emoji: '⚠️',
     description:
       'Zlá odpoveď výrazne odpočíta body. Hráči musia zvážiť, či tipnúť. Vhodné pre súťažný finálový mód.',
-    color: 'bg-rose-50 border-rose-300 text-rose-800',
+    color: 'bg-destructive/10 border-destructive/30 text-destructive',
   },
   podium: {
     label: 'Podium',
     emoji: '🏆',
     description:
       'Prvý, druhý a tretí správny hráč dostanú vyšší počet bodov. Rýchlosť rozhoduje. Vhodné pre dynamické live eventy.',
-    color: 'bg-amber-50 border-amber-300 text-amber-800',
+    color: 'bg-warning/10 border-warning/30 text-[hsl(var(--warning))]',
   },
 }
 
@@ -456,19 +456,19 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     <div className="space-y-6">
 
       {/* ── Header: kód + jazyk iba v lobby ─────────────────────────────── */}
-      <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="rounded-lg border bg-card p-6 shadow-sm">
         {!isGamePhase && gameState.phase !== 'finished' && (
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-sm font-medium text-slate-500">Kód hry</p>
-              <p className="text-3xl font-bold tracking-widest text-slate-900">{code}</p>
+              <p className="text-sm font-medium text-muted-foreground">Kód hry</p>
+              <p className="text-3xl font-bold tracking-widest text-foreground">{code}</p>
             </div>
             <div>
-              <p className="text-sm font-medium text-slate-500">Jazyk kvízu</p>
-              <p className="text-xl font-semibold text-slate-900">{languageLabel}</p>
+              <p className="text-sm font-medium text-muted-foreground">Jazyk kvízu</p>
+              <p className="text-xl font-semibold text-foreground">{languageLabel}</p>
             </div>
             <button
-              className="rounded-lg border border-rose-200 px-4 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50"
+              className="rounded-lg border border-destructive/30 px-4 py-2 text-sm font-medium text-destructive hover:bg-destructive/10"
               onClick={onResetLobby}
             >
               Ukončiť lobby
@@ -478,15 +478,15 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
         {/* Join link — iba v lobby pred zamknutím */}
         {gameState.phase === 'lobby' && joinUrl && (
-          <div className="mt-6 space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Link pre hráčov</p>
+          <div className="mt-6 space-y-3 rounded-lg border bg-muted p-4">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Link pre hráčov</p>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-              <span className="flex-1 break-all text-sm text-slate-700">{joinUrl}</span>
+              <span className="flex-1 break-all text-sm text-foreground">{joinUrl}</span>
               <button
                 type="button"
                 onClick={copyLink}
-                className={`rounded-lg px-3 py-2 text-xs font-semibold text-white transition-colors ${
-                  copied ? 'bg-emerald-600' : 'bg-slate-900 hover:bg-slate-800'
+                className={`rounded-lg px-3 py-2 text-xs font-semibold transition-colors ${
+                  copied ? 'bg-[hsl(var(--success))] text-white' : 'bg-foreground text-background hover:bg-foreground/90'
                 }`}
               >
                 {copied ? 'Skopírované ✓' : 'Kopírovať link'}
@@ -494,7 +494,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
               <button
                 type="button"
                 onClick={shareLink}
-                className="rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white hover:bg-blue-500"
+                className="rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground hover:bg-primary/90"
               >
                 Zdieľať
               </button>
@@ -512,18 +512,18 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
       {/* ── LOBBY: hráči + zamknúť ─────────────────────────────────────────── */}
       {gameState.phase === 'lobby' && (
-        <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">
+        <div className="space-y-4 rounded-lg border bg-card p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-foreground">
             Prihlásení hráči ({gameState.players.length})
           </h2>
           {gameState.players.length === 0 ? (
-            <p className="text-sm text-slate-500">Zatiaľ sa nikto nepripojil. Zdieľajte kód alebo odkaz.</p>
+            <p className="text-sm text-muted-foreground">Zatiaľ sa nikto nepripojil. Zdieľajte kód alebo odkaz.</p>
           ) : (
             <ul className="space-y-2">
               {gameState.players.map(player => (
                 <li
                   key={player.id}
-                  className="rounded-md border border-slate-200 px-3 py-2 text-sm font-medium text-slate-800"
+                  className="rounded-md border px-3 py-2 text-sm font-medium text-foreground"
                 >
                   {player.name}
                 </li>
@@ -534,27 +534,27 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             type="button"
             disabled={gameState.players.length === 0}
             onClick={lockLobby}
-            className="w-full rounded-lg bg-amber-600 px-4 py-3 text-sm font-semibold text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Zamknúť miestnosť
           </button>
           {gameState.players.length === 0 && (
-            <p className="text-center text-xs text-slate-400">Čakajte kým sa aspoň jeden hráč pripojí.</p>
+            <p className="text-center text-xs text-muted-foreground">Čakajte kým sa aspoň jeden hráč pripojí.</p>
           )}
         </div>
       )}
 
       {/* ── LOCKED: zadanie počtu kôl ──────────────────────────────────────── */}
       {gameState.phase === 'locked' && (
-        <div className="space-y-4 rounded-lg border border-amber-200 bg-amber-50 p-6 shadow-sm">
+        <div className="space-y-4 rounded-lg border border-warning/20 bg-warning/10 p-6 shadow-sm">
           <div>
-            <h2 className="text-lg font-semibold text-slate-900">Miestnosť zamknutá</h2>
-            <p className="mt-1 text-sm text-slate-600">
+            <h2 className="text-lg font-semibold text-foreground">Miestnosť zamknutá</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
               Prihlásení hráči ({gameState.players.length}):{' '}
               <span className="font-medium">{gameState.players.map(p => p.name).join(', ')}</span>
             </p>
           </div>
-          <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+          <label className="flex flex-col gap-1 text-sm font-medium text-foreground">
             Zadajte počet kôl
             <input
               type="number"
@@ -562,13 +562,13 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
               max={20}
               value={roundCountInput}
               onChange={e => setRoundCountInput(e.target.value)}
-              className="w-32 rounded-md border border-slate-300 px-3 py-2 text-sm"
+              className="w-32 rounded-md border bg-card px-3 py-2 text-sm text-foreground"
             />
           </label>
           <button
             type="button"
             onClick={confirmRoundCount}
-            className="rounded-lg bg-slate-900 px-5 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+            className="rounded-lg bg-foreground px-5 py-2 text-sm font-semibold text-background hover:bg-foreground/90"
           >
             Potvrdiť
           </button>
@@ -577,14 +577,14 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
       {/* ── ROUND CONFIG: editor kola ──────────────────────────────────────── */}
       {gameState.phase === 'round-config' && (
-        <div className="space-y-0 rounded-xl border border-blue-200 bg-white shadow-sm overflow-hidden">
+        <div className="space-y-0 rounded-xl border border-primary/20 bg-card shadow-sm overflow-hidden">
 
           {/* Hlavička */}
-          <div className="bg-blue-600 px-6 py-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue-100">
+          <div className="bg-primary px-6 py-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary-foreground/70">
               Kolo {gameState.roundSetupIndex + 1} z {gameState.totalRounds}
             </p>
-            <h2 className="mt-1 text-xl font-bold text-white">
+            <h2 className="mt-1 text-xl font-bold text-primary-foreground">
               {getCategoryName(roundConfigForm.category) || `Kolo ${gameState.roundSetupIndex + 1}`}
             </h2>
           </div>
@@ -593,7 +593,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
             {/* Presety */}
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Rýchly preset
               </p>
               <div className="flex flex-wrap gap-2">
@@ -602,7 +602,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                     key={key}
                     type="button"
                     onClick={() => applyPreset(key)}
-                    className="rounded-md border border-slate-300 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700"
+                    className="rounded-md border bg-muted px-3 py-1.5 text-xs font-semibold text-foreground hover:border-primary/40 hover:bg-primary/10 hover:text-primary"
                   >
                     {PRESET_LABELS[key]}
                   </button>
@@ -610,21 +610,21 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
               </div>
             </div>
 
-            <hr className="border-slate-100" />
+            <hr className="border" />
 
             {/* Sekcia A: Kategória + počet otázok */}
             <section className="space-y-3">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                 A — Kategória a otázky
               </h3>
               <div className="grid gap-4 sm:grid-cols-2">
-                <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+                <label className="flex flex-col gap-1 text-sm font-medium text-foreground">
                   Kategória
                   {categories.length > 0 ? (
                     <select
                       value={roundConfigForm.category}
                       onChange={e => setRoundConfigForm(prev => ({ ...prev, category: e.target.value }))}
-                      className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+                      className="rounded-md border bg-card px-3 py-2 text-sm text-foreground"
                     >
                       <option value="">— Vybrať kategóriu —</option>
                       {categories.map(c => (
@@ -638,11 +638,11 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                       type="text"
                       placeholder="Načítavam kategórie…"
                       disabled
-                      className="rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-400"
+                      className="rounded-md border bg-card px-3 py-2 text-sm text-muted-foreground"
                     />
                   )}
                 </label>
-                <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+                <label className="flex flex-col gap-1 text-sm font-medium text-foreground">
                   Počet otázok v kole
                   <input
                     type="number"
@@ -655,17 +655,17 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                         questionCount: Math.max(1, Math.min(30, parseInt(e.target.value) || 3)),
                       }))
                     }
-                    className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+                    className="rounded-md border bg-card px-3 py-2 text-sm text-foreground"
                   />
                 </label>
               </div>
             </section>
 
-            <hr className="border-slate-100" />
+            <hr className="border" />
 
             {/* Sekcia B: Čas */}
             <section className="space-y-3">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                 B — Čas na odpoveď
               </h3>
               <div className="flex flex-wrap items-center gap-2">
@@ -676,14 +676,14 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                     onClick={() => setRoundConfigForm(prev => ({ ...prev, duration: s }))}
                     className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition-colors ${
                       roundConfigForm.duration === s
-                        ? 'border-blue-600 bg-blue-600 text-white'
-                        : 'border-slate-300 bg-slate-50 text-slate-600 hover:border-blue-400'
+                        ? 'border-primary bg-primary text-primary-foreground'
+                        : 'border bg-muted text-muted-foreground hover:border-primary/40'
                     }`}
                   >
                     {s}s
                   </button>
                 ))}
-                <label className="flex items-center gap-2 text-xs text-slate-500">
+                <label className="flex items-center gap-2 text-xs text-muted-foreground">
                   vlastný:
                   <input
                     type="number"
@@ -696,17 +696,17 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                         duration: Math.min(120, Math.max(5, parseInt(e.target.value) || 20)),
                       }))
                     }
-                    className="w-20 rounded-md border border-slate-300 px-2 py-1.5 text-sm"
+                    className="w-20 rounded-md border bg-card px-2 py-1.5 text-sm text-foreground"
                   />
                 </label>
               </div>
             </section>
 
-            <hr className="border-slate-100" />
+            <hr className="border" />
 
             {/* Sekcia C: Bodovanie */}
             <section className="space-y-4">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
                 C — Bodovanie
               </h3>
 
@@ -718,8 +718,8 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                     onClick={() => setRoundConfigForm(prev => ({ ...prev, scoringMode: mode }))}
                     className={`rounded-lg border px-3 py-2.5 text-center text-sm font-semibold transition-all ${
                       roundConfigForm.scoringMode === mode
-                        ? 'border-blue-600 bg-blue-600 text-white shadow-sm'
-                        : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-blue-300'
+                        ? 'border-primary bg-primary text-primary-foreground shadow-sm'
+                        : 'border bg-muted text-muted-foreground hover:border-primary/30'
                     }`}
                   >
                     {SCORING_INFO[mode].emoji} {SCORING_INFO[mode].label}
@@ -739,13 +739,13 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                     min={1}
                     onChange={v => setRoundConfigForm(prev => ({ ...prev, correctScore: v }))}
                   />
-                  <div className="flex flex-col gap-1 text-sm font-medium text-slate-400">
+                  <div className="flex flex-col gap-1 text-sm font-medium text-muted-foreground">
                     <span>Zlá odpoveď</span>
-                    <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-slate-400">0 (safe mód)</div>
+                    <div className="rounded-md border bg-muted px-3 py-2 text-muted-foreground">0 (safe mód)</div>
                   </div>
-                  <div className="flex flex-col gap-1 text-sm font-medium text-slate-400">
+                  <div className="flex flex-col gap-1 text-sm font-medium text-muted-foreground">
                     <span>Neodpoveď</span>
-                    <div className="rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-slate-400">0 (safe mód)</div>
+                    <div className="rounded-md border bg-muted px-3 py-2 text-muted-foreground">0 (safe mód)</div>
                   </div>
                 </div>
               )}
@@ -777,7 +777,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
               {roundConfigForm.scoringMode === 'podium' && (
                 <div className="space-y-3">
-                  <p className="text-xs text-slate-500">Body pre správnych hráčov podľa rýchlosti odpovede:</p>
+                  <p className="text-xs text-muted-foreground">Body pre správnych hráčov podľa rýchlosti odpovede:</p>
                   <div className="grid gap-3 sm:grid-cols-4">
                     {(
                       [
@@ -787,7 +787,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                         { label: 'Ostatní správni', key: 'rest' as const },
                       ] as const
                     ).map(({ label, key }) => (
-                      <label key={key} className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+                      <label key={key} className="flex flex-col gap-1 text-sm font-medium text-foreground">
                         {label}
                         <input
                           type="number"
@@ -799,7 +799,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                               podiumScores: { ...prev.podiumScores, [key]: Math.max(0, parseInt(e.target.value) || 0) },
                             }))
                           }
-                          className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+                          className="rounded-md border bg-card px-3 py-2 text-sm text-foreground"
                         />
                       </label>
                     ))}
@@ -814,25 +814,25 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
               )}
             </section>
 
-            <hr className="border-slate-100" />
+            <hr className="border" />
 
             {/* Sekcia D: Špeciálne pravidlá */}
             <section className="space-y-3">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">D — Špeciálne pravidlá</h3>
-              <label className="flex items-center gap-3 text-sm text-slate-700">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">D — Špeciálne pravidlá</h3>
+              <label className="flex items-center gap-3 text-sm text-foreground">
                 <input
                   type="checkbox"
                   checked={roundConfigForm.allowNegativeTotal}
                   onChange={e => setRoundConfigForm(prev => ({ ...prev, allowNegativeTotal: e.target.checked }))}
-                  className="h-4 w-4 rounded border-slate-300 accent-blue-600"
+                  className="h-4 w-4 rounded border accent-primary"
                 />
                 Povoliť záporné celkové skóre
-                <span className="text-xs text-slate-400">(ak vypnuté, skóre neklesne pod 0)</span>
+                <span className="text-xs text-muted-foreground">(ak vypnuté, skóre neklesne pod 0)</span>
               </label>
             </section>
 
             {/* Súhrn */}
-            <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-slate-600">
+            <div className="rounded-lg border bg-muted px-4 py-3 text-xs text-muted-foreground">
               <span className="font-semibold">Súhrn: </span>
               {roundConfigForm.scoringMode === 'podium'
                 ? `Podium — 1. ${roundConfigForm.podiumScores.first} / 2. ${roundConfigForm.podiumScores.second} / 3. ${roundConfigForm.podiumScores.third} / ostatní ${roundConfigForm.podiumScores.rest} b · zlá ${roundConfigForm.wrongScore} · neodpoveď ${roundConfigForm.noAnswerScore}`
@@ -845,7 +845,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             <button
               type="button"
               onClick={confirmRoundConfig}
-              className="w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+              className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
             >
               {gameState.roundSetupIndex + 1 < gameState.totalRounds
                 ? `Potvrdiť a nastaviť kolo ${gameState.roundSetupIndex + 2}`
@@ -860,17 +860,17 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
         <section className="grid gap-6 md:grid-cols-[1fr_2fr]">
 
           {/* Ľavý panel: stav + ovládanie */}
-          <div className="space-y-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="space-y-4 rounded-lg border bg-card p-5 shadow-sm">
             <div className="space-y-1">
-              <p className="text-xs uppercase tracking-wide text-slate-400">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">
                 Kolo {(gameState.questionToRound[gameState.questionIndex] ?? 0) + 1} z {gameState.totalRounds}
                 {' · '}otázka {gameState.questionIndex + 1} z {gameState.totalQuestions}
               </p>
               {currentRoundConfig && (
-                <p className="text-sm font-medium text-slate-700">
+                <p className="text-sm font-medium text-foreground">
                   {getCategoryName(currentRoundConfig.category)}
                   {' '}
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-muted-foreground">
                     {SCORING_INFO[currentRoundConfig.scoringMode].emoji} {SCORING_INFO[currentRoundConfig.scoringMode].label}
                     {currentRoundConfig.scoringMode !== 'safe'
                       ? ` · ✓+${currentRoundConfig.correctScore} ✗${currentRoundConfig.wrongScore}`
@@ -884,9 +884,9 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
             <div className="space-y-2">
               {gameState.phase === 'question' && (
                 <>
-                  <p className="text-sm text-slate-600">Prečítajte otázku hráčom nahlas, potom spustite odpočet.</p>
+                  <p className="text-sm text-muted-foreground">Prečítajte otázku hráčom nahlas, potom spustite odpočet.</p>
                   <button
-                    className="w-full rounded-md bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+                    className="w-full rounded-md bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
                     onClick={controls.startTimer}
                   >
                     ▶ Spustiť odpočet
@@ -896,22 +896,22 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
               {gameState.phase === 'answering' && roundTimeLeft != null && (
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-amber-600">{roundTimeLeft}s</p>
-                  <p className="text-xs text-slate-500">Hráči odpovedajú</p>
+                  <p className="text-3xl font-bold text-warning">{roundTimeLeft}s</p>
+                  <p className="text-xs text-muted-foreground">Hráči odpovedajú</p>
                 </div>
               )}
 
               {(gameState.phase === 'host-revealed') && (
                 <>
-                  <p className="text-sm font-medium text-emerald-700">
+                  <p className="text-sm font-medium text-[hsl(var(--success))]">
                     ✓ Správna odpoveď:{' '}
                     {currentQuestion
                       ? `${String.fromCharCode(65 + currentQuestion.correctAnswer)}. ${currentQuestion.answers[currentQuestion.correctAnswer]}`
                       : '—'}
                   </p>
-                  <p className="text-xs text-slate-500">Čas vypršal. Odkryte odpoveď pre hráčov keď budete pripravení.</p>
+                  <p className="text-xs text-muted-foreground">Čas vypršal. Odkryte odpoveď pre hráčov keď budete pripravení.</p>
                   <button
-                    className="w-full rounded-md bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700"
+                    className="w-full rounded-md bg-[hsl(var(--success))] px-4 py-3 text-sm font-semibold text-white hover:opacity-90"
                     onClick={controls.revealAnswer}
                   >
                     Odhal správnu odpoveď
@@ -921,7 +921,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
               {gameState.phase === 'answering' && (
                 <button
-                  className="w-full rounded-md border border-emerald-300 px-4 py-2 text-sm font-semibold text-emerald-700 hover:bg-emerald-50"
+                  className="w-full rounded-md border border-success/30 px-4 py-2 text-sm font-semibold text-[hsl(var(--success))] hover:bg-success/10"
                   onClick={controls.revealAnswer}
                 >
                   Odhal teraz (prerušiť čas)
@@ -930,7 +930,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
               {gameState.phase === 'reveal' && (
                 <button
-                  className="w-full rounded-md bg-blue-600 px-4 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+                  className="w-full rounded-md bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
                   onClick={controls.nextQuestion}
                 >
                   {gameState.questionIndex + 1 >= gameState.totalQuestions
@@ -942,27 +942,27 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
             {/* Hráči */}
             <div>
-              <h3 className="text-sm font-semibold text-slate-700">Hráči ({gameState.players.length})</h3>
+              <h3 className="text-sm font-semibold text-foreground">Hráči ({gameState.players.length})</h3>
               <ul className="mt-2 space-y-1.5 text-sm">
                 {gameState.players.map(player => (
                   <li
                     key={player.id}
-                    className="flex items-center justify-between rounded-md border border-slate-200 px-3 py-2"
+                    className="flex items-center justify-between rounded-md border px-3 py-2"
                   >
-                    <span className="font-medium text-slate-800">{player.name}</span>
+                    <span className="font-medium text-foreground">{player.name}</span>
                     <div className="flex items-center gap-2">
                       {(gameState.phase === 'answering' || gameState.phase === 'host-revealed') && (
                         <span
-                          className={`h-2 w-2 rounded-full ${player.answer != null ? 'bg-emerald-500' : 'bg-slate-300'}`}
+                          className={`h-2 w-2 rounded-full ${player.answer != null ? 'bg-[hsl(var(--success))]' : 'bg-muted-foreground/30'}`}
                           title={player.answer != null ? 'Odpovedal' : 'Čaká'}
                         />
                       )}
                       {gameState.phase === 'reveal' && (
-                        <span className={player.lastAnswerCorrect ? 'text-emerald-600' : 'text-rose-500'}>
+                        <span className={player.lastAnswerCorrect ? 'text-[hsl(var(--success))]' : 'text-destructive'}>
                           {player.lastAnswerCorrect ? '✓' : '✗'}
                         </span>
                       )}
-                      <span className="text-slate-500">{player.score} b</span>
+                      <span className="text-muted-foreground">{player.score} b</span>
                     </div>
                   </li>
                 ))}
@@ -971,10 +971,10 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
           </div>
 
           {/* Pravý panel: otázka + odpovede */}
-          <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-lg border bg-card p-6 shadow-sm">
             {currentQuestion && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold leading-snug text-slate-900">
+                <h2 className="text-2xl font-bold leading-snug text-foreground">
                   {currentQuestion.question}
                 </h2>
 
@@ -984,21 +984,21 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                       key={answer}
                       className={`rounded-xl border-2 px-5 py-4 text-base font-semibold transition ${
                         (gameState.phase === 'reveal' || gameState.phase === 'host-revealed') && index === currentQuestion.correctAnswer
-                          ? 'border-emerald-500 bg-emerald-50 text-emerald-800'
-                          : 'border-slate-200 bg-slate-50 text-slate-800'
+                          ? 'border-success bg-success/10 text-foreground'
+                          : 'border bg-muted text-foreground'
                       }`}
                     >
-                      <span className="mr-2 text-slate-400">{String.fromCharCode(65 + index)}.</span>
+                      <span className="mr-2 text-muted-foreground">{String.fromCharCode(65 + index)}.</span>
                       {answer}
                       {(gameState.phase === 'reveal' || gameState.phase === 'host-revealed') && index === currentQuestion.correctAnswer && (
-                        <span className="ml-2 text-xs font-bold uppercase tracking-wide text-emerald-600">✓ správne</span>
+                        <span className="ml-2 text-xs font-bold uppercase tracking-wide text-[hsl(var(--success))]">✓ správne</span>
                       )}
                     </div>
                   ))}
                 </div>
 
                 {currentQuestion.explanation && (gameState.phase === 'reveal' || gameState.phase === 'host-revealed') && (
-                  <p className="rounded-md bg-slate-50 p-3 text-sm text-slate-600">
+                  <p className="rounded-md bg-muted p-3 text-sm text-muted-foreground">
                     💡 {currentQuestion.explanation}
                   </p>
                 )}
@@ -1010,24 +1010,24 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
 
       {/* ── VÝSLEDKY ──────────────────────────────────────────────────────── */}
       {gameState.phase === 'finished' && (
-        <div className="space-y-4 rounded-lg border border-emerald-200 bg-emerald-50 p-6">
-          <h3 className="text-lg font-semibold text-emerald-800">Kvíz dokončený! 🎉</h3>
+        <div className="space-y-4 rounded-lg border border-success/20 bg-success/10 p-6">
+          <h3 className="text-lg font-semibold text-foreground">Kvíz dokončený! 🎉</h3>
           <ul className="space-y-2">
             {[...gameState.players]
               .sort((a, b) => b.score - a.score)
               .map((player, index) => (
                 <li
                   key={player.id}
-                  className="flex items-center gap-3 rounded-md border border-emerald-200 bg-white px-3 py-2 text-sm"
+                  className="flex items-center gap-3 rounded-md border bg-card px-3 py-2 text-sm"
                 >
-                  <span className="w-5 text-center font-bold text-slate-500">{index + 1}.</span>
-                  <span className="flex-1 font-medium text-slate-900">{player.name}</span>
-                  <span className="font-semibold text-emerald-700">{player.score} bodov</span>
+                  <span className="w-5 text-center font-bold text-muted-foreground">{index + 1}.</span>
+                  <span className="flex-1 font-medium text-foreground">{player.name}</span>
+                  <span className="font-semibold text-[hsl(var(--success))]">{player.score} bodov</span>
                 </li>
               ))}
           </ul>
           <button
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+            className="rounded-md bg-foreground px-4 py-2 text-sm font-semibold text-background hover:bg-foreground/90"
             onClick={controls.resetGame}
           >
             Nová hra
@@ -1072,7 +1072,7 @@ function ScoreInput({
   hint?: string
 }) {
   return (
-    <label className="flex flex-col gap-1 text-sm font-medium text-slate-700">
+    <label className="flex flex-col gap-1 text-sm font-medium text-foreground">
       {label}
       <input
         type="number"
@@ -1080,9 +1080,9 @@ function ScoreInput({
         max={max}
         value={value}
         onChange={e => onChange(parseInt(e.target.value) || 0)}
-        className="rounded-md border border-slate-300 px-3 py-2 text-sm"
+        className="rounded-md border bg-card px-3 py-2 text-sm text-foreground"
       />
-      {hint && <span className="text-xs font-normal text-slate-400">{hint}</span>}
+      {hint && <span className="text-xs font-normal text-muted-foreground">{hint}</span>}
     </label>
   )
 }
