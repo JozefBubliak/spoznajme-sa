@@ -60,7 +60,8 @@
       "quizzes": "Kvízy",
       "cards": "Konverzačné kartičky",
       "puzzles": "Hádanky / logické hry",
-      "surveys": "Dotazníky pre páry"
+      "surveys": "Dotazníky pre páry",
+      "party": "Párty hry"
     },
     "games": {
       "quiz": {
@@ -124,7 +125,11 @@
           "Výsledky, o ktorých sa dá rozprávať"
         ],
         "barriersTitle": "Čo typicky brzdí intimitu",
-        "barriersCards": ["Stres a únava", "Rozdiel v túžbe", "Obdobia po pôrode / zdravie"],
+        "barriersCards": [
+          "Stres a únava",
+          "Rozdiel v túžbe",
+          "Obdobia po pôrode / zdravie"
+        ],
         "howTitle": "Ako to funguje",
         "howSteps": [
           "Vytvoríte súkromnú miestnosť",
@@ -141,7 +146,18 @@
         "footerNotice": "Obsah určený len pre 18+"
       },
       "ctaBack": "Chcem skúsiť inú hru",
-      "how": "Ako to funguje"
+      "how": "Ako to funguje",
+      "ano-nie-hm": {
+        "name": "Áno! Nie! Hm!",
+        "description": "Odpovedaj bez zakázaných slov. Vydržíš minútu alebo dve bez „áno“, „nie“ a „hm“?",
+        "cta": "Spustiť hru",
+        "link": "/apps/ano-nie-hm",
+        "manual": [
+          "Moderátor nastaví režim, čas a hráčov/tímy",
+          "Na každý zakázaný výraz sa odpočítajú 2 body",
+          "Vyhrá najvyššie celkové skóre po všetkých kolách"
+        ]
+      }
     }
   }
 }
