@@ -181,8 +181,8 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
   const [now, setNow] = useState(Date.now())
   const [copied, setCopied] = useState(false)
   const [roundConfigForm, setRoundConfigForm] = useState<RoundConfig>(DEFAULT_ROUND_CONFIG)
-  const [categories, setCategories] = useState<{ id: string; name: string; count: number }[]>([])
-  const [pickerSel, setPickerSel] = useState<typeof categories>([])   // selected cats in order
+  const [categories, setCategories] = useState<Category[]>([])
+  const [pickerSel, setPickerSel] = useState<Category[]>([])
   const [pickerSearch, setPickerSearch] = useState('')
 
   useEffect(() => {
