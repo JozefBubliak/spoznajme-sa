@@ -10,7 +10,11 @@
       "Bash(xargs grep:*)",
       "Bash(node_modules/.bin/tsc --noEmit)",
       "Read(//usr/local/**)",
-      "Read(//usr/**)"
+      "Read(//usr/**)",
+      "Bash(cmd /c \"npx tsc --noEmit 2>&1\")",
+      "Bash(cmd /c \"cd c:\\\\Users\\\\bubli\\\\spoznajme-sa && npx tsc --noEmit 2>&1\")",
+      "Bash(cmd /c \"cd c:\\\\Users\\\\bubli\\\\spoznajme-sa && npx tsc --noEmit > tsc_output.txt 2>&1 && echo NO_ERRORS || echo HAS_ERRORS\")",
+      "Bash(echo \"exit: $?\")"
     ]
   }
 }

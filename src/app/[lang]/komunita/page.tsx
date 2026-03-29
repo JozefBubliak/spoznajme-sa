@@ -23,7 +23,16 @@ export default async function KomunitaPage({ params }: P) {
       </section>
 
       <section className="py-14 px-4 bg-background">
-        <div className="max-w-4xl mx-auto grid sm:grid-cols-2 gap-5">
+        <div className="max-w-4xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <Link
+            href={`/${lang}/komunita/spontanky`}
+            className="group rounded-2xl border bg-card p-6 hover:border-primary/40 hover:bg-primary/5 transition-all shadow-sm"
+          >
+            <div className="text-3xl mb-3">🌿</div>
+            <h2 className="font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">Spontánky</h2>
+            <p className="text-sm text-muted-foreground">Malé, neformálne lokálne stretnutia. Žiadny organizátor, žiadne vstupné — len ľudia a miesto.</p>
+          </Link>
+
           <Link
             href={`/${lang}/komunita/akcie`}
             className="group rounded-2xl border bg-card p-6 hover:border-primary/40 hover:bg-primary/5 transition-all shadow-sm"
