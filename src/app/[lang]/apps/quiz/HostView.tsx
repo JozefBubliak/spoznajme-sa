@@ -548,101 +548,20 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       )}
 
       {/* ── LOCKED: výber kategórií kôl ─────────────────────────────────────── */}
-      {gameState.phase === 'locked' && (() => {
-        const q = pickerSearch.toLowerCase()
-        const filtered = categories.filter(c => !q || c.name.toLowerCase().includes(q))
-        const toggle = (cat: typeof categories[0]) =>
-          setPickerSel(prev =>
-            prev.some(c => c.id === cat.id) ? prev.filter(c => c.id !== cat.id) : [...prev, cat]
-          )
-        const roundLabel = (n: number) => n === 1 ? '1 kolo' : n < 5 ? `${n} kolá` : `${n} kôl`
-
-        return (
-          <div className="space-y-4">
-            {/* Hlavička + hráči */}
-            <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
-              <h2 className="font-semibold text-foreground">Vyber kategórie kôl</h2>
-              <p className="mt-0.5 text-xs text-muted-foreground">
-                Hráči ({gameState.players.length}): {gameState.players.map(p => p.name).join(', ')}
-                {' · '}Každá vybraná kategória = 1 kolo · Poradie výberu = poradie kôl
-              </p>
-            </div>
-
-            {/* Vyhľadávanie */}
-            <input
-              value={pickerSearch}
-              onChange={e => setPickerSearch(e.target.value)}
-              placeholder="Hľadaj kategóriu…"
-              className="w-full rounded-md border bg-card px-3 py-2 text-sm text-foreground outline-none focus:border-primary"
-            />
-
-            {/* Karty — flat grid */}
-            <div className="max-h-[50vh] overflow-y-auto pr-1">
-              {filtered.length === 0 ? (
-                <p className="text-center py-8 text-sm text-muted-foreground">Nič sa nenašlo</p>
-              ) : (
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {filtered.map(cat => {
-                    const isSel = pickerSel.some(c => c.id === cat.id)
-                    const selIdx = pickerSel.findIndex(c => c.id === cat.id)
-                    return (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        onClick={() => toggle(cat)}
-                        className={`relative text-left p-3 rounded-lg border-2 transition-all ${
-                          isSel
-                            ? 'border-primary bg-primary/8 text-primary'
-                            : 'border-border bg-card text-foreground hover:border-primary/40 hover:bg-primary/5'
-                        }`}
-                      >
-                        {isSel && (
-                          <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-black">
-                            {selIdx + 1}
-                          </span>
-                        )}
-                        <div className={`text-xs font-semibold leading-snug ${isSel ? 'text-primary pr-5' : 'text-foreground'}`}>
-                          {cat.name}
-                        </div>
-                        <div className="text-[10px] mt-1 text-muted-foreground">{cat.question_count ?? 0} otázok</div>
-                      </button>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
-
-            {/* Vybraté pillsy */}
-            {pickerSel.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {pickerSel.map((cat, i) => (
-                  <span
-                    key={cat.id}
-                    onClick={() => toggle(cat)}
-                    className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border border-primary/30 bg-primary/8 text-primary cursor-pointer hover:border-destructive/40 hover:bg-destructive/8 hover:text-destructive transition-all"
-                  >
-                    <span className="opacity-50 font-bold">{i + 1}.</span>
-                    <span>{cat.name}</span>
-                    <span className="opacity-40 ml-0.5">×</span>
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Potvrdiť */}
-            <button
-              type="button"
-              onClick={confirmCategoryPicker}
-              disabled={pickerSel.length === 0}
-              className="w-full rounded-lg bg-foreground px-4 py-3 text-sm font-semibold text-background hover:bg-foreground/90 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              {pickerSel.length === 0
-                ? 'Vyber aspoň 1 kategóriu'
-                : `Potvrdiť výber — ${roundLabel(pickerSel.length)} →`}
-            </button>
-          </div>
-        )
-      })()}
+      {gameState.phase === 'locked' && (
+        <CategorySelector
+          categories={categories}
+          onConfirm={(selected) => {
+            setPickerSel(selected)
+            // Trigger the same flow as confirmCategoryPicker but with the selected cats
+            setGameState(prev => {
+              if (prev.phase !== 'locked') return prev
+              return { ...prev, phase: 'round-config', totalRounds: selected.length, roundSetupIndex: 0, roundConfigs: [] }
+            })
+            setRoundConfigForm({ ...DEFAULT_ROUND_CONFIG, category: selected[0]?.id ?? '' })
+          }}
+        />
+      )}
 
       {/* ── ROUND CONFIG: editor kola ──────────────────────────────────────── */}
       {gameState.phase === 'round-config' && (
