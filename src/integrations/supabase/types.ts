@@ -954,7 +954,10 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          description_sk: string | null
           display_order: number
+          group_tag: string | null
+          icon: string | null
           id: string
           is_active: boolean
           lang: string
@@ -962,11 +965,15 @@ export type Database = {
           name: string
           slug: string | null
           sort_order: number
+          source_hint: string | null
         }
         Insert: {
           created_at?: string
           description?: string | null
+          description_sk?: string | null
           display_order?: number
+          group_tag?: string | null
+          icon?: string | null
           id?: string
           is_active?: boolean
           lang?: string
@@ -974,11 +981,15 @@ export type Database = {
           name: string
           slug?: string | null
           sort_order?: number
+          source_hint?: string | null
         }
         Update: {
           created_at?: string
           description?: string | null
+          description_sk?: string | null
           display_order?: number
+          group_tag?: string | null
+          icon?: string | null
           id?: string
           is_active?: boolean
           lang?: string
@@ -986,6 +997,7 @@ export type Database = {
           name?: string
           slug?: string | null
           sort_order?: number
+          source_hint?: string | null
         }
         Relationships: []
       }
@@ -1107,6 +1119,7 @@ export type Database = {
           classic: boolean
           correct_answer: string
           created_at: string
+          difficulty: string | null
           fun_fact: string | null
           id: string
           junior: boolean
@@ -1124,6 +1137,7 @@ export type Database = {
           classic?: boolean
           correct_answer: string
           created_at?: string
+          difficulty?: string | null
           fun_fact?: string | null
           id?: string
           junior?: boolean
@@ -1141,6 +1155,7 @@ export type Database = {
           classic?: boolean
           correct_answer?: string
           created_at?: string
+          difficulty?: string | null
           fun_fact?: string | null
           id?: string
           junior?: boolean
