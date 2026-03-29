@@ -58,7 +58,8 @@
       "quizzes": "Quizzes",
       "cards": "Conversation cards",
       "puzzles": "Riddles & logic games",
-      "surveys": "Couple questionnaires"
+      "surveys": "Couple questionnaires",
+      "party": "Party games"
     },
     "games": {
       "quiz": {
@@ -122,7 +123,11 @@
           "Results you can talk about"
         ],
         "barriersTitle": "What usually blocks intimacy",
-        "barriersCards": ["Stress and fatigue", "Desire discrepancy", "Postpartum / health periods"],
+        "barriersCards": [
+          "Stress and fatigue",
+          "Desire discrepancy",
+          "Postpartum / health periods"
+        ],
         "howTitle": "How it works",
         "howSteps": [
           "Create a private room",
@@ -139,7 +144,18 @@
         "footerNotice": "Content intended for 18+ only"
       },
       "ctaBack": "Want to try another game?",
-      "how": "How it works"
+      "how": "How it works",
+      "ano-nie-hm": {
+        "name": "Yes! No! Hmm!",
+        "description": "Answer without the forbidden words. Can you survive one or two minutes without saying “yes”, “no”, and “hmm”?",
+        "cta": "Start game",
+        "link": "/apps/ano-nie-hm",
+        "manual": [
+          "Moderator sets mode, duration and players/teams",
+          "Each forbidden word gives a 2-point penalty",
+          "Highest total score after all rounds wins"
+        ]
+      }
     }
   }
 }
