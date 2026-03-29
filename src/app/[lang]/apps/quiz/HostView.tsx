@@ -604,7 +604,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                         <div className={`text-xs font-semibold leading-snug ${isSel ? 'text-primary pr-5' : 'text-foreground'}`}>
                           {cat.name}
                         </div>
-                        <div className="text-[10px] mt-1 text-muted-foreground">{cat.count} otázok</div>
+                        <div className="text-[10px] mt-1 text-muted-foreground">{cat.question_count ?? 0} otázok</div>
                       </button>
                     )
                   })}
@@ -694,7 +694,7 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                     return cat ? (
                       <div className="flex items-center gap-2 rounded-md border-2 border-primary/30 bg-primary/8 px-3 py-2">
                         <span className="font-semibold text-primary">{cat.name}</span>
-                        <span className="ml-auto text-xs text-muted-foreground">{cat.count} otázok</span>
+                        <span className="ml-auto text-xs text-muted-foreground">{cat.question_count ?? 0} otázok</span>
                       </div>
                     ) : (
                       <div className="rounded-md border bg-card px-3 py-2 text-sm text-muted-foreground">
