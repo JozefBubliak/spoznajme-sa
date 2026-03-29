@@ -179,9 +179,10 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
   const [joinUrl, setJoinUrl] = useState('')
   const [now, setNow] = useState(Date.now())
   const [copied, setCopied] = useState(false)
-  const [roundCountInput, setRoundCountInput] = useState('3')
   const [roundConfigForm, setRoundConfigForm] = useState<RoundConfig>(DEFAULT_ROUND_CONFIG)
-  const [categories, setCategories] = useState<{ id: string; name: string; count: number }[]>([])
+  const [categories, setCategories] = useState<{ id: string; name: string; count: number; icon: string; group_tag: string }[]>([])
+  const [pickerSel, setPickerSel] = useState<typeof categories>([])   // selected cats in order
+  const [pickerSearch, setPickerSearch] = useState('')
 
   useEffect(() => {
     fetch('/api/herd-vote/categories')
@@ -271,13 +272,13 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
     })
   }
 
-  const confirmRoundCount = () => {
-    const count = Math.max(1, Math.min(20, parseInt(roundCountInput) || 3))
+  const confirmCategoryPicker = () => {
+    if (!pickerSel.length) return
     setGameState(prev => {
       if (prev.phase !== 'locked') return prev
-      return { ...prev, phase: 'round-config', totalRounds: count, roundSetupIndex: 0, roundConfigs: [] }
+      return { ...prev, phase: 'round-config', totalRounds: pickerSel.length, roundSetupIndex: 0, roundConfigs: [] }
     })
-    setRoundConfigForm(DEFAULT_ROUND_CONFIG)
+    setRoundConfigForm({ ...DEFAULT_ROUND_CONFIG, category: pickerSel[0]?.id ?? '' })
   }
 
   const applyPreset = (key: PresetKey) => {
@@ -324,7 +325,8 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
       }
       return { ...prev, roundSetupIndex: nextIndex, roundConfigs: newConfigs }
     })
-    setRoundConfigForm(DEFAULT_ROUND_CONFIG)
+    // Pre-fill category from picker for the next round
+    setRoundConfigForm({ ...DEFAULT_ROUND_CONFIG, category: pickerSel[gameState.roundSetupIndex + 1]?.id ?? '' })
   }
 
   // ─── Game controls ────────────────────────────────────────────────────────
@@ -544,36 +546,133 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
         </div>
       )}
 
-      {/* ── LOCKED: zadanie počtu kôl ──────────────────────────────────────── */}
-      {gameState.phase === 'locked' && (
-        <div className="space-y-4 rounded-lg border border-warning/20 bg-warning/10 p-6 shadow-sm">
-          <div>
-            <h2 className="text-lg font-semibold text-foreground">Miestnosť zamknutá</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Prihlásení hráči ({gameState.players.length}):{' '}
-              <span className="font-medium">{gameState.players.map(p => p.name).join(', ')}</span>
-            </p>
-          </div>
-          <label className="flex flex-col gap-1 text-sm font-medium text-foreground">
-            Zadajte počet kôl
+      {/* ── LOCKED: výber kategórií kôl ─────────────────────────────────────── */}
+      {gameState.phase === 'locked' && (() => {
+        const GROUPS = [
+          { key: 'zabava',    label: 'Zábava & Pop',       icon: '🎬' },
+          { key: 'sport',     label: 'Šport',              icon: '⚽' },
+          { key: 'kultura',   label: 'Kultúra & Umenie',   icon: '🎨' },
+          { key: 'historia',  label: 'História',           icon: '⚔️' },
+          { key: 'geo',       label: 'Geografia',          icon: '🌍' },
+          { key: 'jedlo',     label: 'Jedlo & Pitie',      icon: '🍕' },
+          { key: 'veda',      label: 'Veda & Príroda',     icon: '🔬' },
+          { key: 'tech',      label: 'Tech',               icon: '💻' },
+          { key: 'sk',        label: 'Slovensko',          icon: '🇸🇰' },
+          { key: 'funny',     label: 'Zábavné',            icon: '😱' },
+          { key: 'deti',      label: 'Deti',               icon: '🏠' },
+          { key: 'deeptalks', label: 'DeepTalks',          icon: '💬' },
+        ]
+        const q = pickerSearch.toLowerCase()
+        const filteredAll = categories.filter(c => !q || c.name.toLowerCase().includes(q))
+        const toggle = (cat: typeof categories[0]) =>
+          setPickerSel(prev =>
+            prev.some(c => c.id === cat.id) ? prev.filter(c => c.id !== cat.id) : [...prev, cat]
+          )
+        const roundLabel = (n: number) => n === 1 ? '1 kolo' : n < 5 ? `${n} kolá` : `${n} kôl`
+
+        return (
+          <div className="space-y-4">
+            {/* Hlavička + hráči */}
+            <div className="rounded-lg border border-warning/20 bg-warning/10 p-4">
+              <h2 className="font-semibold text-foreground">Vyber kategórie kôl</h2>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Hráči ({gameState.players.length}): {gameState.players.map(p => p.name).join(', ')}
+                {' · '}Každá vybraná kategória = 1 kolo · Poradie výberu = poradie kôl
+              </p>
+            </div>
+
+            {/* Vyhľadávanie */}
             <input
-              type="number"
-              min={1}
-              max={20}
-              value={roundCountInput}
-              onChange={e => setRoundCountInput(e.target.value)}
-              className="w-32 rounded-md border bg-card px-3 py-2 text-sm text-foreground"
+              value={pickerSearch}
+              onChange={e => setPickerSearch(e.target.value)}
+              placeholder="Hľadaj kategóriu…"
+              className="w-full rounded-md border bg-card px-3 py-2 text-sm text-foreground outline-none focus:border-primary"
             />
-          </label>
-          <button
-            type="button"
-            onClick={confirmRoundCount}
-            className="rounded-lg bg-foreground px-5 py-2 text-sm font-semibold text-background hover:bg-foreground/90"
-          >
-            Potvrdiť
-          </button>
-        </div>
-      )}
+
+            {/* Skupiny a karty */}
+            <div className="max-h-[50vh] overflow-y-auto space-y-4 pr-1">
+              {GROUPS.map(g => {
+                const items = filteredAll.filter(c => c.group_tag === g.key)
+                if (!items.length) return null
+                return (
+                  <div key={g.key}>
+                    <div className="flex items-center gap-1.5 mb-2 pb-1 border-b border-border">
+                      <span className="text-sm">{g.icon}</span>
+                      <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{g.label}</span>
+                      {pickerSel.filter(c => c.group_tag === g.key).length > 0 && (
+                        <span className="ml-auto text-xs font-semibold text-primary px-1.5 py-0.5 rounded-full bg-primary/10 border border-primary/20">
+                          {pickerSel.filter(c => c.group_tag === g.key).length} vybraných
+                        </span>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                      {items.map(cat => {
+                        const isSel = pickerSel.some(c => c.id === cat.id)
+                        const selIdx = pickerSel.findIndex(c => c.id === cat.id)
+                        return (
+                          <button
+                            key={cat.id}
+                            type="button"
+                            onClick={() => toggle(cat)}
+                            className={`relative text-left p-3 rounded-lg border-2 transition-all ${
+                              isSel
+                                ? 'border-primary bg-primary/8 text-primary'
+                                : 'border-border bg-card text-foreground hover:border-primary/40 hover:bg-primary/5'
+                            }`}
+                          >
+                            {isSel && (
+                              <span className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-black">
+                                {selIdx + 1}
+                              </span>
+                            )}
+                            <div className="text-lg mb-1">{cat.icon}</div>
+                            <div className={`text-xs font-semibold leading-snug pr-5 ${isSel ? 'text-primary' : 'text-foreground'}`}>
+                              {cat.name}
+                            </div>
+                            <div className="text-[10px] mt-0.5 text-muted-foreground">{cat.count} otázok</div>
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )
+              })}
+              {filteredAll.length === 0 && (
+                <p className="text-center py-8 text-sm text-muted-foreground">Nič sa nenašlo</p>
+              )}
+            </div>
+
+            {/* Vybraté pillsy */}
+            {pickerSel.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {pickerSel.map((cat, i) => (
+                  <span
+                    key={cat.id}
+                    onClick={() => toggle(cat)}
+                    className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border border-primary/30 bg-primary/8 text-primary cursor-pointer hover:border-destructive/40 hover:bg-destructive/8 hover:text-destructive transition-all"
+                  >
+                    <span className="opacity-50 font-bold">{i + 1}.</span>
+                    <span>{cat.name}</span>
+                    <span className="opacity-40 ml-0.5">×</span>
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Potvrdiť */}
+            <button
+              type="button"
+              onClick={confirmCategoryPicker}
+              disabled={pickerSel.length === 0}
+              className="w-full rounded-lg bg-foreground px-4 py-3 text-sm font-semibold text-background hover:bg-foreground/90 disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {pickerSel.length === 0
+                ? 'Vyber aspoň 1 kategóriu'
+                : `Potvrdiť výber — ${roundLabel(pickerSel.length)} →`}
+            </button>
+          </div>
+        )
+      })()}
 
       {/* ── ROUND CONFIG: editor kola ──────────────────────────────────────── */}
       {gameState.phase === 'round-config' && (
@@ -618,30 +717,23 @@ export default function HostView({ code, language, questions, onResetLobby }: Ho
                 A — Kategória a otázky
               </h3>
               <div className="grid gap-4 sm:grid-cols-2">
-                <label className="flex flex-col gap-1 text-sm font-medium text-foreground">
+                <div className="flex flex-col gap-1 text-sm font-medium text-foreground">
                   Kategória
-                  {categories.length > 0 ? (
-                    <select
-                      value={roundConfigForm.category}
-                      onChange={e => setRoundConfigForm(prev => ({ ...prev, category: e.target.value }))}
-                      className="rounded-md border bg-card px-3 py-2 text-sm text-foreground"
-                    >
-                      <option value="">— Vybrať kategóriu —</option>
-                      {categories.map(c => (
-                        <option key={c.id} value={c.id}>
-                          {c.name} ({c.count})
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      type="text"
-                      placeholder="Načítavam kategórie…"
-                      disabled
-                      className="rounded-md border bg-card px-3 py-2 text-sm text-muted-foreground"
-                    />
-                  )}
-                </label>
+                  {(() => {
+                    const cat = pickerSel[gameState.roundSetupIndex]
+                    return cat ? (
+                      <div className="flex items-center gap-2 rounded-md border-2 border-primary/30 bg-primary/8 px-3 py-2">
+                        <span className="text-lg">{cat.icon}</span>
+                        <span className="font-semibold text-primary">{cat.name}</span>
+                        <span className="ml-auto text-xs text-muted-foreground">{cat.count} otázok</span>
+                      </div>
+                    ) : (
+                      <div className="rounded-md border bg-card px-3 py-2 text-sm text-muted-foreground">
+                        {getCategoryName(roundConfigForm.category) || '—'}
+                      </div>
+                    )
+                  })()}
+                </div>
                 <label className="flex flex-col gap-1 text-sm font-medium text-foreground">
                   Počet otázok v kole
                   <input
