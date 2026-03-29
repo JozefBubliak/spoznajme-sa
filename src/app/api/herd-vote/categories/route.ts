@@ -10,8 +10,8 @@ export async function GET(_req: NextRequest) {
 
   const { data, error } = await s
     .from('herd_categories_with_counts')
-    .select('id,name,count,is_active,icon,group_tag,sort_order')
-    .order('sort_order', { ascending: true })
+    .select('id,name,count,is_active,display_order')
+    .order('display_order', { ascending: true })
 
   if (error) {
     console.error('[/api/herd-vote/categories] Supabase error:', error.code, error.message, error.details)
@@ -24,8 +24,6 @@ export async function GET(_req: NextRequest) {
       id: c.id,
       name: c.name,
       count: c.count ?? 0,
-      icon: c.icon ?? '🎯',
-      group_tag: c.group_tag ?? 'other',
     })),
   })
 }
