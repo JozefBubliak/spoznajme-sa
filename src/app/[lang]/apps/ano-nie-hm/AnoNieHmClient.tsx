@@ -54,6 +54,7 @@ export default function AnoNieHmClient({ lang }: { lang: string }) {
   const [roundScore, setRoundScore] = useState(ROUND_START_SCORE)
   const [roundPenalties, setRoundPenalties] = useState<Record<PenaltyType, number>>({ ano: 0, nie: 0, hm: 0 })
   const [penaltyHistory, setPenaltyHistory] = useState<Array<{ type: PenaltyType; delta: number }>>([])
+  const [penaltyFeedback, setPenaltyFeedback] = useState<Record<PenaltyType, boolean>>({ ano: false, nie: false, hm: false })
   const [roundResults, setRoundResults] = useState<RoundResult[]>([])
   const [currentQuestion, setCurrentQuestion] = useState<AnoNieHmQuestion | null>(null)
   const [usedQuestionIds, setUsedQuestionIds] = useState<string[]>([])
@@ -259,6 +260,11 @@ export default function AnoNieHmClient({ lang }: { lang: string }) {
   }
 
   const applyPenalty = (type: PenaltyType) => {
+    setPenaltyFeedback((prev) => ({ ...prev, [type]: true }))
+    window.setTimeout(() => {
+      setPenaltyFeedback((prev) => ({ ...prev, [type]: false }))
+    }, 1000)
+
     setRoundScore((prev) => {
       const delta = Math.min(PENALTY_POINTS, prev)
       setPenaltyHistory((history) => [...history, { type, delta }])
@@ -484,9 +490,30 @@ export default function AnoNieHmClient({ lang }: { lang: string }) {
             <div className="space-y-3">
               <p className="font-semibold">Trestné body</p>
               <div className="grid sm:grid-cols-3 gap-3">
-                <Button size="lg" variant="destructive" onClick={() => applyPenalty('ano')}>Áno (-2)</Button>
-                <Button size="lg" variant="destructive" onClick={() => applyPenalty('nie')}>Nie (-2)</Button>
-                <Button size="lg" variant="destructive" onClick={() => applyPenalty('hm')}>Hm (-2)</Button>
+                <Button
+                  size="lg"
+                  variant="destructive"
+                  className={penaltyFeedback.ano ? 'brightness-125 ring-2 ring-destructive/40' : ''}
+                  onClick={() => applyPenalty('ano')}
+                >
+                  Áno (-2)
+                </Button>
+                <Button
+                  size="lg"
+                  variant="destructive"
+                  className={penaltyFeedback.nie ? 'brightness-125 ring-2 ring-destructive/40' : ''}
+                  onClick={() => applyPenalty('nie')}
+                >
+                  Nie (-2)
+                </Button>
+                <Button
+                  size="lg"
+                  variant="destructive"
+                  className={penaltyFeedback.hm ? 'brightness-125 ring-2 ring-destructive/40' : ''}
+                  onClick={() => applyPenalty('hm')}
+                >
+                  Hm (-2)
+                </Button>
               </div>
               <Button size="lg" variant="outline" className="w-full" onClick={undoPenalty} disabled={!penaltyHistory.length}>
                 Späť posledný zásah
