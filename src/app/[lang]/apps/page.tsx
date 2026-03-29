@@ -11,6 +11,7 @@ import quizGameImage from '@/assets/quiz-game.jpg'
 import spoznajmeSaImage from '@/assets/spoznajme-sa-cards.jpg'
 import hadackaImage from '@/assets/hadacka-game.jpg'
 import couplesyncImage from '@/assets/couplesync-app.jpg'
+import anoNieHmImage from '@/assets/hadacka-game.jpg'
 
 type P = { params: Promise<{ lang: string }> }
 
@@ -27,6 +28,7 @@ export default async function AppsPage({ params }: P) {
     { slug: 'spoznajme-sa', catKey: 'cards', image: spoznajmeSaImage, icon: '🃏' },
     { slug: 'hadacka', catKey: 'puzzles', image: hadackaImage, icon: '🎭' },
     { slug: 'couplesync', catKey: 'surveys', image: couplesyncImage, icon: '💕' },
+    { slug: 'ano-nie-hm', catKey: 'party', image: anoNieHmImage, icon: '⏱️' },
   ]
 
   return (
