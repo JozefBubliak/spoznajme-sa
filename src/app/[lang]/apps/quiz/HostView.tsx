@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { LANGUAGE_OPTIONS } from './data/languages'
 import { type QuizQuestion } from './data/questions'
 import { useQuizChannel } from './useQuizChannel'
+import CategorySelector, { type Category } from '@/components/quiz/CategorySelector'
 import type {
   HostControls,
   PodiumScores,
