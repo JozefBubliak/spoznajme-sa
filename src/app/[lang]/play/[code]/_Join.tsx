@@ -515,11 +515,19 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
   gs: GameState; code: string; onRefresh: () => void
 }) {
   const configured = gs.configuredRounds ?? []
+  const totalRounds = gs.total_rounds || 0
   const nextIdx = configured.length
-  const totalRounds = gs.total_rounds || 3
 
   const [categories, setCategories] = useState<Category[]>([])
-  const [catId, setCatId] = useState('')
+
+  // Step 1 – category picker (phase === 'config')
+  const [selCats, setSelCats] = useState<Category[]>([])
+  const [search, setSearch] = useState('')
+  const [confirming, setConfirming] = useState(false)
+
+  // Step 2 – round-by-round setup (phase === 'round_setup')
+  const [pickedCats, setPickedCats] = useState<Category[]>([]) // preserved from step 1
+  const [catId, setCatId] = useState('') // fallback if pickedCats lost (page refresh)
   const [qCount, setQCount] = useState(5)
   const [seconds, setSeconds] = useState(30)
   const [scoring, setScoring] = useState<'simple' | 'weighted'>('simple')
@@ -529,20 +537,41 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
 
   useEffect(() => {
     api('/api/herd-vote/categories').then(d => {
-      setCategories(d.categories ?? [])
-      if (d.categories?.length) setCatId(d.categories[0].id)
+      const cats = d.categories ?? []
+      setCategories(cats)
+      if (cats.length) setCatId(cats[0].id)
     })
   }, [])
 
+  // When moving to the next round, reset the form and pre-fill category from picked list
+  useEffect(() => {
+    setQCount(5); setSeconds(30); setScoring('simple'); setErr('')
+    if (pickedCats[nextIdx]) setCatId(pickedCats[nextIdx].id)
+  }, [nextIdx]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const toggleCat = (cat: Category) =>
+    setSelCats(prev =>
+      prev.some(c => c.id === cat.id) ? prev.filter(c => c.id !== cat.id) : [...prev, cat]
+    )
+
+  const confirmCategories = async () => {
+    if (!selCats.length) return
+    setConfirming(true)
+    const res = await api(`/api/games/${code}/config`, 'POST', { totalRounds: selCats.length })
+    if (res.ok) { setPickedCats(selCats); onRefresh() }
+    setConfirming(false)
+  }
+
   const saveRound = async () => {
-    if (!catId) { setErr('Vyber kategóriu'); return }
+    const effectiveCatId = pickedCats[nextIdx]?.id ?? catId
+    if (!effectiveCatId) { setErr('Vyber kategóriu'); return }
     setSaving(true); setErr('')
     const res = await api(`/api/games/${code}/rounds/config`, 'POST', {
-      index: nextIdx, categoryId: catId, questions: qCount,
+      index: nextIdx, categoryId: effectiveCatId, questions: qCount,
       prepSeconds: 5, questionSeconds: seconds, scoringMode: scoring, localePrefix: 'sk',
     })
     setSaving(false)
-    if (res.ok) { onRefresh() }
+    if (res.ok) onRefresh()
     else setErr(res.error ?? 'Chyba pri ukladaní kola')
   }
 
@@ -553,8 +582,113 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
     setStarting(false)
   }
 
-  const allConfigured = configured.length >= totalRounds
-  const selectedCat = categories.find(c => c.id === catId)
+  // ── STEP 1: Category picker ────────────────────────────────────────────────
+  if (gs.phase === 'config') {
+    const filtered = categories.filter(c =>
+      !search || c.name.toLowerCase().includes(search.toLowerCase())
+    )
+    const roundLabel = (n: number) => n === 1 ? '1 kolo' : n < 5 ? `${n} kolá` : `${n} kôl`
+
+    return (
+      <div className="hv-bg hv-particles">
+        <div className="max-w-2xl mx-auto p-6 space-y-5">
+          {/* Header */}
+          <div className="flex items-center gap-3 pt-2">
+            <div className="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-500/20 flex items-center justify-center text-xl">🎯</div>
+            <div>
+              <h1 className="text-xl font-black text-white">Vyber kategórie kôl</h1>
+              <p className="hv-text-dim text-sm">Každá kategória = 1 kolo · Poradie výberu = poradie kôl</p>
+            </div>
+          </div>
+
+          {/* Players */}
+          <div className="hv-card p-3 flex items-center gap-3">
+            <span className="hv-text-muted text-sm shrink-0">Hráči ({gs.playerCount}):</span>
+            <div className="flex flex-wrap gap-1 overflow-hidden">
+              {gs.players.slice(0, 8).map(p => (
+                <span key={p.id} className="px-2 py-0.5 text-xs bg-white/5 rounded-full text-white/60 whitespace-nowrap">{p.name}</span>
+              ))}
+              {gs.players.length > 8 && <span className="hv-text-dim text-xs">+{gs.players.length - 8}</span>}
+            </div>
+          </div>
+
+          {/* Search */}
+          <input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Hľadaj kategóriu…"
+            className="hv-input w-full px-4 py-3"
+          />
+
+          {/* Category grid */}
+          <div className="grid grid-cols-2 gap-2.5 max-h-[42vh] overflow-y-auto pr-1 pb-1">
+            {filtered.length === 0 && (
+              <div className="col-span-2 text-center py-10 hv-text-dim text-sm">Nič sa nenašlo</div>
+            )}
+            {filtered.map(cat => {
+              const isSel = selCats.some(c => c.id === cat.id)
+              const selIdx = selCats.findIndex(c => c.id === cat.id)
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => toggleCat(cat)}
+                  className={`text-left p-4 rounded-2xl border-2 transition-all relative ${
+                    isSel
+                      ? 'border-purple-500/50 bg-purple-500/15'
+                      : 'border-white/10 bg-white/[0.03] hover:border-white/25 hover:bg-white/[0.06]'
+                  }`}
+                >
+                  {isSel && (
+                    <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-black shrink-0">
+                      {selIdx + 1}
+                    </span>
+                  )}
+                  <div className={`font-semibold text-sm leading-snug pr-7 ${isSel ? 'text-purple-200' : 'text-white/80'}`}>
+                    {cat.name}
+                  </div>
+                  <div className="text-xs mt-1 hv-text-dim">{cat.count} otázok</div>
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Selected pills */}
+          {selCats.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {selCats.map((cat, i) => (
+                <span
+                  key={cat.id}
+                  onClick={() => toggleCat(cat)}
+                  className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 cursor-pointer hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300 transition-all"
+                >
+                  <span className="font-bold opacity-60">Kolo {i + 1}:</span>
+                  <span>{cat.name}</span>
+                  <span className="opacity-40 ml-0.5">×</span>
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Confirm */}
+          <button
+            onClick={confirmCategories}
+            disabled={selCats.length === 0 || confirming}
+            className="hv-btn-primary w-full py-4 text-base"
+          >
+            {confirming
+              ? 'Ukladám…'
+              : selCats.length === 0
+                ? 'Vyber aspoň 1 kategóriu'
+                : `Potvrdiť výber — ${roundLabel(selCats.length)} →`}
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // ── STEP 2: Round-by-round configuration ──────────────────────────────────
+  const allConfigured = totalRounds > 0 && configured.length >= totalRounds
+  const presetCat = pickedCats[nextIdx]
 
   return (
     <div className="hv-bg hv-particles">
@@ -574,15 +708,18 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
             const done = i < configured.length
             return (
               <div key={i} className={`rounded-xl border p-3 text-center transition-all ${
-                done ? 'border-green-500/30 bg-green-500/10' 
-                : i === nextIdx ? 'border-purple-500/30 bg-purple-500/10' 
+                done ? 'border-green-500/30 bg-green-500/10'
+                : i === nextIdx ? 'border-purple-500/30 bg-purple-500/10'
                 : 'border-white/5 bg-white/[0.02]'
               }`}>
-                <div className={`text-lg font-bold ${
+                <div className={`text-sm font-bold ${
                   done ? 'text-green-400' : i === nextIdx ? 'text-purple-300' : 'hv-text-dim'
                 }`}>
                   {done ? '✓' : `Kolo ${i + 1}`}
                 </div>
+                {pickedCats[i] && (
+                  <div className="text-xs hv-text-dim mt-0.5 truncate px-1">{pickedCats[i].name}</div>
+                )}
               </div>
             )
           })}
@@ -590,7 +727,7 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
 
         {/* Players summary */}
         <div className="hv-card p-3 flex items-center gap-3">
-          <span className="hv-text-muted text-sm">Hráči:</span>
+          <span className="hv-text-muted text-sm shrink-0">Hráči:</span>
           <div className="flex-1 flex flex-wrap gap-1">
             {gs.players.slice(0, 10).map(p => (
               <span key={p.id} className="px-2 py-0.5 text-xs bg-white/5 rounded-full text-white/60">{p.name}</span>
@@ -604,16 +741,26 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
           <div className="hv-card-glow p-6 space-y-5">
             <h2 className="font-bold text-white text-lg">Kolo {nextIdx + 1}</h2>
 
-            <div className="space-y-2">
-              <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Kategória</label>
-              <select value={catId} onChange={e => setCatId(e.target.value)}
-                className="hv-input w-full px-3 py-2.5">
-                {categories.map(c => (
-                  <option key={c.id} value={c.id}>{c.name} ({c.count} otázok)</option>
-                ))}
-              </select>
-              {selectedCat && <p className="hv-text-dim text-xs">{selectedCat.count} dostupných otázok</p>}
-            </div>
+            {/* Category — pre-filled or fallback dropdown */}
+            {presetCat ? (
+              <div className="flex items-center gap-3 p-4 rounded-xl border border-purple-500/20 bg-purple-500/10">
+                <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-lg shrink-0">🎯</div>
+                <div>
+                  <div className="font-semibold text-white">{presetCat.name}</div>
+                  <div className="text-xs hv-text-dim">{presetCat.count} dostupných otázok</div>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Kategória</label>
+                <select value={catId} onChange={e => setCatId(e.target.value)}
+                  className="hv-input w-full px-3 py-2.5">
+                  {categories.map(c => (
+                    <option key={c.id} value={c.id}>{c.name} ({c.count} otázok)</option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -622,7 +769,7 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
                   className="hv-input w-full px-3 py-2.5" />
               </div>
               <div className="space-y-2">
-                <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Čas (s)</label>
+                <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Čas / otázku (s)</label>
                 <input type="number" min={5} max={120} value={seconds} onChange={e => setSeconds(+e.target.value)}
                   className="hv-input w-full px-3 py-2.5" />
               </div>
@@ -634,8 +781,8 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
                 {(['simple', 'weighted'] as const).map(m => (
                   <button key={m} onClick={() => setScoring(m)}
                     className={`py-2.5 rounded-xl border font-semibold text-sm transition-all ${
-                      scoring === m 
-                        ? 'border-purple-500/40 bg-purple-500/15 text-purple-300' 
+                      scoring === m
+                        ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
                         : 'border-white/10 text-white/40 hover:border-white/20 hover:text-white/60'
                     }`}>
                     {m === 'simple' ? '🎯 Klasické' : '🏎 Rýchlostné'}
@@ -645,14 +792,12 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
             </div>
 
             {err && (
-              <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 text-red-300 text-sm">
-                {err}
-              </div>
+              <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 text-red-300 text-sm">{err}</div>
             )}
 
-            <button onClick={saveRound} disabled={saving || !catId}
+            <button onClick={saveRound} disabled={saving || (!presetCat && !catId)}
               className="hv-btn-primary w-full py-3.5 text-base">
-              {saving ? 'Ukladám…' : nextIdx < totalRounds - 1 ? `Uložiť a nastaviť kolo ${nextIdx + 2}` : 'Uložiť posledné kolo'}
+              {saving ? 'Ukladám…' : nextIdx < totalRounds - 1 ? `Uložiť a nastaviť kolo ${nextIdx + 2} →` : 'Uložiť posledné kolo ✓'}
             </button>
           </div>
         )}
