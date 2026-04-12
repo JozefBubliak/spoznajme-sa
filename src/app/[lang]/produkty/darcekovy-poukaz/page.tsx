@@ -24,7 +24,7 @@ export default async function DarcekovyPoukazPage({ params }: P) {
         </div>
       </section>
       <Container>
-        <div className="max-w-lg space-y-5">
+        <div className="max-w-3xl space-y-5">
           <div className="rounded-2xl border bg-card p-8 shadow-sm text-center space-y-4">
             <div className="text-5xl">🎁</div>
             <h2 className="text-xl font-semibold text-foreground">Darčekový poukaz</h2>
@@ -48,6 +48,26 @@ export default async function DarcekovyPoukazPage({ params }: P) {
             <p className="text-xs text-muted-foreground">
               Máte záujem? Napíšte na <a href="mailto:ahoj@spoznajmesa.sk" className="text-primary hover:underline">ahoj@spoznajmesa.sk</a>
             </p>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-2">
+            <Link href={`/${lang}/produkty/legacy`} className="rounded-2xl border bg-card p-6 shadow-sm transition hover:border-primary/30 hover:shadow-md">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Silný darček</p>
+              <h3 className="mt-3 text-xl font-semibold text-foreground">Legacy Spomienky</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Týždenná otázka emailom pre rodiča alebo starého rodiča. Po roku vznikne kniha, ktorá ostane celej rodine.
+              </p>
+              <div className="mt-5 text-sm font-medium text-primary">Otvoriť Legacy →</div>
+            </Link>
+
+            <Link href={`/${lang}/produkty/karticky`} className="rounded-2xl border bg-card p-6 shadow-sm transition hover:border-primary/30 hover:shadow-md">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Offline darček</p>
+              <h3 className="mt-3 text-xl font-semibold text-foreground">Kartičky DeepTalks</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Fyzické aj online kartičky pre páry, rodiny a ďalšie vetvy. Dobrá voľba, ak chceš darovať rozhovor hneď teraz.
+              </p>
+              <div className="mt-5 text-sm font-medium text-primary">Pozrieť kartičky →</div>
+            </Link>
           </div>
         </div>
       </Container>

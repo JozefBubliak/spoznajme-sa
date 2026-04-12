@@ -29,12 +29,12 @@ const NOTIF_TEMPLATES = [
   },
 ]
 
-function Section({ title, children, defaultOpen = false }: {
-  title: string; children: React.ReactNode; defaultOpen?: boolean
+function Section({ title, children, defaultOpen = false, id }: {
+  title: string; children: React.ReactNode; defaultOpen?: boolean; id?: string
 }) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div className="rounded-xl border overflow-hidden">
+    <section id={id} className="scroll-mt-24 rounded-xl border overflow-hidden">
       <button
         onClick={() => setOpen(o => !o)}
         className="w-full flex justify-between items-center px-4 py-3 bg-muted/50 hover:bg-muted transition-colors text-left"
@@ -43,7 +43,7 @@ function Section({ title, children, defaultOpen = false }: {
         <span className="text-muted-foreground text-xs">{open ? '▲' : '▼'}</span>
       </button>
       {open && <div className="p-4">{children}</div>}
-    </div>
+    </section>
   )
 }
 
@@ -184,6 +184,18 @@ export function OrganizerDashboard({
     showToast('Link skopírovaný ✓')
   }
 
+  const shareUrl = async () => {
+    if (navigator.share) {
+      await navigator.share({ title: sp.nazov, url: baseUrl })
+      return
+    }
+    await copyUrl()
+  }
+
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   const stavColors: Record<string, string> = {
     aktivna: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
     pozastavena: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
@@ -193,6 +205,31 @@ export function OrganizerDashboard({
   const stavLabels: Record<string, string> = {
     aktivna: '✓ Aktívna', pozastavena: '⏸ Pozastavená', zrusena: '✕ Zrušená', ukoncena: '✓ Ukončená',
   }
+
+  const quickActions = [
+    {
+      title: 'Upraviť detaily',
+      desc: 'Názov, čas, miesto, počet aj viditeľnosť na jednom mieste.',
+      action: () => scrollToSection('sp-edit-basic'),
+    },
+    {
+      title: 'Poslať správu',
+      desc: 'Jedným klikom pripomenieš zmenu času alebo voľné veci v Prinášam.',
+      action: () => scrollToSection('sp-notify'),
+    },
+    {
+      title: 'QR a zdieľanie',
+      desc: 'Link, WhatsApp aj QR kód pripravený na rýchle šírenie ďalej.',
+      action: () => scrollToSection('sp-share'),
+    },
+    {
+      title: 'Stav spontánky',
+      desc: 'Pozastavenie, obnova, ukončenie alebo zrušenie s dôvodom.',
+      action: () => scrollToSection('sp-status'),
+    },
+  ]
+
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(baseUrl)}`
 
   return (
     <div className="space-y-5 pb-12">
@@ -230,8 +267,22 @@ export function OrganizerDashboard({
         ))}
       </div>
 
+      <div className="grid gap-3 sm:grid-cols-2">
+        {quickActions.map((item) => (
+          <button
+            key={item.title}
+            type="button"
+            onClick={item.action}
+            className="rounded-2xl border bg-card px-4 py-4 text-left transition-all hover:border-primary/30 hover:bg-primary/5"
+          >
+            <div className="text-sm font-semibold text-foreground">{item.title}</div>
+            <div className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.desc}</div>
+          </button>
+        ))}
+      </div>
+
       {/* Edit sections */}
-      <Section title="Základné údaje" defaultOpen>
+      <Section id="sp-edit-basic" title="Základné údaje" defaultOpen>
         <div className="space-y-3">
           <FieldInput label="Názov" value={nazov} onChange={setNazov} />
           <div className="grid grid-cols-2 gap-3">
@@ -258,7 +309,7 @@ export function OrganizerDashboard({
         </div>
       </Section>
 
-      <Section title="Miesto">
+      <Section id="sp-edit-location" title="Miesto">
         <div className="space-y-3">
           <FieldInput label="Hlavný zraz" value={miestoHlavne} onChange={setMiestoHlavne} />
           <div className="grid grid-cols-3 gap-2">
@@ -280,7 +331,7 @@ export function OrganizerDashboard({
         </div>
       </Section>
 
-      <Section title="Viditeľnosť">
+      <Section id="sp-visibility" title="Viditeľnosť">
         <div className="grid grid-cols-3 gap-2 mb-3">
           {([
             { val: 'sukromne', icon: '🔒', label: 'Súkromné' },
@@ -305,7 +356,7 @@ export function OrganizerDashboard({
         </Button>
       </Section>
 
-      <Section title="Zoznam Prinášam — správa">
+      <Section id="sp-bring" title="Zoznam Prinášam — správa">
         <div className="space-y-2 mb-3">
           {prinesiem.length === 0 && (
             <p className="text-sm text-muted-foreground">Žiadne položky</p>
@@ -334,10 +385,15 @@ export function OrganizerDashboard({
             {addingPrines ? '…' : 'Pridať'}
           </Button>
         </div>
+        {volnePrinesiem > 0 && (
+          <p className="mt-3 text-xs text-muted-foreground">
+            {volnePrinesiem} položiek ešte nemá potvrdeného nosiča. Hodí sa poslať pripomienku účastníkom.
+          </p>
+        )}
       </Section>
 
       {/* Notifications */}
-      <Section title="Poslať správu účastníkom">
+      <Section id="sp-notify" title="Poslať správu účastníkom">
         <div className="space-y-2 mb-3">
           {NOTIF_TEMPLATES.map((t, i) => (
             <div
@@ -363,12 +419,20 @@ export function OrganizerDashboard({
         <Button size="sm" disabled={sendingNotif || !notifText.trim()} onClick={sendNotif}>
           {sendingNotif ? 'Odosielam…' : 'Odoslať všetkým'}
         </Button>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Správa ide naraz všetkým účastníkom a zároveň ostane viditeľná v chate ako organizačná stopa.
+        </p>
       </Section>
 
       {/* Status */}
-      <Section title="Stav spontánky">
+      <Section id="sp-status" title="Stav spontánky">
         <div className="space-y-3">
           <p className="text-sm text-muted-foreground">Aktuálny stav: <span className={cn('font-medium', stavColors[stav])}>{stavLabels[stav]}</span></p>
+
+          <div className="rounded-xl bg-muted/40 px-3 py-3 text-xs leading-relaxed text-muted-foreground">
+            Pozastavenie je mäkký stop stav pre neisté počasie alebo čakanie na potvrdenie. Zrušenie je finálny krok a
+            odošle dôvod účastníkom. Ukončenie je vhodné po prebehlej akcii, keď chceš len uzavrieť organizáciu.
+          </div>
 
           {stav === 'aktivna' && (
             <div className="flex flex-wrap gap-2">
@@ -428,21 +492,41 @@ export function OrganizerDashboard({
       </Section>
 
       {/* Share */}
-      <Section title="QR kód a zdieľanie">
+      <Section id="sp-share" title="QR kód a zdieľanie">
         <div className="space-y-3">
+          <div className="rounded-2xl border bg-muted/30 p-4">
+            <div className="flex flex-col items-center gap-3 text-center">
+              <img
+                src={qrUrl}
+                alt={`QR kód pre ${sp.nazov}`}
+                className="h-40 w-40 rounded-xl border bg-white p-2"
+              />
+              <div>
+                <p className="text-sm font-medium text-foreground">QR pripravený na zdieľanie</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  Hodí sa na screenshot, vytlačenie alebo rýchle poslanie do skupiny.
+                </p>
+              </div>
+            </div>
+          </div>
           <div className="flex items-center gap-2 bg-muted rounded-lg px-3 py-2">
             <span className="text-xs text-muted-foreground flex-1 truncate">{baseUrl}</span>
             <button onClick={copyUrl} className="text-xs text-primary font-medium hover:underline shrink-0">Kopírovať</button>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="flex-1" onClick={() => navigator.share?.({ title: sp.nazov, url: baseUrl }) ?? copyUrl()}>
+            <Button variant="outline" size="sm" className="flex-1" onClick={shareUrl}>
               Zdieľať
             </Button>
             <Link href={`https://wa.me/?text=${encodeURIComponent(baseUrl)}`} target="_blank">
               <Button variant="outline" size="sm">WhatsApp</Button>
             </Link>
+            <Link href={qrUrl} target="_blank">
+              <Button variant="outline" size="sm">QR</Button>
+            </Link>
           </div>
-          <p className="text-xs text-muted-foreground">Pre QR kód použite ľubovoľný QR generátor s týmto linkom.</p>
+          <p className="text-xs text-muted-foreground">
+            Stránka detailu aj správy sú už napojené, takže organizátor má jeden stabilný uzol na link, QR aj ďalšie kroky.
+          </p>
         </div>
       </Section>
 

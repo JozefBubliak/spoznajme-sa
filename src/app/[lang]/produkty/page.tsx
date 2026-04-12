@@ -62,6 +62,7 @@ const sections = [
         name: 'Otázka dňa',
         description: 'Krátky denný impulz, ktorý môže viesť do newslettera, archívu a ďalších sérií.',
         price: 'Obsahový most medzi návštevou a vzťahom so značkou',
+        href: '/apps/otazka-dna',
       },
     ],
   },
@@ -111,6 +112,7 @@ const sections = [
         name: 'Legacy / seniori',
         description: 'Otázky na spomienky, rodinné príbehy a most medzi generáciami.',
         price: 'Darček s dlhodobou hodnotou',
+        href: '/produkty/legacy',
       },
       {
         badge: 'Pripravujeme',
@@ -138,6 +140,7 @@ const sections = [
         name: 'Legacy predplatné',
         description: 'Týždenná otázka pre starého rodiča emailom. Po roku môže vzniknúť kniha spomienok.',
         price: 'Darčekový model na rok',
+        href: '/produkty/legacy',
       },
       {
         badge: 'Jednoduchý štart',
@@ -203,6 +206,7 @@ const sections = [
         name: 'Tričká',
         description: 'Texty typu „Rád sa rozprávam — oslov ma“ s QR prvkom alebo otázkou na chrbte.',
         price: '20–35 €',
+        href: '/produkty/tricka',
       },
       {
         badge: 'Nové',

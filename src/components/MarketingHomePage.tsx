@@ -100,7 +100,7 @@ const tools = [
     title: 'Daily Connection',
     description: 'Každý deň jedna otázka pre vás dvoch. Odpovedáš sám/a, potom objavíš partnerovu odpoveď.',
     meta: 'Páry · 5 minút denne · streak',
-    href: '/apps/couplesync',
+    href: '/apps/daily-connection',
     cta: 'Vyskúšať',
   },
   {
@@ -140,7 +140,7 @@ const tools = [
     title: 'Legacy Spomienky',
     description: 'Týždenné otázky emailom a príbeh, z ktorého raz vznikne kniha spomienok.',
     meta: 'Rodina · seniori · darček',
-    href: '/produkty/predplatne',
+    href: '/produkty/legacy',
     cta: 'Zistiť viac',
   },
 ]
@@ -244,7 +244,7 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
 
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Link
-                  href={`/${lang}/kompas`}
+                  href={`/${lang}/apps/otazka-dna`}
                   className="btn-hero inline-flex items-center justify-center gap-2 px-7 py-4 text-sm sm:text-base"
                 >
                   Vyskúšaj otázku dňa
@@ -289,10 +289,10 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
 
                   <div className="mt-6 grid gap-3 sm:grid-cols-2">
                     <Link
-                      href={`/${lang}/kompas`}
+                      href={`/${lang}/apps/otazka-dna`}
                       className="rounded-2xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground transition hover:border-primary/30 hover:text-primary"
                     >
-                      Otvoriť Kompas
+                      Otvoriť Otázku dňa
                     </Link>
                     <Link
                       href={`/${lang}/apps/spoznajme-sa`}
@@ -544,7 +544,10 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
             <div className="space-y-2 text-sm">
               <Link href={`/${lang}/kompas`} className="block text-muted-foreground transition hover:text-foreground">Kompas</Link>
               <Link href={`/${lang}/apps/spoznajme-sa`} className="block text-muted-foreground transition hover:text-foreground">Kartičky</Link>
+              <Link href={`/${lang}/apps/otazka-dna`} className="block text-muted-foreground transition hover:text-foreground">Otázka dňa</Link>
+              <Link href={`/${lang}/apps/daily-connection`} className="block text-muted-foreground transition hover:text-foreground">Daily Connection</Link>
               <Link href={`/${lang}/apps/couplesync`} className="block text-muted-foreground transition hover:text-foreground">CoupleSync</Link>
+              <Link href={`/${lang}/produkty/legacy`} className="block text-muted-foreground transition hover:text-foreground">Legacy</Link>
               <Link href={`/${lang}/apps`} className="block text-muted-foreground transition hover:text-foreground">Ďalšie hry</Link>
             </div>
           </div>
@@ -566,6 +569,7 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
               <Link href={`/${lang}/komunita`} className="block text-muted-foreground transition hover:text-foreground">Komunita</Link>
               <Link href={`/${lang}/b2b`} className="block text-muted-foreground transition hover:text-foreground">B2B</Link>
               <Link href={`/${lang}/produkty`} className="block text-muted-foreground transition hover:text-foreground">Produkty</Link>
+              <Link href={`/${lang}/produkty/tricka`} className="block text-muted-foreground transition hover:text-foreground">Merch</Link>
               <Link href={`/${lang}/kontakt`} className="block text-muted-foreground transition hover:text-foreground">Kontakt</Link>
             </div>
           </div>

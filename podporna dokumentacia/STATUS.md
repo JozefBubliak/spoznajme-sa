@@ -51,25 +51,55 @@ Tento súbor je pracovná mapa, aby sa nič nevynechalo.
     - `src/components/Kompas.tsx`
     - `src/components/KompasAudiencePage.tsx`
     - `src/lib/kompas-content.ts`
+- `deeptalks_kompas_mockup.html`
+  - interaktívny Kompas pre publikum, témy a situácie
+  - web:
+    - `src/app/[lang]/kompas/page.tsx`
+    - `src/components/Kompas.tsx`
 - `deeptalks_karticky_system.html`
   - kartičkový systém, edície, mechanika a mapping na existujúce vetvy
   - web:
     - `src/app/[lang]/produkty/karticky/page.tsx`
     - `src/app/[lang]/produkty/page.tsx`
     - `src/app/[lang]/apps/spoznajme-sa/page.tsx`
-
-## Zostáva prejsť
-
 - `deeptalks_apps_mockup.html`
+  - mapa nástrojov a hier s otázkou dňa, live vetvami a roadmape kartami
+  - web:
+    - `src/app/[lang]/apps/page.tsx`
 - `deeptalks_apps_rozvoj.html`
-- `deeptalks_kompas_mockup.html`
+  - roadmapa apps vetvy, otázka dňa a prepojenie nových app konceptov
+  - web:
+    - `src/app/[lang]/apps/page.tsx`
+    - `src/app/[lang]/apps/otazka-dna/page.tsx`
+    - `src/app/[lang]/produkty/page.tsx`
 - `deeptalks_legacy.html`
+  - Legacy vetva pre seniorov, rodinné spomienky a knihu po roku
+  - web:
+    - `src/app/[lang]/produkty/legacy/page.tsx`
+    - `src/app/[lang]/skupiny/seniori/page.tsx`
+    - `src/app/[lang]/produkty/predplatne/page.tsx`
+    - `src/app/[lang]/produkty/darcekovy-poukaz/page.tsx`
+    - `src/app/[lang]/produkty/page.tsx`
+    - `src/components/MarketingHomePage.tsx`
 - `deeptalks_tricko_texty.html`
+  - merch vetva a textové línie pre tričká DeepTalks
+  - web:
+    - `src/app/[lang]/produkty/tricka/page.tsx`
+    - `src/app/[lang]/produkty/page.tsx`
 - `deeptalks-homepage.html`
 - `deeptalks_homepage_sitemap.html`
 - `deeptalks_sitemap.html`
 - `deeptalks-mapa-webu.html`
 - `deeptalks-mapa-webu-v2.html`
+  - homepage, footer, manifest a mapa webu
+  - web:
+    - `src/components/MarketingHomePage.tsx`
+    - `src/components/SiteHeader.tsx`
+    - `src/app/[lang]/o-nas/page.tsx`
+
+## Zostáva prejsť
+
+- `deeptalks_apps_mockup.html`
 - `herd_categories_schema.html`
 - `herd_vote_kategorie_final.html`
 - `herd-vote-kategorie-widget.html`

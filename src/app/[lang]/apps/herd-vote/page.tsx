@@ -118,6 +118,9 @@ export default async function HerdVotePage({ params }: P) {
                 <Link href={`/${lang}/apps/herd-vote/admin`}>Vytvoriť lobby</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
+                <Link href={`/${lang}/apps/herd-vote/kategorie`}>Pozrieť kategórie</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
                 <Link href={`/${lang}/b2b`}>Pre firmy a školy</Link>
               </Button>
             </div>
@@ -131,6 +134,9 @@ export default async function HerdVotePage({ params }: P) {
             <div className="max-w-3xl space-y-3">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">Krok 1</p>
               <h2 className="text-3xl font-bold tracking-tight text-foreground">Vyber kategóriu otázok, aby hra sedela na skupinu aj náladu.</h2>
+              <p className="text-base leading-relaxed text-muted-foreground">
+                Finálny mapping kategórií už má aj samostatný živý prehľad, takže sa k nemu dá dostať priamo bez spustenia hry.
+              </p>
             </div>
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {categories.map((category) => (
@@ -143,6 +149,11 @@ export default async function HerdVotePage({ params }: P) {
                   </div>
                 </div>
               ))}
+            </div>
+            <div>
+              <Button asChild variant="outline">
+                <Link href={`/${lang}/apps/herd-vote/kategorie`}>Otvoriť plný prehľad kategórií →</Link>
+              </Button>
             </div>
           </section>
 

@@ -33,10 +33,9 @@ const tiers = [
     period: '/rok',
     desc: '52 otázok ročne + viazaná kniha s odpoveďami. Archív na celý život.',
     features: ['52 kurátorovaných otázok ročne', 'Viazaná kniha na konci roka', 'Tlačená verzia na objednávku', 'Osobná história'],
-    cta: 'Čoskoro',
-    ctaHref: '#',
+    cta: 'Pozrieť Legacy',
+    ctaHref: '/produkty/legacy',
     primary: false,
-    soon: true,
   },
 ]
 
@@ -69,11 +68,6 @@ export default async function PredplatnePage({ params }: P) {
                   Odporúčame
                 </span>
               )}
-              {tier.soon && (
-                <span className="self-start text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground border font-medium mb-3">
-                  Čoskoro
-                </span>
-              )}
               <h2 className="font-semibold text-foreground">{tier.name}</h2>
               <div className="mt-2 mb-3">
                 <span className="text-2xl font-bold text-primary">{tier.price}</span>
@@ -88,11 +82,9 @@ export default async function PredplatnePage({ params }: P) {
                 ))}
               </ul>
               <Link
-                href={tier.soon ? '#' : `/${lang}${tier.ctaHref}`}
+                href={`/${lang}${tier.ctaHref}`}
                 className={`block text-center px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                  tier.soon
-                    ? 'border text-muted-foreground opacity-50 cursor-not-allowed pointer-events-none'
-                    : tier.primary
+                  tier.primary
                     ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                     : 'border text-foreground hover:bg-muted'
                 }`}
