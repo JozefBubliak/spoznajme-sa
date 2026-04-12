@@ -1,12 +1,8 @@
-import { KOMPAS_DATA } from '@/data/kompas'
-
-export type KompasAudienceSlug =
-  | 'rodic-dieta'
-  | 'deti'
-  | 'pary'
-  | 'priatelia'
-  | 'praca'
-  | 'citlive-temy'
+import {
+  KOMPAS_DATA,
+  KOMPAS_SCENARIOS,
+  type KompasAudienceSlug,
+} from '@/data/kompas'
 
 export type KompasLink = {
   label: string
@@ -526,12 +522,7 @@ export function getKompasThemeBySlug(slug: string) {
 }
 
 export function getKompasAudienceItems(slug: KompasAudienceSlug) {
-  const audience = getKompasAudienceBySlug(slug)
-  if (!audience) {
-    return []
-  }
-
-  return KOMPAS_DATA.filter((item) => item.group === audience.group)
+  return KOMPAS_DATA.filter((item) => item.audienceSlug === slug)
 }
 
 export function getKompasThemeItems(slug: string) {
@@ -540,13 +531,13 @@ export function getKompasThemeItems(slug: string) {
     return []
   }
 
-  return KOMPAS_DATA.filter((item) =>
-    theme.keywords.some((keyword) =>
-      `${item.topic} ${item.subtopic}`.toLocaleLowerCase().includes(keyword.toLocaleLowerCase())
-    )
-  )
+  return KOMPAS_DATA.filter((item) => item.themeSlug === theme.slug)
 }
 
 export function getAudienceTopics(items: KompasItem[]) {
   return Array.from(new Set(items.map((item) => item.topic)))
+}
+
+export function getKompasScenarioCount() {
+  return KOMPAS_SCENARIOS.length
 }

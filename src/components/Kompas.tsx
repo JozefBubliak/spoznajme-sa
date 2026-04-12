@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { KOMPAS_DATA } from '@/data/kompas'
+import {
+  KOMPAS_DATA,
+  KOMPAS_MOMENTS,
+  type LegacyKompasItem,
+} from '@/data/kompas'
 
 const groupImages: Record<string, string> = {
   'Rodič → Dieťa': '/images/kompas/rodic-dieta.png',
@@ -13,95 +17,63 @@ const groupImages: Record<string, string> = {
   'Citlivé témy': '/images/kompas/citlive.png',
 }
 
-interface KompasItem {
-  group: string
-  topic: string
-  subtopic: string
-  phrases: string[]
-}
-
 type KompasProps = {
   defaultGroup?: string | null
   hideHero?: boolean
   lockGroup?: boolean
 }
 
-function SubtopicCard({ item }: { item: KompasItem }) {
-  const [mode, setMode] = useState<'all' | 'step'>('all')
-  const [visibleCount, setVisibleCount] = useState(1)
-
-  const phrasesToShow =
-    mode === 'all' ? item.phrases : item.phrases.slice(0, visibleCount)
-
+function DetailBlock({
+  label,
+  value,
+  accent = false,
+}: {
+  label: string
+  value: string
+  accent?: boolean
+}) {
   return (
-    <div className="rounded-2xl border border-border/40 bg-card/60 backdrop-blur-sm p-6 transition hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-semibold text-foreground">{item.subtopic}</h3>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setMode('all')}
-            className={`px-3 py-1 rounded-lg text-sm font-medium transition ${
-              mode === 'all'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted text-muted-foreground hover:bg-muted/80'
-            }`}
-          >
-            Všetky
-          </button>
-          <button
-            onClick={() => {
-              setMode('step')
-              setVisibleCount(1)
-            }}
-            className={`px-3 py-1 rounded-lg text-sm font-medium transition ${
-              mode === 'step'
-                ? 'bg-primary text-primary-foreground'
-                : 'bg-muted text-muted-foreground hover:bg-muted/80'
-            }`}
-          >
-            Postupne
-          </button>
+    <div
+      className={`rounded-2xl border p-4 ${
+        accent
+          ? 'border-primary/30 bg-primary/10'
+          : 'border-border/50 bg-background/70'
+      }`}
+    >
+      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        {label}
+      </p>
+      <p className="mt-2 text-sm leading-relaxed text-foreground">{value}</p>
+    </div>
+  )
+}
+
+function ScenarioCard({ item }: { item: LegacyKompasItem }) {
+  return (
+    <article className="rounded-3xl border border-border/50 bg-card/85 p-6 shadow-sm transition hover:border-primary/25 hover:shadow-lg hover:shadow-primary/5">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="max-w-3xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            {item.topic}
+          </p>
+          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
+            {item.title}
+          </h3>
+        </div>
+        <div className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+          Priorita #{item.priority}
         </div>
       </div>
 
-      {item.phrases.length > 0 ? (
-        <div className="space-y-4">
-          {phrasesToShow.map((phrase, i) => (
-            <div
-              key={i}
-              className={`flex ${
-                i % 2 === 0 ? 'justify-start' : 'justify-end'
-              }`}
-            >
-              <div
-                className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
-                  i % 2 === 0
-                    ? 'bg-primary/10 text-foreground rounded-bl-none border border-primary/20'
-                    : 'bg-accent/30 text-foreground rounded-br-none border border-accent/30'
-                }`}
-              >
-                {phrase}
-              </div>
-            </div>
-          ))}
-
-          {mode === 'step' && visibleCount < item.phrases.length && (
-            <div className="text-center mt-4">
-              <button
-                onClick={() => setVisibleCount(visibleCount + 1)}
-                className="px-5 py-2.5 bg-primary text-primary-foreground rounded-full text-sm font-medium hover:bg-primary/90 transition"
-              >
-                Ďalšia veta →
-              </button>
-            </div>
-          )}
-        </div>
-      ) : (
-        <p className="text-muted-foreground italic text-center">
-          (Obsah zatiaľ čaká na doplnenie)
-        </p>
-      )}
-    </div>
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <DetailBlock label="Situácia" value={item.situation} />
+        <DetailBlock label="Cieľ rozhovoru" value={item.goal} />
+        <DetailBlock label="Prvá veta" value={item.firstLine} accent />
+        <DetailBlock label="Jemnejšia verzia" value={item.softerVersion} />
+        <DetailBlock label="Priamejšia verzia" value={item.directVersion} />
+        <DetailBlock label="Čomu sa vyhnúť" value={item.avoid} />
+      </div>
+    </article>
   )
 }
 
@@ -112,17 +84,6 @@ export default function Kompas({
 }: KompasProps) {
   const groups = Array.from(new Set(KOMPAS_DATA.map((item) => item.group)))
   const [selectedGroup, setSelectedGroup] = useState<string | null>(defaultGroup)
-
-  const topics = selectedGroup
-    ? Array.from(
-        new Set(
-          KOMPAS_DATA.filter((item) => item.group === selectedGroup).map(
-            (item) => item.topic
-          )
-        )
-      )
-    : []
-
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null)
 
   useEffect(() => {
@@ -130,138 +91,191 @@ export default function Kompas({
     setSelectedTopic(null)
   }, [defaultGroup])
 
-  const subtopics =
-    selectedGroup && selectedTopic
-      ? KOMPAS_DATA.filter(
-          (item) => item.group === selectedGroup && item.topic === selectedTopic
-        )
-      : []
+  const groupItems = selectedGroup
+    ? KOMPAS_DATA.filter((item) => item.group === selectedGroup)
+    : []
+
+  const topics = selectedGroup
+    ? KOMPAS_MOMENTS.filter((moment) =>
+        groupItems.some((item) => item.momentSlug === moment.slug)
+      )
+    : []
+
+  const cards = selectedGroup
+    ? groupItems
+        .filter((item) => (selectedTopic ? item.topic === selectedTopic : true))
+        .sort((a, b) => a.priority - b.priority)
+    : []
+
+  const selectedMoment = topics.find((moment) => moment.label === selectedTopic)
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero section */}
       {!hideHero ? (
-        <section className="relative pt-32 pb-16 overflow-hidden">
+        <section className="relative overflow-hidden pt-28 pb-14">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.15),transparent_70%)]" />
-          <div className="relative max-w-4xl mx-auto px-6 text-center">
-            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-4">
-              Komunikačný nástroj
+          <div className="relative mx-auto max-w-4xl px-6 text-center">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Mapa životných momentov
             </p>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Komunikačný <span className="italic font-serif text-primary">kompas</span>
+            <h1 className="text-4xl font-bold text-foreground md:text-5xl">
+              Komunikačný <span className="font-serif italic text-primary">kompas</span>
             </h1>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-              Praktické vety a kroky, keď nevieš, ako začať rozhovor. Vyber si pre koho, zvoľ tému a
-              otvor konkrétnu situáciu.
+            <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Nie teória komunikácie. Konkrétna prvá veta, jemnejšia verzia, priamejšia verzia a
+              hranice toho, čomu sa radšej vyhnúť.
             </p>
           </div>
         </section>
       ) : null}
 
-      <div className="max-w-6xl mx-auto px-6 pb-20">
-        {/* Group selection */}
+      <div className="mx-auto max-w-6xl px-6 pb-20">
         {!lockGroup ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {groups.map((group) => (
-              <button
-                key={group}
-                onClick={() => {
-                  setSelectedGroup(group)
-                  setSelectedTopic(null)
-                }}
-                className={`group flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 text-left ${
-                  selectedGroup === group
-                    ? 'border-primary ring-2 ring-primary/20 shadow-lg shadow-primary/10'
-                    : 'border-border/40 hover:border-primary/40 hover:shadow-md'
-                }`}
-              >
-                <div className="relative w-full aspect-video overflow-hidden bg-muted">
-                  <Image
-                    src={groupImages[group] || '/images/kompas/default.png'}
-                    alt={group}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-4 text-center font-semibold text-foreground bg-card">
-                  {group}
-                </div>
-              </button>
-            ))}
+          <div className="mb-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {groups.map((group) => {
+              const count = KOMPAS_DATA.filter((item) => item.group === group).length
+
+              return (
+                <button
+                  key={group}
+                  onClick={() => {
+                    setSelectedGroup(group)
+                    setSelectedTopic(null)
+                  }}
+                  className={`group flex flex-col overflow-hidden rounded-2xl border text-left transition-all duration-300 ${
+                    selectedGroup === group
+                      ? 'border-primary ring-2 ring-primary/20 shadow-lg shadow-primary/10'
+                      : 'border-border/40 hover:border-primary/40 hover:shadow-md'
+                  }`}
+                >
+                  <div className="relative aspect-video w-full overflow-hidden bg-muted">
+                    <Image
+                      src={groupImages[group] || '/images/kompas/default.png'}
+                      alt={group}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="bg-card p-5">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="font-semibold text-foreground">{group}</div>
+                      <div className="text-xs font-medium text-muted-foreground">{count} kariet</div>
+                    </div>
+                  </div>
+                </button>
+              )
+            })}
           </div>
         ) : null}
 
-        {/* Children safety block */}
         {selectedGroup === 'Deti' && (
-          <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-6 mb-10 text-center">
-            <h2 className="text-xl font-semibold text-destructive mb-2">
-              Ak je ti ťažko, nie si na to sám ❤️
+          <div className="mb-10 rounded-2xl border border-destructive/30 bg-destructive/5 p-6 text-center">
+            <h2 className="mb-2 text-xl font-semibold text-destructive">
+              Ak je ti ťažko, nie si na to sám
             </h2>
-            <p className="text-destructive/80 mb-4">
-              Ak máš pocit, že to nezvládaš, skús sa porozprávať s niekým, komu veríš.{' '}
-              Alebo sa môžeš obrátiť na odbornú pomoc:
+            <p className="mb-4 text-destructive/80">
+              Ak máš pocit, že to nezvládaš, skús sa porozprávať s niekým, komu veríš. Alebo sa
+              môžeš obrátiť na odbornú pomoc:
             </p>
-            <ul className="space-y-2 text-foreground font-medium">
+            <ul className="space-y-2 font-medium text-foreground">
               <li>
-                ☎️ <a href="tel:116111" className="underline hover:text-primary transition">Linka detskej istoty – 116 111</a>
+                <a href="tel:116111" className="underline transition hover:text-primary">
+                  Linka detskej istoty – 116 111
+                </a>
               </li>
               <li>
-                💬{' '}
-                <a href="https://ipcko.sk" target="_blank" className="underline hover:text-primary transition">
+                <a
+                  href="https://ipcko.sk"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline transition hover:text-primary"
+                >
                   IPčko – online chat a e-mailová poradňa
                 </a>
               </li>
               <li>
-                🌿 <a href="tel:0800800566" className="underline hover:text-primary transition">Nezábudka – linka dôvery 0800 800 566</a>
+                <a href="tel:0800800566" className="underline transition hover:text-primary">
+                  Nezábudka – linka dôvery 0800 800 566
+                </a>
               </li>
             </ul>
           </div>
         )}
 
-        {/* Topic selection */}
-        {selectedGroup && (
-          <div className="flex flex-wrap justify-center gap-3 mb-10">
-            {topics.map((topic) => (
+        {selectedGroup ? (
+          <div className="mb-10 space-y-4">
+            <div className="flex flex-wrap items-center gap-3">
               <button
-                key={topic}
-                onClick={() => setSelectedTopic(topic)}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium border transition-all duration-200 ${
-                  selectedTopic === topic
-                    ? 'bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20'
-                    : 'bg-card border-border/40 text-muted-foreground hover:border-primary/40 hover:text-foreground'
+                onClick={() => setSelectedTopic(null)}
+                className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                  selectedTopic === null
+                    ? 'border-primary bg-primary text-primary-foreground shadow-md shadow-primary/20'
+                    : 'border-border/40 bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground'
                 }`}
               >
-                {topic}
+                Všetky momenty
               </button>
-            ))}
-          </div>
-        )}
-
-        {/* Subtopics */}
-        {selectedGroup && selectedTopic && (
-          <div>
-            <div className="mb-8">
-              <Image
-                src={groupImages[selectedGroup]}
-                alt={selectedGroup}
-                width={1200}
-                height={320}
-                className="h-64 w-full rounded-2xl object-cover shadow-lg"
-              />
-            </div>
-
-            <div className="space-y-6">
-              {subtopics.map((item, idx) => (
-                <SubtopicCard key={idx} item={item} />
+              {topics.map((topic) => (
+                <button
+                  key={topic.slug}
+                  onClick={() => setSelectedTopic(topic.label)}
+                  className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                    selectedTopic === topic.label
+                      ? 'border-primary bg-primary text-primary-foreground shadow-md shadow-primary/20'
+                      : 'border-border/40 bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground'
+                  }`}
+                >
+                  {topic.label}
+                </button>
               ))}
             </div>
+
+            <div className="rounded-2xl border border-border/50 bg-card/70 p-5">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="max-w-3xl">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    {selectedGroup}
+                  </p>
+                  <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">
+                    {selectedMoment?.label ?? 'Situácie v tejto vetve'}
+                  </h2>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {selectedMoment?.description ??
+                      'Vyber si konkrétny životný moment alebo si prejdi všetky priority v tejto vetve.'}
+                  </p>
+                </div>
+                <div className="rounded-full border border-border/50 bg-background/70 px-4 py-2 text-sm font-medium text-foreground">
+                  {cards.length} kariet
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+        ) : null}
+
+        {selectedGroup && selectedGroup in groupImages ? (
+          <div className="mb-8">
+            <Image
+              src={groupImages[selectedGroup]}
+              alt={selectedGroup}
+              width={1200}
+              height={320}
+              className="h-64 w-full rounded-2xl object-cover shadow-lg"
+            />
+          </div>
+        ) : null}
+
+        {selectedGroup && cards.length > 0 ? (
+          <div className="space-y-6">
+            {cards.map((item) => (
+              <ScenarioCard key={item.id} item={item} />
+            ))}
+          </div>
+        ) : null}
 
         {!selectedGroup && (
-          <p className="text-center text-muted-foreground mt-12 text-lg">
-            Vyber si, s kým chceš lepšie komunikovať 👆
+          <p className="mt-12 text-center text-lg text-muted-foreground">
+            Vyber si, s kým alebo v akej situácii chceš komunikovať lepšie.
           </p>
         )}
       </div>

@@ -6,7 +6,11 @@ import Kompas from '@/components/Kompas'
 import { Container } from '@/components/Container'
 import { type Locale, SUPPORTED_LOCALES } from '@/i18n/config'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
-import { KOMPAS_AUDIENCES, KOMPAS_THEMES } from '@/lib/kompas-content'
+import {
+  KOMPAS_AUDIENCES,
+  KOMPAS_THEMES,
+  getKompasScenarioCount,
+} from '@/lib/kompas-content'
 
 export const metadata: Metadata = {
   title: 'Komunikačný kompas | DeepTalks',
@@ -20,6 +24,7 @@ export default async function Page({ params }: P) {
   const { lang: raw } = await params
   const lang = normalizeUrlLocale(raw)
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
+  const scenarioCount = getKompasScenarioCount()
 
   return (
     <div className="min-h-screen bg-background">
@@ -34,11 +39,11 @@ export default async function Page({ params }: P) {
                 Praktický jazyk do vzťahov
               </span>
               <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-                Komunikačný kompas je mapa situácií, kde ľudia najčastejšie nevedia, ako začať.
+                Komunikačný kompas je mapa životných momentov, kde ľudia najčastejšie nevedia, čo povedať ako prvé.
               </h1>
               <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">
-                Namiesto generických rád ponúka konkrétne vety, tematické vetvy a publikum, v ktorom sa problém odohráva:
-                doma, vo vzťahu, medzi kamarátmi, v práci alebo v citlivých témach.
+                Namiesto generických rád ponúka konkrétnu prvú vetu, jemnejšiu aj priamejšiu verziu a jasné varovanie,
+                čomu sa vyhnúť. Aktuálne je pripravených {scenarioCount} spracovaných situácií.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

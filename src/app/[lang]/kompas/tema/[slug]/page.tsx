@@ -115,11 +115,12 @@ export default async function Page({ params }: P) {
               {liveItems.length > 0 ? (
                 <div className="mt-6 space-y-4">
                   {liveItems.slice(0, 4).map((item) => (
-                    <div key={`${item.group}-${item.subtopic}`} className="rounded-2xl border border-border/60 bg-background/70 p-5">
+                    <div key={item.id} className="rounded-2xl border border-border/60 bg-background/70 p-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{item.group}</p>
                       <h3 className="mt-2 text-lg font-semibold text-foreground">{item.subtopic}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-foreground">{item.situation}</p>
                       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                        {item.phrases[0] ?? 'Konkrétne vety budú doplnené v ďalšej iterácii.'}
+                        {item.firstLine ?? 'Konkrétne vety budú doplnené v ďalšej iterácii.'}
                       </p>
                     </div>
                   ))}
