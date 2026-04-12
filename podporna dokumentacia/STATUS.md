@@ -35,6 +35,21 @@ Tento súbor je pracovná mapa, aby sa nič nevynechalo.
 - `herdvote_page_mockup.html`
   - public landing Herd Vote + admin rozdelenie
   - web: `src/app/[lang]/apps/herd-vote/page.tsx`, `src/app/[lang]/apps/herd-vote/admin/page.tsx`
+- `herd_categories_schema.html`
+- `herd_vote_kategorie_final.html`
+- `herd-vote-kategorie-widget.html`
+- `kategorie-widget-standalone.html`
+- `quiz_kategorie_deeptalks.html`
+- `quiz_kategorie_deeptalks_saved.html`
+- `quiz_kategorie_deeptalks (1).html`
+- `claude-code-prompt-kategorie.md`
+  - živý výber a prehľad Herd/Quiz kategórií podľa `group_tag` mapovania
+  - web:
+    - `src/components/quiz/CategorySelector.tsx`
+    - `src/app/[lang]/apps/herd-vote/kategorie/page.tsx`
+    - `src/app/[lang]/apps/herd-vote/kategorie/ExplorerClient.tsx`
+    - `src/app/[lang]/apps/quiz/kategorie/page.tsx`
+    - `src/app/[lang]/apps/herd-vote/page.tsx`
 
 ## Spracované v tejto iterácii
 
@@ -96,21 +111,18 @@ Tento súbor je pracovná mapa, aby sa nič nevynechalo.
     - `src/components/MarketingHomePage.tsx`
     - `src/components/SiteHeader.tsx`
     - `src/app/[lang]/o-nas/page.tsx`
+- `spontanky_flow.html`
+  - organizátorský flow, akcie, QR zdieľanie a jemnejšia správa stavu
+  - web:
+    - `src/components/spontanky/OrganizerDashboard.tsx`
+    - `src/app/[lang]/komunita/spontanky/[id]/spravovat/page.tsx`
 
 ## Zostáva prejsť
 
-- `deeptalks_apps_mockup.html`
-- `herd_categories_schema.html`
-- `herd_vote_kategorie_final.html`
-- `herd-vote-kategorie-widget.html`
-- `kategorie-widget-standalone.html`
-- `quiz_kategorie_deeptalks.html`
-- `quiz_kategorie_deeptalks_saved.html`
-- `quiz_kategorie_deeptalks (1).html`
-- `spontanky_flow.html`
-- `claude-code-prompt-kategorie.md`
 - `Textový obsah pre DeepTalks web - Claude.mhtml`
 - `DeepTalks_Master_Dokument.docx`
+- `herd-categories-130-migration.sql`
+- `herd-categories-migration-v3-fixed.sql`
 
 ## Poznámka
 
