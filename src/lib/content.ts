@@ -15,24 +15,27 @@ function readMDXFrontmatter(filePath: string) {
   return null
 }
 
+type FrontmatterRecord = Record<string, any>
+type ToolFrontmatterRecord = FrontmatterRecord & { topicSlug: string }
+
 export function getTopicFrontmatter(lang: string, tema: string) {
   const p = path.join(process.cwd(), 'content', lang, 'topics', tema, 'index.mdx')
-  return readMDXFrontmatter(p)
+  return readMDXFrontmatter(p) as FrontmatterRecord | null
 }
 
 export function getToolFrontmatter(lang: string, tema: string, technika: string) {
   const p = path.join(process.cwd(), 'content', lang, 'tools', tema, `${technika}.mdx`)
-  return readMDXFrontmatter(p)
+  return readMDXFrontmatter(p) as FrontmatterRecord | null
 }
 
 export function getAgeMapFrontmatter(lang: string, range: string) {
   const p = path.join(process.cwd(), 'content', lang, 'age-maps', `${range}.mdx`)
-  return readMDXFrontmatter(p)
+  return readMDXFrontmatter(p) as FrontmatterRecord | null
 }
 
 export function getIndexFrontmatter(lang: string, indexKey: string) {
   const p = path.join(process.cwd(), 'content', lang, 'indexes', `${indexKey}.mdx`)
-  return readMDXFrontmatter(p)
+  return readMDXFrontmatter(p) as FrontmatterRecord | null
 }
 
 function readDirectoryEntries(directoryPath: string) {
@@ -51,8 +54,13 @@ export function getTopicFrontmatters(lang: string) {
 
   return readDirectoryEntries(topicsDir)
     .filter((entry) => entry.isDirectory())
-    .map((entry) => getTopicFrontmatter(lang, entry.name))
-    .filter(Boolean)
+    .reduce<FrontmatterRecord[]>((acc, entry) => {
+      const frontmatter = getTopicFrontmatter(lang, entry.name)
+      if (frontmatter) {
+        acc.push(frontmatter)
+      }
+      return acc
+    }, [])
 }
 
 export function getToolFrontmatters(lang: string, tema?: string) {
@@ -68,18 +76,16 @@ export function getToolFrontmatters(lang: string, tema?: string) {
 
     return readDirectoryEntries(topicDir)
       .filter((entry) => entry.isFile() && entry.name.endsWith('.mdx'))
-      .map((entry) => {
+      .reduce<ToolFrontmatterRecord[]>((acc, entry) => {
         const frontmatter = getToolFrontmatter(lang, topicSlug, entry.name.replace(/\.mdx$/i, ''))
-        if (!frontmatter) {
-          return null
+        if (frontmatter) {
+          acc.push({
+            ...frontmatter,
+            topicSlug,
+          })
         }
-
-        return {
-          ...frontmatter,
-          topicSlug,
-        }
-      })
-      .filter(Boolean)
+        return acc
+      }, [])
   })
 }
 
