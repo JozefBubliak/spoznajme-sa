@@ -39,6 +39,7 @@ const products = [
     description:
       'Jedna otázka denne pre vás dvoch. Produkt pre páry, ktoré chcú malý, ale pravidelný návyk namiesto veľkých sľubov.',
     points: ['rýchly denný rituál', 'pre páry v rutine', 'prirodzený vstup do premium modelu'],
+    href: '/apps/daily-connection',
   },
   {
     badge: 'Darček',

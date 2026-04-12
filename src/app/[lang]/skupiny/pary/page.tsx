@@ -32,6 +32,7 @@ const tools = [
     title: 'Daily Connection',
     description: 'Jedna otázka denne pre vás dvoch. Päť minút, ktoré držia blízkosť pri živote aj počas rušných týždňov.',
     when: 'Každý deň večer alebo pri rannej káve',
+    href: '/apps/daily-connection',
   },
   {
     badge: 'Zadarmo',

@@ -99,7 +99,7 @@ export default async function AppsPage({ params }: P) {
                       className="w-full"
                       variant="default"
                     >
-                      <Link href={item.slug === 'couplesync' ? g.link : `/${lang}/apps/${item.slug}`}>
+                      <Link href={`/${lang}/apps/${item.slug}`}>
                         {g.cta}
                       </Link>
                     </Button>

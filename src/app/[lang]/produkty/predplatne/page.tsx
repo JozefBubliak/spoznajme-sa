@@ -24,7 +24,7 @@ const tiers = [
     desc: 'Denná otázka, streak, história. Pre pravidelných používateľov.',
     features: ['Neobmedzené otázky', 'Denný streak', 'História otázok', 'Obľúbené', 'Prioritná podpora'],
     cta: 'Predplatiť',
-    ctaHref: '/upgrade',
+    ctaHref: '/apps/daily-connection',
     primary: true,
   },
   {

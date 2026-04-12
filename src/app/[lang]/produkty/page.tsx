@@ -55,6 +55,7 @@ const sections = [
         name: 'Daily Connection',
         description: 'Jedna otázka denne pre pár. Návyk malých rozhovorov, ktoré držia blízkosť pri živote.',
         price: 'Pripravujeme premium rozšírenie',
+        href: '/apps/daily-connection',
       },
       {
         badge: 'Lead magnet',
