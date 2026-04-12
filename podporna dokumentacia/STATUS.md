@@ -116,13 +116,24 @@ Tento súbor je pracovná mapa, aby sa nič nevynechalo.
   - web:
     - `src/components/spontanky/OrganizerDashboard.tsx`
     - `src/app/[lang]/komunita/spontanky/[id]/spravovat/page.tsx`
+- `Textový obsah pre DeepTalks web - Claude.mhtml`
+- `DeepTalks_Master_Dokument.docx`
+  - master obsah pre živé vetvy skupín, komunity a širší messaging
+  - web:
+    - `src/app/[lang]/skupiny/priatelia/page.tsx`
+    - `src/app/[lang]/skupiny/praca/page.tsx`
+    - `src/app/[lang]/skupiny/skola/page.tsx`
+    - `src/app/[lang]/komunita/akcie/page.tsx`
+- `herd-categories-migration-v3-fixed.sql`
+- `herd-categories-130-migration.sql`
+  - bezpečná SQL migrácia pre plný katalog Herd kategórií
+  - repo:
+    - `supabase/migrations/20260412093000_herd_categories_full_catalog.sql`
 
 ## Zostáva prejsť
 
-- `Textový obsah pre DeepTalks web - Claude.mhtml`
-- `DeepTalks_Master_Dokument.docx`
-- `herd-categories-130-migration.sql`
-- `herd-categories-migration-v3-fixed.sql`
+- `preview.webp`
+- `preview (1).webp`
 
 ## Poznámka
 
