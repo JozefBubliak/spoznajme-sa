@@ -12,6 +12,8 @@ const categories = [
     desc: 'Jednoduché texty, pri ktorých druhá strana presne vie, čo má urobiť.',
     ideas: [
       { front: 'Oslov ma. :)', back: 'Čo ťa dnes prekvapilo?' },
+      { front: 'Rada sa rozprávam. Oslov ma! :)', back: 'Začni hocijakou otázkou.' },
+      { front: 'Rád sa rozprávam. Oslov ma! :)', back: 'Kľudne aj bez small talku.' },
       { front: 'Opýtaj sa ma niečo.', back: 'Vážne. Kľudne.' },
       { front: 'Porozprávajme sa.', back: 'Nie o počasí.' },
     ],

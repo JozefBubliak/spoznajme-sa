@@ -101,6 +101,11 @@ Tento súbor je pracovná mapa, aby sa nič nevynechalo.
   - web:
     - `src/app/[lang]/produkty/tricka/page.tsx`
     - `src/app/[lang]/produkty/page.tsx`
+- `preview.webp`
+- `preview (1).webp`
+  - merch preview vizuály so sloganmi `Oslov ma :)` a `Rada sa rozprávam. Oslov ma! :)`
+  - web:
+    - `src/app/[lang]/produkty/tricka/page.tsx`
 - `deeptalks-homepage.html`
 - `deeptalks_homepage_sitemap.html`
 - `deeptalks_sitemap.html`
@@ -129,11 +134,26 @@ Tento súbor je pracovná mapa, aby sa nič nevynechalo.
   - bezpečná SQL migrácia pre plný katalog Herd kategórií
   - repo:
     - `supabase/migrations/20260412093000_herd_categories_full_catalog.sql`
+- interné dorovnanie mappingu po spracovaní dokumentácie
+  - živé huby a alias presmerovania pre pomôcky, indexy, vekové mapy a fallback techník
+  - web:
+    - `src/app/[lang]/pomocky/page.tsx`
+    - `src/app/[lang]/pomocky/audience/[audience]/page.tsx`
+    - `src/app/[lang]/pomocky/audience/[audience]/tema/[tema]/page.tsx`
+    - `src/app/[lang]/pomocky/audience/[audience]/tema/[tema]/[technika]/page.tsx`
+    - `src/app/[lang]/pomocky/tema/[tema]/page.tsx`
+    - `src/app/[lang]/pomocky/tema/[tema]/[technika]/page.tsx`
+    - `src/app/[lang]/indexy/page.tsx`
+    - `src/app/[lang]/indexy/co-trapi-deti/page.tsx`
+    - `src/app/[lang]/indexy/co-trapi-rodicov/page.tsx`
+    - `src/app/[lang]/vekove-mapy/page.tsx`
+    - `src/app/[lang]/vekove-mapy/[range]/page.tsx`
+    - `src/app/[lang]/t/[id]/page.tsx`
+    - `src/lib/content.ts`
 
 ## Zostáva prejsť
 
-- `preview.webp`
-- `preview (1).webp`
+- momentálne už nie sú otvorené nespracované dokumenty; root priečinok má zostať len ako inbox pre nové podklady
 
 ## Poznámka
 
