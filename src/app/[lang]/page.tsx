@@ -36,7 +36,9 @@ export function generateStaticParams() {
 }
 
 export default async function Page({ params }: P) {
-  await params
-  return <MarketingHomePage />
+  const { lang: raw } = await params
+  const lang = normalizeUrlLocale(raw)
+
+  return <MarketingHomePage lang={lang} />
 }
 

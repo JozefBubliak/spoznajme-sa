@@ -16,9 +16,10 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const items = [
-    { href: `/${l}/kompas`,   label: "Kompas" },
-    { href: `/${l}/apps`,     label: "Hry" },
-    { href: `/${l}/skupiny`,  label: "Skupiny" },
+    { href: `/${l}/o-nas`, label: "Prečo hovoriť" },
+    { href: `/${l}/skupiny`, label: "Oblasti" },
+    { href: `/${l}/apps`, label: "Nástroje" },
+    { href: `/${l}/komunita`, label: "Komunita" },
     { href: `/${l}/produkty`, label: "Produkty" },
   ]
 
