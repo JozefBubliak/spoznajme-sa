@@ -1,0 +1,521 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary)}
+.pg{padding:0 0 3rem}
+.tabs{display:flex;gap:0;border:.5px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;margin-bottom:0;position:sticky;top:0;z-index:10;background:var(--color-background-primary)}
+.tab{flex:1;padding:10px 4px;text-align:center;font-size:12px;cursor:pointer;border-right:.5px solid var(--color-border-tertiary);transition:background .12s;color:var(--color-text-secondary);background:var(--color-background-primary);white-space:nowrap}
+.tab:last-child{border-right:none}
+.tab.on{background:var(--color-background-secondary);font-weight:500;color:var(--color-text-primary)}
+.panel{display:none}.panel.on{display:block}
+
+/* ===== HOMEPAGE ===== */
+.hp{padding:0}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.nav-logo{font-size:15px;font-weight:500;letter-spacing:-.02em}
+.nav-links{display:flex;gap:1.25rem}
+.nav-link{font-size:12px;color:var(--color-text-secondary);cursor:pointer;transition:color .12s}
+.nav-link:hover{color:var(--color-text-primary)}
+.nav-cta{font-size:12px;font-weight:500;padding:6px 14px;border-radius:7px;border:.5px solid var(--color-border-primary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.nav-cta:hover{background:var(--color-background-secondary)}
+
+/* HERO */
+.hero{padding:4rem 1.5rem 3rem;text-align:center;border-bottom:.5px solid var(--color-border-tertiary)}
+.hero-pre{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:1rem}
+.hero-h{font-size:38px;font-weight:500;line-height:1.15;margin-bottom:1.25rem;max-width:560px;margin-left:auto;margin-right:auto}
+.hero-h em{font-style:italic;color:var(--color-text-secondary)}
+.hero-sub{font-size:15px;color:var(--color-text-secondary);line-height:1.75;max-width:460px;margin:0 auto 2rem}
+.hero-q{border:.5px solid var(--color-border-tertiary);border-radius:16px;padding:20px 24px;max-width:440px;margin:0 auto 1.75rem;background:var(--color-background-secondary);cursor:pointer;transition:all .15s}
+.hero-q:hover{border-color:var(--color-border-secondary);background:var(--color-background-primary)}
+.hero-q-label{font-size:10px;color:var(--color-text-tertiary);font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem}
+.hero-q-text{font-size:17px;font-weight:500;line-height:1.45;color:var(--color-text-primary);font-family:var(--font-serif);margin-bottom:.75rem}
+.hero-q-hint{font-size:12px;color:var(--color-text-tertiary)}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+.hbtn{font-size:13px;font-weight:500;padding:10px 22px;border-radius:9px;border:.5px solid var(--color-border-primary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.hbtn:hover{background:var(--color-background-secondary)}
+.hbtn.pri{border-color:var(--color-border-info);color:var(--color-text-info)}
+.hero-proof{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap}
+.proof-item{font-size:12px;color:var(--color-text-tertiary);text-align:center}
+.proof-n{font-size:18px;font-weight:500;color:var(--color-text-primary);display:block;margin-bottom:1px}
+
+/* PROBLEM */
+.section{padding:2.5rem 1.5rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.sec-label{font-size:11px;color:var(--color-text-tertiary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem;text-align:center}
+.sec-h{font-size:22px;font-weight:500;line-height:1.3;margin-bottom:.6rem;text-align:center}
+.sec-h em{font-style:italic;color:var(--color-text-secondary)}
+.sec-sub{font-size:13px;color:var(--color-text-secondary);line-height:1.7;text-align:center;max-width:460px;margin:0 auto 1.75rem}
+
+.problem-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:560px;margin:0 auto}
+.prob{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;background:var(--color-background-primary)}
+.prob-t{font-size:13px;font-weight:500;margin-bottom:3px}
+.prob-s{font-size:12px;color:var(--color-text-secondary);line-height:1.45}
+
+/* SKUPINY */
+.groups{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:580px;margin:0 auto}
+.group{border:.5px solid var(--color-border-tertiary);border-radius:13px;padding:16px;cursor:pointer;transition:all .13s;background:var(--color-background-primary);text-align:center}
+.group:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.group-ico{font-size:24px;margin-bottom:8px}
+.group-n{font-size:13px;font-weight:500;margin-bottom:3px}
+.group-s{font-size:11px;color:var(--color-text-secondary);line-height:1.35}
+
+/* NÁSTROJE */
+.tools{display:grid;gap:10px;max-width:560px;margin:0 auto}
+.tool{border:.5px solid var(--color-border-tertiary);border-radius:13px;padding:14px 16px;cursor:pointer;transition:all .12s;background:var(--color-background-primary);display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.tool:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.tool.hi{border:1.5px solid var(--color-border-info)}
+.tool-n{font-size:14px;font-weight:500;margin-bottom:3px}
+.tool-s{font-size:12px;color:var(--color-text-secondary);line-height:1.45}
+.tool-p{font-size:11px;color:var(--color-text-tertiary);margin-top:3px}
+.tool-cta{font-size:12px;font-weight:500;color:var(--color-text-info);white-space:nowrap}
+.bdg{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;margin-bottom:5px;line-height:1.5}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+
+/* KOMUNITA */
+.komunita-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;max-width:580px;margin:0 auto}
+.kom{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 15px;cursor:pointer;transition:all .12s;background:var(--color-background-primary)}
+.kom:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.kom-ico{font-size:20px;margin-bottom:6px}
+.kom-n{font-size:12px;font-weight:500;margin-bottom:2px}
+.kom-s{font-size:11px;color:var(--color-text-secondary);line-height:1.35}
+
+/* TESTIMONIAL */
+.tcard{border:.5px solid var(--color-border-tertiary);border-radius:13px;padding:16px 18px;max-width:440px;margin:0 auto;background:var(--color-background-secondary)}
+.tq{font-size:14px;line-height:1.7;color:var(--color-text-primary);font-style:italic;margin-bottom:8px}
+.tm{font-size:11px;color:var(--color-text-tertiary)}
+
+/* MANIFEST */
+.manifest{padding:3rem 1.5rem;text-align:center;border-bottom:.5px solid var(--color-border-tertiary)}
+.manifest-q{font-size:20px;font-weight:500;line-height:1.45;max-width:480px;margin:0 auto 1rem;font-family:var(--font-serif);color:var(--color-text-primary)}
+.manifest-s{font-size:13px;color:var(--color-text-secondary);line-height:1.7;max-width:400px;margin:0 auto}
+
+/* FOOTER NAV */
+.hp-footer{padding:2rem 1.5rem;background:var(--color-background-secondary)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.footer-brand{font-size:14px;font-weight:500;margin-bottom:.4rem}
+.footer-claim{font-size:12px;color:var(--color-text-tertiary);line-height:1.6}
+.footer-col-h{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.04em}
+.footer-link{font-size:12px;color:var(--color-text-tertiary);display:block;margin-bottom:.3rem;cursor:pointer;transition:color .12s}
+.footer-link:hover{color:var(--color-text-primary)}
+.footer-bottom{font-size:11px;color:var(--color-text-tertiary);padding-top:1rem;border-top:.5px solid var(--color-border-tertiary)}
+
+/* ===== SITEMAP ===== */
+.sm{padding:1.5rem}
+.sm-h{font-size:20px;font-weight:500;margin-bottom:.4rem}
+.sm-sub{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:2rem}
+.sm-tree{display:grid;gap:1.5rem}
+.sm-domain{border:.5px solid var(--color-border-tertiary);border-radius:14px;overflow:hidden}
+.sm-domain-header{padding:13px 18px;background:var(--color-background-secondary);border-bottom:.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:10px}
+.sm-domain-ico{font-size:18px}
+.sm-domain-n{font-size:14px;font-weight:500}
+.sm-domain-s{font-size:12px;color:var(--color-text-secondary)}
+.sm-domain-badge{margin-left:auto;font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px}
+.sm-body{padding:14px 18px;display:grid;gap:8px}
+.sm-row{display:grid;grid-template-columns:220px 1fr auto;gap:12px;align-items:start;padding:8px 10px;border-radius:9px;transition:background .12s;cursor:pointer}
+.sm-row:hover{background:var(--color-background-secondary)}
+.sm-url{font-size:12px;font-weight:500;font-family:monospace;color:var(--color-text-primary)}
+.sm-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.45}
+.sm-status{font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;white-space:nowrap}
+.s-live{background:var(--color-background-success);color:var(--color-text-success)}
+.s-build{background:var(--color-background-info);color:var(--color-text-info)}
+.s-soon{background:var(--color-background-warning);color:var(--color-text-warning)}
+.s-broken{background:var(--color-background-danger);color:var(--color-text-danger)}
+.sm-sub-rows{padding:0 10px 4px 24px;display:grid;gap:5px}
+.sm-sub-row{display:grid;grid-template-columns:200px 1fr auto;gap:10px;align-items:start;padding:5px 8px;border-radius:7px;cursor:pointer;transition:background .12s}
+.sm-sub-row:hover{background:var(--color-background-secondary)}
+.sm-sub-url{font-size:11px;font-family:monospace;color:var(--color-text-secondary)}
+.sm-sub-desc{font-size:11px;color:var(--color-text-tertiary);line-height:1.35}
+.sm-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.sm-leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary)}
+.sm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:1.5rem}
+.sm-stat{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px;text-align:center;background:var(--color-background-primary)}
+.sm-sn{font-size:22px;font-weight:500;margin-bottom:2px}
+.sm-st{font-size:11px;color:var(--color-text-tertiary)}
+
+@media(max-width:540px){
+  .nav-links{display:none}
+  .hero-h{font-size:28px}
+  .problem-cards,.groups,.komunita-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .sm-row,.sm-sub-row{grid-template-columns:1fr auto}
+  .sm-desc,.sm-sub-desc{display:none}
+  .sm-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+
+<div class="pg">
+<div class="tabs">
+  <div class="tab on" onclick="showTab('hp')">Úvodná stránka</div>
+  <div class="tab" onclick="showTab('sm')">Mapa webu</div>
+</div>
+
+<!-- ===== HOMEPAGE ===== -->
+<div class="panel on" id="p-hp">
+<div class="hp">
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-logo">DeepTalks</div>
+  <div class="nav-links">
+    <span class="nav-link" onclick="sendPrompt('Navrhni Kompas sekciu deeptalks.eu/sk/kompas')">Kompas</span>
+    <span class="nav-link" onclick="sendPrompt('Navrhni Nástroje sekciu deeptalks.eu/sk/apps')">Nástroje</span>
+    <span class="nav-link" onclick="sendPrompt('Navrhni Skupiny sekciu deeptalks.eu')">Skupiny</span>
+    <span class="nav-link" onclick="showTab('sm');document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===1)})">Komunita</span>
+    <span class="nav-link" onclick="sendPrompt('Navrhni Blog sekciu deeptalks.eu/sk/blog')">Blog</span>
+  </div>
+  <button class="nav-cta" onclick="sendPrompt('Navrhni onboarding flow pre deeptalks.eu — prvé kroky nového návštevníka')">Začať zadarmo</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-pre">DeepTalks · Slovensko</div>
+  <div class="hero-h">Pretože realita je lepšia<br><em>ako obrazovka.</em></div>
+  <div class="hero-sub">Nástroje, otázky a komunita pre ľudí, ktorí chcú mať hlbšie vzťahy — v rodine, vzťahu, práci aj priateľstve.</div>
+
+  <div class="hero-q" onclick="nextQ()">
+    <div class="hero-q-label">Otázka dňa — klikni pre ďalšiu</div>
+    <div class="hero-q-text" id="hero-q">"Čo by si mi povedal/a, keby si vedel/a, že sa nehnevám a nebudem súdiť?"</div>
+    <div class="hero-q-hint">Táto otázka je zadarmo. Ďalších 500+ v Kompase →</div>
+  </div>
+
+  <div class="hero-btns">
+    <button class="hbtn pri" onclick="sendPrompt('Navrhni Kompas deeptalks.eu/sk/kompas — komunikačný kompas pre všetky skupiny')">Otvoriť Kompas →</button>
+    <button class="hbtn" onclick="sendPrompt('Navrhni Nástroje sekciu deeptalks.eu/sk/apps — kartičky, kvíz, CoupleSync')">Pozrieť nástroje</button>
+  </div>
+
+  <div class="hero-proof">
+    <div class="proof-item"><span class="proof-n">500+</span>otázok a situácií</div>
+    <div class="proof-item"><span class="proof-n">6</span>skupín vzťahov</div>
+    <div class="proof-item"><span class="proof-n">SK · UA</span>bilingválne</div>
+    <div class="proof-item"><span class="proof-n">100%</span>zadarmo začať</div>
+  </div>
+</div>
+
+<!-- PROBLÉM -->
+<div class="section">
+  <div class="sec-label">Prečo DeepTalks</div>
+  <div class="sec-h">Hovoríme viac<br><em>ako kedykoľvek predtým.</em></div>
+  <div class="sec-sub">A predsa sa cítime osamelí. Sme v jednej miestnosti — každý v inom svete. DeepTalks pomáha vrátiť ľudí k reálnej komunikácii.</div>
+  <div class="problem-cards">
+    <div class="prob"><div class="prob-t">"Ako ti bolo?" — "Dobre."</div><div class="prob-s">Každý deň ten istý nerozhovor.</div></div>
+    <div class="prob"><div class="prob-t">Večer vedľa seba, každý v telefóne</div><div class="prob-s">Spolu — ale každý v inom svete.</div></div>
+    <div class="prob"><div class="prob-t">Tínedžer sa zatvára, rodič nevie prečo</div><div class="prob-s">Stena rastie postupne. A potom je tam.</div></div>
+    <div class="prob"><div class="prob-t">Chcem sa ospravedlniť, neviem ako začať</div><div class="prob-s">Slová čakajú. Chýba len prvá veta.</div></div>
+  </div>
+</div>
+
+<!-- SKUPINY -->
+<div class="section">
+  <div class="sec-label">Pre koho</div>
+  <div class="sec-h">Pre každý<br><em>dôležitý vzťah.</em></div>
+  <div class="sec-sub">Iný vzťah, iné nástroje. Vyber skupinu a dostaneš obsah šitý na mieru.</div>
+  <div class="groups">
+    <div class="group" onclick="sendPrompt('Navrhni sekciu Páry deeptalks.eu/sk/skupiny/pary')"><div class="group-ico">♡</div><div class="group-n">Páry</div><div class="group-s">Každodenné aj hlboké</div></div>
+    <div class="group" onclick="sendPrompt('Navrhni sekciu Rodič a Dieťa deeptalks.eu/sk/skupiny/rodic-dieta')"><div class="group-ico">◎</div><div class="group-n">Rodič a dieťa</div><div class="group-s">Od 3 do 99 rokov</div></div>
+    <div class="group" onclick="sendPrompt('Navrhni sekciu Priatelia deeptalks.eu/sk/skupiny/priatelia')"><div class="group-ico">◈</div><div class="group-n">Priatelia</div><div class="group-s">Anti-small-talk</div></div>
+    <div class="group" onclick="sendPrompt('Navrhni sekciu Práca deeptalks.eu/sk/skupiny/praca')"><div class="group-ico">▣</div><div class="group-n">Práca</div><div class="group-s">Psychologické bezpečie</div></div>
+    <div class="group" onclick="sendPrompt('Navrhni sekciu Škola deeptalks.eu/sk/skupiny/skola')"><div class="group-ico">●</div><div class="group-n">Škola</div><div class="group-s">Trieda ako komunita</div></div>
+    <div class="group" onclick="sendPrompt('Navrhni sekciu Seniori deeptalks.eu/sk/skupiny/seniori')"><div class="group-ico">◫</div><div class="group-n">Seniori</div><div class="group-s">Príbehy ktoré ostanú</div></div>
+  </div>
+</div>
+
+<!-- NÁSTROJE -->
+<div class="section">
+  <div class="sec-label">Nástroje</div>
+  <div class="sec-h">Začni hneď —<br><em>zadarmo.</em></div>
+  <div class="sec-sub">Žiadna registrácia, žiadna aplikácia. Vyber nástroj a začni dnes večer.</div>
+  <div class="tools">
+    <div class="tool hi" onclick="sendPrompt('Navrhni Daily Connection dennú otázku pre páry deeptalks.eu')">
+      <div><span class="bdg bv">Najobľúbenejší · Zadarmo</span><div class="tool-n">Daily Connection</div><div class="tool-s">Každý deň jedna otázka pre vás dvoch. Odpovedáš sám — potom vidíš partnera. 5 minút.</div><div class="tool-p">Páry · Streak · Email o 19:00</div></div>
+      <div class="tool-cta">Začať →</div>
+    </div>
+    <div class="tool" onclick="sendPrompt('Navrhni Komunikačný kompas deeptalks.eu/sk/kompas')">
+      <div><span class="bdg bv">Zadarmo</span><div class="tool-n">Komunikačný kompas</div><div class="tool-s">Konkrétne vety pre 100+ situácií. Keď nevieš ako začať — tu je to napísané.</div><div class="tool-p">Všetky skupiny · Hneď použiteľné</div></div>
+      <div class="tool-cta">Otvoriť →</div>
+    </div>
+    <div class="tool" onclick="sendPrompt('Navrhni konverzačné kartičky deeptalks.eu/sk/apps — online a fyzické')">
+      <div><span class="bdg bv">Online + fyzické</span><div class="tool-n">Konverzačné kartičky</div><div class="tool-s">60 otázok v 3 úrovniach. Od ľahkých po zraniteľné. Pre každý vzťah.</div><div class="tool-p">Páry · Rodina · Priatelia · Práca</div></div>
+      <div class="tool-cta">Vybrať →</div>
+    </div>
+    <div class="tool" onclick="sendPrompt('Navrhni CoupleSync partnerský dotazník deeptalks.eu')">
+      <div><span class="bdg bv">Zadarmo</span><div class="tool-n">CoupleSync</div><div class="tool-s">300+ otázok v 9 témach. Každý vypĺňa sám — vidíte kde ste si blízki a kde nie.</div><div class="tool-p">Páry · Financie · Rodina · Hodnoty</div></div>
+      <div class="tool-cta">Vyplniť →</div>
+    </div>
+    <div class="tool" onclick="sendPrompt('Navrhni Legacy edíciu deeptalks.eu — generačné otázky, kniha spomienok')">
+      <div><span class="bdg bw">39–68 EUR / rok</span><div class="tool-n">Legacy — Spomienky</div><div class="tool-s">Týždenná otázka emailom pre babku alebo rodiča. Po roku — viazaná kniha príbehov.</div><div class="tool-p">Seniori · Darček · Bez appky</div></div>
+      <div class="tool-cta">Zistiť viac →</div>
+    </div>
+  </div>
+</div>
+
+<!-- KOMUNITA -->
+<div class="section">
+  <div class="sec-label">Komunita</div>
+  <div class="sec-h">Ostrov ľudskosti<br><em>uprostred digitálneho chaosu.</em></div>
+  <div class="sec-sub">DeepTalks nie je len web — je to hnutie ľudí, ktorí veria že skutočná blízkosť sa buduje offline.</div>
+  <div class="komunita-grid">
+    <div class="kom" onclick="sendPrompt('Navrhni sekciu Komunita deeptalks.eu/sk/komunita — akcie, opekačky, výlety')"><div class="kom-ico">◈</div><div class="kom-n">Opekačky & výlety</div><div class="kom-s">Pravidelné stretnutia v mestách</div></div>
+    <div class="kom" onclick="sendPrompt('Navrhni Spontánky deeptalks.eu/sk/komunita/spontanky — neformálne lokálne stretnutia')"><div class="kom-ico">◐</div><div class="kom-n">Spontánky</div><div class="kom-s">"My tam ideme, pridajte sa"</div></div>
+    <div class="kom" onclick="sendPrompt('Navrhni partnerské kaviarne deeptalks.eu — Phone Jail, kartičky na stoloch')"><div class="kom-ico">◎</div><div class="kom-n">Partnerské kaviarne</div><div class="kom-s">Phone Jail · kartičky na stoloch</div></div>
+    <div class="kom" onclick="sendPrompt('Navrhni Blind Talk event deeptalks.eu — rozhovor so zaviazanými očami, SK/UA')"><div class="kom-ico">◇</div><div class="kom-n">Blind Talk</div><div class="kom-s">Rozhovor bez predsudkov</div></div>
+    <div class="kom" onclick="sendPrompt('Navrhni guerilla aktivity deeptalks.eu — Before I Die tabuľa, lavička, nálepky')"><div class="kom-ico">▲</div><div class="kom-n">Ulica</div><div class="kom-s">Tabuľa, lavička, nálepky</div></div>
+    <div class="kom" onclick="sendPrompt('Navrhni ako sa stať organizátorom DeepTalks akcie deeptalks.eu — podmienky, podpora')"><div class="kom-ico">◆</div><div class="kom-n">Zorganizuj akciu</div><div class="kom-s">Kartičky zadarmo · podpora</div></div>
+  </div>
+</div>
+
+<!-- TESTIMONIAL -->
+<div class="section">
+  <div class="sec-label">Ľudia hovoria</div>
+  <div class="tcard">
+    <div class="tq" id="test-q">"Prvýkrát po rokoch sme sa s dcérou rozprávali celú noc. Jedna otázka otvorila dvere, ktoré sme zabudli, že existujú."</div>
+    <div class="tm" id="test-m">Marta, 38 · Bratislava · 11 rokov spolu</div>
+  </div>
+  <div style="text-align:center;margin-top:.75rem">
+    <button style="font-size:11px;color:var(--color-text-tertiary);border:none;background:none;cursor:pointer;padding:4px 8px" onclick="nextTest()">Ďalší príbeh →</button>
+  </div>
+</div>
+
+<!-- MANIFEST -->
+<div class="manifest">
+  <div class="manifest-q">"Sme hyperprepojení — a napriek tomu osamelí. DeepTalks nie je terapia. Je to sprievodca zraniteľnosťou."</div>
+  <div class="manifest-s">Pretože realita je lepšia ako obrazovka. Pretože jeden úprimný rozhovor zmení viac ako tisíc lajkov.</div>
+  <div style="margin-top:1.5rem;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <button class="hbtn pri" onclick="sendPrompt('Navrhni Manifest a O nás stránku deeptalks.eu/sk/o-nas')">Čítať manifest →</button>
+    <button class="hbtn" onclick="sendPrompt('Navrhni Blog sekciu deeptalks.eu/sk/blog — Umenie rozhovoru')">Blog — Umenie rozhovoru</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="hp-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">DeepTalks</div>
+      <div class="footer-claim">Pretože realita je lepšia ako obrazovka.<br>deeptalks.eu · Slovensko · SK · UA</div>
+    </div>
+    <div>
+      <div class="footer-col-h">Nástroje</div>
+      <span class="footer-link">Kompas</span>
+      <span class="footer-link">Kartičky</span>
+      <span class="footer-link">Daily Connection</span>
+      <span class="footer-link">CoupleSync</span>
+      <span class="footer-link">Legacy</span>
+      <span class="footer-link">Herd Vote</span>
+    </div>
+    <div>
+      <div class="footer-col-h">Skupiny</div>
+      <span class="footer-link">Páry</span>
+      <span class="footer-link">Rodič a dieťa</span>
+      <span class="footer-link">Priatelia</span>
+      <span class="footer-link">Práca</span>
+      <span class="footer-link">Škola</span>
+      <span class="footer-link">Seniori</span>
+    </div>
+    <div>
+      <div class="footer-col-h">Projekt</div>
+      <span class="footer-link">O nás · Manifest</span>
+      <span class="footer-link">Blog</span>
+      <span class="footer-link">Komunita</span>
+      <span class="footer-link">B2B · Firmy</span>
+      <span class="footer-link">B2B · Školy</span>
+      <span class="footer-link">Kontakt</span>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 DeepTalks · Všetky práva vyhradené · Podmienky · Ochrana súkromia</div>
+</div>
+
+</div>
+</div>
+
+<!-- ===== SITEMAP ===== -->
+<div class="panel" id="p-sm">
+<div class="sm">
+
+<div class="sm-h">Mapa webu — deeptalks.eu</div>
+<div class="sm-sub">Kompletná štruktúra webu po všetkých návrhoch. Farebné odlíšenie podľa stavu implementácie.</div>
+
+<div class="sm-stats">
+  <div class="sm-stat"><div class="sm-sn" style="color:var(--color-text-success)">8</div><div class="sm-st">Live stránok</div></div>
+  <div class="sm-stat"><div class="sm-sn" style="color:var(--color-text-info)">24</div><div class="sm-st">Na implementáciu</div></div>
+  <div class="sm-stat"><div class="sm-sn" style="color:var(--color-text-warning)">6</div><div class="sm-st">Čoskoro</div></div>
+  <div class="sm-stat"><div class="sm-sn" style="color:var(--color-text-danger)">3</div><div class="sm-st">Rozbité / prázdne</div></div>
+</div>
+
+<div class="sm-legend">
+  <div class="sm-leg"><span class="sm-status s-live">Live</span> Funguje</div>
+  <div class="sm-leg"><span class="sm-status s-build">Stavať</span> Navrhnuté, treba implementovať</div>
+  <div class="sm-leg"><span class="sm-status s-soon">Čoskoro</span> Plánované neskôr</div>
+  <div class="sm-leg"><span class="sm-status s-broken">Opraviť</span> Rozbité alebo prázdne</div>
+</div>
+
+<div class="sm-tree">
+
+  <!-- HLAVNÁ -->
+  <div class="sm-domain">
+    <div class="sm-domain-header"><div class="sm-domain-ico">◎</div><div><div class="sm-domain-n">Hlavné stránky</div><div class="sm-domain-s">Navigácia, vstupné body</div></div><span class="sm-domain-badge s-broken" style="border-radius:99px;padding:2px 8px;font-size:10px;font-weight:500">Opraviť navigáciu</span></div>
+    <div class="sm-body">
+      <div class="sm-row" onclick="sendPrompt('Navrhni úvodnú stránku deeptalks.eu/sk')"><div class="sm-url">/sk</div><div class="sm-desc">Úvodná stránka — Hero, skupiny, nástroje, komunita, manifest. Po slovensky, s emóciou.</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni Manifest a O nás stránku deeptalks.eu/sk/o-nas')"><div class="sm-url">/sk/o-nas</div><div class="sm-desc">Manifest, príbeh projektu, hodnoty, tím, Gratitude Wall, čísla</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni kontaktnú stránku deeptalks.eu')"><div class="sm-url">/sk/kontakt</div><div class="sm-desc">Kontaktný formulár, sociálne siete, B2B dopyt</div><span class="sm-status s-build">Stavať</span></div>
+    </div>
+  </div>
+
+  <!-- KOMPAS -->
+  <div class="sm-domain">
+    <div class="sm-domain-header"><div class="sm-domain-ico">◐</div><div><div class="sm-domain-n">Komunikačný kompas</div><div class="sm-domain-s">/sk/kompas — situácie, skripty, skupiny</div></div><span class="sm-domain-badge s-live" style="border-radius:99px;padding:2px 8px;font-size:10px;font-weight:500">Čiastočne live</span></div>
+    <div class="sm-body">
+      <div class="sm-row" onclick="sendPrompt('Navrhni Komunikačný kompas deeptalks.eu/sk/kompas — hlavná stránka, výber skupiny')"><div class="sm-url">/sk/kompas</div><div class="sm-desc">Vstup — výber skupiny, 6 kategórií. Funguje ale chýba obsah po výbere skupiny.</div><span class="sm-status s-live">Live</span></div>
+      <div class="sm-sub-rows">
+        <div class="sm-sub-row"><div class="sm-sub-url">/kompas/pary</div><div class="sm-sub-desc">Situácie pre páry — každodenné, pocity, hádky, intimita</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/kompas/rodic-dieta</div><div class="sm-sub-desc">Situácie podľa veku dieťaťa (3–6, 7–11, 12–17, 18+)</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/kompas/priatelia</div><div class="sm-sub-desc">Ťažké situácie v priateľstve — sklamanie, vzdialenosť</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/kompas/praca</div><div class="sm-sub-desc">Pracovné situácie — spätná väzba, hranice, konflikt</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/kompas/tazke-temy</div><div class="sm-sub-desc">Citlivé témy — smrť, choroba, závislosť, odpustenie</div><span class="sm-status s-build">Stavať</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKUPINY -->
+  <div class="sm-domain">
+    <div class="sm-domain-header"><div class="sm-domain-ico">◆</div><div><div class="sm-domain-n">Skupiny vzťahov</div><div class="sm-domain-s">/sk/skupiny — podstránky pre každú skupinu</div></div><span class="sm-domain-badge s-broken" style="border-radius:99px;padding:2px 8px;font-size:10px;font-weight:500">Nefunguje</span></div>
+    <div class="sm-body">
+      <div class="sm-row" onclick="sendPrompt('Navrhni podstránku Páry deeptalks.eu/sk/skupiny/pary — kompletná stránka')"><div class="sm-url">/sk/skupiny/pary</div><div class="sm-desc">Hero, filter nástrojov, otázky, cesta páru, Kompas ukážka, testimonials</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni podstránku Rodič a Dieťa deeptalks.eu/sk/skupiny/rodic-dieta')"><div class="sm-url">/sk/skupiny/rodic-dieta</div><div class="sm-desc">Vekový filter (3–6, 7–11, 12–17, 18+), otázky, skripty, nástroje</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni podstránku Priatelia deeptalks.eu/sk/skupiny/priatelia')"><div class="sm-url">/sk/skupiny/priatelia</div><div class="sm-desc">Anti-small-talk, 5 otázok, kompas situácie, Herd Vote</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni podstránku Práca deeptalks.eu/sk/skupiny/praca')"><div class="sm-url">/sk/skupiny/praca</div><div class="sm-desc">Psychologické bezpečie, tímové otázky, B2B prepojenie</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni podstránku Škola deeptalks.eu/sk/skupiny/skola')"><div class="sm-url">/sk/skupiny/skola</div><div class="sm-desc">Ranný kruh, šikana, emócie, metodika pre učiteľov</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni podstránku Seniori deeptalks.eu/sk/skupiny/seniori')"><div class="sm-url">/sk/skupiny/seniori</div><div class="sm-desc">Príbehy, Legacy prepojenie, generačné otázky</div><span class="sm-status s-build">Stavať</span></div>
+    </div>
+  </div>
+
+  <!-- NÁSTROJE -->
+  <div class="sm-domain">
+    <div class="sm-domain-header"><div class="sm-domain-ico">◈</div><div><div class="sm-domain-n">Nástroje a aplikácie</div><div class="sm-domain-s">/sk/apps — digitálne nástroje</div></div><span class="sm-domain-badge s-broken" style="border-radius:99px;padding:2px 8px;font-size:10px;font-weight:500">Čiastočne rozbité</span></div>
+    <div class="sm-body">
+      <div class="sm-row" onclick="sendPrompt('Navrhni redesign Nástroje stránky deeptalks.eu/sk/apps — filter, otázka dňa, karty')"><div class="sm-url">/sk/apps</div><div class="sm-desc">Prehľad nástrojov. Filter "Pre koho?", otázka dňa navrchu. Redesign potrebný.</div><span class="sm-status s-live">Live (redesign)</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni Daily Connection deeptalks.eu/sk/apps/daily-connection — dennú otázku pre páry')"><div class="sm-url">/sk/apps/daily-connection</div><div class="sm-desc">Každodenná otázka, párovanie, odpoveď → reveal, streak, freemium 4 EUR/mes</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni konverzačné kartičky deeptalks.eu/sk/apps/spoznajme-sa — opraviť 404')"><div class="sm-url">/sk/apps/spoznajme-sa</div><div class="sm-desc">Konverzačné kartičky — momentálne 404! Opraviť ako prvé.</div><span class="sm-status s-broken">Opraviť</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni Herd Vote kvíz deeptalks.eu/sk/apps/quiz — redesign detail stránky')"><div class="sm-url">/sk/apps/quiz</div><div class="sm-desc">Herd Vote — funguje ale detail stránka slabá. Pridať výber kategórie.</div><span class="sm-status s-live">Live (vylepšiť)</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni detail stránku Hádanka deeptalks.eu/sk/apps/hadacka — prepísať placeholder')"><div class="sm-url">/sk/apps/hadacka</div><div class="sm-desc">Hra funguje na /apps/hadacka ale detail stránka je prázdna. Prepísať.</div><span class="sm-status s-broken">Opraviť</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni integráciu CoupleSync na hlavný web deeptalks.eu/sk/apps/couplesync')"><div class="sm-url">/sk/apps/couplesync</div><div class="sm-desc">CoupleSync — integrovať z couplesync.deeptalks.eu na hlavný web</div><span class="sm-status s-build">Integrovať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni Legacy edíciu deeptalks.eu/sk/apps/legacy — generačné otázky, email, kniha')"><div class="sm-url">/sk/apps/legacy</div><div class="sm-desc">Legacy Spomienky — týždenný email, 52 otázok, kniha. 39–68 EUR/rok.</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-row" onclick="sendPrompt('Navrhni Deep Talk Walk deeptalks.eu/sk/apps/walk — audio prechádzka pre páry')"><div class="sm-url">/sk/apps/walk</div><div class="sm-desc">Deep Talk Walk — audio nahrávka pre prechádzku. MP3 stiahnutie.</div><span class="sm-status s-soon">Čoskoru</span></div>
+    </div>
+  </div>
+
+  <!-- PRODUKTY -->
+  <div class="sm-domain">
+    <div class="sm-domain-header"><div class="sm-domain-ico">◇</div><div><div class="sm-domain-n">Produkty a e-shop</div><div class="sm-domain-s">/sk/produkty — fyzické kartičky, predplatné</div></div><span class="sm-domain-badge s-broken" style="border-radius:99px;padding:2px 8px;font-size:10px;font-weight:500">Len "Čoskoro."</span></div>
+    <div class="sm-body">
+      <div class="sm-row" onclick="sendPrompt('Navrhni Produkty stránku deeptalks.eu/sk/produkty — 5 tabov, fyzické aj digitálne')"><div class="sm-url">/sk/produkty</div><div class="sm-desc">5 tabov: Digitálne, Fyzické kartičky, Predplatné, B2B, Merch. Momentálne "Čoskoro."</div><span class="sm-status s-broken">Opraviť</span></div>
+      <div class="sm-sub-rows">
+        <div class="sm-sub-row"><div class="sm-sub-url">/produkty/karticky</div><div class="sm-sub-desc">Fyzické kartičky — všetky edície, objednávka, množstevné zľavy</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/produkty/predplatne</div><div class="sm-sub-desc">Legacy 39–68 EUR/rok, Daily Connection Premium 4 EUR/mes</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/produkty/darcekovy-poukaz</div><div class="sm-sub-desc">Darčekový poukaz — email doručenie, výber hodnoty</div><span class="sm-status s-soon">Čoskoro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KOMUNITA -->
+  <div class="sm-domain">
+    <div class="sm-domain-header"><div class="sm-domain-ico">◐</div><div><div class="sm-domain-n">Komunita a akcie</div><div class="sm-domain-s">/sk/komunita — offline hnutie</div></div><span class="sm-domain-badge s-build" style="border-radius:99px;padding:2px 8px;font-size:10px;font-weight:500">Nová sekcia</span></div>
+    <div class="sm-body">
+      <div class="sm-row" onclick="sendPrompt('Navrhni Komunita sekciu deeptalks.eu/sk/komunita — akcie, formáty, mapa')"><div class="sm-url">/sk/komunita</div><div class="sm-desc">Hlavná komunitná stránka — akcie, formáty, organizátor, kaviarne, ulica</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-sub-rows">
+        <div class="sm-sub-row"><div class="sm-sub-url">/komunita/akcie</div><div class="sm-sub-desc">Zoznam akcií + mapa miest (BA, KE, ZA, BB, PO, TT, NR)</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/komunita/spontanky</div><div class="sm-sub-desc">Spontánky — tvorba, RSVP, Prinášam, chat, QR kód, gating</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/komunita/spontanky/[id]</div><div class="sm-sub-desc">Detail spontánky — mobilná verzia, bez registrácie</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/komunita/organizuj</div><div class="sm-sub-desc">Formulár pre organizátorov — kartičky zadarmo, grafika, propagácia</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/komunita/kaviarne</div><div class="sm-sub-desc">Mapa partnerských kaviarní, Phone Jail, podmienky partnerstva</div><span class="sm-status s-soon">Čoskoro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOG -->
+  <div class="sm-domain">
+    <div class="sm-domain-header"><div class="sm-domain-ico">▲</div><div><div class="sm-domain-n">Blog — Umenie rozhovoru</div><div class="sm-domain-s">/sk/blog — SEO, obsah, príbehy</div></div><span class="sm-domain-badge s-build" style="border-radius:99px;padding:2px 8px;font-size:10px;font-weight:500">Nový</span></div>
+    <div class="sm-body">
+      <div class="sm-row" onclick="sendPrompt('Navrhni Blog sekciu deeptalks.eu/sk/blog — listing, kategórie, featured')"><div class="sm-url">/sk/blog</div><div class="sm-desc">Listing článkov — kategórie, filter, featured článok, newsletter CTA</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-sub-rows">
+        <div class="sm-sub-row"><div class="sm-sub-url">/blog/preco-deti-nehovoria</div><div class="sm-sub-desc">🔴 Ihneď — Rodič a dieťa · SEO evergreen · 8 min</div><span class="sm-status s-build">Napísať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/blog/pat-otazok-vecera</div><div class="sm-sub-desc">🔴 Ihneď — Páry · Virálny potenciál · 5 min</div><span class="sm-status s-build">Napísať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/blog/smrdi-mu-z-ust</div><div class="sm-sub-desc">🔴 Ihneď — Ťažké témy · Unikátna téma · 4 min</div><span class="sm-status s-build">Napísať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/blog/[slug]</div><div class="sm-sub-desc">+ 21 ďalších tém podľa editorial plánu</div><span class="sm-status s-soon">Plán</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B2B -->
+  <div class="sm-domain">
+    <div class="sm-domain-header"><div class="sm-domain-ico">▣</div><div><div class="sm-domain-n">B2B — Firmy a školy</div><div class="sm-domain-s">/sk/b2b — najvyšší monetizačný potenciál</div></div><span class="sm-domain-badge s-build" style="border-radius:99px;padding:2px 8px;font-size:10px;font-weight:500">Nový</span></div>
+    <div class="sm-body">
+      <div class="sm-row" onclick="sendPrompt('Navrhni B2B sekciu deeptalks.eu/sk/b2b — firmy, školy, workshop, cenník, dopyt')"><div class="sm-url">/sk/b2b</div><div class="sm-desc">Vstupná B2B stránka — firmy aj školy, výber segmentu</div><span class="sm-status s-build">Stavať</span></div>
+      <div class="sm-sub-rows">
+        <div class="sm-sub-row"><div class="sm-sub-url">/b2b/firmy</div><div class="sm-sub-desc">Workshop 500–2000 EUR, kartičky, Herd Vote Premium, Kompas</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/b2b/skoly</div><div class="sm-sub-desc">Školský program 100–300 EUR/rok, kartičky, metodika, workshop</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/b2b/workshop</div><div class="sm-sub-desc">Detail workshopu — agenda, formáty, ceny, case studies</div><span class="sm-status s-build">Stavať</span></div>
+        <div class="sm-sub-row"><div class="sm-sub-url">/b2b/dopyt</div><div class="sm-sub-desc">Dopytový formulár — odpoveď do 24h, 3 sľuby</div><span class="sm-status s-build">Stavať</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECHNICKÉ -->
+  <div class="sm-domain">
+    <div class="sm-domain-header"><div class="sm-domain-ico">◫</div><div><div class="sm-domain-n">Technické a právne</div><div class="sm-domain-s">Subdoména, auth, legal</div></div></div>
+    <div class="sm-body">
+      <div class="sm-row" onclick="sendPrompt('Navrhni integráciu couplesync.deeptalks.eu na hlavný web deeptalks.eu')"><div class="sm-url">couplesync.deeptalks.eu</div><div class="sm-desc">Presunúť/integrovať na /sk/apps/couplesync — izolácia škodí konverziám</div><span class="sm-status s-build">Integrovať</span></div>
+      <div class="sm-row"><div class="sm-url">/auth/login</div><div class="sm-desc">Autentifikácia — potrebná pre Daily Connection, Spontánky, Legacy</div><span class="sm-status s-live">Live</span></div>
+      <div class="sm-row"><div class="sm-url">/terms · /privacy</div><div class="sm-desc">Podmienky, ochrana súkromia — aktuálne v angličtine</div><span class="sm-status s-soon">Preložiť</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:1.5rem;border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:16px 18px;background:var(--color-background-secondary)">
+  <div style="font-size:13px;font-weight:500;margin-bottom:.5rem">Odporúčané poradie implementácie</div>
+  <div style="display:grid;gap:6px">
+    <div style="font-size:12px;color:var(--color-text-secondary);padding:7px 10px;border-radius:7px;background:var(--color-background-danger);color:var(--color-text-danger)"><strong>Tento týždeň:</strong> Opraviť 3 rozbité stránky — kartičky 404, hádanka placeholder, produkty "Čoskoru."</div>
+    <div style="font-size:12px;padding:7px 10px;border-radius:7px;background:var(--color-background-warning);color:var(--color-text-warning)"><strong>Tento mesiac:</strong> Úvodná stránka SK, navigácia SK, podstránky skupín (Páry + Rodič prioritne), Blog prvé 3 články</div>
+    <div style="font-size:12px;padding:7px 10px;border-radius:7px;background:var(--color-background-info);color:var(--color-text-info)"><strong>Kvartál 2:</strong> Daily Connection, CoupleSync integrácia, Komunita/Spontánky, B2B sekcia</div>
+    <div style="font-size:12px;padding:7px 10px;border-radius:7px;background:var(--color-background-success);color:var(--color-text-success)"><strong>Kvartál 3:</strong> Legacy predplatné, e-shop fyzické kartičky, Deep Talk Walk audio</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<script>
+var QS=[
+  '"Čo by si mi povedal/a, keby si vedel/a, že sa nehnevám a nebudem súdiť?"',
+  '"Kedy si sa naposledy cítil/a naozaj pochopený/á — mnou?"',
+  '"Čo ťa momentálne baví, o čom ti oči svietia?"',
+  '"Je niečo, čo mi chceš povedať, ale nevieš ako začať?"',
+  '"Čo by si urobil/a inak, keby si vedel/a, že ti to nikto nevyčíta?"',
+  '"Na koho si v poslednom čase myslel/a a ešte si mu to nepovedal/a?"',
+  '"Čo bolo dnes v tvojom dni najkrajšie — aj keby bola len maličkosť?"',
+];
+var qi=0;
+function nextQ(){qi=(qi+1)%QS.length;document.getElementById('hero-q').textContent=QS[qi];}
+
+var TESTS=[
+  {q:'"Prvýkrát po rokoch sme sa s dcérou rozprávali celú noc. Jedna otázka otvorila dvere, ktoré sme zabudli, že existujú."',m:'Marta, 38 · Bratislava · mama dcéry 16 rokov'},
+  {q:'"Myslel som si, že sa poznáme dokonale. CoupleSync mi ukázal, že o financiách sme vlastne nikdy poriadne nehovorili. Šok a úľava zároveň."',m:'Marek, 44 · Košice · pred svadbou'},
+  {q:'"Daily Connection robíme každý večer o 20:00. 47 dní za sebou. Teraz sa na to tešíme viac ako na Netflix."',m:'Jana & Peter · Žilina · 3 roky spolu'},
+  {q:'"Opýtala som sa babky ako spoznala deduška. Hovorila hodinu. Plakala. Smiali sme sa. Dnes viem o nej viac ako za 30 rokov."',m:'Zuzana, 31 · Žilina · babka 78 rokov'},
+  {q:'"Dali sme kartičky na stôl pred retrospektívou. Za pol hodinu hovorili veci, ktoré som za rok nepočul na žiadnej porade."',m:'Lucia K. · HR Manager · IT firma · tím 18 ľudí'},
+];
+var ti=0;
+function nextTest(){ti=(ti+1)%TESTS.length;document.getElementById('test-q').textContent=TESTS[ti].q;document.getElementById('test-m').textContent=TESTS[ti].m;}
+
+function showTab(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  document.getElementById('p-'+id).classList.add('on');
+  var idx={hp:0,sm:1}[id];
+  if(idx!==undefined)document.querySelectorAll('.tab')[idx].classList.add('on');
+}
+</script>

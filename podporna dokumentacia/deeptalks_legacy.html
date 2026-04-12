@@ -1,0 +1,437 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.75rem 0 3.5rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.h1{font-size:22px;font-weight:500;margin-bottom:.35rem}
+.hero-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.7;max-width:520px;margin-bottom:1.25rem}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.65rem;margin-top:1.6rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+
+/* TABS */
+.tabs{display:flex;gap:0;border:.5px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;margin-bottom:1.5rem}
+.tab{flex:1;padding:9px 4px;text-align:center;font-size:12px;cursor:pointer;border-right:.5px solid var(--color-border-tertiary);transition:background .12s;color:var(--color-text-secondary);background:var(--color-background-primary);white-space:nowrap}
+.tab:last-child{border-right:none}
+.tab.on{background:var(--color-background-secondary);font-weight:500;color:var(--color-text-primary)}
+.panel{display:none}.panel.on{display:block}
+
+/* HERO QUOTE */
+.hero-quote{border:.5px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;margin-bottom:1.5rem;background:var(--color-background-secondary)}
+.hq-text{font-size:16px;font-weight:500;line-height:1.5;color:var(--color-text-primary);font-family:var(--font-serif);margin-bottom:.5rem}
+.hq-sub{font-size:12px;color:var(--color-text-tertiary);line-height:1.5}
+
+/* HOW */
+.how{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.hw{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 15px;background:var(--color-background-primary)}
+.hwn{font-size:20px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:6px}
+.hwt{font-size:13px;font-weight:500;margin-bottom:3px}
+.hws{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+/* EDÍCIE */
+.editions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.ed{border:.5px solid var(--color-border-tertiary);border-radius:13px;padding:14px 16px;cursor:pointer;transition:all .13s;background:var(--color-background-primary)}
+.ed:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.ed.on{border:1.5px solid var(--color-border-info);background:var(--color-background-info)}
+.ed.on .en{color:var(--color-text-info)}
+.ed.on .es,.ed.on .eq{color:var(--color-text-info);opacity:.8}
+.eico{font-size:22px;margin-bottom:6px}
+.en{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--color-text-primary)}
+.es{font-size:12px;color:var(--color-text-secondary);line-height:1.45;margin-bottom:6px}
+.eq{font-size:11px;color:var(--color-text-tertiary);font-style:italic;line-height:1.4}
+.bdg{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;margin-bottom:5px;line-height:1.5}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+
+/* ČÍTAČ OTÁZOK */
+.q-viewer{border:.5px solid var(--color-border-tertiary);border-radius:14px;overflow:hidden;margin-bottom:1.5rem}
+.qv-header{padding:14px 18px;border-bottom:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);display:flex;justify-content:space-between;align-items:center}
+.qv-title{font-size:14px;font-weight:500}
+.qv-meta{font-size:11px;color:var(--color-text-tertiary)}
+.theme-tabs{display:flex;overflow-x:auto;border-bottom:.5px solid var(--color-border-tertiary)}
+.ttab{padding:9px 14px;font-size:12px;cursor:pointer;border-right:.5px solid var(--color-border-tertiary);white-space:nowrap;transition:background .12s;color:var(--color-text-secondary);background:var(--color-background-primary);flex-shrink:0}
+.ttab:last-child{border-right:none}
+.ttab.on{background:var(--color-background-secondary);font-weight:500;color:var(--color-text-primary)}
+.q-area{padding:16px 18px}
+.q-item{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:13px 15px;margin-bottom:8px;cursor:pointer;transition:all .13s;background:var(--color-background-primary)}
+.q-item:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.q-item:last-child{margin-bottom:0}
+.q-num{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px;font-weight:500}
+.q-text{font-size:14px;color:var(--color-text-primary);line-height:1.5;font-family:var(--font-serif)}
+.q-why{font-size:11px;color:var(--color-text-tertiary);margin-top:4px;line-height:1.4}
+
+/* EMAIL UKÁŽKA */
+.email-demo{border:.5px solid var(--color-border-tertiary);border-radius:14px;overflow:hidden;margin-bottom:1.25rem;background:var(--color-background-primary)}
+.email-header{padding:12px 16px;background:var(--color-background-secondary);border-bottom:.5px solid var(--color-border-tertiary)}
+.email-from{font-size:12px;color:var(--color-text-secondary);margin-bottom:2px}
+.email-subj{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.email-body{padding:16px 18px}
+.email-greeting{font-size:13px;color:var(--color-text-secondary);margin-bottom:1rem;line-height:1.6}
+.email-q-box{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:14px 16px;margin-bottom:1rem;background:var(--color-background-secondary)}
+.email-q-lbl{font-size:10px;color:var(--color-text-tertiary);font-weight:500;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.4rem}
+.email-q-text{font-size:15px;font-weight:500;color:var(--color-text-primary);line-height:1.45;font-family:var(--font-serif)}
+.email-cta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+.email-btn{font-size:12px;font-weight:500;padding:9px;border-radius:8px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);text-align:center;transition:all .12s}
+.email-btn:hover{background:var(--color-background-secondary)}
+.email-btn.primary{border-color:var(--color-border-info);color:var(--color-text-info)}
+.email-note{font-size:11px;color:var(--color-text-tertiary);line-height:1.5;text-align:center}
+
+/* KNIHA */
+.book-preview{border:.5px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;margin-bottom:1.25rem;background:var(--color-background-primary)}
+.book-title{font-size:18px;font-weight:500;margin-bottom:.35rem;font-family:var(--font-serif)}
+.book-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:1.25rem}
+.book-toc{display:grid;gap:7px}
+.book-ch{border:.5px solid var(--color-border-tertiary);border-radius:9px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .12s;background:var(--color-background-primary)}
+.book-ch:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.book-ch-name{font-size:13px;font-weight:500}
+.book-ch-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.book-ch-pg{font-size:11px;color:var(--color-text-tertiary)}
+.book-sample{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:16px 18px;margin-top:1rem;background:var(--color-background-secondary)}
+.bs-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:.4rem;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.bs-q{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:.5rem;font-family:var(--font-serif)}
+.bs-a{font-size:13px;color:var(--color-text-secondary);line-height:1.7;font-style:italic}
+
+/* CENY */
+.pricing{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.price-card{border:.5px solid var(--color-border-tertiary);border-radius:13px;padding:16px 18px;background:var(--color-background-primary)}
+.price-card.hi{border:1.5px solid var(--color-border-info)}
+.pc-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px;display:inline-block;margin-bottom:7px}
+.pc-title{font-size:15px;font-weight:500;margin-bottom:.3rem}
+.pc-price{font-size:22px;font-weight:500;margin-bottom:.2rem}
+.pc-sub{font-size:11px;color:var(--color-text-tertiary);margin-bottom:1rem;line-height:1.4}
+.pc-list{list-style:none}
+.pc-list li{font-size:12px;color:var(--color-text-secondary);padding:4px 0;border-bottom:.5px solid var(--color-border-tertiary);line-height:1.4}
+.pc-list li:last-child{border:none}
+.pc-list li::before{content:"✓ ";color:var(--color-text-success);font-weight:500}
+.gift-note{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;background:var(--color-background-secondary)}
+.gift-note strong{color:var(--color-text-primary);font-weight:500}
+
+@media(max-width:480px){.how,.editions,.pricing{grid-template-columns:1fr}.email-cta{grid-template-columns:1fr}}
+</style>
+
+<div class="pg">
+<div class="h1">Spomienky — Legacy edícia</div>
+<div class="hero-sub">Týždenná otázka emailom pre starého rodiča alebo rodiča. Po roku vznikne kniha spomienok, ktorú celá rodina bude čítať aj o desaťročia.</div>
+
+<div class="hero-quote">
+  <div class="hq-text">"Babka vedela veci, ktoré nikto nezapísal. A potom odišla. A my sme sa nikdy neopýtali."</div>
+  <div class="hq-sub">Toto je práve o tom. Opýtať sa kým je čas.</div>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="showTab('ako')">Ako funguje</div>
+  <div class="tab" onclick="showTab('otazky')">52 otázok</div>
+  <div class="tab" onclick="showTab('email')">Ukážka emailu</div>
+  <div class="tab" onclick="showTab('kniha')">Kniha spomienok</div>
+  <div class="tab" onclick="showTab('cena')">Cena</div>
+</div>
+
+<!-- AKO FUNGUJE -->
+<div class="panel on" id="p-ako">
+  <div class="lbl">Tri kroky</div>
+  <div class="how">
+    <div class="hw">
+      <div class="hwn">01</div>
+      <div class="hwt">Darujete predplatné</div>
+      <div class="hws">Vyberiete kto bude rozprávač — mama, otec, starý rodič. Zadáte ich email. Môžete darovať aj sebe.</div>
+    </div>
+    <div class="hw">
+      <div class="hwn">02</div>
+      <div class="hwt">Každý týždeň otázka</div>
+      <div class="hws">Každú nedeľu o 10:00 príde email s otázkou. Odpoveď ide reply na email — žiadna registrácia, žiadna aplikácia.</div>
+    </div>
+    <div class="hw">
+      <div class="hwn">03</div>
+      <div class="hwt">Po roku — kniha</div>
+      <div class="hws">52 otázok, 52 odpovedí. Editujete, doplníte fotky a objednáte viazanú knihu. Darček pre celú rodinu.</div>
+    </div>
+  </div>
+
+  <div class="lbl">Štyri edície — pre koho darujete</div>
+  <div class="editions" id="editions">
+    <div class="ed on" onclick="selEd(this,'starybrat')">
+      <div class="bdg bv">Najpopulárnejší darček</div>
+      <div class="eico">◎</div>
+      <div class="en">Môj starý rodič</div>
+      <div class="es">Príbehy z detstva, vojnové časy, ako spoznali babku/deduška, čo prežili a čo by odkázali.</div>
+      <div class="eq">Pre vnukov, ktorí chcú spoznať históriu rodiny kým je čas.</div>
+    </div>
+    <div class="ed" onclick="selEd(this,'rodic')">
+      <div class="bdg bv">Darček k narodeninám</div>
+      <div class="eico">◐</div>
+      <div class="en">Môj rodič</div>
+      <div class="es">Čo prežili ako mladí, prečo sa rozhodli tak, ako sa rozhodli. Ich sny, obavy, radosti.</div>
+      <div class="eq">Pre dospelé deti, ktoré chcú spoznať rodiča ako človeka — nie len ako rodiča.</div>
+    </div>
+    <div class="ed" onclick="selEd(this,'sam')">
+      <div class="bdg bn">Pre seba</div>
+      <div class="eico">◇</div>
+      <div class="en">Môj vlastný príbeh</div>
+      <div class="es">Denník vedený cez otázky. Pre ľudí, ktorí chcú zachytiť svoje myšlienky a príbehy pre deti alebo seba.</div>
+      <div class="eq">Osobná memoriálová kniha — pre teba a tvoje budúce generácie.</div>
+    </div>
+    <div class="ed" onclick="selEd(this,'par')">
+      <div class="bdg bn">Výročie / svadba</div>
+      <div class="eico">♡</div>
+      <div class="en">Náš párový príbeh</div>
+      <div class="es">Obaja partneri odpovedajú na rovnaké otázky o ich spoločnom príbehu. Dve perspektívy, jeden vzťah.</div>
+      <div class="eq">Ideálny darček k okrúhlemu výročiu alebo svadobnému jubileu.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 52 OTÁZOK -->
+<div class="panel" id="p-otazky">
+  <div class="q-viewer">
+    <div class="qv-header">
+      <div class="qv-title" id="qv-title">Starý rodič — 52 otázok na rok</div>
+      <div class="qv-meta" id="qv-meta">Klikni na otázku pre detail</div>
+    </div>
+    <div class="theme-tabs">
+      <div class="ttab on" onclick="setTheme(0,this)">Detstvo</div>
+      <div class="ttab" onclick="setTheme(1,this)">Mladosť</div>
+      <div class="ttab" onclick="setTheme(2,this)">Rodina</div>
+      <div class="ttab" onclick="setTheme(3,this)">Ťažké časy</div>
+      <div class="ttab" onclick="setTheme(4,this)">Múdrosť</div>
+      <div class="ttab" onclick="setTheme(5,this)">Odkaz</div>
+    </div>
+    <div class="q-area" id="q-area"></div>
+  </div>
+</div>
+
+<!-- EMAIL -->
+<div class="panel" id="p-email">
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem">Takto vyzerá email ktorý dostane rozprávač každú nedeľu. Stačí odpovedať — žiadna registrácia, žiadna aplikácia.</div>
+  <div class="email-demo">
+    <div class="email-header">
+      <div class="email-from">Od: Spomienky · DeepTalks &lt;legacy@deeptalks.eu&gt; · Nedeľa 9:58</div>
+      <div class="email-subj" id="email-subj">Týždeň 14 · Vaša dnešná otázka 📖</div>
+    </div>
+    <div class="email-body">
+      <div class="email-greeting" id="email-greeting">Dobrý deň, mama,<br><br>Prišla vaša nedeľná otázka. Jana na vás myslí a veľmi sa teší na vašu odpoveď — keď budete mať chvíľu, odpovedzte na tento email. Nemusíte dlho, stačí pár viet.</div>
+      <div class="email-q-box">
+        <div class="email-q-lbl">Otázka tohto týždňa</div>
+        <div class="email-q-text" id="email-q">"Čo bola prvá práca, ktorú ste robili za peniaze — a ako ste sa cítili s prvou vlastnou výplatou?"</div>
+      </div>
+      <div class="email-cta">
+        <div class="email-btn primary" onclick="showNextQ()">Odpovedať na tento email →</div>
+        <div class="email-btn" onclick="showNextQ()">Preskočiť tento týždeň</div>
+      </div>
+      <div class="email-note">Táto otázka bola vybraná z edície <em>Môj rodič</em> · Týždeň 14 z 52 · <a href="#" style="color:var(--color-text-info)">Pozrieť všetky odpovede</a></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem">
+    <button style="font-size:12px;padding:7px 14px;border-radius:8px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s" onclick="showNextQ()">Ďalší príklad emailu →</button>
+    <button style="font-size:12px;padding:7px 14px;border-radius:8px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s" onclick="sendPrompt('Navrhni 10 rôznych subject lines pre Legacy email na deeptalks.eu — aby sa emails otvárali')">Navrhni subject lines</button>
+  </div>
+  <div style="font-size:12px;color:var(--color-text-tertiary);border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;line-height:1.6;background:var(--color-background-secondary)">
+    <strong style="color:var(--color-text-secondary);font-weight:500">Prečo email a nie app?</strong> Starší ľudia majú email. Nemajú nutne smartphone s appkami. Reply na email je najjednoduchší možný UX — žiadna registrácia, žiadne heslo, žiadne učenie. Toto je zámerné rozhodnutie — nie limitácia.
+  </div>
+</div>
+
+<!-- KNIHA -->
+<div class="panel" id="p-kniha">
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem">Po roku odpovedí vznikne kniha. Editujete online, doplníte fotky, objednáte tlač. Toto je hmatateľný výstup — niečo čo ostane v rodine desaťročia.</div>
+
+  <div class="book-preview">
+    <div class="book-title">Príbeh mojej mamy</div>
+    <div class="book-sub">Jana Nováková · 2025–2026 · 52 kapitol · 148 strán</div>
+    <div class="book-toc">
+      <div class="book-ch" onclick="showSample(0)">
+        <div><div class="book-ch-name">Kapitola I — Detstvo</div><div class="book-ch-sub">Kde som vyrastala · škola · priatelia · sny</div></div>
+        <div class="book-ch-pg">str. 1–28</div>
+      </div>
+      <div class="book-ch" onclick="showSample(1)">
+        <div><div class="book-ch-name">Kapitola II — Mladosť a láska</div><div class="book-ch-sub">Prvá práca · spoznanie otca · svadba</div></div>
+        <div class="book-ch-pg">str. 29–56</div>
+      </div>
+      <div class="book-ch" onclick="showSample(2)">
+        <div><div class="book-ch-name">Kapitola III — Rodina</div><div class="book-ch-sub">Naše deti · výchova · hodnoty · ťažké roky</div></div>
+        <div class="book-ch-pg">str. 57–90</div>
+      </div>
+      <div class="book-ch" onclick="showSample(3)">
+        <div><div class="book-ch-name">Kapitola IV — Múdrosť a odkaz</div><div class="book-ch-sub">Čo som sa naučila · čo by som zmenila · odkaz</div></div>
+        <div class="book-ch-pg">str. 91–128</div>
+      </div>
+      <div class="book-ch" onclick="showSample(4)">
+        <div><div class="book-ch-name">Záver — List deťom</div><div class="book-ch-sub">Vlastnými slovami · napísaný na konci roka</div></div>
+        <div class="book-ch-pg">str. 129–148</div>
+      </div>
+    </div>
+    <div class="book-sample" id="book-sample">
+      <div class="bs-label">Ukážka — Kapitola I, otázka 3</div>
+      <div class="bs-q">"Aká bola vaša obľúbená hra keď ste boli malá — a s kým ste ju hrali najradšej?"</div>
+      <div class="bs-a">"Hrali sme sa na schovávanku za stodolou u Novákových. Bolo nás päť detí a schované miesta sme si strežili ako poklady. Najradšej som sa schovávala s Máriou — vedeli sme vydržať tichom aj polhodinu. Raz sme nezaujali, lebo Jana zabudla že hráme, a išla domov jesť. To sme sa tak nasmiali..."</div>
+    </div>
+  </div>
+</div>
+
+<!-- CENA -->
+<div class="panel" id="p-cena">
+  <div class="pricing">
+    <div class="price-card">
+      <div class="pc-badge bv">Základné</div>
+      <div class="pc-title">Legacy — Digitálna</div>
+      <div class="pc-price">39 EUR</div>
+      <div class="pc-sub">ročné predplatné · 52 otázok emailom</div>
+      <ul class="pc-list">
+        <li>52 otázok počas roka</li>
+        <li>Email každú nedeľu</li>
+        <li>Odpovede uložené online</li>
+        <li>Editácia a zoradenie odpovedí</li>
+        <li>Stiahnutie PDF zadarmo</li>
+        <li>Pridanie fotiek k odpovedi</li>
+        <li>Prístup pre celú rodinu</li>
+      </ul>
+    </div>
+    <div class="price-card hi">
+      <div class="pc-badge bn">S knihou</div>
+      <div class="pc-title">Legacy — Tlačená kniha</div>
+      <div class="pc-price">39 + 29 EUR</div>
+      <div class="pc-sub">predplatné + jedna viazaná kniha A5 farebná</div>
+      <ul class="pc-list">
+        <li>Všetko z digitálnej verzie</li>
+        <li>Jedna viazaná kniha A5</li>
+        <li>Farebná tlač vrátane fotiek</li>
+        <li>Doručenie poštou</li>
+        <li>Ďalšie kópie za 19 EUR/ks</li>
+        <li>Možnosť personalizovanej obálky</li>
+        <li>Ideálny darček pre celú rodinu</li>
+      </ul>
+    </div>
+  </div>
+  <div class="gift-note">
+    <strong>Kedy darovať:</strong> Vianoce · Deň matiek / otcov · Okrúhle narodenininy · Odchod do dôchodku · Výročie svadby · "Len tak — pretože chcem vedieť tvoj príbeh."<br><br>
+    Darčekový email doručíte v deň, ktorý si vyberiete. Fyzická darčeková karta na vytlačenie dostupná ihneď po objednávke.
+  </div>
+</div>
+
+</div>
+
+<script>
+var THEMES = [
+  {name:'Detstvo', qs:[
+    {n:'1',q:'"Kde ste vyrastali — opíšte dom, dvor, ulicu. Čo z toho vidíte keď zavrieme oči?"',w:'Zmyslovosť pamäti — vône, farby, textúry sú most k emóciám.'},
+    {n:'2',q:'"Aká bola vaša obľúbená hra — a s kým ste ju hrali najradšej?"',w:'Cez hru spoznáme charakter dieťaťa.'},
+    {n:'3',q:'"Čo bola prvá vec, na ktorú ste si zarobili vlastné peniaze?"',w:'Prvý kontakt s nezávislosťou a sebavedomím.'},
+    {n:'4',q:'"Kto bol váš najlepší priateľ v detstve — a kde je dnes?"',w:'Priateľstvo z detstva nám hovorí čo sme cenili.'},
+    {n:'5',q:'"Čoho ste sa ako dieťa najviac báli — a bál sa o tom niekto?"',w:'Strach z detstva tvaruje nás dlhodobo.'},
+    {n:'6',q:'"Čo bolo jedlo, ktoré ste milovali a nenávideli — a kto varával doma?"',w:'Jedlo je most do konkrétnych spomienok.'},
+    {n:'7',q:'"Čo bola najväčšia neposlušnosť, čo ste v detstve urobili — a chytili vás?"',w:'Humor a ľudskosť — aj rodičia boli raz deti.'},
+    {n:'8',q:'"Ako vyzerala škola — čo vás bavilo a čo ste nenávideli?"',w:'Prvé skúsenosti s inštitúciami formujú naše postoje.'},
+    {n:'9',q:'"Čo ste chceli byť keď vyrástete — a prečo ste si to vybrali?"',w:'Sny z detstva sú odrazom hodnôt rodiny aj doby.'}
+  ]},
+  {name:'Mladosť', qs:[
+    {n:'10',q:'"Kedy ste po prvýkrát pocítili, že ste dospelý/á — čo sa stalo?"',w:'Zlomové momenty formovania identity.'},
+    {n:'11',q:'"Ako ste spoznali otca/mamu — prvý dojem, prvé rande, kedy ste vedeli?"',w:'Príbeh lásky je srdcom rodinnej histórie.'},
+    {n:'12',q:'"Čo bola prvá práca — a ako ste sa cítili s prvou výplatou?"',w:'Prvá ekonomická nezávislosť.'},
+    {n:'13',q:'"Aká bola vaša svadba — čo si pamätáte najjasnejšie?"',w:'Svadobný deň v spomienkach.'},
+    {n:'14',q:'"Čo ste v mladosti robili, z čoho sa dnes smejete?"',w:'Humor a odstup umožnia otvorenosť.'},
+    {n:'15',q:'"Bol moment keď ste zmenili smer — rozhodnutie, ktoré zmenilo všetko?"',w:'Kľúčové životné rozhodnutia.'},
+    {n:'16',q:'"Čo bola najväčšia dobrodružstvo vašej mladosti?"',w:'Odvaha a sloboda mladosti.'},
+    {n:'17',q:'"Kedy ste po prvýkrát boli sami — ďaleko od rodičov? Ako to bolo?"',w:'Prvá skutočná samostatnosť.'}
+  ]},
+  {name:'Rodina', qs:[
+    {n:'18',q:'"Čo bola najťažšia chvíľa ako rodič — a ako ste to zvládli?"',w:'Rodičovstvo je hrdinstvo v každodennosti.'},
+    {n:'19',q:'"Čo ste chceli naučiť deti — a čo z toho vidíte v nás dnes?"',w:'Medzigeneračný prenos hodnôt.'},
+    {n:'20',q:'"Ako vyzerali naše Vianoce keď sme boli malí — čo bolo vždy rovnaké?"',w:'Rituály budujú identitu rodiny.'},
+    {n:'21',q:'"Čo bola tradícia z vašej rodiny, ktorú ste preniesli do našej?"',w:'Kontinuita cez generácie.'},
+    {n:'22',q:'"Bol moment keď ste sa na nás ako rodič hrdil/a — a povedali ste nám to?"',w:'Uznanie a láska ktorú sme možno nedostali nahlas.'},
+    {n:'23',q:'"Čo by ste urobili inak vo výchove — keby ste vedeli čo viete dnes?"',w:'Reflexia bez sebasúdenia.'},
+    {n:'24',q:'"Kedy ste sa naposledy naozaj zasmiali spolu s nami — čo to bolo?"',w:'Radosť ako cement rodiny.'},
+    {n:'25',q:'"Čo ste o nás ako deťoch vedeli, čo sme si mysleli, že netušíte?"',w:'Rodičovský pohľad z druhej strany.'}
+  ]},
+  {name:'Ťažké časy', qs:[
+    {n:'26',q:'"Čo bola najťažšia vec, čo ste v živote prežili — a čo vám pomohlo?"',w:'Odolnosť a zdroje sily.'},
+    {n:'27',q:'"Bol moment keď ste nevedeli ako ísť ďalej — čo vás posunulo?"',w:'Prekonávanie beznádeje.'},
+    {n:'28',q:'"Ako sa zmenila rodina počas ťažkého obdobia — zblížila vás alebo vzdialila?"',w:'Kríza ako test a test ako príležitosť.'},
+    {n:'29',q:'"Je niečo z čoho ste sa báli celý život — a prekonali ste to?"',w:'Odvaha nie je absencia strachu.'},
+    {n:'30',q:'"Čo vám dal čas, ktorý vám nik odobral?"',w:'Strata a čo sme získali z prekonania.'},
+    {n:'31',q:'"Bol v živote moment hanby alebo ľútosti — čo by ste dnes urobili inak?"',w:'Odpustenie sebe samému.'},
+    {n:'32',q:'"Ako ste sa v ťažkých časoch modlili alebo čerpali silu — čo vám pomáhalo?"',w:'Spiritualita a zdroje odolnosti.'}
+  ]},
+  {name:'Múdrosť', qs:[
+    {n:'33',q:'"Čo ste v živote pochopili neskoro — a prajete si, že by ste to vedeli skôr?"',w:'Múdrosť prišla drahé — poďme ju zdediť.'},
+    {n:'34',q:'"Čo je jedna vec, ktorú by ste odkázali každému mladému človeku?"',w:'Destilácia životnej skúsenosti.'},
+    {n:'35',q:'"Aký vzťah vás v živote najviac naučil — a čo ste sa naučili?"',w:'Ľudia sú naši najväčší učitelia.'},
+    {n:'36',q:'"Na čo ste v živote hrdí — čo by ste chceli, aby sme vedeli?"',w:'Zámer zachovať dedičstvo.'},
+    {n:'37',q:'"Čo dnes viete o šťastí, čo ste ako mladý/á nevedeli?"',w:'Šťastie nie je kde sme si mysleli.'},
+    {n:'38',q:'"Čo sa vo svete zmenilo k lepšiemu — a čo k horšiemu, od vašej mladosti?"',w:'Historická perspektíva cez osobný pohľad.'},
+    {n:'39',q:'"Čo vás v živote najčastejšie prekvapovalo — ľudia alebo situácie?"',w:'Prekvapenie ako indikátor predpokladov.'},
+    {n:'40',q:'"Čo by ste povedali svojmu 20-ročnému ja — jednu vetu?"',w:'Kondenzovaná múdrosť.'}
+  ]},
+  {name:'Odkaz', qs:[
+    {n:'41',q:'"Čo chcete, aby si o vás pamätali — nie čo robili, ale aký/á ste boli?"',w:'Identita za rolami.'},
+    {n:'42',q:'"Je niečo, čo chcete, aby zostalo v rodine — tradícia, hodnota, príbeh?"',w:'Zámerný prenos dedičstva.'},
+    {n:'43',q:'"Čo by ste chceli povedať každému z nás — osobne — čo ste ešte nepovedali?"',w:'Slová ktoré čakajú.'},
+    {n:'44',q:'"Aký bol váš najdôležitejší vzťah v živote — a prečo?"',w:'Láska ako základ identity.'},
+    {n:'45',q:'"Čo by ste robili inak, keby ste mali ďalší šancu — a čo by ste nemenili?"',w:'Reflexia a prijatie.'},
+    {n:'46',q:'"Čo vám v živote dávalo zmysel — keď bolo ťažko?"',w:'Zdroj zmyslu v utrpení.'},
+    {n:'47',q:'"Je niečo, čo ste nikdy nikomu nepovedali — a môžete to povedať teraz?"',w:'Priestor na pravdu pred záverom.'},
+    {n:'48',q:'"Čo je váš odkaz — nie majetok, ale čo necháte po sebe v nás?"',w:'Záverečná otázka celého roka.'},
+    {n:'49',q:'"Napíšte list — svojim deťom alebo vnukom. Čo by ste im chceli povedať?"',w:'Voľná forma — záverečný dar.'}
+  ]}
+];
+
+var curTheme = 0;
+
+function renderQs() {
+  var theme = THEMES[curTheme];
+  var html = '';
+  theme.qs.forEach(function(q) {
+    html += '<div class="q-item" onclick="sendPrompt(\'Navrhni follow-up otázky a rady pre Legacy tému: '+q.q.replace(/"/g,'')+' — deeptalks.eu\')">';
+    html += '<div class="q-num">Otázka '+q.n+'</div>';
+    html += '<div class="q-text">'+q.q+'</div>';
+    html += '<div class="q-why">Prečo táto otázka: '+q.w+'</div>';
+    html += '</div>';
+  });
+  document.getElementById('q-area').innerHTML = html;
+}
+
+function setTheme(i, el) {
+  curTheme = i;
+  document.querySelectorAll('.ttab').forEach(function(t){t.classList.remove('on');});
+  el.classList.add('on');
+  renderQs();
+}
+
+var emailQs = [
+  {subj:'Týždeň 14 · Vaša dnešná otázka 📖', greeting:'Dobrý deň, mama,\n\nPrišla vaša nedeľná otázka. Jana na vás myslí a veľmi sa teší na vašu odpoveď — keď budete mať chvíľu, odpovedzte na tento email. Nemusíte dlho, stačí pár viet.', q:'"Čo bola prvá práca, ktorú ste robili za peniaze — a ako ste sa cítili s prvou vlastnou výplatou?"'},
+  {subj:'Týždeň 22 · Nedeľná spomienka ✉️', greeting:'Ahoj oco,\n\nTento týždeň máme pre teba otázku o nás ako deťoch. Matej sa teší čo povieš — vraj si dúfa, že ho spomínaš viac ako sestru. 😄', q:'"Čo ste o nás ako deťoch vedeli, čo sme si mysleli, že netušíte?"'},
+  {subj:'Týždeň 38 · Otázka tejto nedele 🌿', greeting:'Milá babka,\n\nDnes vám posielame otázku o múdrosti — tú, ktorú len vy môžete zodpovedať. Celá rodina sa teší.',  q:'"Čo dnes viete o šťastí, čo ste ako mladá nevedeli?"'},
+  {subj:'Týždeň 49 · Záverečná otázka 💙', greeting:'Mamka,\n\nToto je jedna z posledných otázok tohto roka. Ďakujeme ti za každú odpoveď — vytvorila si niečo, čo budú vnuci čítať aj o päťdesiat rokov.', q:'"Napíšte list — svojim deťom alebo vnukom. Čo by ste im chceli povedať?"'}
+];
+var eqi = 0;
+function showNextQ() {
+  eqi = (eqi+1) % emailQs.length;
+  var eq = emailQs[eqi];
+  document.getElementById('email-subj').textContent = eq.subj;
+  document.getElementById('email-greeting').textContent = eq.greeting;
+  document.getElementById('email-q').textContent = eq.q;
+}
+
+var bookSamples = [
+  {lbl:'Ukážka — Kapitola I, otázka 3', q:'"Aká bola vaša obľúbená hra keď ste boli malá — a s kým ste ju hrali najradšej?"', a:'"Hrali sme sa na schovávanku za stodolou u Novákových. Bolo nás päť detí a schované miesta sme si strežili ako poklady. Najradšej som sa schovávala s Máriou — vedeli sme vydržať tichom aj polhodinu. Raz sme nezaujali, lebo Jana zabudla že hráme, a išla domov jesť. To sme sa tak nasmiali..."'},
+  {lbl:'Ukážka — Kapitola II, otázka 11', q:'"Ako ste spoznali otca — prvý dojem, prvé rande, kedy ste vedeli?"', a:'"Videla som ho prvýkrát na hodovej zábavy v Hrušove. Hral harmoniku — a hral zle, ale s takým zanietením, že som sa musela smiať. Prišiel ku mne sám, čo vtedy nerobili chlapci, a spýtal sa ma či viem tancovať. Vedela som lepšie ako on. Ale tancovali sme celý večer."'},
+  {lbl:'Ukážka — Kapitola III, otázka 22', q:'"Bol moment keď ste sa na nás ako rodič hrdil/a — a povedali ste nám to?"', a:'"Keď Marek zložil maturity. Nestál on ako prvý v triede, ale videla som ako sa blysol pred tými prisnými profesormi a nescukol. Vtedy som vedela, že sme ho naučili niečo dôležité — že sa nebojí. Povedala som mu to? Asi nie dosť. Hovorím mu to teraz."'},
+  {lbl:'Ukážka — Kapitola IV, otázka 41', q:'"Čo chcete, aby si o vás pamätali — nie čo robili, ale aký/á ste boli?"', a:'"Chcela by som, aby si pamätali, že som sa vždy snažila. Nie vždy som to zvládla, a veľa vecí by som urobila inak. Ale vždy som sa snažila. A že som mala rada každého z vás — aj keď som to nevedela vždy ukázať."'},
+  {lbl:'Ukážka — Záver, List deťom', q:'"List deťom — vlastnými slovami"', a:'"Deti moje, keď budete čítať toto, možno ma už nebude. Alebo možno budem — kto vie. Chcem vám povedať, že váš život bol tým najlepším čo som vytvorila. Nie vždy som bola najlepšia mama. Ale vždy ste boli mojím zmyslom. Majte sa radi. Navzájom. Toto je najdôležitejší odkaz."'}
+];
+function showSample(i) {
+  var s = bookSamples[i];
+  document.getElementById('book-sample').innerHTML =
+    '<div class="bs-label">'+s.lbl+'</div><div class="bs-q">'+s.q+'</div><div class="bs-a">'+s.a+'</div>';
+}
+
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.getElementById('p-'+id).classList.add('on');
+}
+
+function selEd(el, key) {
+  document.querySelectorAll('.ed').forEach(function(e){e.classList.remove('on');});
+  el.classList.add('on');
+}
+
+renderQs();
+</script>

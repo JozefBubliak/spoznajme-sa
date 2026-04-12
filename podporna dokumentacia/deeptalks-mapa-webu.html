@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepTalks — Mapa webu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1614;
+    --ink-2: #3d3330;
+    --ink-3: #7a6f6a;
+    --ink-4: #b0a49e;
+    --ink-5: #d8cfc9;
+    --paper: #f7f3ef;
+    --paper-2: #efe9e3;
+    --paper-3: #e5ddd5;
+    --accent: #c0392b;
+    --accent-2: #e8a87c;
+    --green: #2d6a4f;
+    --green-light: #d8f3dc;
+    --blue: #1a4f7a;
+    --blue-light: #dbeafe;
+    --amber: #7c4b00;
+    --amber-light: #fef3c7;
+    --red: #7f1d1d;
+    --red-light: #fee2e2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--ink);
+    padding: 3rem 4rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(192,57,43,0.15) 0%, transparent 70%);
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--paper);
+    letter-spacing: -.02em;
+  }
+  .logo span {
+    color: var(--accent);
+  }
+  .header-meta {
+    text-align: right;
+  }
+  .header-meta-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-4);
+    letter-spacing: .06em;
+    margin-bottom: 3px;
+  }
+  .header-meta-version {
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: var(--paper);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: .5rem;
+    max-width: 600px;
+  }
+  .header-title em {
+    font-style: italic;
+    color: var(--accent-2);
+  }
+  .header-sub {
+    font-size: 14px;
+    color: var(--ink-4);
+    line-height: 1.7;
+    max-width: 500px;
+    margin-bottom: 2rem;
+  }
+
+  /* STATS */
+  .stats-row {
+    display: flex;
+    gap: 2px;
+  }
+  .stat-box {
+    background: rgba(255,255,255,.05);
+    border: .5px solid rgba(255,255,255,.1);
+    border-radius: 8px;
+    padding: 12px 20px;
+    text-align: center;
+    flex: 1;
+  }
+  .stat-n {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 2px;
+  }
+  .stat-n.green { color: #6ee7b7; }
+  .stat-n.blue { color: #93c5fd; }
+  .stat-n.amber { color: #fcd34d; }
+  .stat-n.red { color: #fca5a5; }
+  .stat-t {
+    font-size: 11px;
+    color: var(--ink-4);
+    letter-spacing: .03em;
+  }
+
+  /* ─── LEGEND ─── */
+  .legend-bar {
+    background: var(--paper-2);
+    border-bottom: .5px solid var(--paper-3);
+    padding: .75rem 4rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .legend-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-3);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-right: .5rem;
+  }
+  .legend-items {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .badge {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 99px;
+    letter-spacing: .03em;
+    white-space: nowrap;
+  }
+  .b-live { background: var(--green-light); color: var(--green); }
+  .b-build { background: var(--blue-light); color: var(--blue); }
+  .b-soon { background: var(--amber-light); color: var(--amber); }
+  .b-broken { background: var(--red-light); color: var(--red); }
+  .b-new { background: #ede9fe; color: #4c1d95; }
+
+  /* ─── PRIORITY NOTICE ─── */
+  .priority-banner {
+    background: var(--red-light);
+    border-bottom: .5px solid #fecaca;
+    padding: .75rem 4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .priority-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--red);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .priority-items {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .priority-item {
+    font-size: 12px;
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .priority-item::before {
+    content: '→';
+    font-weight: 500;
+  }
+
+  /* ─── MAIN CONTENT ─── */
+  .content {
+    padding: 3rem 4rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  /* ─── DOMAIN BLOCK ─── */
+  .domain {
+    background: var(--paper);
+    border: .5px solid var(--paper-3);
+    border-radius: 0;
+    overflow: hidden;
+    margin-bottom: 2px;
+  }
+  .domain.full-width {
+    grid-column: 1 / -1;
+  }
+  .domain-header {
+    padding: 14px 20px;
+    background: var(--paper-2);
+    border-bottom: .5px solid var(--paper-3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .domain-ico {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    background: var(--paper-3);
+    color: var(--ink-2);
+    flex-shrink: 0;
+  }
+  .domain-info { flex: 1; }
+  .domain-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 1px;
+  }
+  .domain-url {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-4);
+    letter-spacing: .04em;
+  }
+  .domain-status { flex-shrink: 0; }
+
+  .domain-body { padding: 4px 0; }
+
+  /* ─── URL ROW ─── */
+  .url-row {
+    display: grid;
+    grid-template-columns: 185px 1fr auto;
+    gap: 12px;
+    align-items: start;
+    padding: 9px 20px;
+    border-bottom: .5px solid var(--paper-2);
+    transition: background .1s;
+  }
+  .url-row:last-child { border-bottom: none; }
+  .url-row:hover { background: var(--paper-2); }
+  .url-row.sub {
+    padding-left: 36px;
+    background: rgba(0,0,0,.01);
+  }
+  .url-row.sub .url-path {
+    font-size: 10.5px;
+    color: var(--ink-3);
+  }
+  .url-path {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-2);
+    font-weight: 400;
+    padding-top: 1px;
+    word-break: break-all;
+    line-height: 1.4;
+  }
+  .url-path .root {
+    color: var(--ink-4);
+  }
+  .url-desc {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.55;
+  }
+  .url-desc strong {
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+  .url-price {
+    font-size: 10px;
+    color: var(--ink-4);
+    margin-top: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+  .url-badge { flex-shrink: 0; padding-top: 1px; }
+
+  /* ─── ROADMAP SECTION ─── */
+  .roadmap {
+    grid-column: 1 / -1;
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 2.5rem 3rem;
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--ink);
+    overflow: hidden;
+  }
+  .roadmap-col {
+    background: var(--ink);
+    padding: 1.75rem 1.5rem;
+    border-right: .5px solid rgba(255,255,255,.07);
+    position: relative;
+  }
+  .roadmap-col:last-child { border-right: none; }
+  .roadmap-phase {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: .5rem;
+  }
+  .roadmap-phase.red { color: #fca5a5; }
+  .roadmap-phase.amber { color: #fcd34d; }
+  .roadmap-phase.blue { color: #93c5fd; }
+  .roadmap-phase.green { color: #6ee7b7; }
+  .roadmap-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--paper);
+    margin-bottom: 1rem;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .roadmap-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .roadmap-item {
+    font-size: 11.5px;
+    color: var(--ink-4);
+    line-height: 1.5;
+    padding-left: 12px;
+    position: relative;
+  }
+  .roadmap-item::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--ink-3);
+  }
+  .roadmap-item strong {
+    color: var(--paper);
+    font-weight: 500;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    padding: 1.5rem 4rem;
+    border-top: .5px solid var(--paper-3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--ink-3);
+    font-style: italic;
+  }
+  .footer-right {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-4);
+    letter-spacing: .05em;
+  }
+
+  /* ─── SEPARATOR ─── */
+  .section-sep {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 0 .5rem;
+  }
+  .section-sep-line {
+    flex: 1;
+    height: .5px;
+    background: var(--paper-3);
+  }
+  .section-sep-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+
+  @media print {
+    body { background: white; }
+    .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .roadmap { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .content { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="logo">Deep<span>Talks</span></div>
+    <div class="header-meta">
+      <div class="header-meta-date">VERZIA 1.0 · MAREC 2026</div>
+      <div class="header-meta-version">deeptalks.eu · SK · UA</div>
+    </div>
+  </div>
+  <div class="header-title">Mapa webu —<br><em>kompletná štruktúra.</em></div>
+  <div class="header-sub">Všetky navrhnuté stránky, ich stav, popis a odporúčané poradie implementácie. Dokument pokrýva celý ekosystém — od úvodnej stránky po Spontánky, Legacy a B2B.</div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-n green">8</div><div class="stat-t">Live stránok</div></div>
+    <div class="stat-box"><div class="stat-n blue">24</div><div class="stat-t">Na implementáciu</div></div>
+    <div class="stat-box"><div class="stat-n amber">6</div><div class="stat-t">Plánované neskôr</div></div>
+    <div class="stat-box"><div class="stat-n red">3</div><div class="stat-t">Rozbité / prázdne</div></div>
+    <div class="stat-box"><div class="stat-n" style="color:#c4b5fd">41</div><div class="stat-t">URL celkovo</div></div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend-bar">
+  <span class="legend-label">Stav</span>
+  <div class="legend-items">
+    <div class="legend-item"><span class="badge b-live">Live</span> Funguje</div>
+    <div class="legend-item"><span class="badge b-build">Stavať</span> Navrhnuté, treba implementovať</div>
+    <div class="legend-item"><span class="badge b-soon">Čoskoro</span> Plánované v ďalšej fáze</div>
+    <div class="legend-item"><span class="badge b-broken">Opraviť</span> Rozbité alebo prázdne — priorita</div>
+    <div class="legend-item"><span class="badge b-new">Nové</span> Celkom nová sekcia</div>
+  </div>
+</div>
+
+<!-- PRIORITY BANNER -->
+<div class="priority-banner">
+  <div class="priority-label">Opraviť tento týždeň</div>
+  <div class="priority-items">
+    <div class="priority-item">/sk/apps/spoznajme-sa → 404 (kartičky)</div>
+    <div class="priority-item">/sk/apps/hadacka → prázdna detail stránka</div>
+    <div class="priority-item">/sk/produkty → zobrazuje len "Čoskoro."</div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- ── HLAVNÉ STRÁNKY ── -->
+  <div class="domain full-width">
+    <div class="domain-header">
+      <div class="domain-ico">◎</div>
+      <div class="domain-info">
+        <div class="domain-name">Hlavné stránky a navigácia</div>
+        <div class="domain-url">deeptalks.eu/sk — vstupné body, orientácia</div>
+      </div>
+      <div class="domain-status"><span class="badge b-broken">Navigácia po anglicky — opraviť</span></div>
+    </div>
+    <div class="domain-body">
+      <div class="url-row">
+        <div class="url-path"><span class="root">deeptalks.eu</span>/sk</div>
+        <div class="url-desc"><strong>Úvodná stránka</strong> — Hero s otázkou dňa, skupiny, nástroje, komunita, testimonials, manifest. Po slovensky, s emóciou, nie anglický placeholder.</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path"><span class="root">deeptalks.eu</span>/sk/o-nas</div>
+        <div class="url-desc"><strong>O nás · Manifest</strong> — Príbeh projektu, 6 hodnôt, Gratitude Wall, čísla, tím. "Pretože realita je lepšia ako obrazovka."</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path"><span class="root">deeptalks.eu</span>/sk/kontakt</div>
+        <div class="url-desc"><strong>Kontakt</strong> — Formulár, sociálne siete, B2B dopyt, mapa kaviarní</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── KOMUNIKAČNÝ KOMPAS ── -->
+  <div class="domain">
+    <div class="domain-header">
+      <div class="domain-ico">◐</div>
+      <div class="domain-info">
+        <div class="domain-name">Komunikačný kompas</div>
+        <div class="domain-url">deeptalks.eu/sk/kompas</div>
+      </div>
+      <div class="domain-status"><span class="badge b-live">Čiastočne live</span></div>
+    </div>
+    <div class="domain-body">
+      <div class="url-row">
+        <div class="url-path">/sk/kompas</div>
+        <div class="url-desc"><strong>Vstup</strong> — výber skupiny, 6 kategórií. Funguje ale chýba obsah po výbere.</div>
+        <div class="url-badge"><span class="badge b-live">Live →</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/kompas/pary</div>
+        <div class="url-desc">Situácie pre páry — každodenné, pocity, hádky, vzdialenosť, intimita</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/kompas/rodic-dieta</div>
+        <div class="url-desc">Podľa veku: predškolák (3–6), ZŠ (7–11), tínedžer (12–17), dospelý (18+)</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/kompas/priatelia</div>
+        <div class="url-desc">Sklamanie, vzdialenosť, spoznanie, ťažké obdobie</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/kompas/praca</div>
+        <div class="url-desc">Spätná väzba, hranice, konflikty, žiadosť o zvýšenie</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/kompas/tazke-temy</div>
+        <div class="url-desc">Smrť, choroba, závislosť, odpustenie, ospravedlnenie</div>
+        <div class="url-badge"><span class="badge b-soon">Čoskoro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SKUPINY ── -->
+  <div class="domain">
+    <div class="domain-header">
+      <div class="domain-ico">◆</div>
+      <div class="domain-info">
+        <div class="domain-name">Skupiny vzťahov</div>
+        <div class="domain-url">deeptalks.eu/sk/skupiny</div>
+      </div>
+      <div class="domain-status"><span class="badge b-broken">Linky vedú do 404</span></div>
+    </div>
+    <div class="domain-body">
+      <div class="url-row">
+        <div class="url-path">/sk/skupiny/pary</div>
+        <div class="url-desc"><strong>Páry</strong> — Hero "Keď 'ako ti bolo' nestačí", filter nástrojov, cesta páru (4 štádiá), Kompas ukážka, testimonials</div>
+        <div class="url-badge"><span class="badge b-build">Priorita</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path">/sk/skupiny/rodic-dieta</div>
+        <div class="url-desc"><strong>Rodič a dieťa</strong> — "Deti nebudú malé večne", vekový filter, otázky s detailom, kompasové skripty</div>
+        <div class="url-badge"><span class="badge b-build">Priorita</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path">/sk/skupiny/priatelia</div>
+        <div class="url-desc"><strong>Priatelia</strong> — "Mali ste chat. Kedy ste sa naozaj rozprávali?", anti-small-talk kartičky, Herd Vote</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path">/sk/skupiny/praca</div>
+        <div class="url-desc"><strong>Práca</strong> — "Osem hodín spolu. A stále si cudzinci.", psych. bezpečie, B2B prepojenie</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path">/sk/skupiny/skola</div>
+        <div class="url-desc"><strong>Škola</strong> — "Kto ich naučí počúvať?", ranné kruhy, šikana, metodika pre učiteľov</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path">/sk/skupiny/seniori</div>
+        <div class="url-desc"><strong>Seniori</strong> — "Babka vie veci, ktoré nikto nezapísal.", Legacy prepojenie, generačné otázky</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NÁSTROJE ── -->
+  <div class="domain">
+    <div class="domain-header">
+      <div class="domain-ico">◈</div>
+      <div class="domain-info">
+        <div class="domain-name">Nástroje a aplikácie</div>
+        <div class="domain-url">deeptalks.eu/sk/apps</div>
+      </div>
+      <div class="domain-status"><span class="badge b-broken">2 rozbitia, redesign</span></div>
+    </div>
+    <div class="domain-body">
+      <div class="url-row">
+        <div class="url-path">/sk/apps</div>
+        <div class="url-desc"><strong>Prehľad nástrojov</strong> — redesign: filter "Pre koho?", otázka dňa navrchu, opraviť rozbitia</div>
+        <div class="url-badge"><span class="badge b-live">Live (redesign)</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/apps/daily-connection</div>
+        <div class="url-desc"><strong>Daily Connection</strong> — denná otázka, párovanie, reveal partnera, streak. <span style="font-family:'DM Mono',monospace;font-size:10px;color:#7a6f6a">Zadarmo / 4 EUR mes.</span></div>
+        <div class="url-badge"><span class="badge b-new">Nové</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/apps/spoznajme-sa</div>
+        <div class="url-desc"><strong>Konverzačné kartičky</strong> — momentálne 404! Opraviť ako prvé. 3 úrovne, Prompt Cards, 8 edícií.</div>
+        <div class="url-badge"><span class="badge b-broken">404 → opraviť</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/apps/quiz</div>
+        <div class="url-desc"><strong>Herd Vote</strong> — funguje, treba pridať výber kategórie pred spustením, rýchly mód</div>
+        <div class="url-badge"><span class="badge b-live">Live +</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/apps/hadacka</div>
+        <div class="url-desc"><strong>Hádanka</strong> — hra funguje ale detail stránka je prázdny placeholder. Prepísať.</div>
+        <div class="url-badge"><span class="badge b-broken">Opraviť</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/apps/couplesync</div>
+        <div class="url-desc"><strong>CoupleSync</strong> — integrovať z couplesync.deeptalks.eu, situačné verzie, výsledkový report</div>
+        <div class="url-badge"><span class="badge b-build">Integrovať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/apps/legacy</div>
+        <div class="url-desc"><strong>Legacy Spomienky</strong> — email 1×/týždeň, 52 otázok, viazaná kniha po roku. <span style="font-family:'DM Mono',monospace;font-size:10px;color:#7a6f6a">39–68 EUR/rok</span></div>
+        <div class="url-badge"><span class="badge b-new">Nové</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/apps/walk</div>
+        <div class="url-desc"><strong>Deep Talk Walk</strong> — audio nahrávka pre prechádzku, MP3 stiahnutie</div>
+        <div class="url-badge"><span class="badge b-soon">Čoskoro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRODUKTY ── -->
+  <div class="domain">
+    <div class="domain-header">
+      <div class="domain-ico">◇</div>
+      <div class="domain-info">
+        <div class="domain-name">Produkty a e-shop</div>
+        <div class="domain-url">deeptalks.eu/sk/produkty</div>
+      </div>
+      <div class="domain-status"><span class="badge b-broken">Zobrazuje len "Čoskoro."</span></div>
+    </div>
+    <div class="domain-body">
+      <div class="url-row">
+        <div class="url-path">/sk/produkty</div>
+        <div class="url-desc"><strong>Prehľad produktov</strong> — 5 tabov: Digitálne, Fyzické kartičky, Predplatné, B2B, Merch</div>
+        <div class="url-badge"><span class="badge b-broken">Opraviť</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/produkty/karticky</div>
+        <div class="url-desc">Fyzické edície — Páry (live), Rodič+Dieťa, Priatelia, Tím, Seniori, SK/UA. <span style="font-family:'DM Mono',monospace;font-size:10px;color:#7a6f6a">18–25 EUR/edícia</span></div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/produkty/predplatne</div>
+        <div class="url-desc">Legacy 39–68 EUR/rok, Daily Connection Premium 4 EUR/mes, darčekové poukazy</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/produkty/darcekovy-poukaz</div>
+        <div class="url-desc">Email doručenie v zvolený deň, výber hodnoty, fyzická karta na tlač</div>
+        <div class="url-badge"><span class="badge b-soon">Čoskoro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── KOMUNITA ── -->
+  <div class="domain">
+    <div class="domain-header">
+      <div class="domain-ico">◐</div>
+      <div class="domain-info">
+        <div class="domain-name">Komunita a akcie</div>
+        <div class="domain-url">deeptalks.eu/sk/komunita</div>
+      </div>
+      <div class="domain-status"><span class="badge b-new">Celkom nová sekcia</span></div>
+    </div>
+    <div class="domain-body">
+      <div class="url-row">
+        <div class="url-path">/sk/komunita</div>
+        <div class="url-desc"><strong>Komunita</strong> — "Ostrov ľudskosti." Akcie, formáty, organizátor, kaviarne, ulica</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/komunita/akcie</div>
+        <div class="url-desc">Zoznam + mapa — BA, KE, ZA, BB, PO, TT, NR. Opekačky, výlety, Blind Talk, piknik</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/komunita/spontanky</div>
+        <div class="url-desc"><strong>Spontánky</strong> — tvorba, RSVP (Prídem/Možno/Nie), Prinášam checklist, chat, gating systém</div>
+        <div class="url-badge"><span class="badge b-new">Nové</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/komunita/spontanky/[id]</div>
+        <div class="url-desc">Detail spontánky — mobilný flow cez QR (3 obrazovky bez registrácie). URL: /s/[kratke-id]</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/komunita/organizuj</div>
+        <div class="url-desc">Formulár pre organizátorov — kartičky zadarmo, grafika, PDF manuál, propagácia</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/komunita/kaviarne</div>
+        <div class="url-desc">Mapa partnerských kaviarní — Phone Jail, kartičky na stoloch, podmienky partnerstva</div>
+        <div class="url-badge"><span class="badge b-soon">Čoskoro</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/komunita/ulica</div>
+        <div class="url-desc">Guerilla — Before I Die tabuľa, Deep Talk lavička, Empty Chair, nálepky, Strom tajomstiev</div>
+        <div class="url-badge"><span class="badge b-soon">Čoskoro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BLOG ── -->
+  <div class="domain">
+    <div class="domain-header">
+      <div class="domain-ico">▲</div>
+      <div class="domain-info">
+        <div class="domain-name">Blog — Umenie rozhovoru</div>
+        <div class="domain-url">deeptalks.eu/sk/blog</div>
+      </div>
+      <div class="domain-status"><span class="badge b-new">Celkom nový</span></div>
+    </div>
+    <div class="domain-body">
+      <div class="url-row">
+        <div class="url-path">/sk/blog</div>
+        <div class="url-desc"><strong>Listing</strong> — kategórie (Páry, Rodič, Priatelia, Práca, Tipy, Príbehy), featured, newsletter CTA</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/blog/preco-deti-nehovoria</div>
+        <div class="url-desc">🔴 <strong>Ihneď</strong> — Rodič a dieťa · SEO evergreen · 8 min čítania</div>
+        <div class="url-badge"><span class="badge b-build">Napísať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/blog/pat-otazok-vecera</div>
+        <div class="url-desc">🔴 <strong>Ihneď</strong> — Páry · Virálny potenciál · 5 min čítania</div>
+        <div class="url-badge"><span class="badge b-build">Napísať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/blog/smrdi-mu-z-ust</div>
+        <div class="url-desc">🔴 <strong>Ihneď</strong> — Ťažké témy · Unikátna téma · Vysoké SEO</div>
+        <div class="url-badge"><span class="badge b-build">Napísať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/blog/[slug]</div>
+        <div class="url-desc">+ 21 ďalších tém podľa editorial plánu (Mesiac 1–3 + Evergreen SEO)</div>
+        <div class="url-badge"><span class="badge b-soon">Plán</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── B2B ── -->
+  <div class="domain">
+    <div class="domain-header">
+      <div class="domain-ico">▣</div>
+      <div class="domain-info">
+        <div class="domain-name">B2B — Firmy a školy</div>
+        <div class="domain-url">deeptalks.eu/sk/b2b</div>
+      </div>
+      <div class="domain-status"><span class="badge b-new">Najvyšší monetizačný potenciál</span></div>
+    </div>
+    <div class="domain-body">
+      <div class="url-row">
+        <div class="url-path">/sk/b2b</div>
+        <div class="url-desc"><strong>B2B vstup</strong> — výber segmentu (Firmy / Školy), štatistiky, case studies, dopyt</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/b2b/firmy</div>
+        <div class="url-desc">Workshop 500–2000 EUR, kartičky od 50 EUR/tím, Herd Vote Premium, Kompas zadarmo</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/b2b/skoly</div>
+        <div class="url-desc">Školský program 100–300 EUR/rok, kartičky 35 EUR/trieda, metodika zadarmo</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/b2b/workshop</div>
+        <div class="url-desc">Detail workshopu — 4 formáty (2h/3h/4h+/online), agenda, výsledky, case studies</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+      <div class="url-row sub">
+        <div class="url-path">/b2b/dopyt</div>
+        <div class="url-desc">Formulár — 24h odpoveď, bez záväzkov, na mieru. + Booking hovor (Calendly)</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TECHNICKÉ ── -->
+  <div class="domain full-width">
+    <div class="domain-header">
+      <div class="domain-ico">◫</div>
+      <div class="domain-info">
+        <div class="domain-name">Technické, subdoména a právne</div>
+        <div class="domain-url">couplesync.deeptalks.eu · auth · legal</div>
+      </div>
+    </div>
+    <div class="domain-body">
+      <div class="url-row">
+        <div class="url-path">couplesync.deeptalks.eu</div>
+        <div class="url-desc"><strong>CoupleSync subdoména</strong> — integrovať na hlavný web (/sk/apps/couplesync). Izolácia škodí konverziám — používateľ odíde z kontextu DeepTalks a nevráti sa.</div>
+        <div class="url-badge"><span class="badge b-build">Integrovať</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path">/auth/login</div>
+        <div class="url-desc"><strong>Autentifikácia</strong> — potrebná pre Daily Connection, Spontánky (lightweight), Legacy (email). Momentálne live.</div>
+        <div class="url-badge"><span class="badge b-live">Live</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path">/terms · /privacy</div>
+        <div class="url-desc"><strong>Právne dokumenty</strong> — momentálne v angličtine. Preložiť do SK, doplniť o Spontánky disclaimer a GDPR pre email.</div>
+        <div class="url-badge"><span class="badge b-soon">Preložiť</span></div>
+      </div>
+      <div class="url-row">
+        <div class="url-path">/s/[kratke-id]</div>
+        <div class="url-desc"><strong>Krátke URL pre Spontánky</strong> — deeptalks.eu/s/haniска-2025. QR kód vedie sem. Mobilný flow bez registrácie: Detail → Prinášam → Chat.</div>
+        <div class="url-badge"><span class="badge b-build">Stavať</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ROADMAP ── -->
+  <div class="roadmap">
+    <div class="roadmap-col">
+      <div class="roadmap-phase red">Tento týždeň · Opravy</div>
+      <div class="roadmap-title">Rozbité veci<br>prvé.</div>
+      <ul class="roadmap-items">
+        <li class="roadmap-item"><strong>Kartičky 404</strong> — /apps/spoznajme-sa vrátiť na live</li>
+        <li class="roadmap-item"><strong>Hádanka placeholder</strong> — prepísať detail stránku</li>
+        <li class="roadmap-item"><strong>Produkty "Čoskoro"</strong> — aspoň základný obsah</li>
+        <li class="roadmap-item"><strong>Navigácia po SK</strong> — Kompas · Nástroje · Skupiny</li>
+        <li class="roadmap-item"><strong>Hlavná stránka SK</strong> — emócia, nie anglický placeholder</li>
+      </ul>
+    </div>
+    <div class="roadmap-col">
+      <div class="roadmap-phase amber">Mesiac 1 · Obsah</div>
+      <div class="roadmap-title">Skupiny<br>a blog.</div>
+      <ul class="roadmap-items">
+        <li class="roadmap-item"><strong>Páry podstránka</strong> — priorita #1</li>
+        <li class="roadmap-item"><strong>Rodič a dieťa</strong> — priorita #2</li>
+        <li class="roadmap-item"><strong>Blog — 3 články</strong> ihneď publikovať</li>
+        <li class="roadmap-item"><strong>Kompas obsah</strong> — situácie pre páry + rodičov</li>
+        <li class="roadmap-item"><strong>CoupleSync</strong> integrácia na hlavný web</li>
+      </ul>
+    </div>
+    <div class="roadmap-col">
+      <div class="roadmap-phase blue">Kvartál 2 · Rast</div>
+      <div class="roadmap-title">Komunita<br>a B2B.</div>
+      <ul class="roadmap-items">
+        <li class="roadmap-item"><strong>Daily Connection</strong> — najsilnejší nový nástroj</li>
+        <li class="roadmap-item"><strong>Komunita + Spontánky</strong> MVP</li>
+        <li class="roadmap-item"><strong>B2B sekcia</strong> — firmy aj školy</li>
+        <li class="roadmap-item"><strong>Blog 10+ článkov</strong> — SEO momentum</li>
+        <li class="roadmap-item"><strong>Zvyšné skupiny</strong> — Priatelia, Práca, Škola, Seniori</li>
+      </ul>
+    </div>
+    <div class="roadmap-col">
+      <div class="roadmap-phase green">Kvartál 3 · Monetizácia</div>
+      <div class="roadmap-title">E-shop<br>a predplatné.</div>
+      <ul class="roadmap-items">
+        <li class="roadmap-item"><strong>Legacy predplatné</strong> — email + kniha</li>
+        <li class="roadmap-item"><strong>E-shop fyzické kartičky</strong> — všetky edície</li>
+        <li class="roadmap-item"><strong>Darčekové poukazy</strong> — sezónny peak</li>
+        <li class="roadmap-item"><strong>Deep Talk Walk</strong> — audio nahrávka</li>
+        <li class="roadmap-item"><strong>Partnerské kaviarne</strong> — mapa + onboarding</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">"Pretože realita je lepšia ako obrazovka." — DeepTalks</div>
+  <div class="footer-right">deeptalks.eu · Mapa webu v1.0 · Marec 2026 · 41 URL · 8 sekcií</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,561 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.75rem 0 3.5rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.65rem;margin-top:1.6rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+.tabs{display:flex;gap:0;border:.5px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;margin-bottom:1.75rem}
+.tab{flex:1;padding:9px 4px;text-align:center;font-size:12px;cursor:pointer;border-right:.5px solid var(--color-border-tertiary);transition:background .12s;color:var(--color-text-secondary);background:var(--color-background-primary);white-space:nowrap}
+.tab:last-child{border-right:none}
+.tab.on{background:var(--color-background-secondary);font-weight:500;color:var(--color-text-primary)}
+.panel{display:none}.panel.on{display:block}
+
+/* HERO */
+.hero-tag{font-size:11px;color:var(--color-text-tertiary);letter-spacing:.05em;text-transform:uppercase;margin-bottom:.5rem}
+.hero-h{font-size:26px;font-weight:500;line-height:1.25;margin-bottom:.7rem}
+.hero-h em{font-style:italic;color:var(--color-text-secondary)}
+.hero-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.75;max-width:520px;margin-bottom:1.25rem}
+.hero-logos{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center}
+.logo-badge{font-size:11px;padding:5px 12px;border-radius:99px;border:.5px solid var(--color-border-tertiary);color:var(--color-text-tertiary);background:var(--color-background-primary)}
+.logo-sep{font-size:11px;color:var(--color-text-tertiary)}
+
+/* SEGMENTY */
+.segs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+.seg{border:.5px solid var(--color-border-tertiary);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all .13s;background:var(--color-background-primary)}
+.seg:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.seg.on{border:1.5px solid var(--color-border-info);background:var(--color-background-info)}
+.seg.on .seg-n,.seg.on .seg-s{color:var(--color-text-info)}
+.seg.on .seg-s{opacity:.8}
+.seg-ico{font-size:24px;margin-bottom:8px}
+.seg-n{font-size:16px;font-weight:500;margin-bottom:4px;color:var(--color-text-primary)}
+.seg-s{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:6px}
+.seg-tags{display:flex;gap:5px;flex-wrap:wrap}
+.seg-tag{font-size:10px;padding:2px 7px;border-radius:99px;border:.5px solid var(--color-border-tertiary);color:var(--color-text-tertiary)}
+
+/* PRODUKTY */
+.prods{display:grid;gap:11px;margin-bottom:1.5rem}
+.prod{border:.5px solid var(--color-border-tertiary);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all .13s;background:var(--color-background-primary);display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+.prod:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.prod.hi{border:1.5px solid var(--color-border-info)}
+.prod.hid{display:none}
+.bdg{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;margin-bottom:6px;line-height:1.5}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.prod-n{font-size:15px;font-weight:500;margin-bottom:4px}
+.prod-d{font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin-bottom:6px}
+.prod-use{font-size:11px;color:var(--color-text-tertiary);line-height:1.4;margin-bottom:6px}
+.prod-p{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.prod-cta{font-size:12px;font-weight:500;color:var(--color-text-info);white-space:nowrap;padding-top:2px}
+
+/* WORKSHOP DETAIL */
+.ws-detail{border:.5px solid var(--color-border-tertiary);border-radius:14px;overflow:hidden;margin-bottom:1.5rem}
+.ws-header{padding:16px 20px;background:var(--color-background-secondary);border-bottom:.5px solid var(--color-border-tertiary)}
+.ws-title{font-size:16px;font-weight:500;margin-bottom:.3rem}
+.ws-sub{font-size:13px;color:var(--color-text-secondary);line-height:1.5}
+.ws-body{padding:16px 20px}
+.ws-agenda{display:grid;gap:8px;margin-bottom:1rem}
+.wa-item{display:grid;grid-template-columns:56px 1fr;gap:10px;align-items:start}
+.wa-time{font-size:12px;font-weight:500;color:var(--color-text-tertiary);padding-top:1px}
+.wa-t{font-size:13px;font-weight:500;margin-bottom:2px}
+.wa-s{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+.ws-formats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+.wf{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;background:var(--color-background-primary)}
+.wf-n{font-size:13px;font-weight:500;margin-bottom:2px}
+.wf-s{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+.wf-p{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-top:4px}
+
+/* CASE STUDY */
+.cases{display:grid;gap:10px;margin-bottom:1.5rem}
+.case{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:15px 17px;cursor:pointer;transition:all .12s;background:var(--color-background-primary)}
+.case:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.case-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:12px}
+.case-co{font-size:13px;font-weight:500}
+.case-ind{font-size:11px;color:var(--color-text-tertiary)}
+.case-q{font-size:13px;color:var(--color-text-primary);line-height:1.6;font-style:italic;margin-bottom:6px}
+.case-result{font-size:12px;font-weight:500;color:var(--color-text-success);background:var(--color-background-success);padding:3px 9px;border-radius:99px;display:inline-block}
+
+/* DOPYT FORMULÁR */
+.form-b{border:.5px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;background:var(--color-background-secondary);margin-bottom:1.5rem}
+.form-h{font-size:16px;font-weight:500;margin-bottom:.3rem}
+.form-sub{font-size:13px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:1.25rem}
+.fg{display:grid;gap:8px;margin-bottom:1rem}
+.fg2{grid-template-columns:1fr 1fr}
+.fgrp{display:flex;flex-direction:column;gap:3px}
+.flbl{font-size:11px;font-weight:500;color:var(--color-text-secondary)}
+.finp{font-size:13px;padding:9px 12px;border-radius:8px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);width:100%}
+.finp:focus{outline:none;border-color:var(--color-border-primary)}
+.fsel{font-size:13px;padding:9px 12px;border-radius:8px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);width:100%;cursor:pointer}
+.fsub{font-size:13px;font-weight:500;padding:11px;border-radius:9px;border:.5px solid var(--color-border-info);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-info);width:100%;text-align:center;transition:all .12s;margin-top:.5rem}
+.fsub:hover{background:var(--color-background-info)}
+.form-promise{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:.75rem}
+.fp{text-align:center;font-size:11px;color:var(--color-text-tertiary);line-height:1.4}
+.fp strong{display:block;font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+
+/* CENÍK */
+.price-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1.5rem}
+.price-card{border:.5px solid var(--color-border-tertiary);border-radius:14px;padding:18px 20px;background:var(--color-background-primary);display:flex;flex-direction:column;gap:6px}
+.price-card.hi{border:1.5px solid var(--color-border-info)}
+.pc-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px;display:inline-block;line-height:1.5}
+.pc-name{font-size:15px;font-weight:500}
+.pc-price{font-size:24px;font-weight:500}
+.pc-unit{font-size:12px;color:var(--color-text-tertiary)}
+.pc-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.pc-list li{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+.pc-list li::before{content:"✓ ";color:var(--color-text-success);font-weight:500}
+.pc-list li.na{color:var(--color-text-tertiary)}
+.pc-list li.na::before{content:"— "}
+.pc-cta{font-size:12px;font-weight:500;color:var(--color-text-info);margin-top:4px;cursor:pointer}
+
+/* CTA FINAL */
+.cta-b{border:1.5px solid var(--color-border-info);border-radius:14px;padding:22px 24px;background:var(--color-background-info);text-align:center}
+.cta-h{font-size:18px;font-weight:500;color:var(--color-text-info);margin-bottom:.4rem}
+.cta-s{font-size:13px;color:var(--color-text-info);opacity:.8;margin-bottom:1.25rem;line-height:1.6}
+.cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cbtn{font-size:13px;font-weight:500;padding:10px 20px;border-radius:9px;border:.5px solid var(--color-border-info);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.cbtn:hover{background:var(--color-background-secondary)}
+
+@media(max-width:480px){.segs,.ws-formats,.form-promise,.price-grid{grid-template-columns:1fr}.fg2{grid-template-columns:1fr}.prod{grid-template-columns:1fr}}
+</style>
+
+<div class="pg">
+
+<div class="hero-tag">DeepTalks — Pre firmy a školy</div>
+<div class="hero-h">Tímy fungujú lepšie,<br><em>keď sa navzájom poznajú.</em></div>
+<div class="hero-sub">Psychologické bezpečie nie je HR buzzword — je to základ výkonnosti každého tímu. DeepTalks ponúka nástroje, workshopy a programy, ktoré to budujú konkrétne — nie cez teóriu, ale cez rozhovory.</div>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1.5rem">
+  <div style="border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;background:var(--color-background-secondary);text-align:center;flex:1;min-width:110px"><div style="font-size:22px;font-weight:500;margin-bottom:2px">500+</div><div style="font-size:11px;color:var(--color-text-tertiary)">otázok pre tímy</div></div>
+  <div style="border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;background:var(--color-background-secondary);text-align:center;flex:1;min-width:110px"><div style="font-size:22px;font-weight:500;margin-bottom:2px">2–4h</div><div style="font-size:11px;color:var(--color-text-tertiary)">workshop formát</div></div>
+  <div style="border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;background:var(--color-background-secondary);text-align:center;flex:1;min-width:110px"><div style="font-size:22px;font-weight:500;margin-bottom:2px">SK + UA</div><div style="font-size:11px;color:var(--color-text-tertiary)">bilingválne</div></div>
+  <div style="border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;background:var(--color-background-secondary);text-align:center;flex:1;min-width:110px"><div style="font-size:22px;font-weight:500;margin-bottom:2px">24h</div><div style="font-size:11px;color:var(--color-text-tertiary)">odpoveď na dopyt</div></div>
+</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="showTab('firmy')">Firmy</div>
+  <div class="tab" onclick="showTab('skoly')">Školy</div>
+  <div class="tab" onclick="showTab('workshop')">Workshop</div>
+  <div class="tab" onclick="showTab('cenik')">Cenník</div>
+  <div class="tab" onclick="showTab('dopyt')">Dopyt</div>
+</div>
+
+<!-- FIRMY -->
+<div class="panel on" id="p-firmy">
+
+  <div style="font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;max-width:560px">Google, Spotify, Culture Amp — všetci investujú do psychologického bezpečia tímov. Nie preto, lebo je to trendy. Preto, lebo tímy kde ľudia hovoria otvorene podávajú o 35% lepšie výsledky.</div>
+
+  <div class="lbl">Čo firmy riešia</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1.5rem">
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">Tím funguje, ale nespojil sa</div><div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Efektívni, ale vzdialení. Tabuľky v Exceli, nie ľudia.</div></div>
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">Teambuilding bez efektu</div><div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Paintball, únikové izby — v pondelok sú rovnako cudzí.</div></div>
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">Nový kolega sa nezačlení</div><div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Trvá mesiace, kým sa cíti súčasťou. Produktivita trpí.</div></div>
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">Spätná väzba nefunguje</div><div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Ľudia si nevedia povedať veci priamo — bez konfliktu.</div></div>
+  </div>
+
+  <div class="lbl">Produkty pre firmy</div>
+  <div class="prods" id="firmy-prods">
+
+    <div class="prod hi" data-seg="firmy" onclick="sendPrompt('Navrhni detail stránku workshopu psychologického bezpečia pre firmy deeptalks.eu — obsah, agenda, výsledky')">
+      <div>
+        <span class="bdg bw">Najvyššia hodnota</span>
+        <div class="prod-n">Workshop — Psychologické bezpečie v tíme</div>
+        <div class="prod-d">2–4 hodinový program pre celý tím. Prezenčne alebo online. Psychologické bezpečie, emočná inteligencia, tímová dôvera — cez konkrétne aktivity a otázky, nie prednášky.</div>
+        <div class="prod-use">Pre: tímy 6–30 ľudí · ročné teambuildingы · onboarding nových kolegov · po zmenách v tíme</div>
+        <div class="prod-p">500–2 000 EUR / session</div>
+      </div>
+      <div class="prod-cta">Dopytovať →</div>
+    </div>
+
+    <div class="prod" data-seg="firmy" onclick="sendPrompt('Navrhni firemné kartičky pre tímy deeptalks.eu — obsah, balenie, množstevné zľavy, B2B predaj')">
+      <div>
+        <span class="bdg bw">Opakované objednávky</span>
+        <div class="prod-n">Kartičky — Tím a práca (firemná edícia)</div>
+        <div class="prod-d">50 otázok špeciálne pre pracovné prostredie. Icebreakery na porady, spoznávanie kolegov, budovanie dôvery. Možnosť firemného loga na krabičke.</div>
+        <div class="prod-use">Pre: porady · teambuildingы · onboarding · adaptačné kurzy</div>
+        <div class="prod-p">od 50 EUR / tím · množstevné zľavy</div>
+      </div>
+      <div class="prod-cta">Objednať →</div>
+    </div>
+
+    <div class="prod" data-seg="firmy" onclick="sendPrompt('Navrhni Herd Vote kvíz pre firemné teambuildingы deeptalks.eu — B2B verzia, TV display, vlastné otázky')">
+      <div>
+        <span class="bdg bv">Zadarmo / Premium</span>
+        <div class="prod-n">Herd Vote — tímový kvíz (firemná verzia)</div>
+        <div class="prod-d">Multiplayer kvíz na TV alebo projektore. Kategória Práca — psychologicky bezpečné otázky. Premium: vlastné otázky firmy, branding, analytics.</div>
+        <div class="prod-use">Pre: porady · off-site · vianočné večierky · onboarding</div>
+        <div class="prod-p">Zadarmo · Premium od 29 EUR / event</div>
+      </div>
+      <div class="prod-cta">Spustiť →</div>
+    </div>
+
+    <div class="prod" data-seg="firmy" onclick="sendPrompt('Navrhni Komunikačný kompas pre firmy deeptalks.eu — pracovné situácie, skripty, B2B verzia')">
+      <div>
+        <span class="bdg bv">Zadarmo</span>
+        <div class="prod-n">Komunikačný kompas — Práca</div>
+        <div class="prod-d">Konkrétne vety pre pracovné situácie. Spätná väzba, hranice, hádky, žiadosť o zvýšenie. Pre každého kolegu — bez HR oddelenia.</div>
+        <div class="prod-use">Pre: kolegov · manažérov · HR · všetky oddelenia</div>
+        <div class="prod-p">Zadarmo · online</div>
+      </div>
+      <div class="prod-cta">Otvoriť →</div>
+    </div>
+
+    <div class="prod" data-seg="firmy" onclick="sendPrompt('Navrhni partnerský program pre kaviarne a coworkingy deeptalks.eu — podmienky, čo dostanú')">
+      <div>
+        <span class="bdg bn">Komunita</span>
+        <div class="prod-n">Partnerstvo — kaviarne a coworkingy</div>
+        <div class="prod-d">Kartičky na stoloch, mapa partnerov na webe, Deep Talk večery. Pre podniky, ktoré chcú byť miestom skutočných rozhovorov.</div>
+        <div class="prod-use">Pre: kaviarne · coworkingy · konferenčné priestory</div>
+        <div class="prod-p">Dohodou · barterovo</div>
+      </div>
+      <div class="prod-cta">Stať sa partnerom →</div>
+    </div>
+
+  </div>
+
+  <div class="lbl">Čo hovoria firmy</div>
+  <div class="cases">
+    <div class="case" onclick="sendPrompt('Navrhni ďalšie case studies a testimonials od firiem pre deeptalks.eu B2B sekciu')">
+      <div class="case-top"><div><div class="case-co">IT firma · tím 18 ľudí</div><div class="case-ind">Bratislava · SaaS</div></div><span class="case-result">+40% otvorenosť v tíme</span></div>
+      <div class="case-q">"Dali sme kartičky na stôl pred retrospektívou. Do pol hodiny hovorili ľudia veci, ktoré som za rok nepočul na žiadnej porade."</div>
+      <div style="font-size:11px;color:var(--color-text-tertiary)">Lucia K. · HR Manager</div>
+    </div>
+    <div class="case" onclick="sendPrompt('Navrhni ďalšie case studies a testimonials od firiem pre deeptalks.eu B2B sekciu')">
+      <div class="case-top"><div><div class="case-co">Marketingová agentúra · tím 12 ľudí</div><div class="case-ind">Košice</div></div><span class="case-result">Workshop 3h → trvalo 6 mesiacov</span></div>
+      <div class="case-q">"Mysleli sme si, že sa dobre poznáme. Po workshope sme zistili, že sme sa dobre nepoznali. Teraz sa porady začínajú inak."</div>
+      <div style="font-size:11px;color:var(--color-text-tertiary)">Martin P. · CEO</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ŠKOLY -->
+<div class="panel" id="p-skoly">
+
+  <div style="font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:1.25rem;max-width:560px">Trieda, ktorá vie hovoriť, sa menej háda. Deti, ktoré vedia pomenovať pocity, sa menej šikanujú. DeepTalks pre školy nie je ďalší program — je to nástroj, ktorý sa zmestí do 5 minút ranného kruhu.</div>
+
+  <div class="lbl">Čo školy riešia</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1.5rem">
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">Šikana a vylúčenie</div><div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Deti si nevšimnú cudzinca kým nie je problém.</div></div>
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">Trieda nie je komunita</div><div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Sedia spolu roky, ale nepoznajú sa.</div></div>
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">Deti nevedia vyjadriť pocity</div><div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Frustrácia → výbuch. Chýba jazyk pre emócie.</div></div>
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">Ranné kruhy sú rutinné</div><div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5">Každý deň to isté — deti ho odfláknu.</div></div>
+  </div>
+
+  <div class="lbl">Produkty pre školy</div>
+  <div class="prods">
+
+    <div class="prod hi" onclick="sendPrompt('Navrhni školský program deeptalks.eu — kartičky, metodika pre učiteľov, licencia, cena, ako oslovovať školy')">
+      <div>
+        <span class="bdg bw">Komplexný program</span>
+        <div class="prod-n">Školský program DeepTalks</div>
+        <div class="prod-d">Kartičky + metodika pre učiteľov + e-learningový modul. Ranné kruhy, triednické hodiny, adaptačné kurzy. Pre ZŠ aj SŠ. Jeden program, celý rok.</div>
+        <div class="prod-use">Pre: triedni učitelia · výchovní poradcovia · školskí psychológovia</div>
+        <div class="prod-p">100–300 EUR / škola / rok</div>
+      </div>
+      <div class="prod-cta">Dopytovať →</div>
+    </div>
+
+    <div class="prod" onclick="sendPrompt('Navrhni edíciu kartičiek pre školy deeptalks.eu — obsah, verzie podľa veku, balenie pre triedu')">
+      <div>
+        <span class="bdg bv">Fyzický produkt</span>
+        <div class="prod-n">Kartičky pre školy — triedna edícia</div>
+        <div class="prod-d">Sada 40 kartičiek pre triedu. Verzia 1. stupeň (8–11 rokov) a 2. stupeň (12–15 rokov). Spoznávanie, empatia, komunikácia. Farebné, odolné, laminované.</div>
+        <div class="prod-use">Pre: triedy · skupiny · adaptačné kurzy · krúžky</div>
+        <div class="prod-p">od 35 EUR / trieda</div>
+      </div>
+      <div class="prod-cta">Objednať →</div>
+    </div>
+
+    <div class="prod" onclick="sendPrompt('Navrhni metodiku pre učiteľov deeptalks.eu — PDF príručka, ranné kruhy, triednické hodiny, príklady')">
+      <div>
+        <span class="bdg bv">Zadarmo pre školy</span>
+        <div class="prod-n">Metodika pre učiteľov — PDF</div>
+        <div class="prod-d">Bezplatná príručka pre učiteľov. Flow ranného kruhu, 20 hotových aktivít, tipy pre každý vek. Bez prípravy — otvoríš a použiješ.</div>
+        <div class="prod-use">Pre: všetkých učiteľov · triednictvo · mimoškolské aktivity</div>
+        <div class="prod-p">Zadarmo · stiahnuteľné PDF</div>
+      </div>
+      <div class="prod-cta">Stiahnuť →</div>
+    </div>
+
+    <div class="prod" onclick="sendPrompt('Navrhni Herd Vote kvíz pre školy deeptalks.eu — trieda, projektor, verzia pre deti')">
+      <div>
+        <span class="bdg bv">Zadarmo</span>
+        <div class="prod-n">Herd Vote — trieda hrá spolu</div>
+        <div class="prod-d">Kvíz pre celú triedu na projektore. Kategória Škola — vhodné pre vek 10+. Kto koho najlepšie pozná? Spoznávanie cez zábavu.</div>
+        <div class="prod-use">Pre: triednická hodina · prvý deň školy · adaptačné kurzy</div>
+        <div class="prod-p">Zadarmo</div>
+      </div>
+      <div class="prod-cta">Spustiť →</div>
+    </div>
+
+  </div>
+
+  <div class="lbl">Čo hovoria učitelia</div>
+  <div class="cases">
+    <div class="case" onclick="sendPrompt('Navrhni ďalšie testimonials od učiteľov pre deeptalks.eu B2B školy sekciu')">
+      <div class="case-top"><div><div class="case-co">ZŠ Nitra · 7. ročník</div><div class="case-ind">trieda 24 detí</div></div><span class="case-result">Otvorilo sa tiché dieťa</span></div>
+      <div class="case-q">"Do piatich minút hovorilo dieťa, ktoré za celý rok nepovedalo viac ako tri slová naraz. Trieda ho ticho počúvala."</div>
+      <div style="font-size:11px;color:var(--color-text-tertiary)">Mgr. Katarína N. · triedna učiteľka</div>
+    </div>
+    <div class="case" onclick="sendPrompt('Navrhni ďalšie testimonials od učiteľov pre deeptalks.eu B2B školy sekciu')">
+      <div class="case-top"><div><div class="case-co">SŠ Prešov · 1. ročník</div><div class="case-ind">adaptačný kurz</div></div><span class="case-result">Trieda sa stmelila za 3 hodiny</span></div>
+      <div class="case-q">"Adaptačný kurz zvyčajne trvá 3 dni. S kartičkami DeepTalks sme mali výsledky po jednom dopoludní. Deti sa opýtali veci, ktoré by si normálne neopýtali nikdy."</div>
+      <div style="font-size:11px;color:var(--color-text-tertiary)">PaedDr. Miroslava H. · výchovná poradkyňa</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- WORKSHOP DETAIL -->
+<div class="panel" id="p-workshop">
+
+  <div class="ws-detail">
+    <div class="ws-header">
+      <div class="ws-title">Workshop — Psychologické bezpečie v tíme</div>
+      <div class="ws-sub">2–4 hodiny · prezenčne alebo online · 6–30 ľudí · SK aj UA jazyk</div>
+    </div>
+    <div class="ws-body">
+
+      <div class="lbl" style="margin-top:0">Čo workshop dosiahne</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem">
+        <div style="border:.5px solid var(--color-border-success);border-radius:9px;padding:10px 12px;background:var(--color-background-success)"><div style="font-size:12px;font-weight:500;color:var(--color-text-success);margin-bottom:2px">Ľudia sa spoznajú za rolami</div><div style="font-size:11px;color:var(--color-text-success);opacity:.8;line-height:1.4">Kolegovia zistia o sebe veci, ktoré by inak nikdy nevedeli.</div></div>
+        <div style="border:.5px solid var(--color-border-success);border-radius:9px;padding:10px 12px;background:var(--color-background-success)"><div style="font-size:12px;font-weight:500;color:var(--color-text-success);margin-bottom:2px">Tím hovorí otvorenejšie</div><div style="font-size:11px;color:var(--color-text-success);opacity:.8;line-height:1.4">Menej "nepoviem to, čo si myslím."</div></div>
+        <div style="border:.5px solid var(--color-border-success);border-radius:9px;padding:10px 12px;background:var(--color-background-success)"><div style="font-size:12px;font-weight:500;color:var(--color-text-success);margin-bottom:2px">Konkrétne nástroje domov</div><div style="font-size:11px;color:var(--color-text-success);opacity:.8;line-height:1.4">Kartičky, kompas, 5 konkrétnych techník.</div></div>
+        <div style="border:.5px solid var(--color-border-success);border-radius:9px;padding:10px 12px;background:var(--color-background-success)"><div style="font-size:12px;font-weight:500;color:var(--color-text-success);margin-bottom:2px">Efekt trvá — nie len deň</div><div style="font-size:11px;color:var(--color-text-success);opacity:.8;line-height:1.4">Follow-up kartičky a 30-dňový plán.</div></div>
+      </div>
+
+      <div class="lbl">Agenda — 3-hodinová verzia</div>
+      <div class="ws-agenda">
+        <div class="wa-item"><div class="wa-time">0:00–0:20</div><div><div class="wa-t">Úvod a nastavenie priestoru</div><div class="wa-s">Pravidlá workshopu. Prečo psychologické bezpečie — nie prednáška, ale príbeh z výskumu Google.</div></div></div>
+        <div class="wa-item"><div class="wa-time">0:20–0:50</div><div><div class="wa-t">Kto sme — za pracovnými rolami</div><div class="wa-s">Kartičky: "Čo robíš mimo práce, o čom kolegovia nevedia?" Skupinové zdieľanie. Prekvapenia garantované.</div></div></div>
+        <div class="wa-item"><div class="wa-time">0:50–1:30</div><div><div class="wa-t">Ako sa naozaj cítime v tíme</div><div class="wa-s">Štruktúrovaný rozhovor v pároch a troch. "Kedy sa v tíme cítiš najlepšie?" "Čo ti pomáha hovoriť otvorene?"</div></div></div>
+        <div class="wa-item"><div class="wa-time">1:30–1:45</div><div><div class="wa-t">Prestávka</div><div class="wa-s">Neformálna — ľudia pokračujú v rozhovoroch spontánne. Toto je zlatý čas.</div></div></div>
+        <div class="wa-item"><div class="wa-time">1:45–2:30</div><div><div class="wa-t">Ťažké situácie — ako na ne</div><div class="wa-s">Herd Vote kvíz: "Ako nás kolegovia vidia?" Diskusia. Kompas: konkrétne vety pre pracovné situácie.</div></div></div>
+        <div class="wa-item"><div class="wa-time">2:30–3:00</div><div><div class="wa-t">Záver a záväzok</div><div class="wa-s">Každý napíše jednu vec, ktorú bude robiť inak. Kartičky domov. 30-dňový follow-up plán.</div></div></div>
+      </div>
+
+      <div class="lbl">Formáty a ceny</div>
+      <div class="ws-formats">
+        <div class="wf">
+          <div class="wf-n">Icebreaker (2h)</div>
+          <div class="wf-s">Ideálne na začiatok off-site alebo pred retrospektívou. Rýchle, energetické, bez hlbokej expozície.</div>
+          <div class="wf-p">500–800 EUR</div>
+        </div>
+        <div class="wf">
+          <div class="wf-n">Štandard (3h)</div>
+          <div class="wf-s">Plný program. Spoznávanie, emócie, ťažké témy, záväzok. Väčšina objednávok.</div>
+          <div class="wf-p">800–1 200 EUR</div>
+        </div>
+        <div class="wf">
+          <div class="wf-n">Deep Dive (4h+)</div>
+          <div class="wf-s">Pre tímy v kríze alebo pri väčšej zmene (fúzia, reštrukturalizácia, nový líder).</div>
+          <div class="wf-p">1 200–2 000 EUR</div>
+        </div>
+        <div class="wf">
+          <div class="wf-n">Online (2–3h)</div>
+          <div class="wf-s">Rovnaká kvalita, vzdialené tímy. Videokonferencia + Herd Vote + digitálne kartičky.</div>
+          <div class="wf-p">400–900 EUR</div>
+        </div>
+      </div>
+
+      <div style="background:var(--color-background-secondary);border-radius:10px;padding:13px 15px;font-size:12px;color:var(--color-text-secondary);line-height:1.6">
+        <strong style="color:var(--color-text-primary);font-weight:500">Čo je v cene:</strong> Facilitácia, príprava na mieru, fyzické kartičky pre každého účastníka, PDF materiály, 30-dňový follow-up plán. Cestovné nad 50 km sa účtuje extra.
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- CENNÍK -->
+<div class="panel" id="p-cenik">
+
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1.5rem">Všetky ceny sú bez DPH. Pri opakovaných objednávkach alebo väčšom rozsahu kontaktujte nás pre individuálnu ponuku.</div>
+
+  <div class="lbl">Firmy</div>
+  <div class="price-grid">
+    <div class="price-card">
+      <span class="pc-badge bv">Zadarmo</span>
+      <div class="pc-name">Kompas + Herd Vote</div>
+      <div class="pc-price">0 EUR</div>
+      <div class="pc-unit">navždy zadarmo</div>
+      <ul class="pc-list">
+        <li>Komunikačný kompas online</li>
+        <li>Herd Vote základný (1 hra)</li>
+        <li>Kategória Práca — otázky</li>
+        <li class="na">Vlastné otázky</li>
+        <li class="na">Analytics a export</li>
+        <li class="na">Branding firmy</li>
+      </ul>
+      <div class="pc-cta" onclick="sendPrompt('Navrhni onboarding flow pre B2B firmy deeptalks.eu — prvé kroky, demo, trial')">Začať zadarmo →</div>
+    </div>
+    <div class="price-card hi">
+      <span class="pc-badge bw">Najobľúbenejšie</span>
+      <div class="pc-name">Kartičky + Herd Vote Premium</div>
+      <div class="pc-price">od 79 EUR</div>
+      <div class="pc-unit">jednorazovo / na tím</div>
+      <ul class="pc-list">
+        <li>Sada kartičiek pre tím (50 ks)</li>
+        <li>Herd Vote Premium (vlastné otázky)</li>
+        <li>Metodika pre facilitátora</li>
+        <li>Analytics a export</li>
+        <li class="na">Facilitátor na mieste</li>
+        <li class="na">Školenie HR tímu</li>
+      </ul>
+      <div class="pc-cta" onclick="showTab('dopyt');document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===4)})">Objednať →</div>
+    </div>
+    <div class="price-card">
+      <span class="pc-badge bw">Najvyššia hodnota</span>
+      <div class="pc-name">Workshop na mieru</div>
+      <div class="pc-price">od 500 EUR</div>
+      <div class="pc-unit">per session</div>
+      <ul class="pc-list">
+        <li>Facilitátor DeepTalks</li>
+        <li>Program na mieru tímu</li>
+        <li>Kartičky pre každého</li>
+        <li>PDF materiály + 30d plán</li>
+        <li>Prezenčne alebo online</li>
+        <li>SK aj UA jazyk</li>
+      </ul>
+      <div class="pc-cta" onclick="showTab('dopyt');document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===4)})">Nezáväzný dopyt →</div>
+    </div>
+  </div>
+
+  <div class="lbl">Školy</div>
+  <div class="price-grid">
+    <div class="price-card">
+      <span class="pc-badge bv">Zadarmo</span>
+      <div class="pc-name">Metodika PDF</div>
+      <div class="pc-price">0 EUR</div>
+      <div class="pc-unit">pre každého učiteľa</div>
+      <ul class="pc-list">
+        <li>PDF príručka pre učiteľov</li>
+        <li>20 aktivít pre ranný kruh</li>
+        <li>Herd Vote pre triedu</li>
+        <li class="na">Fyzické kartičky</li>
+        <li class="na">Školenie učiteľov</li>
+      </ul>
+      <div class="pc-cta" onclick="sendPrompt('Navrhni PDF metodiku pre učiteľov deeptalks.eu — obsah, štruktúra, aktivity')">Stiahnuť PDF →</div>
+    </div>
+    <div class="price-card hi">
+      <span class="pc-badge bw">Celý rok</span>
+      <div class="pc-name">Školský program</div>
+      <div class="pc-price">100–300 EUR</div>
+      <div class="pc-unit">na školu / rok</div>
+      <ul class="pc-list">
+        <li>Kartičky pre 3–5 tried</li>
+        <li>Metodika + e-learning modul</li>
+        <li>Online školenie učiteľov (2h)</li>
+        <li>Podpora počas roka</li>
+        <li class="na">Facilitátor v škole</li>
+      </ul>
+      <div class="pc-cta" onclick="showTab('dopyt');document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===4)})">Dopytovať školu →</div>
+    </div>
+    <div class="price-card">
+      <span class="pc-badge bw">Komplexné</span>
+      <div class="pc-name">Školský workshop</div>
+      <div class="pc-price">od 300 EUR</div>
+      <div class="pc-unit">per deň / škola</div>
+      <ul class="pc-list">
+        <li>Facilitátor v škole</li>
+        <li>Adaptačný kurz alebo triednický deň</li>
+        <li>Kartičky pre triedy</li>
+        <li>Metodika pre učiteľov</li>
+        <li>Rodičovské stretnutie (voliteľné)</li>
+      </ul>
+      <div class="pc-cta" onclick="showTab('dopyt');document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===4)})">Nezáväzný dopyt →</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- DOPYT FORMULÁR -->
+<div class="panel" id="p-dopyt">
+
+  <div class="form-b">
+    <div class="form-h">Nezáväzný dopyt</div>
+    <div class="form-sub">Odpovieme do 24 hodín s konkrétnou ponukou. Žiadne záväzky — len rozhovor o tom, čo váš tím alebo škola potrebuje.</div>
+
+    <div class="fg fg2">
+      <div class="fgrp"><label class="flbl">Meno a priezvisko</label><input class="finp" placeholder="Ján Novák" type="text"></div>
+      <div class="fgrp"><label class="flbl">Email</label><input class="finp" placeholder="jan@firma.sk" type="email"></div>
+    </div>
+    <div class="fg fg2">
+      <div class="fgrp"><label class="flbl">Firma / Škola</label><input class="finp" placeholder="Názov organizácie" type="text"></div>
+      <div class="fgrp"><label class="flbl">Počet ľudí</label><input class="finp" placeholder="napr. 15 kolegov" type="text"></div>
+    </div>
+    <div class="fg">
+      <div class="fgrp">
+        <label class="flbl">Čo vás zaujíma</label>
+        <select class="fsel">
+          <option>Workshop pre tím (prezenčne)</option>
+          <option>Workshop pre tím (online)</option>
+          <option>Kartičky + Herd Vote Premium</option>
+          <option>Školský program</option>
+          <option>Školský workshop</option>
+          <option>Partnerstvo (kaviareň/coworking)</option>
+          <option>Chcem sa len porozprávať</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="fgrp">
+        <label class="flbl">Čo chcete dosiahnuť? (voliteľné)</label>
+        <input class="finp" placeholder="napr. Nový kolega sa nezačlení, porady bez energie, chceme lepší onboarding..." type="text">
+      </div>
+    </div>
+
+    <button class="fsub" onclick="submitForm(this)">Odoslať dopyt →</button>
+
+    <div class="form-promise">
+      <div class="fp"><strong>24 hodín</strong>odpovieme s konkrétnou ponukou</div>
+      <div class="fp"><strong>Bez záväzkov</strong>len rozhovor o vašich potrebách</div>
+      <div class="fp"><strong>Na mieru</strong>každá ponuka je individuálna</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:14px 16px;background:var(--color-background-primary)">
+      <div style="font-size:13px;font-weight:500;margin-bottom:.3rem">Preferujete zavolať?</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:.5rem">Radi si dohodneme 20-minútový hovor aby sme pochopili čo váš tím potrebuje.</div>
+      <div style="font-size:12px;font-weight:500;color:var(--color-text-info);cursor:pointer" onclick="sendPrompt('Navrhni Calendly alebo booking systém pre B2B hovory deeptalks.eu')">Rezervovať hovor →</div>
+    </div>
+    <div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:14px 16px;background:var(--color-background-primary)">
+      <div style="font-size:13px;font-weight:500;margin-bottom:.3rem">Chcete najprv vyskúšať?</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:.5rem">Herd Vote a Komunikačný kompas sú zadarmo. Skúste ich na najbližšej porade — bez registrácie.</div>
+      <div style="font-size:12px;font-weight:500;color:var(--color-text-info);cursor:pointer" onclick="sendPrompt('Navrhni B2B trial flow pre deeptalks.eu — čo vyskúšať zadarmo, onboarding')">Vyskúšať zadarmo →</div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<div class="div"></div>
+
+<div class="cta-b">
+  <div class="cta-h">Jedna otázka na porade zmení celú atmosféru.</div>
+  <div class="cta-s">Nemusíte čakať na workshop. Skúste Herd Vote zadarmo na najbližšej porade.<br>Ak bude fungovať — zavoláme si o zvyšku.</div>
+  <div class="cta-row">
+    <button class="cbtn" onclick="showTab('dopyt');document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===4)})">Nezáväzný dopyt</button>
+    <button class="cbtn" onclick="sendPrompt('Spusti Herd Vote kvíz pre firemný teambuilding deeptalks.eu')">Vyskúšať zadarmo</button>
+    <button class="cbtn" onclick="showTab('workshop');document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===2)})">Pozrieť workshop</button>
+  </div>
+</div>
+
+<script>
+function showTab(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  document.getElementById('p-'+id).classList.add('on');
+  var idx={firmy:0,skoly:1,workshop:2,cenik:3,dopyt:4}[id];
+  if(idx!==undefined)document.querySelectorAll('.tab')[idx].classList.add('on');
+}
+function submitForm(btn){
+  btn.textContent='Odoslané ✓ — ozveme sa do 24 hodín';
+  btn.style.background='var(--color-background-success)';
+  btn.style.color='var(--color-text-success)';
+  btn.style.borderColor='transparent';
+}
+</script>

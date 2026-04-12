@@ -1,0 +1,294 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.5rem 0 3rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.h1{font-size:21px;font-weight:500;margin-bottom:.3rem}
+.sub{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1.25rem;max-width:540px}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.6rem;margin-top:1.5rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.25rem 0}
+
+/* FILTER */
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.fb{font-size:11px;padding:5px 12px;border-radius:99px;border:.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;white-space:nowrap}
+.fb.on{border-color:var(--color-border-primary);background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+
+/* SEARCH */
+.search-wrap{margin-bottom:1.25rem}
+.search-inp{width:100%;font-size:13px;padding:9px 13px;border-radius:9px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);outline:none;transition:border-color .15s}
+.search-inp:focus{border-color:var(--color-border-primary)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.card{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:11px 14px;cursor:pointer;transition:all .13s;background:var(--color-background-primary);user-select:none}
+.card:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.card.sel{border:1.5px solid var(--color-border-info);background:var(--color-background-info)}
+.card.sel .cn,.card.sel .cs,.card.sel .ctag{color:var(--color-text-info)}
+.card.sel .cs{opacity:.8}
+.card.hid{display:none}
+.cico{font-size:20px;margin-bottom:5px}
+.cn{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.cs{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+.ctag{font-size:10px;color:var(--color-text-tertiary);margin-top:4px;font-weight:500;letter-spacing:.03em}
+.card.sel .ctag{color:var(--color-text-info);opacity:.7}
+
+/* SELECTED BOX */
+.sel-box{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:13px 15px;background:var(--color-background-secondary);position:sticky;bottom:1rem;margin-top:.5rem}
+.sel-h{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center}
+.sel-items{display:flex;gap:6px;flex-wrap:wrap;min-height:26px}
+.si{font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;border:.5px solid var(--color-border-info);background:var(--color-background-primary);color:var(--color-text-info);cursor:pointer;transition:all .12s}
+.si:hover{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.sel-empty{font-size:12px;color:var(--color-text-tertiary);font-style:italic}
+.copy-btn{font-size:11px;font-weight:500;padding:5px 12px;border-radius:7px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s}
+.copy-btn:hover{color:var(--color-text-primary)}
+.stats{font-size:11px;color:var(--color-text-tertiary);margin-top:.4rem}
+
+@media(max-width:560px){.grid{grid-template-columns:1fr 1fr}}
+</style>
+
+<div class="pg">
+<div class="h1">Kategórie pre Herd Vote Quiz</div>
+<div class="sub">150+ kategórií z celého sveta — Trivial Pursuit, Jackbox, pub quizy, Kahoot, Netflix, školské súťaže. Klikni pre výber, filter podľa skupiny, hľadaj. Vybrané sa zbierajú dolu.</div>
+
+<div class="search-wrap">
+  <input class="search-inp" placeholder="Hľadaj kategóriu..." oninput="filterSearch(this.value)">
+</div>
+
+<div class="filters">
+  <button class="fb on" onclick="filterGroup('all',this)">Všetky (150+)</button>
+  <button class="fb" onclick="filterGroup('zábava',this)">Zábava & Pop</button>
+  <button class="fb" onclick="filterGroup('veda',this)">Veda & Príroda</button>
+  <button class="fb" onclick="filterGroup('sport',this)">Šport</button>
+  <button class="fb" onclick="filterGroup('kultúra',this)">Kultúra & Umenie</button>
+  <button class="fb" onclick="filterGroup('história',this)">História & Politika</button>
+  <button class="fb" onclick="filterGroup('geo',this)">Geografia</button>
+  <button class="fb" onclick="filterGroup('jedlo',this)">Jedlo & Pitie</button>
+  <button class="fb" onclick="filterGroup('tech',this)">Tech & Veda</button>
+  <button class="fb" onclick="filterGroup('sk',this)">🇸🇰 Slovensko</button>
+  <button class="fb" onclick="filterGroup('funny',this)">Zábavné & Niche</button>
+  <button class="fb" onclick="filterGroup('deti',this)">Pre deti & Školu</button>
+  <button class="fb" onclick="filterGroup('deeptalks',this)">💬 DeepTalks</button>
+</div>
+
+<div class="grid" id="grid">
+
+<!-- ZÁBAVA & POP -->
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🎬</div><div class="cn">Filmy</div><div class="cs">Citáty, herci, rok vydania, oscary</div><div class="ctag">Trivial Pursuit · Jackbox</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">📺</div><div class="cn">Televízia & Seriály</div><div class="cs">Netflix, HBO, klasiky. Znáš sa v tom?</div><div class="ctag">Pub quiz · Netflix</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🎵</div><div class="cn">Hudba</div><div class="cs">Kapely, hity, roky, texty piesní</div><div class="ctag">Pub quiz · Kahoot</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🎤</div><div class="cn">Speváci & Kapely</div><div class="cs">Kto spieval? Z akej kapely? Koľko albúmov?</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🎮</div><div class="cn">Videohry</div><div class="cs">Konzoly, postavy, rok vydania, rekordy</div><div class="ctag">Jackbox · Twitch</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">📚</div><div class="cn">Knihy & Literatúra</div><div class="cs">Autori, postavy, citáty, bestsellery</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🎭</div><div class="cn">Divadlo & Muzikály</div><div class="cs">Broadway, West End, piesne z muzikálov</div><div class="ctag">Kultúrny pub quiz</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">📰</div><div class="cn">Aktuálne udalosti</div><div class="cs">Správy posledného mesiaca, roku</div><div class="ctag">Kahoot · školy</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🦸</div><div class="cn">Superhrdinovia & Komiksy</div><div class="cs">Marvel, DC, mená, schopnosti, filmy</div><div class="ctag">Jackbox · Gen-Z</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🏆</div><div class="cn">Reality šou & Súťaže</div><div class="cs">Survivor, Big Brother, Idol, MasterChef</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🎪</div><div class="cn">Stand-up & Komedianti</div><div class="cs">Citáty, mená komikeov, Netflix špeciály</div><div class="ctag">Niche pub quiz</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">📸</div><div class="cn">Celebrity & Slávni ľudia</div><div class="cs">Kto je kto? Kariéra, vzťahy, škandály</div><div class="ctag">Pub quiz · BuzzFeed</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🌐</div><div class="cn">Internet & Memes</div><div class="cs">Viral momenty, TikTok, YouTube, reddit</div><div class="ctag">Gen-Z · Jackbox</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🃏</div><div class="cn">Disney & Animáky</div><div class="cs">Postavy, piesne, filmy, Pixar</div><div class="ctag">Rodinný pub quiz</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">🧩</div><div class="cn">Spoločenské hry</div><div class="cs">Pravidlá, postavy, rok vzniku, rekordné hry</div><div class="ctag">Board game café</div></div>
+<div class="card" data-g="zábava" onclick="tog(this)"><div class="cico">📡</div><div class="cn">Podcasty & YouTube</div><div class="cs">Najväčší tvorcovia, videá s miliardou videní</div><div class="ctag">Gen-Z niche</div></div>
+
+<!-- ŠPORT -->
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">⚽</div><div class="cn">Futbal</div><div class="cs">Kluby, hráči, MS, rekordy, trofeje</div><div class="ctag">Pub quiz #1</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🏀</div><div class="cn">Basketbal (NBA)</div><div class="cs">Tímy, MVP, šampionáty, štatistiky legiend</div><div class="ctag">US pub quiz</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🎾</div><div class="cn">Tenis</div><div class="cs">Grand Slamy, svetové jedničky, Wimbledon</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🏊</div><div class="cn">Olympijské hry</div><div class="cs">Rekordy, mestá, olympijský oheň, mediaily</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🏒</div><div class="cn">Hokej</div><div class="cs">Tímy, MS, Stanley Cup, legendy</div><div class="ctag">SK/CZ pub quiz</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🥊</div><div class="cn">Box & MMA</div><div class="cs">Šampióni, zápasy, UFC, majstrovstvá sveta</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🏎️</div><div class="cn">Formule 1</div><div class="cs">Tímy, piloti, trasy, víťazi šampionátu</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🚴</div><div class="cn">Cyklistika</div><div class="cs">Tour de France, Giro, Vuelta, rekordy</div><div class="ctag">Európsky pub quiz</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🏈</div><div class="cn">Americký futbal (NFL)</div><div class="cs">Super Bowl, tímy, MVP, rekordy</div><div class="ctag">US pub quiz</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🎿</div><div class="cn">Zimné športy</div><div class="cs">Lyžovanie, biatlon, skoky, krasokorčuľovanie</div><div class="ctag">SK relevantné</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">⚾</div><div class="cn">Baseball</div><div class="cs">MLB, šampionáty, hráči, rekordy</div><div class="ctag">US pub quiz</div></div>
+<div class="card" data-g="sport" onclick="tog(this)"><div class="cico">🏐</div><div class="cn">Volejbal & Plážové športy</div><div class="cs">MS, olympiáda, najlepšie tímy sveta</div><div class="ctag">Pub quiz</div></div>
+
+<!-- KULTÚRA & UMENIE -->
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">🎨</div><div class="cn">Výtvarné umenie</div><div class="cs">Maliari, obrazy, múzeá, umelecké štýly</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">🏛️</div><div class="cn">Architektúra</div><div class="cs">Stavby, architekti, štýly, rekordy výšky</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">📜</div><div class="cn">Mytológia</div><div class="cs">Grécka, rímska, nordická, egyptská</div><div class="ctag">Školy · pub quiz</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">🌍</div><div class="cn">Náboženstvá sveta</div><div class="cs">Sviatky, symboly, zakladatelia, posvätné miesta</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">💃</div><div class="cn">Tanec & Balet</div><div class="cs">Štýly, koreografie, svetové súbory</div><div class="ctag">Kultúrny pub quiz</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">🎻</div><div class="cn">Klasická hudba</div><div class="cs">Skladatelia, diela, nástroje, opera</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">📷</div><div class="cn">Fotografia & Film</div><div class="cs">Ikonické fotky, fotografi, techniky</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">🛕</div><div class="cn">Svetové pamiatky UNESCO</div><div class="cs">Kde sa nachádzajú, kedy boli zapísané</div><div class="ctag">Geo + kultúra</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">🌐</div><div class="cn">Jazyky sveta</div><div class="cs">Koľko ľudí hovorí? Odkiaľ pochádza slovo?</div><div class="ctag">Lingvistický pub quiz</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">📖</div><div class="cn">Citáty z kníh a filmov</div><div class="cs">Kto to povedal? Z akého diela?</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="kultúra" onclick="tog(this)"><div class="cico">🎡</div><div class="cn">Festivaly sveta</div><div class="cs">Oktoberfest, Karneval, Burning Man, Diwali</div><div class="ctag">Kultúrny pub quiz</div></div>
+
+<!-- HISTÓRIA & POLITIKA -->
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">⚔️</div><div class="cn">Vojny & Bitky</div><div class="cs">Dátumy, miesta, rozhodnutia, dôsledky</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">👑</div><div class="cn">Kráľovské rodiny</div><div class="cs">Európske monarchie, zaujímavosti, nástupníctvo</div><div class="ctag">UK pub quiz</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">🗽</div><div class="cn">Prezidenti & Premiéri</div><div class="cs">Mená, roky, krajiny, zaujímavosti</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">🏺</div><div class="cn">Staroveké civilizácie</div><div class="cs">Egypt, Rím, Grécko, Aztékovia, Čína</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">🚀</div><div class="cn">Vesmírne preteky</div><div class="cs">NASA, Sojuz, prvý človek, Moon landing</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">📅</div><div class="cn">Dôležité dátumy histórie</div><div class="cs">Kedy sa to stalo? Rok udalosti?</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">🏦</div><div class="cn">Ekonomika & Peniaze</div><div class="cs">Meny, centrálne banky, veľké krízy</div><div class="ctag">Pokročilý pub quiz</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">✊</div><div class="cn">Revolúcie & Hnutia</div><div class="cs">Francúzska revolúcia, Velvet Revolution, civil rights</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">⚖️</div><div class="cn">Právo & Súdne kauzy</div><div class="cs">Slávne prípady, medzinárodné právo, súdy</div><div class="ctag">Niche pub quiz</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">🗺️</div><div class="cn">Objavy & Prieskumníci</div><div class="cs">Kolumbus, Magellan, Scott, Amundsen</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="história" onclick="tog(this)"><div class="cico">📰</div><div class="cn">20. storočie</div><div class="cs">Studenú vojna, kozmické preteky, diktatúry</div><div class="ctag">Pub quiz</div></div>
+
+<!-- GEOGRAFIA -->
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">🌍</div><div class="cn">Hlavné mestá sveta</div><div class="cs">Ktoré mesto je hlavné mesto krajiny X?</div><div class="ctag">Trivial Pursuit #1</div></div>
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">🗺️</div><div class="cn">Vlajky štátov</div><div class="cs">Aká krajina má túto vlajku?</div><div class="ctag">Pub quiz · obľúbené</div></div>
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">⛰️</div><div class="cn">Hory & Pohoria</div><div class="cs">Everest, Alpy, Andy, výšky, krajiny</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">🌊</div><div class="cn">Rieky, jazerá & oceány</div><div class="cs">Najdlhšia, najhlbšia, hranice krajín</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">🏙️</div><div class="cn">Najväčšie mestá sveta</div><div class="cs">Počet obyvateľov, kontinenty, zaujímavosti</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">🧭</div><div class="cn">Krajiny sveta — fakty</div><div class="cs">Populácia, mena, jazyk, susedia</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">🏝️</div><div class="cn">Ostrovy & Kontinenty</div><div class="cs">Najväčšie, najmenšie, zaujímavé fakty</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">🗼</div><div class="cn">Svetoznáme pamiatky</div><div class="cs">V ktorom meste? V akej krajine?</div><div class="ctag">Obľúbené</div></div>
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">🌋</div><div class="cn">Prírodné javy</div><div class="cs">Sopky, zemetrasenia, tornáda, tsunami</div><div class="ctag">Veda + geo</div></div>
+<div class="card" data-g="geo" onclick="tog(this)"><div class="cico">🌡️</div><div class="cn">Podnebie & Počasie</div><div class="cs">Najteplejšie, najmokrejšie, najsuchšie miesta</div><div class="ctag">Pub quiz</div></div>
+
+<!-- JEDLO & PITIE -->
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🍕</div><div class="cn">Medzinárodná kuchyňa</div><div class="cs">Z akej krajiny pochádza jedlo? Ingrediencie?</div><div class="ctag">Pub quiz · obľúbené</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🍷</div><div class="cn">Víno & Vinárske regióny</div><div class="cs">Odrody, krajiny, rekordy, degustácia</div><div class="ctag">Sofistikovaný pub quiz</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🍺</div><div class="cn">Pivo & Pivovary</div><div class="cs">Typy piva, krajiny, najstaršie pivovary</div><div class="ctag">Pub quiz #1</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">☕</div><div class="cn">Káva & Čaj</div><div class="cs">Krajiny pôvodu, typy, príprava</div><div class="ctag">Kaviareň pub quiz</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🍣</div><div class="cn">Ázijská kuchyňa</div><div class="cs">Japonsko, Kórea, Čína, Thajsko, Indie</div><div class="ctag">Foodie pub quiz</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🧀</div><div class="cn">Syry sveta</div><div class="cs">Krajiny, typy, rekordy, zaujímavosti</div><div class="ctag">Niche pub quiz</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🌶️</div><div class="cn">Koreniny & Bylinky</div><div class="cs">Pôvod, použitie, Scoville stupnica</div><div class="ctag">Foodie niche</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🎂</div><div class="cn">Dezerty sveta</div><div class="cs">Tiramisu, crème brûlée, baklava — odkiaľ?</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🍽️</div><div class="cn">Michelinové hviezdy & šéfkuchári</div><div class="cs">Najslávnejší šéfkuchári, reštaurácie, krajiny</div><div class="ctag">Foodie pub quiz</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🥃</div><div class="cn">Koktaily & Destiláty</div><div class="cs">Ingrediencie, krajiny pôvodu, meno barmanky</div><div class="ctag">Bar pub quiz</div></div>
+<div class="card" data-g="jedlo" onclick="tog(this)"><div class="cico">🌾</div><div class="cn">Potraviny & Výživa</div><div class="cs">Vitamíny, kalórie, superfoods, fakty</div><div class="ctag">Health niche</div></div>
+
+<!-- VEDA & PRÍRODA -->
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">🔬</div><div class="cn">Biológia & Telo</div><div class="cs">Orgány, bunky, DNA, ľudské telo</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">⚗️</div><div class="cn">Chémia</div><div class="cs">Prvky, značky, reakčné rovnice, Nobel</div><div class="ctag">Školy · Kahoot</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">🌌</div><div class="cn">Vesmír & Astronómia</div><div class="cs">Planéty, hviezdy, galaxie, misie NASA</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">🦁</div><div class="cn">Zvieratá & Príroda</div><div class="cs">Fakty, rekordy, druhy, habitat</div><div class="ctag">Pub quiz · obľúbené</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">🦕</div><div class="cn">Dinosaury & Prehistória</div><div class="cs">Mená, éry, fosílie, veľkosti</div><div class="ctag">Deti + dospelí</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">🧪</div><div class="cn">Objavy & Vynálezy</div><div class="cs">Kto vynašiel? Kedy? Ako to zmenilo svet?</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">⚡</div><div class="cn">Fyzika</div><div class="cs">Zákony, vedci, experimenty, jednotky</div><div class="ctag">Školy</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">🌱</div><div class="cn">Rastliny & Botanika</div><div class="cs">Druhy, liečivé rastliny, rekordy, fakty</div><div class="ctag">Niche pub quiz</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">🌊</div><div class="cn">Oceány & Morský život</div><div class="cs">Druhy rýb, hĺbky, zaujímavosti</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">🧠</div><div class="cn">Psychológia & Mozog</div><div class="cs">Fakty o mozgu, efekty, experimenty</div><div class="ctag">DeepTalks relevantné</div></div>
+<div class="card" data-g="veda" onclick="tog(this)"><div class="cico">🌿</div><div class="cn">Klimatická zmena & Ekológia</div><div class="cs">Fakty, riešenia, dohody, krajiny</div><div class="ctag">Moderný pub quiz</div></div>
+
+<!-- TECH -->
+<div class="card" data-g="tech" onclick="tog(this)"><div class="cico">💻</div><div class="cn">Technológia & Internet</div><div class="cs">Kto to vynašiel, kedy vzniklo, rekordy</div><div class="ctag">Tech pub quiz</div></div>
+<div class="card" data-g="tech" onclick="tog(this)"><div class="cico">📱</div><div class="cn">Smartfóny & Aplikácie</div><div class="cs">Apple vs Android, história, rekordy stiahnutí</div><div class="ctag">Tech niche</div></div>
+<div class="card" data-g="tech" onclick="tog(this)"><div class="cico">🤖</div><div class="cn">Umelá inteligencia</div><div class="cs">Modely, spoločnosti, prielomy, história</div><div class="ctag">2024+ relevantné</div></div>
+<div class="card" data-g="tech" onclick="tog(this)"><div class="cico">🚗</div><div class="cn">Autá & Doprava</div><div class="cs">Značky, modely, rekordy, história áut</div><div class="ctag">Pub quiz · obľúbené</div></div>
+<div class="card" data-g="tech" onclick="tog(this)"><div class="cico">✈️</div><div class="cn">Lietadlá & Letectvo</div><div class="cs">Typy lietadiel, rekordy, aerolinky</div><div class="ctag">Tech pub quiz</div></div>
+<div class="card" data-g="tech" onclick="tog(this)"><div class="cico">🚀</div><div class="cn">Vesmírne technológie</div><div class="cs">SpaceX, NASA, Roscosmos, satelity</div><div class="ctag">Tech pub quiz</div></div>
+<div class="card" data-g="tech" onclick="tog(this)"><div class="cico">🔐</div><div class="cn">Kryptomena & Blockchain</div><div class="cs">Bitcoin, Ethereum, história, rekordy</div><div class="ctag">Niche pub quiz</div></div>
+<div class="card" data-g="tech" onclick="tog(this)"><div class="cico">🏥</div><div class="cn">Medicína & Zdravie</div><div class="cs">Lieky, diagnózy, rekordy, Nobel za medicínu</div><div class="ctag">Trivial Pursuit</div></div>
+
+<!-- SLOVENSKO -->
+<div class="card" data-g="sk" onclick="tog(this)"><div class="cico">🇸🇰</div><div class="cn">Slovenská história</div><div class="cs">Udalosti, osobnosti, dátumy, zmluvy</div><div class="ctag">SK špecifické</div></div>
+<div class="card" data-g="sk" onclick="tog(this)"><div class="cico">⛷️</div><div class="cn">Slovenský šport</div><div class="cs">Športovci, medailisti, rekordy</div><div class="ctag">SK špecifické</div></div>
+<div class="card" data-g="sk" onclick="tog(this)"><div class="cico">🏔️</div><div class="cn">Slovenská príroda & regióny</div><div class="cs">Tatry, jaskyne, rieky, NP</div><div class="ctag">SK špecifické</div></div>
+<div class="card" data-g="sk" onclick="tog(this)"><div class="cico">🎶</div><div class="cn">Slovenská hudba</div><div class="cs">Kapely, speváci, hity, folklore</div><div class="ctag">SK pub quiz</div></div>
+<div class="card" data-g="sk" onclick="tog(this)"><div class="cico">📺</div><div class="cn">Slovenské filmy & TV</div><div class="cs">Klasiky, postavy, citáty, režiséri</div><div class="ctag">SK pub quiz</div></div>
+<div class="card" data-g="sk" onclick="tog(this)"><div class="cico">🏙️</div><div class="cn">Slovenské mestá & fakty</div><div class="cs">Počty obyvateľov, symboly, historické fakty</div><div class="ctag">SK pub quiz</div></div>
+<div class="card" data-g="sk" onclick="tog(this)"><div class="cico">🥣</div><div class="cn">Slovenská kuchyňa</div><div class="cs">Jedlá, tradície, ingrediencie, sviatky</div><div class="ctag">SK pub quiz</div></div>
+<div class="card" data-g="sk" onclick="tog(this)"><div class="cico">🇺🇦</div><div class="cn">Ukrajina & SK-UA vzťahy</div><div class="cs">História, kultúra, zaujímavosti, osobnosti</div><div class="ctag">DeepTalks bilingválne</div></div>
+<div class="card" data-g="sk" onclick="tog(this)"><div class="cico">🏰</div><div class="cn">Slovenské hrady & pamiatky</div><div class="cs">Kde sa nachádzajú, história, UNESCO</div><div class="ctag">SK pub quiz</div></div>
+
+<!-- FUNNY & NICHE -->
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">🤯</div><div class="cn">Neuveriteľné fakty</div><div class="cs">True or False? Skutočné, no neuveriteľné</div><div class="ctag">Jackbox · virálne</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">🎲</div><div class="cn">Rekordy z Guinnessovej knihy</div><div class="cs">Najväčší, najrýchlejší, najzaujímavejší</div><div class="ctag">Pub quiz obľúbené</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">🦄</div><div class="cn">Záhadné a nadprirodzené</div><div class="cs">UFO, záhady, Bermudský trojuholník</div><div class="ctag">Niche fun</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">😂</div><div class="cn">Vtipné zákony & predpisy</div><div class="cs">Reálne, ale absurdné zákony z celého sveta</div><div class="ctag">Jackbox štýl</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">🐾</div><div class="cn">Zvieracie rekordy</div><div class="cs">Najrýchlejšie, najväčšie, najzaujímavejšie</div><div class="ctag">Rodinný pub quiz</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">💰</div><div class="cn">Najbohatší ľudia sveta</div><div class="cs">Meno, majetok, čím zarobili, rok</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">🧟</div><div class="cn">Horory & Strašidelné</div><div class="cs">Filmy, miesta, legendy, mýty</div><div class="ctag">Halloween pub quiz</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">🔮</div><div class="cn">Horoskopy & Veštenie</div><div class="cs">Znamenia, planéty, predpovede, história</div><div class="ctag">Fun niche</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">🎪</div><div class="cn">Cirkus & Pouliční artisti</div><div class="cs">Rekordy, histórica, slávne čísla</div><div class="ctag">Fun niche</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">🃏</div><div class="cn">Superlativy</div><div class="cs">Čo je najväčšie, najmenšie, najrýchlejšie...?</div><div class="ctag">Pub quiz</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">🛸</div><div class="cn">Sci-Fi & Budúcnosť</div><div class="cs">Predpovede, filmy, vynálezy inšpirované sci-fi</div><div class="ctag">Niche tech</div></div>
+<div class="card" data-g="funny" onclick="tog(this)"><div class="cico">💅</div><div class="cn">Móda & Dizajn</div><div class="cs">Značky, návrhári, trendy, ikonické kúsky</div><div class="ctag">Pub quiz</div></div>
+
+<!-- PRE DETI & ŠKOLU -->
+<div class="card" data-g="deti" onclick="tog(this)"><div class="cico">✏️</div><div class="cn">Matematika & Rébusy</div><div class="cs">Hlavolamy, výpočty, logické úlohy</div><div class="ctag">Školy · Kahoot</div></div>
+<div class="card" data-g="deti" onclick="tog(this)"><div class="cico">🔤</div><div class="cn">Slovenský jazyk & Pravopis</div><div class="cs">Gramatika, synonymá, pravopis, úslovia</div><div class="ctag">SK školy</div></div>
+<div class="card" data-g="deti" onclick="tog(this)"><div class="cico">🌈</div><div class="cn">Farby, tvary & percepcia</div><div class="cs">Optické ilúzie, miešanie farieb, vnímanie</div><div class="ctag">Deti · Kahoot</div></div>
+<div class="card" data-g="deti" onclick="tog(this)"><div class="cico">🦋</div><div class="cn">Príroda okolo nás</div><div class="cs">Vtáky, stromy, kvety, zvieratá SR</div><div class="ctag">Deti · školy</div></div>
+<div class="card" data-g="deti" onclick="tog(this)"><div class="cico">🏫</div><div class="cn">Školské predmety</div><div class="cs">Ktorý vedec? Ktorý rok? Zákon, vzorec</div><div class="ctag">Kahoot</div></div>
+<div class="card" data-g="deti" onclick="tog(this)"><div class="cico">🧒</div><div class="cn">Detské seriály & rozprávky</div><div class="cs">Postavy, mená, príbehy, pesničky</div><div class="ctag">Rodinný pub quiz</div></div>
+<div class="card" data-g="deti" onclick="tog(this)"><div class="cico">🎠</div><div class="cn">Hry & Hračky</div><div class="cs">LEGO, Barbie, Monopoly — história, fakty</div><div class="ctag">Rodinný pub quiz</div></div>
+
+<!-- DEEPTALKS ŠPECIÁLNE -->
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">💬</div><div class="cn">Čo vieš o svojej rodine?</div><div class="cs">Kto z rodiny...? Kedy sa narodil...? Čo zbiera...?</div><div class="ctag">DeepTalks originál ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">🧡</div><div class="cn">Náš vzťah — páry</div><div class="cs">Kedy sme sa prvýkrát...? Kde to bolo...?</div><div class="ctag">DeepTalks originál ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">👥</div><div class="cn">Kto z nás by...?</div><div class="cs">Kto by prežil zombie apokalypsu? Kto by skôr...?</div><div class="ctag">Herd Vote originál ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">🔢</div><div class="cn">Uhádni percentá</div><div class="cs">Koľko % ľudí...? Guesspionage štýl</div><div class="ctag">Jackbox štýl ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">🤔</div><div class="cn">Psychologické fakty</div><div class="cs">Čo hovorí výskum o ľuďoch, vzťahoch, mozgu</div><div class="ctag">DeepTalks originál ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">🎭</div><div class="cn">Emócie & Reakčné typy</div><div class="cs">Ako reaguješ? Čo by si urobil/a? Ktorý typ si?</div><div class="ctag">DeepTalks originál ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">🏠</div><div class="cn">Domácnosť & Spolunažívanie</div><div class="cs">Kto robí čo doma? Zvyky, nezhody, rituály</div><div class="ctag">Páry · rodiny ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">🌟</div><div class="cn">Sny & Ambície</div><div class="cs">Kto by chcel...? Čo by urobil/a s miliónom?</div><div class="ctag">DeepTalks originál ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">😬</div><div class="cn">Trápne momenty & Škandály</div><div class="cs">Čo si urobil/a prvýkrát? Najhoršia situácia?</div><div class="ctag">Icebreaker ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">🗳️</div><div class="cn">Väčšina by...?</div><div class="cs">Čo by väčšina v tejto miestnosti odpovedala?</div><div class="ctag">Herd Vote core ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">🕰️</div><div class="cn">Detstvo & Spomienky</div><div class="cs">Čo si robil/a ako dieťa? Prvé spomienky?</div><div class="ctag">Generácie · Legacy ⭐</div></div>
+<div class="card" data-g="deeptalks" onclick="tog(this)"><div class="cico">🌍</div><div class="cn">Hodnoty & Presvedčenia</div><div class="cs">Čo je pre teba najdôležitejšie? Bez čoho nevieš žiť?</div><div class="ctag">DeepTalks hlboké ⭐</div></div>
+
+</div>
+
+<!-- SELECTED -->
+<div class="sel-box">
+  <div class="sel-h">
+    <span>Vybrané kategórie — klikni pre odstránenie</span>
+    <button class="copy-btn" onclick="copySel()">Kopírovať</button>
+  </div>
+  <div class="sel-items" id="sel-items">
+    <span class="sel-empty">Zatiaľ nič. Klikni na kategóriu.</span>
+  </div>
+  <div class="stats" id="stats"></div>
+</div>
+
+</div>
+
+<script>
+var sel=[];
+function tog(card){
+  var name=card.querySelector('.cn').textContent;
+  if(card.classList.contains('sel')){
+    card.classList.remove('sel');
+    sel=sel.filter(function(s){return s!==name;});
+  } else {
+    card.classList.add('sel');
+    sel.push(name);
+  }
+  renderSel();
+}
+function renderSel(){
+  var c=document.getElementById('sel-items');
+  var s=document.getElementById('stats');
+  if(!sel.length){c.innerHTML='<span class="sel-empty">Zatiaľ nič. Klikni na kategóriu.</span>';s.textContent='';return;}
+  c.innerHTML=sel.map(function(n){return'<span class="si" onclick="removeSel(\''+n.replace(/'/g,"\\'")+'\')">'+ n+'</span>';}).join('');
+  s.textContent=sel.length+' vybraných — klikni na štítok pre odstránenie';
+}
+function removeSel(name){
+  sel=sel.filter(function(s){return s!==name;});
+  document.querySelectorAll('.card.sel').forEach(function(c){
+    if(c.querySelector('.cn').textContent===name)c.classList.remove('sel');
+  });
+  renderSel();
+}
+function filterGroup(g,btn){
+  document.querySelectorAll('.fb').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('hid', g!=='all' && c.getAttribute('data-g')!==g);
+  });
+}
+function filterSearch(val){
+  var v=val.toLowerCase();
+  document.querySelectorAll('.card').forEach(function(c){
+    var text=(c.querySelector('.cn').textContent+c.querySelector('.cs').textContent).toLowerCase();
+    c.classList.toggle('hid', v.length>0 && text.indexOf(v)<0);
+  });
+}
+function copySel(){
+  if(!sel.length)return;
+  navigator.clipboard.writeText(sel.join('\n')).then(function(){
+    var b=document.querySelector('.copy-btn');
+    b.textContent='Skopírované ✓';
+    setTimeout(function(){b.textContent='Kopírovať';},2000);
+  });
+}
+</script>

@@ -1,0 +1,207 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.w{padding:1.5rem 0 2.5rem;font-family:var(--font-sans);color:var(--color-text-primary);font-size:13px}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.6rem;margin-top:1.5rem}
+.lbl:first-child{margin-top:0}
+.row{display:grid;gap:10px;margin-bottom:.75rem}
+.r2{grid-template-columns:1fr 1fr}
+.r3{grid-template-columns:1fr 1fr 1fr}
+.c{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:13px 15px;cursor:pointer;transition:border-color .15s;background:var(--color-background-primary)}
+.c:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.c.hi{border-width:1.5px;border-color:var(--color-border-info)}
+.ct{font-size:13px;font-weight:500;margin-bottom:3px;color:var(--color-text-primary)}
+.cs{font-size:12px;color:var(--color-text-secondary);line-height:1.45}
+.cp{font-size:12px;color:var(--color-text-tertiary);margin-top:5px}
+.bdg{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;margin-bottom:5px;line-height:1.5}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.bd{background:var(--color-background-danger);color:var(--color-text-danger)}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.25rem 0}
+.info{background:var(--color-background-info);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--color-text-info);margin-bottom:.75rem;line-height:1.5}
+.warn{background:var(--color-background-warning);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--color-text-warning);margin-bottom:.75rem;line-height:1.5}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--color-background-secondary);border-radius:8px;padding:10px 12px;margin-bottom:.75rem}
+.fs{font-size:11px;padding:4px 10px;border-radius:6px;border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);white-space:nowrap;color:var(--color-text-primary)}
+.fa{color:var(--color-text-tertiary);font-size:13px}
+@media(max-width:460px){.r2,.r3{grid-template-columns:1fr}}
+</style>
+<div class="w">
+
+<div class="warn">Aktuálny stav: Stránka /sk/produkty obsahuje len slovo "Čoskoro." Je to odkaz v hlavnej navigácii — každý návštevník na ňu klikne a nájde nič. Toto poškodzuje dôveryhodnosť.</div>
+
+<div class="lbl">Logika stránky — čo tam patrí</div>
+<div class="info">Stránka Produkty nie je e-shop. Je to prehľad všetkého, čo DeepTalks ponúka — digitálne nástroje, fyzické kartičky, predplatné aj B2B. Jedna stránka, celý ekosystém.</div>
+
+<div class="flow">
+  <span class="fs">Hero — "Náš ekosystém"</span><span class="fa">→</span>
+  <span class="fs">Digitálne (zadarmo)</span><span class="fa">→</span>
+  <span class="fs">Fyzické kartičky</span><span class="fa">→</span>
+  <span class="fs">Predplatné / Premium</span><span class="fa">→</span>
+  <span class="fs">B2B</span><span class="fa">→</span>
+  <span class="fs">Merch</span>
+</div>
+
+<div class="lbl">1 — Digitálne produkty (zadarmo / freemium)</div>
+<div class="row r2">
+  <div class="c" onclick="sendPrompt('Navrhni detail stránku pre Komunikačný kompas na deeptalks.eu — texty, štruktúra, CTA')">
+    <div class="bdg bv">Zadarmo</div>
+    <div class="ct">Komunikačný kompas</div>
+    <div class="cs">Konkrétne vety a kroky pre 6 skupín. Funguje bez registrácie.</div>
+    <div class="cp">deeptalks.eu/sk/kompas</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni detail stránku pre Konverzačné kartičky — online verzia na deeptalks.eu')">
+    <div class="bdg bv">Zadarmo</div>
+    <div class="ct">Konverzačné kartičky (online)</div>
+    <div class="cs">Digitálna verzia kartičiek. Filtrovanie podľa skupiny a hĺbky.</div>
+    <div class="cp">deeptalks.eu/sk/apps/spoznajme-sa</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni Otázku dňa ako lead magnet na deeptalks.eu — mechanika, email zber, archív')">
+    <div class="bdg bv">Zadarmo</div>
+    <div class="ct">Otázka dňa</div>
+    <div class="cs">Každý deň nová otázka. Email = archív + týždenný newsletter.</div>
+    <div class="cp">deeptalks.eu/sk/otazka-dna</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni Daily Connection pre páry na deeptalks.eu — freemium model, čo je zadarmo a čo premium')">
+    <div class="bdg bn">Freemium</div>
+    <div class="ct">Daily Connection</div>
+    <div class="cs">1 otázka/deň zadarmo. Premium: archív, témy, párovanie s partnerom.</div>
+    <div class="cp">deeptalks.eu/sk/apps/daily</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni CoupleSync ako produkt — popis, čo obsahuje, cena')">
+    <div class="bdg bv">Zadarmo</div>
+    <div class="ct">CoupleSync</div>
+    <div class="cs">Partnerský dotazník. Odpovedáš sám — potom vidíš partnera.</div>
+    <div class="cp">couplesync.deeptalks.eu</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni Herd Vote kvíz ako produkt na deeptalks.eu — popis, skupiny, cena')">
+    <div class="bdg bv">Zadarmo</div>
+    <div class="ct">Herd Vote kvíz</div>
+    <div class="cs">Multiplayer kvíz pre skupiny. Moderátor + hráči cez kód.</div>
+    <div class="cp">deeptalks.eu/sk/apps/quiz</div>
+  </div>
+</div>
+
+<div class="div"></div>
+<div class="lbl">2 — Fyzické kartičky (e-shop)</div>
+<div class="row r3">
+  <div class="c hi" onclick="sendPrompt('Navrhni kompletný popis produktu pre kartičky pre páry na deeptalks.eu — texty, čo obsahuje, cena, CTA')">
+    <div class="bdg bv">Dostupné</div>
+    <div class="ct">Kartičky — Páry</div>
+    <div class="cs">Otázky pre partnerov. 3 úrovne hĺbky. 50+ kariet.</div>
+    <div class="cp">~18–25 EUR</div>
+  </div>
+  <div class="c hi" onclick="sendPrompt('Navrhni popis produktu pre kartičky Rodič a Dieťa na deeptalks.eu')">
+    <div class="bdg bv">Dostupné</div>
+    <div class="ct">Kartičky — Rodič + Dieťa</div>
+    <div class="cs">Otázky pre rôzne vekové skupiny detí. Každodenné aj hlboké.</div>
+    <div class="cp">~18–25 EUR</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni popis produktu pre kartičky pre priateľov na deeptalks.eu')">
+    <div class="bdg bn">Pripravujeme</div>
+    <div class="ct">Kartičky — Priatelia</div>
+    <div class="cs">Anti-small-talk edícia. Na večeru, výlet, oheň.</div>
+    <div class="cp">~18–25 EUR</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni popis produktu Ťažké situácie — kartičky na deeptalks.eu')">
+    <div class="bdg bn">Pripravujeme</div>
+    <div class="ct">Kartičky — Ťažké situácie</div>
+    <div class="cs">Ako povedať bolestivú pravdu. Smrdí z úst. Mrzí ma to.</div>
+    <div class="cp">~18–25 EUR</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni B2B edíciu kartičiek pre tímy na deeptalks.eu — obsah, cena, balenie')">
+    <div class="bdg bn">Pripravujeme</div>
+    <div class="ct">Kartičky — Práca a tím</div>
+    <div class="cs">Icebreakery pre porady. Psychologické bezpečie v tíme.</div>
+    <div class="cp">~25–40 EUR</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni Legacy edíciu kartičiek pre starých rodičov na deeptalks.eu')">
+    <div class="bdg bn">Pripravujeme</div>
+    <div class="ct">Kartičky — Seniori / Legacy</div>
+    <div class="cs">Otázky pre starých rodičov. Rodinné príbehy a spomienky.</div>
+    <div class="cp">~18–25 EUR</div>
+  </div>
+</div>
+
+<div class="div"></div>
+<div class="lbl">3 — Predplatné a digitálne služby</div>
+<div class="row r2">
+  <div class="c" onclick="sendPrompt('Navrhni Legacy predplatné na deeptalks.eu — týždenné otázky emailom, kniha spomienok, cena, model')">
+    <div class="bdg bn">Nové</div>
+    <div class="ct">Legacy predplatné</div>
+    <div class="cs">Týždenná otázka emailom pre starého rodiča. Po roku = kniha spomienok. Ideálny darček.</div>
+    <div class="cp">~40–60 EUR/rok + tlač knihy</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni Premium predplatné pre Daily Connection na deeptalks.eu — čo obsahuje, cena')">
+    <div class="bdg bn">Nové</div>
+    <div class="ct">Daily Connection Premium</div>
+    <div class="cs">Archív otázok, tematické série, párovanie s partnerom, bez reklám.</div>
+    <div class="cp">~3–5 EUR/mesiac</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni darčekový poukaz na deeptalks.eu — ako fungovať, hodnoty, dizajn')">
+    <div class="bdg bv">Jednoduchý start</div>
+    <div class="ct">Darčekový poukaz</div>
+    <div class="cs">Na akýkoľvek produkt. Ideálne na Vianoce, narodeniny, výročia.</div>
+    <div class="cp">Hodnota podľa výberu</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni Deep Talk Walk ako platený produkt — audio séria, cena, distribúcia')">
+    <div class="bdg bn">Nové</div>
+    <div class="ct">Deep Talk Walk — audio série</div>
+    <div class="cs">Séria audionahrávok pre párové prechádzky. Stiahnuteľné MP3.</div>
+    <div class="cp">~5–9 EUR/séria alebo bundle</div>
+  </div>
+</div>
+
+<div class="div"></div>
+<div class="lbl">4 — B2B produkty</div>
+<div class="row r2">
+  <div class="c" onclick="sendPrompt('Navrhni B2B workshop psychologického bezpečia pre firmy na deeptalks.eu — popis, cena, ako predávať')">
+    <div class="bdg bw">Vysoká marža</div>
+    <div class="ct">Workshop pre tímy</div>
+    <div class="cs">Psychologické bezpečie, teambuilding, emočná inteligencia. Prezenčne alebo online.</div>
+    <div class="cp">500–2000 EUR / session</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni B2B balíček kartičiek pre firmy na deeptalks.eu — obsah, množstevné zľavy, faktúra')">
+    <div class="bdg bw">Opakované objednávky</div>
+    <div class="ct">Firemné balíčky kartičiek</div>
+    <div class="cs">Hromadné objednávky pre tímy. Fakturácia, množstevné zľavy, logo na krabičke.</div>
+    <div class="cp">50–150 EUR / tím</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni školský program pre deeptalks.eu — kartičky, metodika, licencia pre školy')">
+    <div class="bdg bw">Rastúci segment</div>
+    <div class="ct">Program pre školy</div>
+    <div class="cs">Kartičky + metodika pre učiteľov. Empatia, komunikácia, prevencia šikany.</div>
+    <div class="cp">100–300 EUR / škola / rok</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni kaviareň partnerský program pre deeptalks.eu — Phone Jail, kartičky na stôl, mapa')">
+    <div class="bdg bw">Komunita</div>
+    <div class="ct">Partnerské kaviarne</div>
+    <div class="cs">Kartičky na stoloch, Phone Jail, DeepTalks mapa partnerov.</div>
+    <div class="cp">Dohodou / barterovo</div>
+  </div>
+</div>
+
+<div class="div"></div>
+<div class="lbl">5 — Merch</div>
+<div class="row r3">
+  <div class="c" onclick="sendPrompt('Navrhni tričká ako produkt pre deeptalks.eu — dizajn, texty, cena, varianty')">
+    <div class="bdg bv">Pripravené</div>
+    <div class="ct">Tričká</div>
+    <div class="cs">"Rád sa rozprávam — oslov ma!" Predná + zadná otázka + QR na rukáve.</div>
+    <div class="cp">20–35 EUR</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni odznaky a buttony ako produkt pre deeptalks.eu')">
+    <div class="bdg bn">Nové</div>
+    <div class="ct">Odznaky / Buttony</div>
+    <div class="cs">Signalizuje otvorenosť rozhovoru. K balíčku kartičiek alebo samostatne.</div>
+    <div class="cp">3–5 EUR</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni Gratitude Box — ďakovné lístočky ako doplnok ku kartičkám deeptalks.eu')">
+    <div class="bdg bn">Nové</div>
+    <div class="ct">Gratitude lístočky</div>
+    <div class="cs">Malé ďakovné kartičky do balenia. Po rozhovore si napíšete vetu vďačnosti.</div>
+    <div class="cp">2–4 EUR (doplnok)</div>
+  </div>
+</div>
+
+</div>

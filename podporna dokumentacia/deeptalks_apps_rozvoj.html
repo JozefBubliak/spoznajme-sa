@@ -1,0 +1,193 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:1.5rem 0 2.5rem;font-family:var(--font-sans)}
+h2{font-size:18px;font-weight:500;margin-bottom:.75rem;color:var(--color-text-primary)}
+h3{font-size:14px;font-weight:500;margin-bottom:.4rem;color:var(--color-text-primary)}
+p,li{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+.section{margin-bottom:2rem}
+.label{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.6rem}
+.grid{display:grid;gap:10px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:1fr 1fr 1fr}
+.card{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;background:var(--color-background-primary);cursor:pointer;transition:border-color .15s}
+.card:hover{border-color:var(--color-border-secondary)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px}
+.badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px;line-height:1.6}
+.b-ok{background:var(--color-background-success);color:var(--color-text-success)}
+.b-fix{background:var(--color-background-warning);color:var(--color-text-warning)}
+.b-new{background:var(--color-background-info);color:var(--color-text-info)}
+.b-empty{background:var(--color-background-danger);color:var(--color-text-danger)}
+.icon{font-size:20px;margin-bottom:6px;display:block}
+.card-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.card-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+.card-path{font-size:11px;color:var(--color-text-tertiary);margin-top:6px;font-family:var(--font-mono)}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:10px;padding:2px 7px;border-radius:99px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px;background:var(--color-background-secondary);border-radius:10px;margin-bottom:.75rem}
+.flow-step{font-size:12px;padding:5px 11px;border-radius:8px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-primary);white-space:nowrap}
+.flow-arrow{font-size:14px;color:var(--color-text-tertiary)}
+.problem{background:var(--color-background-warning);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:12px;color:var(--color-text-warning)}
+.solution{background:var(--color-background-success);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:12px;color:var(--color-text-success)}
+.info{background:var(--color-background-info);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:12px;color:var(--color-text-info)}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+.priority-row{display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;padding:12px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.priority-num{font-size:18px;font-weight:500;color:var(--color-text-tertiary)}
+@media(max-width:500px){.grid-2,.grid-3{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+
+<div class="section">
+  <div class="label">Stav existujúcich nástrojov</div>
+  <div class="grid grid-2">
+    <div class="card" onclick="sendPrompt('Ako zlepšiť Herd Vote kvíz na deeptalks.eu — texty, UX, skupiny?')">
+      <div class="card-top"><span class="badge b-ok">Funguje</span></div>
+      <div class="card-title">Herd Vote — tímový kvíz</div>
+      <div class="card-sub">Multiplayer, moderátor + hráč, zdieľaný kód. Dobrá mechanika, slabý onboarding.</div>
+      <div class="card-path">/apps/quiz</div>
+      <div class="tag-row"><span class="tag">skupiny</span><span class="tag">zábava</span><span class="tag">teambuilding</span></div>
+    </div>
+    <div class="card" onclick="sendPrompt('Ako zlepšiť konverzačné kartičky na deeptalks.eu — čo pridať, ako kategorizovať?')">
+      <div class="card-top"><span class="badge b-fix">Treba dopísať</span></div>
+      <div class="card-title">Konverzačné kartičky</div>
+      <div class="card-sub">Základ funguje. Chýba: kategórie podľa skupín, filtrovanie, 3-úrovňový systém hĺbky.</div>
+      <div class="card-path">/apps/spoznajme-sa → 404</div>
+      <div class="tag-row"><span class="tag">páry</span><span class="tag">rodina</span><span class="tag">priatelia</span></div>
+    </div>
+    <div class="card" onclick="sendPrompt('Čo je Hádanka na deeptalks.eu — ako ju rozvinúť a doplniť popis?')">
+      <div class="card-top"><span class="badge b-fix">Prázdna detail stránka</span></div>
+      <div class="card-title">Hádanka</div>
+      <div class="card-sub">Hra existuje, ale detail stránka má placeholder obrázok a 3 prázdne kroky. Nula obsahu.</div>
+      <div class="card-path">/apps/hadacka</div>
+      <div class="tag-row"><span class="tag">zábava</span><span class="tag">rýchle myslenie</span></div>
+    </div>
+    <div class="card" onclick="sendPrompt('Ako zlepšiť CoupleSync dotazník — čo by mal obsahovať?')">
+      <div class="card-top"><span class="badge b-ok">Funguje (subdoména)</span></div>
+      <div class="card-title">CoupleSync</div>
+      <div class="card-sub">Partnerský dotazník. Dobrá myšlienka, ale oddelená subdoména — stratí sa kontext DeepTalks.</div>
+      <div class="card-path">couplesync.deeptalks.eu</div>
+      <div class="tag-row"><span class="tag">páry</span><span class="tag">dotazník</span><span class="tag">synchronizácia</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="label">Problémy stránky /sk/apps</div>
+  <div class="problem">Kartičky vedú na /apps/spoznajme-sa → 404. Prvý klik na hlavný nástroj je broken link.</div>
+  <div class="problem">Hádanka má placeholder obrázok a 3 generické kroky. Vyzerá nedokončene — poškodzuje dôveryhodnosť.</div>
+  <div class="problem">Žiadne filtrovanie — všetky nástroje na jednej halde bez kontextu "kedy čo použijem".</div>
+  <div class="problem">CoupleSync je na inej doméne — používateľ odíde a stratí kontext.</div>
+  <div class="info">Všetky 4 nástroje sú dobré. Problém nie je čo máš, ale ako to podáš a prepájáš.</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="label">Odporúčaná štruktúra stránky</div>
+  <div class="flow">
+    <span class="flow-step">Hero — "Hry, ktoré vás dostanú od obrazovky k sebe"</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Filter: Pre koho?</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Karty nástrojov</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Otázka dňa (CTA)</span>
+  </div>
+  <div class="solution">Filter "Pre koho?" zmení stránku z e-shopu na sprievodcu. Páry vidia iné nástroje ako tímy.</div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="label">Nové nástroje — čo pridať</div>
+  <div class="grid grid-3">
+    <div class="card" onclick="sendPrompt('Navrhni Daily Connection — dennú otázku pre páry na deeptalks.eu, ako by to fungovalo?')">
+      <div class="card-top"><span class="badge b-new">Priorita 1</span></div>
+      <div class="card-title">Daily Connection</div>
+      <div class="card-sub">Každý deň nová otázka. Odpovedáš sám — potom vidíš partnera. Buduje návyk.</div>
+      <div class="card-path">/apps/daily</div>
+      <div class="tag-row"><span class="tag">páry</span><span class="tag">každodenné</span></div>
+    </div>
+    <div class="card" onclick="sendPrompt('Navrhni Deep Talk Walk — audio prechádzku pre dvoch na deeptalks.eu')">
+      <div class="card-top"><span class="badge b-new">Priorita 2</span></div>
+      <div class="card-title">Deep Talk Walk</div>
+      <div class="card-sub">Audio nahrávka do slúchadiel. Hlas vedie rozhovor počas prechádzky. Muži + introverti.</div>
+      <div class="card-path">/apps/walk</div>
+      <div class="tag-row"><span class="tag">páry</span><span class="tag">priatelia</span><span class="tag">pohyb</span></div>
+    </div>
+    <div class="card" onclick="sendPrompt('Navrhni Legacy edíciu — týždenné otázky pre starých rodičov na deeptalks.eu')">
+      <div class="card-top"><span class="badge b-new">Priorita 3</span></div>
+      <div class="card-title">Spomienky / Legacy</div>
+      <div class="card-sub">Týždenná otázka pre starého rodiča emailom. Po roku = kniha spomienok. Darček.</div>
+      <div class="card-path">/apps/legacy</div>
+      <div class="tag-row"><span class="tag">rodina</span><span class="tag">seniori</span><span class="tag">dedičstvo</span></div>
+    </div>
+    <div class="card" onclick="sendPrompt('Navrhni Výzvy — 7-dňové komunikačné výzvy na deeptalks.eu')">
+      <div class="card-top"><span class="badge b-new">Priorita 4</span></div>
+      <div class="card-title">7-dňové výzvy</div>
+      <div class="card-sub">Štruktúrovaná séria 7 dní. Každý deň jedna akcia. Pre páry, rodičov, priateľov.</div>
+      <div class="card-path">/apps/vyzva</div>
+      <div class="tag-row"><span class="tag">návyk</span><span class="tag">séria</span></div>
+    </div>
+    <div class="card" onclick="sendPrompt('Navrhni Otázku dňa — free denný nástroj na deeptalks.eu ako lead magnet')">
+      <div class="card-top"><span class="badge b-new">Lead magnet</span></div>
+      <div class="card-title">Otázka dňa</div>
+      <div class="card-sub">Zadarmo. Každý deň nová otázka na hlavnej stránke. Email = odomkneš archív.</div>
+      <div class="card-path">/apps/otazka-dna</div>
+      <div class="tag-row"><span class="tag">zadarmo</span><span class="tag">email</span></div>
+    </div>
+    <div class="card" onclick="sendPrompt('Navrhni Icebreaker generátor pre firemné tímy na deeptalks.eu')">
+      <div class="card-top"><span class="badge b-new">B2B</span></div>
+      <div class="card-title">Tímový icebreaker</div>
+      <div class="card-sub">Generátor otázok pre porady a teambuildingы. B2B — firmy, školy.</div>
+      <div class="card-path">/apps/tim</div>
+      <div class="tag-row"><span class="tag">práca</span><span class="tag">tím</span><span class="tag">b2b</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="label">Prioritný akčný plán</div>
+  <div class="priority-row">
+    <div class="priority-num">1</div>
+    <div>
+      <h3>Opraviť broken link kartičiek</h3>
+      <p>/apps/spoznajme-sa vracia 404. Jedna oprava = hlavný nástroj funguje.</p>
+    </div>
+  </div>
+  <div class="priority-row">
+    <div class="priority-num">2</div>
+    <div>
+      <h3>Doplniť detail stránku Hádanky</h3>
+      <p>Placeholder obrázok + 3 prázdne kroky = nedôveryhodné. Napísať reálny obsah, screenshot hry.</p>
+    </div>
+  </div>
+  <div class="priority-row">
+    <div class="priority-num">3</div>
+    <div>
+      <h3>Pridať filter "Pre koho?"</h3>
+      <p>Páry / Rodiny / Priatelia / Tím. Každý filter zobrazí relevantné nástroje. Navigácia namiesto chaosu.</p>
+    </div>
+  </div>
+  <div class="priority-row">
+    <div class="priority-num">4</div>
+    <div>
+      <h3>Pridať Otázku dňa (bezplatný magnet)</h3>
+      <p>Viditeľná hneď na stránke. Email = archív. Buduje databázu. Nulové náklady na vývoj.</p>
+    </div>
+  </div>
+  <div class="priority-row" style="border:none">
+    <div class="priority-num">5</div>
+    <div>
+      <h3>Daily Connection pre páry</h3>
+      <p>Najsilnejší nový nástroj. Mechanika: odpovedáš sám → vidíš partnera. Návyk = opakované návštevy.</p>
+    </div>
+  </div>
+</div>
+
+</div>

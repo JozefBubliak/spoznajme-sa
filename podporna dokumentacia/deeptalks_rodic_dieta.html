@@ -1,0 +1,460 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.75rem 0 3.5rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.65rem;margin-top:1.75rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+
+/* HERO */
+.hero-tag{font-size:11px;color:var(--color-text-tertiary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem}
+.hero-h{font-size:26px;font-weight:500;line-height:1.25;margin-bottom:.75rem}
+.hero-h em{font-style:italic;color:var(--color-text-secondary)}
+.hero-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.75;max-width:520px;margin-bottom:1.5rem}
+
+/* VEK FILTER */
+.age-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.af{font-size:12px;padding:7px 15px;border-radius:99px;border:.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;white-space:nowrap}
+.af.on{border-color:var(--color-border-primary);color:var(--color-text-primary);font-weight:500;background:var(--color-background-secondary)}
+
+/* REALITA BLOK */
+.reality{border:.5px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;margin-bottom:1.5rem;background:var(--color-background-secondary)}
+.reality-h{font-size:15px;font-weight:500;margin-bottom:.75rem}
+.reality-items{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ri{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;background:var(--color-background-primary)}
+.ri-t{font-size:13px;font-weight:500;margin-bottom:3px}
+.ri-s{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+/* VEKOVÉ SEKCIE */
+.age-section{display:none;margin-bottom:1.5rem}
+.age-section.on{display:block}
+.age-header{border-radius:12px;padding:16px 18px;margin-bottom:1rem;background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary)}
+.age-title{font-size:16px;font-weight:500;margin-bottom:.35rem}
+.age-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.6}
+
+/* OTÁZKY */
+.q-grid{display:grid;gap:9px;margin-bottom:1rem}
+.q-card{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;cursor:pointer;transition:all .13s;background:var(--color-background-primary)}
+.q-card:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.q-card.open{border-color:var(--color-border-primary);background:var(--color-background-secondary)}
+.qct{font-size:13px;font-weight:500;color:var(--color-text-primary);font-family:var(--font-serif);line-height:1.45;margin-bottom:3px}
+.qcm{font-size:11px;color:var(--color-text-tertiary)}
+.qc-detail{display:none;margin-top:10px;padding-top:10px;border-top:.5px solid var(--color-border-tertiary)}
+.q-card.open .qc-detail{display:block}
+.qc-why{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:8px}
+.qc-tip{background:var(--color-background-info);border-radius:7px;padding:8px 11px;font-size:11px;color:var(--color-text-info);line-height:1.5}
+
+/* SITUÁCIE - KOMPAS */
+.sits-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1rem}
+.sit{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:12px 14px;cursor:pointer;transition:all .12s;background:var(--color-background-primary)}
+.sit:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.sit.on{border:1.5px solid var(--color-border-info)}
+.sit-t{font-size:13px;font-weight:500;margin-bottom:3px}
+.sit-s{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+.script-box{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:14px 16px;background:var(--color-background-secondary);margin-top:.75rem}
+.script-lbl{font-size:11px;color:var(--color-text-tertiary);font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.4rem}
+.script-text{font-size:13px;color:var(--color-text-primary);line-height:1.7;font-style:italic}
+.script-why{font-size:11px;color:var(--color-text-tertiary);margin-top:.5rem;line-height:1.4}
+
+/* NÁSTROJE */
+.tools-mini{display:grid;gap:9px;margin-bottom:1.5rem}
+.tm{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .12s;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--color-background-primary)}
+.tm:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.tm.hi{border:1.5px solid var(--color-border-info)}
+.tm-l{display:flex;flex-direction:column;gap:4px}
+.bdg{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;line-height:1.5;margin-bottom:3px}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.tm-name{font-size:14px;font-weight:500}
+.tm-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.tm-cta{font-size:12px;font-weight:500;color:var(--color-text-info);white-space:nowrap}
+
+/* TIPY */
+.tips{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1.5rem}
+.tip{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)}
+.tip-num{font-size:11px;color:var(--color-text-tertiary);font-weight:500;margin-bottom:4px}
+.tip-t{font-size:13px;font-weight:500;margin-bottom:3px}
+.tip-s{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+/* TESTIMONIALS */
+.tlist{display:grid;gap:9px;margin-bottom:1.5rem}
+.tc{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 16px;cursor:pointer;transition:border-color .12s;background:var(--color-background-primary)}
+.tc:hover{border-color:var(--color-border-secondary)}
+.tcq{font-size:13px;color:var(--color-text-primary);line-height:1.65;font-style:italic;margin-bottom:5px}
+.tcm{font-size:11px;color:var(--color-text-tertiary)}
+
+/* CTA */
+.cta-block{border:1.5px solid var(--color-border-info);border-radius:14px;padding:22px 24px;background:var(--color-background-info);text-align:center}
+.cta-h{font-size:18px;font-weight:500;color:var(--color-text-info);margin-bottom:.4rem}
+.cta-s{font-size:13px;color:var(--color-text-info);opacity:.8;margin-bottom:1.25rem;line-height:1.6}
+.cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cbtn{font-size:13px;font-weight:500;padding:10px 20px;border-radius:9px;border:.5px solid var(--color-border-info);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.cbtn:hover{background:var(--color-background-secondary)}
+
+@media(max-width:480px){.reality-items,.sits-grid,.tips,.age-filter{grid-template-columns:1fr}}
+</style>
+
+<div class="pg">
+
+<!-- HERO -->
+<div class="hero-tag">DeepTalks — Rodič a Dieťa</div>
+<div class="hero-h">Deti nebudú malé<br><em>večne.</em></div>
+<div class="hero-sub">Otázky, ktoré ste im nikdy nedali priestor položiť. Rozhovory, ktoré ste odkladali na neskôr. Neskôr je teraz — kým sú ešte doma, kým sa ešte opýtajú, kým majú chuť hovoriť.</div>
+
+<!-- REALITA -->
+<div class="reality">
+  <div class="reality-h">Reálne situácie zo slovenských rodín</div>
+  <div class="reality-items">
+    <div class="ri">
+      <div class="ri-t">"Ako bolo?" — "Dobre."</div>
+      <div class="ri-s">Každý deň ten istý rozhovor. Alebo skôr — nerozhovor.</div>
+    </div>
+    <div class="ri">
+      <div class="ri-t">Dieťa je v telefóne, rodič v TV</div>
+      <div class="ri-s">V jednej miestnosti, každý v inom svete.</div>
+    </div>
+    <div class="ri">
+      <div class="ri-t">Tínedžer sa zatvára, rodič nevie prečo</div>
+      <div class="ri-s">Stena rastie postupne. A potom je tam.</div>
+    </div>
+    <div class="ri">
+      <div class="ri-t">Chcem sa opýtať, ale bojím sa reakcie</div>
+      <div class="ri-s">Rodič aj dieťa. Obaja čakajú, kto začne.</div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- VEK FILTER -->
+<div class="lbl">Vyber vek dieťaťa</div>
+<div class="age-filter">
+  <button class="af on" onclick="setAge('predsk',this)">Predškolák (3–6)</button>
+  <button class="af" onclick="setAge('zs',this)">Základná škola (7–11)</button>
+  <button class="af" onclick="setAge('tinedzer',this)">Tínedžer (12–17)</button>
+  <button class="af" onclick="setAge('dospely',this)">Dospelé dieťa (18+)</button>
+</div>
+
+<!-- PREDŠKOLÁK -->
+<div class="age-section on" id="as-predsk">
+  <div class="age-header">
+    <div class="age-title">Predškolák — 3 až 6 rokov</div>
+    <div class="age-desc">V tomto veku deti hovoria úplne všetko — ak dostanú priestor. Otázky musia byť konkrétne, hravé a bez tlaku. Najlepší čas na rozhovor je pri hre alebo pred spaním.</div>
+  </div>
+  <div class="lbl">Otázky na dnes večer</div>
+  <div class="q-grid">
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Čo ťa dnes potešilo — povedz mi to rukami aj ústami."</div>
+      <div class="qcm">Pred spaním · pohyb + slová</div>
+      <div class="qc-detail">
+        <div class="qc-why">Malé deti lepšie vyjadrujú pocity pohybom. Kombinácia gestá + slov znižuje zábrany a robí z rozhovoru hru.</div>
+        <div class="qc-tip">Tip: Najprv ukáž ty — "Mňa dnes potešilo toto..." a ukáž gestom. Dieťa ťa nasleduje.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Keby si bol/a kúzelník/čka, čo by si dnes zmenil/a na svete?"</div>
+      <div class="qcm">Kedykoľvek · rozvíja fantáziu aj empatiu</div>
+      <div class="qc-detail">
+        <div class="qc-why">Fantazijné otázky uvoľnia dieťa a nečakane odhalia čo ho trápi alebo teší — bez priameho opýtania.</div>
+        <div class="qc-tip">Tip: Odpovedaj aj ty vážne. Dieťa berie tvoju odpoveď ako vzor úprimnosti.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Kto ťa dnes rozosmialo — a čo urobil/a?"</div>
+      <div class="qcm">Po škôlke · konkrétna, ľahká</div>
+      <div class="qc-detail">
+        <div class="qc-why">Konkrétna otázka namiesto všeobecného "ako bolo" dostane konkrétnu odpoveď. Smiech je bezpečná téma.</div>
+        <div class="qc-tip">Tip: Nedopĺňaj. Nechaj ticho. Deti ho vyplnia — ak počkáš.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Čo by si chcel/a, aby som dnes urobil/a s tebou?"</div>
+      <div class="qcm">Večer · buduje pocit, že hlas dieťaťa má váhu</div>
+      <div class="qc-detail">
+        <div class="qc-why">Deti, ktoré majú pocit že ich priania sú počuté, sa viac otvárajú aj keď sa pýtaš na náročnejšie témy.</div>
+        <div class="qc-tip">Tip: Skutočne urob to čo povedia — aspoň 10 minút. Slová bez akcie strácajú váhu.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ZŠ -->
+<div class="age-section" id="as-zs">
+  <div class="age-header">
+    <div class="age-title">Základná škola — 7 až 11 rokov</div>
+    <div class="age-desc">Vek kedy deti začínajú porovnávať seba s ostatnými. Škola, kamaráti, prvé konflikty. Rozhovory musia byť bočné — pri jedle, pri hre, pri ceste autom. Nie zoči-voči pri stole.</div>
+  </div>
+  <div class="lbl">Otázky ktoré fungujú</div>
+  <div class="q-grid">
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Keby si mohol/a vybrať jedno pravidlo v škole a zrušiť ho — ktoré by to bolo?"</div>
+      <div class="qcm">Pri jedle · otvára pohľad na školu bez priameho výsluchu</div>
+      <div class="qc-detail">
+        <div class="qc-why">Nepriama otázka — dieťa sa vyjadrí k frustrácii bez pocitu sťažovania. Ty sa dozvieš čo ho trápi.</div>
+        <div class="qc-tip">Tip: Nesúď odpoveď. "Hmm, zaujímavé — a prečo práve to?" rozvinie rozhovor.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Kto je v tvojej triede najzábavnejší — a čo robí?"</div>
+      <div class="qcm">Kedykoľvek · otvorí sociálny svet dieťaťa</div>
+      <div class="qc-detail">
+        <div class="qc-why">Cez kamarátov a spolužiakov sa dozvieš o hodnotách dieťaťa — čo obdivuje, čo ho baví, s kým sa cíti dobre.</div>
+        <div class="qc-tip">Tip: Zapamätaj si meno. Spýtaj sa na neho nabudúce — dieťa vidí, že počúvaš naozaj.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Čo si dnes urobil/a sám/sama bez toho, aby ti niekto pomohol — a bol/a si na to hrdý/á?"</div>
+      <div class="qcm">Večer · buduje sebadôveru a otvorenosť</div>
+      <div class="qc-detail">
+        <div class="qc-why">Deti v tomto veku potrebujú byť videné v kompetencii, nie len v správaní. Otázka na úspech, nie na chybu.</div>
+        <div class="qc-tip">Tip: Nereaguj hodnotením ("výborne!") ale záujmom ("a ako si na to prišiel/la?").</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Stalo sa ti dnes niečo, čo ťa mrzelo — ale nechcel/a si o tom hovoriť?"</div>
+      <div class="qcm">Pred spaním · otvára dvere bez nátlaku</div>
+      <div class="qc-detail">
+        <div class="qc-why">Otázka dáva dieťaťu kontrolu — môže odpovedať "nič" a to je v poriadku. Ale ak niečo je, má bezpečné miesto.</div>
+        <div class="qc-tip">Tip: Po odpovedi "nič" povedz "v poriadku, ale keby bolo, vieš že som tu." Dosť.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TÍNEDŽER -->
+<div class="age-section" id="as-tinedzer">
+  <div class="age-header">
+    <div class="age-title">Tínedžer — 12 až 17 rokov</div>
+    <div class="age-desc">Najtežší a najdôležitejší vek na komunikáciu. Tínedžeri nechcú výsluch — chcú byť pochopení bez súdenia. Kľúčové pravidlo: pýtaj sa, nepresvedčuj. Ticho je súhlas, nie odmietnutie.</div>
+  </div>
+  <div class="lbl">Otázky ktoré otvoria — nie zatvoria</div>
+  <div class="q-grid">
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Čo by si chcel/a, aby som pochopil/a o tvojom živote — čo si myslíš, že neviem?"</div>
+      <div class="qcm">Keď cítiš vzdialenosť · priama otázka na ich perspektívu</div>
+      <div class="qc-detail">
+        <div class="qc-why">Tínedžeri sa cítia nepochopení. Táto otázka hovorí: "Viem, že možno nerozumiem — chcem." To je prvý krok.</div>
+        <div class="qc-tip">Tip: Počúvaj bez prerušovania. Bez "ale ty musíš chápať, že..." Len počúvaj.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Kedy som ťa naposledy nesklamal/a — čo som urobil/a dobre?"</div>
+      <div class="qcm">Keď vzťah viazne · neočakávaná otázka</div>
+      <div class="qc-detail">
+        <div class="qc-why">Paradoxná otázka. Rodič sa pýta na svoje chyby nepriamo cez pozitívum — tínedžer sa otvorí ľahšie.</div>
+        <div class="qc-tip">Tip: Ak povie "neviem" — povedz "v poriadku, premyslím si to sám/sama." Nič víc.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Čo ti teraz v živote robí naozajstnú radosť — nie to čo robíš, ale čo cítiš?"</div>
+      <div class="qcm">Kedykoľvek keď je pokojná atmosféra</div>
+      <div class="qc-detail">
+        <div class="qc-why">Odlišuje aktivitu od emócie. Tínedžeri sú zvyknutí na "čo robíš" — otázka na pocit ich prekvapí a otvori.</div>
+        <div class="qc-tip">Tip: Odpovedz aj ty sám/sama. Reciprocita je základ dôvery.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Je niečo, o čom by si chcel/a hovoriť, ale nevieš ako začať — môžem začať ja?"</div>
+      <div class="qcm">Keď vycítiš, že niečo je · ponúka bezpečnosť</div>
+      <div class="qc-detail">
+        <div class="qc-why">Dáva tínedžerovi výber — a zároveň signalizuje, že si otvorený/á. Aj "nie" je odpoveď, s ktorou vieš pracovať.</div>
+        <div class="qc-tip">Tip: Ak povie "nie" — počkaj. Príde neskôr. Dvere ste otvorili.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOSPELÉ DIEŤA -->
+<div class="age-section" id="as-dospely">
+  <div class="age-header">
+    <div class="age-title">Dospelé dieťa — 18 rokov a viac</div>
+    <div class="age-desc">Vzťah rodič–dieťa sa mení. Nie si už len rodič — si aj dospelý človek s dospelým dieťaťom. Najtajomnejšia forma lásky: spoznať sa nanovo ako rovní ľudia.</div>
+  </div>
+  <div class="lbl">Otázky na nové štádium vzťahu</div>
+  <div class="q-grid">
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Čo si ako dieťa chcel/a, aby som robil/a inak — a môžeš mi to povedať teraz?"</div>
+      <div class="qcm">Keď ste obaja pokojní · otvára spracovanie minulosti</div>
+      <div class="qc-detail">
+        <div class="qc-why">Dospelé deti nosí nevypovedané veci roky. Táto otázka dáva povolenie — bez obviňovania, s odvahou počuť.</div>
+        <div class="qc-tip">Tip: Počúvaj bez obrany. "Ďakujem, že si mi to povedal/a" je dostatočná odpoveď.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Čo si myslíš, že sme ti ako rodičia dali — čo nesieš v sebe?"</div>
+      <div class="qcm">Pri stretnutí · vďačnosť a prepojenie</div>
+      <div class="qc-detail">
+        <div class="qc-why">Obracia smer — namiesto "čo sme urobili zle" sa pýtame na dedičstvo. Buduje most a vďačnosť.</div>
+        <div class="qc-tip">Tip: Odpovedz aj ty — čo myslíš, že si mu/jej dal/a. Môže ťa prekvapiť rozdiel.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Čo by si chcel/a, aby bol náš vzťah teraz — ako dospelí?"</div>
+      <div class="qcm">Na začiatku nového štádia · definuje vzťah spolu</div>
+      <div class="qc-detail">
+        <div class="qc-why">Mnohé rodiny pokračujú v starých rolách aj keď deti vyrastú. Táto otázka otvára redefiníciu vzťahu vedome.</div>
+        <div class="qc-tip">Tip: Buď pripravený/á na nečakanú odpoveď. A prijmi ju bez hodnotenia.</div>
+      </div>
+    </div>
+    <div class="q-card" onclick="toggleQ(this)">
+      <div class="qct">"Je niečo, čo ti chcem povedať — a ešte som to nikdy nepovedal/a nahlas?"</div>
+      <div class="qcm">Keď cítiš, že niečo ostalo nevypovedané</div>
+      <div class="qc-detail">
+        <div class="qc-why">Rodičia aj dospelé deti nesú nevypovedané slová — ďakujem, prepáč, som na teba hrdý/á. Táto otázka otvorí priestor.</div>
+        <div class="qc-tip">Tip: Táto otázka si vyžaduje odvahu od toho kto sa pýta aj od toho kto odpovedá.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- KOMPAS SITUÁCIE -->
+<div class="lbl">Ťažké situácie — konkrétne vety</div>
+<div class="sits-grid" id="sits-grid">
+  <div class="sit on" onclick="setSit(0,this)"><div class="sit-t">Dieťa odpovedá len "dobre"</div><div class="sit-s">Každodenný nerozhovor...</div></div>
+  <div class="sit" onclick="setSit(1,this)"><div class="sit-t">Tínedžer sa zatvára</div><div class="sit-s">Stena namiesto slov...</div></div>
+  <div class="sit" onclick="setSit(2,this)"><div class="sit-t">Dieťa je stále v telefóne</div><div class="sit-s">Obrazovka namiesto kontaktu...</div></div>
+  <div class="sit" onclick="setSit(3,this)"><div class="sit-t">Podozrenie na šikanu</div><div class="sit-s">Vycítil/a som, ale nepovie...</div></div>
+  <div class="sit" onclick="setSit(4,this)"><div class="sit-t">Dieťa je smutné</div><div class="sit-s">Vidím, ale neviem čo robiť...</div></div>
+  <div class="sit" onclick="setSit(5,this)"><div class="sit-t">Chcem sa ospravedlniť</div><div class="sit-s">Urobil/a som chybu, neviem začať...</div></div>
+</div>
+<div class="script-box" id="script-box">
+  <div class="script-lbl">Čo povedať</div>
+  <div class="script-text" id="script-text">"Namiesto 'Ako bolo?' skús 'Čo ťa dnes prekvapilo — ktokoľvek alebo čokoľvek?' Konkrétna otázka dostane konkrétnu odpoveď."</div>
+  <div class="script-why" id="script-why">Prečo to funguje: "Ako bolo?" je uzavretá otázka — odpoveď "dobre" je technicky správna. Konkrétna otázka vyžaduje konkrétnu spomienku.</div>
+</div>
+
+<div class="div"></div>
+
+<!-- NÁSTROJE -->
+<div class="lbl">Nástroje pre rodičov</div>
+<div class="tools-mini">
+  <div class="tm hi" onclick="sendPrompt('Navrhni sekciu Kompas pre Rodič a Dieťa na deeptalks.eu — situácie podľa veku, konkrétne vety')">
+    <div class="tm-l">
+      <span class="bdg bv">Zadarmo · Hneď</span>
+      <div class="tm-name">Komunikačný kompas — Rodič a Dieťa</div>
+      <div class="tm-desc">Konkrétne vety pre 30+ situácií. Podľa veku dieťaťa. Keď nevieš čo povedať — tu je to napísané.</div>
+    </div>
+    <div class="tm-cta">Otvoriť →</div>
+  </div>
+  <div class="tm" onclick="sendPrompt('Navrhni konverzačné kartičky pre Rodič a Dieťa deeptalks.eu — verzia 6-11 a 12-17 rokov')">
+    <div class="tm-l">
+      <span class="bdg bv">Online + fyzické</span>
+      <div class="tm-name">Kartičky — Rodič a Dieťa</div>
+      <div class="tm-desc">50 otázok v dvoch verziách — pre deti 6–11 a pre tínedžerov 12–17. Pri stole, v aute, pred spaním.</div>
+    </div>
+    <div class="tm-cta">Vybrať →</div>
+  </div>
+  <div class="tm" onclick="sendPrompt('Navrhni Legacy edíciu pre starých rodičov a vnukov na deeptalks.eu — otázky, email, kniha')">
+    <div class="tm-l">
+      <span class="bdg bw">Výnimočný darček</span>
+      <div class="tm-name">Legacy — Spomienky pre starých rodičov</div>
+      <div class="tm-desc">Týždenná otázka emailom pre babku alebo deduška. Po roku vznikne kniha spomienok pre celú rodinu.</div>
+    </div>
+    <div class="tm-cta">Zistiť viac →</div>
+  </div>
+  <div class="tm" onclick="sendPrompt('Navrhni Deep Talk Walk pre rodiča s dieťaťom deeptalks.eu — audio prechádzka, vek, témy')">
+    <div class="tm-l">
+      <span class="bdg bn">Čoskoro</span>
+      <div class="tm-name">Deep Talk Walk — Rodič a Dieťa</div>
+      <div class="tm-desc">Audionahrávka pre prechádzku s dieťaťom. Muži a tínedžeri hovoria ľahšie keď kráčajú — nie keď sedia zoči-voči.</div>
+    </div>
+    <div class="tm-cta">Notifikovať →</div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- TIPY PRE RODIČOV -->
+<div class="lbl">5 vecí, ktoré fungujú u každého veku</div>
+<div class="tips">
+  <div class="tip">
+    <div class="tip-num">01</div>
+    <div class="tip-t">Najprv zdieľaj ty</div>
+    <div class="tip-s">Deti sa otvoria keď sa otvorí rodič. "Mňa dnes..."  pred "A teba?"</div>
+  </div>
+  <div class="tip">
+    <div class="tip-num">02</div>
+    <div class="tip-t">Bočný rozhovor beats priamy</div>
+    <div class="tip-s">V aute, pri hre, pri varení. Nie zoči-voči pri stole — to aktivuje stres.</div>
+  </div>
+  <div class="tip">
+    <div class="tip-num">03</div>
+    <div class="tip-t">Konkrétne otázky, nie všeobecné</div>
+    <div class="tip-s">"Kto ťa dnes rozosmialo?" nie "Ako bolo?" Konkrétne = konkrétna odpoveď.</div>
+  </div>
+  <div class="tip">
+    <div class="tip-num">04</div>
+    <div class="tip-t">Ticho je v poriadku</div>
+    <div class="tip-s">Deti potrebujú čas spracovať. Nevypĺňaj ticho okamžite — vydržte v ňom.</div>
+  </div>
+  <div class="tip">
+    <div class="tip-num">05</div>
+    <div class="tip-t">Nepresvedčuj, len počúvaj</div>
+    <div class="tip-s">Každé "ale ty musíš chápať" zatvára dvere. Otázka bez hodnotenia ich otvára.</div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- TESTIMONIALS -->
+<div class="lbl">Čo hovorili rodičia</div>
+<div class="tlist">
+  <div class="tc" onclick="sendPrompt('Navrhni ďalšie testimonials od rodičov pre deeptalks.eu stránku Rodič a Dieťa')">
+    <div class="tcq">"Dcéra má 15 rokov. Myslel som si, že s tínedžerom sa nedá rozprávať. Kompas mi dal konkrétne vety — a ona začala hovoriť sama."</div>
+    <div class="tcm">Peter, 44 · Košice · dcéra 15 rokov</div>
+  </div>
+  <div class="tc" onclick="sendPrompt('Navrhni ďalšie testimonials od rodičov pre deeptalks.eu stránku Rodič a Dieťa')">
+    <div class="tcq">"Zastavili sme telefóny počas obeda a dali kartičky na stôl. Syn 9 rokov sa opýtal otázku, na ktorú som nevedela odpovedať. Prvýkrát som sa pred ním zamyslela nahlas."</div>
+    <div class="tcm">Monika, 38 · Banská Bystrica · syn 9 rokov</div>
+  </div>
+  <div class="tc" onclick="sendPrompt('Navrhni ďalšie testimonials od rodičov pre deeptalks.eu stránku Rodič a Dieťa')">
+    <div class="tcq">"Synovi je 22. Myslela som si, že už je neskoro. Ale keď som sa ho opýtala 'Čo by si chcel, aby som robila inak?' — hovoril hodinu. A ja som len počúvala."</div>
+    <div class="tcm">Jana, 51 · Trenčín · syn 22 rokov</div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-block">
+  <div class="cta-h">Začni s jednou otázkou dnes večer.</div>
+  <div class="cta-s">Nepotrebuješ prípravu. Nepotrebuješ dokonalý moment.<br>Potrebuješ odvahu opýtať sa — a trpezlivosť počkať na odpoveď.</div>
+  <div class="cta-row">
+    <button class="cbtn" onclick="sendPrompt('Navrhni onboarding pre rodičov na deeptalks.eu — prvé kroky, výber veku, odporúčané nástroje')">Otvoriť kompas pre rodičov</button>
+    <button class="cbtn" onclick="sendPrompt('Navrhni fyzické kartičky pre Rodič a Dieťa ako produkt deeptalks.eu — obsah, cena, balenie')">Objednať kartičky</button>
+    <button class="cbtn" onclick="sendPrompt('Navrhni Legacy darčekový balíček pre starých rodičov deeptalks.eu — ideálny darček od vnúčat')">Legacy pre babku/deduška</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+var SITS=[
+  {t:'"Namiesto \'Ako bolo?\' skús: \'Čo ťa dnes prekvapilo — ktokoľvek alebo čokoľvek?\'"',w:'Prečo to funguje: "Ako bolo?" je uzavretá otázka — odpoveď "dobre" je technicky správna. Konkrétna otázka vyžaduje konkrétnu spomienku.'},
+  {t:'"Nevysvetľuj, len sa opýtaj: \'Chceš, aby som ťa teraz len počúval/a — alebo chceš radu?\'"',w:'Prečo to funguje: Tínedžeri sa zatvoria ak cítia, že príde poučenie. Keď dáš výber, signalizuješ rešpekt.'},
+  {t:'"Namiesto zákazu skús: \'Zaujíma ma čo tam sleduješ. Môžeš mi ukázať?\'"',w:'Prečo to funguje: Záujem namiesto kontroly. Dieťa, ktoré sa cíti pochopené, samo reguluje čas lepšie ako pri zákaze.'},
+  {t:'"Nepýtaj sa priamo. Skús: \'Viem, že v škole sa niekedy stávajú nepríjemné veci. Keby sa ti niečo také stalo — vedel/a by si, komu to povedať?\'"',w:'Prečo to funguje: Priama otázka "Šikanujú ťa?" zatvára dvere. Nepriama otvára bezpečný priestor bez tlaku.'},
+  {t:'"Nepotláčaj. Povedz len: \'Vidím, že si rozrušený/á. Som tu.\' A nic viac — kým sa neupokojí."',w:'Prečo to funguje: "Nebuď smutný/á" potláča emóciu. Prítomnosť bez slov ju validuje. Rozhovor príde po upokojení.'},
+  {t:'"Začni sám/sama: \'Chcem sa ti ospravedlniť za to, čo sa stalo. Urobil/a som chybu keď...\' — bez \'ale\'."',w:'Prečo to funguje: Deti čakajú na "ale" — ak nepríde, ospravedlnenie je skutočné. Prvý krok musí urobiť rodič.'},
+];
+function setSit(i,el){
+  document.querySelectorAll('.sit').forEach(function(s){s.classList.remove('on');});
+  el.classList.add('on');
+  document.getElementById('script-text').textContent=SITS[i].t;
+  document.getElementById('script-why').textContent=SITS[i].w;
+}
+
+function setAge(id,el){
+  document.querySelectorAll('.af').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  document.querySelectorAll('.age-section').forEach(function(s){s.classList.remove('on');});
+  document.getElementById('as-'+id).classList.add('on');
+}
+
+function toggleQ(el){
+  var wasOpen=el.classList.contains('open');
+  document.querySelectorAll('.q-card').forEach(function(c){c.classList.remove('open');});
+  if(!wasOpen)el.classList.add('open');
+}
+</script>

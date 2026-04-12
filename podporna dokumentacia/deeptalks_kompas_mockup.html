@@ -1,0 +1,506 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-size:15px;font-family:var(--font-sans);color:var(--color-text-primary)}
+.page{padding:2rem 0 3rem}
+.hero{margin-bottom:2rem}
+.hero h1{font-size:22px;font-weight:500;margin-bottom:.5rem}
+.hero p{font-size:14px;color:var(--color-text-secondary);line-height:1.6;max-width:520px}
+.groups{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:2rem}
+.group-btn{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 12px;cursor:pointer;transition:all .15s;background:var(--color-background-primary);text-align:left}
+.group-btn:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.group-btn.active{border-width:1.5px;background:var(--color-background-secondary)}
+.group-icon{font-size:22px;margin-bottom:6px;display:block}
+.group-name{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.group-desc{font-size:11px;color:var(--color-text-secondary);margin-top:2px;line-height:1.4}
+.content-panel{border-radius:14px;border:0.5px solid var(--color-border-tertiary);overflow:hidden;background:var(--color-background-primary)}
+.panel-header{padding:18px 20px 14px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.panel-header h2{font-size:17px;font-weight:500;margin-bottom:4px}
+.panel-header p{font-size:13px;color:var(--color-text-secondary);line-height:1.5}
+.topics{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.topic-btn{font-size:12px;padding:5px 12px;border-radius:99px;border:0.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;white-space:nowrap}
+.topic-btn:hover{border-color:var(--color-border-secondary)}
+.topic-btn.active{border-color:var(--color-border-primary);color:var(--color-text-primary);background:var(--color-background-primary);font-weight:500}
+.situations{padding:16px 20px}
+.sit-label{font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:10px}
+.situation{border-radius:10px;border:0.5px solid var(--color-border-tertiary);padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:all .12s}
+.situation:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.situation.open{border-color:var(--color-border-primary);background:var(--color-background-secondary)}
+.sit-title{font-size:14px;font-weight:500;margin-bottom:2px;display:flex;justify-content:space-between;align-items:center}
+.sit-tag{font-size:10px;color:var(--color-text-tertiary);font-weight:400;border:0.5px solid var(--color-border-tertiary);border-radius:99px;padding:1px 8px}
+.sit-preview{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.sit-detail{margin-top:12px;padding-top:12px;border-top:0.5px solid var(--color-border-tertiary);display:none}
+.situation.open .sit-detail{display:block}
+.script-block{background:var(--color-background-tertiary);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.6;color:var(--color-text-secondary)}
+.script-block strong{color:var(--color-text-primary);font-weight:500}
+.step-label{font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:4px}
+.tip{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-info);border-radius:6px;padding:8px 10px;margin-top:8px;line-height:1.5}
+.cta-row{display:flex;gap:8px;margin-top:10px}
+.cta-btn{font-size:12px;padding:6px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.cta-btn:hover{background:var(--color-background-secondary)}
+.cta-btn.primary{background:var(--color-background-primary);border-color:var(--color-border-primary)}
+.empty{text-align:center;padding:40px 20px;color:var(--color-text-tertiary);font-size:14px}
+</style>
+
+<div class="page">
+<div class="hero">
+  <h1>Komunikačný kompas</h1>
+  <p>Konkrétne vety a kroky, keď nevieš, ako začať rozhovor. Vyber si, s kým chceš hovoriť, zvoľ tému a otvor situáciu.</p>
+</div>
+
+<div class="groups" id="groups"></div>
+<div class="content-panel" id="panel">
+  <div class="empty">Vyber si skupinu vyššie</div>
+</div>
+</div>
+
+<script>
+const DATA = {
+  pary: {
+    icon: "♡",
+    name: "Páry",
+    desc: "Partner / partnerka",
+    heading: "Komunikácia v páre",
+    subhead: "Vety, ktoré otvárajú dvere — nie hádky. Pre každodennú komunikáciu aj ťažké chvíle.",
+    topics: ["Každodenné", "Pocity a potreby", "Hádky", "Intímne", "Budúcnosť"],
+    situations: {
+      "Každodenné": [
+        {
+          title: "Chcem si pohovoriť, ale neviem ako začať",
+          tag: "ľahké",
+          preview: "Večer doma, každý v telefóne...",
+          steps: [
+            { label: "Povedz nahlas", text: "\"Mám chuť si s tebou dnes večer naozaj pohovoriť. Nie o logistike — o nás. Máš chvíľu?\"" },
+            { label: "Ak áno, pokračuj", text: "\"Čo ťa dnes potešilo? Alebo naopak — čo ťa unavilo?\"" }
+          ],
+          tip: "Netreba dlhý rozhovor. 10 minút úprimného kontaktu je viac ako hodina vedľa seba s telefónom."
+        },
+        {
+          title: "Partner/ka sa mi zdá vzdialený/á",
+          tag: "stredné",
+          preview: "Sme spolu, ale akoby nie...",
+          steps: [
+            { label: "Pomenuj to bez výčitky", text: "\"Mám pocit, že sme posledný čas každý vo svojom svete. Neviem, či si to len ja. Ako sa ty cítiš?\"" },
+            { label: "Nechaj priestor", text: "Neprerušuj. Ak nastane ticho — vydržte v ňom. Niekedy trvá chvíľu, kým príde odpoveď." }
+          ],
+          tip: "Slovo \"mám pocit\" znižuje obranu. Nie \"ty si vzdialený\" — ale \"ja cítim vzdialenosť\"."
+        }
+      ],
+      "Pocity a potreby": [
+        {
+          title: "Potrebujem viac priestoru",
+          tag: "citlivé",
+          preview: "Nechcem ho/ju zraniť, ale dusím sa...",
+          steps: [
+            { label: "Začni s ocenením", text: "\"Mám ťa veľmi rád/a a práve preto ti chcem povedať niečo dôležité.\"" },
+            { label: "Pomenuj potrebu", text: "\"Potrebujem niekedy čas sama/sám — nie preto, že som na teba naštvaný/á, ale preto, že sa tak nabíjam. Môžeme nájsť spôsob?\"" }
+          ],
+          tip: "Potreba priestoru nie je odmietnutie. Je to starostlivosť o seba — a tým aj o vzťah."
+        },
+        {
+          title: "Cítim sa prehliadaný/á",
+          tag: "citlivé",
+          preview: "Robím veľa, ale nikto si to nevšíma...",
+          steps: [
+            { label: "Bez výčitky", text: "\"Chcem ti povedať niečo, čo som dlho nosil/a v sebe. Niekedy mám pocit, že čo robím, ostáva nepovšimnuté. Môžeme o tom hovoriť?\"" },
+            { label: "Konkrétny príklad", text: "\"Napríklad keď... — vtedy by mi veľmi pomohlo, keby si...\"" }
+          ],
+          tip: "Konkrétnosť je kľúč. Nie \"nikdy\" a \"vždy\" — ale jeden konkrétny moment."
+        }
+      ],
+      "Hádky": [
+        {
+          title: "Hádame sa o to isté stále dookola",
+          tag: "ťažké",
+          preview: "Kruh, z ktorého nevieme von...",
+          steps: [
+            { label: "Zastav kolotoč", text: "\"Môžeme sa na chvíľu zastaviť? Nie preto, že vzdávam, ale preto, že chcem pochopiť — čo teba na tom naozaj bolí?\"" },
+            { label: "Počúvaj bez obrany", text: "Nereaguj hneď. Zopakuj, čo si počul/a: \"Ak som správne pochopil/a, tebe ide hlavne o...\"" }
+          ],
+          tip: "Pod každou hádkou je neopísaná potreba. Keď ju nájdete, hádka stráca živnú pôdu."
+        }
+      ],
+      "Intímne": [
+        {
+          title: "Chcem sa priblížiť, ale neviem ako",
+          tag: "jemné",
+          preview: "Dlhší čas bez blízkosti...",
+          steps: [
+            { label: "Fyzicky, nie slovne", text: "Sadni si blízko. Dotyk ramena. Pohľad. Niekedy telo otvorí dvere skôr ako slová." },
+            { label: "Ak chceš slovami", text: "\"Chýba mi naša blízkosť. Nie výčitka — len... chýba mi.\"" }
+          ],
+          tip: "Zraniteľnosť bez útoku je najodvážnejší pohyb v každom vzťahu."
+        }
+      ],
+      "Budúcnosť": [
+        {
+          title: "Máme rozdielne plány do budúcna",
+          tag: "ťažké",
+          preview: "Každý chce niečo iné...",
+          steps: [
+            { label: "Začni zvedavosťou", text: "\"Chcem pochopiť, čo je pre teba na tom dôležité — nie sa hádať o riešenie. Môžeš mi povedať viac o tom, prečo ti na tom záleží?\"" },
+            { label: "Zdieľaj svoje", text: "\"Pre mňa je dôležité... pretože...\" — nie \"ty nechceš\" ale \"ja potrebujem\"." }
+          ],
+          tip: "Najprv porozumenie, potom kompromis. Nie naopak."
+        }
+      ]
+    }
+  },
+  rodic: {
+    icon: "◎",
+    name: "Rodič → Dieťa",
+    desc: "Deti všetkých vekových skupín",
+    heading: "Rozhovor s dieťaťom",
+    subhead: "Otázky a vety, ktoré deti skutočne otvoria — pre každý vek a každú situáciu.",
+    topics: ["Každý deň", "Škola", "Emócie", "Mobil a čas", "Ťažké témy"],
+    situations: {
+      "Každý deň": [
+        {
+          title: "Dieťa odpovedá len \"dobre\" a \"neviem\"",
+          tag: "časté",
+          preview: "\"Ako bolo?\" — \"Dobre.\" Koniec.",
+          steps: [
+            { label: "Nezačínaj otázkou", text: "Namiesto \"Ako bolo?\" — povedz najprv ty: \"Ja dnes mal/a taký zaujímavý moment... Čo ty — stalo sa ti niečo prekvapivé?\"" },
+            { label: "Konkrétne, nie všeobecné", text: "\"Kto ťa dnes rozosmialo?\" je lepšie ako \"Mal/a si dobrý deň?\"" }
+          ],
+          tip: "Deti sa otvoria, keď sa najprv otvorí rodič. Model zraniteľnosti — nečakaj, že ho dieťa vyskúša ako prvé."
+        }
+      ],
+      "Škola": [
+        {
+          title: "Dieťa nechce ísť do školy",
+          tag: "ťažké",
+          preview: "Každé ráno boj...",
+          steps: [
+            { label: "Nepresvedčuj — pýtaj sa", text: "\"Čo je na tej škole najhoršie? Jedna vec.\"" },
+            { label: "Neriešite hneď", text: "\"Aha. To znie ťažko. Chceš, aby som niečo urobil/a, alebo si len chcel/a povedať?\"" }
+          ],
+          tip: "Deti nechcú riešenia — chcú byť počuté. Opýtaj sa najprv, čo potrebujú."
+        }
+      ],
+      "Emócie": [
+        {
+          title: "Dieťa je nahnevané alebo plače",
+          tag: "emócie",
+          preview: "Výbuch bez zjavného dôvodu...",
+          steps: [
+            { label: "Nepotláčaj", text: "\"Vidím, že si veľmi rozrušený/á. Som tu.\" — a nič viac. Len prítomnosť." },
+            { label: "Keď sa upokojí", text: "\"Čo sa stalo? Chcem pochopiť, nie súdiť.\"" }
+          ],
+          tip: "\"Nebuď smutný\" potláča emóciu. \"Si smutný, a to je v poriadku\" ju validuje."
+        }
+      ],
+      "Mobil a čas": [
+        {
+          title: "Dieťa trávi príliš veľa času pri obrazovke",
+          tag: "bežné",
+          preview: "Telefón > rodičia, kamaráti, príroda...",
+          steps: [
+            { label: "Nie konfrontácia", text: "\"Zaujíma ma, čo tam sleduješ. Môžeš mi ukázať?\" — záujem namiesto zákazu." },
+            { label: "Dohoda, nie príkaz", text: "\"Navrhni ty, kedy to budeme vypínať. Chcem, aby to bola tvoja dohoda, nie môj príkaz.\"" }
+          ],
+          tip: "Zákaz funguje krátkodobo. Pochopenie a dohoda budujú návyk."
+        }
+      ],
+      "Ťažké témy": [
+        {
+          title: "Chcem porozprávať sa o šikanovaní",
+          tag: "citlivé",
+          preview: "Podozrievam, že niečo nie je v poriadku...",
+          steps: [
+            { label: "Nepýtaj sa priamo", text: "\"Viem, že v škole sa niekedy dejú nepríjemné veci medzi deťmi. Ak by sa ti niečo také stalo, vedel/a by si, komu to povedať?\"" },
+            { label: "Otvori dvere", text: "\"Ja ti nikdy nebudem vyčítať, ak mi niečo povieš. Môžeš mi veriť.\"" }
+          ],
+          tip: "Priama otázka \"Šikanujú ťa?\" zatvára dvere. Nepriama otvára bezpečný priestor."
+        }
+      ]
+    }
+  },
+  priatelia: {
+    icon: "◈",
+    name: "Priatelia",
+    desc: "Kamaráti, spoločnosť",
+    heading: "Priateľstvá a vzťahy",
+    subhead: "Ako ísť pod povrch — od small talku k skutočnému rozhovoru.",
+    topics: ["Začiatky", "Hlbšie", "Podpora", "Konflikty"],
+    situations: {
+      "Začiatky": [
+        {
+          title: "Neviem, o čom sa rozprávať s novým človekom",
+          tag: "sociálne",
+          preview: "Trapné ticho, small talk...",
+          steps: [
+            { label: "Preskočiť small talk", text: "\"Čo ťa momentálne najviac baví — mimo práce?\" alebo \"Čo si naposledy zistil/a o sebe, čo ťa prekvapilo?\"" },
+            { label: "Zdieľaj sám/sama", text: "Najprv odpovedz ty. Ľudia sa otvárajú, keď sa otvorí druhý." }
+          ],
+          tip: "Záujem je magnetom. Pýtaj sa na ich príbeh — nie na ich životopis."
+        }
+      ],
+      "Hlbšie": [
+        {
+          title: "Chcem sa s kamarátom spoznať hlbšie",
+          tag: "vzťah",
+          preview: "Roky kamaráti, ale povrchne...",
+          steps: [
+            { label: "Otázka navyše", text: "\"Môžem sa ťa opýtať na niečo trochu hlbšie? Mám chuť ťa spoznať viac, nie len povrchne.\"" },
+            { label: "Začni sám/sama", text: "\"Čo je teraz v tvojom živote niečo, o čom veľa premýšľaš?\"" }
+          ],
+          tip: "Ľudia čakajú na povolenie byť úprimní. Ty im ho môžeš dať."
+        }
+      ],
+      "Podpora": [
+        {
+          title: "Kamarát prechádza ťažkým obdobím",
+          tag: "emočné",
+          preview: "Neviem, čo povedať...",
+          steps: [
+            { label: "Nepomáhaj hneď", text: "\"Chcem byť pri tebe. Potrebuješ teraz počúvajúce ucho, alebo skôr radu?\"" },
+            { label: "Prítomnosť", text: "Niekedy stačí: \"To znie naozaj ťažko. Som tu.\"" }
+          ],
+          tip: "\"Aspoň...\" a \"Mohlo byť horšie\" nie sú utešením. Prítomnosť bez riešení je."
+        }
+      ],
+      "Konflikty": [
+        {
+          title: "Kamarát ma sklamal",
+          tag: "ťažké",
+          preview: "Neviem, či to riešiť...",
+          steps: [
+            { label: "Pomenuj bez útoku", text: "\"Chcem ti niečo povedať, pretože mi na našom priateľstve záleží. Keď... — cítil/a som sa...\"" },
+            { label: "Daj priestor", text: "\"Nechcem, aby si sa obhajoval/a — chcem len, aby si vedel/a, ako som to zažil/a.\"" }
+          ],
+          tip: "Mlčanie problém nezmizne. Úprimnosť s rešpektom ho môže vyriešiť."
+        }
+      ]
+    }
+  },
+  praca: {
+    icon: "▣",
+    name: "Práca",
+    desc: "Kolegovia, tím, šéf",
+    heading: "Pracovná komunikácia",
+    subhead: "Náročné rozhovory na pracovisku — bez diplomatického vyhýbania.",
+    topics: ["Tím", "Šéf", "Hranice", "Spätná väzba"],
+    situations: {
+      "Tím": [
+        {
+          title: "Kolega mi nedodáva prácu načas",
+          tag: "bežné",
+          preview: "Blokuje ma, ale nechcem konflikt...",
+          steps: [
+            { label: "Konkrétne a priame", text: "\"Všimol/a som si, že termín na X sme posunuli už dvakrát. Čo ti v tom bráni? Chcem pochopiť, nie súdiť.\"" },
+            { label: "Hľadaj riešenie spolu", text: "\"Čo by ti pomohlo, aby si to stihol/a?\"" }
+          ],
+          tip: "Konkrétny príklad namiesto generalizácie. Nie \"vždy mešká\" — ale \"tento projekt, tento termín\"."
+        }
+      ],
+      "Šéf": [
+        {
+          title: "Chcem požiadať o zvýšenie platu",
+          tag: "dôležité",
+          preview: "Neviem, ako to začať...",
+          steps: [
+            { label: "Priprav pôdu", text: "\"Rád/a by som si s tebou naplánoval/a krátky rozhovor o mojej pozícii a kompenzácii. Kedy by ti to vyhovovalo?\"" },
+            { label: "V rozhovore", text: "\"Za posledný rok som... [konkrétne výsledky]. Chcel/a by som sa porozprávať o tom, či moje ohodnotenie zodpovedá tomu, čo prinášam.\"" }
+          ],
+          tip: "Fakty, nie emócie. Trh + výsledky + konkrétna požiadavka."
+        }
+      ],
+      "Hranice": [
+        {
+          title: "Stále ma kontaktujú mimo pracovného času",
+          tag: "hranice",
+          preview: "Večery, víkendy, dovolenka...",
+          steps: [
+            { label: "Jasne a bez ospravedlnenia", text: "\"Chcem ti povedať, že po 18:00 si telefón vypínam — nie preto, že mi na práci nezáleží, ale preto, že tak fungujem lepšie. Ak je niečo urgentné, daj vedieť deň vopred.\"" }
+          ],
+          tip: "Hranice nie sú odmietnutie. Sú podmienkou dlhodobej kvality práce."
+        }
+      ],
+      "Spätná väzba": [
+        {
+          title: "Chcem dať spätnú väzbu kolegovi",
+          tag: "citlivé",
+          preview: "Bojím sa, že to zle pochopí...",
+          steps: [
+            { label: "Situácia → Dopad → Otázka", text: "\"Keď si na porade [situácia], všimol/a som si, že [dopad]. Ako to vidíš ty?\"" },
+            { label: "Nechaj priestor", text: "Nepokračuj s riešením, kým sa nevyjadril/a. Najprv počúvaj."  }
+          ],
+          tip: "SBI model: Situation → Behavior → Impact. Bez hodnotenia osoby — len konkrétna situácia."
+        }
+      ]
+    }
+  },
+  citlive: {
+    icon: "◇",
+    name: "Citlivé témy",
+    desc: "Keď nevieš, ako začať",
+    heading: "Ťažké a citlivé rozhovory",
+    subhead: "Situácie, ktoré odkladáme — lebo nevieme, ako ich otvoriť. Tu sú konkrétne vety.",
+    topics: ["Zdravie", "Smútok", "Nepríjemná pravda", "Závislosť"],
+    situations: {
+      "Zdravie": [
+        {
+          title: "Blízky odmieta ísť k lekárovi",
+          tag: "zdravie",
+          preview: "Vidím, že niečo nie je v poriadku...",
+          steps: [
+            { label: "Záujem, nie nátlak", text: "\"Vidím, že nie si v pohode, a záleží mi na tebe. Viem, že k lekárovi nechceš — čo ti bráni?\"" },
+            { label: "Ponúkni pomoc", text: "\"Čo keby som šiel/šla s tebou? Alebo si objednám termín za teba?\"" }
+          ],
+          tip: "Strach z diagnózy je silnejší ako symptóm. Ponúkni sprevádzanie, nie presvedčovanie."
+        }
+      ],
+      "Smútok": [
+        {
+          title: "Niekto blízky stratil niekoho dôležitého",
+          tag: "smútok",
+          preview: "Neviem, čo povedať...",
+          steps: [
+            { label: "Neriešiť, len byť", text: "\"Neviem, čo povedať — viem len, že som tu. A chcem byť.\"" },
+            { label: "Konkrétna pomoc", text: "Namiesto \"Daj vedieť, ak niečo potrebuješ\" — ponúkni konkrétne: \"Môžem dnes prísť, alebo ti niečo doniesť?\"" }
+          ],
+          tip: "\"Aspoň je mu/jej teraz dobre\" nie je utešením. Ticho a prítomnosť sú viac."
+        }
+      ],
+      "Nepríjemná pravda": [
+        {
+          title: "Blízkemu smrdí z úst",
+          tag: "nepríjemné",
+          preview: "Nechcem ho/ju zraniť, ale...",
+          steps: [
+            { label: "Súkromne a s láskou", text: "\"Poviem ti niečo, čo poviem len preto, lebo mi na tebe záleží a nechcem, aby ti to robil niekto iný. Všimol/a som si, že... — je možné, že je to len dočasné, ale chcel/a som ti to povedať.\"" }
+          ],
+          tip: "Povedať to je dar, nie útok. Kto to nehovorí, nechá človeka v nevedomosti."
+        }
+      ],
+      "Závislosť": [
+        {
+          title: "Mám obavy z pitia blízkej osoby",
+          tag: "ťažké",
+          preview: "Ako to povedať bez toho, aby sme sa pohádali...",
+          steps: [
+            { label: "V pokoji, nie po incidente", text: "\"Chcem sa s tebou porozprávať o niečom, čo ma trápi — nie ako útok, ale preto, lebo mi záleží. Môžeme si nájsť chvíľu?\"" },
+            { label: "Pomenuj, čo vidíš", text: "\"Všimol/a som si, že... [konkrétne]. Neviem, ako to prežívaš ty. Chcem počúvať.\"" }
+          ],
+          tip: "Jeden rozhovor nezachráni situáciu. Ale otvoriť dvere — to môžeš ty."
+        }
+      ]
+    }
+  },
+  deti: {
+    icon: "●",
+    name: "Deti",
+    desc: "Hlas detí a dospievajúcich",
+    heading: "Pre deti a tínedžerov",
+    subhead: "Keď chceš niečo povedať rodičom — ale nevieš ako.",
+    topics: ["Rodičia", "Škola", "Kamaráti", "O sebe"],
+    situations: {
+      "Rodičia": [
+        {
+          title: "Chcem povedať rodičom, že mi je zle",
+          tag: "odvaha",
+          preview: "Neviem, ako to začať...",
+          steps: [
+            { label: "Môžeš povedať", text: "\"Mami / Oci, potrebujem ti niečo povedať a trochu sa bojím. Môžeš ma len počúvať bez toho, aby si hneď radil/a?\"" },
+            { label: "Alebo napíš", text: "Ak je to ťažké nahlas — napíš SMS alebo lístok. Slová v písomnej forme sú niekedy ľahšie." }
+          ],
+          tip: "Povedať \"je mi zle\" je odvaha, nie slabosť. Rodičia väčšinou chcú vedieť — ale nevedia sa opýtať."
+        }
+      ],
+      "Škola": [
+        {
+          title: "V škole sa mi deje niečo nepríjemné",
+          tag: "pomoc",
+          preview: "Bojím sa, čo si pomyslia...",
+          steps: [
+            { label: "Dospelý, ktorému dôveruješ", text: "Nemusí to byť rodič. Môže to byť učiteľ, tréner, starý rodič. Dôležité je povedať to niekomu." },
+            { label: "Začni jednoducho", text: "\"Môžem ti niečo povedať? Nechcem, aby si to ďalej hovoril/a — len potrebujem, aby niekto vedel.\"" }
+          ],
+          tip: "Mlčanie šikanovaného je jeho najväčší nepriateľ. Povedať to jednej dospelej osobe stačí."
+        }
+      ],
+      "Kamaráti": [
+        {
+          title: "Kamarát ma sklamal",
+          tag: "vzťah",
+          preview: "Som naštvaný/á, ale neviem, čo robiť...",
+          steps: [
+            { label: "Pomenuj to priamo", text: "\"Keď si [urobil/a to a to] — cítil/a som sa... a teraz nevediem, ako na to.\"" },
+            { label: "Nechaj odpovedať", text: "Možno má vysvetlenie. Možno nie. Ale vedieť je lepšie ako hádať." }
+          ],
+          tip: "Lepší jeden ťažký rozhovor ako roky ticha so skrytou krivdou."
+        }
+      ],
+      "O sebe": [
+        {
+          title: "Neviem, kto som a to ma trápi",
+          tag: "hlboké",
+          preview: "Cítim sa stratený/á...",
+          steps: [
+            { label: "Nie si sám/sama", text: "Toto je normálne. Väčšina ľudí to zažila. Nie je to porucha — je to rast." },
+            { label: "Nájdi niekoho", text: "Rozprávaj sa s niekým — kamarátom, rodičom, psychológom v škole. Zraniteľnosť je sila." }
+          ],
+          tip: "Hľadanie identity nie je slabosť. Je to práca, ktorú každý musí urobiť — a je lepšia s niekým pri sebe."
+        }
+      ]
+    }
+  }
+};
+
+const groupOrder = ["pary","rodic","priatelia","praca","citlive","deti"];
+let activeGroup = null, activeTopic = null, openSit = null;
+
+function renderGroups() {
+  const el = document.getElementById("groups");
+  el.innerHTML = groupOrder.map(k => {
+    const g = DATA[k];
+    return `<div class="group-btn${activeGroup===k?' active':''}" onclick="selectGroup('${k}')">
+      <span class="group-icon">${g.icon}</span>
+      <div class="group-name">${g.name}</div>
+      <div class="group-desc">${g.desc}</div>
+    </div>`;
+  }).join("");
+}
+
+function renderPanel() {
+  const panel = document.getElementById("panel");
+  if (!activeGroup) { panel.innerHTML = '<div class="empty">Vyber si skupinu vyššie</div>'; return; }
+  const g = DATA[activeGroup];
+  const topic = activeTopic || g.topics[0];
+  const sits = g.situations[topic] || [];
+  panel.innerHTML = `
+    <div class="panel-header">
+      <h2>${g.heading}</h2>
+      <p>${g.subhead}</p>
+    </div>
+    <div class="topics">${g.topics.map(t=>`<button class="topic-btn${t===topic?' active':''}" onclick="selectTopic('${t}')">${t}</button>`).join("")}</div>
+    <div class="situations">
+      <div class="sit-label">Situácie</div>
+      ${sits.map((s,i)=>`
+        <div class="situation${openSit===i?' open':''}" onclick="toggleSit(${i})">
+          <div class="sit-title">${s.title}<span class="sit-tag">${s.tag}</span></div>
+          <div class="sit-preview">${s.preview}</div>
+          <div class="sit-detail">
+            ${s.steps.map(st=>`
+              <div class="step-label">${st.label}</div>
+              <div class="script-block">${st.text}</div>
+            `).join("")}
+            <div class="tip">${s.tip}</div>
+            <div class="cta-row">
+              <button class="cta-btn" onclick="event.stopPropagation();sendPrompt('Daj mi viac situácií pre tému ${s.title} na deeptalks.eu kompas')">Viac situácií</button>
+              <button class="cta-btn" onclick="event.stopPropagation();sendPrompt('Navrhni viac konkrétnych viet a skriptov pre situáciu: ${s.title}')">Viac viet</button>
+            </div>
+          </div>
+        </div>
+      `).join("")}
+    </div>`;
+}
+
+function selectGroup(k) { activeGroup=k; activeTopic=DATA[k].topics[0]; openSit=null; renderGroups(); renderPanel(); }
+function selectTopic(t) { activeTopic=t; openSit=null; renderPanel(); }
+function toggleSit(i) { openSit = openSit===i ? null : i; renderPanel(); }
+
+renderGroups();
+renderPanel();
+</script>

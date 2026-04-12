@@ -1,0 +1,194 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.w{padding:1.5rem 0 2.5rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.6rem;margin-top:1.5rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.25rem 0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.75rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:.75rem}
+.c{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:13px 15px;background:var(--color-background-primary);cursor:pointer;transition:border-color .14s}
+.c:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.ct{font-size:13px;font-weight:500;margin-bottom:3px}
+.cs{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.bdg{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;margin-bottom:5px;line-height:1.5}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.bd{background:var(--color-background-danger);color:var(--color-text-danger)}
+.ok{background:var(--color-background-success);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--color-text-success);margin-bottom:.75rem;line-height:1.5}
+.warn{background:var(--color-background-warning);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--color-text-warning);margin-bottom:.75rem;line-height:1.5}
+.info{background:var(--color-background-info);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--color-text-info);margin-bottom:.75rem;line-height:1.5}
+.pr{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;padding:11px 0;border-bottom:.5px solid var(--color-border-tertiary)}
+.pr:last-child{border:none}
+.pn{font-size:16px;font-weight:500;color:var(--color-text-tertiary)}
+.pt{font-size:13px;font-weight:500;margin-bottom:2px}
+.ps{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.comp{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:.5px solid var(--color-border-tertiary);border-radius:12px;overflow:hidden;margin-bottom:.75rem}
+.comp-col{padding:12px 14px;border-right:.5px solid var(--color-border-tertiary)}
+.comp-col:last-child{border-right:none}
+.comp-head{font-size:11px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.comp-item{font-size:11px;color:var(--color-text-secondary);margin-bottom:5px;line-height:1.4;padding-left:8px;border-left:2px solid var(--color-border-tertiary)}
+.comp-item.plus{border-left-color:#639922;color:var(--color-text-success)}
+.comp-item.minus{border-left-color:#A32D2D;color:var(--color-text-danger)}
+@media(max-width:480px){.g2,.g3{grid-template-columns:1fr}.comp{grid-template-columns:1fr}}
+</style>
+<div class="w">
+
+<div class="ok">CoupleSync má výbornú základnú mechaniku — odpovedáš sám, potom vidíš partnera. Toto je psychologicky správne a odlišuje ho od jednoduchých kvízov. Problém je rozsah, umiestnenie a napojenie na zvyšok DeepTalks.</div>
+<div class="warn">Kritický problém: CoupleSync beží na samostatnej subdoméne couplesync.deeptalks.eu. Používateľ odíde z deeptalks.eu, stratí kontext a pravdepodobne sa nevráti. Toto treba integrovať.</div>
+
+<div class="lbl">Konkurenčné porovnanie</div>
+<div class="comp">
+  <div class="comp-col">
+    <div class="comp-head">CoupleSync (váš)</div>
+    <div class="comp-item plus">Mechanika: odpovedáš sám → vidíš partnera</div>
+    <div class="comp-item plus">Napojenie na DeepTalks ekosystém</div>
+    <div class="comp-item minus">Neznámy počet otázok</div>
+    <div class="comp-item minus">Subdoména — izolácia od webu</div>
+    <div class="comp-item minus">Neznáme kategórie tém</div>
+    <div class="comp-item minus">Žiadny výsledkový report</div>
+  </div>
+  <div class="comp-col">
+    <div class="comp-head">Paired app</div>
+    <div class="comp-item plus">8M stiahnutí, vedecky overený</div>
+    <div class="comp-item plus">Každodenný návyk — 1 otázka/deň</div>
+    <div class="comp-item plus">Expert-designed questions</div>
+    <div class="comp-item minus">$14.99/mesiac — drahé</div>
+    <div class="comp-item minus">Anglicky, nie lokálny kontext</div>
+    <div class="comp-item minus">Vyžaduje app</div>
+  </div>
+  <div class="comp-col">
+    <div class="comp-head">CZ konkurent (dotaznik-preference)</div>
+    <div class="comp-item plus">321+ otázok — veľký rozsah</div>
+    <div class="comp-item plus">Zadarmo, bez registrácie</div>
+    <div class="comp-item plus">Vidíš len zhody — nie rozdiely</div>
+    <div class="comp-item minus">Len CZ jazyk</div>
+    <div class="comp-item minus">Žiadny kontext, len otázky</div>
+    <div class="comp-item minus">Bez napojenia na komunitu</div>
+  </div>
+</div>
+
+<div class="lbl">Čo CoupleSync potrebuje — problémy</div>
+<div class="g2">
+  <div class="c">
+    <div class="bdg bd">Kritické</div>
+    <div class="ct">Izolovaná subdoména</div>
+    <div class="cs">couplesync.deeptalks.eu je oddelený svet. Používateľ stratí kontext DeepTalks a väčšina sa nevráti. Integrovať na deeptalks.eu/sk/apps/couplesync.</div>
+  </div>
+  <div class="c">
+    <div class="bdg bd">Kritické</div>
+    <div class="ct">Neznámy rozsah a témy</div>
+    <div class="cs">Koľko otázok má CoupleSync? Aké témy pokrýva? Bez tejto info nevie návštevník čo ho čaká — a nevyplní to.</div>
+  </div>
+  <div class="c">
+    <div class="bdg bw">Dôležité</div>
+    <div class="ct">Žiadny výsledkový report</div>
+    <div class="cs">Čo dostanete po vyplnení? Len zhody? Aj rozdiely? Odporúčania? Návštevník to nevie a to znižuje konverziu.</div>
+  </div>
+  <div class="c">
+    <div class="bdg bw">Dôležité</div>
+    <div class="ct">Chýba situačný kontext</div>
+    <div class="cs">Kedy sa to vypĺňa? Pred manželstvom? Po hádke? V dlhodobom vzťahu? Bez kontextu pôsobí genericky.</div>
+  </div>
+  <div class="c">
+    <div class="bdg bn">Rozvoj</div>
+    <div class="ct">Bez napojenia na ďalšie nástroje</div>
+    <div class="cs">Po vyplnení nič. Ideálny moment odporučiť kartičky pre oblasti kde sa nezhodujete, alebo Daily Connection.</div>
+  </div>
+  <div class="c">
+    <div class="bdg bn">Rozvoj</div>
+    <div class="ct">Žiadna opakovanosť</div>
+    <div class="cs">Dotazník vyplníte raz. Chýba "Vyplňte znova o 6 mesiacov" alebo sezónna verzia (pred dovolenkou, pred Vianocami).</div>
+  </div>
+</div>
+
+<div class="div"></div>
+<div class="lbl">Nové témy — čo pridať</div>
+<div class="g3">
+  <div class="c" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync kategóriu Každodenný život a návyky — deeptalks.eu')">
+    <div class="bdg bv">Základ</div>
+    <div class="ct">Každodenný život</div>
+    <div class="cs">Rannné rutiny, jedlo, poriadok, čas pre seba, návyky. Kde sú drobné trecia plochy.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync kategóriu Financie a peniaze — deeptalks.eu')">
+    <div class="bdg bv">Základ</div>
+    <div class="ct">Financie a peniaze</div>
+    <div class="cs">Spoločný účet, úspory, míňanie, dlhy, finančné ciele. Najčastejšia príčina hádok.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync kategóriu Rodina a deti — deeptalks.eu')">
+    <div class="bdg bv">Základ</div>
+    <div class="ct">Rodina a deti</div>
+    <div class="cs">Chcete deti? Kedy? Výchova, škola, vzťah so svokrovcami. Zásadné otázky pred veľkými rozhodnutiami.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync kategóriu Intimita a blízkosť — deeptalks.eu')">
+    <div class="bdg bw">Citlivé</div>
+    <div class="ct">Intimita a blízkosť</div>
+    <div class="cs">Fyzická blízkosť, potreby, frekvencie, komunikácia o sexualite. Téma, o ktorej páry málokedy hovoria priamo.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync kategóriu Budúcnosť a sny — deeptalks.eu')">
+    <div class="bdg bn">Inšpiratívne</div>
+    <div class="ct">Budúcnosť a sny</div>
+    <div class="cs">Kde chcete žiť? Kariéra vs. rodina? Cestovanie, bucket list, ako si predstavujete starnutie.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync kategóriu Hodnoty a presvedčenia — deeptalks.eu')">
+    <div class="bdg bn">Hlboké</div>
+    <div class="ct">Hodnoty a presvedčenia</div>
+    <div class="cs">Náboženstvo, politika, spravodlivosť, čo je pre každého v živote najdôležitejšie.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync kategóriu Konflikty a komunikácia — deeptalks.eu')">
+    <div class="bdg bw">Praktické</div>
+    <div class="ct">Konflikty a komunikácia</div>
+    <div class="cs">Ako sa hádame? Ako sa zmierujeme? Čo potrebujem keď som nahnevaný/á? Štýly komunikácie.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync kategóriu Love Languages — deeptalks.eu')">
+    <div class="bdg bn">Populárne</div>
+    <div class="ct">Jazyky lásky</div>
+    <div class="cs">Slová, činy, dary, čas, dotyk. Čo potrebuješ cítiť, že si milovaný/á — a dávam ti to?</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync kategóriu Minulosť a príbehy — deeptalks.eu')">
+    <div class="bdg bn">Zaujímavé</div>
+    <div class="ct">Minulosť a príbehy</div>
+    <div class="cs">Detstvo, rodičia, prvé vzťahy, formujúce zážitky. Pochopiť odkiaľ sme prišli.</div>
+  </div>
+</div>
+
+<div class="div"></div>
+<div class="lbl">Prioritný akčný plán</div>
+<div class="pr">
+  <div class="pn">1</div>
+  <div>
+    <div class="pt">Integrovať na hlavný web</div>
+    <div class="ps">Presunúť alebo zrkadliť na deeptalks.eu/sk/apps/couplesync. Subdoména môže zostať, ale vstupný bod musí byť na hlavnom webe s plným kontextom DeepTalks.</div>
+  </div>
+</div>
+<div class="pr">
+  <div class="pn">2</div>
+  <div>
+    <div class="pt">Pridať kategórie a ukážku otázok</div>
+    <div class="ps">Na vstupnej stránke zobraziť 9 tematických blokov s počtom otázok a ukážkou 1–2 otázok z každého. Návštevník vie čo dostane.</div>
+  </div>
+</div>
+<div class="pr">
+  <div class="pn">3</div>
+  <div>
+    <div class="pt">Vylepšiť výsledkový report</div>
+    <div class="ps">Nielen "zhody" — ale aj vizuálna mapa oblastí kde ste si blízki a kde nie. Odporúčania: "V oblasti Financie sa líšite — tu sú kartičky pre tento rozhovor."</div>
+  </div>
+</div>
+<div class="pr">
+  <div class="pn">4</div>
+  <div>
+    <div class="pt">Pridať situačné verzie</div>
+    <div class="ps">"Pre nové páry", "Pre páry pred svadbou", "Pre dlhodobé páry", "Pred veľkým rozhodnutím". Každá verzia = podmnožina otázok relevantných pre danú situáciu.</div>
+  </div>
+</div>
+<div class="pr">
+  <div class="pn">5</div>
+  <div>
+    <div class="pt">Napojenie na ostatné nástroje po výsledku</div>
+    <div class="ps">Po zobrazení výsledkov: "Našli ste oblasť kde sa líšite? Tu sú kartičky pre tento rozhovor" alebo "Skúste Daily Connection — otázka denne pre oba." Uzatvorený ekosystém.</div>
+  </div>
+</div>
+
+</div>

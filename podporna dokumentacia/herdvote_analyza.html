@@ -1,0 +1,148 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.w{padding:1.5rem 0 2.5rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.6rem;margin-top:1.5rem}
+.lbl:first-child{margin-top:0}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.75rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:.75rem}
+.c{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;cursor:pointer;transition:border-color .15s,background .15s;background:var(--color-background-primary)}
+.c:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.ct{font-size:13px;font-weight:500;margin-bottom:4px;color:var(--color-text-primary)}
+.cs{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.bdg{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;margin-bottom:6px;line-height:1.5}
+.bd{background:var(--color-background-danger);color:var(--color-text-danger)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.25rem 0}
+.info{background:var(--color-background-info);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--color-text-info);margin-bottom:.75rem;line-height:1.5}
+.warn{background:var(--color-background-warning);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--color-text-warning);margin-bottom:.75rem;line-height:1.5}
+.ok{background:var(--color-background-success);border-radius:8px;padding:10px 13px;font-size:12px;color:var(--color-text-success);margin-bottom:.75rem;line-height:1.5}
+.pr{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;padding:11px 0;border-bottom:.5px solid var(--color-border-tertiary)}
+.pr:last-child{border:none}
+.pn{font-size:16px;font-weight:500;color:var(--color-text-tertiary)}
+.pt{font-size:13px;font-weight:500;margin-bottom:2px}
+.ps{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+@media(max-width:460px){.g2,.g3{grid-template-columns:1fr}}
+</style>
+<div class="w">
+
+<div class="ok">Silná stránka: Mechanika moderátor + hráč cez zdieľaný kód je unikátna a technicky dobre vyriešená. Toto je základ, na ktorom sa dá stavať.</div>
+<div class="warn">Problém: Stránka /sk/apps/quiz je len výber roly. Nehovorí čo hra je, pre koho, ako dlho trvá, ani prečo by som ju mal použiť práve teraz.</div>
+
+<div class="lbl">Čo aktuálne chýba — konkrétne problémy</div>
+<div class="g2">
+  <div class="c">
+    <div class="bdg bd">Kritické</div>
+    <div class="ct">Nulový onboarding</div>
+    <div class="cs">Prídeš na stránku a hneď voľba roly. Čo je Herd Vote? Pre koho? Ako sa hrá? Nikde.</div>
+  </div>
+  <div class="c">
+    <div class="bdg bd">Kritické</div>
+    <div class="ct">Žiadne kategórie otázok</div>
+    <div class="cs">Moderátor nevie, aký typ otázok dostane. Rodina dostane rovnaké ako firemný teambuilding?</div>
+  </div>
+  <div class="c">
+    <div class="bdg bw">Dôležité</div>
+    <div class="ct">Žiadne "prečo práve teraz"</div>
+    <div class="cs">Chýba situačný hook — "Ideálne na večeru, opekačku, teambuilding, Vianoce."</div>
+  </div>
+  <div class="c">
+    <div class="bdg bw">Dôležité</div>
+    <div class="ct">Žiadna ukážka otázok</div>
+    <div class="cs">Ľudia nevedia, čo dostanú. Ukážka 2–3 otázok by dramaticky zvýšila konverziu.</div>
+  </div>
+  <div class="c">
+    <div class="bdg bw">Dôležité</div>
+    <div class="ct">Jeden formát pre všetkých</div>
+    <div class="cs">Páry, rodiny, tímy — všetci dostanú to isté. Žiadna personalizácia podľa skupiny.</div>
+  </div>
+  <div class="c">
+    <div class="bdg bn">Rozvoj</div>
+    <div class="ct">Žiadne zdieľanie výsledkov</div>
+    <div class="cs">Po hre nič. Žiadny screenshot, žiadne skóre, žiadny "hrali sme" moment na sociálnych sieťach.</div>
+  </div>
+</div>
+
+<div class="div"></div>
+<div class="lbl">Čo pridať — priority</div>
+<div class="pr">
+  <div class="pn">1</div>
+  <div>
+    <div class="pt">Hero sekcia so situačným hookom</div>
+    <div class="ps">"Otestujte, ako dobre sa navzájom poznáte." + 3 situácie kde to použiť (večera, teambuilding, výlet). Pred výberom roly.</div>
+  </div>
+</div>
+<div class="pr">
+  <div class="pn">2</div>
+  <div>
+    <div class="pt">Výber kategórie otázok pred spustením</div>
+    <div class="ps">Rodina · Páry · Priatelia · Tím / Práca · Škola · Zmiešané. Moderátor vyberie PRED vytvorením lobby.</div>
+  </div>
+</div>
+<div class="pr">
+  <div class="pn">3</div>
+  <div>
+    <div class="pt">Ukážka 3 otázok pred spustením</div>
+    <div class="ps">"Takto vyzerajú otázky v kategórii Rodina." Animovaná kartička s príkladom. Odstraňuje neistotu.</div>
+  </div>
+</div>
+<div class="pr">
+  <div class="pn">4</div>
+  <div>
+    <div class="pt">Rýchly mód — bez moderátora</div>
+    <div class="ps">Pre 2–4 ľudí bez techniky. Jeden telefón, otázky na obrazovke, všetci odpovedajú nahlas. Žiadny kód, žiadne lobby.</div>
+  </div>
+</div>
+<div class="pr">
+  <div class="pn">5</div>
+  <div>
+    <div class="pt">Výsledková obrazovka so zdieľaním</div>
+    <div class="ps">Po hre: skóre, najvtipnejšia odpoveď, tlačidlo "Zdieľať výsledky" → Stories / WhatsApp. Virálny potenciál.</div>
+  </div>
+</div>
+<div class="pr">
+  <div class="pn">6</div>
+  <div>
+    <div class="pt">Vlastné otázky moderátora (Premium)</div>
+    <div class="ps">Moderátor pridá vlastné otázky do sady. Ideálne pre firemné teambuildingы a školy. Monetizačný prvok.</div>
+  </div>
+</div>
+
+<div class="div"></div>
+<div class="lbl">Nové kategórie otázok — čo vytvoriť</div>
+<div class="g3">
+  <div class="c" onclick="sendPrompt('Navrhni 20 otázok pre Herd Vote kategóriu Rodina na deeptalks.eu')">
+    <div class="bdg bv">Obsah</div>
+    <div class="ct">Rodina</div>
+    <div class="cs">Spomienky, tradície, detstvo. Ideálne na Vianoce a rodinné stretnutia.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 20 otázok pre Herd Vote kategóriu Páry na deeptalks.eu')">
+    <div class="bdg bv">Obsah</div>
+    <div class="ct">Páry</div>
+    <div class="cs">Poznáte sa naozaj? Obľúbené veci, tajné túžby, spoločné spomienky.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 20 otázok pre Herd Vote kategóriu Priatelia na deeptalks.eu')">
+    <div class="bdg bv">Obsah</div>
+    <div class="ct">Priatelia</div>
+    <div class="cs">Kto vás pozná najlepšie? Zábavné aj hlbšie otázky na večer s kamošmi.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 20 otázok pre Herd Vote kategóriu Tím / Práca na deeptalks.eu — teambuilding')">
+    <div class="bdg bn">B2B</div>
+    <div class="ct">Tím / Práca</div>
+    <div class="cs">Icebreakery pre kolektív. Psychologicky bezpečné, bez osobných otázok.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 20 otázok pre Herd Vote kategóriu Škola — deti a triedy na deeptalks.eu')">
+    <div class="bdg bn">Edu</div>
+    <div class="ct">Škola</div>
+    <div class="cs">Pre triedy a skupiny detí. Empatia, spoznávanie, zábava bez vylučovania.</div>
+  </div>
+  <div class="c" onclick="sendPrompt('Navrhni 20 otázok pre Herd Vote kategóriu Zmiešané skupiny na deeptalks.eu')">
+    <div class="bdg bv">Obsah</div>
+    <div class="ct">Zmiešané</div>
+    <div class="cs">Pre skupiny kde si nie ste blízki. Ľahké, vtipné, netriviálne.</div>
+  </div>
+</div>
+
+</div>

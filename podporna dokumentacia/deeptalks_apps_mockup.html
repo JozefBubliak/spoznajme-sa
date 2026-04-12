@@ -1,0 +1,139 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:2rem 0 3rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.hero{margin-bottom:1.75rem}
+.hero-h{font-size:22px;font-weight:500;margin-bottom:.4rem}
+.hero-p{font-size:14px;color:var(--color-text-secondary);line-height:1.6;max-width:500px}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center}
+.fl{font-size:12px;color:var(--color-text-tertiary);margin-right:4px}
+.fb{font-size:12px;padding:6px 14px;border-radius:99px;border:0.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;white-space:nowrap}
+.fb.on{border-color:var(--color-border-primary);color:var(--color-text-primary);font-weight:500;background:var(--color-background-secondary)}
+.slbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.75rem}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem}
+.tc{border:0.5px solid var(--color-border-tertiary);border-radius:14px;padding:16px 18px;cursor:pointer;transition:border-color .15s,background .15s;background:var(--color-background-primary);display:flex;flex-direction:column;gap:8px}
+.tc:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.tc.ft{border-width:1.5px;border-color:var(--color-border-info)}
+.tc.hid{display:none}
+.ttop{display:flex;justify-content:space-between;align-items:flex-start}
+.tico{font-size:22px;line-height:1}
+.bdg{font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px;line-height:1.6}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.tname{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.tdesc{font-size:13px;color:var(--color-text-secondary);line-height:1.5}
+.ttags{display:flex;gap:6px;flex-wrap:wrap}
+.tg2{font-size:10px;padding:2px 7px;border-radius:99px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-tertiary)}
+.tcta{font-size:12px;font-weight:500;color:var(--color-text-info);margin-top:4px}
+.qb{border:0.5px solid var(--color-border-tertiary);border-radius:14px;padding:20px;margin-bottom:2rem;background:var(--color-background-secondary)}
+.qlbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.5rem}
+.qq{font-size:17px;font-weight:500;line-height:1.4;margin-bottom:1rem;color:var(--color-text-primary);font-family:var(--font-serif)}
+.qrow{display:flex;gap:8px;flex-wrap:wrap}
+.qbtn{font-size:12px;padding:7px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.qbtn:hover{background:var(--color-background-secondary)}
+.qbtnp{border-color:var(--color-border-primary);font-weight:500}
+.qnote{font-size:11px;color:var(--color-text-tertiary);margin-top:.75rem}
+.div{height:0.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+</style>
+<div class="pg">
+<div class="hero">
+  <div class="hero-h">Nástroje a hry</div>
+  <div class="hero-p">Hry, kartičky a cvičenia, ktoré vás dostanú od obrazovky späť k sebe. Vyber si podľa situácie.</div>
+</div>
+<div class="filter-row">
+  <span class="fl">Pre koho:</span>
+  <button class="fb on" id="f-all" onclick="doFilter('all')">Všetko</button>
+  <button class="fb" id="f-pary" onclick="doFilter('pary')">Páry</button>
+  <button class="fb" id="f-rodina" onclick="doFilter('rodina')">Rodina</button>
+  <button class="fb" id="f-priatelia" onclick="doFilter('priatelia')">Priatelia</button>
+  <button class="fb" id="f-tim" onclick="doFilter('tim')">Tím</button>
+</div>
+<div class="qb">
+  <div class="qlbl">Otázka dňa</div>
+  <div class="qq" id="qqq">"Čo ťa dnes potešilo — a povedal si to niekomu?"</div>
+  <div class="qrow">
+    <button class="qbtn qbtnp" onclick="sendPrompt('Navrhni systém Otázky dňa pre deeptalks.eu — ako fungovať, obsah, email zber')">Dostávaj otázku každý deň →</button>
+    <button class="qbtn" onclick="nextQ()">Ďalšia otázka</button>
+  </div>
+  <div class="qnote">Zadarmo · nová otázka každý deň · bez registrácie</div>
+</div>
+<div class="slbl">Dostupné teraz</div>
+<div class="tg" id="tg1">
+  <div class="tc ft" data-g="pary priatelia rodina tim" onclick="sendPrompt('Navrhni kategórie a obsah pre konverzačné kartičky na deeptalks.eu — 3-úrovňový systém, filtrovanie')">
+    <div class="ttop"><span class="tico">◈</span><span class="bdg bv">Live</span></div>
+    <div class="tname">Konverzačné kartičky</div>
+    <div class="tdesc">Otázky, ktoré vás zblížia — od ľahkých po hlboké. Podľa vzťahu a nálady.</div>
+    <div class="ttags"><span class="tg2">páry</span><span class="tg2">rodina</span><span class="tg2">priatelia</span></div>
+    <div class="tcta">Vybrať kartičky →</div>
+  </div>
+  <div class="tc" data-g="pary" onclick="sendPrompt('Navrhni rozšírenie CoupleSync dotazníka — témy, mechanika, obsah')">
+    <div class="ttop"><span class="tico">♡</span><span class="bdg bv">Live</span></div>
+    <div class="tname">CoupleSync</div>
+    <div class="tdesc">Partnerský dotazník. Odpovedaj zvlášť — potom porovnaj, kde sa zhodujete a kde nie.</div>
+    <div class="ttags"><span class="tg2">páry</span><span class="tg2">dotazník</span></div>
+    <div class="tcta">Vyplniť dotazník →</div>
+  </div>
+  <div class="tc" data-g="priatelia rodina tim" onclick="sendPrompt('Ako vylepšiť Herd Vote kvíz — UX, onboarding, skupiny, obsah otázok')">
+    <div class="ttop"><span class="tico">◎</span><span class="bdg bv">Live</span></div>
+    <div class="tname">Herd Vote — tímový kvíz</div>
+    <div class="tdesc">Multiplayer kvíz pre skupiny. Moderátor + hráči v reálnom čase cez zdieľaný kód.</div>
+    <div class="ttags"><span class="tg2">skupiny</span><span class="tg2">zábava</span><span class="tg2">tím</span></div>
+    <div class="tcta">Spustiť kvíz →</div>
+  </div>
+  <div class="tc" data-g="priatelia rodina" onclick="sendPrompt('Navrhni obsah a popis pre Hádanku na deeptalks.eu — ako hrať, situácie, text')">
+    <div class="ttop"><span class="tico">▲</span><span class="bdg bw">Treba doplniť</span></div>
+    <div class="tname">Hádanka</div>
+    <div class="tdesc">Rýchla hra na myslenie — uhádnite, čo má druhý na mysli. Ideálna na rozohriatie.</div>
+    <div class="ttags"><span class="tg2">zábava</span><span class="tg2">rýchle</span></div>
+    <div class="tcta">Spustiť hádanku →</div>
+  </div>
+</div>
+<div class="div"></div>
+<div class="slbl">Čoskoro</div>
+<div class="tg" id="tg2">
+  <div class="tc" data-g="pary" onclick="sendPrompt('Navrhni Daily Connection pre páry — mechanika každodennej otázky, kde odpovedáš sám a potom vidíš partnera')">
+    <div class="ttop"><span class="tico">◐</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="tname">Daily Connection</div>
+    <div class="tdesc">Každý deň jedna otázka pre vás dvoch. Odpovedáš sám — potom vidíš odpoveď partnera. 5 minút, ktoré menia vzťah.</div>
+    <div class="ttags"><span class="tg2">páry</span><span class="tg2">každodenné</span><span class="tg2">návyk</span></div>
+    <div class="tcta">Notifikovať ma →</div>
+  </div>
+  <div class="tc" data-g="pary priatelia rodina" onclick="sendPrompt('Navrhni Deep Talk Walk — audio prechádzku pre dvoch na deeptalks.eu, štruktúra, séria')">
+    <div class="ttop"><span class="tico">◁</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="tname">Deep Talk Walk</div>
+    <div class="tdesc">Audionahrávka do slúchadiel. Hlas vás vedie rozhovorom počas prechádzky — ľudia hovoria ľahšie v pohybe.</div>
+    <div class="ttags"><span class="tg2">páry</span><span class="tg2">priatelia</span><span class="tg2">pohyb</span></div>
+    <div class="tcta">Notifikovať ma →</div>
+  </div>
+  <div class="tc" data-g="rodina" onclick="sendPrompt('Navrhni Legacy edíciu na deeptalks.eu — týždenné otázky pre starých rodičov, výsledok kniha spomienok')">
+    <div class="ttop"><span class="tico">◫</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="tname">Spomienky — legacy</div>
+    <div class="tdesc">Týždenná otázka pre starého rodiča emailom. Po roku vznikne kniha spomienok pre celú rodinu.</div>
+    <div class="ttags"><span class="tg2">rodina</span><span class="tg2">seniori</span><span class="tg2">darček</span></div>
+    <div class="tcta">Notifikovať ma →</div>
+  </div>
+  <div class="tc" data-g="tim" onclick="sendPrompt('Navrhni Tímový icebreaker generátor pre firemné porady na deeptalks.eu — B2B verzia')">
+    <div class="ttop"><span class="tico">▣</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="tname">Tímový icebreaker</div>
+    <div class="tdesc">Generátor otázok pre firemné porady a teambuildingy. Psychologické bezpečie v tíme.</div>
+    <div class="ttags"><span class="tg2">práca</span><span class="tg2">tím</span><span class="tg2">b2b</span></div>
+    <div class="tcta">Notifikovať ma →</div>
+  </div>
+</div>
+</div>
+<script>
+var QS=["\"Čo ťa dnes potešilo — a povedal si to niekomu?\"","\"Kedy si sa naposledy naozaj zasmial/a — a s kým?\"","\"Čo by si urobil/a inak, keby si vedel/a, že ti to nikto nevyčíta?\"","\"Na koho si dnes myslel/a a ešte si mu to nepovedal/a?\"","\"Čo ťa teraz najviac berie energiu — a stojí to za to?\"","\"Čo ti dnes nik nepovedal, ale potreboval/a si to počuť?\""];
+var qi=0;
+function nextQ(){qi=(qi+1)%QS.length;document.getElementById('qqq').textContent=QS[qi];}
+function doFilter(g){
+  document.querySelectorAll('.fb').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('f-'+g).classList.add('on');
+  var cards=document.querySelectorAll('.tc');
+  cards.forEach(function(c){
+    if(g==='all'){c.classList.remove('hid');return;}
+    var cg=c.getAttribute('data-g')||'';
+    if(cg.indexOf(g)>=0){c.classList.remove('hid');}else{c.classList.add('hid');}
+  });
+}
+</script>

@@ -1,0 +1,129 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.75rem 0 3rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.h1{font-size:22px;font-weight:500;margin-bottom:.35rem}
+.sub{font-size:14px;color:var(--color-text-secondary);line-height:1.6;max-width:500px;margin-bottom:.9rem}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.6rem;margin-top:1.5rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+.sits{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.25rem}
+.sit{font-size:11px;padding:4px 11px;border-radius:99px;border:.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);background:var(--color-background-secondary)}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:1.25rem}
+.cat{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:12px 13px;cursor:pointer;transition:all .13s;background:var(--color-background-primary)}
+.cat:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.cat.on{border:1.5px solid var(--color-border-info);background:var(--color-background-info)}
+.cat.on .cn{color:var(--color-text-info)}
+.cat.on .cd{color:var(--color-text-info);opacity:.75}
+.ci{font-size:18px;margin-bottom:5px}
+.cn{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:1px}
+.cd{font-size:11px;color:var(--color-text-secondary);line-height:1.35}
+.prev{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:14px 16px;background:var(--color-background-secondary);margin-bottom:1.25rem}
+.prevl{font-size:11px;color:var(--color-text-tertiary);margin-bottom:.4rem}
+.prevq{font-size:15px;font-weight:500;color:var(--color-text-primary);line-height:1.45;margin-bottom:.35rem;font-family:var(--font-serif)}
+.prevs{font-size:11px;color:var(--color-text-secondary)}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+.mode{border:.5px solid var(--color-border-tertiary);border-radius:13px;padding:15px 17px;cursor:pointer;transition:all .13s;background:var(--color-background-primary)}
+.mode:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.mode.hi{border:1.5px solid var(--color-border-info)}
+.mi{font-size:22px;margin-bottom:6px}
+.mn{font-size:14px;font-weight:500;margin-bottom:3px}
+.md{font-size:12px;color:var(--color-text-secondary);line-height:1.45;margin-bottom:8px}
+.mbdg{font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;display:inline-block}
+.mf{background:var(--color-background-success);color:var(--color-text-success)}
+.mp{background:var(--color-background-info);color:var(--color-text-info)}
+.mcta{font-size:12px;font-weight:500;color:var(--color-text-info);display:block;margin-top:8px}
+.flow{display:flex;border:.5px solid var(--color-border-tertiary);border-radius:11px;overflow:hidden;margin-bottom:1.5rem}
+.fs{flex:1;padding:12px 8px;text-align:center;border-right:.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.fs:last-child{border-right:none}
+.fn{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.ft{font-size:11px;font-weight:500;line-height:1.35}
+.sdemo{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:14px 16px;background:var(--color-background-secondary)}
+.sdemo-t{font-size:13px;font-weight:500;margin-bottom:10px}
+.sr{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.sn{font-size:12px;width:70px;flex-shrink:0}
+.sbw{flex:1;height:7px;background:var(--color-border-tertiary);border-radius:99px;overflow:hidden}
+.sb{height:100%;border-radius:99px;background:var(--color-border-info)}
+.sp{font-size:11px;color:var(--color-text-secondary);width:36px;text-align:right;flex-shrink:0}
+.sbtns{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+.sbtn{font-size:12px;padding:6px 13px;border-radius:7px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s}
+.sbtn:hover{color:var(--color-text-primary)}
+@media(max-width:460px){.cats{grid-template-columns:1fr 1fr}.modes,.flow{flex-direction:column}.fs{border-right:none;border-bottom:.5px solid var(--color-border-tertiary)}.fs:last-child{border-bottom:none}}
+</style>
+<div class="pg">
+<div class="h1">Herd Vote — tímový kvíz</div>
+<div class="sub">Otestujte, ako dobre sa navzájom poznáte. Zábavné aj netriviálne otázky — kto z vás vie o ostatných najviac?</div>
+<div class="sits">
+  <span class="sit">Rodinná večera</span><span class="sit">Opekačka s priateľmi</span><span class="sit">Firemný teambuilding</span><span class="sit">Výlet</span><span class="sit">Vianoce</span><span class="sit">Trieda v škole</span>
+</div>
+<div class="div"></div>
+<div class="lbl">Krok 1 — Vyber kategóriu otázok</div>
+<div class="cats">
+  <div class="cat on" onclick="pick(this,'rodina')"><div class="ci">◎</div><div class="cn">Rodina</div><div class="cd">Spomienky, tradície</div></div>
+  <div class="cat" onclick="pick(this,'pary')"><div class="ci">♡</div><div class="cn">Páry</div><div class="cd">Spoznajte sa znova</div></div>
+  <div class="cat" onclick="pick(this,'priatelia')"><div class="ci">◈</div><div class="cn">Priatelia</div><div class="cd">Kto vás pozná najlepšie?</div></div>
+  <div class="cat" onclick="pick(this,'tim')"><div class="ci">▣</div><div class="cn">Tím / Práca</div><div class="cd">Icebreaker pre kolektív</div></div>
+  <div class="cat" onclick="pick(this,'skola')"><div class="ci">●</div><div class="cn">Škola</div><div class="cd">Pre triedy a deti</div></div>
+  <div class="cat" onclick="pick(this,'zmiesane')"><div class="ci">◇</div><div class="cn">Zmiešané</div><div class="cd">Pre rôznorodé skupiny</div></div>
+</div>
+<div class="prev">
+  <div class="prevl">Ukážka otázky z tejto kategórie</div>
+  <div class="prevq" id="pq">"Čo robil náš otec/mama ako prvú vec každé ráno, keď sme boli malí?"</div>
+  <div class="prevs" id="ps">Kategória: Rodina · spomienky a tradície</div>
+</div>
+<div class="div"></div>
+<div class="lbl">Krok 2 — Vyber mód hry</div>
+<div class="modes">
+  <div class="mode hi" onclick="sendPrompt('Navrhni UX flow pre klasický moderátorský mód Herd Vote na deeptalks.eu')">
+    <div class="mi">◎</div><div class="mn">Klasický mód</div>
+    <div class="md">Moderátor vytvorí lobby, zdieľa kód. Hráči sa pripoja na telefóne. Pre 4–20 ľudí.</div>
+    <span class="mbdg mf">Zadarmo</span>
+    <span class="mcta">Vytvoriť lobby →</span>
+  </div>
+  <div class="mode" onclick="sendPrompt('Navrhni Rýchly mód Herd Vote bez moderátora — jeden telefón, odpovedajú nahlas, žiadny kód')">
+    <div class="mi">◁</div><div class="mn">Rýchly mód</div>
+    <div class="md">Jeden telefón, otázky na obrazovke. Odpovedáte nahlas. Žiadny kód. Hráte do 30 sekúnd.</div>
+    <span class="mbdg mf">Zadarmo</span>
+    <span class="mcta">Spustiť hneď →</span>
+  </div>
+  <div class="mode" onclick="sendPrompt('Navrhni Premium mód vlastných otázok pre Herd Vote deeptalks.eu — UX, cena, B2B použitie')">
+    <div class="mi">▲</div><div class="mn">Vlastné otázky</div>
+    <div class="md">Pridajte vlastné otázky. Ideálne pre firemné eventy, výročia, triedy.</div>
+    <span class="mbdg mp">Premium</span>
+    <span class="mcta">Vyskúšať Premium →</span>
+  </div>
+  <div class="mode" onclick="sendPrompt('Navrhni Turnajový mód pre Herd Vote deeptalks.eu — kola, finále, dramatické zakončenie')">
+    <div class="mi">◆</div><div class="mn">Turnaj</div>
+    <div class="md">Viac kôl, semifinále, finále. Pre väčšie skupiny s dramatickým zakončením.</div>
+    <span class="mbdg mp">Premium</span>
+    <span class="mcta">Vyskúšať Premium →</span>
+  </div>
+</div>
+<div class="div"></div>
+<div class="lbl">Ako to funguje</div>
+<div class="flow">
+  <div class="fs"><div class="fn">01</div><div class="ft">Vyber kategóriu a mód</div></div>
+  <div class="fs"><div class="fn">02</div><div class="ft">Zdieľaj kód hráčom</div></div>
+  <div class="fs"><div class="fn">03</div><div class="ft">Každý odpovedá na telefóne</div></div>
+  <div class="fs"><div class="fn">04</div><div class="ft">Porovnáte v reálnom čase</div></div>
+  <div class="fs"><div class="fn">05</div><div class="ft">Zdieľajte výsledky</div></div>
+</div>
+<div class="div"></div>
+<div class="lbl">Výsledková obrazovka — ukážka</div>
+<div class="sdemo">
+  <div class="sdemo-t">Výsledky · Rodina · 12 otázok</div>
+  <div class="sr"><div class="sn">Marta</div><div class="sbw"><div class="sb" style="width:91%"></div></div><div class="sp">11 b.</div></div>
+  <div class="sr"><div class="sn">Peter</div><div class="sbw"><div class="sb" style="width:75%"></div></div><div class="sp">9 b.</div></div>
+  <div class="sr"><div class="sn">Zuzka</div><div class="sbw"><div class="sb" style="width:58%"></div></div><div class="sp">7 b.</div></div>
+  <div class="sr"><div class="sn">Tomáš</div><div class="sbw"><div class="sb" style="width:41%"></div></div><div class="sp">5 b.</div></div>
+  <div class="sbtns">
+    <button class="sbtn" onclick="sendPrompt('Navrhni obsah výsledkovej obrazovky Herd Vote a upsell po hre — kartičky, premium, zdieľanie')">Zdieľať výsledky</button>
+    <button class="sbtn" onclick="sendPrompt('Navrhni obsah výsledkovej obrazovky Herd Vote a upsell po hre — kartičky, premium, zdieľanie')">Hrať znova</button>
+    <button class="sbtn" onclick="sendPrompt('Navrhni upsell po skončení Herd Vote — ako ponúknuť kartičky alebo premium plynulo')">Vyskúšať kartičky →</button>
+  </div>
+</div>
+</div>
+<script>
+var D={rodina:{q:'"Čo robil náš otec/mama ako prvú vec každé ráno?"',s:'Kategória: Rodina · spomienky a tradície'},pary:{q:'"Čo by si partner/ka objednal/a v reštaurácii, kde nikdy neboli?"',s:'Kategória: Páry · spoznáte sa inak, ako si myslíte'},priatelia:{q:'"Čo by tvoj kamarát urobil ako prvé, keby vyhral milión eur?"',s:'Kategória: Priatelia · kto vás pozná najlepšie?'},tim:{q:'"Čo robil váš kolega pred tým, ako nastúpil do tejto práce?"',s:'Kategória: Tím · psychologicky bezpečné, zábavné'},skola:{q:'"Čo by tvoj spolužiak zvolil ako superschopnosť?"',s:'Kategória: Škola · empatia a spoznávanie'},zmiesane:{q:'"Čo by táto osoba robila, keby mala voľný deň bez povinností?"',s:'Kategória: Zmiešané · ľahké, vtipné, pre každého'}};
+function pick(el,cat){document.querySelectorAll('.cat').forEach(function(c){c.classList.remove('on');});el.classList.add('on');document.getElementById('pq').textContent=D[cat].q;document.getElementById('ps').textContent=D[cat].s;}
+</script>

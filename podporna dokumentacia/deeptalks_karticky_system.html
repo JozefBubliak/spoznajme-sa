@@ -1,0 +1,394 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.75rem 0 3rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.h1{font-size:22px;font-weight:500;margin-bottom:.35rem}
+.hero-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.6;max-width:500px;margin-bottom:1.5rem}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.65rem;margin-top:1.6rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+
+/* FILTER */
+.filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.5rem}
+.fb{font-size:12px;padding:6px 14px;border-radius:99px;border:.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;white-space:nowrap}
+.fb.on{border-color:var(--color-border-primary);color:var(--color-text-primary);font-weight:500;background:var(--color-background-secondary)}
+
+/* EDÍCIE */
+.editions{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:1.5rem}
+.ed{border:.5px solid var(--color-border-tertiary);border-radius:13px;padding:15px 17px;cursor:pointer;transition:all .13s;background:var(--color-background-primary)}
+.ed:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.ed.on{border:1.5px solid var(--color-border-info);background:var(--color-background-info)}
+.ed.on .en{color:var(--color-text-info)}
+.ed.on .es{color:var(--color-text-info);opacity:.8}
+.ed.on .elv{color:var(--color-text-info);opacity:.7}
+.ed.hid{display:none}
+.etop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.eico{font-size:20px}
+.bdg{font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;line-height:1.5}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.en{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--color-text-primary)}
+.es{font-size:12px;color:var(--color-text-secondary);line-height:1.45;margin-bottom:5px}
+.elv{font-size:11px;color:var(--color-text-tertiary)}
+
+/* DECK VIEWER */
+.deck{border:.5px solid var(--color-border-tertiary);border-radius:13px;overflow:hidden;margin-bottom:1.5rem}
+.deck-header{padding:14px 18px;border-bottom:.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);display:flex;align-items:center;justify-content:space-between}
+.deck-title{font-size:14px;font-weight:500}
+.deck-meta{font-size:11px;color:var(--color-text-tertiary)}
+.level-tabs{display:flex;border-bottom:.5px solid var(--color-border-tertiary)}
+.ltab{flex:1;padding:9px;text-align:center;font-size:12px;cursor:pointer;border-right:.5px solid var(--color-border-tertiary);transition:background .12s;color:var(--color-text-secondary)}
+.ltab:last-child{border-right:none}
+.ltab.on{background:var(--color-background-secondary);font-weight:500;color:var(--color-text-primary)}
+.card-area{padding:16px 18px;min-height:160px}
+.card-display{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:18px 20px;background:var(--color-background-primary);margin-bottom:10px;cursor:pointer;transition:all .15s}
+.card-display:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.card-q{font-size:15px;font-weight:500;line-height:1.5;color:var(--color-text-primary);font-family:var(--font-serif);margin-bottom:6px}
+.card-hint{font-size:11px;color:var(--color-text-tertiary)}
+.card-nav{display:flex;align-items:center;gap:10px}
+.cnav-btn{font-size:12px;padding:6px 14px;border-radius:7px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s}
+.cnav-btn:hover{color:var(--color-text-primary)}
+.cnav-count{font-size:12px;color:var(--color-text-tertiary);flex:1;text-align:center}
+
+/* PROMPT CARDS */
+.prompt-section{margin-bottom:1.5rem}
+.prompts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.prompt{border:.5px solid var(--color-border-tertiary);border-radius:9px;padding:10px 12px;cursor:pointer;transition:all .12s;text-align:center}
+.prompt:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.prompt-ico{font-size:16px;margin-bottom:4px}
+.prompt-name{font-size:12px;font-weight:500;margin-bottom:2px;color:var(--color-text-primary)}
+.prompt-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.35}
+
+/* WILDCARD */
+.wildcard{border:.5px dashed var(--color-border-secondary);border-radius:10px;padding:13px 15px;margin-bottom:.75rem;cursor:pointer;transition:all .12s}
+.wildcard:hover{background:var(--color-background-secondary)}
+.wt{font-size:13px;font-weight:500;margin-bottom:3px}
+.wd{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+
+@media(max-width:460px){.editions{grid-template-columns:1fr}.prompts{grid-template-columns:1fr 1fr}}
+</style>
+
+<div class="pg">
+<div class="h1">Konverzačné kartičky</div>
+<div class="hero-sub">Rozhovory, ktoré idú pod povrch. Vyber edíciu, úroveň hĺbky a kartu — zvyšok sa stane sám.</div>
+
+<div class="lbl">Filtrovať podľa skupiny</div>
+<div class="filters">
+  <button class="fb on" onclick="filterEd('all',this)">Všetky edície</button>
+  <button class="fb" onclick="filterEd('pary',this)">Páry</button>
+  <button class="fb" onclick="filterEd('rodina',this)">Rodina</button>
+  <button class="fb" onclick="filterEd('priatelia',this)">Priatelia</button>
+  <button class="fb" onclick="filterEd('praca',this)">Práca</button>
+  <button class="fb" onclick="filterEd('citlive',this)">Citlivé</button>
+</div>
+
+<div class="lbl">Vyber edíciu</div>
+<div class="editions" id="editions">
+
+  <div class="ed on" data-g="pary" onclick="selectEd(this,'pary')">
+    <div class="etop"><span class="eico">♡</span><span class="bdg bv">Dostupné</span></div>
+    <div class="en">Páry & manželia</div>
+    <div class="es">Od každodenných momentov po hlboké rozhovory o živote, túžbach a budúcnosti.</div>
+    <div class="elv">3 úrovne · 60 kariet · + Prompt Cards</div>
+  </div>
+
+  <div class="ed" data-g="rodina" onclick="selectEd(this,'rodic')">
+    <div class="etop"><span class="eico">◎</span><span class="bdg bv">Dostupné</span></div>
+    <div class="en">Rodič → Dieťa</div>
+    <div class="es">Otázky pre každý vek. Od škôlky po dospievajúcich — emócie, škola, snívanie.</div>
+    <div class="elv">3 úrovne · 50 kariet · verzia 6+ a 12+</div>
+  </div>
+
+  <div class="ed" data-g="rodina" onclick="selectEd(this,'starci')">
+    <div class="etop"><span class="eico">◫</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="en">Starí rodičia & vnuci</div>
+    <div class="es">Príbehy, spomienky, múdrosť. Otázky, ktoré zachytia históriu rodiny.</div>
+    <div class="elv">2 úrovne · 40 kariet · Legacy edícia</div>
+  </div>
+
+  <div class="ed" data-g="priatelia" onclick="selectEd(this,'priatelia')">
+    <div class="etop"><span class="eico">◈</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="en">Priatelia</div>
+    <div class="es">Anti-small-talk edícia. Na večeru, výlet, oheň. Od zábavných po zraniteľné.</div>
+    <div class="elv">3 úrovne · 55 kariet</div>
+  </div>
+
+  <div class="ed" data-g="citlive" onclick="selectEd(this,'citlive')">
+    <div class="etop"><span class="eico">◇</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="en">Ťažké situácie</div>
+    <div class="es">Keď treba povedať niečo dôležité. Smrdí z úst. Mrzí ma to. Závislosť. Strata.</div>
+    <div class="elv">1 úroveň · 45 kariet · praktické skripty</div>
+  </div>
+
+  <div class="ed" data-g="praca" onclick="selectEd(this,'praca')">
+    <div class="etop"><span class="eico">▣</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="en">Práca & tím</div>
+    <div class="es">Icebreakery pre tímy. Psychologické bezpečie. Spoznaj kolegu ako človeka.</div>
+    <div class="elv">2 úrovne · 50 kariet · B2B edícia</div>
+  </div>
+
+  <div class="ed" data-g="pary" onclick="selectEd(this,'intima')">
+    <div class="etop"><span class="eico">●</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="en">Páry — hlboká edícia</div>
+    <div class="es">Pre páry, ktoré chcú ísť ešte ďalej. Intimita, sexualita, strach, snívanie.</div>
+    <div class="elv">2 úrovne · 40 kariet · 18+</div>
+  </div>
+
+  <div class="ed" data-g="priatelia rodina" onclick="selectEd(this,'cudzinci')">
+    <div class="etop"><span class="eico">◐</span><span class="bdg bn">Čoskoro</span></div>
+    <div class="en">Cudzinci → Priatelia</div>
+    <div class="es">Pre ľudí, čo sa dobre nepoznajú. Zoznámky, nový tím, susedia. SK/UA bilingválna.</div>
+    <div class="elv">3 úrovne · 45 kariet · SK + UA</div>
+  </div>
+
+</div>
+
+<div class="div"></div>
+
+<!-- DECK VIEWER -->
+<div class="deck">
+  <div class="deck-header">
+    <div class="deck-title" id="deck-title">Páry & manželia</div>
+    <div class="deck-meta" id="deck-meta">60 kariet · 3 úrovne</div>
+  </div>
+  <div class="level-tabs">
+    <div class="ltab on" onclick="setLevel(0,this)">Úroveň 1 — Povrch</div>
+    <div class="ltab" onclick="setLevel(1,this)">Úroveň 2 — Hlbšie</div>
+    <div class="ltab" onclick="setLevel(2,this)">Úroveň 3 — Srdce</div>
+  </div>
+  <div class="card-area">
+    <div class="card-display" onclick="nextCard()">
+      <div class="card-q" id="card-q">"Čo ťa na mne po prvýkrát zaujalo — a myslíš si, že som o tom vedel/a?"</div>
+      <div class="card-hint" id="card-hint">Klikni pre ďalšiu kartu</div>
+    </div>
+    <div class="card-nav">
+      <button class="cnav-btn" onclick="prevCard()">← Predošlá</button>
+      <div class="cnav-count" id="card-count">1 / 8</div>
+      <button class="cnav-btn" onclick="nextCard()">Ďalšia →</button>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- PROMPT CARDS -->
+<div class="prompt-section">
+  <div class="lbl">Prompt Cards — ako odpovedáš?</div>
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem">Inšpirované Esther Perel. Pred odpoveďou vytiahnete Prompt Card — určuje tón a spôsob odpovede. Znižuje obranu, pridáva hravosť.</div>
+  <div class="prompts">
+    <div class="prompt" onclick="sendPrompt('Navrhni kompletný set 20 Prompt Cards pre DeepTalks kartičky — spôsoby odpovedania')">
+      <div class="prompt-ico">◐</div>
+      <div class="prompt-name">Úplne úprimne</div>
+      <div class="prompt-desc">Bez filtra, prvá myšlienka</div>
+    </div>
+    <div class="prompt" onclick="sendPrompt('Navrhni kompletný set 20 Prompt Cards pre DeepTalks kartičky — spôsoby odpovedania')">
+      <div class="prompt-ico">◁</div>
+      <div class="prompt-name">Ako príbeh</div>
+      <div class="prompt-desc">Začni slovom: Raz som...</div>
+    </div>
+    <div class="prompt" onclick="sendPrompt('Navrhni kompletný set 20 Prompt Cards pre DeepTalks kartičky — spôsoby odpovedania')">
+      <div class="prompt-ico">◇</div>
+      <div class="prompt-name">Šepotom</div>
+      <div class="prompt-desc">Potichu, len pre neho/ňu</div>
+    </div>
+    <div class="prompt" onclick="sendPrompt('Navrhni kompletný set 20 Prompt Cards pre DeepTalks kartičky — spôsoby odpovedania')">
+      <div class="prompt-ico">▲</div>
+      <div class="prompt-name">Rýchlo, bez premýšľania</div>
+      <div class="prompt-desc">10 sekúnd, prvá odpoveď</div>
+    </div>
+    <div class="prompt" onclick="sendPrompt('Navrhni kompletný set 20 Prompt Cards pre DeepTalks kartičky — spôsoby odpovedania')">
+      <div class="prompt-ico">◆</div>
+      <div class="prompt-name">Ako by to povedal tvoj 10-ročný ja</div>
+      <div class="prompt-desc">Detská priamosť</div>
+    </div>
+    <div class="prompt" onclick="sendPrompt('Navrhni kompletný set 20 Prompt Cards pre DeepTalks kartičky — spôsoby odpovedania')">
+      <div class="prompt-ico">●</div>
+      <div class="prompt-name">Bez slov</div>
+      <div class="prompt-desc">Ukáž gestom alebo dotykom</div>
+    </div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- WILDCARDS -->
+<div class="lbl">Wildcard karty — prekvapenie uprostred hry</div>
+<div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1rem">Náhodne zamiešané medzi otázky. Narušia rytmus, pridajú smiech alebo nečakaný moment blízkosti.</div>
+
+<div class="wildcard" onclick="sendPrompt('Navrhni 30 Wildcard kariet pre DeepTalks konverzačné kartičky — akcie, gestá, pohyb, prekvapenia')">
+  <div class="wt">Povedzte si navzájom jednu vec, ktorú ste si dnes mysleli, ale nepovedali.</div>
+  <div class="wd">Wildcard — Zdieľanie · obaja súčasne · potom sa neprerušujte</div>
+</div>
+<div class="wildcard" onclick="sendPrompt('Navrhni 30 Wildcard kariet pre DeepTalks konverzačné kartičky — akcie, gestá, pohyb, prekvapenia')">
+  <div class="wt">Vstanite. Objímte sa 30 sekúnd v tichu. Potom si sadnite a pokračujte.</div>
+  <div class="wd">Wildcard — Fyzický kontakt · bez slov · len prítomnosť</div>
+</div>
+<div class="wildcard" onclick="sendPrompt('Navrhni 30 Wildcard kariet pre DeepTalks konverzačné kartičky — akcie, gestá, pohyb, prekvapenia')">
+  <div class="wt">Nasledujúca karta sa číta šepotom. Obaja. Súčasne.</div>
+  <div class="wd">Wildcard — Atmosféra · zmení tón celej ďalšej karty</div>
+</div>
+
+</div>
+
+<script>
+var DECKS={
+  pary:{title:'Páry & manželia',meta:'60 kariet · 3 úrovne',levels:[[
+    '"Čo ťa na mne po prvýkrát zaujalo — a myslíš si, že som o tom vedel/a?"',
+    '"Čo robíme spolu, čo ťa vždy nabije energiou?"',
+    '"Keby si mal/a opísať náš vzťah jednou vetou — aká by to bola veta?"',
+    '"Čo ti na mne robí radosť, ale nikdy si mi to nepovedal/a nahlas?"'
+  ],[
+    '"Kedy si sa naposledy cítil/a v našom vzťahu skutočne videný/á?"',
+    '"Je niečo, o čom premýšľaš, ale bojíš sa mi to povedať?"',
+    '"Čo by si zmenil/a na spôsobe, akým sa hádame?"',
+    '"Čo pre teba znamená byť milovaný/á — a dávam ti to?"'
+  ],[
+    '"Čoho sa v živote bojíš najviac — a viem o tom?"',
+    '"Je niečo, za čo mi chceš odpustiť, ale ešte si to nepovedal/a?"',
+    '"Keby si vedel/a, že o rok ťa nemôžem mať, čo by si mi chcel/a povedať dnes?"',
+    '"Čo si v našom vzťahu ešte nikdy nahlas nepomyslel/a — ale teraz môžeš?"'
+  ]]},
+  rodic:{title:'Rodič → Dieťa',meta:'50 kariet · 3 úrovne · verzia 6+ a 12+',levels:[[
+    '"Čo ťa dnes rozosmialo — kto alebo čo to bol?"',
+    '"Keby si mohol/mohla mať superschopnosť, čo by to bolo a prečo?"',
+    '"Čo je na škole najlepšie a čo najhoršie — jedna vec z každého?"',
+    '"Ak by sme si vymenili úlohy na jeden deň, čo by si robil/a?"'
+  ],[
+    '"Kedy si sa naposledy cítil/a veľmi hrdý/á na seba?"',
+    '"Je niečo, z čoho sa bojíš, ale ešte si mi o tom nepovedal/a?"',
+    '"Čo si myslíš, že je pre mňa v živote najdôležitejšie?"',
+    '"Kedy si sa naposledy cítil/a osamelý/á — aj keď ľudia boli okolo?"'
+  ],[
+    '"Čo by si mi chcel/a odkázať, keby si vedel/a, že to budem čítať o 10 rokov?"',
+    '"Je niečo, v čom si myslíš, že ťa sklamávam — a viem o tom?"',
+    '"Čo je to, čo ťa v živote najviac baví — a mám ti v tom dávať viac priestoru?"',
+    '"Aký je tvoj najväčší sen? Ten skutočný, nie ten pre školu."'
+  ]]},
+  starci:{title:'Starí rodičia & vnuci',meta:'40 kariet · Legacy edícia',levels:[[
+    '"Čo bolo tvoje obľúbené jedlo, keď si bol/a malý/á?"',
+    '"Kde si vyrastal/a — a čo na to miesto nikdy nezabudneš?"',
+    '"Čo bola najzábavnejšia vec, čo si urobil/a ako dieťa?"',
+    '"Ako ste sa spoznali s babkou/dedom?"'
+  ],[
+    '"Čo bol moment v živote, kedy si sa musel/a rozhodnúť — a ako si to rozhodol/a?"',
+    '"Čo by si odkázal/a svojmu 20-ročnému ja?"',
+    '"Čo si v živote obetoval/a a nikdy si to neoľutoval/a?"',
+    '"Ako vyzerala tvoja svadba — čo si obliekal/a a čo si si myslel/a?"'
+  ],[
+    '"Čo chceš, aby sme o tebe vedeli — aj keď ťa tu nebude?"',
+    '"Čo si v živote ešte nesplnil/a — a záleží ti na tom?"',
+    '"Čo z toho, ako si žil/a, chceš, aby sme pokračovali my?"',
+    '"Čo ťa v živote naučilo najviac — a prečo?"'
+  ]]},
+  priatelia:{title:'Priatelia',meta:'55 kariet · anti-small-talk',levels:[[
+    '"Čo ťa momentálne baví mimo práce — to jedno, o čom ti oči svietia?"',
+    '"Keby si mohol/mohla žiť kdekoľvek na svete rok, kde by to bolo?"',
+    '"Čo je vec, čo ľudia o tebe predpokladajú, a nie je to pravda?"',
+    '"Čo si naposledy urobil/a prvýkrát v živote?"'
+  ],[
+    '"Čo ťa v poslednom čase najviac zaberá energiu — a stojí to za to?"',
+    '"Kedy si sa naposledy skutočne zasmial/a — a čo to bolo?"',
+    '"Je niečo, v čom si myslíš, že ťa nesprávne chápem?"',
+    '"Čo by si urobil/a inak, keby si vedel/a, že ti to nikto nevyčíta?"'
+  ],[
+    '"Je niečo, o čom by si chcel/a hovoriť, ale nevieš ako začať?"',
+    '"Čo by si mi chcel/a povedať, čo si ešte nikdy nepovedal/a?"',
+    '"Kedy si sa naposledy pri mne cítil/a naozaj vypočutý/á?"',
+    '"Čo pre teba znamená naše priateľstvo — povedzme to nahlas?"'
+  ]]},
+  citlive:{title:'Ťažké situácie',meta:'45 kariet · praktické skripty',levels:[[
+    '"Chcem ti niečo povedať, čo hovorím preto, lebo mi na tebe záleží..."',
+    '"Mám pocit, že medzi nami je niečo nevypovedané. Môžem sa mýliť. Ale chcem sa opýtať."',
+    '"Je niečo, čo ti chcem povedať, aj keď viem, že to nebude ľahké počúvať."',
+    '"Keď si... cítil/a som... Môžeme o tom hovoriť?"'
+  ],[
+    '"Čo potrebuješ teraz odo mňa — aby som počúval/a, alebo aby som niečo urobil/a?"',
+    '"Nechcem ťa raniť. Zároveň si myslím, že by si to mal/a vedieť."',
+    '"Viem, že to nie je ľahká téma. Chcem, aby si vedel/a, že tu som."',
+    '"Mám obavy z niečoho, čo pozorujem. Môžem ti to povedať?"'
+  ]]},
+  praca:{title:'Práca & tím',meta:'50 kariet · B2B edícia',levels:[[
+    '"Čo ťa na tejto práci momentálne najviac baví — jedna vec?"',
+    '"Čo robíš mimo práce, o čom väčšina kolegov nevie?"',
+    '"Aký typ spolupráce ti funguje najlepšie?"',
+    '"Čo by si chcel/a, aby o tebe vedeli tvoji kolegovia, čo ešte nevedia?"'
+  ],[
+    '"Čo ťa v práci naposledy prekvapilo — pozitívne alebo negatívne?"',
+    '"Kedy sa v tíme cítiš najlepšie — čo to umožňuje?"',
+    '"Je niečo, v čom by si potreboval/a viac podpory od tímu?"',
+    '"Čo je podľa teba náš najväčší silná stránka ako tímu?"'
+  ]]},
+  intima:{title:'Páry — hlboká edícia',meta:'40 kariet · 18+',levels:[[
+    '"Čo ťa na mne telesne najviac priťahuje — a povedal/a si mi to niekedy?"',
+    '"Čo by si chcel/a, aby sme robili viac — čo nám obom robí dobre?"',
+    '"Čo je vec, o ktorej si myslíš, že ju chcem, a nie je to pravda?"',
+    '"Čo ťa v intímnych chvíľach niekedy brzdí — a viem o tom?"'
+  ],[
+    '"Je niečo, o čom by si chcel/a v posteli hovoriť, ale bojíš sa?"',
+    '"Čo pre teba znamená cítiť sa so mnou v bezpečí — fyzicky aj emocionálne?"',
+    '"Kedy si sa naposledy pri mne cítil/a úplne slobodný/á?"',
+    '"Čo je tvoja najhlbšia túžba v našom vzťahu — tá, o ktorej sme ešte nehovorili?"'
+  ]]},
+  cudzinci:{title:'Cudzinci → Priatelia',meta:'45 kariet · SK + UA bilingválna',levels:[[
+    '"Čo ťa na tomto meste prekvapilo — pozitívne alebo negatívne?"',
+    '"Čo robíš, keď potrebuješ nabiť energiu?"',
+    '"Čo je vec z tvojej kultúry, čo by si chcel/a, aby ľudia tu pochopili?"',
+    '"Čo si si o Slovensku myslel/a pred príchodom — a ako to vyzerá teraz?"'
+  ],[
+    '"Čo ti tu chýba — z domova, z ľudí, z jedla, z rituálov?"',
+    '"Čo ťa na novom mieste naučilo niečo o sebe?"',
+    '"Je niečo, z čoho sa tu bojíš alebo čo ťa stresuje, čo ľudia okolo teba nechápu?"',
+    '"Čo by si chcel/a, aby sme spolu zažili — niečo, čo by si nám ukázal/a zo svojej kultúry?"'
+  ],[
+    '"Čo pre teba znamená domov — a máš ho tu?"',
+    '"Čo si v tejto fáze života obetoval/a — a oľutoval/a si to?"',
+    '"Aký je tvoj sen, keď sa tu usadíš?"',
+    '"Čo by si odkázal/a niekomu, kto prichádza na nové miesto s prázdnymi rukami?"'
+  ]]]
+};
+
+var curDeck='pary',curLevel=0,curCard=0;
+
+function renderCard(){
+  var d=DECKS[curDeck];
+  var cards=d.levels[curLevel]||d.levels[0];
+  if(curCard>=cards.length)curCard=0;
+  if(curCard<0)curCard=cards.length-1;
+  document.getElementById('card-q').textContent=cards[curCard];
+  document.getElementById('card-count').textContent=(curCard+1)+' / '+cards.length;
+  document.getElementById('deck-title').textContent=d.title;
+  document.getElementById('deck-meta').textContent=d.meta;
+}
+
+function nextCard(){curCard++;renderCard();}
+function prevCard(){curCard--;renderCard();}
+
+function setLevel(l,el){
+  curLevel=l;curCard=0;
+  document.querySelectorAll('.ltab').forEach(function(t){t.classList.remove('on');});
+  el.classList.add('on');
+  renderCard();
+}
+
+function selectEd(el,key){
+  document.querySelectorAll('.ed').forEach(function(e){e.classList.remove('on');});
+  el.classList.add('on');
+  curDeck=key;curLevel=0;curCard=0;
+  document.querySelectorAll('.ltab').forEach(function(t){t.classList.remove('on');});
+  document.querySelectorAll('.ltab')[0].classList.add('on');
+  renderCard();
+}
+
+function filterEd(g,el){
+  document.querySelectorAll('.fb').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  document.querySelectorAll('.ed').forEach(function(e){
+    if(g==='all'){e.classList.remove('hid');return;}
+    var eg=e.getAttribute('data-g')||'';
+    e.classList.toggle('hid',eg.indexOf(g)<0);
+  });
+}
+
+renderCard();
+</script>

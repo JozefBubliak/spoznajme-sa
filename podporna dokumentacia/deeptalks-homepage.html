@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepTalks — Pretože realita je lepšia ako obrazovka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0c0b;
+  --bg2: #131210;
+  --bg3: #1a1815;
+  --surface: #1f1d1a;
+  --surface2: #262320;
+  --border: rgba(255,255,255,.07);
+  --border2: rgba(255,255,255,.12);
+  --text: #f0ebe3;
+  --text2: #a09890;
+  --text3: #5a5048;
+  --accent: #e8714a;
+  --accent2: #c4956a;
+  --gold: #d4a853;
+  --green: #4a9c6f;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  width: 12px; height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform .15s, opacity .15s;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(232,113,74,.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transition: left .12s, top .12s, transform .2s, border-color .2s;
+}
+body:hover .cursor { opacity: 1; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.25rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(to bottom, rgba(13,12,11,.9) 0%, transparent 100%);
+  backdrop-filter: blur(0px);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400;
+  letter-spacing: .04em;
+  color: var(--text);
+}
+.nav-logo span { color: var(--accent); font-style: italic; }
+.nav-links {
+  display: flex; gap: 2.5rem; list-style: none;
+}
+.nav-links a {
+  font-size: 11px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text2);
+  text-decoration: none; transition: color .2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .6rem 1.5rem; border-radius: 2px;
+  background: var(--accent); color: var(--bg);
+  border: none; cursor: none;
+  transition: background .2s, transform .15s;
+}
+.nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* animated grain */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: .4; pointer-events: none; z-index: 1;
+  animation: grain 8s steps(10) infinite;
+}
+@keyframes grain {
+  0%,100%{transform:translate(0,0)}
+  10%{transform:translate(-2%,-3%)}
+  20%{transform:translate(3%,2%)}
+  30%{transform:translate(-1%,4%)}
+  40%{transform:translate(4%,-2%)}
+  50%{transform:translate(-3%,1%)}
+  60%{transform:translate(2%,-4%)}
+  70%{transform:translate(-4%,3%)}
+  80%{transform:translate(1%,-1%)}
+  90%{transform:translate(-2%,4%)}
+}
+
+/* big blurred orbs */
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(120px); pointer-events: none; z-index: 0;
+  animation: orbFloat 20s ease-in-out infinite;
+}
+.orb1 { width: 600px; height: 600px; background: rgba(232,113,74,.08); top: -10%; right: -5%; animation-delay: 0s; }
+.orb2 { width: 400px; height: 400px; background: rgba(196,149,106,.06); bottom: 10%; left: -5%; animation-delay: -7s; }
+.orb3 { width: 300px; height: 300px; background: rgba(74,156,111,.05); top: 40%; left: 40%; animation-delay: -14s; }
+@keyframes orbFloat {
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(30px,-30px) scale(1.05)}
+  66%{transform:translate(-20px,20px) scale(.95)}
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+.hero-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 1.5rem;
+  opacity: 0; animation: fadeUp .8s .3s forwards;
+}
+
+.hero-h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 300; line-height: 1.0;
+  letter-spacing: -.02em;
+  margin-bottom: 1.5rem;
+  opacity: 0; animation: fadeUp .9s .5s forwards;
+}
+.hero-h1 em { font-style: italic; color: var(--accent2); }
+.hero-h1 .line2 { display: block; padding-left: 4rem; }
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 300; line-height: 1.7;
+  color: var(--text2); max-width: 520px;
+  margin-bottom: 3rem;
+  opacity: 0; animation: fadeUp .9s .7s forwards;
+}
+
+.hero-actions {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp .9s .9s forwards;
+}
+
+.btn-primary {
+  font-size: 12px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem; border-radius: 2px;
+  background: var(--accent); color: var(--bg);
+  border: none; cursor: none;
+  transition: all .2s; position: relative; overflow: hidden;
+}
+.btn-primary::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(255,255,255,.15);
+  transform: translateX(-100%); transition: transform .3s;
+}
+.btn-primary:hover::after { transform: translateX(0); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(232,113,74,.3); }
+
+.btn-ghost {
+  font-size: 12px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 1rem 2rem; border-radius: 2px;
+  background: transparent; color: var(--text2);
+  border: 1px solid var(--border2); cursor: none;
+  transition: all .2s;
+}
+.btn-ghost:hover { border-color: var(--text2); color: var(--text); transform: translateY(-2px); }
+
+/* scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 2rem; left: 3rem; z-index: 2;
+  display: flex; align-items: center; gap: .75rem;
+  opacity: 0; animation: fadeUp .8s 1.4s forwards;
+}
+.scroll-line {
+  width: 40px; height: 1px; background: var(--text3);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%,100%{width:40px;opacity:.3} 50%{width:60px;opacity:.8} }
+.scroll-text { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text3); }
+
+/* stat strip */
+.stat-strip {
+  position: absolute; right: 3rem; bottom: 2rem; z-index: 2;
+  display: flex; gap: 2rem;
+  opacity: 0; animation: fadeUp .8s 1.2s forwards;
+}
+.stat-item { text-align: right; }
+.stat-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 400; color: var(--text); display: block;
+}
+.stat-t { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); }
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── OTÁZKA DŇA ── */
+.question-strip {
+  position: relative; z-index: 10;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 3rem;
+  overflow: hidden;
+}
+.qs-label {
+  font-size: 10px; font-weight: 600; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: .75rem;
+}
+.qs-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.8);opacity:.4} }
+
+.qs-question {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 3.5vw, 48px);
+  font-weight: 300; line-height: 1.3; font-style: italic;
+  color: var(--text);
+  max-width: 800px;
+  margin-bottom: 2rem;
+  transition: opacity .4s, transform .4s;
+}
+.qs-question.fade { opacity: 0; transform: translateY(10px); }
+
+.qs-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.qs-answer-btn {
+  font-size: 11px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .75rem 2rem; border-radius: 2px;
+  background: var(--accent); color: var(--bg);
+  border: none; cursor: none; transition: all .2s;
+}
+.qs-answer-btn:hover { background: var(--accent2); transform: translateY(-1px); }
+.qs-next-btn {
+  font-size: 11px; font-weight: 500;
+  color: var(--text3); background: none; border: none;
+  cursor: none; transition: color .2s; letter-spacing: .05em;
+  display: flex; align-items: center; gap: .5rem;
+}
+.qs-next-btn:hover { color: var(--text2); }
+.qs-next-btn svg { transition: transform .2s; }
+.qs-next-btn:hover svg { transform: translateX(3px); }
+
+/* answer input */
+.qs-input-wrap {
+  margin-top: 1.5rem; display: none;
+  animation: fadeUp .4s forwards;
+}
+.qs-input-wrap.show { display: block; }
+.qs-textarea {
+  width: 100%; max-width: 600px;
+  background: var(--surface); border: 1px solid var(--border2);
+  border-radius: 4px; padding: 1rem 1.25rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; color: var(--text); resize: none;
+  min-height: 100px; outline: none;
+  transition: border-color .2s;
+}
+.qs-textarea:focus { border-color: var(--accent); }
+.qs-textarea::placeholder { color: var(--text3); }
+.qs-send {
+  margin-top: .75rem;
+  font-size: 11px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .7rem 1.75rem; border-radius: 2px;
+  background: var(--green); color: var(--text);
+  border: none; cursor: none; transition: all .2s;
+}
+.qs-send:hover { background: #5ab882; transform: translateY(-1px); }
+
+/* ── SKUPINY ── */
+.section {
+  padding: 5rem 3rem;
+  position: relative;
+}
+.section-eyebrow {
+  font-size: 10px; font-weight: 600; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: .75rem;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 300; line-height: 1.1;
+  margin-bottom: .75rem;
+}
+.section-title em { font-style: italic; color: var(--accent2); }
+.section-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 300;
+  color: var(--text2); line-height: 1.7;
+  max-width: 520px; margin-bottom: 3rem;
+}
+
+/* skupiny grid */
+.groups-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2px;
+}
+.group-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  cursor: none;
+  transition: all .25s;
+  position: relative; overflow: hidden;
+}
+.group-card::before {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--accent); transform: scaleX(0);
+  transform-origin: left; transition: transform .3s;
+}
+.group-card:hover { background: var(--surface2); transform: translateY(-4px); }
+.group-card:hover::before { transform: scaleX(1); }
+.group-ico {
+  font-size: 28px; margin-bottom: 1rem; display: block;
+  transition: transform .25s;
+}
+.group-card:hover .group-ico { transform: scale(1.1); }
+.group-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 400; margin-bottom: .35rem;
+}
+.group-desc { font-size: 11px; color: var(--text3); line-height: 1.5; letter-spacing: .02em; }
+.group-arrow {
+  position: absolute; bottom: 1.25rem; right: 1.25rem;
+  font-size: 18px; color: var(--text3);
+  transition: all .25s; transform: translate(-4px, 4px); opacity: 0;
+}
+.group-card:hover .group-arrow { transform: translate(0,0); opacity: 1; color: var(--accent); }
+
+/* ── NÁSTROJE ── */
+.tools-section { background: var(--bg2); }
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.tool-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  cursor: none;
+  transition: all .25s;
+  position: relative; overflow: hidden;
+}
+.tool-card.featured {
+  grid-column: span 2;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem; align-items: center;
+}
+.tool-card:hover { background: var(--surface2); }
+.tool-badge {
+  font-size: 10px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .3rem .8rem; border-radius: 2px;
+  display: inline-block; margin-bottom: 1rem;
+}
+.badge-free { background: rgba(74,156,111,.15); color: var(--green); border: 1px solid rgba(74,156,111,.2); }
+.badge-new { background: rgba(232,113,74,.12); color: var(--accent); border: 1px solid rgba(232,113,74,.2); }
+.badge-premium { background: rgba(212,168,83,.1); color: var(--gold); border: 1px solid rgba(212,168,83,.2); }
+.tool-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 400; margin-bottom: .5rem;
+  transition: color .2s;
+}
+.tool-card:hover .tool-name { color: var(--accent2); }
+.tool-desc {
+  font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 1.25rem;
+}
+.tool-meta { font-size: 11px; color: var(--text3); letter-spacing: .04em; }
+.tool-cta {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-size: 11px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--accent);
+  background: none; border: none; cursor: none;
+  padding: 0; transition: gap .2s;
+  margin-top: 1.5rem;
+}
+.tool-cta:hover { gap: .75rem; }
+
+/* featured tool demo */
+.tool-demo {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px; padding: 1.5rem;
+}
+.demo-label {
+  font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: .5rem;
+}
+.demo-q {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-style: italic;
+  color: var(--text); line-height: 1.4; margin-bottom: 1rem;
+}
+.demo-lock {
+  font-size: 12px; color: var(--text3);
+  display: flex; align-items: center; gap: .5rem;
+}
+.demo-streak {
+  display: flex; gap: 6px; margin-top: 1rem;
+}
+.streak-day {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; color: var(--text3); font-weight: 600;
+  transition: all .2s;
+}
+.streak-day.done { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.streak-day.today { background: rgba(232,113,74,.15); border-color: var(--accent); color: var(--accent); }
+
+/* ── KOMUNITA ── */
+.komunita-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px;
+}
+.kom-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 2rem; cursor: none;
+  transition: all .25s; position: relative;
+}
+.kom-card:hover { background: var(--surface2); transform: translateY(-3px); }
+.kom-ico { font-size: 32px; margin-bottom: 1rem; display: block; }
+.kom-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400; margin-bottom: .4rem;
+}
+.kom-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.kom-tag {
+  display: inline-block; margin-top: .75rem;
+  font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--accent); font-weight: 600;
+}
+
+/* ── TESTIMONIALS ── */
+.test-section { background: var(--bg2); overflow: hidden; }
+.test-track {
+  display: flex; gap: 2rem;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.test-track:hover { animation-play-state: paused; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.test-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px; padding: 2rem;
+  width: 380px; flex-shrink: 0;
+  transition: border-color .2s;
+}
+.test-card:hover { border-color: var(--accent); }
+.test-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-style: italic;
+  line-height: 1.65; color: var(--text);
+  margin-bottom: 1.25rem;
+}
+.test-meta { font-size: 11px; color: var(--text3); letter-spacing: .04em; }
+
+/* ── MANIFEST ── */
+.manifest-section {
+  padding: 8rem 3rem;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.manifest-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(232,113,74,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.manifest-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 300; font-style: italic;
+  line-height: 1.25; max-width: 800px; margin: 0 auto 2rem;
+  color: var(--text);
+}
+.manifest-author {
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 3rem;
+}
+.manifest-cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ── CTA STRIP ── */
+.cta-strip {
+  background: var(--accent);
+  padding: 2rem 3rem;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap;
+}
+.cta-strip-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 400; font-style: italic;
+  color: var(--bg);
+}
+.cta-strip-btn {
+  font-size: 12px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .9rem 2.5rem; border-radius: 2px;
+  background: var(--bg); color: var(--accent);
+  border: none; cursor: none; white-space: nowrap;
+  transition: all .2s;
+}
+.cta-strip-btn:hover { background: var(--bg2); transform: translateY(-1px); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 3rem;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+}
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; color: var(--text); margin-bottom: .5rem;
+}
+.footer-claim {
+  font-size: 13px; color: var(--text3); line-height: 1.65;
+}
+.footer-col h4 {
+  font-size: 10px; font-weight: 600; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--text3);
+  margin-bottom: 1rem;
+}
+.footer-col a {
+  display: block; font-size: 13px; color: var(--text2);
+  text-decoration: none; margin-bottom: .4rem;
+  transition: color .2s;
+}
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom {
+  grid-column: 1/-1; border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-bottom-l { font-size: 12px; color: var(--text3); }
+.footer-bottom-r {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--text3); letter-spacing: .04em;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px; background: var(--border); margin: 0;
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .8s, transform .8s;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { padding: 0 1.5rem; }
+  .hero-h1 .line2 { padding-left: 1rem; }
+  .stat-strip { display: none; }
+  .section { padding: 3.5rem 1.5rem; }
+  .groups-grid { grid-template-columns: repeat(2, 1fr); }
+  .tools-grid { grid-template-columns: 1fr; }
+  .tool-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+  .komunita-grid { grid-template-columns: 1fr; }
+  footer { grid-template-columns: 1fr 1fr; }
+  .cta-strip { flex-direction: column; text-align: center; }
+  .question-strip { padding: 2.5rem 1.5rem; }
+  .cursor, .cursor-ring { display: none; }
+  body { cursor: auto; }
+  button { cursor: pointer; }
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Deep<span>Talks</span></div>
+  <ul class="nav-links">
+    <li><a href="#kompas">Kompas</a></li>
+    <li><a href="#nastroje">Nástroje</a></li>
+    <li><a href="#skupiny">Skupiny</a></li>
+    <li><a href="#komunita">Komunita</a></li>
+    <li><a href="#blog">Blog</a></li>
+  </ul>
+  <button class="nav-cta">Začať zadarmo</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">DeepTalks · Slovensko · SK · UA</div>
+    <h1 class="hero-h1">
+      Pretože realita
+      <em class="line2">je lepšia ako obrazovka.</em>
+    </h1>
+    <p class="hero-sub">
+      Nástroje, otázky a komunita pre ľudí, ktorí chcú mať hlbšie vzťahy — v rodine, vzťahu, práci aj priateľstve.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="scrollTo('question')">Vyskúšaj otázku dňa</button>
+      <button class="btn-ghost" onclick="scrollTo('nastroje')">Pozrieť nástroje</button>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-item">
+      <span class="stat-n">500+</span>
+      <span class="stat-t">Otázok</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">6</span>
+      <span class="stat-t">Skupín vzťahov</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-n">SK·UA</span>
+      <span class="stat-t">Bilingválne</span>
+    </div>
+  </div>
+</section>
+
+<!-- OTÁZKA DŇA -->
+<section class="question-strip" id="question">
+  <div class="qs-label">
+    <div class="qs-dot"></div>
+    Otázka dňa — zadarmo · bez registrácie
+  </div>
+  <div class="qs-question" id="qs-q">
+    „Čo by si mi povedal/a, keby si vedel/a, že sa nehnevám a nebudem súdiť?"
+  </div>
+  <div class="qs-actions">
+    <button class="qs-answer-btn" onclick="showAnswer()">Odpovedať →</button>
+    <button class="qs-next-btn" onclick="nextQuestion()">
+      Iná otázka
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+  <div class="qs-input-wrap" id="qs-input">
+    <textarea class="qs-textarea" placeholder="Napíš čo ťa napadne — nie je to test, je to rozhovor..." rows="3"></textarea>
+    <br>
+    <button class="qs-send" onclick="sendAnswer()">Odoslať ✓</button>
+  </div>
+</section>
+
+<!-- SKUPINY -->
+<section class="section" id="skupiny">
+  <div class="section-eyebrow">Pre koho</div>
+  <h2 class="section-title reveal">Pre každý<br><em>dôležitý vzťah.</em></h2>
+  <p class="section-sub reveal">Iný vzťah, iné nástroje. Vyber skupinu a dostaneš obsah šitý presne na tvoju situáciu.</p>
+
+  <div class="groups-grid reveal">
+    <div class="group-card" onclick="">
+      <span class="group-ico">♡</span>
+      <div class="group-name">Páry</div>
+      <div class="group-desc">Každodenné aj hlboké rozhovory</div>
+      <span class="group-arrow">↗</span>
+    </div>
+    <div class="group-card">
+      <span class="group-ico">◎</span>
+      <div class="group-name">Rodič a dieťa</div>
+      <div class="group-desc">Od 3 do 99 rokov · vekový filter</div>
+      <span class="group-arrow">↗</span>
+    </div>
+    <div class="group-card">
+      <span class="group-ico">◈</span>
+      <div class="group-name">Priatelia</div>
+      <div class="group-desc">Anti-small-talk edícia</div>
+      <span class="group-arrow">↗</span>
+    </div>
+    <div class="group-card">
+      <span class="group-ico">▣</span>
+      <div class="group-name">Práca</div>
+      <div class="group-desc">Psychologické bezpečie tímu</div>
+      <span class="group-arrow">↗</span>
+    </div>
+    <div class="group-card">
+      <span class="group-ico">●</span>
+      <div class="group-name">Škola</div>
+      <div class="group-desc">Trieda ako komunita</div>
+      <span class="group-arrow">↗</span>
+    </div>
+    <div class="group-card">
+      <span class="group-ico">◫</span>
+      <div class="group-name">Seniori</div>
+      <div class="group-desc">Príbehy, ktoré musia zostať</div>
+      <span class="group-arrow">↗</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- NÁSTROJE -->
+<section class="section tools-section" id="nastroje">
+  <div class="section-eyebrow">Nástroje</div>
+  <h2 class="section-title reveal">Začni dnes —<br><em>zadarmo.</em></h2>
+  <p class="section-sub reveal">Žiadna registrácia, žiadna aplikácia na inštaláciu. Vyber nástroj a použiješ ho dnes večer.</p>
+
+  <div class="tools-grid reveal">
+
+    <!-- FEATURED: Daily Connection -->
+    <div class="tool-card featured">
+      <div>
+        <span class="tool-badge badge-new">Nové · Zadarmo</span>
+        <div class="tool-name">Daily Connection</div>
+        <p class="tool-desc">Každý deň jedna otázka pre vás dvoch. Ty odpovedáš sám — potom vidíš čo napísal/a partner. Päť minút, ktoré menia vzťah.</p>
+        <div class="tool-meta">Páry · Streak · Email o 19:00 · Freemium 4 EUR/mes</div>
+        <button class="tool-cta">
+          Začať zadarmo
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+      <div class="tool-demo">
+        <div class="demo-label">
+          <div class="qs-dot" style="width:5px;height:5px"></div>
+          Dnešná otázka
+        </div>
+        <div class="demo-q">„Kedy si sa pri mne naposledy cítil/a naozaj pochopený/á?"</div>
+        <div class="demo-lock">🔒 Odpoveď partnera sa odkryje po tvojej odpovedi</div>
+        <div class="demo-streak">
+          <div class="streak-day done">P</div>
+          <div class="streak-day done">U</div>
+          <div class="streak-day done">S</div>
+          <div class="streak-day done">Š</div>
+          <div class="streak-day done">P</div>
+          <div class="streak-day done">S</div>
+          <div class="streak-day today">N</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kompas -->
+    <div class="tool-card">
+      <span class="tool-badge badge-free">Zadarmo</span>
+      <div class="tool-name">Komunikačný kompas</div>
+      <p class="tool-desc">Konkrétne vety pre 100+ situácií. Keď nevieš ako začať — tu je to napísané za teba.</p>
+      <div class="tool-meta">Všetky skupiny · Hneď použiteľné · SK + UA</div>
+      <button class="tool-cta">
+        Otvoriť kompas
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- Kartičky -->
+    <div class="tool-card">
+      <span class="tool-badge badge-free">Online + Fyzické</span>
+      <div class="tool-name">Konverzačné kartičky</div>
+      <p class="tool-desc">60 otázok v troch úrovniach hĺbky. Od ľahkých po zraniteľné. Pre každý vzťah iná edícia.</p>
+      <div class="tool-meta">Páry · Rodina · Priatelia · Práca · od 18 EUR</div>
+      <button class="tool-cta">
+        Vybrať edíciu
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- CoupleSync -->
+    <div class="tool-card">
+      <span class="tool-badge badge-free">Zadarmo · 18+</span>
+      <div class="tool-name">CoupleSync</div>
+      <p class="tool-desc">300+ otázok v 9 témach. Každý vypĺňa sám, odpovede partnera vidíte len keď odpoviete obaja.</p>
+      <div class="tool-meta">Páry · Intimita · Financie · Hodnoty · Bez registrácie</div>
+      <button class="tool-cta">
+        Vyplniť dotazník
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- Legacy -->
+    <div class="tool-card">
+      <span class="tool-badge badge-premium">39–68 EUR / rok</span>
+      <div class="tool-name">Legacy — Spomienky</div>
+      <p class="tool-desc">Týždenná otázka emailom pre babku alebo rodiča. Po roku vznikne viazaná kniha príbehov pre celú rodinu.</p>
+      <div class="tool-meta">Seniori · Bez appky · Len email · Najkrajší darček</div>
+      <button class="tool-cta">
+        Zistiť viac
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- Herd Vote -->
+    <div class="tool-card">
+      <span class="tool-badge badge-free">Zadarmo</span>
+      <div class="tool-name">Herd Vote — Kvíz</div>
+      <p class="tool-desc">Multiplayer kvíz na TV alebo projektore. Kto vás pozná najlepšie? Pre rodinu, priateľov aj firemné tímy.</p>
+      <div class="tool-meta">Skupiny 4–30 ľudí · Real-time · TV Display</div>
+      <button class="tool-cta">
+        Spustiť kvíz
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- KOMUNITA -->
+<section class="section" id="komunita">
+  <div class="section-eyebrow">Komunita</div>
+  <h2 class="section-title reveal">Ostrov ľudskosti<br><em>uprostred chaosu.</em></h2>
+  <p class="section-sub reveal">DeepTalks nie je len web. Je to hnutie ľudí, ktorí veria že skutočná blízkosť sa buduje offline — pri ohni, pri stole, na prechádzke.</p>
+
+  <div class="komunita-grid reveal">
+    <div class="kom-card">
+      <span class="kom-ico">◈</span>
+      <div class="kom-name">Opekačky & výlety</div>
+      <p class="kom-desc">Pravidelné stretnutia v mestách. Kartičky na stole, telefóny v taške. Príď sám alebo s partnerom.</p>
+      <span class="kom-tag">BA · KE · ZA · BB · PO →</span>
+    </div>
+    <div class="kom-card">
+      <span class="kom-ico">◐</span>
+      <div class="kom-name">Spontánky</div>
+      <p class="kom-desc">"My tam ideme, pridajte sa ak chcete." Malé neformálne stretnutia bez organizátora a bez programu.</p>
+      <span class="kom-tag">Vytvoriť spontánku →</span>
+    </div>
+    <div class="kom-card">
+      <span class="kom-ico">◆</span>
+      <div class="kom-name">Blind Talk</div>
+      <p class="kom-desc">Rozhovor so zaviazanými očami. Len hlas a emócia — žiadne predsudky o vzhľade. SK/UA zmiešané skupiny.</p>
+      <span class="kom-tag">Najbližší event →</span>
+    </div>
+    <div class="kom-card">
+      <span class="kom-ico">◎</span>
+      <div class="kom-name">Partnerské kaviarne</div>
+      <p class="kom-desc">Podniky kde sú kartičky na stoloch a Phone Jail — krabička na zamknutie telefónov počas večere.</p>
+      <span class="kom-tag">Mapa kaviarní →</span>
+    </div>
+    <div class="kom-card">
+      <span class="kom-ico">▲</span>
+      <div class="kom-name">Zorganizuj akciu</div>
+      <p class="kom-desc">Dostaneš kartičky zadarmo, grafiku pre sociálne siete, PDF manuál a propagáciu na webe.</p>
+      <span class="kom-tag">Prihlásiť sa →</span>
+    </div>
+    <div class="kom-card">
+      <span class="kom-ico">◇</span>
+      <div class="kom-name">Ulica & Guerilla</div>
+      <p class="kom-desc">Before I Die tabuľa, Deep Talk lavička, nálepky s otázkami, tričká "Oslov ma." Hnutie, nie reklama.</p>
+      <span class="kom-tag">Zapojiť sa →</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS — marquee -->
+<section class="section test-section" id="testimonials" style="padding: 4rem 0; overflow:hidden;">
+  <div style="padding: 0 3rem; margin-bottom: 2.5rem;">
+    <div class="section-eyebrow">Ľudia hovoria</div>
+    <h2 class="section-title reveal" style="font-size: clamp(28px,3vw,42px)">Príbehy z reálneho života.</h2>
+  </div>
+
+  <div class="test-track">
+    <div class="test-card">
+      <p class="test-quote">„Prvýkrát po rokoch sme sa s dcérou rozprávali celú noc. Jedna otázka otvorila dvere, ktoré sme zabudli, že existujú."</p>
+      <div class="test-meta">Marta, 38 · Bratislava · mama dcéry 16 rokov</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Myslel som si, že sa poznáme dokonale. CoupleSync ukázal, že o financiách sme vlastne nikdy poriadne nehovorili."</p>
+      <div class="test-meta">Marek, 44 · Košice · pred svadbou</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Daily Connection robíme každý večer o 20:00. 47 dní za sebou. Teraz sa na to tešíme viac ako na Netflix."</p>
+      <div class="test-meta">Jana & Peter · Žilina · 3 roky spolu</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Opýtala som sa babky ako spoznala deduška. Hovorila hodinu. Plakala. Smiali sme sa. Za 30 rokov som sa toľko nedozvedela."</p>
+      <div class="test-meta">Zuzana, 31 · Žilina · babka 78 rokov</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Kartičky na stole pred retrospektívou. Za pol hodiny hovorili veci, ktoré som za rok nepočul na žiadnej porade."</p>
+      <div class="test-meta">Lucia K. · HR Manager · IT firma · tím 18 ľudí</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Do piatich minút hovorilo dieťa, ktoré za celý rok nepovedalo viac ako tri slová naraz. Trieda ho ticho počúvala."</p>
+      <div class="test-meta">Mgr. Katarína N. · učiteľka · ZŠ Nitra</div>
+    </div>
+    <!-- duplicate for seamless loop -->
+    <div class="test-card">
+      <p class="test-quote">„Prvýkrát po rokoch sme sa s dcérou rozprávali celú noc. Jedna otázka otvorila dvere, ktoré sme zabudli, že existujú."</p>
+      <div class="test-meta">Marta, 38 · Bratislava · mama dcéry 16 rokov</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Myslel som si, že sa poznáme dokonale. CoupleSync ukázal, že o financiách sme vlastne nikdy poriadne nehovorili."</p>
+      <div class="test-meta">Marek, 44 · Košice · pred svadbou</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Daily Connection robíme každý večer o 20:00. 47 dní za sebou. Teraz sa na to tešíme viac ako na Netflix."</p>
+      <div class="test-meta">Jana & Peter · Žilina · 3 roky spolu</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Opýtala som sa babky ako spoznala deduška. Hovorila hodinu. Plakala. Smiali sme sa. Za 30 rokov som sa toľko nedozvedela."</p>
+      <div class="test-meta">Zuzana, 31 · Žilina · babka 78 rokov</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Kartičky na stole pred retrospektívou. Za pol hodiny hovorili veci, ktoré som za rok nepočul na žiadnej porade."</p>
+      <div class="test-meta">Lucia K. · HR Manager · IT firma · tím 18 ľudí</div>
+    </div>
+    <div class="test-card">
+      <p class="test-quote">„Do piatich minút hovorilo dieťa, ktoré za celý rok nepovedalo viac ako tri slová naraz. Trieda ho ticho počúvala."</p>
+      <div class="test-meta">Mgr. Katarína N. · učiteľka · ZŠ Nitra</div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFEST -->
+<section class="manifest-section" id="manifest">
+  <blockquote class="manifest-quote reveal">
+    „Sme hyperprepojení — a napriek tomu osamelí. Jeden úprimný rozhovor zmení viac ako tisíc lajkov."
+  </blockquote>
+  <div class="manifest-author reveal">— DeepTalks Manifest</div>
+  <div class="manifest-cta-row reveal">
+    <button class="btn-primary">Čítať manifest</button>
+    <button class="btn-ghost">Blog — Umenie rozhovoru</button>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <div class="cta-strip-text">„Jedna otázka. Celý večer."</div>
+  <button class="cta-strip-btn">Otvoriť otázku dňa →</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">DeepTalks</div>
+    <p class="footer-claim">Pretože realita je lepšia ako obrazovka.<br>deeptalks.eu · Slovensko · SK · UA · 2026</p>
+  </div>
+  <div class="footer-col">
+    <h4>Nástroje</h4>
+    <a href="#">Kompas</a>
+    <a href="#">Kartičky</a>
+    <a href="#">Daily Connection</a>
+    <a href="#">CoupleSync</a>
+    <a href="#">Legacy</a>
+    <a href="#">Herd Vote</a>
+  </div>
+  <div class="footer-col">
+    <h4>Skupiny</h4>
+    <a href="#">Páry</a>
+    <a href="#">Rodič a dieťa</a>
+    <a href="#">Priatelia</a>
+    <a href="#">Práca</a>
+    <a href="#">Škola</a>
+    <a href="#">Seniori</a>
+  </div>
+  <div class="footer-col">
+    <h4>Projekt</h4>
+    <a href="#">O nás · Manifest</a>
+    <a href="#">Blog</a>
+    <a href="#">Komunita</a>
+    <a href="#">B2B · Firmy</a>
+    <a href="#">B2B · Školy</a>
+    <a href="#">Kontakt</a>
+    <div class="footer-bottom" style="border:none;padding:1rem 0 0;grid-column:1;">
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-bottom-l">© 2026 DeepTalks · Podmienky · Ochrana súkromia</span>
+    <span class="footer-bottom-r">Made with ♥ for real conversations</span>
+  </div>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+var cur = document.getElementById('cursor');
+var ring = document.getElementById('cursorRing');
+var mx = 0, my = 0;
+document.addEventListener('mousemove', function(e) {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = (mx - 6) + 'px';
+  cur.style.top = (my - 6) + 'px';
+  ring.style.left = (mx - 20) + 'px';
+  ring.style.top = (my - 20) + 'px';
+});
+document.querySelectorAll('button, a, .group-card, .tool-card, .kom-card, .test-card, .tcard').forEach(function(el) {
+  el.addEventListener('mouseenter', function() {
+    cur.style.transform = 'scale(2)';
+    ring.style.transform = 'scale(1.4)';
+    ring.style.borderColor = 'rgba(232,113,74,.8)';
+  });
+  el.addEventListener('mouseleave', function() {
+    cur.style.transform = 'scale(1)';
+    ring.style.transform = 'scale(1)';
+    ring.style.borderColor = 'rgba(232,113,74,.4)';
+  });
+});
+
+/* ── QUESTIONS ── */
+var questions = [
+  '„Čo by si mi povedal/a, keby si vedel/a, že sa nehnevám a nebudem súdiť?"',
+  '„Kedy si sa naposledy cítil/a naozaj pochopený/á — a kým?"',
+  '„Čo ťa momentálne baví — to jedno, o čom ti oči svietia?"',
+  '„Je niečo, čo mi chceš povedať, ale nevieš ako začať?"',
+  '„Na koho si dnes myslel/a a ešte si mu to nepovedal/a?"',
+  '„Čo by si urobil/a, keby si vedel/a, že ti to nikto nevyčíta?"',
+  '„Čo bolo dnes v tvojom dni najkrajšie — aj keby bola len maličkosť?"',
+  '„Kedy si sa naposledy naozaj zasmial/a — a z čoho?"',
+  '„Čo ťa v poslednom čase najviac zaberá energiu — a stojí to za to?"',
+  '„Čo si dnes urobil/a prvýkrát — alebo naposledy?"'
+];
+var qi = 0;
+
+function nextQuestion() {
+  var el = document.getElementById('qs-q');
+  el.classList.add('fade');
+  setTimeout(function() {
+    qi = (qi + 1) % questions.length;
+    el.textContent = questions[qi];
+    el.classList.remove('fade');
+    document.getElementById('qs-input').classList.remove('show');
+  }, 350);
+}
+
+function showAnswer() {
+  var wrap = document.getElementById('qs-input');
+  wrap.classList.add('show');
+  wrap.querySelector('textarea').focus();
+}
+
+function sendAnswer() {
+  var ta = document.getElementById('qs-input').querySelector('textarea');
+  if (!ta.value.trim()) return;
+  ta.value = '';
+  document.getElementById('qs-input').classList.remove('show');
+  var label = document.querySelector('.qs-label');
+  var orig = label.innerHTML;
+  label.innerHTML = '<div class="qs-dot"></div> Ďakujeme. Odpoveď odoslaná ✓';
+  label.style.color = 'var(--green)';
+  setTimeout(function() {
+    label.innerHTML = orig;
+    label.style.color = '';
+    nextQuestion();
+  }, 2500);
+}
+
+function scrollTo(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── SCROLL REVEAL ── */
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(function(el) { observer.observe(el); });
+
+/* ── NAV BLUR ON SCROLL ── */
+window.addEventListener('scroll', function() {
+  var nav = document.querySelector('nav');
+  if (window.scrollY > 60) {
+    nav.style.backdropFilter = 'blur(20px)';
+    nav.style.background = 'rgba(13,12,11,.92)';
+  } else {
+    nav.style.backdropFilter = 'blur(0px)';
+    nav.style.background = 'linear-gradient(to bottom, rgba(13,12,11,.9) 0%, transparent 100%)';
+  }
+});
+</script>
+</body>
+</html>

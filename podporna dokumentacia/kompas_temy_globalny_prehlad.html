@@ -1,0 +1,210 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);padding:0 0 3rem}
+.top{padding:1rem 0 .75rem}
+.top-h{font-size:18px;font-weight:500;margin-bottom:.25rem}
+.top-s{font-size:12px;color:var(--color-text-secondary);line-height:1.6;max-width:620px;margin-bottom:.75rem}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
+.search-inp{font-family:var(--font-sans);font-size:13px;padding:7px 12px;border-radius:8px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);outline:none;width:220px;transition:border-color .12s}
+.search-inp:focus{border-color:var(--color-border-primary)}
+.fb{font-size:11px;font-weight:500;padding:5px 12px;border-radius:99px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;white-space:nowrap}
+.fb:hover{border-color:var(--color-border-primary);color:var(--color-text-primary)}
+.fb.on{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.stats-row{display:flex;gap:1rem;margin-bottom:.75rem;flex-wrap:wrap}
+.stat{font-size:11px;color:var(--color-text-secondary)}
+.stat strong{color:var(--color-text-primary);font-weight:500}
+.sec-h{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin:.75rem 0 .4rem;display:flex;align-items:center;gap:.5rem}
+.sec-h::after{content:'';flex:1;height:.5px;background:var(--color-border-tertiary)}
+.items{display:flex;flex-direction:column;gap:4px;margin-bottom:.25rem}
+.item{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:start;padding:8px 12px;border-radius:9px;border:.5px solid var(--color-border-tertiary);background:var(--color-background-primary);cursor:default;transition:all .1s}
+.item:hover{background:var(--color-background-secondary);border-color:var(--color-border-secondary)}
+.item-main{}
+.item-sit{font-size:13px;font-weight:500;color:var(--color-text-primary);line-height:1.3;margin-bottom:2px}
+.item-ex{font-size:11px;color:var(--color-text-secondary);line-height:1.45}
+.item-tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px;white-space:nowrap;align-self:start;margin-top:1px}
+.item-viral{font-size:10px;color:var(--color-text-tertiary);text-align:right;white-space:nowrap;align-self:start;margin-top:2px}
+.tag-fire{background:#fef2f2;color:#dc2626}
+.tag-hot{background:#fff7ed;color:#ea580c}
+.tag-big{background:#eff6ff;color:#2563eb}
+.tag-new{background:#f0fdf4;color:#16a34a}
+.tag-deep{background:#fdf4ff;color:#9333ea}
+.no-res{text-align:center;padding:3rem;color:var(--color-text-tertiary);font-size:13px}
+</style>
+
+<div class="top">
+<div class="top-h">Kompas — Globálny zoznam tém pre DeepTalks</div>
+<div class="top-s">130+ situácií rozdelených do skupín. Každá = 1 téma pre Kompas alebo Reels. Zoradené podľa virálneho potenciálu a globálneho záujmu. Klikni filter alebo hľadaj.</div>
+<div class="controls">
+  <input class="search-inp" id="srch" placeholder="Hľadaj situáciu..." oninput="render()">
+  <button class="fb on" data-g="all" onclick="setG('all',this)">Všetky</button>
+  <button class="fb" data-g="rodina" onclick="setG('rodina',this)">Rodina & Deti</button>
+  <button class="fb" data-g="par" onclick="setG('par',this)">Páry</button>
+  <button class="fb" data-g="priatelia" onclick="setG('priatelia',this)">Priatelia</button>
+  <button class="fb" data-g="praca" onclick="setG('praca',this)">Práca</button>
+  <button class="fb" data-g="mental" onclick="setG('mental',this)">Duševné zdravie</button>
+  <button class="fb" data-g="zivot" onclick="setG('zivot',this)">Životné situácie</button>
+  <button class="fb" data-g="spolocnost" onclick="setG('spolocnost',this)">Spoločnosť</button>
+</div>
+<div class="stats-row">
+  <div class="stat" id="stat-count"><strong>130+</strong> situácií</div>
+  <div class="stat"><strong style="color:#dc2626">🔥 Virálne</strong> = top globálny záujem</div>
+  <div class="stat"><strong style="color:#ea580c">🔶 Hot</strong> = silný záujem</div>
+  <div class="stat"><strong style="color:#2563eb">◎ Big</strong> = veľká skupina ľudí</div>
+  <div class="stat"><strong style="color:#9333ea">★ Deep</strong> = DeepTalks unikát</div>
+</div>
+</div>
+
+<div id="out"></div>
+
+<script>
+var G='all', DATA=[
+/* ══════ RODINA & DETI ══════ */
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'Dieťa hovorí "choď do r*ti / nenávidím ťa"',ex:'"Je to normálne? Čo mám povedať? Ako nereagovať agresívne?"',tag:'fire',viral:'🔥 Virálne'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'Dieťa nechce odísť od telefónu / PC',ex:'"Vypni to!" nefunguje. Čo namiesto hádky?',tag:'fire',viral:'🔥 Virálne'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'"Mám prekvapenie — hádaj čo budeme robiť"',ex:'Dieťa samo navrhne čo chce. Rodič kývne. Obaja majú plán. ★',tag:'deep',viral:'★ DeepTalks unikát'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'Ako sa opýtať na školu inak ako "čo bolo?"',ex:'"Kto ťa dnes rozosmieval? Čo by si zmenil/a?" — otvárač.',tag:'hot',viral:'🔶 Hot'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'Dieťa neposlúcha, robí scény na verejnosti',ex:'"Keď sa hanbíš, on to cíti. Čo povedať namiesto kričania."',tag:'fire',viral:'🔥 Virálne'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'3 veci z dňa — dobré aj zlé',ex:'Denný ritual: každý povie 1 dobré, 1 ťažké, 1 čo by opakoval. ★',tag:'deep',viral:'★ DeepTalks unikát'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'Tínedžer sa zatvára, nehovorí nič',ex:'"Ako získať dôveru späť. Čo NE-robiť keď mlčí."',tag:'fire',viral:'🔥 Virálne'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'Dieťa hovorí "neviem čo chcem robiť v živote"',ex:'"Otázky ktoré pomáhajú odhaliť vášne, nie tlačiť."',tag:'hot',viral:'🔶 Hot'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'Ako hovoriť o peniazoch s deťmi',ex:'"Prečo mama nepráca? Prečo si nekúpiš auto?" — vekové odpovede.',tag:'big',viral:'◎ Big téma'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'Dieťa klame, vedieš o tom',ex:'"Ako vytvoriť priestor kde klamať netreba, namiesto trestu."',tag:'hot',viral:'🔶 Hot'},
+{g:'rodina',sec:'Rodičia — každodenné situácie',sit:'Rozprávkový čas — kladenie otázok nie čítanie',ex:'"Prečo si myslíš že vlk bol zlý? Čo by si urobil/a ty?" ★',tag:'deep',viral:'★ DeepTalks unikát'},
+{g:'rodina',sec:'Rodičia — náročné témy',sit:'Ako povedať dieťaťu o rozvode',ex:'"Vety ktoré ochránia, nie zrania. Pre vek 4–16."',tag:'fire',viral:'🔥 Virálne'},
+{g:'rodina',sec:'Rodičia — náročné témy',sit:'Dieťa pýta sa na smrť / "kde je dedko?"',ex:'"Ako vysvetliť smrť bez strachu. Vekové odpovede."',tag:'big',viral:'◎ Big téma'},
+{g:'rodina',sec:'Rodičia — náročné témy',sit:'Tínedžer a duševné zdravie / plač bez dôvodu',ex:'"Kedy ísť k odborníkovi? Čo povedať keď nevieš."',tag:'fire',viral:'🔥 Virálne'},
+{g:'rodina',sec:'Rodičia — náročné témy',sit:'Ako hovoriť o sebapoškodzovaní / suicidálnych myšlienkach',ex:'"Pýtať sa NEZHORŠUJE. Ako začať rozhovor."',tag:'fire',viral:'🔥 Kritické'},
+{g:'rodina',sec:'Rodičia — náročné témy',sit:'Dieťa zažilo šikanu alebo je šikanista',ex:'"Ako reagovať bez panikárenia. Čo nepovedať."',tag:'hot',viral:'🔶 Hot'},
+{g:'rodina',sec:'Rodičia — náročné témy',sit:'Ako povedať dieťaťu že je adoptované',ex:'"Kedy, ako, čo presne povedať. Príklady viet."',tag:'big',viral:'◎ Big téma'},
+{g:'rodina',sec:'Rodičia — náročné témy',sit:'Dieťa pýta sa na sex / "odkiaľ sa berú deti?"',ex:'"Pravda primeraná veku, bez škaredého momentu."',tag:'hot',viral:'🔶 Hot'},
+{g:'rodina',sec:'Rodičia — náročné témy',sit:'Ako hovoriť o drogách a alkohole preventívne',ex:'"Pred tým ako vyskúsia, nie po. Konkrétne vety."',tag:'hot',viral:'🔶 Hot'},
+{g:'rodina',sec:'Starí rodičia & medzigeneračné',sit:'Starý rodič nerozumie digitálnemu svetu dieťaťa',ex:'"Môžu sa spojiť? Čo majú spoločné napriek 60 rokom razdielu."',tag:'hot',viral:'🔶 Hot'},
+{g:'rodina',sec:'Starí rodičia & medzigeneračné',sit:'Kedy navštíviť starého rodiča kým je tu — Legacy',ex:'"Otázky ktoré treba položiť teraz, nie po pohrebe." ★',tag:'deep',viral:'★ DeepTalks unikát'},
+{g:'rodina',sec:'Starí rodičia & medzigeneračné',sit:'"Babka, porozprávaj mi o sebe" — ako začať',ex:'"10 otázok ktoré otvoria historky na celú noc."',tag:'deep',viral:'★ DeepTalks unikát'},
+{g:'rodina',sec:'Starí rodičia & medzigeneračné',sit:'Rodinná hádka o politike / náboženstve',ex:'"Ako počúvať bez súhlasu. Čo nepovedať pri jedle."',tag:'hot',viral:'🔶 Hot'},
+
+/* ══════ PÁRY ══════ */
+{g:'par',sec:'Páry — každodenné',sit:'Partner nehovorí čo cíti, "som ok" keď nie je',ex:'"Ako otvoriť dvere bez nátlaku. Otázky ktoré fungujú."',tag:'fire',viral:'🔥 Virálne'},
+{g:'par',sec:'Páry — každodenné',sit:'Rovnaká hádka dokola — stále o tom istom',ex:'"Je to príznak, nie problém. Čo za tým naozaj je."',tag:'fire',viral:'🔥 Virálne'},
+{g:'par',sec:'Páry — každodenné',sit:'Ako sa ospravedlniť aby to fungovalo',ex:'"Prepáč" nestačí. Čo namiesto toho."',tag:'hot',viral:'🔶 Hot'},
+{g:'par',sec:'Páry — každodenné',sit:'Partner/partnerka si stále sťažuje, neumie si pomôcť',ex:'"Počúvaš alebo riešiš? Ako zistiť čo potrebujú."',tag:'hot',viral:'🔶 Hot'},
+{g:'par',sec:'Páry — každodenné',sit:'Ako vyjadriť potrebu bez obviňovania',ex:'"Ty vždy..." → "Keď sa stane X, ja cítim Y."',tag:'big',viral:'◎ Big téma'},
+{g:'par',sec:'Páry — každodenné',sit:'Daily Connection — otázka dňa pre nás dvoch ★',ex:'"5 minút večer. Každý odpovie. Reveal. 47 dní streak."',tag:'deep',viral:'★ DeepTalks unikát'},
+{g:'par',sec:'Páry — náročné',sit:'Ako hovoriť o peniazoch bez hádky',ex:'"Najtoxickejšia téma párov. Skript pre prvý rozhovor."',tag:'fire',viral:'🔥 Virálne'},
+{g:'par',sec:'Páry — náročné',sit:'Sexuálna nespokojnosť — ako o tom povedať',ex:'"Najmenej hovorená vec v dlhodobých vzťahoch."',tag:'big',viral:'◎ Big téma'},
+{g:'par',sec:'Páry — náročné',sit:'Gaslighting — "to si vymýšľaš, to sa nestalo"',ex:'"Ako rozpoznať. Čo povedať. Kedy odísť."',tag:'fire',viral:'🔥 Virálne (#1 search 2024)'},
+{g:'par',sec:'Páry — náročné',sit:'Ako hovoriť o chcení detí / nechcení',ex:'"Keď jeden áno, druhý nie. Prvý rozhovor."',tag:'big',viral:'◎ Big téma'},
+{g:'par',sec:'Páry — náročné',sit:'Nevera — ako sa rozprávať, nie len kričať',ex:'"Pre toho kto zradil aj toho kto bol zradený."',tag:'big',viral:'◎ Big téma'},
+{g:'par',sec:'Páry — náročné',sit:'Závislosť partnera — ako pomôcť bez straty seba',ex:'"Alkohol, hry, telefón, práca — rovnaký skript."',tag:'hot',viral:'🔶 Hot'},
+{g:'par',sec:'Páry — náročné',sit:'Rozchod — ako povedať "končíme" s rešpektom',ex:'"Ghosting je zbabelosť. Čo povedať namiesto toho."',tag:'hot',viral:'🔶 Hot'},
+{g:'par',sec:'Vzťahové javy 2025',sit:'Love bombing — rozpoznať a pomenovať',ex:'"Keď je príliš veľa pozornosti naraz a je to zlé."',tag:'hot',viral:'🔶 Hot 2025'},
+{g:'par',sec:'Vzťahové javy 2025',sit:'Ghosting — čo povedať/nepovedať keď ťa ghostnú',ex:'"Nemáš čo vysvetľovať. Ale ak chceš povedať toto..."',tag:'hot',viral:'🔶 Hot 2025'},
+{g:'par',sec:'Vzťahové javy 2025',sit:'Emotional intimacy — najhľadanejší vzťahový výraz 2025',ex:'"Ako ju budovať. 3 otázky na dnes večer."',tag:'fire',viral:'🔥 #1 search 2025'},
+{g:'par',sec:'Vzťahové javy 2025',sit:'Digital detox date — večer bez telefónov',ex:'"Čo robiť keď nie ste zvyknutí hovoriť bez obrazovky."',tag:'hot',viral:'🔶 Hot 2025'},
+
+/* ══════ PRIATELIA ══════ */
+{g:'priatelia',sec:'Priateľstvo — každodenné',sit:'Kamarát/ka sa mi vzdialil/a — čo sa stalo?',ex:'"Ako zistiť bez obviňovania. Veta ktorá otvára."',tag:'fire',viral:'🔥 Virálne'},
+{g:'priatelia',sec:'Priateľstvo — každodenné',sit:'Ako nadviazať nové priateľstvo v dospelosti',ex:'"Po 30 je to ťažké. Prečo a čo s tým." (Offline Club model)',tag:'fire',viral:'🔥 Virálne'},
+{g:'priatelia',sec:'Priateľstvo — každodenné',sit:'Kamarát stále sťažuje, vyčerpáva ma',ex:'"Ako ostať kamarátom a zároveň sa chrániť."',tag:'hot',viral:'🔶 Hot'},
+{g:'priatelia',sec:'Priateľstvo — každodenné',sit:'Small talk — ako sa dostať za "ok" a "nič nové"',ex:'"5 otázok ktoré napohon prejdú na skutočný rozhovor."',tag:'big',viral:'◎ Big téma'},
+{g:'priatelia',sec:'Priateľstvo — každodenné',sit:'Ako povedať kamarátovi nepríjemnú pravdu',ex:'"Smrdi mu z úst. Má zlého partnera. Robí chybu."',tag:'hot',viral:'🔶 Hot'},
+{g:'priatelia',sec:'Priateľstvo — každodenné',sit:'Kamarát stratil prácu / prešiel rozvodom — čo povedať',ex:'"ˈPrepáč, to je strašnéˈ stačí. Čo NIE povedať."',tag:'hot',viral:'🔶 Hot'},
+{g:'priatelia',sec:'Priateľstvo — každodenné',sit:'Ako sa ospravedlniť kamarátovi po dlhom mlčaní',ex:'"Roky ubehli. Ako začať znova bez studu."',tag:'hot',viral:'🔶 Hot'},
+{g:'priatelia',sec:'Priateľstvo — konflikty',sit:'Kamarát si požičal peniaze a nevrátil',ex:'"Peniaze ničia priateľstvá. Ako to povedať priamo."',tag:'hot',viral:'🔶 Hot'},
+{g:'priatelia',sec:'Priateľstvo — konflikty',sit:'Toxický kamarát — kedy to ukončiť a ako',ex:'"Boundary nie je útok. Skript pre ˈkoniec priateľstvaˈ."',tag:'big',viral:'◎ Big téma'},
+{g:'priatelia',sec:'Priateľstvo — konflikty',sit:'Žiarlivosť medzi kamarátmi — úspech jedného',ex:'"Kamarátov úspech ťa bolí? Čo za tým je."',tag:'hot',viral:'🔶 Hot'},
+{g:'priatelia',sec:'Priateľstvo — osamostatenie',sit:'Osamotenosť v meste plnom ľudí',ex:'"Milióny ľudí googlia toto každý deň."',tag:'fire',viral:'🔥 Epidémia osamelosti'},
+{g:'priatelia',sec:'Priateľstvo — osamostatenie',sit:'Ako začať rozhovor s cudzím človekom',ex:'"Tričko ˈOslov maˈ — ale aj bez neho." ★',tag:'deep',viral:'★ DeepTalks unikát'},
+
+/* ══════ PRÁCA ══════ */
+{g:'praca',sec:'Pracovné vzťahy',sit:'Toxický šéf — ako komunikovať bez ústupu',ex:'"80% pracovníkov hlási toxické prostredie (Monster 2025)."',tag:'fire',viral:'🔥 Virálne'},
+{g:'praca',sec:'Pracovné vzťahy',sit:'Kolega berie zásluhy za tvoju prácu',ex:'"Čo povedať na porade. Ako sa zabezpečiť pred ďalším raz."',tag:'fire',viral:'🔥 Virálne'},
+{g:'praca',sec:'Pracovné vzťahy',sit:'Ako žiadať o zvýšenie platu',ex:'"Konkrétne vety. Kedy, ako, čo keď povie nie."',tag:'fire',viral:'🔥 Virálne'},
+{g:'praca',sec:'Pracovné vzťahy',sit:'Ako povedať šéfovi zlé správy',ex:'"Chyba, mešká projekt, stratil sa klient — skripty."',tag:'hot',viral:'🔶 Hot'},
+{g:'praca',sec:'Pracovné vzťahy',sit:'Konfrontácia s kolegom bez eskalácie',ex:'"ˈI-statementˈ metóda v praxi. Príklady."',tag:'big',viral:'◎ Big téma'},
+{g:'praca',sec:'Pracovné vzťahy',sit:'Ako povedať "nie" šéfovi bez straty pozície',ex:'"Najlepšie: ˈMôžem, ale ktorá priorita padne?ˈ"',tag:'hot',viral:'🔶 Hot'},
+{g:'praca',sec:'Pracovné vzťahy',sit:'Keď si introvert na pracovných akciách',ex:'"Povinný networking. Čo povedať keď nevieš čo povedať."',tag:'big',viral:'◎ Big téma'},
+{g:'praca',sec:'Pracovné vzťahy',sit:'Generačný konflikt v práci — emoji, formálnosť, Slack vs email',ex:'"Mladší vs starší. Konkrétne situácie."',tag:'hot',viral:'🔶 Hot'},
+{g:'praca',sec:'Vedenie & tím',sit:'Ako dať spätnú väzbu bez toho aby sa urazil',ex:'"Sandwich metóda je mŕtva. Čo namiesto nej."',tag:'hot',viral:'🔶 Hot'},
+{g:'praca',sec:'Vedenie & tím',sit:'Ako motivovať tím ktorý stratil energiu',ex:'"Čo šéf povie na pondelkovom standupe keď nikto nechce."',tag:'big',viral:'◎ Big téma'},
+{g:'praca',sec:'Vedenie & tím',sit:'Prepúšťanie — ako povedať ˈsi prepustenýˈ',ex:'"Najťažšia veta v biznise. Čo povedať, čo nepovedať."',tag:'hot',viral:'🔶 Hot'},
+{g:'praca',sec:'Vedenie & tím',sit:'Burnout v tíme — ako to pomenovať na porade',ex:'"Psychologická bezpečnosť. Ako otvoriť tému."',tag:'hot',viral:'🔶 Hot'},
+
+/* ══════ DUŠEVNÉ ZDRAVIE ══════ */
+{g:'mental',sec:'Vlastné emócie',sit:'Neviem čo cítim — emočná slepota',ex:'"ˈSom okˈ ale nie som. Ako pomenovať čo sa deje."',tag:'big',viral:'◎ Big téma'},
+{g:'mental',sec:'Vlastné emócie',sit:'Hnev — čo povedať keď chceš kričať',ex:'"Veta pred výbuchom ktorá zachráni vzťah."',tag:'fire',viral:'🔥 Virálne'},
+{g:'mental',sec:'Vlastné emócie',sit:'Smútok po strate — čo povedať sebe aj druhým',ex:'"Grief nefunguje v 5 fázach. Čo naozaj pomáha."',tag:'big',viral:'◎ Big téma'},
+{g:'mental',sec:'Vlastné emócie',sit:'Úzkosť — ako o nej povedať blízkym',ex:'"ˈMám panické záchvaty.ˈ Ako to povedať partnerovi."',tag:'fire',viral:'🔥 Virálne'},
+{g:'mental',sec:'Vlastné emócie',sit:'Depresívna epizóda — ako pomôcť alebo požiadať o pomoc',ex:'"Ako povedať ˈnechcem vstáťˈ niekomu kto to nepochopí."',tag:'fire',viral:'🔥 Virálne'},
+{g:'mental',sec:'Vlastné emócie',sit:'Výčitky svedomia — ako s nimi hovoriť nahlas',ex:'"Napísať, prehovoriť, pustiť. Rituál. ★',tag:'deep',viral:'★ DeepTalks unikát'},
+{g:'mental',sec:'Pomoc druhým',sit:'Kamarát/ka hovorí o samovražde — čo robiť',ex:'"PÝTAŤ SA NEZHORŠUJE. Veta ktorá zachraňuje životy."',tag:'fire',viral:'🔥 Kritické'},
+{g:'mental',sec:'Pomoc druhým',sit:'Blízky má závislosť — ako povedať ˈmáš problémˈ',ex:'"Nie ultimátum, nie plač. Čo funguje podľa výskumu."',tag:'big',viral:'◎ Big téma'},
+{g:'mental',sec:'Pomoc druhým',sit:'Ako byť pritom keď nevieš čo povedať',ex:'"Ticho je dosť. ˈSom tuˈ stačí. Čo nepomôže."',tag:'hot',viral:'🔶 Hot'},
+{g:'mental',sec:'Pomoc druhým',sit:'Osamotenosť u starého rodiča / rodičov',ex:'"Zavolám alebo nie? Ako hovoriť o osamelosti priamo."',tag:'hot',viral:'🔶 Hot'},
+{g:'mental',sec:'Hranice',sit:'Ako povedať NIE bez pocitu viny',ex:'"Najhľadanejšie komunikačné slovo sveta."',tag:'fire',viral:'🔥 Virálne'},
+{g:'mental',sec:'Hranice',sit:'Toxic positivity — ˈVšetko bude skvelé!ˈ',ex:'"Keď dobrý úmysel ublíži. Čo namiesto toho."',tag:'hot',viral:'🔶 Hot'},
+{g:'mental',sec:'Hranice',sit:'Manipulatívny člen rodiny — ako sa brániť',ex:'"Guilt tripping, silent treatment, silent manipulation."',tag:'big',viral:'◎ Big téma'},
+
+/* ══════ ŽIVOTNÉ SITUÁCIE ══════ */
+{g:'zivot',sec:'Zdravie & lekári',sit:'Ako povedať lekárovi čo naozaj cítim',ex:'"ˈSom okˈ na ambulancii keď nie som ok. Prečo a čo namiesto."',tag:'big',viral:'◎ Big téma'},
+{g:'zivot',sec:'Zdravie & lekári',sit:'Diagnóza — ako povedať rodine vážnu chorobu',ex:'"Ako povedať rakovinu. Skript pre prvý rozhovor."',tag:'big',viral:'◎ Big téma'},
+{g:'zivot',sec:'Zdravie & lekári',sit:'Ako hovoriť s lekárom za starého rodiča',ex:'"Pacient mlčí, ty nevieš čo sa pýtať. 5 otázok."',tag:'big',viral:'◎ Big téma'},
+{g:'zivot',sec:'Škola & štúdium',sit:'Ako hovoriť s učiteľom o probléme dieťaťa',ex:'"Ako neútočiť a pritom sa zasadiť za dieťa."',tag:'hot',viral:'🔶 Hot'},
+{g:'zivot',sec:'Škola & štúdium',sit:'Tínedžer a maturita/rozhodnutie o škole',ex:'"Ako hovoriť o budúcnosti bez tlaku."',tag:'hot',viral:'🔶 Hot'},
+{g:'zivot',sec:'Peniaze & financie',sit:'Ako hovoriť o dedičstve v rodine',ex:'"Najnebezpečnejšia rodinná téma. Ako ju otvoriť pred smrťou."',tag:'big',viral:'◎ Big téma'},
+{g:'zivot',sec:'Peniaze & financie',sit:'Ako požičať peniaze a zachovať vzťah',ex:'"Nikdy. Ale ak musíš — toto sú pravidlá."',tag:'hot',viral:'🔶 Hot'},
+{g:'zivot',sec:'Peniaze & financie',sit:'Finančná transparentnosť v páre — kto platí čo',ex:'"Gen Z to otvoruje oveľa skôr. Skript pre first money talk."',tag:'hot',viral:'🔶 Hot 2025'},
+{g:'zivot',sec:'Zmena & rozhodnutia',sit:'Ako povedať rodičom rozhodnutie ktoré neschvália',ex:'"Mením kariéru / sa rozvodzujem / odchádzam do zahraničia."',tag:'big',viral:'◎ Big téma'},
+{g:'zivot',sec:'Zmena & rozhodnutia',sit:'Ako hovoriť o strate práce',ex:'"Pred rodinou, pred deťmi, pred kamarátmi."',tag:'hot',viral:'🔶 Hot'},
+{g:'zivot',sec:'Zmena & rozhodnutia',sit:'Ako hovoriť o víre — nespokojnosť so životom',ex:'"Midlife crisis nie je len pre stredný vek."',tag:'hot',viral:'🔶 Hot'},
+{g:'zivot',sec:'Digitálne & moderné',sit:'Ako hovoriť o telefóne s deťmi — nie zakazovanie',ex:'"30 štátov USA zakázalo telefóny v školách. Čo doma?"',tag:'fire',viral:'🔥 Virálne — globálny trend'},
+{g:'zivot',sec:'Digitálne & moderné',sit:'AI v komunikácii — keď partner použije AI na list',ex:'"Je to úprimné? Nový etický problém 2025."',tag:'hot',viral:'🔶 Hot 2025'},
+
+/* ══════ SPOLOČNOSŤ ══════ */
+{g:'spolocnost',sec:'Kultúrne rozdiely',sit:'Komunikácia cez kultúrne rozdiely — SK + UA',ex:'"Rozdielne štýly priamosti, ticha, formálnosti."',tag:'deep',viral:'★ DeepTalks unikát'},
+{g:'spolocnost',sec:'Kultúrne rozdiely',sit:'Generačný rozdiel v komunikácii — Boomers vs Gen Z',ex:'"Prečo si nerozumiete. Konkrétne príklady."',tag:'fire',viral:'🔥 Virálne'},
+{g:'spolocnost',sec:'Tabu témy',sit:'Ako hovoriť o politike bez toho aby sme prestali hovoriť',ex:'"Rodina pri stole. Voľby. Ako prežiť."',tag:'fire',viral:'🔥 Virálne'},
+{g:'spolocnost',sec:'Tabu témy',sit:'Rasizmus / diskriminácia — ako to pomenovať',ex:'"Keď niečo nie je ok a nevieš ako povedať."',tag:'big',viral:'◎ Big téma'},
+{g:'spolocnost',sec:'Tabu témy',sit:'Náboženstvo v rodine — ako hovoriť o rôznych vierach',ex:'"Keď verí jeden a druhý nie."',tag:'big',viral:'◎ Big téma'},
+{g:'spolocnost',sec:'Spoločenské situácie',sit:'Ako odmietnuť pozvanie bez lži',ex:'"ˈMám inýˈ nie je lož. Ale toto je lepšie."',tag:'hot',viral:'🔶 Hot'},
+{g:'spolocnost',sec:'Spoločenské situácie',sit:'Awkward ticho — čo povedať',ex:'"55 odpovedí keď nevieš čo povedať (sci of people)."',tag:'hot',viral:'🔶 Hot'},
+{g:'spolocnost',sec:'Spoločenské situácie',sit:'Ako reagovať na nevhodnú poznámku',ex:'"Sexizmus, narážka na váhu, politika — konkrétne odpovede."',tag:'hot',viral:'🔶 Hot'},
+{g:'spolocnost',sec:'Spoločenské situácie',sit:'Ako sa ospravedlniť verejne / na sociálnych sieťach',ex:'"Keď ti ˈPrepáčˈ nestačí a musíš to urobiť verejne."',tag:'hot',viral:'🔶 Hot 2025'},
+{g:'spolocnost',sec:'Spoločenské situácie',sit:'Ako reagovať na kondolencie keď nevieš čo povedať',ex:'"ˈDrž saˈ nie je dosť. Toto áno."',tag:'big',viral:'◎ Big téma'},
+];
+
+var cur='all';
+function setG(g,btn){
+  cur=g;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+function render(){
+  var q=document.getElementById('srch').value.toLowerCase().trim();
+  var filtered=DATA.filter(d=>{
+    if(cur!=='all'&&d.g!==cur)return false;
+    if(q&&!(d.sit+d.ex).toLowerCase().includes(q))return false;
+    return true;
+  });
+  document.getElementById('stat-count').innerHTML='<strong>'+filtered.length+'</strong> situácií zobrazených';
+  if(!filtered.length){document.getElementById('out').innerHTML='<div class="no-res">Nič sa nenašlo. Skús iný výraz.</div>';return;}
+  var sections={};
+  filtered.forEach(d=>{
+    if(!sections[d.sec])sections[d.sec]=[];
+    sections[d.sec].push(d);
+  });
+  var html='';
+  Object.keys(sections).forEach(sec=>{
+    html+='<div class="sec-h">'+sec+'</div><div class="items">';
+    sections[sec].forEach(d=>{
+      var tc=d.tag==='fire'?'tag-fire':d.tag==='hot'?'tag-hot':d.tag==='big'?'tag-big':d.tag==='deep'?'tag-deep':'tag-new';
+      html+='<div class="item"><div class="item-main"><div class="item-sit">'+d.sit+'</div><div class="item-ex">'+d.ex+'</div></div><span class="item-tag '+tc+'">'+d.viral.split(' ')[0]+'</span><div class="item-viral">'+d.viral.replace(/[🔥🔶◎★]/g,'').trim()+'</div></div>';
+    });
+    html+='</div>';
+  });
+  document.getElementById('out').innerHTML=html;
+}
+render();
+</script>

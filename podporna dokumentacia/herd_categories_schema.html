@@ -1,0 +1,182 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:1rem 0 2rem}
+.section{margin-bottom:1.75rem}
+.sec-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.05em;text-transform:uppercase;margin-bottom:.75rem}
+.table{width:100%;border-collapse:collapse;border:.5px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;font-size:12.5px}
+.table th{background:var(--color-background-secondary);padding:8px 12px;text-align:left;font-weight:500;color:var(--color-text-secondary);font-size:11px;letter-spacing:.04em;text-transform:uppercase;border-bottom:.5px solid var(--color-border-tertiary)}
+.table td{padding:9px 12px;border-bottom:.5px solid var(--color-border-tertiary);vertical-align:top;color:var(--color-text-primary)}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover td{background:var(--color-background-secondary)}
+.col-name{font-family:var(--font-mono);font-size:12px;font-weight:500}
+.col-type{font-family:var(--font-mono);font-size:11px;color:var(--color-text-tertiary)}
+.col-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.45}
+.tag{display:inline-block;font-size:10px;font-weight:500;padding:1px 7px;border-radius:99px;line-height:1.6;white-space:nowrap}
+.t-exists{background:var(--color-background-success);color:var(--color-text-success)}
+.t-add{background:var(--color-background-info);color:var(--color-text-info)}
+.t-gen{background:var(--color-background-warning);color:var(--color-text-warning)}
+.t-skip{background:var(--color-background-secondary);color:var(--color-text-tertiary)}
+
+.groups-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.group-card{border:.5px solid var(--color-border-tertiary);border-radius:9px;padding:10px 13px;background:var(--color-background-primary)}
+.group-key{font-family:var(--font-mono);font-size:12px;font-weight:500;margin-bottom:3px;color:var(--color-text-primary)}
+.group-label{font-size:11px;color:var(--color-text-secondary)}
+.group-count{font-size:10px;color:var(--color-text-tertiary);margin-top:3px}
+
+.alert{padding:10px 14px;border-radius:9px;font-size:12px;line-height:1.6;margin-bottom:1rem}
+.alert-warn{background:var(--color-background-warning);border:.5px solid var(--color-border-warning);color:var(--color-text-warning)}
+.alert-info{background:var(--color-background-info);border:.5px solid var(--color-border-info);color:var(--color-text-info)}
+.alert strong{font-weight:500;display:block;margin-bottom:2px}
+
+.sql-box{background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:14px 16px;font-family:var(--font-mono);font-size:11.5px;line-height:1.7;color:var(--color-text-primary);overflow-x:auto;margin-top:.5rem;white-space:pre}
+.sql-comment{color:var(--color-text-tertiary)}
+.sql-kw{color:var(--color-text-info);font-weight:500}
+.sql-val{color:var(--color-text-success)}
+.sql-fn{color:var(--color-text-warning)}
+
+.legend{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary)}
+</style>
+
+<div class="wrap">
+
+<div class="section">
+  <div class="alert alert-warn">
+    <strong>Prečo INSERT zlyhal</strong>
+    slug je <code style="font-family:var(--font-mono);font-size:11px">GENERATED COLUMN</code> — Supabase ho vytvára automaticky z <code style="font-family:var(--font-mono);font-size:11px">name</code>. Nikdy ho nevkladaj do INSERT. Opravený SQL nižšie ho vynecháva.
+  </div>
+  <div class="alert alert-info">
+    <strong>Čo treba urobiť</strong>
+    1. Pridať stĺpce <code style="font-family:var(--font-mono);font-size:11px">icon</code>, <code style="font-family:var(--font-mono);font-size:11px">group_tag</code>, <code style="font-family:var(--font-mono);font-size:11px">description_sk</code> do existujúcej tabuľky.
+    2. UPDATE existujúcich 23 kategórií s novými hodnotami.
+    3. INSERT nových 28 kategórií (BEZ slug stĺpca).
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-title">Ideálna štruktúra tabuľky herd_categories</div>
+  <div class="legend">
+    <div class="leg"><span class="tag t-exists">Existuje</span> Už máš v DB</div>
+    <div class="leg"><span class="tag t-add">Pridať</span> Treba pridať cez ALTER TABLE</div>
+    <div class="leg"><span class="tag t-gen">Generated</span> Auto-generovaný — nikdy nevkladaj</div>
+    <div class="leg"><span class="tag t-skip">Nadbytočné</span> Nechaj ale nepotrebuješ</div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr><th>Stĺpec</th><th>Typ</th><th>Popis</th><th>Stav</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="col-name">id</td><td class="col-type">uuid PK</td><td class="col-desc">Primárny kľúč, auto UUID</td><td><span class="tag t-exists">Existuje</span></td></tr>
+      <tr><td class="col-name">name</td><td class="col-type">text NOT NULL</td><td class="col-desc">Zobrazený názov — "Biológia a prírodné vedy"</td><td><span class="tag t-exists">Existuje</span></td></tr>
+      <tr><td class="col-name">slug</td><td class="col-type">text GENERATED</td><td class="col-desc">URL verzia name — auto z "name". NIKDY nevkladaj!</td><td><span class="tag t-gen">Generated</span></td></tr>
+      <tr style="background:var(--color-background-info);"><td class="col-name">icon</td><td class="col-type">text DEFAULT '❓'</td><td class="col-desc">Emoji ikona — '🔬', '🎬', '⚽'...</td><td><span class="tag t-add">Pridať</span></td></tr>
+      <tr style="background:var(--color-background-info);"><td class="col-name">group_tag</td><td class="col-type">text DEFAULT 'veda'</td><td class="col-desc">Filter skupina — 'geo' | 'historia' | 'zabava' | 'veda' | 'sport' | 'jedlo' | 'sk' | 'deeptalks' | 'format'</td><td><span class="tag t-add">Pridať</span></td></tr>
+      <tr style="background:var(--color-background-info);"><td class="col-name">description_sk</td><td class="col-type">text nullable</td><td class="col-desc">Krátky popis pre UI kartu — 2 riadky max</td><td><span class="tag t-add">Pridať</span></td></tr>
+      <tr><td class="col-name">sort_order</td><td class="col-type">integer</td><td class="col-desc">Poradie zobrazenia — 10, 20, 30...</td><td><span class="tag t-exists">Existuje</span></td></tr>
+      <tr><td class="col-name">is_active</td><td class="col-type">boolean DEFAULT true</td><td class="col-desc">Či sa kategória zobrazuje</td><td><span class="tag t-exists">Existuje</span></td></tr>
+      <tr><td class="col-name">locale</td><td class="col-type">text DEFAULT 'sk'</td><td class="col-desc">Jazyk kategórie</td><td><span class="tag t-exists">Existuje</span></td></tr>
+      <tr><td class="col-name">created_at</td><td class="col-type">timestamptz</td><td class="col-desc">Auto timestamp</td><td><span class="tag t-exists">Existuje</span></td></tr>
+      <tr><td class="col-name">display_order</td><td class="col-type">integer</td><td class="col-desc">Hodnota 100 všade — redundantné so sort_order</td><td><span class="tag t-skip">Nadbytočné</span></td></tr>
+      <tr><td class="col-name">description</td><td class="col-type">text nullable</td><td class="col-desc">Pôvodný popis, všade NULL — nahradíme description_sk</td><td><span class="tag t-skip">Nadbytočné</span></td></tr>
+      <tr><td class="col-name">lang</td><td class="col-type">text</td><td class="col-desc">Duplicitné s locale</td><td><span class="tag t-skip">Nadbytočné</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="sec-title">group_tag hodnoty → filter labels v UI</div>
+  <div class="groups-grid">
+    <div class="group-card"><div class="group-key">'geo'</div><div class="group-label">🌍 Geografia</div><div class="group-count">5 kategórií</div></div>
+    <div class="group-card"><div class="group-key">'historia'</div><div class="group-label">⚔️ História</div><div class="group-count">6 kategórií</div></div>
+    <div class="group-card"><div class="group-key">'zabava'</div><div class="group-label">🎬 Zábava & Pop</div><div class="group-count">9 kategórií</div></div>
+    <div class="group-card"><div class="group-key">'veda'</div><div class="group-label">🔬 Veda & Príroda</div><div class="group-count">10 kategórií</div></div>
+    <div class="group-card"><div class="group-key">'sport'</div><div class="group-label">⚽ Šport</div><div class="group-count">3 kategórie</div></div>
+    <div class="group-card"><div class="group-key">'jedlo'</div><div class="group-label">🍽️ Jedlo & Pitie</div><div class="group-count">4 kategórie</div></div>
+    <div class="group-card"><div class="group-key">'sk'</div><div class="group-label">🇸🇰 Slovensko</div><div class="group-count">6 kategórií</div></div>
+    <div class="group-card"><div class="group-key">'deeptalks'</div><div class="group-label">💬 DeepTalks</div><div class="group-count">8 kategórií</div></div>
+    <div class="group-card"><div class="group-key">'format'</div><div class="group-label">🎲 Špeciálny formát</div><div class="group-count">3 kategórie (Tipni si, Viac/Menej, Rekordy)</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-title">Správny SQL — spusti v tomto poradí v Supabase SQL Editor</div>
+
+  <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:.5rem;font-weight:500">KROK 1 — Pridaj 3 nové stĺpce</div>
+  <div class="sql-box"><span class="sql-kw">ALTER TABLE</span> herd_categories
+  <span class="sql-kw">ADD COLUMN IF NOT EXISTS</span> icon          text <span class="sql-kw">DEFAULT</span> <span class="sql-val">'❓'</span>,
+  <span class="sql-kw">ADD COLUMN IF NOT EXISTS</span> group_tag     text <span class="sql-kw">DEFAULT</span> <span class="sql-val">'veda'</span>,
+  <span class="sql-kw">ADD COLUMN IF NOT EXISTS</span> description_sk text;</div>
+
+  <div style="font-size:12px;color:var(--color-text-secondary);margin:.75rem 0 .5rem;font-weight:500">KROK 2 — UPDATE existujúcich 23 (podľa ID, nie slug)</div>
+  <div class="sql-box"><span class="sql-comment">-- Identifikujeme podľa ID — bezpečné, nemenné</span>
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🔬'</span>, group_tag=<span class="sql-val">'veda'</span>,    description_sk=<span class="sql-val">'Telo, bunky, rastliny, chémia'</span>     <span class="sql-kw">WHERE</span> id=<span class="sql-val">'e92ec47d-e983-4868-a80b-6bd129bfff44'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🗺️'</span>, group_tag=<span class="sql-val">'geo'</span>,     description_sk=<span class="sql-val">'Destinácie, UNESCO, zaujímavosti'</span>       <span class="sql-kw">WHERE</span> id=<span class="sql-val">'a11cf1a1-5acd-4a80-a7ce-0f3cf3feda41'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🇪🇺'</span>, group_tag=<span class="sql-val">'geo'</span>,     description_sk=<span class="sql-val">'Krajiny, hlavné mestá, vlajky Európy'</span>   <span class="sql-kw">WHERE</span> id=<span class="sql-val">'09ffd241-2c71-4f36-af34-13102b63cedb'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🌍'</span>, group_tag=<span class="sql-val">'geo'</span>,     description_sk=<span class="sql-val">'Kontinenty, krajiny, hlavné mestá sveta'</span> <span class="sql-kw">WHERE</span> id=<span class="sql-val">'133e068e-7114-4e3f-ad04-33424dbd2f0d'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🇸🇰'</span>, group_tag=<span class="sql-val">'historia'</span>, description_sk=<span class="sql-val">'Udalosti, osobnosti, dátumy SK histórie'</span> <span class="sql-kw">WHERE</span> id=<span class="sql-val">'a4313182-884b-4d35-a030-8634c141953f'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'⚔️'</span>, group_tag=<span class="sql-val">'historia'</span>, description_sk=<span class="sql-val">'Vojny, civilizácie, zlomové udalosti'</span>   <span class="sql-kw">WHERE</span> id=<span class="sql-val">'76af9a02-2d48-4d55-b00d-825d97b8416e'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🍽️'</span>, group_tag=<span class="sql-val">'jedlo'</span>,   description_sk=<span class="sql-val">'Kuchyne sveta, suroviny, nápoje'</span>         <span class="sql-kw">WHERE</span> id=<span class="sql-val">'d642a803-6dbb-41e2-8d71-3d71bddeb133'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🎨'</span>, group_tag=<span class="sql-val">'zabava'</span>,  description_sk=<span class="sql-val">'Maliari, sochy, divadlo, architektúra'</span>   <span class="sql-kw">WHERE</span> id=<span class="sql-val">'5207a5c5-6547-40d1-9f4c-52c76f61243e'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🧮'</span>, group_tag=<span class="sql-val">'veda'</span>,    description_sk=<span class="sql-val">'Hlavolamy, výpočty, logické úlohy'</span>       <span class="sql-kw">WHERE</span> id=<span class="sql-val">'5dba6845-59b0-46ae-8b6b-5724024fdaf9'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'👗'</span>, group_tag=<span class="sql-val">'zabava'</span>,  description_sk=<span class="sql-val">'Návrhári, značky, ikonické kúsky'</span>        <span class="sql-kw">WHERE</span> id=<span class="sql-val">'4b7ba6c3-4764-4a93-b447-e16c324183f5'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🎬'</span>, group_tag=<span class="sql-val">'zabava'</span>,  description_sk=<span class="sql-val">'Hity, herci, filmy, Netflix, seriály'</span>    <span class="sql-kw">WHERE</span> id=<span class="sql-val">'ac7ab9cd-657e-4260-b1a2-258651863db0'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🧙'</span>, group_tag=<span class="sql-val">'sk'</span>,      description_sk=<span class="sql-val">'Postavy, príbehy, pesničky z rozprávok'</span>  <span class="sql-kw">WHERE</span> id=<span class="sql-val">'08cd3656-3957-4fc7-b299-4db9e8fc2eb6'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'😂'</span>, group_tag=<span class="sql-val">'zabava'</span>,  description_sk=<span class="sql-val">'Memy, TikTok, YouTube, Gen-Z výrazy'</span>     <span class="sql-kw">WHERE</span> id=<span class="sql-val">'52a72121-8333-41de-bf4f-d4956f759200'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🏔️'</span>, group_tag=<span class="sql-val">'sk'</span>,      description_sk=<span class="sql-val">'Tatry, mestá, hrady, osobnosti, symboly SR'</span><span class="sql-kw">WHERE</span> id=<span class="sql-val">'183a3b75-0d83-47cb-9a7b-7b2e6a807618'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'⚽'</span>, group_tag=<span class="sql-val">'sport'</span>,   description_sk=<span class="sql-val">'Futbal, hokej, tenis, olympiáda, rekordy'</span> <span class="sql-kw">WHERE</span> id=<span class="sql-val">'9bdaa899-1866-4269-80b8-3f40050a910c'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'💻'</span>, group_tag=<span class="sql-val">'veda'</span>,    description_sk=<span class="sql-val">'Kto vynašiel? Smartfóny, internet, AI'</span>    <span class="sql-kw">WHERE</span> id=<span class="sql-val">'3a8ca258-97da-4f06-8f35-397a6fa1ca94'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🎯'</span>, group_tag=<span class="sql-val">'format'</span>,  description_sk=<span class="sql-val">'Uhádni percentá, čísla, štatistiky'</span>      <span class="sql-kw">WHERE</span> id=<span class="sql-val">'b2739f9a-eab4-4cdb-b13e-40cab2f606b0'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🎉'</span>, group_tag=<span class="sql-val">'sk'</span>,      description_sk=<span class="sql-val">'Vianočné, veľkonočné, svetové sviatky'</span>   <span class="sql-kw">WHERE</span> id=<span class="sql-val">'bdf60707-7ed8-4b35-8306-5c65e3af1f79'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🌌'</span>, group_tag=<span class="sql-val">'veda'</span>,    description_sk=<span class="sql-val">'Planéty, hviezdy, NASA, kozmonautika'</span>     <span class="sql-kw">WHERE</span> id=<span class="sql-val">'4631be3c-e28e-4b21-b6cf-639749cf1691'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'⚖️'</span>, group_tag=<span class="sql-val">'format'</span>,  description_sk=<span class="sql-val">'Je X väčšie ako Y? Čo má viac?'</span>          <span class="sql-kw">WHERE</span> id=<span class="sql-val">'ad568a02-22aa-4ed6-b822-9ce59ee7d101'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🤯'</span>, group_tag=<span class="sql-val">'format'</span>,  description_sk=<span class="sql-val">'Guinnessova kniha, neuveriteľné fakty'</span>    <span class="sql-kw">WHERE</span> id=<span class="sql-val">'3a810e49-8175-48d3-ab1f-479ae5c1d6a0'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🧬'</span>, group_tag=<span class="sql-val">'veda'</span>,    description_sk=<span class="sql-val">'Anatómia, choroby, vitamíny, medicína'</span>    <span class="sql-kw">WHERE</span> id=<span class="sql-val">'ee645247-a8d1-45f9-94d6-f48ea43cdac9'</span>;
+<span class="sql-kw">UPDATE</span> herd_categories <span class="sql-kw">SET</span> icon=<span class="sql-val">'🦁'</span>, group_tag=<span class="sql-val">'veda'</span>,    description_sk=<span class="sql-val">'Fakty, rekordy, druhy, habitat, príroda'</span>  <span class="sql-kw">WHERE</span> id=<span class="sql-val">'983728a8-a718-44dd-8669-8139cf178acf'</span>;</div>
+
+  <div style="font-size:12px;color:var(--color-text-secondary);margin:.75rem 0 .5rem;font-weight:500">KROK 3 — INSERT 28 nových (BEZ slug — ten sa generuje sám)</div>
+  <div class="sql-box"><span class="sql-comment">-- slug vynecháme — je GENERATED, vytvorí sa z name automaticky</span>
+<span class="sql-kw">INSERT INTO</span> herd_categories (name, is_active, display_order, lang, sort_order, locale, icon, group_tag, description_sk) <span class="sql-kw">VALUES</span>
+<span class="sql-comment">-- História</span>
+(<span class="sql-val">'Slávni ľudia histórie'</span>,        true, 100, <span class="sql-val">'sk'</span>, 240, <span class="sql-val">'sk'</span>, <span class="sql-val">'👑'</span>, <span class="sql-val">'historia'</span>, <span class="sql-val">'Vladári, vynálezcovia, umelci, vedci'</span>),
+(<span class="sql-val">'Staroveké civilizácie'</span>,         true, 100, <span class="sql-val">'sk'</span>, 350, <span class="sql-val">'sk'</span>, <span class="sql-val">'🏺'</span>, <span class="sql-val">'historia'</span>, <span class="sql-val">'Egypt, Rím, Grécko, Aztékovia, Čína'</span>),
+(<span class="sql-val">'Mytológia & Legendy'</span>,           true, 100, <span class="sql-val">'sk'</span>, 360, <span class="sql-val">'sk'</span>, <span class="sql-val">'📜'</span>, <span class="sql-val">'historia'</span>, <span class="sql-val">'Grécka, rímska, nordická, slovanská'</span>),
+(<span class="sql-val">'Veda – Objavy & Vedci'</span>,         true, 100, <span class="sql-val">'sk'</span>, 500, <span class="sql-val">'sk'</span>, <span class="sql-val">'🚀'</span>, <span class="sql-val">'historia'</span>, <span class="sql-val">'Nobel, prielomy, slávni vedci'</span>),
+<span class="sql-comment">-- Veda</span>
+(<span class="sql-val">'Psychológia & Správanie'</span>,       true, 100, <span class="sql-val">'sk'</span>, 250, <span class="sql-val">'sk'</span>, <span class="sql-val">'🧠'</span>, <span class="sql-val">'veda'</span>,     <span class="sql-val">'Efekty, experimenty, mozog, emócie'</span>),
+(<span class="sql-val">'Príroda & Ekológia'</span>,            true, 100, <span class="sql-val">'sk'</span>, 260, <span class="sql-val">'sk'</span>, <span class="sql-val">'🌿'</span>, <span class="sql-val">'veda'</span>,     <span class="sql-val">'Klimatická zmena, ekosystémy, druhy'</span>),
+(<span class="sql-val">'Dinosaury & Prehistória'</span>,       true, 100, <span class="sql-val">'sk'</span>, 340, <span class="sql-val">'sk'</span>, <span class="sql-val">'🦕'</span>, <span class="sql-val">'veda'</span>,     <span class="sql-val">'Mená, éry, fosílie, veľkosti, zánik'</span>),
+<span class="sql-comment">-- Šport</span>
+(<span class="sql-val">'Olympijské hry'</span>,                true, 100, <span class="sql-val">'sk'</span>, 270, <span class="sql-val">'sk'</span>, <span class="sql-val">'🏅'</span>, <span class="sql-val">'sport'</span>,    <span class="sql-val">'Rekordy, mestá, disciplíny, medaily'</span>),
+(<span class="sql-val">'Šport – Rekordy & Legendy'</span>,     true, 100, <span class="sql-val">'sk'</span>, 280, <span class="sql-val">'sk'</span>, <span class="sql-val">'🎾'</span>, <span class="sql-val">'sport'</span>,    <span class="sql-val">'Mená, štatistiky, historické momenty'</span>),
+<span class="sql-comment">-- Zábava</span>
+(<span class="sql-val">'Knihy & Literatúra'</span>,            true, 100, <span class="sql-val">'sk'</span>, 290, <span class="sql-val">'sk'</span>, <span class="sql-val">'📚'</span>, <span class="sql-val">'zabava'</span>,   <span class="sql-val">'Autori, postavy, bestsellery, ceny'</span>),
+(<span class="sql-val">'Videohry'</span>,                      true, 100, <span class="sql-val">'sk'</span>, 300, <span class="sql-val">'sk'</span>, <span class="sql-val">'🎮'</span>, <span class="sql-val">'zabava'</span>,   <span class="sql-val">'Konzoly, postavy, klasiky, rekordy'</span>),
+(<span class="sql-val">'Disney & Animáky'</span>,              true, 100, <span class="sql-val">'sk'</span>, 310, <span class="sql-val">'sk'</span>, <span class="sql-val">'🃏'</span>, <span class="sql-val">'zabava'</span>,   <span class="sql-val">'Postavy, piesne, filmy, Pixar'</span>),
+(<span class="sql-val">'Reality šou & Súťaže'</span>,          true, 100, <span class="sql-val">'sk'</span>, 490, <span class="sql-val">'sk'</span>, <span class="sql-val">'🎪'</span>, <span class="sql-val">'zabava'</span>,   <span class="sql-val">'Survivor, Big Brother, MasterChef'</span>),
+(<span class="sql-val">'Hádaj pesničku / umelca'</span>,       true, 100, <span class="sql-val">'sk'</span>, 510, <span class="sql-val">'sk'</span>, <span class="sql-val">'🎤'</span>, <span class="sql-val">'zabava'</span>,   <span class="sql-val">'Text → kto spieva? Nápev → meno?'</span>),
+<span class="sql-comment">-- Jedlo</span>
+(<span class="sql-val">'Pivo, Víno & Destiláty'</span>,        true, 100, <span class="sql-val">'sk'</span>, 320, <span class="sql-val">'sk'</span>, <span class="sql-val">'🍺'</span>, <span class="sql-val">'jedlo'</span>,    <span class="sql-val">'Krajiny pôvodu, odrody, pivovary'</span>),
+(<span class="sql-val">'Medzinárodná kuchyňa'</span>,          true, 100, <span class="sql-val">'sk'</span>, 330, <span class="sql-val">'sk'</span>, <span class="sql-val">'🌍'</span>, <span class="sql-val">'jedlo'</span>,    <span class="sql-val">'Z akej krajiny pochádza jedlo?'</span>),
+<span class="sql-comment">-- Geografia</span>
+(<span class="sql-val">'Vlajky sveta'</span>,                  true, 100, <span class="sql-val">'sk'</span>, 370, <span class="sql-val">'sk'</span>, <span class="sql-val">'🚩'</span>, <span class="sql-val">'geo'</span>,      <span class="sql-val">'Uhádni krajinu podľa vlajky'</span>),
+(<span class="sql-val">'Prírodné divy & extrémy'</span>,       true, 100, <span class="sql-val">'sk'</span>, 380, <span class="sql-val">'sk'</span>, <span class="sql-val">'⛰️'</span>, <span class="sql-val">'geo'</span>,      <span class="sql-val">'Najvyššie, najhlbšie, sopky'</span>),
+<span class="sql-comment">-- SK špecifické</span>
+(<span class="sql-val">'Ukrajina & UA kultúra'</span>,         true, 100, <span class="sql-val">'sk'</span>, 390, <span class="sql-val">'sk'</span>, <span class="sql-val">'🇺🇦'</span>, <span class="sql-val">'sk'</span>,      <span class="sql-val">'História, kultúra, osobnosti'</span>),
+(<span class="sql-val">'Slovenská & česká hudba'</span>,       true, 100, <span class="sql-val">'sk'</span>, 400, <span class="sql-val">'sk'</span>, <span class="sql-val">'🎶'</span>, <span class="sql-val">'sk'</span>,       <span class="sql-val">'Kapely, hity, texty, história hudby'</span>),
+(<span class="sql-val">'Slovensko – šport & osobnosti'</span>, true, 100, <span class="sql-val">'sk'</span>, 410, <span class="sql-val">'sk'</span>, <span class="sql-val">'🏆'</span>, <span class="sql-val">'sk'</span>,       <span class="sql-val">'Lyžiari, hokejisti, ocenenia'</span>),
+<span class="sql-comment">-- DeepTalks originál</span>
+(<span class="sql-val">'Kto z nás by...?'</span>,              true, 100, <span class="sql-val">'sk'</span>, 420, <span class="sql-val">'sk'</span>, <span class="sql-val">'👥'</span>, <span class="sql-val">'deeptalks'</span>,<span class="sql-val">'Kto by prežil? Kto by skôr...?'</span>),
+(<span class="sql-val">'Väčšina by...?'</span>,                true, 100, <span class="sql-val">'sk'</span>, 430, <span class="sql-val">'sk'</span>, <span class="sql-val">'🗳️'</span>, <span class="sql-val">'deeptalks'</span>,<span class="sql-val">'Čo by väčšina tu odpovedala?'</span>),
+(<span class="sql-val">'Čo vieš o svojich blízkych?'</span>,   true, 100, <span class="sql-val">'sk'</span>, 440, <span class="sql-val">'sk'</span>, <span class="sql-val">'💬'</span>, <span class="sql-val">'deeptalks'</span>,<span class="sql-val">'Kto z rodiny? Kedy? Čo zbiera?'</span>),
+(<span class="sql-val">'Trápne a vtipné momenty'</span>,       true, 100, <span class="sql-val">'sk'</span>, 450, <span class="sql-val">'sk'</span>, <span class="sql-val">'😬'</span>, <span class="sql-val">'deeptalks'</span>,<span class="sql-val">'Najhoršia situácia, trápne zážitky'</span>),
+(<span class="sql-val">'Náš vzťah – Páry & Rodiny'</span>,     true, 100, <span class="sql-val">'sk'</span>, 460, <span class="sql-val">'sk'</span>, <span class="sql-val">'🧡'</span>, <span class="sql-val">'deeptalks'</span>,<span class="sql-val">'Kedy sme sa prvýkrát...? Kde?'</span>),
+(<span class="sql-val">'Detstvo & Spomienky'</span>,           true, 100, <span class="sql-val">'sk'</span>, 470, <span class="sql-val">'sk'</span>, <span class="sql-val">'🕰️'</span>, <span class="sql-val">'deeptalks'</span>,<span class="sql-val">'Prvé spomienky, škola, hry'</span>),
+(<span class="sql-val">'Sny, ambície & hodnoty'</span>,        true, 100, <span class="sql-val">'sk'</span>, 480, <span class="sql-val">'sk'</span>, <span class="sql-val">'🌟'</span>, <span class="sql-val">'deeptalks'</span>,<span class="sql-val">'Čo by si robil s miliónom? Ciele?'</span>);
+
+<span class="sql-comment">-- Overiť výsledok (malo by byť 51 riadkov)</span>
+<span class="sql-kw">SELECT</span> group_tag, <span class="sql-fn">COUNT</span>(*) as pocet <span class="sql-kw">FROM</span> herd_categories <span class="sql-kw">WHERE</span> is_active=true <span class="sql-kw">GROUP BY</span> group_tag <span class="sql-kw">ORDER BY</span> group_tag;</div>
+</div>
+
+</div>

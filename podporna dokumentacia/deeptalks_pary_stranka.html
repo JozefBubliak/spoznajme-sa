@@ -1,0 +1,388 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.75rem 0 3.5rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.65rem;margin-top:1.75rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+
+/* HERO */
+.hero{margin-bottom:2rem}
+.hero-tag{font-size:11px;color:var(--color-text-tertiary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem}
+.hero-h{font-size:26px;font-weight:500;line-height:1.25;margin-bottom:.75rem;color:var(--color-text-primary)}
+.hero-h em{font-style:italic;color:var(--color-text-secondary)}
+.hero-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.75;max-width:520px;margin-bottom:1.25rem}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.hs{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:14px;text-align:center;background:var(--color-background-primary)}
+.hs-n{font-size:22px;font-weight:500;margin-bottom:3px}
+.hs-t{font-size:11px;color:var(--color-text-tertiary);line-height:1.35}
+
+/* PROBLÉM */
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem}
+.prob{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;background:var(--color-background-primary)}
+.prob-ico{font-size:18px;margin-bottom:6px}
+.prob-t{font-size:13px;font-weight:500;margin-bottom:3px}
+.prob-s{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+
+/* SITUÁCIE */
+.sits{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1.25rem}
+.sit-btn{font-size:12px;padding:6px 13px;border-radius:99px;border:.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;white-space:nowrap}
+.sit-btn.on{border-color:var(--color-border-primary);color:var(--color-text-primary);font-weight:500;background:var(--color-background-secondary)}
+
+/* NÁSTROJE */
+.tools{display:grid;gap:11px;margin-bottom:1.5rem}
+.tool{border:.5px solid var(--color-border-tertiary);border-radius:14px;padding:18px 20px;cursor:pointer;transition:all .13s;background:var(--color-background-primary);display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+.tool:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.tool.hi{border:1.5px solid var(--color-border-info)}
+.tool.hid{display:none}
+.tool-left{}
+.bdg{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;margin-bottom:7px;line-height:1.5}
+.bv{background:var(--color-background-success);color:var(--color-text-success)}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+.bw{background:var(--color-background-warning);color:var(--color-text-warning)}
+.tool-name{font-size:15px;font-weight:500;margin-bottom:4px}
+.tool-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.55;margin-bottom:8px}
+.tool-when{font-size:11px;color:var(--color-text-tertiary);line-height:1.4}
+.tool-cta{font-size:12px;font-weight:500;color:var(--color-text-info);white-space:nowrap;padding-top:2px;cursor:pointer}
+
+/* OTÁZKY DEMA */
+.q-rotator{border:.5px solid var(--color-border-tertiary);border-radius:14px;padding:20px 22px;margin-bottom:1.5rem;background:var(--color-background-secondary)}
+.qr-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:.5rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.qr-q{font-size:17px;font-weight:500;line-height:1.45;color:var(--color-text-primary);font-family:var(--font-serif);margin-bottom:1rem;min-height:52px}
+.qr-actions{display:flex;gap:8px;flex-wrap:wrap}
+.qr-btn{font-size:12px;padding:7px 14px;border-radius:8px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s}
+.qr-btn:hover{color:var(--color-text-primary)}
+.qr-btn.primary{border-color:var(--color-border-primary);color:var(--color-text-primary);font-weight:500}
+
+/* CESTA */
+.journey{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:1.5rem}
+.jstep{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 14px;background:var(--color-background-primary);position:relative}
+.jstep.on{border-color:var(--color-border-info);background:var(--color-background-info)}
+.jstep.on .jt,.jstep.on .js{color:var(--color-text-info)}
+.jstep.on .js{opacity:.8}
+.jn{font-size:10px;color:var(--color-text-tertiary);margin-bottom:5px;font-weight:500}
+.jt{font-size:13px;font-weight:500;margin-bottom:3px}
+.js{font-size:11px;color:var(--color-text-secondary);line-height:1.35}
+
+/* TESTIMONIAL */
+.testimonials{display:grid;gap:10px;margin-bottom:1.5rem}
+.tcard{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;background:var(--color-background-primary);cursor:pointer;transition:border-color .13s}
+.tcard:hover{border-color:var(--color-border-secondary)}
+.tq{font-size:13px;line-height:1.65;color:var(--color-text-primary);margin-bottom:6px;font-style:italic}
+.tmeta{font-size:11px;color:var(--color-text-tertiary)}
+
+/* KOMPAS PREVIEW */
+.kompas-preview{border:.5px solid var(--color-border-tertiary);border-radius:13px;overflow:hidden;margin-bottom:1.5rem}
+.kp-header{padding:13px 17px;background:var(--color-background-secondary);border-bottom:.5px solid var(--color-border-tertiary);font-size:13px;font-weight:500}
+.kp-topics{display:flex;gap:7px;flex-wrap:wrap;padding:12px 17px;border-bottom:.5px solid var(--color-border-tertiary)}
+.kp-topic{font-size:12px;padding:5px 12px;border-radius:99px;border:.5px solid var(--color-border-tertiary);cursor:pointer;transition:all .12s;background:var(--color-background-primary);color:var(--color-text-secondary)}
+.kp-topic.on{border-color:var(--color-border-primary);font-weight:500;color:var(--color-text-primary);background:var(--color-background-secondary)}
+.kp-sits{padding:14px 17px;display:grid;gap:8px}
+.kp-sit{border:.5px solid var(--color-border-tertiary);border-radius:9px;padding:11px 13px;cursor:pointer;transition:all .12s;background:var(--color-background-primary)}
+.kp-sit:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.kp-sit-t{font-size:13px;font-weight:500;margin-bottom:2px}
+.kp-sit-s{font-size:11px;color:var(--color-text-secondary)}
+
+/* CTA FINAL */
+.cta-final{border:1.5px solid var(--color-border-info);border-radius:14px;padding:22px 24px;background:var(--color-background-info);text-align:center}
+.cta-h{font-size:18px;font-weight:500;color:var(--color-text-info);margin-bottom:.4rem}
+.cta-s{font-size:13px;color:var(--color-text-info);opacity:.8;margin-bottom:1.25rem;line-height:1.6}
+.cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cbtn{font-size:13px;font-weight:500;padding:10px 20px;border-radius:9px;border:.5px solid var(--color-border-info);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.cbtn:hover{background:var(--color-background-secondary)}
+
+@media(max-width:480px){.hero-stats,.problem-grid{grid-template-columns:1fr 1fr}.journey{grid-template-columns:1fr 1fr}.tool{grid-template-columns:1fr}}
+</style>
+
+<div class="pg">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">DeepTalks pre páry</div>
+  <div class="hero-h">Keď „ako ti bolo"<br><em>nestačí.</em></div>
+  <div class="hero-sub">Každý pár vie hovoriť. Málokterý vie počúvať. DeepTalks je zbierka nástrojov pre páry, ktoré chcú ísť pod povrch — od každodenných momentov až po ťažké rozhovory, ktoré sa odkladali roky.</div>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-n">5 min</div><div class="hs-t">denne stačí na zmenu</div></div>
+    <div class="hs"><div class="hs-n">4</div><div class="hs-t">nástroje špeciálne pre páry</div></div>
+    <div class="hs"><div class="hs-n">300+</div><div class="hs-t">otázok a situácií</div></div>
+  </div>
+</div>
+
+<!-- PROBLÉM -->
+<div class="lbl">Poznáte to?</div>
+<div class="problem-grid">
+  <div class="prob">
+    <div class="prob-ico">◐</div>
+    <div class="prob-t">Večer vedľa seba, každý v telefóne</div>
+    <div class="prob-s">Ste spolu — ale každý v inom svete. Ticho nie je pokoj, je to vzdialenosť.</div>
+  </div>
+  <div class="prob">
+    <div class="prob-ico">◇</div>
+    <div class="prob-t">Hádame sa stále o to isté</div>
+    <div class="prob-s">Kruh, z ktorého niet úniku — lebo nikto nepomenoval čo ho naozaj bolí.</div>
+  </div>
+  <div class="prob">
+    <div class="prob-ico">◎</div>
+    <div class="prob-t">Roky spolu, a ešte stále ma prekvapuješ</div>
+    <div class="prob-s">Niekedy v dobrom — ale niekedy neviem, čo si práve teraz myslíš.</div>
+  </div>
+  <div class="prob">
+    <div class="prob-ico">▲</div>
+    <div class="prob-t">Chcem sa rozprávať, ale neviem ako začať</div>
+    <div class="prob-s">Niektoré témy sú ťažké. Nie preto, že nás nezaujímajú — ale preto, lebo nevieme prvé slovo.</div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- NÁSTROJE PODĽA SITUÁCIE -->
+<div class="lbl">Nástroje pre páry — vyber situáciu</div>
+<div class="sits">
+  <button class="sit-btn on" onclick="filterTools('all',this)">Všetko</button>
+  <button class="sit-btn" onclick="filterTools('denne',this)">Každý deň</button>
+  <button class="sit-btn" onclick="filterTools('hlbsie',this)">Hlbšie spoznanie</button>
+  <button class="sit-btn" onclick="filterTools('tazke',this)">Ťažké témy</button>
+  <button class="sit-btn" onclick="filterTools('zábava',this)">Zábava spolu</button>
+  <button class="sit-btn" onclick="filterTools('kompas',this)">Potrebujem vety</button>
+</div>
+
+<div class="tools" id="tools">
+
+  <div class="tool hi" data-g="denne hlbsie" onclick="sendPrompt('Navrhni detail stránku Daily Connection pre páry na deeptalks.eu')">
+    <div class="tool-left">
+      <div class="bdg bv">Odporúčané · Zadarmo</div>
+      <div class="tool-name">Daily Connection</div>
+      <div class="tool-desc">Každý deň jedna otázka pre vás dvoch. Odpovedáš sám — potom vidíš odpoveď partnera. Päť minút, ktoré budujú návyk blízkosti.</div>
+      <div class="tool-when">Ideálne: každý deň večer · pre páry ktoré chcú zostať prepojení napriek rutine</div>
+    </div>
+    <div class="tool-cta">Začať →</div>
+  </div>
+
+  <div class="tool" data-g="hlbsie tazke" onclick="sendPrompt('Navrhni detail stránku konverzačných kartičiek pre páry na deeptalks.eu')">
+    <div class="tool-left">
+      <div class="bdg bv">Zadarmo · Online + fyzické</div>
+      <div class="tool-name">Konverzačné kartičky — Páry</div>
+      <div class="tool-desc">60 otázok v troch úrovniach hĺbky. Začnete ľahko, skončíte hlbšie než ste čakali. Špeciálna mechanika Prompt Cards — určuje tón odpovede.</div>
+      <div class="tool-when">Ideálne: spoločný večer, bez telefónov · 30–60 minút · pre každé štádium vzťahu</div>
+    </div>
+    <div class="tool-cta">Vybrať →</div>
+  </div>
+
+  <div class="tool" data-g="hlbsie tazke" onclick="sendPrompt('Navrhni detail stránku CoupleSync dotazníka na deeptalks.eu')">
+    <div class="tool-left">
+      <div class="bdg bv">Zadarmo</div>
+      <div class="tool-name">CoupleSync — partnerský dotazník</div>
+      <div class="tool-desc">300+ otázok v 9 témach. Každý vypĺňa sám, odpovede partnera uvidíte len keď odpoviete obaja. Financie, rodina, intimita, hodnoty, konflikty.</div>
+      <div class="tool-when">Ideálne: pred veľkým rozhodnutím · pri pocite vzdialenosti · raz za 6 mesiacov</div>
+    </div>
+    <div class="tool-cta">Vyplniť →</div>
+  </div>
+
+  <div class="tool" data-g="tazke kompas" onclick="sendPrompt('Navrhni sekciu Kompasu pre páry na deeptalks.eu — situácie, témy, konkrétne vety')">
+    <div class="tool-left">
+      <div class="bdg bv">Zadarmo</div>
+      <div class="tool-name">Komunikačný kompas — Páry</div>
+      <div class="tool-desc">Konkrétne vety a kroky keď nevieš ako začať ťažký rozhovor. Pocity a potreby, hádky, intimita, vzdiaľenosť — každá situácia má svôj script.</div>
+      <div class="tool-when">Ideálne: hneď teraz, keď niečo vrie · pred ťažkým rozhovorom · po hádke</div>
+    </div>
+    <div class="tool-cta">Otvoriť →</div>
+  </div>
+
+  <div class="tool" data-g="zábava hlbsie" onclick="sendPrompt('Navrhni použitie CoupleSync a kartičiek ako párová hra na deeptalks.eu')">
+    <div class="tool-left">
+      <div class="bdg bn">Čoskoro</div>
+      <div class="tool-name">Deep Talk Walk — párová audio prechádzka</div>
+      <div class="tool-desc">Audionahrávka do slúchadiel pre vás dvoch. Hlas vás vedie rozhovorom počas prechádzky. Ľudia hovoria ľahšie keď kráčajú vedľa seba.</div>
+      <div class="tool-when">Ideálne: víkend v prírode · večerná prechádzka · ak sa ťažko rozprávate priamo do tváre</div>
+    </div>
+    <div class="tool-cta">Notifikovať →</div>
+  </div>
+
+  <div class="tool" data-g="hlbsie zábava" onclick="sendPrompt('Navrhni fyzické kartičky pre páry ako produkt na deeptalks.eu — obsah, balenie, cena')">
+    <div class="tool-left">
+      <div class="bdg bw">Fyzický produkt</div>
+      <div class="tool-name">Kartičky pre páry — fyzická edícia</div>
+      <div class="tool-desc">60 kariet v elegantnom balení. 3 úrovne hĺbky, Prompt Cards, Wildcards. Ideálny darček pre seba alebo priateľský pár.</div>
+      <div class="tool-when">Ideálne: výročie, Valentín, Vianoce, "len tak" · doručenie do 3 dní</div>
+    </div>
+    <div class="tool-cta">Objednať →</div>
+  </div>
+
+</div>
+
+<div class="div"></div>
+
+<!-- OTÁZKA DÑA DEMO -->
+<div class="lbl">Skús jednu otázku — hneď teraz</div>
+<div class="q-rotator">
+  <div class="qr-label">Otázka pre váš pár</div>
+  <div class="qr-q" id="qr-q">"Kedy si sa naposledy cítil/a v našom vzťahu naozaj slobodný/á — a čo to umožnilo?"</div>
+  <div class="qr-actions">
+    <button class="qr-btn primary" onclick="sendPrompt('Navrhni 20 hlbokých otázok pre páry v štýle DeepTalks — na večer bez telefónov')">Dostávať otázku každý deň</button>
+    <button class="qr-btn" onclick="nextQ()">Iná otázka</button>
+    <button class="qr-btn" onclick="sendPrompt('Navrhni 60 otázok pre páry rozdelených do 3 úrovní hĺbky — pre deeptalks.eu konverzačné kartičky')">Viac otázok →</button>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- CESTA PÁRU -->
+<div class="lbl">Kde ste teraz — vyberte svoju situáciu</div>
+<div class="journey">
+  <div class="jstep on" onclick="setJourney(0,this)">
+    <div class="jn">Nový vzťah</div>
+    <div class="jt">Spoznávame sa</div>
+    <div class="js">CoupleSync, Kartičky Úroveň 1</div>
+  </div>
+  <div class="jstep" onclick="setJourney(1,this)">
+    <div class="jn">1–5 rokov</div>
+    <div class="jt">Budujeme spolu</div>
+    <div class="js">Daily Connection, Kartičky</div>
+  </div>
+  <div class="jstep" onclick="setJourney(2,this)">
+    <div class="jn">5+ rokov</div>
+    <div class="jt">Rutina nás pohltila</div>
+    <div class="js">Kompas, Kartičky Úroveň 3</div>
+  </div>
+  <div class="jstep" onclick="setJourney(3,this)">
+    <div class="jn">Ťažké obdobie</div>
+    <div class="jt">Potrebujeme sa nájsť</div>
+    <div class="js">Kompas — ťažké témy, Walk</div>
+  </div>
+</div>
+<div id="journey-rec" style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;padding:13px 16px;border:.5px solid var(--color-border-tertiary);border-radius:10px;background:var(--color-background-secondary);margin-bottom:1.5rem">
+  Pre nové páry odporúčame začať s <strong style="color:var(--color-text-primary)">CoupleSync dotazníkom</strong> — spoznáte sa v 9 témach bez toho, aby ste ovplyvňovali navzájom. Potom kartičky Úroveň 1 na spoločný večer.
+</div>
+
+<div class="div"></div>
+
+<!-- KOMPAS PREVIEW -->
+<div class="lbl">Komunikačný kompas — ukážka pre páry</div>
+<div class="kompas-preview">
+  <div class="kp-header">Vyber tému pre váš pár</div>
+  <div class="kp-topics">
+    <button class="kp-topic on" onclick="setKompas(0,this)">Každodenné</button>
+    <button class="kp-topic" onclick="setKompas(1,this)">Pocity a potreby</button>
+    <button class="kp-topic" onclick="setKompas(2,this)">Hádky</button>
+    <button class="kp-topic" onclick="setKompas(3,this)">Vzdialenosť</button>
+    <button class="kp-topic" onclick="setKompas(4,this)">Intimita</button>
+  </div>
+  <div class="kp-sits" id="kp-sits"></div>
+</div>
+
+<div class="div"></div>
+
+<!-- TESTIMONIALS -->
+<div class="lbl">Čo hovoria páry</div>
+<div class="testimonials">
+  <div class="tcard" onclick="sendPrompt('Navrhni ďalšie testimonials a príbehy párov pre deeptalks.eu stránku Páry')">
+    <div class="tq">"Prvýkrát po rokoch sme sa rozprávali celú noc. Jedna otázka z kartičiek otvorila dvere, ktoré sme zabudli, že existujú."</div>
+    <div class="tmeta">Marta, 38 · Bratislava · 11 rokov spolu</div>
+  </div>
+  <div class="tcard" onclick="sendPrompt('Navrhni ďalšie testimonials a príbehy párov pre deeptalks.eu stránku Páry')">
+    <div class="tq">"Myslel som si, že sa poznáme dokonale. CoupleSync mi ukázal, že o financiách sme vlastne nikdy poriadne nehovorili. Šok a úľava zároveň."</div>
+    <div class="tmeta">Marek, 44 · Košice · pred svadbou</div>
+  </div>
+  <div class="tcard" onclick="sendPrompt('Navrhni ďalšie testimonials a príbehy párov pre deeptalks.eu stránku Páry')">
+    <div class="tq">"Daily Connection robíme každý večer o 20:00. 47 dní za sebou. Teraz sa na to tešíme viac ako na Netflix."</div>
+    <div class="tmeta">Jana & Peter · Žilina · 3 roky spolu</div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- CTA FINAL -->
+<div class="cta-final">
+  <div class="cta-h">Začnite dnes — jednou otázkou.</div>
+  <div class="cta-s">Nepotrebujete dokonalý vzťah. Nepotrebujete terapeuta. Nepotrebujete ani veľa času.<br>Potrebujete odvahu opýtať sa — a priestor naozaj počúvať.</div>
+  <div class="cta-row">
+    <button class="cbtn" onclick="sendPrompt('Navrhni onboarding flow pre páry na deeptalks.eu — prvé kroky po príchode na stránku')">Začať zadarmo →</button>
+    <button class="cbtn" onclick="sendPrompt('Navrhni fyzické kartičky pre páry ako darček — deeptalks.eu produkt, cena, balenie')">Objednať kartičky</button>
+    <button class="cbtn" onclick="sendPrompt('Navrhni darčekový poukaz pre páry na deeptalks.eu — ako fungovať, hodnoty, dizajn')">Darovať niekomu →</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+var QS=[
+  '"Kedy si sa naposledy cítil/a v našom vzťahu naozaj slobodný/á — a čo to umožnilo?"',
+  '"Čo by si mi povedal/a, keby si vedel/a, že sa nehnevám a nebudem súdiť?"',
+  '"Čo ťa na mne po prvýkrát zaujalo — a myslíš si, že som o tom vedel/a?"',
+  '"Je niečo, z čoho sa v nás bojíš — a ešte si mi to nepovedal/a?"',
+  '"Kedy si sa naposledy cítil/a naozaj pochopený/á — mnou?"',
+  '"Čo by sme mali robiť spolu, čo dlho nerobíme?"',
+  '"Čo ťa na mne stále prekvapuje — pozitívne?"',
+  '"Čo potrebuješ odo mňa keď máš ťažký deň — ticho, alebo rozhovor?"',
+];
+var qi=0;
+function nextQ(){qi=(qi+1)%QS.length;document.getElementById('qr-q').textContent=QS[qi];}
+
+var JOURNEY_RECS=[
+  'Pre nové páry odporúčame začať s <strong style="color:var(--color-text-primary)">CoupleSync dotazníkom</strong> — spoznáte sa v 9 témach bez toho, aby ste ovplyvňovali navzájom. Potom kartičky Úroveň 1 na spoločný večer.',
+  'Pre páry 1–5 rokov odporúčame <strong style="color:var(--color-text-primary)">Daily Connection</strong> každý deň — buduje návyk. Doplňte o kartičky Úroveň 2 na víkend a CoupleSync raz za pol roka.',
+  'Pre páry v rutine je najúčinnejší <strong style="color:var(--color-text-primary)">Komunikačný kompas</strong> — konkrétne vety pre situácie ktoré sa opakujú. Potom kartičky Úroveň 3 na víkend keď ste oddýchnutí.',
+  'Pre páry v ťažkom období odporúčame začať s <strong style="color:var(--color-text-primary)">Kompasom — téma Hádky</strong>. Potom Deep Talk Walk — ľudia hovoria ľahšie keď kráčajú. Bez nátlaku, bez terapeutického tónu.',
+];
+function setJourney(i,el){
+  document.querySelectorAll('.jstep').forEach(function(j){j.classList.remove('on');});
+  el.classList.add('on');
+  document.getElementById('journey-rec').innerHTML=JOURNEY_RECS[i];
+}
+
+var KOMPAS=[
+  {topic:'Každodenné', sits:[
+    {t:'Chcem si pohovoriť, ale neviem ako začať',s:'Večer doma, každý v telefóne...'},
+    {t:'Partner/ka sa mi zdá vzdialený/á',s:'Sme spolu, ale akoby nie...'},
+    {t:'Chceme mať spoločný rituál',s:'Niečo čo bude len naše...'},
+  ]},
+  {topic:'Pocity a potreby', sits:[
+    {t:'Potrebujem viac priestoru',s:'Nechcem ho/ju zraniť, ale dusím sa...'},
+    {t:'Cítim sa prehliadaný/á',s:'Robím veľa, ale nikto si to nevšíma...'},
+    {t:'Neviem ako povedať čo potrebujem',s:'Slová mi nevychádzajú správne...'},
+  ]},
+  {topic:'Hádky', sits:[
+    {t:'Hádame sa o to isté stále dookola',s:'Kruh, z ktorého nevieme von...'},
+    {t:'Hádka skončila, ale nie je dobre',s:'Formálne zmierenie, ale niečo zostalo...'},
+    {t:'Jeden z nás sa zatvára keď je konflikt',s:'Stena namiesto rozhovoru...'},
+  ]},
+  {topic:'Vzdialenosť', sits:[
+    {t:'Sme spolu, ale cítim sa sám/sama',s:'Fyzicky blízko, emocionálne ďaleko...'},
+    {t:'Dávno sme sa nemali — ako začať',s:'Neviem kde sme prestali...'},
+    {t:'Práca alebo stres nás oddelila',s:'Vonkajší svet sa vniesol medzi nás...'},
+  ]},
+  {topic:'Intimita', sits:[
+    {t:'Chcem sa priblížiť, ale neviem ako',s:'Dlhší čas bez blízkosti...'},
+    {t:'Chcem o tom hovoriť, ale je to ťažké',s:'Téma ktorú obchádzame...'},
+    {t:'Cítim sa nepochopený/á v tomto',s:'Nie sme na rovnakej strane...'},
+  ]},
+];
+var curKompas=0;
+function renderKompas(){
+  var k=KOMPAS[curKompas];
+  var html=k.sits.map(function(s){
+    return '<div class="kp-sit" onclick="sendPrompt(\'Navrhni konkrétne vety a kroky pre situáciu '+s.t+' v Komunikačnom kompase deeptalks.eu pre páry\')">'
+      +'<div class="kp-sit-t">'+s.t+'</div>'
+      +'<div class="kp-sit-s">'+s.s+'</div>'
+      +'</div>';
+  }).join('');
+  document.getElementById('kp-sits').innerHTML=html;
+}
+function setKompas(i,el){
+  curKompas=i;
+  document.querySelectorAll('.kp-topic').forEach(function(t){t.classList.remove('on');});
+  el.classList.add('on');
+  renderKompas();
+}
+renderKompas();
+
+function filterTools(g,el){
+  document.querySelectorAll('.sit-btn').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  document.querySelectorAll('.tool').forEach(function(t){
+    if(g==='all'){t.classList.remove('hid');return;}
+    var tg=t.getAttribute('data-g')||'';
+    t.classList.toggle('hid',tg.indexOf(g)<0);
+  });
+}
+</script>

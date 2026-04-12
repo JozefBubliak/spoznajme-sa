@@ -1,0 +1,209 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.75rem 0 3rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.h1{font-size:22px;font-weight:500;margin-bottom:.3rem}
+.sub{font-size:14px;color:var(--color-text-secondary);line-height:1.6;max-width:500px;margin-bottom:1rem}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.65rem;margin-top:1.6rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+
+/* HERO STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.stat{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px;text-align:center;background:var(--color-background-primary)}
+.snum{font-size:20px;font-weight:500;display:block;margin-bottom:2px}
+.stxt{font-size:11px;color:var(--color-text-tertiary);line-height:1.3}
+
+/* CTA BLOCK */
+.cta-main{border:1.5px solid var(--color-border-info);border-radius:14px;padding:20px 22px;margin-bottom:1.5rem;background:var(--color-background-info)}
+.cta-h{font-size:16px;font-weight:500;margin-bottom:.35rem;color:var(--color-text-info)}
+.cta-s{font-size:13px;color:var(--color-text-info);opacity:.8;margin-bottom:1rem;line-height:1.5}
+.cta-row{display:flex;gap:8px;flex-wrap:wrap}
+.cbtn{font-size:13px;font-weight:500;padding:9px 18px;border-radius:9px;border:.5px solid var(--color-border-info);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.cbtn:hover{background:var(--color-background-secondary)}
+.cbtn.ghost{background:transparent;color:var(--color-text-info)}
+
+/* MÓDY */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.mode{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;cursor:pointer;transition:all .13s;background:var(--color-background-primary)}
+.mode:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.mode.on{border:1.5px solid var(--color-border-primary);background:var(--color-background-secondary)}
+.mico{font-size:22px;margin-bottom:6px}
+.mname{font-size:14px;font-weight:500;margin-bottom:3px}
+.mdesc{font-size:12px;color:var(--color-text-secondary);line-height:1.45}
+.mbest{font-size:11px;color:var(--color-text-tertiary);margin-top:5px}
+
+/* KATEGÓRIE */
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem}
+.cat{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:11px 13px;cursor:pointer;transition:all .12s;background:var(--color-background-primary)}
+.cat:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.cat.new-cat{border-style:dashed;border-color:var(--color-border-info)}
+.cico{font-size:18px;margin-bottom:4px}
+.cname{font-size:12px;font-weight:500;margin-bottom:1px;color:var(--color-text-primary)}
+.ctag{font-size:10px;color:var(--color-text-tertiary)}
+.bdg{font-size:10px;font-weight:500;padding:1px 6px;border-radius:99px;display:inline-block;margin-left:4px}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+
+/* PRE KOHO */
+.audience{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.aud{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:14px 16px;background:var(--color-background-primary)}
+.aico{font-size:20px;margin-bottom:5px}
+.aname{font-size:13px;font-weight:500;margin-bottom:3px}
+.adesc{font-size:12px;color:var(--color-text-secondary);line-height:1.45}
+
+/* FLOW */
+.flow{display:flex;border:.5px solid var(--color-border-tertiary);border-radius:11px;overflow:hidden;margin-bottom:1.5rem}
+.fs{flex:1;padding:13px 10px;text-align:center;border-right:.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.fs:last-child{border-right:none}
+.fn{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.ft{font-size:12px;font-weight:500;line-height:1.35}
+
+/* UPSELL */
+.upsell{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:16px 18px;background:var(--color-background-secondary);display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;cursor:pointer;transition:border-color .12s}
+.upsell:hover{border-color:var(--color-border-secondary)}
+.ut{font-size:13px;font-weight:500;margin-bottom:3px}
+.us{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+.ucta{font-size:12px;font-weight:500;color:var(--color-text-info);white-space:nowrap}
+
+@media(max-width:480px){.stats{grid-template-columns:1fr 1fr}.modes,.audience{grid-template-columns:1fr}.cats{grid-template-columns:1fr 1fr}.flow{flex-direction:column}.fs{border-right:none;border-bottom:.5px solid var(--color-border-tertiary)}.fs:last-child{border-bottom:none}}
+</style>
+
+<div class="pg">
+
+<!-- HERO -->
+<div class="h1">Hádačka naživo</div>
+<div class="sub">Párty konverzačná hra pre skupiny. Jeden moderátor riadi, všetci sa bavia. Bez telefónov — len ľudia, slová a smiech.</div>
+
+<div class="stats">
+  <div class="stat"><span class="snum">4</span><span class="stxt">herné módy</span></div>
+  <div class="stat"><span class="snum">10+</span><span class="stxt">kategórií slov</span></div>
+  <div class="stat"><span class="snum">TV</span><span class="stxt">display na projektor</span></div>
+  <div class="stat"><span class="snum">2+</span><span class="stxt">hráči</span></div>
+</div>
+
+<!-- CTA -->
+<div class="cta-main">
+  <div class="cta-h">Spustiť Hádačku teraz</div>
+  <div class="cta-s">Moderátor potrebuje účet. Hráči sa pripájajú bez registrácie cez Player Display na TV.</div>
+  <div class="cta-row">
+    <button class="cbtn" onclick="sendPrompt('Navrhni onboarding flow pre nového moderátora Hádačky na deeptalks.eu — čo vidí po registrácii')">Prihlásiť sa ako moderátor →</button>
+    <button class="cbtn ghost" onclick="sendPrompt('Navrhni demo mód Hádačky deeptalks.eu — ako hrať bez registrácie prvých 5 kôl')">Pozrieť ukážku</button>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- HERNÉ MÓDY -->
+<div class="lbl">Herné módy</div>
+<div class="modes">
+  <div class="mode on" onclick="setMode(this)">
+    <div class="mico">💬</div>
+    <div class="mname">Opis / TABU</div>
+    <div class="mdesc">Opíš slovo bez použitia zakázaných výrazov. Klasika, ktorá vždy funguje.</div>
+    <div class="mbest">Najlepšie pre: prvé hry, zmiešané skupiny</div>
+  </div>
+  <div class="mode" onclick="setMode(this)">
+    <div class="mico">🎭</div>
+    <div class="mname">Pantomíma</div>
+    <div class="mdesc">Ukáž slovo len pohybmi. Zakázané zvuky aj slová. Garantovaný smiech.</div>
+    <div class="mbest">Najlepšie pre: párty, rodiny s deťmi</div>
+  </div>
+  <div class="mode" onclick="setMode(this)">
+    <div class="mico">☝️</div>
+    <div class="mname">Jedno slovo</div>
+    <div class="mdesc">Povedz len jedno slovo ako nápovedu. Testuje, ako dobre poznáte myslenie ostatných.</div>
+    <div class="mbest">Najlepšie pre: páry, blízki priatelia</div>
+  </div>
+  <div class="mode" onclick="setMode(this)">
+    <div class="mico">🔀</div>
+    <div class="mname">Mix módov</div>
+    <div class="mdesc">Kombinácia všetkých módov v jednej hre. Každé kolo inak — nikdy sa nenudíte.</div>
+    <div class="mbest">Najlepšie pre: dlhé večery, veľké skupiny</div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- KATEGÓRIE -->
+<div class="lbl">Kategórie slov</div>
+<div class="cats">
+  <div class="cat"><div class="cico">🐕</div><div class="cname">Zvieratá</div><div class="ctag">klasická</div></div>
+  <div class="cat"><div class="cico">🍕</div><div class="cname">Jedlo a nápoje</div><div class="ctag">klasická</div></div>
+  <div class="cat"><div class="cico">⚽</div><div class="cname">Šport</div><div class="ctag">klasická</div></div>
+  <div class="cat"><div class="cico">🎵</div><div class="cname">Hudba</div><div class="ctag">klasická</div></div>
+  <div class="cat"><div class="cico">🌍</div><div class="cname">Cestovanie</div><div class="ctag">klasická</div></div>
+  <div class="cat"><div class="cico">🎬</div><div class="cname">Film a TV</div><div class="ctag">klasická</div></div>
+  <div class="cat new-cat" onclick="sendPrompt('Navrhni 60 slov pre kategóriu Emócie a pocity pre Hádačku deeptalks.eu — od ľahkých po abstraktné')">
+    <div class="cico">💛</div>
+    <div class="cname">Emócie a pocity<span class="bdg bn">Nové</span></div>
+    <div class="ctag">Hrdosť, Nostalgia, Závislosť...</div>
+  </div>
+  <div class="cat new-cat" onclick="sendPrompt('Navrhni 60 slov pre kategóriu Vzťahy a rodina pre Hádačku deeptalks.eu')">
+    <div class="cico">🏠</div>
+    <div class="cname">Vzťahy a rodina<span class="bdg bn">Nové</span></div>
+    <div class="ctag">Kompromis, Tradícia, Objatie...</div>
+  </div>
+  <div class="cat new-cat" onclick="sendPrompt('Navrhni 60 slov pre kategóriu Slovensko a kultúra pre Hádačku deeptalks.eu — lokálna edícia')">
+    <div class="cico">🇸🇰</div>
+    <div class="cname">Slovensko<span class="bdg bn">Nové</span></div>
+    <div class="ctag">Halušky, Tatry, Folklór...</div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- AKO TO FUNGUJE -->
+<div class="lbl">Ako to funguje — 5 krokov</div>
+<div class="flow">
+  <div class="fs"><div class="fn">01</div><div class="ft">Moderátor vytvorí hru a nastaví módy</div></div>
+  <div class="fs"><div class="fn">02</div><div class="ft">Zapne Player Display na TV alebo projektor</div></div>
+  <div class="fs"><div class="fn">03</div><div class="ft">Hráči sa rozdelia do tímov</div></div>
+  <div class="fs"><div class="fn">04</div><div class="ft">Striedajú sa v hádzaní a hádaní slov</div></div>
+  <div class="fs"><div class="fn">05</div><div class="ft">Víťazí tím s najvyšším skóre</div></div>
+</div>
+
+<!-- PRE KOHO -->
+<div class="lbl">Pre koho je Hádačka ideálna</div>
+<div class="audience">
+  <div class="aud">
+    <div class="aico">👨‍👩‍👧‍👦</div>
+    <div class="aname">Rodiny</div>
+    <div class="adesc">Rodinné večery, Vianoce, narodeniny. Deti aj dospelí hrajú rovnakou mierou. Pantomíma funguje bez slov.</div>
+  </div>
+  <div class="aud">
+    <div class="aico">🎉</div>
+    <div class="aname">Párty a skupiny priateľov</div>
+    <div class="adesc">Rozprúdi každú akciu. Ľudia sa spoznajú bez trapného small talku. Mix módov drží energiu celý večer.</div>
+  </div>
+  <div class="aud">
+    <div class="aico">💼</div>
+    <div class="aname">Firemné tímy</div>
+    <div class="adesc">Teambuilding bez korporátneho pocitu. TV Display na veľkú obrazovku. Kategória Práca a kariéra špeciálne pre kolegov.</div>
+  </div>
+  <div class="aud">
+    <div class="aico">🏫</div>
+    <div class="aname">Školy a kurzy</div>
+    <div class="adesc">Učenie cez hru. Rozvoj slovnej zásoby, spolupráce a komunikačných schopností. Funguje v triede aj online.</div>
+  </div>
+</div>
+
+<div class="div"></div>
+
+<!-- UPSELL -->
+<div class="lbl">Rozohriati? Pokračujte hlbšie.</div>
+<div class="upsell" onclick="sendPrompt('Navrhni upsell sekciu po Hádačke — prechod na konverzačné kartičky alebo Herd Vote deeptalks.eu')">
+  <div>
+    <div class="ut">Konverzačné kartičky</div>
+    <div class="us">Keď ste sa rozsmiati a otvorení — kartičky otvoria hlbší rozhovor. Od zábavných po zraniteľné.</div>
+  </div>
+  <div class="ucta">Vybrať kartičky →</div>
+</div>
+
+</div>
+
+<script>
+function setMode(el){
+  document.querySelectorAll('.mode').forEach(function(m){m.classList.remove('on');});
+  el.classList.add('on');
+}
+</script>

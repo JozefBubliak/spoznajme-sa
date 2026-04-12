@@ -1,0 +1,223 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.5rem 0 3rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.h1{font-size:21px;font-weight:500;margin-bottom:.3rem}
+.sub{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:.75rem;max-width:580px}
+.alert{background:var(--color-background-warning);border:.5px solid var(--color-border-warning);border-radius:9px;padding:10px 14px;font-size:12px;color:var(--color-text-warning);line-height:1.55;margin-bottom:1.25rem}
+.alert strong{font-weight:600;display:block;margin-bottom:2px}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.6rem;margin-top:1.5rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.25rem 0}
+
+/* FILTER */
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.fb{font-size:11px;padding:5px 12px;border-radius:99px;border:.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;white-space:nowrap}
+.fb.on{border-color:var(--color-border-primary);background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+
+.search-inp{width:100%;font-size:13px;padding:9px 13px;border-radius:9px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);outline:none;margin-bottom:1rem;transition:border-color .15s}
+.search-inp:focus{border-color:var(--color-border-primary)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:1.25rem}
+.card{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:11px 13px;cursor:pointer;transition:all .13s;background:var(--color-background-primary);position:relative;user-select:none}
+.card:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.card.sel{border:1.5px solid var(--color-border-info);background:var(--color-background-info)}
+.card.sel .cn,.card.sel .cs{color:var(--color-text-info)}
+.card.sel .cs{opacity:.8}
+.card.hid{display:none}
+.card.exists{border-color:var(--color-border-success)}
+.card.exists .ce{display:block}
+.ce{display:none;position:absolute;top:8px;right:8px;font-size:9px;font-weight:600;color:var(--color-text-success);background:var(--color-background-success);padding:1px 6px;border-radius:99px;letter-spacing:.04em}
+.cico{font-size:19px;margin-bottom:5px}
+.cn{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;line-height:1.3}
+.cs{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+.ctag{font-size:10px;color:var(--color-text-tertiary);margin-top:4px;font-weight:500}
+.card.sel .ctag{color:var(--color-text-info);opacity:.7}
+.ccount{font-size:10px;font-weight:600;color:var(--color-text-success);margin-top:3px}
+
+/* STATS */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
+.stat{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:11px 13px;background:var(--color-background-primary);text-align:center}
+.sn{font-size:22px;font-weight:500;margin-bottom:2px}
+.st{font-size:10px;color:var(--color-text-tertiary)}
+
+/* SELECTED BOX */
+.sel-box{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:13px 15px;background:var(--color-background-secondary);position:sticky;bottom:1rem;margin-top:.5rem}
+.sel-h{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.sel-items{display:flex;gap:6px;flex-wrap:wrap;min-height:24px}
+.si{font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;border:.5px solid var(--color-border-info);background:var(--color-background-primary);color:var(--color-text-info);cursor:pointer;transition:all .12s}
+.si:hover{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.si.exists-sel{border-color:var(--color-border-success);color:var(--color-text-success)}
+.sel-empty{font-size:12px;color:var(--color-text-tertiary);font-style:italic}
+.copy-btn{font-size:11px;font-weight:500;padding:5px 12px;border-radius:7px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);transition:all .12s;white-space:nowrap}
+.copy-btn:hover{color:var(--color-text-primary)}
+.ssel{font-size:11px;color:var(--color-text-tertiary);margin-top:.4rem}
+
+@media(max-width:560px){.grid{grid-template-columns:1fr 1fr}.stat-row{grid-template-columns:1fr 1fr}}
+</style>
+
+<div class="pg">
+<div class="h1">Herd Vote — Finálny zoznam kategórií</div>
+<div class="sub">Zlúčený pohľad: tvoj Supabase draft (23 kategórií, 3 174 otázok) + celosvetový výskum + moje odporúčania. Zelený rámeček = už existuje v tvojej DB.</div>
+
+<div class="alert">
+  <strong>⚠️ Kľúčové poznámky z tvojho draftu</strong>
+  Junior / Teenager / Classic NIE SÚ stupne obtiažnosti — sú to vekové/obsahové filtre. Obtiažnosť treba riešiť zvlášť (easy/medium/hard). Niektoré otázky majú chyby v správnych odpovediach — to je fatálna chyba. Otázky "Junior" nesmú byť zároveň "Classic". Fun facty pri mnohých chýbajú (označené "V príprave").
+</div>
+
+<div class="stat-row">
+  <div class="stat"><div class="sn" style="color:var(--color-text-success)">23</div><div class="st">Kategórií v DB</div></div>
+  <div class="stat"><div class="sn">3 174</div><div class="st">Otázok celkom</div></div>
+  <div class="stat"><div class="sn" style="color:var(--color-text-info)">+28</div><div class="st">Odporúčam pridať</div></div>
+  <div class="stat"><div class="sn" style="color:var(--color-text-warning)">51</div><div class="st">Celkový cieľ</div></div>
+</div>
+
+<input class="search-inp" placeholder="Hľadaj kategóriu..." oninput="fs(this.value)">
+
+<div class="filters">
+  <button class="fb on" onclick="fg('all',this)">Všetky</button>
+  <button class="fb" onclick="fg('existuje',this)">✓ V tvojej DB (23)</button>
+  <button class="fb" onclick="fg('pridat',this)">+ Pridať (28)</button>
+  <button class="fb" onclick="fg('geo',this)">Geografia</button>
+  <button class="fb" onclick="fg('historia',this)">História</button>
+  <button class="fb" onclick="fg('zabava',this)">Zábava & Pop</button>
+  <button class="fb" onclick="fg('veda',this)">Veda & Príroda</button>
+  <button class="fb" onclick="fg('sport',this)">Šport</button>
+  <button class="fb" onclick="fg('jedlo',this)">Jedlo & Špeciál</button>
+  <button class="fb" onclick="fg('sk',this)">🇸🇰 SK Špecifické</button>
+  <button class="fb" onclick="fg('deeptalks',this)">💬 DeepTalks originál</button>
+</div>
+
+<div class="grid" id="grid">
+
+<!-- ══ EXISTUJÚCE V DB ══ -->
+<div class="card exists" data-g="veda" onclick="tog(this)"><div class="ce">V DB · 172 otázok</div><div class="cico">🔬</div><div class="cn">Biológia a prírodné vedy</div><div class="cs">Telo, bunky, rastliny, chémia, fyzika</div><div class="ctag">Trivial Pursuit · klasika</div></div>
+<div class="card exists" data-g="geo" onclick="tog(this)"><div class="ce">V DB · 144 otázok</div><div class="cico">🗺️</div><div class="cn">Cestovanie & pamiatky</div><div class="cs">Svetoznáme destinácie, UNESCO, zaujímavosti</div><div class="ctag">Pub quiz obľúbené</div></div>
+<div class="card exists" data-g="geo" onclick="tog(this)"><div class="ce">V DB · 65 otázok</div><div class="cico">🇪🇺</div><div class="cn">Geografia Európa</div><div class="cs">Krajiny, hlavné mestá, vlajky Európy</div><div class="ctag">SK relevantné</div></div>
+<div class="card exists" data-g="geo" onclick="tog(this)"><div class="ce">V DB · 136 otázok</div><div class="cico">🌍</div><div class="cn">Geografia Svet</div><div class="cs">Kontinenty, krajiny, hlavné mestá sveta</div><div class="ctag">Trivial Pursuit #1</div></div>
+<div class="card exists" data-g="historia" onclick="tog(this)"><div class="ce">V DB · 80 otázok</div><div class="cico">🇸🇰</div><div class="cn">História Slovensko</div><div class="cs">Udalosti, osobnosti, dátumy SK histórie</div><div class="ctag">SK špecifické</div></div>
+<div class="card exists" data-g="historia" onclick="tog(this)"><div class="ce">V DB · 198 otázok</div><div class="cico">⚔️</div><div class="cn">História Svet</div><div class="cs">Vojny, civilizácie, zlomové udalosti</div><div class="ctag">Trivial Pursuit · klasika</div></div>
+<div class="card exists" data-g="jedlo" onclick="tog(this)"><div class="ce">V DB · 62 otázok</div><div class="cico">🍽️</div><div class="cn">Jedlo & nápoje</div><div class="cs">Kuchyne sveta, suroviny, nápoje, reštaurácie</div><div class="ctag">Pub quiz obľúbené</div></div>
+<div class="card exists" data-g="zabava" onclick="tog(this)"><div class="ce">V DB · 210 otázok</div><div class="cico">🎨</div><div class="cn">Kultúra a umenie</div><div class="cs">Maliari, sochy, divadlo, architektúra</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card exists" data-g="veda" onclick="tog(this)"><div class="ce">V DB · 127 otázok</div><div class="cico">🧮</div><div class="cn">Logika & rýchla matematika</div><div class="cs">Hlavolamy, výpočty, logické úlohy</div><div class="ctag">Kahoot · školy</div></div>
+<div class="card exists" data-g="zabava" onclick="tog(this)"><div class="ce">V DB · 112 otázok</div><div class="cico">👗</div><div class="cn">Móda a trendy</div><div class="cs">Návrhári, značky, ikonické kúsky, história módy</div><div class="ctag">Pub quiz niche</div></div>
+<div class="card exists" data-g="zabava" onclick="tog(this)"><div class="ce">V DB · 239 otázok</div><div class="cico">🎬</div><div class="cn">Popkultúra – Hudba, Film, Seriály</div><div class="cs">Hity, herci, filmy, Netflix, hádaj pesničku</div><div class="ctag">Jackbox · pub quiz</div></div>
+<div class="card exists" data-g="sk" onclick="tog(this)"><div class="ce">V DB · 52 otázok</div><div class="cico">🧙</div><div class="cn">Popkultúra – Rozprávky (SK/CZ)</div><div class="cs">Postavy, príbehy, pesničky z rozprávok</div><div class="ctag">SK unikát · deti</div></div>
+<div class="card exists" data-g="zabava" onclick="tog(this)"><div class="ce">V DB · 164 otázok</div><div class="cico">😂</div><div class="cn">Slang a internetová kultúra</div><div class="cs">Memy, TikTok, YouTube, Gen-Z výrazy</div><div class="ctag">Moderný pub quiz</div></div>
+<div class="card exists" data-g="sk" onclick="tog(this)"><div class="ce">V DB · 20 otázok</div><div class="cico">🏔️</div><div class="cn">Slovensko – geografia a história</div><div class="cs">Tatry, mestá, hrady, osobnosti, symboly SR</div><div class="ctag">SK špecifické</div></div>
+<div class="card exists" data-g="sport" onclick="tog(this)"><div class="ce">V DB · 158 otázok</div><div class="cico">⚽</div><div class="cn">Šport</div><div class="cs">Futbal, hokej, tenis, olympiáda, rekordy</div><div class="ctag">Pub quiz #1</div></div>
+<div class="card exists" data-g="veda" onclick="tog(this)"><div class="ce">V DB · 175 otázok</div><div class="cico">💻</div><div class="cn">Technológie a vynálezy</div><div class="cs">Kto vynašiel? Smartfóny, internet, AI, história</div><div class="ctag">Tech pub quiz</div></div>
+<div class="card exists" data-g="deeptalks" onclick="tog(this)"><div class="ce">V DB · 197 otázok</div><div class="cico">🎯</div><div class="cn">Tipni si</div><div class="cs">Uhádni percentá, čísla, štatistiky. Guesspionage štýl.</div><div class="ctag">Jackbox · Herd Vote originál ⭐</div></div>
+<div class="card exists" data-g="sk" onclick="tog(this)"><div class="ce">V DB · 88 otázok</div><div class="cico">🎉</div><div class="cn">Tradície & sviatky</div><div class="cs">Vianočné, veľkonočné, svetové sviatky, zvyky</div><div class="ctag">SK relevantné</div></div>
+<div class="card exists" data-g="veda" onclick="tog(this)"><div class="ce">V DB · 208 otázok</div><div class="cico">🌌</div><div class="cn">Vesmír a planéty</div><div class="cs">Planéty, hviezdy, NASA, kozmonautika</div><div class="ctag">Trivial Pursuit · obľúbené</div></div>
+<div class="card exists" data-g="deeptalks" onclick="tog(this)"><div class="ce">V DB · 63 otázok</div><div class="cico">⚖️</div><div class="cn">Viac/Menej – porovnania</div><div class="cs">Je X väčšie ako Y? Čo má viac? Porovnaj.</div><div class="ctag">Herd Vote originál ⭐</div></div>
+<div class="card exists" data-g="deeptalks" onclick="tog(this)"><div class="ce">V DB · 157 otázok</div><div class="cico">🤯</div><div class="cn">Zábavné rekordy & kuriozity</div><div class="cs">Guinnessova kniha, neuveriteľné ale pravdivé fakty</div><div class="ctag">Jackbox štýl · virálne</div></div>
+<div class="card exists" data-g="veda" onclick="tog(this)"><div class="ce">V DB · 143 otázok</div><div class="cico">🧬</div><div class="cn">Zdravie & telo</div><div class="cs">Anatómia, choroby, vitamíny, medicína</div><div class="ctag">Pub quiz · školy</div></div>
+<div class="card exists" data-g="veda" onclick="tog(this)"><div class="ce">V DB · 204 otázok</div><div class="cico">🦁</div><div class="cn">Zvieratá & rastliny</div><div class="cs">Fakty, rekordy, druhy, habitat, príroda</div><div class="ctag">Rodinný pub quiz #1</div></div>
+
+<!-- ══ ODPORÚČAM PRIDAŤ ══ -->
+<div class="card pridat" data-g="historia" onclick="tog(this)"><div class="cico">👑</div><div class="cn">Slávni ľudia histórie</div><div class="cs">Vladári, vynálezcovia, umelci, vedci — kto bol kto</div><div class="ctag">Trivial Pursuit · chýba v DB</div></div>
+<div class="card pridat" data-g="veda" onclick="tog(this)"><div class="cico">🧠</div><div class="cn">Psychológia & Správanie</div><div class="cs">Efekty, experimenty, mozog, emócie, fakty</div><div class="ctag">DeepTalks relevantné ⭐</div></div>
+<div class="card pridat" data-g="veda" onclick="tog(this)"><div class="cico">🌿</div><div class="cn">Príroda & Ekológia</div><div class="cs">Klimatická zmena, ekosystémy, ohrozené druhy</div><div class="ctag">Moderný pub quiz</div></div>
+<div class="card pridat" data-g="sport" onclick="tog(this)"><div class="cico">🏅</div><div class="cn">Olympijské hry</div><div class="cs">Rekordy, mestá, disciplíny, zlaté medaily</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card pridat" data-g="sport" onclick="tog(this)"><div class="cico">🎾</div><div class="cn">Šport – Rekordy & Legendy</div><div class="cs">Mená, štatistiky, sezóny, historické momenty</div><div class="ctag">Pub quiz · niche šport</div></div>
+<div class="card pridat" data-g="zabava" onclick="tog(this)"><div class="cico">📚</div><div class="cn">Knihy & Literatúra</div><div class="cs">Autori, postavy, bestsellery, literárne ceny</div><div class="ctag">Trivial Pursuit</div></div>
+<div class="card pridat" data-g="zabava" onclick="tog(this)"><div class="cico">🎮</div><div class="cn">Videohry</div><div class="cs">Konzoly, postavy, klasiky, rekordy predaja</div><div class="ctag">Jackbox · Gen-Z</div></div>
+<div class="card pridat" data-g="zabava" onclick="tog(this)"><div class="cico">🃏</div><div class="cn">Disney & Animáky</div><div class="cs">Postavy, piesne, filmy, Pixar, Dreamworks</div><div class="ctag">Rodinný pub quiz</div></div>
+<div class="card pridat" data-g="jedlo" onclick="tog(this)"><div class="cico">🍺</div><div class="cn">Pivo, Víno & Destiláty</div><div class="cs">Krajiny pôvodu, odrody, pivovary, vinárske regióny</div><div class="ctag">Pub quiz #1 UK</div></div>
+<div class="card pridat" data-g="jedlo" onclick="tog(this)"><div class="cico">🌍</div><div class="cn">Medzinárodná kuchyňa</div><div class="cs">Z akej krajiny pochádza jedlo? Ingrediencie?</div><div class="ctag">Foodie pub quiz</div></div>
+<div class="card pridat" data-g="veda" onclick="tog(this)"><div class="cico">🦕</div><div class="cn">Dinosaury & Prehistória</div><div class="cs">Mená, éry, fosílie, veľkosti, zánik</div><div class="ctag">Deti + dospelí · obľúbené</div></div>
+<div class="card pridat" data-g="historia" onclick="tog(this)"><div class="cico">🏺</div><div class="cn">Staroveké civilizácie</div><div class="cs">Egypt, Rím, Grécko, Aztékovia, Čína</div><div class="ctag">Trivial Pursuit · chýba v DB</div></div>
+<div class="card pridat" data-g="historia" onclick="tog(this)"><div class="cico">📜</div><div class="cn">Mytológia & Legendy</div><div class="cs">Grécka, rímska, nordická, slovanská</div><div class="ctag">Pub quiz · potvrdené v tvojich notách</div></div>
+<div class="card pridat" data-g="geo" onclick="tog(this)"><div class="cico">🗺️</div><div class="cn">Vlajky sveta</div><div class="cs">Uhádni krajinu podľa vlajky — vizuálna kategória</div><div class="ctag">Pub quiz obľúbené · chýba v DB</div></div>
+<div class="card pridat" data-g="geo" onclick="tog(this)"><div class="cico">⛰️</div><div class="cn">Prírodné divy & extrémy</div><div class="cs">Najvyššie, najhlbšie, najdlhšie, sopky, vodopády</div><div class="ctag">Pub quiz · chýba v DB</div></div>
+<div class="card pridat" data-g="sk" onclick="tog(this)"><div class="cico">🇺🇦</div><div class="cn">Ukrajina & UA kultúra</div><div class="cs">História, kultúra, osobnosti, jazyky, fakty</div><div class="ctag">DeepTalks bilingválne ⭐</div></div>
+<div class="card pridat" data-g="sk" onclick="tog(this)"><div class="cico">🎶</div><div class="cn">Slovenská & česká hudba</div><div class="cs">Kapely, hity, texty, história SK/CZ muziky</div><div class="ctag">SK pub quiz · chýba v DB</div></div>
+<div class="card pridat" data-g="sk" onclick="tog(this)"><div class="cico">🏰</div><div class="cn">Slovensko – šport & osobnosti</div><div class="cs">Atletika, lyžiari, hokejoví hráči, ocenenia</div><div class="ctag">SK špecifické · chýba v DB</div></div>
+<div class="card pridat" data-g="deeptalks" onclick="tog(this)"><div class="cico">👥</div><div class="cn">Kto z nás by...?</div><div class="cs">Kto prežil zombie apokalypsu? Kto by skôr...? Hlasujte!</div><div class="ctag">Herd Vote originál ⭐ · chýba v DB</div></div>
+<div class="card pridat" data-g="deeptalks" onclick="tog(this)"><div class="cico">🗳️</div><div class="cn">Väčšina by...?</div><div class="cs">Čo by väčšina v tejto miestnosti odpovedala?</div><div class="ctag">Herd Vote core ⭐ · chýba v DB</div></div>
+<div class="card pridat" data-g="deeptalks" onclick="tog(this)"><div class="cico">💬</div><div class="cn">Čo vieš o svojich blízkych?</div><div class="cs">Kto z rodiny...? Kedy sa...? Čo zbiera...?</div><div class="ctag">DeepTalks originál ⭐ · chýba v DB</div></div>
+<div class="card pridat" data-g="deeptalks" onclick="tog(this)"><div class="cico">😬</div><div class="cn">Trápne a vtipné momenty</div><div class="cs">Čo by väčšina skúsila? Najhoršia situácia?</div><div class="ctag">Icebreaker ⭐ · chýba v DB</div></div>
+<div class="card pridat" data-g="deeptalks" onclick="tog(this)"><div class="cico">🧡</div><div class="cn">Náš vzťah – Páry & Rodiny</div><div class="cs">Kedy sme sa prvýkrát...? Kde to bolo...?</div><div class="ctag">DeepTalks páry ⭐ · chýba v DB</div></div>
+<div class="card pridat" data-g="deeptalks" onclick="tog(this)"><div class="cico">🕰️</div><div class="cn">Detstvo & Spomienky</div><div class="cs">Prvé spomienky, škola, hry, obľúbené veci</div><div class="ctag">Generácie · Legacy ⭐</div></div>
+<div class="card pridat" data-g="deeptalks" onclick="tog(this)"><div class="cico">🌟</div><div class="cn">Sny, ambície & hodnoty</div><div class="cs">Čo by si robil s miliónom? Čoho sa bojíš?</div><div class="ctag">DeepTalks hlboké ⭐</div></div>
+<div class="card pridat" data-g="jedlo" onclick="tog(this)"><div class="cico">🏆</div><div class="cn">Reality šou & Súťaže</div><div class="cs">Survivor, Big Brother, MasterChef, Idol</div><div class="ctag">Pub quiz populárne</div></div>
+<div class="card pridat" data-g="historia" onclick="tog(this)"><div class="cico">🚀</div><div class="cn">Veda – Objavy & Vedci</div><div class="cs">Nobel, prielomy, experimenty, slávni vedci</div><div class="ctag">Trivial Pursuit · chýba v DB</div></div>
+<div class="card pridat" data-g="zabava" onclick="tog(this)"><div class="cico">🎤</div><div class="cn">Hádaj pesničku / umelca</div><div class="cs">Text → kto spieva? Nápev → ako sa volá?</div><div class="ctag">Audio pub quiz ⭐ · chýba v DB</div></div>
+
+</div>
+
+<!-- SELECTED -->
+<div class="sel-box">
+  <div class="sel-h">
+    <span>Vybrané kategórie <span id="scount"></span></span>
+    <button class="copy-btn" onclick="copySel()">Kopírovať zoznam</button>
+  </div>
+  <div class="sel-items" id="sel-items">
+    <span class="sel-empty">Klikni na kategóriu pre výber.</span>
+  </div>
+  <div class="ssel" id="ssel"></div>
+</div>
+
+</div>
+
+<script>
+var sel=[];
+function tog(card){
+  var name=card.querySelector('.cn').textContent.trim();
+  var isExists=card.classList.contains('exists');
+  if(card.classList.contains('sel')){
+    card.classList.remove('sel');
+    sel=sel.filter(function(s){return s.name!==name;});
+  } else {
+    card.classList.add('sel');
+    sel.push({name:name,exists:isExists});
+  }
+  render();
+}
+function render(){
+  var c=document.getElementById('sel-items');
+  var s=document.getElementById('ssel');
+  var sc=document.getElementById('scount');
+  if(!sel.length){c.innerHTML='<span class="sel-empty">Klikni na kategóriu pre výber.</span>';s.textContent='';sc.textContent='';return;}
+  c.innerHTML=sel.map(function(i){
+    return '<span class="si'+(i.exists?' exists-sel':'')+'" onclick="rem(\''+i.name.replace(/'/g,"\\'")+'\')" title="Klikni pre odstránenie">'+(i.exists?'✓ ':'')+i.name+'</span>';
+  }).join('');
+  var ex=sel.filter(function(i){return i.exists;}).length;
+  var nw=sel.filter(function(i){return!i.exists;}).length;
+  sc.textContent='('+sel.length+')';
+  s.textContent=sel.length+' vybraných — '+ex+' existujúcich (✓) + '+nw+' nových · klikni na štítok pre odstránenie';
+}
+function rem(name){
+  sel=sel.filter(function(s){return s.name!==name;});
+  document.querySelectorAll('.card.sel').forEach(function(c){if(c.querySelector('.cn').textContent.trim()===name)c.classList.remove('sel');});
+  render();
+}
+function fg(g,btn){
+  document.querySelectorAll('.fb').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  document.querySelectorAll('.card').forEach(function(c){
+    if(g==='all')c.classList.remove('hid');
+    else if(g==='existuje')c.classList.toggle('hid',!c.classList.contains('exists'));
+    else if(g==='pridat')c.classList.toggle('hid',!c.classList.contains('pridat'));
+    else c.classList.toggle('hid',c.getAttribute('data-g')!==g);
+  });
+}
+function fs(v){
+  var lv=v.toLowerCase();
+  document.querySelectorAll('.card').forEach(function(c){
+    var t=(c.querySelector('.cn').textContent+c.querySelector('.cs').textContent).toLowerCase();
+    c.classList.toggle('hid',lv.length>0&&t.indexOf(lv)<0);
+  });
+}
+function copySel(){
+  if(!sel.length)return;
+  var txt='EXISTUJÚCE V DB:\n'+sel.filter(function(i){return i.exists;}).map(function(i){return'  - '+i.name;}).join('\n')+'\n\nODPORÚČAM PRIDAŤ:\n'+sel.filter(function(i){return!i.exists;}).map(function(i){return'  - '+i.name;}).join('\n');
+  navigator.clipboard.writeText(txt).then(function(){
+    var b=document.querySelector('.copy-btn');
+    b.textContent='Skopírované ✓';
+    setTimeout(function(){b.textContent='Kopírovať zoznam';},2000);
+  });
+}
+</script>

@@ -1,0 +1,421 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.75rem 0 3rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.h1{font-size:22px;font-weight:500;margin-bottom:.35rem}
+.hero-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.6;max-width:500px;margin-bottom:1.25rem}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.65rem;margin-top:1.6rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+
+/* TABS */
+.tabs{display:flex;gap:0;border:.5px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;margin-bottom:1.5rem}
+.tab{flex:1;padding:9px 6px;text-align:center;font-size:12px;cursor:pointer;border-right:.5px solid var(--color-border-tertiary);transition:background .12s;color:var(--color-text-secondary);background:var(--color-background-primary)}
+.tab:last-child{border-right:none}
+.tab.on{background:var(--color-background-secondary);font-weight:500;color:var(--color-text-primary)}
+.panel{display:none}.panel.on{display:block}
+
+/* MECHANIKA */
+.how{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:1.25rem}
+.hw{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:12px 13px;background:var(--color-background-primary);text-align:center}
+.hwn{font-size:20px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:5px}
+.hwt{font-size:12px;font-weight:500;margin-bottom:3px}
+.hws{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+
+/* DEMO OTÁZKA */
+.q-card{border:1.5px solid var(--color-border-info);border-radius:16px;padding:24px 22px;margin-bottom:1.25rem;background:var(--color-background-primary)}
+.q-day{font-size:11px;color:var(--color-text-info);font-weight:500;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.5rem}
+.q-text{font-size:18px;font-weight:500;line-height:1.45;color:var(--color-text-primary);font-family:var(--font-serif);margin-bottom:1.25rem}
+.q-lock{background:var(--color-background-secondary);border-radius:10px;padding:12px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.q-lock-ico{font-size:16px;flex-shrink:0}
+.q-lock-text{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+.q-lock-text strong{color:var(--color-text-primary);font-weight:500}
+.q-actions{display:flex;gap:8px;flex-wrap:wrap}
+.qa-btn{font-size:13px;font-weight:500;padding:9px 18px;border-radius:9px;border:.5px solid var(--color-border-primary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.qa-btn:hover{background:var(--color-background-secondary)}
+.qa-btn.ghost{border-color:var(--color-border-tertiary);color:var(--color-text-secondary)}
+.qa-btn.ghost:hover{color:var(--color-text-primary)}
+
+/* ODPOVEĎ FORMA */
+.answer-form{display:none;margin-top:1rem;padding-top:1rem;border-top:.5px solid var(--color-border-tertiary)}
+.ans-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:.4rem}
+.ans-textarea{width:100%;font-size:13px;padding:10px 12px;border-radius:9px;border:.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);resize:none;font-family:var(--font-sans);line-height:1.5;min-height:80px}
+.ans-textarea:focus{outline:none;border-color:var(--color-border-primary)}
+.ans-row{display:flex;gap:8px;margin-top:8px;align-items:center}
+.ans-note{font-size:11px;color:var(--color-text-tertiary);flex:1}
+.ans-send{font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;border:.5px solid var(--color-border-info);cursor:pointer;background:var(--color-background-info);color:var(--color-text-info);transition:all .12s}
+.ans-send:hover{opacity:.85}
+
+/* VÝSLEDOK - partner odpoveď */
+.partner-reveal{display:none;margin-top:1rem;padding:14px 16px;background:var(--color-background-secondary);border-radius:10px;border:.5px solid var(--color-border-tertiary)}
+.pr-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:.4rem;font-weight:500}
+.pr-you{font-size:13px;color:var(--color-text-secondary);margin-bottom:.75rem;padding-bottom:.75rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.pr-partner{font-size:13px;color:var(--color-text-primary)}
+.pr-meta{font-size:11px;color:var(--color-text-tertiary);margin-top:.4rem}
+.pr-cta{font-size:12px;color:var(--color-text-info);font-weight:500;margin-top:.75rem;cursor:pointer;display:inline-block}
+
+/* SÉRIA */
+.series-week{margin-bottom:1.5rem}
+.week-header{display:flex;align-items:center;gap:10px;margin-bottom:.75rem;cursor:pointer}
+.week-title{font-size:14px;font-weight:500}
+.week-sub{font-size:12px;color:var(--color-text-secondary)}
+.week-toggle{font-size:11px;color:var(--color-text-tertiary);margin-left:auto}
+.week-days{display:grid;gap:8px}
+.day-row{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:11px 14px;cursor:pointer;transition:all .12s;display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;background:var(--color-background-primary)}
+.day-row:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.day-num{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-align:center}
+.day-q{font-size:13px;color:var(--color-text-primary);line-height:1.4}
+.day-type{font-size:10px;padding:2px 7px;border-radius:99px;border:.5px solid var(--color-border-tertiary);color:var(--color-text-tertiary);white-space:nowrap}
+.day-type.hl{background:var(--color-background-info);color:var(--color-text-info);border-color:transparent}
+
+/* TYPY OTÁZOK */
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:1.25rem}
+.type-c{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:12px 14px;background:var(--color-background-primary);cursor:pointer;transition:border-color .12s}
+.type-c:hover{border-color:var(--color-border-secondary)}
+.type-ico{font-size:18px;margin-bottom:5px}
+.type-name{font-size:12px;font-weight:500;margin-bottom:2px}
+.type-desc{font-size:11px;color:var(--color-text-secondary);line-height:1.35}
+.type-ex{font-size:11px;color:var(--color-text-tertiary);margin-top:5px;font-style:italic}
+
+/* STREAK */
+.streak-bar{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;margin-bottom:1.25rem;display:flex;align-items:center;gap:16px;background:var(--color-background-primary)}
+.streak-num{font-size:28px;font-weight:500;flex-shrink:0}
+.streak-info{flex:1}
+.streak-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.streak-sub{font-size:12px;color:var(--color-text-secondary)}
+.streak-days{display:flex;gap:5px}
+.sd{width:24px;height:24px;border-radius:50%;border:.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--color-text-tertiary)}
+.sd.done{background:var(--color-background-success);border-color:transparent;color:var(--color-text-success);font-weight:500}
+.sd.today{background:var(--color-background-info);border-color:transparent;color:var(--color-text-info);font-weight:500}
+
+/* FREEMIUM */
+.freemium{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
+.fp{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;background:var(--color-background-primary)}
+.fp.hi{border:1.5px solid var(--color-border-info)}
+.fp-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px;display:inline-block;margin-bottom:6px}
+.fp-badge.free{background:var(--color-background-success);color:var(--color-text-success)}
+.fp-badge.prem{background:var(--color-background-info);color:var(--color-text-info)}
+.fp-title{font-size:14px;font-weight:500;margin-bottom:.4rem}
+.fp-price{font-size:13px;color:var(--color-text-secondary);margin-bottom:.75rem}
+.fp-list{list-style:none}
+.fp-list li{font-size:12px;color:var(--color-text-secondary);padding:4px 0;border-bottom:.5px solid var(--color-border-tertiary);line-height:1.4}
+.fp-list li:last-child{border:none}
+.fp-list li::before{content:"✓ ";color:var(--color-text-success);font-weight:500}
+.fp-list li.na::before{content:"— ";color:var(--color-text-tertiary)}
+.fp-list li.na{color:var(--color-text-tertiary)}
+
+@media(max-width:480px){.how{grid-template-columns:1fr 1fr}.types{grid-template-columns:1fr 1fr}.freemium{grid-template-columns:1fr}.streak-bar{flex-direction:column;text-align:center}}
+</style>
+
+<div class="pg">
+<div class="h1">Daily Connection</div>
+<div class="hero-sub">Každý deň jedna otázka pre vás dvoch. Odpovedáš sám — potom vidíš odpoveď partnera. Päť minút, ktoré menia vzťah.</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="showTab('demo')">Ukážka</div>
+  <div class="tab" onclick="showTab('serie')">Série otázok</div>
+  <div class="tab" onclick="showTab('typy')">Typy otázok</div>
+  <div class="tab" onclick="showTab('plan')">Freemium model</div>
+</div>
+
+<!-- DEMO -->
+<div class="panel on" id="p-demo">
+
+  <div class="streak-bar">
+    <div class="streak-num">🔥 7</div>
+    <div class="streak-info">
+      <div class="streak-title">7 dní za sebou</div>
+      <div class="streak-sub">Vy aj partner ste odpovedali každý deň tento týždeň</div>
+    </div>
+    <div class="streak-days">
+      <div class="sd done">P</div><div class="sd done">U</div><div class="sd done">S</div>
+      <div class="sd done">Š</div><div class="sd done">P</div><div class="sd done">S</div>
+      <div class="sd today">N</div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-day">Nedeľa · Otázka dňa</div>
+    <div class="q-text" id="demo-q">"Čo si dnes robil/a, čo by si chcel/a robiť častejšie — a bráni ti v tom niečo?"</div>
+    <div class="q-lock">
+      <div class="q-lock-ico">🔒</div>
+      <div class="q-lock-text"><strong>Odpoveď partnera je zamknutá.</strong> Odpovedz najprv ty — potom uvidíš čo napísal/a on/ona. Žiadne ovplyvňovanie.</div>
+    </div>
+    <div class="q-actions">
+      <button class="qa-btn" onclick="showAnswerForm()">Odpovedať →</button>
+      <button class="qa-btn ghost" onclick="nextQ()">Iná otázka</button>
+    </div>
+    <div class="answer-form" id="ans-form">
+      <div class="ans-label">Tvoja odpoveď (partner ju uvidí až po svojej odpovedi)</div>
+      <textarea class="ans-textarea" id="ans-text" placeholder="Napíš čo ťa napadne — nie je to test, je to rozhovor..."></textarea>
+      <div class="ans-row">
+        <div class="ans-note">Partner dostane notifikáciu keď odošleš</div>
+        <button class="ans-send" onclick="showReveal()">Odoslať</button>
+      </div>
+    </div>
+    <div class="partner-reveal" id="partner-reveal">
+      <div class="pr-label">Tvoja odpoveď</div>
+      <div class="pr-you">"Rád by som viac chodil na turistiku. Brzdí ma únava po práci — ale asi je to výhovorka."</div>
+      <div class="pr-label">Odpoveď partnera — <strong>Martina</strong></div>
+      <div class="pr-partner">"Varenie. Vždy som chcela variť nové veci, ale večer nemám energiu. Najradšej by som to robila cez víkend spolu s tebou."</div>
+      <div class="pr-meta">Odpovedala pred 12 minútami</div>
+      <div class="pr-cta" onclick="sendPrompt('Navrhni 5 follow-up otázok po Daily Connection odpovedi o aktivitách a spoločnom čase — deeptalks.eu')">Hlbší rozhovor k tejto téme →</div>
+    </div>
+  </div>
+
+  <div class="lbl">Ako to funguje</div>
+  <div class="how">
+    <div class="hw"><div class="hwn">01</div><div class="hwt">Párujete sa</div><div class="hws">Raz — zadáte email partnera. Prepojenie zostane.</div></div>
+    <div class="hw"><div class="hwn">02</div><div class="hwt">Otázka každý deň</div><div class="hws">O 19:00 príde notifikácia obom. Rovnaká otázka.</div></div>
+    <div class="hw"><div class="hwn">03</div><div class="hwt">Odpovedáš sám</div><div class="hws">Partner nevidí tvoju odpoveď kým neodpovie.</div></div>
+    <div class="hw"><div class="hwn">04</div><div class="hwt">Obaja odpovedali — odomknete</div><div class="hws">Vidíte odpovede vedľa seba. Rozhovor sa sám začne.</div></div>
+  </div>
+
+</div>
+
+<!-- SÉRIE -->
+<div class="panel" id="p-serie">
+
+  <div class="series-week">
+    <div class="week-header" onclick="toggleWeek('w1')">
+      <div>
+        <div class="week-title">Týždeň 1 — Spoznávanie (znova)</div>
+        <div class="week-sub">Pre páry ktoré chcú objaviť čo sa zmenilo</div>
+      </div>
+      <div class="week-toggle" id="w1-tog">▲ schovať</div>
+    </div>
+    <div class="week-days" id="w1">
+      <div class="day-row" onclick="setDemoQ(this)">
+        <div class="day-num">Po</div>
+        <div class="day-q">"Čo ťa dnes potešilo — a povedal/a si mi to?"</div>
+        <div class="day-type">ľahká</div>
+      </div>
+      <div class="day-row" onclick="setDemoQ(this)">
+        <div class="day-num">Ut</div>
+        <div class="day-q">"Čo ti o mne trvalo dlho pochopiť?"</div>
+        <div class="day-type">stredná</div>
+      </div>
+      <div class="day-row" onclick="setDemoQ(this)">
+        <div class="day-num">St</div>
+        <div class="day-q">"Kedy sa pri mne cítiš najlepšie — čo tomu predchádza?"</div>
+        <div class="day-type">stredná</div>
+      </div>
+      <div class="day-row" onclick="setDemoQ(this)">
+        <div class="day-num">Šv</div>
+        <div class="day-q">"Čo by si chcel/a robiť spolu, čo dlho nerobíme?"</div>
+        <div class="day-type">ľahká</div>
+      </div>
+      <div class="day-row" onclick="setDemoQ(this)">
+        <div class="day-num">Pi</div>
+        <div class="day-q">"Aký bol tvoj najobľúbenejší spoločný moment za posledný mesiac?"</div>
+        <div class="day-type">ľahká</div>
+      </div>
+      <div class="day-row" onclick="setDemoQ(this)">
+        <div class="day-num">So</div>
+        <div class="day-q">"Je niečo v čom sa menením — a si rád/a za tú zmenu?"</div>
+        <div class="day-type hl">hlboká</div>
+      </div>
+      <div class="day-row" onclick="setDemoQ(this)">
+        <div class="day-num">Ne</div>
+        <div class="day-q">"Čo si dnes robil/a, čo by si chcel/a robiť častejšie — a čo ti v tom bráni?"</div>
+        <div class="day-type">stredná</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="series-week">
+    <div class="week-header" onclick="toggleWeek('w2')">
+      <div>
+        <div class="week-title">Týždeň 2 — Každodenný život</div>
+        <div class="week-sub">Malé veci, ktoré tvoria vzťah</div>
+      </div>
+      <div class="week-toggle" id="w2-tog">▼ zobraziť</div>
+    </div>
+    <div class="week-days" id="w2" style="display:none">
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Po</div><div class="day-q">"Čo ťa ráno naladí na dobrý deň — a dávam ti to?"</div><div class="day-type">stredná</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Ut</div><div class="day-q">"Čo doma robím, čo ti robí radosť — aj keď to nikdy nehovoríš?"</div><div class="day-type">ľahká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">St</div><div class="day-q">"Kedy cez deň na mňa myslíš — čo to spustí?"</div><div class="day-type">ľahká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Šv</div><div class="day-q">"Čo by ti pomohlo, keby som večer urobil/a bez pýtania?"</div><div class="day-type">praktická</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Pi</div><div class="day-q">"Ako vyzerá ideálny piatkový večer — pre teba osobne?"</div><div class="day-type">ľahká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">So</div><div class="day-q">"Čo ti v poslednom čase chýba v našom každodennom živote?"</div><div class="day-type hl">hlboká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Ne</div><div class="day-q">"Aký rituál by si chcel/a zaviesť — len pre nás dvoch?"</div><div class="day-type">stredná</div></div>
+    </div>
+  </div>
+
+  <div class="series-week">
+    <div class="week-header" onclick="toggleWeek('w3')">
+      <div>
+        <div class="week-title">Týždeň 3 — Pocity a potreby</div>
+        <div class="week-sub">Čo nosíme v sebe a nehovoríme</div>
+      </div>
+      <div class="week-toggle" id="w3-tog">▼ zobraziť</div>
+    </div>
+    <div class="week-days" id="w3" style="display:none">
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Po</div><div class="day-q">"Čo ťa teraz v živote najviac unavuje — a hovoril/a si mi to?"</div><div class="day-type">stredná</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Ut</div><div class="day-q">"Kedy sa cítiš prehliadaný/á — aj keď to tak nemyslím?"</div><div class="day-type hl">hlboká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">St</div><div class="day-q">"Čo potrebuješ odo mňa, keď máš ťažký deň — ticho, alebo rozhovor?"</div><div class="day-type">praktická</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Šv</div><div class="day-q">"Čo ti robí radosť, o čom som možno ani nevedel/a?"</div><div class="day-type">ľahká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Pi</div><div class="day-q">"Kedy si sa naposledy cítil/a naozaj pochopený/á — mnou alebo niekým iným?"</div><div class="day-type hl">hlboká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">So</div><div class="day-q">"Čo by si chcel/a, aby som o tebe vedel/a, čo možno neviem?"</div><div class="day-type hl">hlboká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Ne</div><div class="day-q">"Ako sa dnes cítiš — jedným slovom a jednou vetou prečo?"</div><div class="day-type">ľahká</div></div>
+    </div>
+  </div>
+
+  <div class="series-week">
+    <div class="week-header" onclick="toggleWeek('w4')">
+      <div>
+        <div class="week-title">Týždeň 4 — Hlboké vody</div>
+        <div class="week-sub">Na koniec mesiaca — keď ste si istejší</div>
+      </div>
+      <div class="week-toggle" id="w4-tog">▼ zobraziť</div>
+    </div>
+    <div class="week-days" id="w4" style="display:none">
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Po</div><div class="day-q">"Čo ťa na mne stále prekvapuje — pozitívne?"</div><div class="day-type">stredná</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Ut</div><div class="day-q">"Čoho sa v našom vzťahu bojíš — a ešte si mi to nepovedal/a?"</div><div class="day-type hl">hlboká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">St</div><div class="day-q">"Čo si v živote obetoval/a kvôli nám — a oľutoval/a si to niekedy?"</div><div class="day-type hl">hlboká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Šv</div><div class="day-q">"Kedy si sa naposledy cítil/a v našom vzťahu naozaj slobodný/á?"</div><div class="day-type hl">hlboká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Pi</div><div class="day-q">"Je niečo, za čo by si mi chcel/a odpustiť — ale ešte si to nepovedal/a?"</div><div class="day-type hl">hlboká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">So</div><div class="day-q">"Čo by si mi povedal/a, keby si vedel/a, že sa nehnevám a nebudem súdiť?"</div><div class="day-type hl">hlboká</div></div>
+      <div class="day-row" onclick="setDemoQ(this)"><div class="day-num">Ne</div><div class="day-q">"Keby si mal/a opísať náš vzťah za tento mesiac jednou vetou — aká by to bola?"</div><div class="day-type">mesačná</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TYPY -->
+<div class="panel" id="p-typy">
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1.25rem">Každý deň iný typ otázky — striedanie zabraňuje tomu, aby sa rituál stal rutinou.</div>
+  <div class="types">
+    <div class="type-c" onclick="sendPrompt('Navrhni 15 ľahkých otázok dňa pre Daily Connection — deeptalks.eu páry')">
+      <div class="type-ico">☀️</div>
+      <div class="type-name">Ľahká</div>
+      <div class="type-desc">Nízke riziko, vysoké potešenie. Ideálna na pondelok alebo po náročnom dni.</div>
+      <div class="type-ex">"Čo ťa dnes potešilo?"</div>
+    </div>
+    <div class="type-c" onclick="sendPrompt('Navrhni 15 stredne hlbokých otázok dňa pre Daily Connection — deeptalks.eu páry')">
+      <div class="type-ico">💬</div>
+      <div class="type-name">Stredná</div>
+      <div class="type-desc">Vyžaduje zamyslenie ale nie hlbokú zraniteľnosť. Chrbtová kosť programu.</div>
+      <div class="type-ex">"Kedy sa pri mne cítiš najlepšie?"</div>
+    </div>
+    <div class="type-c" onclick="sendPrompt('Navrhni 15 hlbokých otázok dňa pre Daily Connection — deeptalks.eu páry, citlivé témy')">
+      <div class="type-ico">🌊</div>
+      <div class="type-name">Hlboká</div>
+      <div class="type-desc">Na víkend, keď máte čas. Otvára témy ktoré sa bežne nehovoria.</div>
+      <div class="type-ex">"Čoho sa v nás bojíš?"</div>
+    </div>
+    <div class="type-c" onclick="sendPrompt('Navrhni 15 praktických otázok dňa pre Daily Connection — deeptalks.eu páry, každodenné potreby')">
+      <div class="type-ico">🔧</div>
+      <div class="type-name">Praktická</div>
+      <div class="type-desc">Konkrétne veci ktoré môžete zmeniť hneď. Potreby, návyky, malé prosby.</div>
+      <div class="type-ex">"Čo by ti pomohlo večer bez pýtania?"</div>
+    </div>
+    <div class="type-c" onclick="sendPrompt('Navrhni 10 hravých otázok dňa pre Daily Connection — deeptalks.eu páry, zábavné a ľahké')">
+      <div class="type-ico">🎲</div>
+      <div class="type-name">Hravá</div>
+      <div class="type-desc">Smiech je lepidlo vzťahu. Raz do týždňa ľahká, vtipná, nečakaná.</div>
+      <div class="type-ex">"Keby sme boli filmová dvojica, aký žáner by to bol?"</div>
+    </div>
+    <div class="type-c" onclick="sendPrompt('Navrhni 8 mesačných reflexívnych otázok pre Daily Connection — deeptalks.eu páry, záver mesiaca')">
+      <div class="type-ico">🌙</div>
+      <div class="type-name">Mesačná</div>
+      <div class="type-desc">Posledný deň mesiaca — zhrnutie, vďačnosť, zámer na ďalší mesiac.</div>
+      <div class="type-ex">"Čo by si chcel/a v budúcom mesiaci zlepšiť?"</div>
+    </div>
+  </div>
+</div>
+
+<!-- PLÁN -->
+<div class="panel" id="p-plan">
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1.25rem">Zadarmo dosť na to, aby páry zažili hodnotu. Premium dosť na to, aby zaplatili.</div>
+  <div class="freemium">
+    <div class="fp">
+      <div class="fp-badge free">Zadarmo</div>
+      <div class="fp-title">Základný plán</div>
+      <div class="fp-price">Navždy zadarmo · bez kreditnej karty</div>
+      <ul class="fp-list">
+        <li>1 otázka denne pre oboch</li>
+        <li>Mechanika: odpovedáš sám → vidíš partnera</li>
+        <li>Streak — počítadlo dní za sebou</li>
+        <li>Notifikácia emailom o 19:00</li>
+        <li>Archív posledných 7 dní</li>
+        <li class="na">Výber tematickej série</li>
+        <li class="na">Archív všetkých odpovedí</li>
+        <li class="na">Mesačné zhrnutie a report</li>
+        <li class="na">Vlastný čas notifikácie</li>
+        <li class="na">Otázky podľa nálady (filter)</li>
+      </ul>
+    </div>
+    <div class="fp hi">
+      <div class="fp-badge prem">Premium · 4 EUR / mesiac</div>
+      <div class="fp-title">Premium plán</div>
+      <div class="fp-price">Jedno predplatné pre oboch partnerov</div>
+      <ul class="fp-list">
+        <li>Všetko zo základného plánu</li>
+        <li>Výber tematickej série (4 týždne)</li>
+        <li>Neobmedzený archív odpovedí</li>
+        <li>Mesačný report — čo ste zistili</li>
+        <li>Vlastný čas notifikácie</li>
+        <li>Filter podľa typu otázky</li>
+        <li>Špeciálne série — Pred svadbou, Po hádke, Výzva 30 dní</li>
+        <li>Export odpovedí do PDF</li>
+      </ul>
+    </div>
+  </div>
+  <div style="font-size:12px;color:var(--color-text-tertiary);line-height:1.6;border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px">
+    <strong style="color:var(--color-text-secondary);font-weight:500">Prečo 4 EUR a nie 10?</strong> Paired app stojí $14.99/mesiac a má 8M stiahnutí. DeepTalks má výhodu lokality (SK/UA kontext) a nižšej ceny — čo znižuje frikciju. 4 EUR = menej ako jedna káva. Jedna platba kryje oboch partnerov.
+  </div>
+</div>
+
+</div>
+
+<script>
+var QS = [
+  "Čo si dnes robil/a, čo by si chcel/a robiť častejšie — a bráni ti v tom niečo?",
+  "Čo ťa dnes potešilo — a povedal/a si mi to?",
+  "Kedy sa pri mne cítiš najlepšie — čo tomu predchádza?",
+  "Je niečo čo som dnes urobil/a, čo ti urobilo radosť — aj keď som to nevedel/a?",
+  "Čo by sme mali urobiť spolu tento víkend — jedno konkrétne?",
+  "Čoho sa v našom vzťahu bojíš — a ešte si mi to nepovedal/a?",
+  "Kedy si sa naposledy cítil/a naozaj pochopený/á?",
+];
+var qi = 0;
+function nextQ() {
+  qi = (qi + 1) % QS.length;
+  document.getElementById('demo-q').textContent = '"' + QS[qi] + '"';
+  document.getElementById('ans-form').style.display = 'none';
+  document.getElementById('partner-reveal').style.display = 'none';
+}
+function showAnswerForm() {
+  document.getElementById('ans-form').style.display = 'block';
+  document.getElementById('ans-form').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function showReveal() {
+  var txt = document.getElementById('ans-text').value.trim();
+  if (!txt) return;
+  document.getElementById('ans-form').style.display = 'none';
+  document.getElementById('partner-reveal').style.display = 'block';
+  document.getElementById('partner-reveal').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+function setDemoQ(row) {
+  var q = row.querySelector('.day-q').textContent;
+  document.getElementById('demo-q').textContent = q;
+  document.getElementById('ans-form').style.display = 'none';
+  document.getElementById('partner-reveal').style.display = 'none';
+  document.getElementById('ans-text').value = '';
+  showTab('demo');
+  document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===0);});
+  document.getElementById('p-demo').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.getElementById('p-'+id).classList.add('on');
+}
+function toggleWeek(id) {
+  var el = document.getElementById(id);
+  var tog = document.getElementById(id+'-tog');
+  var hidden = el.style.display === 'none';
+  el.style.display = hidden ? 'grid' : 'none';
+  tog.textContent = hidden ? '▲ schovať' : '▼ zobraziť';
+}
+</script>

@@ -1,0 +1,190 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:1.5rem 0}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1.5rem}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--color-text-secondary)}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.5rem;margin-top:1.25rem}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.node{border-radius:10px;border:.5px solid var(--color-border-tertiary);padding:10px 14px;cursor:pointer;transition:opacity .15s,border-color .15s;flex:1;min-width:130px;max-width:220px}
+.node:hover{border-color:var(--color-border-secondary);opacity:.85}
+.node-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:3px}
+.node-sub{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;margin-bottom:5px;line-height:1.5}
+.b-ok{background:var(--color-background-success);color:var(--color-text-success)}
+.b-fix{background:var(--color-background-warning);color:var(--color-text-warning)}
+.b-new{background:var(--color-background-info);color:var(--color-text-info)}
+.b-empty{background:var(--color-background-danger);color:var(--color-text-danger)}
+.home-card{border-radius:12px;border:1.5px solid var(--color-border-warning);background:var(--color-background-warning);padding:14px 18px;margin-bottom:1rem}
+.home-title{font-size:15px;font-weight:500;color:var(--color-text-warning);margin-bottom:4px}
+.home-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.nav-bar{background:var(--color-background-secondary);border-radius:8px;padding:10px 14px;margin-bottom:1.25rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nav-item{font-size:12px;padding:4px 10px;border-radius:6px;border:.5px solid var(--color-border-tertiary);color:var(--color-text-secondary);cursor:pointer}
+.nav-item.active{border-color:var(--color-border-info);background:var(--color-background-info);color:var(--color-text-info)}
+.nav-item.broken{border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.nav-note{font-size:11px;color:var(--color-text-tertiary);margin-left:auto}
+.connector{display:flex;align-items:center;gap:6px;margin:4px 0 8px 0;padding-left:6px}
+.conn-line{width:24px;height:1px;background:var(--color-border-secondary)}
+.conn-label{font-size:11px;color:var(--color-text-tertiary)}
+.detail-panel{background:var(--color-background-secondary);border-radius:10px;padding:14px 16px;margin-top:1rem;font-size:13px;line-height:1.6;color:var(--color-text-secondary)}
+.detail-panel strong{color:var(--color-text-primary);font-weight:500}
+</style>
+<div class="wrap">
+
+<div class="legend">
+  <div class="leg"><div class="dot" style="background:#639922"></div>Funguje</div>
+  <div class="leg"><div class="dot" style="background:#BA7517"></div>Treba opraviť</div>
+  <div class="leg"><div class="dot" style="background:#185FA5"></div>Nová stránka</div>
+  <div class="leg"><div class="dot" style="background:#A32D2D"></div>Prázdne/nefunguje</div>
+</div>
+
+<div class="section-label">Navigácia (aktuálne)</div>
+<div class="nav-bar">
+  <span class="nav-item broken">deeptalks.eu/sk — ROZBITÁ</span>
+  <span class="nav-item">ECOSYSTEM → /kompas</span>
+  <span class="nav-item">EXPERIENCES → /apps</span>
+  <span class="nav-item">PHILOSOPHY → /produkty ✗</span>
+  <div class="nav-note">Odporúčaná nová nav: Ako to funguje · Nástroje · Komunita · O nás</div>
+</div>
+
+<div class="home-card" onclick="sendPrompt('Napíš mi texty a sekcie pre opravu hlavnej stránky deeptalks.eu')">
+  <div class="home-title">Hlavná stránka — rozbita, po anglicky</div>
+  <div class="home-sub">Unsplash fotky · anglický text · nefunkčné CTA · žiadna slovenčina · chýba emócia<br>→ Klikni pre návrh opravy</div>
+</div>
+
+<div class="section-label">Úroveň 1 — Hlavné sekcie</div>
+<div class="row">
+  <div class="node" onclick="sendPrompt('Ako by mala vyzerať stránka /sk/kompas — komunikačný kompas na deeptalks.eu?')">
+    <div class="badge b-ok">Funguje</div>
+    <div class="node-title">Komunikačný kompas</div>
+    <div class="node-sub">/sk/kompas · 6 skupín · chýba obsah po výbere skupiny</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Ako rozvíjať stránku /sk/apps — experiences na deeptalks.eu?')">
+    <div class="badge b-ok">Funguje</div>
+    <div class="node-title">Experiences / Hry</div>
+    <div class="node-sub">/sk/apps · 4 nástroje · dobrý základ</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Čo všetko by mala obsahovať stránka produkty na deeptalks.eu?')">
+    <div class="badge b-empty">Prázdne</div>
+    <div class="node-title">Produkty / Shop</div>
+    <div class="node-sub">/sk/produkty · len text "Čoskoro" · nič tam nie je</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Navrhni stránku O nás a manifest pre deeptalks.eu')">
+    <div class="badge b-new">Chýba</div>
+    <div class="node-title">O nás / Manifest</div>
+    <div class="node-sub">/sk/o-nas · príbeh, vízia, zakladateľ</div>
+  </div>
+</div>
+
+<div class="section-label">Úroveň 2 — Nástroje (existujúce)</div>
+<div class="row">
+  <div class="node" onclick="sendPrompt('Ako zlepšiť Quiz Herd Vote na deeptalks.eu/sk/apps/quiz?')">
+    <div class="badge b-ok">Funguje</div>
+    <div class="node-title">Herd Vote kvíz</div>
+    <div class="node-sub">/apps/quiz · moderátor + hráč · multiplayer</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Aké kartičky by som mal pridať do sekcie konverzačných kartičiek na deeptalks.eu?')">
+    <div class="badge b-ok">Funguje</div>
+    <div class="node-title">Konverzačné kartičky</div>
+    <div class="node-sub">/apps/spoznajme-sa · hlboké otázky</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Čo je Hádanka na deeptalks.eu a ako ju rozvinúť?')">
+    <div class="badge b-ok">Funguje</div>
+    <div class="node-title">Hádanka</div>
+    <div class="node-sub">/apps/hadacka · rýchle myslenie</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Ako zlepšiť CoupleSync dotazník na couplesync.deeptalks.eu?')">
+    <div class="badge b-ok">Funguje</div>
+    <div class="node-title">CoupleSync</div>
+    <div class="node-sub">couplesync.deeptalks.eu · partnerský dotazník</div>
+  </div>
+</div>
+
+<div class="section-label">Úroveň 2 — Nové nástroje (odporúčané)</div>
+<div class="row">
+  <div class="node" onclick="sendPrompt('Navrhni Daily Connection — dennú otázku pre páry na deeptalks.eu')">
+    <div class="badge b-new">Nové</div>
+    <div class="node-title">Daily Connection</div>
+    <div class="node-sub">/apps/daily · každodenná otázka pre páry</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Navrhni Legacy edíciu — generačné otázky na deeptalks.eu')">
+    <div class="badge b-new">Nové</div>
+    <div class="node-title">Legacy / Spomienky</div>
+    <div class="node-sub">/apps/legacy · otázky pre starých rodičov</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Navrhni Deep Talk Walk — audio prechádzku na deeptalks.eu')">
+    <div class="badge b-new">Nové</div>
+    <div class="node-title">Deep Talk Walk</div>
+    <div class="node-sub">/apps/walk · audio prechádzka pre dvoch</div>
+  </div>
+</div>
+
+<div class="section-label">Úroveň 2 — Cieľové skupiny (podstránky)</div>
+<div class="row">
+  <div class="node" onclick="sendPrompt('Navrhni podstránku Páry na deeptalks.eu/sk/skupiny/pary')">
+    <div class="badge b-fix">Treba dopísať</div>
+    <div class="node-title">Páry</div>
+    <div class="node-sub">/produkty/pary · existuje, ale prázdna</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Navrhni podstránku Rodič a Dieťa na deeptalks.eu')">
+    <div class="badge b-fix">Treba dopísať</div>
+    <div class="node-title">Rodič + Dieťa</div>
+    <div class="node-sub">/produkty/rodic-dieta · existuje</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Navrhni podstránky pre priatelia, práca, škola, seniori na deeptalks.eu')">
+    <div class="badge b-new">Chýba</div>
+    <div class="node-title">Priatelia · Práca · Škola · Seniori</div>
+    <div class="node-sub">/skupiny/... · nové podstránky</div>
+  </div>
+</div>
+
+<div class="section-label">Úroveň 2 — Komunita a blog</div>
+<div class="row">
+  <div class="node" onclick="sendPrompt('Navrhni sekciu Komunita a akcie na deeptalks.eu — opekačky, výlety, eventy')">
+    <div class="badge b-new">Nové</div>
+    <div class="node-title">Komunita / Akcie</div>
+    <div class="node-sub">/komunita · mapa akcií, eventy, blind talks</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Navrhni blog sekciu pre deeptalks.eu — témy, štruktúra, prvé články')">
+    <div class="badge b-new">Nové</div>
+    <div class="node-title">Blog / Tipy</div>
+    <div class="node-sub">/blog · príbehy, rady, kommunikácia</div>
+  </div>
+  <div class="node" onclick="sendPrompt('Navrhni B2B sekciu pre deeptalks.eu — firmy a školy')">
+    <div class="badge b-new">Nové</div>
+    <div class="node-title">Pre firmy a školy</div>
+    <div class="node-sub">/b2b · workshopy, kartičky, tímy</div>
+  </div>
+</div>
+
+<div class="section-label">Prioritný akčný plán</div>
+<div class="row">
+  <div class="node" style="max-width:100%;flex:1 1 100%;border-color:var(--color-border-warning)">
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <div style="flex:1;min-width:180px">
+        <div class="badge b-fix">Krok 1 — Teraz</div>
+        <div class="node-title" style="margin-bottom:6px">Opraviť hlavnú stránku</div>
+        <div class="node-sub">Slovenský text · Emócia · Interaktívna karta · Funkčné CTA</div>
+      </div>
+      <div style="flex:1;min-width:180px">
+        <div class="badge b-fix">Krok 2 — Tento mesiac</div>
+        <div class="node-title" style="margin-bottom:6px">Navigácia + Produkty</div>
+        <div class="node-sub">Premenovať menu · Vyplniť /produkty · Podstránky skupín</div>
+      </div>
+      <div style="flex:1;min-width:180px">
+        <div class="badge b-new">Krok 3 — Ďalej</div>
+        <div class="node-title" style="margin-bottom:6px">Nové nástroje + Komunita</div>
+        <div class="node-sub">Daily Connection · Legacy · Blog · Akcie · B2B</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="detail-panel">
+  <strong>Klikni na akýkoľvek blok</strong> — dostanem návrh textu, štruktúry alebo obsahu pre danú sekciu.<br>
+  <strong>Navigácia — odporúčaná zmena:</strong> Ecosystem / Experiences / Philosophy → <em>Kompas · Nástroje · Komunita · O nás</em>
+</div>
+
+</div>

@@ -1,0 +1,291 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.75rem 0 3rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.h1{font-size:22px;font-weight:500;margin-bottom:.35rem}
+.hero-sub{font-size:14px;color:var(--color-text-secondary);line-height:1.6;max-width:500px;margin-bottom:1.25rem}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.65rem;margin-top:1.6rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+
+/* TABS */
+.tabs{display:flex;gap:0;border:.5px solid var(--color-border-tertiary);border-radius:10px;overflow:hidden;margin-bottom:1.5rem}
+.tab{flex:1;padding:9px;text-align:center;font-size:12px;cursor:pointer;border-right:.5px solid var(--color-border-tertiary);transition:background .12s;color:var(--color-text-secondary);background:var(--color-background-primary)}
+.tab:last-child{border-right:none}
+.tab.on{background:var(--color-background-secondary);font-weight:500;color:var(--color-text-primary)}
+
+/* PANELS */
+.panel{display:none}.panel.on{display:block}
+
+/* HOW IT WORKS */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.hw{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 15px;text-align:center;background:var(--color-background-primary)}
+.hwn{font-size:24px;font-weight:500;color:var(--color-text-tertiary);margin-bottom:6px}
+.hwt{font-size:13px;font-weight:500;margin-bottom:3px}
+.hws{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+
+/* SITUÁCIE */
+.sits{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1.5rem}
+.sit{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;cursor:pointer;transition:all .12s;background:var(--color-background-primary)}
+.sit:hover,.sit.on{border-color:var(--color-border-info);background:var(--color-background-info)}
+.sit.on .stn{color:var(--color-text-info)}
+.sit.on .sts{color:var(--color-text-info);opacity:.75}
+.stico{font-size:18px;margin-bottom:5px}
+.stn{font-size:13px;font-weight:500;margin-bottom:2px}
+.sts{font-size:11px;color:var(--color-text-secondary);line-height:1.35}
+.stcnt{font-size:10px;color:var(--color-text-tertiary);margin-top:4px}
+
+/* TÉMY */
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:1.5rem}
+.th{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 13px;cursor:pointer;transition:all .12s;background:var(--color-background-primary)}
+.th:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.thico{font-size:17px;margin-bottom:4px}
+.thn{font-size:12px;font-weight:500;margin-bottom:2px}
+.ths{font-size:11px;color:var(--color-text-secondary);line-height:1.3}
+.thq{font-size:11px;color:var(--color-text-tertiary);margin-top:5px;font-style:italic}
+.bdg{font-size:10px;font-weight:500;padding:1px 6px;border-radius:99px;display:inline-block;margin-left:3px}
+.bn{background:var(--color-background-info);color:var(--color-text-info)}
+
+/* CTA */
+.cta{border:1.5px solid var(--color-border-info);border-radius:14px;padding:20px 22px;background:var(--color-background-info);margin-bottom:1.5rem}
+.ctah{font-size:16px;font-weight:500;color:var(--color-text-info);margin-bottom:.35rem}
+.ctas{font-size:13px;color:var(--color-text-info);opacity:.8;margin-bottom:1rem;line-height:1.5}
+.ctarow{display:flex;gap:8px;flex-wrap:wrap}
+.cbtn{font-size:13px;font-weight:500;padding:9px 18px;border-radius:9px;border:.5px solid var(--color-border-info);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-primary);transition:all .12s}
+.cbtn:hover{background:var(--color-background-secondary)}
+
+/* RESULT PANEL */
+.result-intro{font-size:14px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1.25rem}
+.res-areas{display:grid;gap:9px;margin-bottom:1.5rem}
+.ra{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;background:var(--color-background-primary)}
+.ra-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.ra-name{font-size:13px;font-weight:500}
+.ra-score{font-size:12px;color:var(--color-text-secondary)}
+.ra-bar-wrap{height:6px;background:var(--color-border-tertiary);border-radius:99px;overflow:hidden;margin-bottom:6px}
+.ra-bar{height:100%;border-radius:99px;transition:width .5s}
+.bar-hi{background:#1D9E75}
+.bar-mid{background:#BA7517}
+.bar-lo{background:#D85A30}
+.ra-note{font-size:11px;color:var(--color-text-tertiary);line-height:1.4}
+.ra-cta{font-size:11px;color:var(--color-text-info);font-weight:500;margin-top:5px;cursor:pointer}
+.insight{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;background:var(--color-background-secondary);margin-bottom:1.25rem}
+.insight-lbl{font-size:11px;color:var(--color-text-tertiary);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.04em;font-weight:500}
+.insight-text{font-size:13px;line-height:1.6;color:var(--color-text-primary)}
+.next-tools{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.nt{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;cursor:pointer;transition:all .12s;background:var(--color-background-primary)}
+.nt:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.ntn{font-size:13px;font-weight:500;margin-bottom:3px}
+.nts{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+.ntcta{font-size:12px;color:var(--color-text-info);font-weight:500;margin-top:6px}
+
+@media(max-width:460px){.how,.themes{grid-template-columns:1fr 1fr}.sits{grid-template-columns:1fr}.next-tools{grid-template-columns:1fr}.tabs .tab{font-size:11px;padding:8px 4px}}
+</style>
+
+<div class="pg">
+<div class="h1">CoupleSync</div>
+<div class="hero-sub">Partnerský dotazník, ktorý vás zblíži. Každý odpovedá sám — potom uvidíte kde ste si blízki a kde sa líšite. Bez prekvapení, bez výčitiek.</div>
+
+<div class="tabs">
+  <div class="tab on" onclick="showTab('vstup')">Vstup</div>
+  <div class="tab" onclick="showTab('temy')">Témy</div>
+  <div class="tab" onclick="showTab('result')">Výsledky (ukážka)</div>
+</div>
+
+<!-- VSTUP -->
+<div class="panel on" id="p-vstup">
+  <div class="lbl">Ako to funguje</div>
+  <div class="how">
+    <div class="hw">
+      <div class="hwn">01</div>
+      <div class="hwt">Vytvoríte dotazník</div>
+      <div class="hws">Vyberiete situáciu a témy. Dostanete odkaz pre vás a odkaz pre partnera.</div>
+    </div>
+    <div class="hw">
+      <div class="hwn">02</div>
+      <div class="hwt">Každý odpovedá sám</div>
+      <div class="hws">Oddelene, bez ovplyvňovania. Odpovede partnera nevidíte kým neodpoviete vy.</div>
+    </div>
+    <div class="hw">
+      <div class="hwn">03</div>
+      <div class="hwt">Vidíte výsledky spolu</div>
+      <div class="hws">Mapa zhôd a rozdielov. Odporúčania pre každú oblasť kde sa líšite.</div>
+    </div>
+  </div>
+
+  <div class="lbl">Vyber svoju situáciu</div>
+  <div class="sits">
+    <div class="sit on" onclick="setSit(this)">
+      <div class="stico">◐</div>
+      <div class="stn">Nové páry</div>
+      <div class="sts">Spoznávate sa a chcete ísť hlbšie ako small talk.</div>
+      <div class="stcnt">45 otázok · ~20 minút</div>
+    </div>
+    <div class="sit" onclick="setSit(this)">
+      <div class="stico">♡</div>
+      <div class="stn">Dlhodobý vzťah</div>
+      <div class="sts">Roky spolu — ale niektoré témy ste ešte neprebehrali.</div>
+      <div class="stcnt">80 otázok · ~35 minút</div>
+    </div>
+    <div class="sit" onclick="setSit(this)">
+      <div class="stico">◎</div>
+      <div class="stn">Pred svadbou</div>
+      <div class="sts">Zásadné otázky pred najdôležitejším rozhodnutím.</div>
+      <div class="stcnt">100 otázok · ~45 minút</div>
+    </div>
+    <div class="sit" onclick="setSit(this)">
+      <div class="stico">▲</div>
+      <div class="stn">Po hádke / ťažké obdobie</div>
+      <div class="sts">Nájsť kde presne sa rozchádza — a prečo.</div>
+      <div class="stcnt">60 otázok · ~25 minút</div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="ctah">Začať CoupleSync</div>
+    <div class="ctas">Zadarmo. Bez registrácie. Partner dostane vlastný odkaz — odpovedáte oddelene.</div>
+    <div class="ctarow">
+      <button class="cbtn" onclick="showTab('temy');document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===1)})">Pozrieť témy →</button>
+      <button class="cbtn" onclick="showTab('result');document.querySelectorAll('.tab').forEach(function(t,i){t.classList.toggle('on',i===2)})">Ukážka výsledkov</button>
+    </div>
+  </div>
+</div>
+
+<!-- TÉMY -->
+<div class="panel" id="p-temy">
+  <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1.25rem">9 tematických oblastí · 300+ otázok · každá obsahuje ukážkovú otázku nižšie.</div>
+  <div class="themes">
+    <div class="th" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync tému Každodenný život a návyky — deeptalks.eu')">
+      <div class="thico">🏠</div>
+      <div class="thn">Každodenný život</div>
+      <div class="ths">Rutiny, poriadok, čas pre seba</div>
+      <div class="thq">"Kto z vás zvyčajne rozhoduje kde pôjdete jesť?"</div>
+    </div>
+    <div class="th" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync tému Financie a peniaze — deeptalks.eu')">
+      <div class="thico">◈</div>
+      <div class="thn">Financie</div>
+      <div class="ths">Spoločný účet, úspory, míňanie</div>
+      <div class="thq">"Mali by sme mať spoločný alebo oddelený účet?"</div>
+    </div>
+    <div class="th" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync tému Rodina a deti — deeptalks.eu')">
+      <div class="thico">◎</div>
+      <div class="thn">Rodina a deti</div>
+      <div class="ths">Deti, výchova, svokrovci</div>
+      <div class="thq">"Aký výchovný štýl by si chcel/a používať?"</div>
+    </div>
+    <div class="th" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync tému Intimita a blízkosť — deeptalks.eu')">
+      <div class="thico">●</div>
+      <div class="thn">Intimita<span class="bdg bn">Citlivé</span></div>
+      <div class="ths">Blízkosť, potreby, komunikácia</div>
+      <div class="thq">"Čo ti dáva pocit, že si naozaj milovaný/á?"</div>
+    </div>
+    <div class="th" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync tému Budúcnosť a sny — deeptalks.eu')">
+      <div class="thico">◇</div>
+      <div class="thn">Budúcnosť a sny</div>
+      <div class="ths">Kariéra, bydlisko, bucket list</div>
+      <div class="thq">"Kde si predstavuješ, že budeme žiť o 10 rokov?"</div>
+    </div>
+    <div class="th" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync tému Hodnoty a presvedčenia — deeptalks.eu')">
+      <div class="thico">▲</div>
+      <div class="thn">Hodnoty</div>
+      <div class="ths">Viera, politika, životné priority</div>
+      <div class="thq">"Čo je pre teba v živote najdôležitejšie?"</div>
+    </div>
+    <div class="th" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync tému Konflikty a komunikácia — deeptalks.eu')">
+      <div class="thico">◁</div>
+      <div class="thn">Konflikty</div>
+      <div class="ths">Hádky, zmierenie, štýly komunikácie</div>
+      <div class="thq">"Čo potrebuješ po hádke — priestor alebo okamžité zmierenie?"</div>
+    </div>
+    <div class="th" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync tému Jazyky lásky — deeptalks.eu')">
+      <div class="thico">◆</div>
+      <div class="thn">Jazyky lásky</div>
+      <div class="ths">Slová, čas, dotyk, dary, pomoc</div>
+      <div class="thq">"Kedy sa cítiš najviac milovaný/á?"</div>
+    </div>
+    <div class="th" onclick="sendPrompt('Navrhni 30 otázok pre CoupleSync tému Minulosť a príbehy — deeptalks.eu')">
+      <div class="thico">◫</div>
+      <div class="thn">Minulosť</div>
+      <div class="ths">Detstvo, rodičia, formujúce zážitky</div>
+      <div class="thq">"Čo z tvojho detstva ťa najviac ovplyvnilo?"</div>
+    </div>
+  </div>
+</div>
+
+<!-- VÝSLEDKY -->
+<div class="panel" id="p-result">
+  <div class="result-intro">Takto vyzerajú výsledky po vyplnení oboma partnermi. Nie len zhody — ale aj vizuálna mapa a konkrétne odporúčania.</div>
+
+  <div class="insight">
+    <div class="insight-lbl">Celkový obraz</div>
+    <div class="insight-text">Ste si veľmi blízki v každodennom živote a zdieľaných hodnotách. Najväčší rozdiel je v oblasti Financií a Budúcnosti — tieto témy stojí za hlbší rozhovor.</div>
+  </div>
+
+  <div class="lbl">Prehľad oblastí</div>
+  <div class="res-areas">
+    <div class="ra">
+      <div class="ra-top"><div class="ra-name">Každodenný život</div><div class="ra-score">92 % zhoda</div></div>
+      <div class="ra-bar-wrap"><div class="ra-bar bar-hi" style="width:92%"></div></div>
+      <div class="ra-note">Výborná zhoda. Zdieľate podobné návyky a rytmus každodenného života.</div>
+    </div>
+    <div class="ra">
+      <div class="ra-top"><div class="ra-name">Jazyky lásky</div><div class="ra-score">87 % zhoda</div></div>
+      <div class="ra-bar-wrap"><div class="ra-bar bar-hi" style="width:87%"></div></div>
+      <div class="ra-note">Dobre sa rozumiete v tom, čo každý potrebuje cítiť lásku.</div>
+    </div>
+    <div class="ra">
+      <div class="ra-top"><div class="ra-name">Rodina a deti</div><div class="ra-score">74 % zhoda</div></div>
+      <div class="ra-bar-wrap"><div class="ra-bar bar-mid" style="width:74%"></div></div>
+      <div class="ra-note">Niekoľko rozdielov v prístupe k výchove. Odporúčame otvoriť tento rozhovor.</div>
+      <div class="ra-cta" onclick="sendPrompt('Navrhni kartičky a otázky pre páry o výchove detí a rodinných hodnotách — deeptalks.eu')">Kartičky pre túto tému →</div>
+    </div>
+    <div class="ra">
+      <div class="ra-top"><div class="ra-name">Financie</div><div class="ra-score">58 % zhoda</div></div>
+      <div class="ra-bar-wrap"><div class="ra-bar bar-lo" style="width:58%"></div></div>
+      <div class="ra-note">Výrazné rozdiely v prístupe k spoločným financiám. Toto je téma na pokojný rozhovor.</div>
+      <div class="ra-cta" onclick="sendPrompt('Navrhni kartičky a otázky pre páry o financiách a peniazoch — deeptalks.eu')">Kartičky pre túto tému →</div>
+    </div>
+    <div class="ra">
+      <div class="ra-top"><div class="ra-name">Budúcnosť a sny</div><div class="ra-score">61 % zhoda</div></div>
+      <div class="ra-bar-wrap"><div class="ra-bar bar-lo" style="width:61%"></div></div>
+      <div class="ra-note">Líšite sa v dlhodobých plánoch. Viac priestoru na zdieľanie snov by pomohlo.</div>
+      <div class="ra-cta" onclick="sendPrompt('Navrhni kartičky a otázky pre páry o budúcnosti, snoch a životných cieľoch — deeptalks.eu')">Kartičky pre túto tému →</div>
+    </div>
+  </div>
+
+  <div class="lbl">Čo ďalej</div>
+  <div class="next-tools">
+    <div class="nt" onclick="sendPrompt('Navrhni prechod z CoupleSync výsledkov na konverzačné kartičky deeptalks.eu')">
+      <div class="ntn">Konverzačné kartičky</div>
+      <div class="nts">Pre témy kde sa líšite — kartičky otvoria rozhovor prirodzene, bez konfrontácie.</div>
+      <div class="ntcta">Vybrať kartičky →</div>
+    </div>
+    <div class="nt" onclick="sendPrompt('Navrhni Daily Connection ako follow-up po CoupleSync výsledkoch deeptalks.eu')">
+      <div class="ntn">Daily Connection</div>
+      <div class="nts">Každý deň jedna otázka. Budujte porozumenie postupne — 5 minút denne.</div>
+      <div class="ntcta">Začať zadarmo →</div>
+    </div>
+    <div class="nt" onclick="sendPrompt('Navrhni ako nastaviť opakovanie CoupleSync dotazníka po 6 mesiacoch deeptalks.eu')">
+      <div class="ntn">Zopakovať za 6 mesiacov</div>
+      <div class="nts">Niektoré odpovede sa menia. Uvidíte, ako ste sa priblížili.</div>
+      <div class="ntcta">Nastaviť pripomienku →</div>
+    </div>
+    <div class="nt" onclick="sendPrompt('Navrhni Kompas deeptalks.eu ako follow-up po CoupleSync pre ťažké témy')">
+      <div class="ntn">Komunikačný kompas</div>
+      <div class="nts">Pre témy kde narazíte — konkrétne vety a kroky ako začať ťažký rozhovor.</div>
+      <div class="ntcta">Otvoriť kompas →</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showTab(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.getElementById('p-'+id).classList.add('on');
+}
+function setSit(el){
+  document.querySelectorAll('.sit').forEach(function(s){s.classList.remove('on');});
+  el.classList.add('on');
+}
+</script>

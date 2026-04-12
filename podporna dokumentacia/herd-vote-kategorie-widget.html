@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herd Vote — Kategórie</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f7f5;
+  --bg2: #f0ede9;
+  --bg3: #e8e4de;
+  --ink: #1a1814;
+  --ink2: #3d3830;
+  --ink3: #7a7268;
+  --ink4: #b0a89e;
+  --ink5: #d4cdc6;
+  --border: rgba(0,0,0,.09);
+  --border2: rgba(0,0,0,.14);
+  --accent: #e86b3a;
+  --accent2: #c45520;
+  --blue: #2563eb;
+  --blue-bg: #eff6ff;
+  --green: #16a34a;
+  --green-bg: #f0fdf4;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink)}
+body{padding:0}
+
+/* HEADER */
+.header{background:var(--ink);padding:2.5rem 2rem 2rem;position:sticky;top:0;z-index:20}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;gap:1rem;flex-wrap:wrap}
+.title-block{}
+.logo{font-size:13px;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.25rem}
+.title{font-size:22px;font-weight:500;color:#fff;line-height:1.2}
+.stats-pills{display:flex;gap:8px;flex-wrap:wrap}
+.stat-pill{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:5px 12px;border-radius:99px;border:.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);background:rgba(255,255,255,.06);white-space:nowrap}
+.stat-pill .dot{width:7px;height:7px;border-radius:50%}
+.dot-green{background:#4ade80}
+.dot-amber{background:#fbbf24}
+.dot-gray{background:rgba(255,255,255,.3)}
+
+/* SEARCH */
+.search-row{display:flex;gap:8px;align-items:center}
+.search-inp{flex:1;font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;border-radius:10px;border:.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;outline:none;transition:all .15s}
+.search-inp::placeholder{color:rgba(255,255,255,.35)}
+.search-inp:focus{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.12)}
+.clear-btn{font-size:12px;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;padding:8px;transition:color .12s;white-space:nowrap}
+.clear-btn:hover{color:rgba(255,255,255,.7)}
+
+/* FILTERS */
+.filters-wrap{background:var(--bg2);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:calc(2.5rem + 2rem + 70px + 40px);z-index:19}
+.fb{font-size:12px;font-weight:500;padding:6px 14px;border-radius:99px;border:.5px solid var(--border2);cursor:pointer;background:var(--bg);color:var(--ink3);transition:all .12s;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.fb:hover{border-color:var(--ink4);color:var(--ink2)}
+.fb.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fb .cnt{font-size:10px;opacity:.6;font-weight:400}
+
+/* MAIN */
+.main{padding:1.5rem 2rem 8rem}
+.section-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink4);margin-bottom:.75rem;margin-top:1.5rem;display:flex;align-items:center;gap:.5rem}
+.section-label:first-child{margin-top:0}
+.section-label::after{content:'';flex:1;height:.5px;background:var(--border)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.card{background:#fff;border:.5px solid var(--border);border-radius:12px;padding:13px 14px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.card:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.06);transform:translateY(-1px)}
+.card:hover::before{transform:scaleX(1)}
+.card.sel{border:1.5px solid var(--blue);background:var(--blue-bg)}
+.card.sel::before{display:none}
+.card.hid{display:none}
+.card.no-q{opacity:.65}
+
+/* CARD CONTENT */
+.cico{font-size:22px;margin-bottom:7px;display:block;line-height:1}
+.cn{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px;line-height:1.3}
+.cs{font-size:11px;color:var(--ink3);line-height:1.45;margin-bottom:5px}
+.ctag{font-size:10px;color:var(--ink4);letter-spacing:.02em}
+.card.sel .cn{color:var(--blue)}
+.card.sel .ctag{color:#93c5fd}
+
+/* STATUS BADGE */
+.cbadge{position:absolute;top:9px;right:9px;font-size:9px;font-weight:600;padding:2px 7px;border-radius:99px;letter-spacing:.03em}
+.cbadge.has-q{background:var(--green-bg);color:var(--green)}
+.cbadge.no-q{background:var(--amber-bg);color:var(--amber)}
+.cbadge.sel-badge{background:var(--blue);color:#fff}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:4rem 2rem;color:var(--ink4)}
+.empty-ico{font-size:32px;margin-bottom:.75rem}
+.empty-t{font-size:15px;font-weight:500;color:var(--ink3);margin-bottom:.35rem}
+.empty-s{font-size:13px}
+
+/* BOTTOM BAR */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;z-index:30;background:#fff;border-top:1px solid var(--border);padding:1rem 2rem}
+.bottom-inner{max-width:900px;margin:0 auto}
+.bottom-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.6rem}
+.bottom-label{font-size:12px;font-weight:500;color:var(--ink3)}
+.bottom-actions{display:flex;gap:8px;align-items:center}
+.btn-confirm{font-size:13px;font-weight:600;padding:9px 24px;border-radius:10px;background:var(--blue);color:#fff;border:none;cursor:pointer;transition:all .15s}
+.btn-confirm:hover{background:#1d4ed8;transform:translateY(-1px)}
+.btn-confirm:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-clear{font-size:12px;color:var(--ink4);background:none;border:none;cursor:pointer;padding:8px;transition:color .12s}
+.btn-clear:hover{color:var(--red)}
+.btn-copy{font-size:12px;font-weight:500;padding:8px 16px;border-radius:8px;border:.5px solid var(--border2);background:var(--bg);color:var(--ink2);cursor:pointer;transition:all .12s}
+.btn-copy:hover{border-color:var(--ink4)}
+
+/* SELECTED PILLS */
+.sel-pills{display:flex;gap:6px;flex-wrap:wrap;min-height:24px}
+.sel-pill{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;border:.5px solid #bfdbfe;background:var(--blue-bg);color:var(--blue);cursor:pointer;transition:all .12s;max-width:200px}
+.sel-pill:hover{background:#fee2e2;border-color:#fca5a5;color:var(--red)}
+.sel-pill .rm{opacity:.5;margin-left:1px}
+.sel-pill .ico{font-size:12px}
+.sel-pill .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sel-empty{font-size:12px;color:var(--ink4);font-style:italic;padding:4px 0}
+
+/* NO RESULTS */
+#no-results{display:none;text-align:center;padding:3rem;color:var(--ink4)}
+
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr 1fr}
+  .header,.main,.bottom-bar{padding-left:1.25rem;padding-right:1.25rem}
+  .filters-wrap{padding-left:1.25rem;padding-right:1.25rem}
+  .header-top{gap:.75rem}
+}
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="title-block">
+      <div class="logo">Herd Vote · DeepTalks</div>
+      <div class="title">Kategórie kvízu</div>
+    </div>
+    <div class="stats-pills">
+      <div class="stat-pill"><div class="dot dot-green"></div><span id="stat-total">130</span> kategórií</div>
+      <div class="stat-pill"><div class="dot dot-amber"></div><span id="stat-new">107</span> nových (bez otázok)</div>
+      <div class="stat-pill"><div class="dot dot-gray"></div><span id="stat-filtered">130</span> zobrazených</div>
+    </div>
+  </div>
+  <div class="search-row">
+    <input class="search-inp" id="search" placeholder="Hľadaj kategóriu..." oninput="doSearch(this.value)">
+    <button class="clear-btn" onclick="clearSearch()">Vymazať ×</button>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters-wrap" id="filters">
+  <button class="fb on" onclick="setGroup('all',this)">Všetky <span class="cnt" id="cnt-all"></span></button>
+  <button class="fb" onclick="setGroup('zabava',this)">🎬 Zábava & Pop <span class="cnt" id="cnt-zabava"></span></button>
+  <button class="fb" onclick="setGroup('sport',this)">⚽ Šport <span class="cnt" id="cnt-sport"></span></button>
+  <button class="fb" onclick="setGroup('kultura',this)">🎨 Kultúra <span class="cnt" id="cnt-kultura"></span></button>
+  <button class="fb" onclick="setGroup('historia',this)">⚔️ História <span class="cnt" id="cnt-historia"></span></button>
+  <button class="fb" onclick="setGroup('geo',this)">🌍 Geografia <span class="cnt" id="cnt-geo"></span></button>
+  <button class="fb" onclick="setGroup('jedlo',this)">🍕 Jedlo <span class="cnt" id="cnt-jedlo"></span></button>
+  <button class="fb" onclick="setGroup('veda',this)">🔬 Veda <span class="cnt" id="cnt-veda"></span></button>
+  <button class="fb" onclick="setGroup('tech',this)">💻 Tech <span class="cnt" id="cnt-tech"></span></button>
+  <button class="fb" onclick="setGroup('sk',this)">🇸🇰 Slovensko <span class="cnt" id="cnt-sk"></span></button>
+  <button class="fb" onclick="setGroup('funny',this)">🤯 Zábavné <span class="cnt" id="cnt-funny"></span></button>
+  <button class="fb" onclick="setGroup('deti',this)">🧒 Deti <span class="cnt" id="cnt-deti"></span></button>
+  <button class="fb" onclick="setGroup('deeptalks',this)">💬 DeepTalks <span class="cnt" id="cnt-deeptalks"></span></button>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main">
+  <div id="no-results">
+    <div style="font-size:32px;margin-bottom:.75rem">🔍</div>
+    <div style="font-size:15px;font-weight:500;color:#6b6560;margin-bottom:.35rem">Nič sa nenašlo</div>
+    <div style="font-size:13px;color:#b0a89e">Skús iný výraz</div>
+  </div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar" id="bottom-bar">
+  <div class="bottom-inner">
+    <div class="sel-pills" id="sel-pills">
+      <span class="sel-empty" id="sel-empty">Klikni na kategóriu pre výber</span>
+    </div>
+    <div class="bottom-top">
+      <div class="bottom-label" id="bottom-label">0 vybraných</div>
+      <div class="bottom-actions">
+        <button class="btn-clear" id="btn-clear" onclick="clearAll()" style="display:none">Zrušiť všetko</button>
+        <button class="btn-copy" id="btn-copy" onclick="copySel()">Kopírovať SQL</button>
+        <button class="btn-confirm" id="btn-confirm" disabled>Potvrdiť výber →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+var CATS = [
+  // EXISTUJÚCE V DB (has_q: true)
+  {g:'veda',    ico:'🔬', n:'Biológia a prírodné vedy',     d:'Orgány, bunky, DNA, ľudské telo',                  t:'Trivial Pursuit', has_q:true},
+  {g:'geo',     ico:'🗺️',  n:'Cestovanie & pamiatky',         d:'Svetoznáme destinácie, UNESCO, zaujímavosti',      t:'Pub quiz',        has_q:true},
+  {g:'geo',     ico:'🇪🇺', n:'Geografia Európa',              d:'Krajiny, hlavné mestá, vlajky Európy',             t:'SK relevantné',   has_q:true},
+  {g:'geo',     ico:'🌍', n:'Geografia Svet',                d:'Kontinenty, krajiny, hlavné mestá sveta',          t:'Trivial Pursuit', has_q:true},
+  {g:'sk',      ico:'🇸🇰', n:'História Slovensko',            d:'Udalosti, osobnosti, dátumy SK histórie',          t:'SK špecifické',   has_q:true},
+  {g:'historia',ico:'⚔️', n:'História Svet',                 d:'Vojny, civilizácie, zlomové udalosti',             t:'Trivial Pursuit', has_q:true},
+  {g:'jedlo',   ico:'🍕', n:'Jedlo & nápoje',                d:'Z akej krajiny pochádza jedlo? Ingrediencie?',     t:'Pub quiz',        has_q:true},
+  {g:'kultura', ico:'🎨', n:'Kultúra a umenie',              d:'Maliari, obrazy, múzeá, umelecké štýly',           t:'Trivial Pursuit', has_q:true},
+  {g:'deti',    ico:'🧮', n:'Logika & rýchla matematika',    d:'Hlavolamy, výpočty, logické úlohy',                t:'Kahoot',          has_q:true},
+  {g:'funny',   ico:'💅', n:'Móda a trendy',                 d:'Návrhári, značky, ikonické kúsky',                 t:'Pub quiz',        has_q:true},
+  {g:'zabava',  ico:'🎬', n:'Popkultúra – Hudba, Film, Seriály', d:'Hity, herci, filmy, Netflix, seriály',         t:'Jackbox',         has_q:true},
+  {g:'deti',    ico:'🧙', n:'Popkultúra – Rozprávky (SK/CZ)',d:'Postavy, príbehy, pesničky z rozprávok',          t:'SK unikát',       has_q:true},
+  {g:'zabava',  ico:'🌐', n:'Slang a internetová kultúra',   d:'Viral momenty, TikTok, YouTube, reddit',           t:'Gen-Z · Jackbox', has_q:true},
+  {g:'sk',      ico:'🏔️', n:'Slovensko – geografia a história',d:'Tatry, mestá, hrady, osobnosti, symboly SR',    t:'SK špecifické',   has_q:true},
+  {g:'sport',   ico:'⚽', n:'Šport',                         d:'Futbal, hokej, tenis, olympiáda, rekordy',         t:'Pub quiz #1',     has_q:true},
+  {g:'tech',    ico:'💻', n:'Technológie a vynálezy',        d:'Kto to vynašiel, kedy vzniklo, rekordy',           t:'Tech pub quiz',   has_q:true},
+  {g:'deeptalks',ico:'🎯',n:'Tipni si',                      d:'Uhádni percentá, čísla, štatistiky o ľuďoch',     t:'Jackbox štýl ⭐', has_q:true},
+  {g:'kultura', ico:'🎉', n:'Tradície & sviatky',            d:'Vianočné, veľkonočné, svetové sviatky, zvyky',    t:'SK relevantné',   has_q:true},
+  {g:'veda',    ico:'🌌', n:'Vesmír a planéty',              d:'Planéty, hviezdy, galaxie, misie NASA',            t:'Trivial Pursuit', has_q:true},
+  {g:'deeptalks',ico:'⚖️',n:'Viac/Menej – porovnania',      d:'Je X väčšie ako Y? Čo má viac? Porovnaj.',        t:'Herd Vote ⭐',    has_q:true},
+  {g:'funny',   ico:'🤯', n:'Zábavné rekordy & kuriozity',   d:'Guinnessova kniha, neuveriteľné ale pravdivé',     t:'Jackbox · virálne',has_q:true},
+  {g:'veda',    ico:'🧬', n:'Zdravie & telo',                d:'Anatómia, choroby, vitamíny, medicína',            t:'Pub quiz',        has_q:true},
+  {g:'veda',    ico:'🦁', n:'Zvieratá & rastliny',           d:'Fakty, rekordy, druhy, habitat, príroda',          t:'Rodinný pub quiz',has_q:true},
+  // NOVÉ (has_q: false)
+  {g:'zabava',  ico:'🎬', n:'Filmy',                         d:'Citáty, herci, rok vydania, oscary',               t:'Trivial Pursuit · Jackbox', has_q:false},
+  {g:'zabava',  ico:'📺', n:'Televízia & Seriály',           d:'Netflix, HBO, klasiky. Znáš sa v tom?',            t:'Pub quiz · Netflix',has_q:false},
+  {g:'zabava',  ico:'🎵', n:'Hudba',                         d:'Kapely, hity, roky, texty piesní',                 t:'Pub quiz · Kahoot',has_q:false},
+  {g:'zabava',  ico:'🎤', n:'Speváci & Kapely',              d:'Kto spieval? Z akej kapely? Koľko albúmov?',       t:'Pub quiz',        has_q:false},
+  {g:'zabava',  ico:'🎮', n:'Videohry',                      d:'Konzoly, postavy, rok vydania, rekordy',           t:'Jackbox · Twitch',has_q:false},
+  {g:'zabava',  ico:'📚', n:'Knihy & Literatúra',            d:'Autori, postavy, citáty, bestsellery',             t:'Trivial Pursuit', has_q:false},
+  {g:'zabava',  ico:'🎭', n:'Divadlo & Muzikály',            d:'Broadway, West End, piesne z muzikálov',           t:'Kultúrny pub quiz',has_q:false},
+  {g:'zabava',  ico:'📰', n:'Aktuálne udalosti',             d:'Správy posledného mesiaca, roku',                  t:'Kahoot · školy',  has_q:false},
+  {g:'zabava',  ico:'🦸', n:'Superhrdinovia & Komiksy',      d:'Marvel, DC, mená, schopnosti, filmy',              t:'Jackbox · Gen-Z', has_q:false},
+  {g:'zabava',  ico:'🏆', n:'Reality šou & Súťaže',          d:'Survivor, Big Brother, Idol, MasterChef',          t:'Pub quiz',        has_q:false},
+  {g:'zabava',  ico:'🎪', n:'Stand-up & Komedianti',         d:'Citáty, mená komikeov, Netflix špeciály',          t:'Niche pub quiz',  has_q:false},
+  {g:'zabava',  ico:'📸', n:'Celebrity & Slávni ľudia',      d:'Kto je kto? Kariéra, vzťahy, škandály',           t:'Pub quiz · BuzzFeed',has_q:false},
+  {g:'zabava',  ico:'🌐', n:'Internet & Memes',              d:'Viral momenty, TikTok, YouTube, reddit',           t:'Gen-Z · Jackbox', has_q:false},
+  {g:'zabava',  ico:'🃏', n:'Disney & Animáky',              d:'Postavy, piesne, filmy, Pixar',                    t:'Rodinný pub quiz',has_q:false},
+  {g:'zabava',  ico:'🧩', n:'Spoločenské hry',               d:'Pravidlá, postavy, rok vzniku, rekordné hry',      t:'Board game café', has_q:false},
+  {g:'zabava',  ico:'📡', n:'Podcasty & YouTube',            d:'Najväčší tvorcovia, videá s miliardou videní',     t:'Gen-Z niche',     has_q:false},
+  {g:'sport',   ico:'🏀', n:'Basketbal (NBA)',               d:'Tímy, MVP, šampionáty, štatistiky legiend',        t:'US pub quiz',     has_q:false},
+  {g:'sport',   ico:'🎾', n:'Tenis',                         d:'Grand Slamy, svetové jedničky, Wimbledon',         t:'Trivial Pursuit', has_q:false},
+  {g:'sport',   ico:'🏊', n:'Olympijské hry',                d:'Rekordy, mestá, olympijský oheň, medaily',         t:'Trivial Pursuit', has_q:false},
+  {g:'sport',   ico:'🏒', n:'Hokej',                         d:'Tímy, MS, Stanley Cup, legendy',                   t:'SK/CZ pub quiz',  has_q:false},
+  {g:'sport',   ico:'🥊', n:'Box & MMA',                     d:'Šampióni, zápasy, UFC, majstrovstvá sveta',        t:'Pub quiz',        has_q:false},
+  {g:'sport',   ico:'🏎️', n:'Formule 1',                    d:'Tímy, piloti, trasy, víťazi šampionátu',           t:'Pub quiz',        has_q:false},
+  {g:'sport',   ico:'🚴', n:'Cyklistika',                    d:'Tour de France, Giro, Vuelta, rekordy',            t:'Európsky pub quiz',has_q:false},
+  {g:'sport',   ico:'🏈', n:'Americký futbal (NFL)',          d:'Super Bowl, tímy, MVP, rekordy',                   t:'US pub quiz',     has_q:false},
+  {g:'sport',   ico:'🎿', n:'Zimné športy',                  d:'Lyžovanie, biatlon, skoky, krasokorčuľovanie',     t:'SK relevantné',   has_q:false},
+  {g:'sport',   ico:'⚾', n:'Baseball',                      d:'MLB, šampionáty, hráči, rekordy',                  t:'US pub quiz',     has_q:false},
+  {g:'sport',   ico:'🏐', n:'Volejbal & Plážové športy',     d:'MS, olympiáda, najlepšie tímy sveta',              t:'Pub quiz',        has_q:false},
+  {g:'kultura', ico:'🎨', n:'Výtvarné umenie',               d:'Maliari, obrazy, múzeá, umelecké štýly',           t:'Trivial Pursuit', has_q:false},
+  {g:'kultura', ico:'🏛️', n:'Architektúra',                  d:'Stavby, architekti, štýly, rekordy výšky',         t:'Trivial Pursuit', has_q:false},
+  {g:'kultura', ico:'📜', n:'Mytológia',                     d:'Grécka, rímska, nordická, egyptská',               t:'Školy · pub quiz',has_q:false},
+  {g:'kultura', ico:'🌍', n:'Náboženstvá sveta',             d:'Sviatky, symboly, zakladatelia, posvätné miesta',  t:'Trivial Pursuit', has_q:false},
+  {g:'kultura', ico:'💃', n:'Tanec & Balet',                 d:'Štýly, koreografie, svetové súbory',               t:'Kultúrny pub quiz',has_q:false},
+  {g:'kultura', ico:'🎻', n:'Klasická hudba',                d:'Skladatelia, diela, nástroje, opera',              t:'Trivial Pursuit', has_q:false},
+  {g:'kultura', ico:'📷', n:'Fotografia & Film',             d:'Ikonické fotky, fotografi, techniky',               t:'Pub quiz',        has_q:false},
+  {g:'kultura', ico:'🛕', n:'Svetové pamiatky UNESCO',       d:'Kde sa nachádzajú, kedy boli zapísané',            t:'Geo + kultúra',   has_q:false},
+  {g:'kultura', ico:'🌐', n:'Jazyky sveta',                  d:'Koľko ľudí hovorí? Odkiaľ pochádza slovo?',        t:'Lingvistický',    has_q:false},
+  {g:'kultura', ico:'📖', n:'Citáty z kníh a filmov',        d:'Kto to povedal? Z akého diela?',                   t:'Pub quiz',        has_q:false},
+  {g:'kultura', ico:'🎡', n:'Festivaly sveta',               d:'Oktoberfest, Karneval, Burning Man, Diwali',       t:'Kultúrny pub quiz',has_q:false},
+  {g:'historia',ico:'👑', n:'Kráľovské rodiny',              d:'Európske monarchie, zaujímavosti, nástupníctvo',   t:'UK pub quiz',     has_q:false},
+  {g:'historia',ico:'🗽', n:'Prezidenti & Premiéri',         d:'Mená, roky, krajiny, zaujímavosti',                t:'Trivial Pursuit', has_q:false},
+  {g:'historia',ico:'🏺', n:'Staroveké civilizácie',         d:'Egypt, Rím, Grécko, Aztékovia, Čína',              t:'Trivial Pursuit', has_q:false},
+  {g:'historia',ico:'🚀', n:'Vesmírne preteky',              d:'NASA, Sojuz, prvý človek, Moon landing',           t:'Pub quiz',        has_q:false},
+  {g:'historia',ico:'📅', n:'Dôležité dátumy histórie',      d:'Kedy sa to stalo? Rok udalosti?',                  t:'Trivial Pursuit', has_q:false},
+  {g:'historia',ico:'🏦', n:'Ekonomika & Peniaze',           d:'Meny, centrálne banky, veľké krízy',               t:'Pokročilý pub quiz',has_q:false},
+  {g:'historia',ico:'✊', n:'Revolúcie & Hnutia',            d:'Francúzska revolúcia, Velvet Revolution',          t:'Trivial Pursuit', has_q:false},
+  {g:'historia',ico:'⚖️', n:'Právo & Súdne kauzy',          d:'Slávne prípady, medzinárodné právo, súdy',         t:'Niche pub quiz',  has_q:false},
+  {g:'historia',ico:'🗺️', n:'Objavy & Prieskumníci',        d:'Kolumbus, Magellan, Scott, Amundsen',              t:'Trivial Pursuit', has_q:false},
+  {g:'historia',ico:'📰', n:'20. storočie',                  d:'Studená vojna, kozmické preteky, diktatúry',       t:'Pub quiz',        has_q:false},
+  {g:'geo',     ico:'🌍', n:'Hlavné mestá sveta',            d:'Ktoré mesto je hlavné mesto krajiny X?',           t:'Trivial Pursuit #1',has_q:false},
+  {g:'geo',     ico:'🗺️', n:'Vlajky štátov',                d:'Aká krajina má túto vlajku?',                      t:'Pub quiz',        has_q:false},
+  {g:'geo',     ico:'⛰️', n:'Hory & Pohoria',               d:'Everest, Alpy, Andy, výšky, krajiny',              t:'Trivial Pursuit', has_q:false},
+  {g:'geo',     ico:'🌊', n:'Rieky, jazerá & oceány',        d:'Najdlhšia, najhlbšia, hranice krajín',             t:'Trivial Pursuit', has_q:false},
+  {g:'geo',     ico:'🏙️', n:'Najväčšie mestá sveta',        d:'Počet obyvateľov, kontinenty, zaujímavosti',       t:'Pub quiz',        has_q:false},
+  {g:'geo',     ico:'🧭', n:'Krajiny sveta — fakty',         d:'Populácia, mena, jazyk, susedia',                  t:'Trivial Pursuit', has_q:false},
+  {g:'geo',     ico:'🏝️', n:'Ostrovy & Kontinenty',         d:'Najväčšie, najmenšie, zaujímavé fakty',            t:'Pub quiz',        has_q:false},
+  {g:'geo',     ico:'🗼', n:'Svetoznáme pamiatky',           d:'V ktorom meste? V akej krajine?',                  t:'Obľúbené',        has_q:false},
+  {g:'geo',     ico:'🌋', n:'Prírodné javy',                 d:'Sopky, zemetrasenia, tornáda, tsunami',            t:'Veda + geo',      has_q:false},
+  {g:'geo',     ico:'🌡️', n:'Podnebie & Počasie',           d:'Najteplejšie, najmokrejšie, najsuchšie miesta',    t:'Pub quiz',        has_q:false},
+  {g:'jedlo',   ico:'🍷', n:'Víno & Vinárske regióny',       d:'Odrody, krajiny, rekordy, degustácia',             t:'Sofistikovaný',   has_q:false},
+  {g:'jedlo',   ico:'🍺', n:'Pivo & Pivovary',               d:'Typy piva, krajiny, najstaršie pivovary',          t:'Pub quiz #1',     has_q:false},
+  {g:'jedlo',   ico:'☕', n:'Káva & Čaj',                    d:'Krajiny pôvodu, typy, príprava',                   t:'Kaviareň pub quiz',has_q:false},
+  {g:'jedlo',   ico:'🍣', n:'Ázijská kuchyňa',               d:'Japonsko, Kórea, Čína, Thajsko, India',            t:'Foodie pub quiz',  has_q:false},
+  {g:'jedlo',   ico:'🧀', n:'Syry sveta',                    d:'Krajiny, typy, rekordy, zaujímavosti',             t:'Niche pub quiz',  has_q:false},
+  {g:'jedlo',   ico:'🌶️', n:'Koreniny & Bylinky',           d:'Pôvod, použitie, Scoville stupnica',               t:'Foodie niche',    has_q:false},
+  {g:'jedlo',   ico:'🎂', n:'Dezerty sveta',                 d:'Tiramisu, crème brûlée, baklava — odkiaľ?',        t:'Pub quiz',        has_q:false},
+  {g:'jedlo',   ico:'🍽️', n:'Michelinové hviezdy & šéfkuchári',d:'Najslávnejší šéfkuchári, reštaurácie',         t:'Foodie pub quiz', has_q:false},
+  {g:'jedlo',   ico:'🥃', n:'Koktaily & Destiláty',          d:'Ingrediencie, krajiny pôvodu, meno barmanky',      t:'Bar pub quiz',    has_q:false},
+  {g:'jedlo',   ico:'🌾', n:'Potraviny & Výživa',            d:'Vitamíny, kalórie, superfoods, fakty',             t:'Health niche',    has_q:false},
+  {g:'veda',    ico:'🔬', n:'Biológia & Telo',               d:'Orgány, bunky, DNA, ľudské telo',                  t:'Trivial Pursuit', has_q:false},
+  {g:'veda',    ico:'⚗️', n:'Chémia',                       d:'Prvky, značky, reakčné rovnice, Nobel',            t:'Školy · Kahoot',  has_q:false},
+  {g:'veda',    ico:'🌌', n:'Vesmír & Astronómia',           d:'Planéty, hviezdy, galaxie, misie NASA',            t:'Trivial Pursuit', has_q:false},
+  {g:'veda',    ico:'🦁', n:'Zvieratá & Príroda',            d:'Fakty, rekordy, druhy, habitat',                   t:'Pub quiz',        has_q:false},
+  {g:'veda',    ico:'🦕', n:'Dinosaury & Prehistória',       d:'Mená, éry, fosílie, veľkosti, zánik',              t:'Deti + dospelí',  has_q:false},
+  {g:'veda',    ico:'🧪', n:'Objavy & Vynálezy',            d:'Kto vynašiel? Kedy? Ako to zmenilo svet?',          t:'Trivial Pursuit', has_q:false},
+  {g:'veda',    ico:'⚡', n:'Fyzika',                        d:'Zákony, vedci, experimenty, jednotky',              t:'Školy',           has_q:false},
+  {g:'veda',    ico:'🌱', n:'Rastliny & Botanika',           d:'Druhy, liečivé rastliny, rekordy, fakty',          t:'Niche pub quiz',  has_q:false},
+  {g:'veda',    ico:'🌊', n:'Oceány & Morský život',         d:'Druhy rýb, hĺbky, zaujímavosti',                   t:'Pub quiz',        has_q:false},
+  {g:'veda',    ico:'🧠', n:'Psychológia & Mozog',           d:'Fakty o mozgu, efekty, experimenty',               t:'DeepTalks',       has_q:false},
+  {g:'veda',    ico:'🌿', n:'Klimatická zmena & Ekológia',   d:'Fakty, riešenia, dohody, krajiny',                 t:'Moderný pub quiz',has_q:false},
+  {g:'tech',    ico:'📱', n:'Smartfóny & Aplikácie',         d:'Apple vs Android, história, rekordy stiahnutí',    t:'Tech niche',      has_q:false},
+  {g:'tech',    ico:'🤖', n:'Umelá inteligencia',            d:'Modely, spoločnosti, prielomy, história',          t:'2024+ relevantné',has_q:false},
+  {g:'tech',    ico:'🚗', n:'Autá & Doprava',                d:'Značky, modely, rekordy, história áut',            t:'Pub quiz',        has_q:false},
+  {g:'tech',    ico:'✈️', n:'Lietadlá & Letectvo',           d:'Typy lietadiel, rekordy, aerolinky',               t:'Tech pub quiz',   has_q:false},
+  {g:'tech',    ico:'🚀', n:'Vesmírne technológie',          d:'SpaceX, NASA, Roscosmos, satelity',                t:'Tech pub quiz',   has_q:false},
+  {g:'tech',    ico:'🔐', n:'Kryptomena & Blockchain',       d:'Bitcoin, Ethereum, história, rekordy',             t:'Niche pub quiz',  has_q:false},
+  {g:'tech',    ico:'🏥', n:'Medicína & Zdravie',            d:'Lieky, diagnózy, rekordy, Nobel za medicínu',      t:'Trivial Pursuit', has_q:false},
+  {g:'sk',      ico:'🇸🇰', n:'Slovenská história',           d:'Udalosti, osobnosti, dátumy, zmluvy',              t:'SK špecifické',   has_q:false},
+  {g:'sk',      ico:'⛷️', n:'Slovenský šport',              d:'Športovci, medailisti, rekordy',                   t:'SK špecifické',   has_q:false},
+  {g:'sk',      ico:'🏔️', n:'Slovenská príroda & regióny',  d:'Tatry, jaskyne, rieky, NP',                        t:'SK špecifické',   has_q:false},
+  {g:'sk',      ico:'🎶', n:'Slovenská hudba',               d:'Kapely, speváci, hity, folklore',                  t:'SK pub quiz',     has_q:false},
+  {g:'sk',      ico:'📺', n:'Slovenské filmy & TV',          d:'Klasiky, postavy, citáty, režiséri',               t:'SK pub quiz',     has_q:false},
+  {g:'sk',      ico:'🏙️', n:'Slovenské mestá & fakty',      d:'Počty obyvateľov, symboly, historické fakty',      t:'SK pub quiz',     has_q:false},
+  {g:'sk',      ico:'🥣', n:'Slovenská kuchyňa',             d:'Jedlá, tradície, ingrediencie, sviatky',           t:'SK pub quiz',     has_q:false},
+  {g:'sk',      ico:'🇺🇦', n:'Ukrajina & SK-UA vzťahy',      d:'História, kultúra, zaujímavosti, osobnosti',       t:'DeepTalks bilingválne',has_q:false},
+  {g:'sk',      ico:'🏰', n:'Slovenské hrady & pamiatky',    d:'Kde sa nachádzajú, história, UNESCO',              t:'SK pub quiz',     has_q:false},
+  {g:'funny',   ico:'🎲', n:'Rekordy z Guinnessovej knihy',  d:'Najväčší, najrýchlejší, najzaujímavejší',          t:'Pub quiz',        has_q:false},
+  {g:'funny',   ico:'🦄', n:'Záhadné a nadprirodzené',       d:'UFO, záhady, Bermudský trojuholník',               t:'Niche fun',       has_q:false},
+  {g:'funny',   ico:'😂', n:'Vtipné zákony & predpisy',      d:'Reálne, ale absurdné zákony z celého sveta',       t:'Jackbox štýl',    has_q:false},
+  {g:'funny',   ico:'🐾', n:'Zvieracie rekordy',             d:'Najrýchlejšie, najväčšie, najzaujímavejšie',       t:'Rodinný pub quiz',has_q:false},
+  {g:'funny',   ico:'💰', n:'Najbohatší ľudia sveta',        d:'Meno, majetok, čím zarobili, rok',                 t:'Pub quiz',        has_q:false},
+  {g:'funny',   ico:'🧟', n:'Horory & Strašidelné',          d:'Filmy, miesta, legendy, mýty',                     t:'Halloween pub quiz',has_q:false},
+  {g:'funny',   ico:'🔮', n:'Horoskopy & Veštenie',          d:'Znamenia, planéty, predpovede, história',          t:'Fun niche',       has_q:false},
+  {g:'funny',   ico:'🎪', n:'Cirkus & Pouliční artisti',     d:'Rekordy, história, slávne čísla',                  t:'Fun niche',       has_q:false},
+  {g:'funny',   ico:'🃏', n:'Superlativy',                   d:'Čo je najväčšie, najmenšie, najrýchlejšie?',       t:'Pub quiz',        has_q:false},
+  {g:'funny',   ico:'🛸', n:'Sci-Fi & Budúcnosť',            d:'Predpovede, filmy, vynálezy inšpirované sci-fi',   t:'Niche tech',      has_q:false},
+  {g:'deti',    ico:'✏️', n:'Matematika & Rébusy',           d:'Hlavolamy, výpočty, logické úlohy',                t:'Školy · Kahoot',  has_q:false},
+  {g:'deti',    ico:'🔤', n:'Slovenský jazyk & Pravopis',    d:'Gramatika, synonymá, pravopis, úslovia',           t:'SK školy',        has_q:false},
+  {g:'deti',    ico:'🌈', n:'Farby, tvary & percepcia',      d:'Optické ilúzie, miešanie farieb, vnímanie',        t:'Deti · Kahoot',   has_q:false},
+  {g:'deti',    ico:'🦋', n:'Príroda okolo nás',             d:'Vtáky, stromy, kvety, zvieratá SR',                t:'Deti · školy',    has_q:false},
+  {g:'deti',    ico:'🏫', n:'Školské predmety',              d:'Ktorý vedec? Ktorý rok? Zákon, vzorec',            t:'Kahoot',          has_q:false},
+  {g:'deti',    ico:'🧒', n:'Detské seriály & rozprávky',    d:'Postavy, mená, príbehy, pesničky',                 t:'Rodinný pub quiz',has_q:false},
+  {g:'deti',    ico:'🎠', n:'Hry & Hračky',                  d:'LEGO, Barbie, Monopoly — história, fakty',         t:'Rodinný pub quiz',has_q:false},
+  {g:'deeptalks',ico:'💬',n:'Čo vieš o svojej rodine?',      d:'Kto z rodiny...? Kedy sa narodil...? Čo zbiera?',  t:'DeepTalks ⭐',    has_q:false},
+  {g:'deeptalks',ico:'🧡',n:'Náš vzťah — páry',              d:'Kedy sme sa prvýkrát...? Kde to bolo...?',         t:'DeepTalks ⭐',    has_q:false},
+  {g:'deeptalks',ico:'👥',n:'Kto z nás by...?',              d:'Kto by prežil zombie apokalypsu? Kto by skôr?',    t:'Herd Vote ⭐',    has_q:false},
+  {g:'deeptalks',ico:'🔢',n:'Uhádni percentá',               d:'Koľko % ľudí...? Guesspionage štýl',              t:'Jackbox ⭐',       has_q:false},
+  {g:'deeptalks',ico:'🤔',n:'Psychologické fakty',           d:'Čo hovorí výskum o ľuďoch, vzťahoch, mozgu',       t:'DeepTalks ⭐',    has_q:false},
+  {g:'deeptalks',ico:'🎭',n:'Emócie & Reakčné typy',         d:'Ako reaguješ? Čo by si urobil/a? Ktorý typ?',      t:'DeepTalks ⭐',    has_q:false},
+  {g:'deeptalks',ico:'🏠',n:'Domácnosť & Spolunažívanie',    d:'Kto robí čo doma? Zvyky, nezhody, rituály',        t:'Páry · rodiny ⭐',has_q:false},
+  {g:'deeptalks',ico:'🌟',n:'Sny & Ambície',                 d:'Kto by chcel...? Čo by urobil/a s miliónom?',      t:'DeepTalks ⭐',    has_q:false},
+  {g:'deeptalks',ico:'😬',n:'Trápne momenty & Škandály',     d:'Čo si urobil/a prvýkrát? Najhoršia situácia?',     t:'Icebreaker ⭐',   has_q:false},
+  {g:'deeptalks',ico:'🗳️',n:'Väčšina by...?',               d:'Čo by väčšina v tejto miestnosti odpovedala?',     t:'Herd Vote ⭐',    has_q:false},
+  {g:'deeptalks',ico:'🕰️',n:'Detstvo & Spomienky',           d:'Čo si robil/a ako dieťa? Prvé spomienky?',         t:'Generácie ⭐',    has_q:false},
+  {g:'deeptalks',ico:'🌍',n:'Hodnoty & Presvedčenia',        d:'Čo je pre teba najdôležitejšie?',                  t:'DeepTalks ⭐',    has_q:false},
+];
+
+// ── STATE ──────────────────────────────────────────────────────
+var state = { group:'all', search:'', sel:new Set() };
+
+// ── SECTIONS CONFIG ───────────────────────────────────────────
+var SECTIONS = [
+  {g:'zabava',   label:'🎬 Zábava & Pop'},
+  {g:'sport',    label:'⚽ Šport'},
+  {g:'kultura',  label:'🎨 Kultúra & Umenie'},
+  {g:'historia', label:'⚔️ História & Politika'},
+  {g:'geo',      label:'🌍 Geografia'},
+  {g:'jedlo',    label:'🍕 Jedlo & Pitie'},
+  {g:'veda',     label:'🔬 Veda & Príroda'},
+  {g:'tech',     label:'💻 Tech & Veda'},
+  {g:'sk',       label:'🇸🇰 Slovensko'},
+  {g:'funny',    label:'🤯 Zábavné & Niche'},
+  {g:'deti',     label:'🧒 Pre deti & Školu'},
+  {g:'deeptalks',label:'💬 DeepTalks originál'},
+];
+
+// ── BUILD COUNTS ──────────────────────────────────────────────
+function buildCounts(){
+  var all = {};
+  CATS.forEach(function(c){all[c.g]=(all[c.g]||0)+1;});
+  document.getElementById('cnt-all').textContent='('+CATS.length+')';
+  Object.keys(all).forEach(function(g){
+    var el=document.getElementById('cnt-'+g);
+    if(el) el.textContent='('+all[g]+')';
+  });
+}
+
+// ── RENDER ─────────────────────────────────────────────────────
+function render(){
+  var main = document.getElementById('main');
+  var q = state.search.toLowerCase().trim();
+  var visible = CATS.filter(function(c){
+    if(state.group!=='all' && c.g!==state.group) return false;
+    if(q && (c.n+c.d).toLowerCase().indexOf(q)<0) return false;
+    return true;
+  });
+
+  document.getElementById('stat-filtered').textContent = visible.length;
+  document.getElementById('no-results').style.display = visible.length?'none':'block';
+
+  if(state.group==='all' && !q){
+    // Render by sections
+    var html='';
+    SECTIONS.forEach(function(sec){
+      var items = CATS.filter(function(c){return c.g===sec.g;});
+      html += '<div class="section-label">'+sec.label+'</div>';
+      html += '<div class="grid" style="margin-bottom:1.25rem">';
+      items.forEach(function(c){html+=cardHTML(c);});
+      html += '</div>';
+    });
+    main.innerHTML = html;
+  } else {
+    var html2 = '<div class="grid">';
+    visible.forEach(function(c){html2+=cardHTML(c);});
+    html2 += '</div>';
+    main.innerHTML = html2;
+  }
+
+  // Attach events
+  main.querySelectorAll('.card').forEach(function(el){
+    el.addEventListener('click',function(){toggle(el.dataset.name);});
+  });
+  updateSelected();
+}
+
+function cardHTML(c){
+  var isSel = state.sel.has(c.n);
+  var badge = isSel
+    ? '<div class="cbadge sel-badge">✓ Vybrané</div>'
+    : (c.has_q
+      ? '<div class="cbadge has-q">Má otázky</div>'
+      : '<div class="cbadge no-q">Treba otázky</div>');
+  return '<div class="card'+(isSel?' sel':'')+(c.has_q?'':' no-q')+'" data-name="'+esc(c.n)+'">'
+    +badge
+    +'<div class="cico">'+c.ico+'</div>'
+    +'<div class="cn">'+c.n+'</div>'
+    +'<div class="cs">'+c.d+'</div>'
+    +'<div class="ctag">'+c.t+'</div>'
+    +'</div>';
+}
+
+function esc(s){return s.replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+// ── TOGGLE ────────────────────────────────────────────────────
+function toggle(name){
+  if(state.sel.has(name)) state.sel.delete(name);
+  else state.sel.add(name);
+  render();
+}
+
+// ── SELECTED ─────────────────────────────────────────────────
+function updateSelected(){
+  var pills = document.getElementById('sel-pills');
+  var empty = document.getElementById('sel-empty');
+  var label = document.getElementById('bottom-label');
+  var btn   = document.getElementById('btn-confirm');
+  var bclear= document.getElementById('btn-clear');
+
+  if(!state.sel.size){
+    pills.innerHTML='';
+    pills.appendChild(document.getElementById('sel-empty'));
+    empty.style.display='';
+    label.textContent='0 vybraných';
+    btn.disabled=true;
+    bclear.style.display='none';
+    return;
+  }
+  empty.style.display='none';
+  bclear.style.display='';
+  btn.disabled=false;
+  label.textContent=state.sel.size+' vybraných';
+
+  var h='';
+  state.sel.forEach(function(name){
+    var cat=CATS.find(function(c){return c.n===name;})||{ico:'?'};
+    h+='<div class="sel-pill" onclick="toggle(\''+esc(name)+'\')">'
+      +'<span class="ico">'+cat.ico+'</span>'
+      +'<span class="nm">'+name+'</span>'
+      +'<span class="rm">×</span></div>';
+  });
+  pills.innerHTML=h;
+  pills.appendChild(document.getElementById('sel-empty'));
+}
+
+// ── SEARCH ───────────────────────────────────────────────────
+function doSearch(v){state.search=v;render();}
+function clearSearch(){state.search='';document.getElementById('search').value='';render();}
+
+// ── GROUP ─────────────────────────────────────────────────────
+function setGroup(g,btn){
+  state.group=g;
+  document.querySelectorAll('.fb').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  render();
+}
+
+// ── CLEAR ALL ─────────────────────────────────────────────────
+function clearAll(){state.sel.clear();render();}
+
+// ── COPY SQL ──────────────────────────────────────────────────
+function copySel(){
+  if(!state.sel.size){alert('Najprv vyber aspoň jednu kategóriu.');return;}
+  var names=[];
+  state.sel.forEach(function(n){names.push(n);});
+  var sql="-- Vybrané kategórie ("+names.length+")\n";
+  sql+="SELECT id, name, slug, icon, group_tag\n";
+  sql+="FROM herd_categories\n";
+  sql+="WHERE name IN (\n";
+  sql+=names.map(function(n){return "  '"+n.replace(/'/g,"''")+"'";}).join(",\n");
+  sql+="\n);";
+  navigator.clipboard.writeText(sql).then(function(){
+    var b=document.getElementById('btn-copy');
+    var orig=b.textContent;
+    b.textContent='Skopírované ✓';
+    setTimeout(function(){b.textContent=orig;},2000);
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+buildCounts();
+render();
+</script>
+</body>
+</html>

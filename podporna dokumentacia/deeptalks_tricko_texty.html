@@ -1,0 +1,550 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.pg{padding:1.5rem 0 3rem;font-family:var(--font-sans);color:var(--color-text-primary)}
+.lbl{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.65rem;margin-top:1.75rem}
+.lbl:first-child{margin-top:0}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1.25rem 0}
+.hero-h{font-size:22px;font-weight:500;margin-bottom:.35rem}
+.hero-sub{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1.5rem;max-width:500px}
+
+/* SEKCIE */
+.section-h{font-size:15px;font-weight:500;margin-bottom:3px;margin-top:1.75rem}
+.section-s{font-size:12px;color:var(--color-text-secondary);margin-bottom:.9rem;line-height:1.5}
+
+/* GRID TEXTOV */
+.texts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.5rem}
+.texts.three{grid-template-columns:1fr 1fr 1fr}
+.tcard{border:.5px solid var(--color-border-tertiary);border-radius:11px;padding:13px 15px;cursor:pointer;transition:all .13s;background:var(--color-background-primary);user-select:none}
+.tcard:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.tcard.sel{border:1.5px solid var(--color-border-info);background:var(--color-background-info)}
+.tcard.sel .tc-main,.tcard.sel .tc-back{color:var(--color-text-info)}
+.tcard.sel .tc-back{opacity:.8}
+.tc-tag{font-size:9px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.tcard.sel .tc-tag{color:var(--color-text-info);opacity:.7}
+.tc-main{font-size:15px;font-weight:500;color:var(--color-text-primary);line-height:1.3;margin-bottom:4px}
+.tc-back{font-size:11px;color:var(--color-text-tertiary);line-height:1.4;font-style:italic}
+
+/* VYBRANÉ */
+.selected-box{border:.5px solid var(--color-border-tertiary);border-radius:12px;padding:14px 16px;background:var(--color-background-secondary);margin-top:1.5rem;position:sticky;bottom:1rem}
+.sel-h{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.5rem}
+.sel-items{display:flex;gap:7px;flex-wrap:wrap;min-height:28px}
+.sel-item{font-size:12px;font-weight:500;padding:4px 12px;border-radius:99px;border:.5px solid var(--color-border-info);background:var(--color-background-primary);color:var(--color-text-info);cursor:pointer;transition:all .12s}
+.sel-item:hover{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.sel-empty{font-size:12px;color:var(--color-text-tertiary);font-style:italic}
+.sel-count{font-size:11px;color:var(--color-text-tertiary);margin-top:.4rem}
+.copy-btn{font-size:11px;font-weight:500;padding:5px 12px;border-radius:7px;border:.5px solid var(--color-border-secondary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary);margin-top:.5rem;transition:all .12s}
+.copy-btn:hover{color:var(--color-text-primary)}
+
+@media(max-width:480px){.texts,.texts.three{grid-template-columns:1fr}}
+</style>
+
+<div class="pg">
+<div class="hero-h">Texty na tričká DeepTalks</div>
+<div class="hero-sub">Klikni na kartu pre výber — vpravo hore je text na chrbát (ak existuje). Vybrané sa zobrazia dolu. Klikni na vybraný pre odstránenie.</div>
+
+<!-- 1. PRIAME POZVANIE -->
+<div class="section-h">1. Priame pozvanie — "oslovia ma"</div>
+<div class="section-s">Jednoduché, jasné. Druhá strana vie presne čo má urobiť.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Oslov ma. :)</div>
+    <div class="tc-back">chrbát: "Čo ťa dnes prekvapilo?"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Opýtaj sa ma niečo.</div>
+    <div class="tc-back">chrbát: "Vážne. Kľudne."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Povedz mi niečo zaujímavé.</div>
+    <div class="tc-back">chrbát: "Čokoľvek. Som zvedavý/á."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Rád/a spoznávam ľudí.</div>
+    <div class="tc-back">chrbát: "Začni ty. Ja sa nebojím."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Hovor. Počúvam.</div>
+    <div class="tc-back">chrbát: "Nemám pospech."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Daj mi otázku.</div>
+    <div class="tc-back">chrbát: "Tú pravú. Nie 'odkiaľ si?'"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Porozprávajme sa.</div>
+    <div class="tc-back">chrbát: "Nie o počasí."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Ľahko ma oslovia.</div>
+    <div class="tc-back">chrbát: "Ťažko sa mi nudia ľudia."</div>
+  </div>
+</div>
+
+<!-- 2. HUMOR A ODĽAHČENIE -->
+<div class="section-h">2. S humorom — ľahké, virálne</div>
+<div class="section-s">Spustí úsmev ešte pred prvým slovom. Ideálne pre mládež a spontánky.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Varoval som ťa.</div>
+    <div class="tc-back">chrbát: "Dokážem hovoriť hodiny."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Táto otázka zmení večer.</div>
+    <div class="tc-back">chrbát: "Kedy si sa naposledy naozaj zasmial/a?"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Nekúsam.</div>
+    <div class="tc-back">chrbát: "Oslov ma."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Nie som introvert.</div>
+    <div class="tc-back">chrbát: "Dobre, možno trochu. Ale oslov ma."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Hovorím s cudzincami.</div>
+    <div class="tc-back">chrbát: "Ešte vždy som nažive."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Toto tričko je icebreaker.</div>
+    <div class="tc-back">chrbát: "Funguje. Práve si to dokázal/a."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Nemám small talk.</div>
+    <div class="tc-back">chrbát: "Len big talk. Poď na to."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Pýtam sa veľa otázok.</div>
+    <div class="tc-back">chrbát: "Priprav sa."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Nuda nie je moja vec.</div>
+    <div class="tc-back">chrbát: "Tvoja ani moja."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Toto nie je normálne tričko.</div>
+    <div class="tc-back">chrbát: "Čo ťa baví mimo práce?"</div>
+  </div>
+</div>
+
+<!-- 3. FILOZOFICKÉ / HLBOKÉ -->
+<div class="section-h">3. Filozofické — pre hlbokých nositeľov</div>
+<div class="section-s">Vyvolajú záujem bez vysvetľovania. Nositeľ je záhadný — a zároveň otvorený.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Skutočné veci sa hovoria naživo.</div>
+    <div class="tc-back">chrbát: "deeptalks.eu"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Realita je lepšia ako obrazovka.</div>
+    <div class="tc-back">chrbát: "Odlož telefón. Porozprávajme sa."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Jeden rozhovor zmení všetko.</div>
+    <div class="tc-back">chrbát: "Možno práve tento."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Cudzinci sú priatelia, ktorých ešte nepoznám.</div>
+    <div class="tc-back">chrbát: "Začni ty."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Každý má príbeh, ktorý stojí za vypočutie.</div>
+    <div class="tc-back">chrbát: "Aj ty. Povedz mi ho."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Sme si cudzí len dovtedy, kým sa nespýtame.</div>
+    <div class="tc-back">chrbát: "Tak sa spýtaj."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Ticho je pohodlné. Rozhovor je lepší.</div>
+    <div class="tc-back">chrbát: "Skús to."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Ľudia sú zaujímavejší ako internet.</div>
+    <div class="tc-back">chrbát: "Overené."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Najlepšia vec, čo sa ti dnes môže stať — je rozhovor.</div>
+    <div class="tc-back">chrbát: "So mnou. Oslov ma."</div>
+  </div>
+</div>
+
+<!-- 4. OTÁZKY PRIAMO NA TRIČKU -->
+<div class="section-h">4. Otázka priamo na tričku — netreba nič hovoriť</div>
+<div class="section-s">Tričko začne rozhovor samo. Druhá strana si prečíta a odpovie — alebo sa aspoň zastaví.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — otázka</div>
+    <div class="tc-main">Čo ťa dnes prekvapilo?</div>
+    <div class="tc-back">chrbát: "Odpovedaj nahlas. Som zvedavý/á."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — otázka</div>
+    <div class="tc-main">Kedy si sa naposledy naozaj zasmial/a?</div>
+    <div class="tc-back">chrbát: "Povedz mi ten príbeh."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — otázka</div>
+    <div class="tc-main">Čo by si urobil/a, keby sa nebál/a?</div>
+    <div class="tc-back">chrbát: "Vážne. Čo?"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — otázka</div>
+    <div class="tc-main">Čo ťa baví, o čom ti svietia oči?</div>
+    <div class="tc-back">chrbát: "Hovor. Počúvam."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — otázka</div>
+    <div class="tc-main">Na koho si myslel/a dnes?</div>
+    <div class="tc-back">chrbát: "Zavolaj mu/jej."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — otázka</div>
+    <div class="tc-main">Čo si dnes urobil/a po prvýkrát?</div>
+    <div class="tc-back">chrbát: "Alebo naposledy?"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — otázka</div>
+    <div class="tc-main">Kedy si sa naposledy cítil/a naozaj pochopený/á?</div>
+    <div class="tc-back">chrbát: "Môžeš mi povedať."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — otázka</div>
+    <div class="tc-main">Čo by si mi povedal/a, keby si vedel/a, že sa nehnevám?</div>
+    <div class="tc-back">chrbát: "Nehnevám sa."</div>
+  </div>
+</div>
+
+<!-- 5. ANTI-SMALL-TALK -->
+<div class="section-h">5. Anti-small-talk — vzdor voči povrchnosti</div>
+<div class="section-s">Pre ľudí, ktorí sa spoznávajú v tejto frustrácii. Trochu rebellious.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Počasie ma nezaujíma.</div>
+    <div class="tc-back">chrbát: "Zaujímaš ma ty."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Preskoč small talk.</div>
+    <div class="tc-back">chrbát: "Začnime tam, kde to bolí alebo teší."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Nehovorím o práci.</div>
+    <div class="tc-back">chrbát: "Hovorím o veciach, na ktorých záleží."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Odkiaľ si? — Preskočíme?</div>
+    <div class="tc-back">chrbát: "Čo ťa momentálne trápi alebo teší?"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">V poriadku nie je odpoveď.</div>
+    <div class="tc-back">chrbát: "Ako si naozaj?"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Žiadne „čo robíš?"</div>
+    <div class="tc-back">chrbát: "Radšej: čo ťa baví?"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Povrchné rozhovory unavujú.</div>
+    <div class="tc-back">chrbát: "Hlboké napĺňajú. Skúsme."</div>
+  </div>
+</div>
+
+<!-- 6. KOMUNITA / HNUTIE -->
+<div class="section-h">6. Komunita a hnutie — "som súčasťou niečoho"</div>
+<div class="section-s">Pre nositeľov, ktorí sa hrdí identifikujú s hodnotami DeepTalks. Buduje kmeň.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">DeepTalks.</div>
+    <div class="tc-back">chrbát: "Pretože realita je lepšia ako obrazovka."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Hnutie ľudí, ktorí sa rozprávajú.</div>
+    <div class="tc-back">chrbát: "deeptalks.eu — pridaj sa."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Offline je nové online.</div>
+    <div class="tc-back">chrbát: "deeptalks.eu"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Ostrov ľudskosti.</div>
+    <div class="tc-back">chrbát: "deeptalks.eu — komunita ľudí, ktorí sa bavia naživo."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Dôkaz, že ľudia sú zaujímaví.</div>
+    <div class="tc-back">chrbát: "Ak sa opýtaš správne."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Stretávame sa naživo.</div>
+    <div class="tc-back">chrbát: "deeptalks.eu/komunita"</div>
+  </div>
+</div>
+
+<!-- 7. PÁRY / VZŤAHY -->
+<div class="section-h">7. Pre páry — darovať alebo nosiť spolu</div>
+<div class="section-s">Signál pre partnera aj pre okolie. Ideálne na spontánky a párové akcie.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Stále ma prekvapuje.</div>
+    <div class="tc-back">chrbát: "10 rokov spolu. Každý deň nová otázka."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Toto tričko dostala od manžela.</div>
+    <div class="tc-back">chrbát: "Vraj sa málo pýtam. Tak sa pýtaj ty."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Keď „ako ti bolo" nestačí.</div>
+    <div class="tc-back">chrbát: "deeptalks.eu"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Sme spolu 8 rokov. Stále sú témy.</div>
+    <div class="tc-back">chrbát: "Dáme ti pár otázok."</div>
+  </div>
+</div>
+
+<!-- 8. PRE RODIČOV -->
+<div class="section-h">8. Pre rodičov</div>
+<div class="section-s">Niche — ale silný signál pre komunitu rodičov na ihrisku, v škole, na spontánkach.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Moje deti ma naučili počúvať.</div>
+    <div class="tc-back">chrbát: "Trvalo to roky. Stálo to za to."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Rodič, ktorý sa pýta.</div>
+    <div class="tc-back">chrbát: "Nielen „ako bolo?"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Deti nebudú malé večne.</div>
+    <div class="tc-back">chrbát: "deeptalks.eu — otázky, kým je čas."</div>
+  </div>
+</div>
+
+<!-- 9. MINIMALISTICKÉ / ZÁHADNÉ -->
+<div class="section-h">9. Minimalistické — len pár slov, veľa priestoru</div>
+<div class="section-s">Fungujú zďaleka. Čitateľné na jeden pohľad. Ideálne na čierne tričko.</div>
+<div class="texts three">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Porozprávajme sa.</div>
+    <div class="tc-back">—</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Oslov ma.</div>
+    <div class="tc-back">—</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Počúvam.</div>
+    <div class="tc-back">—</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Hovor.</div>
+    <div class="tc-back">—</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Pýtaj sa.</div>
+    <div class="tc-back">—</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Zvedavý/á.</div>
+    <div class="tc-back">—</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Naživo.</div>
+    <div class="tc-back">chrbát: "deeptalks.eu"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Ľudia.</div>
+    <div class="tc-back">chrbát: "Nie telefóny."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">1 otázka. 1 hodina.</div>
+    <div class="tc-back">chrbát: "Vyskúšané."</div>
+  </div>
+</div>
+
+<!-- 10. SLOVENČINA + HOVOROVOSŤ -->
+<div class="section-h">10. Hovorová slovenčina — reálny hlas</div>
+<div class="section-s">Blízke, autentické, nie marketingové. Znie ako od kamaráta.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Viem sa rozprávať.</div>
+    <div class="tc-back">chrbát: "Docela dlho. Varoval/a som."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Nájdeš ma tu.</div>
+    <div class="tc-back">chrbát: "Stačí osloviť."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Som ten typ, čo hovorí s cudzími.</div>
+    <div class="tc-back">chrbát: "A ešte nikdy som toho neoľutoval/a."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Nuda ma nezastaví.</div>
+    <div class="tc-back">chrbát: "Ani ťa."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Mám čas na dobrý rozhovor.</div>
+    <div class="tc-back">chrbát: "Maj ho aj ty."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Aj cudzí ľudia sú zaujímaví.</div>
+    <div class="tc-back">chrbát: "Skus to zistiť."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front</div>
+    <div class="tc-main">Dnes som osloveného/ú.</div>
+    <div class="tc-back">chrbát: "Poďme na to."</div>
+  </div>
+</div>
+
+<!-- 11. BILINGVÁLNE SK/UA -->
+<div class="section-h">11. Bilingválne SK + UA — pre zmiešané komunity</div>
+<div class="section-s">Unikát pre slovenský kontext. Signál pre obe komunity naraz.</div>
+<div class="texts">
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — SK · UA</div>
+    <div class="tc-main">Oslov ma. / Звернись до мене.</div>
+    <div class="tc-back">chrbát: "deeptalks.eu"</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — SK · UA</div>
+    <div class="tc-main">Porozprávajme sa. / Поговоримо.</div>
+    <div class="tc-back">chrbát: "Naživo. Spolu."</div>
+  </div>
+  <div class="tcard" onclick="toggle(this)">
+    <div class="tc-tag">front — SK · UA</div>
+    <div class="tc-main">Zvedavý/á. / Цікавий/а.</div>
+    <div class="tc-back">chrbát: "Opýtaj sa / Запитай."</div>
+  </div>
+</div>
+
+<!-- VYBRANÉ -->
+<div class="selected-box" id="sel-box">
+  <div class="sel-h">Tvoj výber — klikni pre odstránenie</div>
+  <div class="sel-items" id="sel-items">
+    <span class="sel-empty" id="sel-empty">Zatiaľ nič nevybrané. Klikni na kartu.</span>
+  </div>
+  <div class="sel-count" id="sel-count"></div>
+  <button class="copy-btn" onclick="copySelected()">Kopírovať výber</button>
+</div>
+
+</div>
+
+<script>
+var selected = [];
+
+function toggle(card) {
+  var main = card.querySelector('.tc-main').textContent;
+  var back = card.querySelector('.tc-back').textContent;
+  var label = main + (back && back !== '—' ? ' · ' + back : '');
+
+  if (card.classList.contains('sel')) {
+    card.classList.remove('sel');
+    selected = selected.filter(function(s) { return s !== label; });
+  } else {
+    card.classList.add('sel');
+    selected.push(label);
+  }
+  renderSelected();
+}
+
+function renderSelected() {
+  var container = document.getElementById('sel-items');
+  var empty = document.getElementById('sel-empty');
+  var count = document.getElementById('sel-count');
+
+  if (selected.length === 0) {
+    container.innerHTML = '<span class="sel-empty">Zatiaľ nič nevybrané. Klikni na kartu.</span>';
+    count.textContent = '';
+    return;
+  }
+
+  container.innerHTML = selected.map(function(s) {
+    return '<span class="sel-item" onclick="removeByLabel(\'' + s.replace(/'/g, "\\'") + '\')">' + s + '</span>';
+  }).join('');
+  count.textContent = selected.length + ' vybraných — klikni na text pre odstránenie';
+}
+
+function removeByLabel(label) {
+  selected = selected.filter(function(s) { return s !== label; });
+  // deselect card
+  document.querySelectorAll('.tcard.sel').forEach(function(card) {
+    var main = card.querySelector('.tc-main').textContent;
+    var back = card.querySelector('.tc-back').textContent;
+    var l = main + (back && back !== '—' ? ' · ' + back : '');
+    if (l === label) card.classList.remove('sel');
+  });
+  renderSelected();
+}
+
+function copySelected() {
+  if (selected.length === 0) return;
+  var text = selected.join('\n');
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Skopírované ✓';
+    setTimeout(function() { btn.textContent = 'Kopírovať výber'; }, 2000);
+  });
+}
+</script>

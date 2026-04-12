@@ -1,0 +1,458 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.tabs{display:flex;border-bottom:.5px solid var(--color-border-tertiary);margin-bottom:0;position:sticky;top:0;z-index:10;background:var(--color-background-primary)}
+.tab{flex:1;padding:10px 6px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;transition:all .12s}
+.tab.on{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
+.panel{display:none;padding:1.25rem 0 3rem}.panel.on{display:block}
+
+/* ── MAPA ── */
+.map-header{margin-bottom:1.25rem}
+.map-h{font-size:18px;font-weight:500;margin-bottom:.25rem}
+.map-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:.75rem}
+.legend{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary)}
+.ldot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+.alert{padding:9px 13px;border-radius:8px;font-size:12px;line-height:1.6;margin-bottom:1rem;border:.5px solid}
+.a-red{background:var(--color-background-danger);border-color:var(--color-border-danger);color:var(--color-text-danger)}
+.a-grn{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
+.a-inf{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
+
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.25rem}
+.stat{border:.5px solid var(--color-border-tertiary);border-radius:9px;padding:10px;text-align:center;background:var(--color-background-primary)}
+.sn{font-size:20px;font-weight:500;margin-bottom:2px}
+.st{font-size:10px;color:var(--color-text-tertiary)}
+.sn.g{color:var(--color-text-success)}.sn.b{color:var(--color-text-info)}.sn.r{color:var(--color-text-danger)}.sn.y{color:var(--color-text-warning)}
+
+.domain{border:.5px solid var(--color-border-tertiary);border-radius:11px;overflow:hidden;margin-bottom:10px}
+.dhead{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--color-background-secondary);border-bottom:.5px solid var(--color-border-tertiary)}
+.dico{font-size:16px}
+.dname{font-size:13px;font-weight:500;flex:1}
+.dsub{font-size:11px;color:var(--color-text-secondary)}
+.dbadge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.bl{background:var(--color-background-success);color:var(--color-text-success)}
+.bb{background:var(--color-background-info);color:var(--color-text-info)}
+.by{background:var(--color-background-warning);color:var(--color-text-warning)}
+.br{background:var(--color-background-danger);color:var(--color-text-danger)}
+.bn{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+
+.url-row{display:grid;grid-template-columns:170px 1fr auto;gap:10px;align-items:start;padding:7px 14px;border-bottom:.5px solid var(--color-border-tertiary);transition:background .1s;cursor:default}
+.url-row:last-child{border-bottom:none}
+.url-row:hover{background:var(--color-background-secondary)}
+.url-row.sub{padding-left:28px}
+.upath{font-family:var(--font-mono);font-size:11px;color:var(--color-text-primary);word-break:break-all;line-height:1.4}
+.upath .root{color:var(--color-text-tertiary)}
+.udesc{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.udesc strong{color:var(--color-text-primary);font-weight:500}
+.uprice{font-family:var(--font-mono);font-size:10px;color:var(--color-text-tertiary)}
+.ubadge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:99px;white-space:nowrap;flex-shrink:0}
+
+/* ── HOMEPAGE CONTENT ── */
+.hp-section{margin-bottom:2rem;padding-bottom:2rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.hp-section:last-child{border-bottom:none}
+.sec-label{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.5rem}
+.sec-h{font-size:17px;font-weight:500;margin-bottom:.4rem;line-height:1.3}
+.sec-sub{font-size:13px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:.75rem}
+
+.content-box{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:13px 15px;background:var(--color-background-primary);margin-bottom:8px}
+.cb-label{font-size:10px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.cb-text{font-size:13px;color:var(--color-text-primary);line-height:1.6}
+.cb-note{font-size:11px;color:var(--color-text-tertiary);margin-top:4px;font-style:italic}
+
+.img-desc{background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px 13px;margin-bottom:6px;font-size:12px;color:var(--color-text-secondary);display:flex;gap:8px;align-items:flex-start}
+.img-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.mini-card{border:.5px solid var(--color-border-tertiary);border-radius:9px;padding:10px 12px;background:var(--color-background-primary)}
+.mc-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.mc-sub{font-size:11px;color:var(--color-text-secondary);line-height:1.4}
+.mc-tag{font-size:10px;color:var(--color-text-tertiary);margin-top:3px}
+
+.quote-box{border-left:2px solid var(--color-border-primary);padding:8px 14px;margin:8px 0;background:var(--color-background-secondary);border-radius:0 8px 8px 0}
+.quote-text{font-size:13px;font-style:italic;color:var(--color-text-primary);line-height:1.6}
+.quote-attr{font-size:11px;color:var(--color-text-tertiary);margin-top:3px}
+
+.pill-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.pill{font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;border:.5px solid var(--color-border-secondary);color:var(--color-text-secondary);background:var(--color-background-primary)}
+
+@media(max-width:540px){
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .url-row,.url-row.sub{grid-template-columns:1fr auto}
+  .udesc{display:none}
+  .card-grid{grid-template-columns:1fr}
+}
+</style>
+
+<div class="tabs">
+  <div class="tab on" onclick="show('map')">Mapa webu</div>
+  <div class="tab" onclick="show('hp')">Obsah Homepage</div>
+</div>
+
+<!-- ══════════════ MAPA ══════════════ -->
+<div class="panel on" id="p-map">
+
+<div class="map-header">
+  <div class="map-h">Mapa webu — deeptalks.eu (aktualizovaná)</div>
+  <div class="map-sub">Na základe nového diagramu: Prečo hovoriť / Oblasti / Nástroje / Komunita / Shop. Verzia April 2026.</div>
+</div>
+
+<div class="alert a-grn">Nová štruktúra z diagramu: 4 hlavné sekcie + Shop ako monetizačný cieľ. Prerušovaná čiara = sekundárny tok k Shopu.</div>
+<div class="alert a-red">Stále kritické: /sk/apps/spoznajme-sa → 404 · Navigácia po anglicky · Hlavná stránka bez SK obsahu</div>
+
+<div class="stats">
+  <div class="stat"><div class="sn g">12</div><div class="st">Live stránok</div></div>
+  <div class="stat"><div class="sn b">26</div><div class="st">Na stavbu</div></div>
+  <div class="stat"><div class="sn r">2</div><div class="st">Rozbité</div></div>
+  <div class="stat"><div class="sn y">5</div><div class="st">Čoskoro</div></div>
+  <div class="stat"><div class="sn">45</div><div class="st">URL celkovo</div></div>
+</div>
+
+<div class="legend">
+  <div class="leg"><div class="ldot" style="background:#16a34a"></div>Live</div>
+  <div class="leg"><div class="ldot" style="background:#2563eb"></div>Stavať</div>
+  <div class="leg"><div class="ldot" style="background:#d97706"></div>Čoskoro</div>
+  <div class="leg"><div class="ldot" style="background:#dc2626"></div>Opraviť</div>
+  <div class="leg"><div class="ldot" style="background:#7c3aed"></div>Nové</div>
+</div>
+
+<!-- DOMOVSKÁ -->
+<div class="domain">
+  <div class="dhead"><div class="dico">◎</div><div><div class="dname">Domovská stránka</div><div class="dsub">deeptalks.eu/sk — vstupný bod</div></div><span class="dbadge br">Opraviť ihneď</span></div>
+  <div>
+    <div class="url-row"><div class="upath"><span class="root">deeptalks.eu</span>/sk</div><div class="udesc"><strong>Hlavná stránka SK</strong> — stále po anglicky. Hero, otázka dňa, 4 sekcie, nástroje, komunita, manifest.</div><span class="ubadge br">Stavať</span></div>
+    <div class="url-row"><div class="upath"><span class="root">/sk</span>/o-nas</div><div class="udesc"><strong>Prečo hovoriť</strong> — manifest, výskum, príbeh projektu, hodnoty</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row"><div class="upath"><span class="root">/sk</span>/kontakt</div><div class="udesc">Kontaktný formulár, B2B dopyt, sociálne siete</div><span class="ubadge bb">Stavať</span></div>
+  </div>
+</div>
+
+<!-- PREČO HOVORIŤ -->
+<div class="domain">
+  <div class="dhead"><div class="dico">◐</div><div><div class="dname">Prečo hovoriť — motivácia</div><div class="dsub">/sk/preco-hovorit</div></div><span class="dbadge bn">Nová sekcia</span></div>
+  <div>
+    <div class="url-row"><div class="upath">/sk/preco-hovorit</div><div class="udesc"><strong>Landing page</strong> — výskum o osamelosť, štatistiky, prečo rozhovory menia vzťahy</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/preco/veda</div><div class="udesc">Výskumné dôkazy — štúdie, čísla, mozog</div><span class="ubadge by">Čoskoro</span></div>
+    <div class="url-row sub"><div class="upath">/preco/pribehy</div><div class="udesc">Skutočné príbehy ľudí — blog formát</div><span class="ubadge by">Čoskoro</span></div>
+  </div>
+</div>
+
+<!-- OBLASTI -->
+<div class="domain">
+  <div class="dhead"><div class="dico">◆</div><div><div class="dname">Oblasti — pre koho je to</div><div class="dsub">/sk/oblasti — 4 cieľové skupiny</div></div><span class="dbadge br">Linky nefungujú</span></div>
+  <div>
+    <div class="url-row"><div class="upath">/sk/oblasti</div><div class="udesc"><strong>Prehľad oblastí</strong> — 4 skupiny + prepojenie na nástroje</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/oblasti/pary</div><div class="udesc"><strong>Páry a manželia</strong> — hero, filter, cesta páru, CTA na nástroje · Priorita #1</div><span class="ubadge br">Priorita</span></div>
+    <div class="url-row sub"><div class="upath">/oblasti/rodiny</div><div class="udesc"><strong>Rodiny</strong> — rodičia + deti, vekový filter, skripty · Priorita #2</div><span class="ubadge br">Priorita</span></div>
+    <div class="url-row sub"><div class="upath">/oblasti/priatelia</div><div class="udesc"><strong>Priatelia</strong> — sociálne vzťahy, anti-small-talk</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/oblasti/praca</div><div class="udesc"><strong>Práca</strong> — kolegovia, tím, B2B prepojenie</div><span class="ubadge bb">Stavať</span></div>
+  </div>
+</div>
+
+<!-- NÁSTROJE -->
+<div class="domain">
+  <div class="dhead"><div class="dico">◈</div><div><div class="dname">Nástroje — cvičenia a otázky</div><div class="dsub">/sk/nastroje (nový slug) alebo /sk/apps</div></div><span class="dbadge bl">Čiastočne live</span></div>
+  <div>
+    <div class="url-row"><div class="upath">/sk/nastroje</div><div class="udesc"><strong>Prehľad nástrojov</strong> — redesign, filter "Pre koho?", bez Unsplash obrázkov</div><span class="ubadge bb">Redesign</span></div>
+    <div class="url-row sub"><div class="upath">/nastroje/karticky</div><div class="udesc"><strong>Kartičky</strong> — otázky na rozhovor. Online aj fyzické. 3 úrovne hĺbky.<div class="uprice">od 18 EUR</div></div><span class="ubadge br">404 opraviť</span></div>
+    <div class="url-row sub"><div class="upath">/nastroje/vyzvy</div><div class="udesc"><strong>Výzvy</strong> — 7-dňové cvičenia pre vzťahy. Nový formát.</div><span class="ubadge bn">Nové</span></div>
+    <div class="url-row sub"><div class="upath">/nastroje/tazke-situacie</div><div class="udesc"><strong>Ťažké situácie</strong> — ako reagovať. Kompas + skripty.</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/nastroje/herd-vote</div><div class="udesc"><strong>Herd Vote</strong> — multiplayer kvíz. Moderátor + TV Display.</div><span class="ubadge bl">Live</span></div>
+    <div class="url-row sub"><div class="upath">/nastroje/couplesync</div><div class="udesc"><strong>CoupleSync</strong> — dotazník pre páry, 300+ otázok, 18+</div><span class="ubadge bl">Live</span></div>
+    <div class="url-row sub"><div class="upath">/nastroje/daily-connection</div><div class="udesc"><strong>Daily Connection</strong> — denná otázka pre páry<div class="uprice">Zadarmo / 4 EUR mes.</div></div><span class="ubadge bn">Nové</span></div>
+    <div class="url-row sub"><div class="upath">/nastroje/legacy</div><div class="udesc"><strong>Legacy Spomienky</strong> — email + viazaná kniha<div class="uprice">39–68 EUR / rok</div></div><span class="ubadge bn">Nové</span></div>
+    <div class="url-row sub"><div class="upath">/nastroje/hadacka</div><div class="udesc"><strong>Hádačka</strong> — párty hra, 4 módy, TV Display</div><span class="ubadge bl">Live</span></div>
+  </div>
+</div>
+
+<!-- BLOG -->
+<div class="domain">
+  <div class="dhead"><div class="dico">▲</div><div><div class="dname">Blog / Tipy — príbehy a rady</div><div class="dsub">/sk/blog</div></div><span class="dbadge bn">Nová sekcia</span></div>
+  <div>
+    <div class="url-row"><div class="upath">/sk/blog</div><div class="udesc"><strong>Blog listing</strong> — 6 kategórií, featured, newsletter CTA</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/blog/preco-deti-nehovoria</div><div class="udesc">Rodič a dieťa · SEO evergreen · 8 min · text hotový</div><span class="ubadge br">Napísať</span></div>
+    <div class="url-row sub"><div class="upath">/blog/pat-otazok-vecera</div><div class="udesc">Páry · Virálny · 5 min · text hotový</div><span class="ubadge br">Napísať</span></div>
+    <div class="url-row sub"><div class="upath">/blog/smrdi-mu-z-ust</div><div class="udesc">Ťažké témy · Unikátna · nízka konkurencia</div><span class="ubadge br">Napísať</span></div>
+    <div class="url-row sub"><div class="upath">/blog/[slug]</div><div class="udesc">+ 21 ďalších tém podľa editorial plánu</div><span class="ubadge by">Plán</span></div>
+  </div>
+</div>
+
+<!-- KOMUNITA -->
+<div class="domain">
+  <div class="dhead"><div class="dico">◐</div><div><div class="dname">Komunita — akcie a stretnutia</div><div class="dsub">/sk/komunita</div></div><span class="dbadge bn">Nová sekcia</span></div>
+  <div>
+    <div class="url-row"><div class="upath">/sk/komunita</div><div class="udesc"><strong>Vstup komunity</strong> — akcie, formáty, mapa, organizátori</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/komunita/akcie</div><div class="udesc"><strong>Akcie</strong> — opekačky, výlety, Blind Talk · BA KE ZA BB PO TT NR</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/komunita/forum</div><div class="udesc"><strong>Fórum</strong> — zdieľanie skúseností, príbehy, otázky komunity</div><span class="ubadge bn">Nové</span></div>
+    <div class="url-row sub"><div class="upath">/komunita/spontanky</div><div class="udesc">Spontánky — RSVP, Prinášam, QR kód, gating</div><span class="ubadge bn">Nové</span></div>
+    <div class="url-row sub"><div class="upath">/komunita/organizuj</div><div class="udesc">Pre organizátorov — kartičky zadarmo, grafika, propagácia</div><span class="ubadge bb">Stavať</span></div>
+  </div>
+</div>
+
+<!-- B2B -->
+<div class="domain">
+  <div class="dhead"><div class="dico">▣</div><div><div class="dname">B2B — firmy a školy</div><div class="dsub">/sk/b2b</div></div><span class="dbadge bn">Nové</span></div>
+  <div>
+    <div class="url-row"><div class="upath">/sk/b2b</div><div class="udesc">Vstup — firmy aj školy, štatistiky, case studies, dopyt</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/b2b/firmy</div><div class="udesc">Workshop 500–2000 EUR, kartičky od 50 EUR/tím</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/b2b/skoly</div><div class="udesc">Školský program 100–300 EUR/rok, metodika zadarmo</div><span class="ubadge bb">Stavať</span></div>
+    <div class="url-row sub"><div class="upath">/b2b/dopyt</div><div class="udesc">Formulár — odpoveď do 24h, Calendly hovor</div><span class="ubadge bb">Stavať</span></div>
+  </div>
+</div>
+
+<!-- SHOP -->
+<div class="domain">
+  <div class="dhead"><div class="dico">◇</div><div><div class="dname">Shop — tričká a merch</div><div class="dsub">/sk/shop (sekundárny monetizačný cieľ)</div></div><span class="dbadge by">Čoskoro</span></div>
+  <div>
+    <div class="url-row"><div class="upath">/sk/shop</div><div class="udesc"><strong>Shop</strong> — tričká "Oslov ma", fyzické kartičky, darčekové poukazy</div><span class="ubadge by">Čoskoro</span></div>
+    <div class="url-row sub"><div class="upath">/shop/tricka</div><div class="udesc">Tričká "Oslov ma" — rôzne texty, biela/čierna<div class="uprice">25–30 EUR</div></div><span class="ubadge by">Čoskoru</span></div>
+    <div class="url-row sub"><div class="upath">/shop/karticky-fyzicke</div><div class="udesc">Fyzické kartičky — všetky edície<div class="uprice">18–25 EUR/edícia</div></div><span class="ubadge by">Čoskoru</span></div>
+    <div class="url-row sub"><div class="upath">/shop/darcekovy-poukaz</div><div class="udesc">Email doručenie, výber hodnoty, tlačená karta</div><span class="ubadge by">Čoskoru</span></div>
+  </div>
+</div>
+
+<!-- ROADMAP -->
+<div style="border:.5px solid var(--color-border-tertiary);border-radius:11px;overflow:hidden;margin-bottom:10px">
+  <div class="dhead"><div class="dico">◫</div><div class="dname">Prioritný akčný plán</div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--color-border-tertiary)">
+    <div style="background:var(--color-background-primary);padding:12px 14px">
+      <div style="font-size:11px;font-weight:600;color:var(--color-text-danger);margin-bottom:.5rem">Tento týždeň</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.7">
+        Opraviť /sk/apps/spoznajme-sa (404)<br>
+        Navigácia SK: Prečo hovoriť · Oblasti · Nástroje · Komunita<br>
+        Produkty stránka (nie "Čoskoru.")
+      </div>
+    </div>
+    <div style="background:var(--color-background-primary);padding:12px 14px">
+      <div style="font-size:11px;font-weight:600;color:var(--color-text-warning);margin-bottom:.5rem">Mesiac 1</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.7">
+        Úvodná stránka SK (nový obsah nižšie)<br>
+        Oblasti: Páry + Rodiny (priority)<br>
+        Blog: 3 články (texty hotové)
+      </div>
+    </div>
+    <div style="background:var(--color-background-primary);padding:12px 14px">
+      <div style="font-size:11px;font-weight:600;color:var(--color-text-info);margin-bottom:.5rem">Kvartál 2</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.7">
+        Daily Connection · Komunita + Fórum<br>
+        B2B sekcia · Priatelia + Práca oblasti<br>
+        Výzvy (7-dňové cvičenia)
+      </div>
+    </div>
+    <div style="background:var(--color-background-primary);padding:12px 14px">
+      <div style="font-size:11px;font-weight:600;color:var(--color-text-success);margin-bottom:.5rem">Kvartál 3</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.7">
+        Legacy predplatné · Shop + Tričká<br>
+        E-shop fyzické kartičky<br>
+        Darčekové poukazy · Fórum rozšírenie
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- ══════════════ HOMEPAGE OBSAH ══════════════ -->
+<div class="panel" id="p-hp">
+
+<!-- NAVIGÁCIA -->
+<div class="hp-section">
+  <div class="sec-label">Navigácia</div>
+  <div class="sec-h">Nová navigácia SK</div>
+  <div class="sec-sub">Nahradiť ECOSYSTEM / EXPERIENCES / PHILOSOPHY za tieto 4 sekcie z diagramu:</div>
+  <div class="pill-row">
+    <span class="pill">Prečo hovoriť</span>
+    <span class="pill">Oblasti</span>
+    <span class="pill">Nástroje</span>
+    <span class="pill">Komunita</span>
+    <span class="pill">Blog</span>
+    <span class="pill">Shop</span>
+  </div>
+  <div class="content-box">
+    <div class="cb-label">CTA button v nav</div>
+    <div class="cb-text">"Začať zadarmo →"</div>
+    <div class="cb-note">Vždy viditeľný. Bez registrácie. Linkuje na /nastroje alebo na otázku dňa.</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hp-section">
+  <div class="sec-label">Sekcia 1 — Hero</div>
+  <div class="sec-h">Hero sekcia — prvý dojem</div>
+  <div class="sec-sub">Celá obrazovka. Tmavé pozadie. Cormorant Garamond serif. Kinematický feel.</div>
+
+  <div class="content-box">
+    <div class="cb-label">Eyebrow / supernápis</div>
+    <div class="cb-text">DeepTalks · Slovensko · SK · UA</div>
+  </div>
+  <div class="content-box">
+    <div class="cb-label">H1 — hlavný nadpis (veľký, serif)</div>
+    <div class="cb-text">Pretože realita je lepšia<br><em>ako obrazovka.</em></div>
+    <div class="cb-note">Druhý riadok kurzívou, iná farba (zlatá / teplá). Veľkosť 80–96px.</div>
+  </div>
+  <div class="content-box">
+    <div class="cb-label">Perex / podnadpis</div>
+    <div class="cb-text">Nástroje, otázky a komunita pre ľudí, ktorí chcú mať hlbšie vzťahy — v rodine, vzťahu, práci aj priateľstve.</div>
+  </div>
+
+  <div class="content-box">
+    <div class="cb-label">Interaktívny prvok — Otázka dňa (rotujúca)</div>
+    <div class="cb-text">"Čo by si mi povedal/a, keby si vedel/a, že sa nehnevám a nebudem súdiť?"</div>
+    <div class="cb-note">Kliknutím sa mení. Textarea na odpoveď sa objaví po kliknutí "Odpovedať". Rotuje 10 otázok automaticky každých 8 sekúnd.</div>
+  </div>
+
+  <div class="content-box">
+    <div class="cb-label">CTA tlačidlá (2)</div>
+    <div class="cb-text">Primárne: "Vyskúšaj otázku dňa →" (oranžové)<br>Sekundárne: "Pozrieť nástroje" (ghost)</div>
+  </div>
+
+  <div class="img-desc"><div class="img-ico">🖼️</div><div><strong>Vizuál hero:</strong> Dvaja ľudia pri stole / opekačke — reálna fotografia, nie stock. Pozadie tmavé s animovanými svetelnými "orbmi". Grain texture overlay pre kinematický feel. Vlastný kurzor (oranžová bodka).</div></div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px">
+    <div class="content-box" style="text-align:center">
+      <div style="font-size:22px;font-weight:500">500+</div>
+      <div style="font-size:10px;color:var(--color-text-tertiary)">Otázok a situácií</div>
+    </div>
+    <div class="content-box" style="text-align:center">
+      <div style="font-size:22px;font-weight:500">4</div>
+      <div style="font-size:10px;color:var(--color-text-tertiary)">Oblasti vzťahov</div>
+    </div>
+    <div class="content-box" style="text-align:center">
+      <div style="font-size:22px;font-weight:500">SK·UA</div>
+      <div style="font-size:10px;color:var(--color-text-tertiary)">Bilingválne</div>
+    </div>
+    <div class="content-box" style="text-align:center">
+      <div style="font-size:22px;font-weight:500">100%</div>
+      <div style="font-size:10px;color:var(--color-text-tertiary)">Zadarmo začať</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLÉM -->
+<div class="hp-section">
+  <div class="sec-label">Sekcia 2 — Problém</div>
+  <div class="sec-h">Prečo hovoriť — emóciálny hook</div>
+  <div class="sec-sub">Bez obrázka. Len text. Návštevník sa spozná.</div>
+
+  <div class="content-box">
+    <div class="cb-label">Nadpis sekcie</div>
+    <div class="cb-text">Hovoríme viac ako kedykoľvek predtým. A predsa sa cítime osamelí.</div>
+  </div>
+  <div class="card-grid">
+    <div class="mini-card"><div class="mc-title">"Ako ti bolo?" — "Dobre."</div><div class="mc-sub">Každý deň ten istý nerozhovor.</div></div>
+    <div class="mini-card"><div class="mc-title">Večer vedľa seba, každý v telefóne</div><div class="mc-sub">Spolu — ale každý v inom svete.</div></div>
+    <div class="mini-card"><div class="mc-title">Tínedžer sa zatvára</div><div class="mc-sub">Stena rastie pomaly. Potom je tam.</div></div>
+    <div class="mini-card"><div class="mc-title">Chcem sa ospravedlniť, neviem ako začať</div><div class="mc-sub">Slová čakajú. Chýba prvá veta.</div></div>
+  </div>
+  <div class="img-desc"><div class="img-ico">🖼️</div><div><strong>Vizuál:</strong> Žiadny obrázok — len čisté tmavé pozadie s jemnou textúrou. Karty plávajú na ploche. Príp. abstraktná ilustrácia — dvaja ľudia chrbtom k sebe na pohovke, telefóny v rukách.</div></div>
+</div>
+
+<!-- OBLASTI -->
+<div class="hp-section">
+  <div class="sec-label">Sekcia 3 — Oblasti</div>
+  <div class="sec-h">Pre každý dôležitý vzťah</div>
+  <div class="sec-sub">Iný vzťah, iné nástroje. Vyber svoju skupinu.</div>
+
+  <div class="card-grid">
+    <div class="mini-card"><div class="mc-title">♡ Páry a manželia</div><div class="mc-sub">Každodenné aj hlboké rozhovory.</div><div class="mc-tag">Priorita #1</div></div>
+    <div class="mini-card"><div class="mc-title">◎ Rodiny</div><div class="mc-sub">Rodičia + deti. Od 3 do 99 rokov.</div><div class="mc-tag">Priorita #2</div></div>
+    <div class="mini-card"><div class="mc-title">◈ Priatelia</div><div class="mc-sub">Anti-small-talk. Skutočné spoznávanie.</div></div>
+    <div class="mini-card"><div class="mc-title">▣ Práca</div><div class="mc-sub">Kolegovia a tím. Psych. bezpečie.</div></div>
+  </div>
+  <div class="img-desc"><div class="img-ico">🖼️</div><div><strong>Vizuál na každej karte:</strong> Minimalistická ilustrácia (nie foto) — čiary, ikony. Alebo reálna fotografia každej skupiny vo hover stave. Karty interaktívne — hover odhalí hook vetu a CTA "Zistiť viac →".</div></div>
+</div>
+
+<!-- NÁSTROJE -->
+<div class="hp-section">
+  <div class="sec-label">Sekcia 4 — Nástroje</div>
+  <div class="sec-h">Začni hneď — zadarmo.</div>
+  <div class="sec-sub">Žiadna registrácia, žiadna aplikácia. Vyber nástroj a použi ho dnes večer.</div>
+
+  <div class="content-box" style="border-left:2px solid var(--color-border-info)">
+    <div class="cb-label">Featured — Daily Connection</div>
+    <div class="cb-text">Každý deň jedna otázka pre vás dvoch. Ty odpovedáš sám — potom vidíš čo napísal partner. 5 minút, ktoré menia vzťah.</div>
+    <div class="cb-note">Badge: "Nové · Zadarmo" · Zobraziť demo — 7-dňový streak vizuál</div>
+  </div>
+
+  <div class="card-grid">
+    <div class="mini-card"><div class="mc-title">Komunikačný kompas</div><div class="mc-sub">Konkrétne vety pre 100+ situácií.</div><div class="mc-tag">Zadarmo</div></div>
+    <div class="mini-card"><div class="mc-title">Konverzačné kartičky</div><div class="mc-sub">60 otázok, 3 úrovne, 8 edícií.</div><div class="mc-tag">Online + fyzické</div></div>
+    <div class="mini-card"><div class="mc-title">Výzvy — 7 dní</div><div class="mc-sub">Každý deň jedna výzva pre vzťah.</div><div class="mc-tag">Nové ⭐</div></div>
+    <div class="mini-card"><div class="mc-title">Ťažké situácie</div><div class="mc-sub">Ako reagovať — skripty pre krízy.</div><div class="mc-tag">Kompas</div></div>
+    <div class="mini-card"><div class="mc-title">CoupleSync</div><div class="mc-sub">300+ otázok, reveal partnerovej odpovede.</div><div class="mc-tag">Zadarmo · 18+</div></div>
+    <div class="mini-card"><div class="mc-title">Legacy Spomienky</div><div class="mc-sub">Týždenný email → viazaná kniha.</div><div class="mc-tag">39–68 EUR / rok</div></div>
+  </div>
+  <div class="img-desc"><div class="img-ico">🖼️</div><div><strong>Vizuál:</strong> Daily Connection — screenshot/mockup telefónu s otázkou a streakmi. Ostatné nástroje — karty bez obrázkov, ikon emoji stačí. Grid 2×3 alebo scrollovateľný horizontálne na mobile.</div></div>
+</div>
+
+<!-- KOMUNITA -->
+<div class="hp-section">
+  <div class="sec-label">Sekcia 5 — Komunita</div>
+  <div class="sec-h">Ostrov ľudskosti uprostred digitálneho chaosu.</div>
+  <div class="sec-sub">DeepTalks nie je len web. Je to hnutie ľudí, ktorí veria že skutočná blízkosť sa buduje offline.</div>
+
+  <div class="card-grid">
+    <div class="mini-card"><div class="mc-title">Akcie</div><div class="mc-sub">Opekačky, výlety, Blind Talk. BA KE ZA BB PO TT NR.</div></div>
+    <div class="mini-card"><div class="mc-title">Fórum</div><div class="mc-sub">Zdieľanie skúseností, príbehy, otázky komunity.</div><div class="mc-tag">Nové ⭐</div></div>
+    <div class="mini-card"><div class="mc-title">Spontánky</div><div class="mc-sub">"Ideme, pridajte sa." QR kód, RSVP, chat.</div></div>
+    <div class="mini-card"><div class="mc-title">Zorganizuj akciu</div><div class="mc-sub">Kartičky zadarmo, grafika, propagácia.</div></div>
+  </div>
+  <div class="img-desc"><div class="img-ico">🖼️</div><div><strong>Vizuál:</strong> Reálna fotografia z akcie — skupinka ľudí pri ohni / stole. Atmosférická, nie pózovaná. Príp. mapa SK s pinmi miest. Tmavé pozadie sekcie.</div></div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="hp-section">
+  <div class="sec-label">Sekcia 6 — Testimonials</div>
+  <div class="sec-h">Príbehy z reálneho života</div>
+  <div class="sec-sub">Marquee — nekonečný horizontálny posun, hover = pauza.</div>
+
+  <div class="quote-box"><div class="quote-text">"Prvýkrát po rokoch sme sa s dcérou rozprávali celú noc. Jedna otázka otvorila dvere, ktoré sme zabudli, že existujú."</div><div class="quote-attr">Marta, 38 · Bratislava · mama dcéry 16 rokov</div></div>
+  <div class="quote-box"><div class="quote-text">"Daily Connection robíme každý večer o 20:00. 47 dní za sebou. Teraz sa na to tešíme viac ako na Netflix."</div><div class="quote-attr">Jana & Peter · Žilina · 3 roky spolu</div></div>
+  <div class="quote-box"><div class="quote-text">"Kartičky na stole pred retrospektívou. Za pol hodiny hovorili veci, ktoré som za rok nepočul na žiadnej porade."</div><div class="quote-attr">Lucia K. · HR Manager · IT firma · tím 18 ľudí</div></div>
+  <div class="quote-box"><div class="quote-text">"Opýtala som sa babky ako spoznala deduška. Hovorila hodinu. Plakala. Smiali sme sa. Za 30 rokov som sa toľko nedozvedela."</div><div class="quote-attr">Zuzana, 31 · Žilina · babka 78 rokov</div></div>
+</div>
+
+<!-- MANIFEST -->
+<div class="hp-section">
+  <div class="sec-label">Sekcia 7 — Manifest</div>
+  <div class="sec-h">Záverečný manifest a CTA</div>
+  <div class="content-box">
+    <div class="cb-label">Citát — veľký, kurzíva, centrovaný</div>
+    <div class="cb-text">"Sme hyperprepojení — a napriek tomu osamelí. Jeden úprimný rozhovor zmení viac ako tisíc lajkov."</div>
+    <div class="cb-note">— DeepTalks Manifest</div>
+  </div>
+  <div class="content-box">
+    <div class="cb-label">CTA strip (farebný pruh)</div>
+    <div class="cb-text">"Jedna otázka. Celý večer." → Otvoriť otázku dňa →</div>
+    <div class="cb-note">Oranžové pozadie, čierny text, celá šírka stránky</div>
+  </div>
+  <div class="img-desc"><div class="img-ico">🖼️</div><div><strong>Vizuál:</strong> Tmavé pozadie s radial gradient (oranžová/teplá v centre). Žiadne fotografie. Čistý typografický moment.</div></div>
+</div>
+
+<!-- FOOTER -->
+<div class="hp-section">
+  <div class="sec-label">Footer</div>
+  <div class="sec-h">Footer — 4 stĺpce</div>
+  <div class="card-grid">
+    <div class="mini-card"><div class="mc-title">DeepTalks</div><div class="mc-sub">Pretože realita je lepšia ako obrazovka.<br>deeptalks.eu · SK · UA · 2026</div></div>
+    <div class="mini-card"><div class="mc-title">Nástroje</div><div class="mc-sub">Kompas · Kartičky · Daily Connection · CoupleSync · Legacy · Herd Vote · Výzvy</div></div>
+    <div class="mini-card"><div class="mc-title">Oblasti</div><div class="mc-sub">Páry · Rodiny · Priatelia · Práca</div></div>
+    <div class="mini-card"><div class="mc-title">Projekt</div><div class="mc-sub">Prečo hovoriť · Blog · Komunita · B2B · Shop · Kontakt</div></div>
+  </div>
+  <div class="content-box">
+    <div class="cb-label">Footer bottom line</div>
+    <div class="cb-text">© 2026 DeepTalks · Podmienky · Ochrana súkromia · Made with ♥ for real conversations</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on')});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});
+  document.getElementById('p-'+id).classList.add('on');
+  var idx = {map:0,hp:1}[id];
+  document.querySelectorAll('.tab')[idx].classList.add('on');
+}
+</script>
