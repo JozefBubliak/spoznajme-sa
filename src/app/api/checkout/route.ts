@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '')
-
 export async function POST() {
-  if (!process.env.STRIPE_SECRET_KEY) {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY
+
+  if (!stripeSecretKey) {
     return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 })
   }
 
   try {
+    const stripe = new Stripe(stripeSecretKey)
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://spoznajmesa-kappa.vercel.app'
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],

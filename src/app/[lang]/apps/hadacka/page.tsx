@@ -9,70 +9,70 @@ const gameModes = [
   {
     icon: '💬',
     title: 'Opis / TABU',
-    description: 'Opis slovo bez zakazanych vyrazov. Klasika, ktora funguje aj pri zmiesanych skupinach.',
-    bestFor: 'Najlepsie pre prve hry a vacsie partie',
+    description: 'Opíš slovo bez zakázaných výrazov. Klasika, ktorá funguje aj pri zmiešaných skupinách.',
+    bestFor: 'Najlepšie pre prvé hry a väčšie partie',
   },
   {
     icon: '🎭',
-    title: 'Pantomima',
-    description: 'Ukaz slovo len pohybom. Idealne pre rodiny, party a okamzity smiech.',
-    bestFor: 'Najlepsie pre rodiny a neformalnu zabavu',
+    title: 'Pantomíma',
+    description: 'Ukáž slovo len pohybom. Ideálne pre rodiny, párty a okamžitý smiech.',
+    bestFor: 'Najlepšie pre rodiny a neformálnu zábavu',
   },
   {
     icon: '☝️',
     title: 'Jedno slovo',
-    description: 'Povies len jednu napovedu. Ukaze, ako dobre sa naozaj poznate.',
-    bestFor: 'Najlepsie pre pary a blizkych priatelov',
+    description: 'Povieš len jednu nápovedu. Ukáže, ako dobre sa naozaj poznáte.',
+    bestFor: 'Najlepšie pre páry a blízkych priateľov',
   },
   {
     icon: '🔀',
-    title: 'Mix modov',
-    description: 'Kazde kolo ine tempo a iny typ napovedy, aby energia nepadla.',
-    bestFor: 'Najlepsie pre dlhsie vecery a eventy',
+    title: 'Mix módov',
+    description: 'Každé kolo iné tempo a iný typ nápovedy, aby energia nepadla.',
+    bestFor: 'Najlepšie pre dlhšie večery a eventy',
   },
 ]
 
 const categories = [
-  { icon: '🐕', title: 'Zvierata', note: 'klasicka' },
-  { icon: '🍕', title: 'Jedlo a napoje', note: 'klasicka' },
-  { icon: '⚽', title: 'Sport', note: 'klasicka' },
-  { icon: '🎵', title: 'Hudba', note: 'klasicka' },
-  { icon: '🌍', title: 'Cestovanie', note: 'klasicka' },
-  { icon: '🎬', title: 'Film a TV', note: 'klasicka' },
-  { icon: '💛', title: 'Emocie a pocity', note: 'nova tema' },
-  { icon: '🏠', title: 'Vztahy a rodina', note: 'nova tema' },
-  { icon: '🇸🇰', title: 'Slovensko', note: 'lokalna edicia' },
+  { icon: '🐕', title: 'Zvieratá', note: 'klasická' },
+  { icon: '🍕', title: 'Jedlo a nápoje', note: 'klasická' },
+  { icon: '⚽', title: 'Šport', note: 'klasická' },
+  { icon: '🎵', title: 'Hudba', note: 'klasická' },
+  { icon: '🌍', title: 'Cestovanie', note: 'klasická' },
+  { icon: '🎬', title: 'Film a TV', note: 'klasická' },
+  { icon: '💛', title: 'Emócie a pocity', note: 'nová téma' },
+  { icon: '🏠', title: 'Vzťahy a rodina', note: 'nová téma' },
+  { icon: '🇸🇰', title: 'Slovensko', note: 'lokálna edícia' },
 ]
 
 const audience = [
   {
     icon: '👨‍👩‍👧‍👦',
     title: 'Rodiny',
-    description: 'Rodinne vecery, oslavy a stretnutia, kde chcu hrat deti aj dospeli rovnakou mierou.',
+    description: 'Rodinné večery, oslavy a stretnutia, kde chcú hrať deti aj dospelí rovnakou mierou.',
   },
   {
     icon: '🎉',
-    title: 'Party a skupiny priatelov',
-    description: 'Rozprudena energia bez trapneho small talku. Hra funguje aj ked sa ludia este len spoznavaju.',
+    title: 'Párty a skupiny priateľov',
+    description: 'Rozprúdená energia bez trápneho small talku. Hra funguje aj keď sa ľudia ešte len spoznávajú.',
   },
   {
     icon: '💼',
-    title: 'Firemne timy',
-    description: 'Teambuilding bez korporatneho pocitu. Display na TV a rychly onboarding pre moderatora.',
+    title: 'Firemné tímy',
+    description: 'Teambuilding bez korporátneho pocitu. Display na TV a rýchly onboarding pre moderátora.',
   },
   {
     icon: '🏫',
-    title: 'Skoly a kurzy',
-    description: 'Rozvoj slovnej zasoby, spoluprace a pohotovej komunikacie cez hru.',
+    title: 'Školy a kurzy',
+    description: 'Rozvoj slovnej zásoby, spolupráce a pohotovej komunikácie cez hru.',
   },
 ]
 
 const steps = [
-  'Moderator vytvori hru a nastavi mody',
-  'Na TV alebo projektore otvori Player Display',
-  'Hraci sa rozdelia do timov',
-  'Striedaju sa v napovedani a hadani slov',
-  'Vyhrava tim s najvyssim skore',
+  'Moderátor vytvorí hru a nastaví módy',
+  'Na TV alebo projektore otvorí Player Display',
+  'Hráči sa rozdelia do tímov',
+  'Striedajú sa v napovedaní a hádaní slov',
+  'Vyhráva tím s najvyšším skóre',
 ]
 
 export default async function HadackaPage({ params }: P) {
@@ -89,32 +89,32 @@ export default async function HadackaPage({ params }: P) {
               href={`/${lang}/apps`}
               className="inline-block text-xs uppercase tracking-[0.18em] text-muted-foreground transition hover:text-foreground"
             >
-              ← Spat na nastroje
+              ← Späť na nástroje
             </Link>
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-              <span>Party hra</span>
+              <span>Párty hra</span>
               <span className="h-1 w-1 rounded-full bg-primary" />
-              <span>Naivo na TV</span>
+              <span>Naživo na TV</span>
             </div>
             <h1 className="text-5xl leading-[1.02] sm:text-6xl lg:text-7xl">
-              Hadacka
+              Hádanka
               <br />
-              <span className="gradient-text italic">nazivo.</span>
+              <span className="gradient-text italic">naživo.</span>
             </h1>
             <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              Party konverzacna hra pre skupiny. Jeden moderator riadi hru,
-              vsetci ostatni hadzu, hadaju a smeju sa spolu.
+              Párty konverzačná hra pre skupiny. Jeden moderátor riadi hru,
+              všetci ostatní hádžu, hádajú a smejú sa spolu.
             </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <div className="rounded-2xl border border-border bg-card p-5 text-center">
               <div className="text-3xl font-semibold text-primary">4</div>
-              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">Herne mody</p>
+              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">Herné módy</p>
             </div>
             <div className="rounded-2xl border border-border bg-card p-5 text-center">
               <div className="text-3xl font-semibold text-primary">10+</div>
-              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">Kategorii slov</p>
+              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">Kategórií slov</p>
             </div>
             <div className="rounded-2xl border border-border bg-card p-5 text-center">
               <div className="text-3xl font-semibold text-primary">TV</div>
@@ -122,18 +122,18 @@ export default async function HadackaPage({ params }: P) {
             </div>
             <div className="rounded-2xl border border-border bg-card p-5 text-center">
               <div className="text-3xl font-semibold text-primary">2+</div>
-              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">Hraci a timy</p>
+              <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">Hráči a tímy</p>
             </div>
           </div>
 
           <div className="rounded-[28px] border border-primary/25 bg-primary/10 p-7 shadow-[0_10px_40px_rgba(197,168,128,0.08)]">
             <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
               <div className="space-y-3">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">Spustit Hadacku teraz</p>
-                <h2 className="text-3xl">Moderator potrebuje ucet, hraci nie.</h2>
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">Spustiť Hádanku teraz</p>
+                <h2 className="text-3xl">Moderátor potrebuje účet, hráči nie.</h2>
                 <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  Moderator vytvori hru a pusti Player Display na televizore alebo projektore.
-                  Hracom staci prist do miestnosti a hrat.
+                  Moderátor vytvorí hru a pustí Player Display na televízore alebo projektore.
+                  Hráčom stačí prísť do miestnosti a hrať.
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
@@ -141,7 +141,7 @@ export default async function HadackaPage({ params }: P) {
                   href={`/auth/login?next=/apps/hadacka/moderator`}
                   className="btn-hero inline-flex items-center justify-center px-6 py-3 text-sm"
                 >
-                  Prihlasit sa ako moderator
+                  Prihlásiť sa ako moderátor
                 </Link>
                 <Link
                   href="/apps/hadacka/display"
@@ -149,7 +149,7 @@ export default async function HadackaPage({ params }: P) {
                   rel="noopener noreferrer"
                   className="btn-warm inline-flex items-center justify-center px-6 py-3 text-sm"
                 >
-                  Otvorit Player Display
+                  Otvoriť Player Display
                 </Link>
               </div>
             </div>
@@ -160,8 +160,8 @@ export default async function HadackaPage({ params }: P) {
       <section className="border-b border-border px-4 py-16 sm:px-6">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8 max-w-3xl space-y-3">
-            <p className="label-gold">Herne mody</p>
-            <h2 className="text-4xl sm:text-5xl">Kazda partia si najde svoj rytmus.</h2>
+            <p className="label-gold">Herné módy</p>
+            <h2 className="text-4xl sm:text-5xl">Každá partia si nájde svoj rytmus.</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {gameModes.map((mode) => (
@@ -179,11 +179,11 @@ export default async function HadackaPage({ params }: P) {
       <section className="border-b border-border bg-card/20 px-4 py-16 sm:px-6">
         <div className="mx-auto max-w-6xl">
           <div className="mb-8 max-w-3xl space-y-3">
-            <p className="label-gold">Kategorie slov</p>
-            <h2 className="text-4xl sm:text-5xl">Klasiky aj lokalne temy.</h2>
+            <p className="label-gold">Kategórie slov</p>
+            <h2 className="text-4xl sm:text-5xl">Klasiky aj lokálne témy.</h2>
             <p className="text-lg leading-relaxed text-muted-foreground">
-              Od jedla a sportu az po emocie, vztahy a slovensku ediciu. Hra sa da
-              prisposobit detom, partii priatelov aj firemnemu timu.
+              Od jedla a športu až po emócie, vzťahy a slovenskú edíciu. Hra sa dá
+              prispôsobiť deťom, partii priateľov aj firemnému tímu.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -202,7 +202,7 @@ export default async function HadackaPage({ params }: P) {
         <div className="mx-auto max-w-6xl">
           <div className="mb-8 max-w-3xl space-y-3">
             <p className="label-gold">Ako to funguje</p>
-            <h2 className="text-4xl sm:text-5xl">Piatimi krokmi od prihlasenia ku smiechu.</h2>
+            <h2 className="text-4xl sm:text-5xl">Piatimi krokmi od prihlásenia ku smiechu.</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-5">
             {steps.map((step, index) => (
@@ -221,7 +221,7 @@ export default async function HadackaPage({ params }: P) {
         <div className="mx-auto max-w-6xl">
           <div className="mb-8 max-w-3xl space-y-3">
             <p className="label-gold">Pre koho</p>
-            <h2 className="text-4xl sm:text-5xl">Idealna hra pre rozne typy skupin.</h2>
+            <h2 className="text-4xl sm:text-5xl">Ideálna hra pre rôzne typy skupín.</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {audience.map((item) => (
@@ -239,23 +239,23 @@ export default async function HadackaPage({ params }: P) {
         <div className="mx-auto max-w-5xl">
           <div className="rounded-[28px] border border-border bg-card p-8">
             <p className="label-gold">Rozohriati?</p>
-            <h2 className="mt-3 text-4xl sm:text-5xl">Pokracujte hlbsie po hre.</h2>
+            <h2 className="mt-3 text-4xl sm:text-5xl">Pokračujte hlbšie po hre.</h2>
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              Ked je skupina uvolnena a naladena, karticky alebo dalsie DeepTalks nastroje
-              vedia otvorit aj hlbsiu vrstvu rozhovoru.
+              Keď je skupina uvoľnená a naladená, kartičky alebo ďalšie DeepTalks nástroje
+              vedia otvoriť aj hlbšiu vrstvu rozhovoru.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href={`/${lang}/apps/spoznajme-sa`}
                 className="btn-hero inline-flex items-center justify-center px-6 py-3 text-sm"
               >
-                Otvorit konverzacne karticky
+                Otvoriť konverzačné kartičky
               </Link>
               <Link
                 href={`/${lang}/apps`}
                 className="btn-warm inline-flex items-center justify-center px-6 py-3 text-sm"
               >
-                Pozriet dalsie hry
+                Pozrieť ďalšie hry
               </Link>
             </div>
           </div>

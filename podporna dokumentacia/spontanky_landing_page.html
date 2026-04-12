@@ -1,0 +1,336 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{padding:.5rem 0 3rem}
+.tabs{display:flex;border-bottom:.5px solid var(--color-border-tertiary);margin-bottom:1.25rem;gap:0}
+.tab{padding:9px 14px;font-size:12px;font-weight:500;cursor:pointer;color:var(--color-text-secondary);border-bottom:2px solid transparent;transition:all .12s;white-space:nowrap}
+.tab.on{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
+.panel{display:none}.panel.on{display:block}
+
+/* shared */
+.sec{margin-bottom:2rem;padding-bottom:2rem;border-bottom:.5px solid var(--color-border-tertiary)}
+.sec:last-child{border-bottom:none;margin-bottom:0}
+.lbl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.5rem}
+.sec-h{font-size:17px;font-weight:500;line-height:1.3;margin-bottom:.4rem}
+.sec-s{font-size:13px;color:var(--color-text-secondary);line-height:1.65;margin-bottom:.75rem}
+.box{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px 14px;background:var(--color-background-primary);margin-bottom:7px}
+.box-lbl{font-size:10px;font-weight:600;color:var(--color-text-tertiary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.box-t{font-size:13px;color:var(--color-text-primary);line-height:1.6}
+.box-n{font-size:11px;color:var(--color-text-tertiary);margin-top:3px;font-style:italic}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.card{border:.5px solid var(--color-border-tertiary);border-radius:10px;padding:11px 13px;background:var(--color-background-primary)}
+.card-ico{font-size:20px;margin-bottom:6px}
+.card-t{font-size:13px;font-weight:500;margin-bottom:2px}
+.card-s{font-size:11px;color:var(--color-text-secondary);line-height:1.45}
+.card-tag{font-size:10px;color:var(--color-text-tertiary);margin-top:4px}
+.quote{border-left:2px solid var(--color-border-primary);padding:8px 14px;margin:6px 0;background:var(--color-background-secondary);border-radius:0 8px 8px 0}
+.quote-t{font-size:13px;font-style:italic;color:var(--color-text-primary);line-height:1.6}
+.quote-a{font-size:11px;color:var(--color-text-tertiary);margin-top:3px}
+.pill-row{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}
+.pill{font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;border:.5px solid var(--color-border-secondary);color:var(--color-text-secondary)}
+.img-hint{background:var(--color-background-secondary);border:.5px solid var(--color-border-tertiary);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--color-text-secondary);display:flex;gap:7px;align-items:flex-start;margin-bottom:6px}
+.img-ico{font-size:15px;flex-shrink:0}
+.steps{display:flex;flex-direction:column;gap:6px}
+.step{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border:.5px solid var(--color-border-tertiary);border-radius:9px;background:var(--color-background-primary)}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--color-background-secondary);border:.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--color-text-secondary);flex-shrink:0;margin-top:1px}
+.step-t{font-size:13px;font-weight:500;margin-bottom:2px}
+.step-s{font-size:11px;color:var(--color-text-secondary);line-height:1.45}
+.alert-box{border-radius:9px;padding:10px 13px;font-size:12px;line-height:1.6;margin-bottom:8px;border:.5px solid}
+.a-grn{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
+.a-ora{background:var(--color-background-warning);border-color:var(--color-border-warning);color:var(--color-text-warning)}
+.diff-table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px}
+.diff-table th{background:var(--color-background-secondary);padding:7px 10px;text-align:left;font-weight:500;font-size:11px;color:var(--color-text-secondary);border-bottom:.5px solid var(--color-border-tertiary)}
+.diff-table td{padding:7px 10px;border-bottom:.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+.diff-table tr:last-child td{border-bottom:none}
+.diff-table td:first-child{color:var(--color-text-primary);font-weight:500}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+<div class="tabs">
+  <div class="tab on" onclick="show('landing')">Landing page</div>
+  <div class="tab" onclick="show('obsah')">Obsah sekcií</div>
+  <div class="tab" onclick="show('tech')">Technická časť</div>
+  <div class="tab" onclick="show('status')">Stav + Čo chýba</div>
+</div>
+
+<!-- ═══ LANDING PAGE ═══ -->
+<div class="panel on" id="p-landing">
+
+<div class="sec">
+  <div class="lbl">Navigácia → Komunita → Spontánky</div>
+  <div class="sec-h">Čo je Spontánka — pre návštevníka</div>
+  <div class="sec-s">Landing page má jednu úlohu: vysvetliť čo to je a motivovať buď vytvoriť alebo pridať sa. Bez registrácie, bez vstupného, bez strachu.</div>
+  <div class="alert-box a-grn">Máme: interaktívny widget (Vytvor / Detail / Prináš am / Chat / Gating) — plne funkčný, s TypeScript dátovým modelom, s gating logikou. Chýba: samotná landing/marketing stránka.</div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Sekcia 1 — Hero</div>
+  <div class="sec-h">Hero sekcia</div>
+  <div class="box">
+    <div class="box-lbl">Eyebrow</div>
+    <div class="box-t">DeepTalks · Komunita · Slovensko</div>
+  </div>
+  <div class="box">
+    <div class="box-lbl">H1 — hlavný nadpis</div>
+    <div class="box-t">„My tam ideme.<br>Pridajte sa, ak chcete."</div>
+    <div class="box-n">Úvodzovky sú súčasťou nadpisu — je to citát, nie popis. Kurzíva na druhom riadku.</div>
+  </div>
+  <div class="box">
+    <div class="box-lbl">Perex</div>
+    <div class="box-t">Spontánka je malé, neformálne stretnutie. Bez organizátora, bez vstupného, bez pódia. Len ľudia, miesto a čas. Ty to nahodíš za 2 minúty — ostatní sa pridajú.</div>
+  </div>
+  <div class="box">
+    <div class="box-lbl">Dve CTA tlačidlá</div>
+    <div class="box-t">Primárne: „Vytvoriť spontánku →" (oranžové)<br>Sekundárne: „Pozrieť akcie v okolí" (ghost, ikona mapa)</div>
+  </div>
+  <div class="img-hint"><div class="img-ico">🖼️</div><div><strong>Vizuál hero:</strong> Reálna fotografia z opekačky alebo pikniku — skupinka ľudí pri ohni, pri stole vonku, alebo na bicykloch. Atmosférická, nie pózovaná. Tmavý overlay pre čitateľnosť textu. Prípadne mapa SR s niekoľkými pinmi v rôznych mestách.</div></div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Sekcia 2 — Čo to je</div>
+  <div class="sec-h">Spontánka vs. Akcia — rozdiel v 30 sekundách</div>
+  <div class="sec-s">Ľudia musia pochopiť čo to nie je — nie festival, nie Dni mesta, nie organizovaná vec.</div>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-ico">◈</div>
+      <div class="card-t">Spontánka</div>
+      <div class="card-s">Malá, neformálna, do 30 ľudí. Bez vstupného, bez predaja, bez organizátora.</div>
+      <div class="pill-row"><span class="pill">zadarmo</span><span class="pill">bez pódia</span><span class="pill">neformálne</span></div>
+    </div>
+    <div class="card">
+      <div class="card-ico">▣</div>
+      <div class="card-t">Oficiálne podujatie</div>
+      <div class="card-s">Verejná akcia s programom, partnermi alebo vstupným. Môže vyžadovať povolenia.</div>
+      <div class="pill-row"><span class="pill">program</span><span class="pill">môže mať vstupné</span></div>
+    </div>
+  </div>
+  <div class="img-hint"><div class="img-ico">🖼️</div><div><strong>Vizuál:</strong> Infografika alebo jednoduché ikony — ľudia v kruhu pri ohni (spontánka) vs. pódium s mikrofónom (officiálne). Alebo len dve contrasting karty — ľahká ilustrácia.</div></div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Sekcia 3 — Ako to funguje</div>
+  <div class="sec-h">Tri kroky, 2 minúty</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><div class="step-t">Vytvoríš spontánku</div><div class="step-s">Napíšeš kde, kedy, pre koho. Napríklad: „Piknik v Haniske v sobotu o 10:00. Rodičia s deťmi, vezmite deku."</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-t">Zdieľaš link alebo QR kód</div><div class="step-s">Pošleš do WhatsApp skupiny, sosedskej skupiny, na tabulu v škole. Alebo len priateľom.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-t">Ľudia sa pridajú a nahodia čo prinesú</div><div class="step-s">RSVP, zoznam „Prináš am" (špekačky, deka, lopta...), chat na koordináciu. Všetko na jednom mieste.</div></div></div>
+  </div>
+  <div class="img-hint"><div class="img-ico">🖼️</div><div><strong>Vizuál:</strong> Tri screenshoty alebo mockupy: (1) formulár vytvorenia, (2) QR kód na telefóne, (3) zoznam „Prináš am" s ľuďmi. Prípadne animated GIF/video demo.</div></div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Sekcia 4 — Features</div>
+  <div class="sec-h">Čo dostaneš ku každej spontánke</div>
+  <div class="grid2">
+    <div class="card"><div class="card-ico">📋</div><div class="card-t">RSVP — Prídem / Možno / Neprídem</div><div class="card-s">Vidíš koľko ľudí ráta s účasťou. Žiadna registrácia — len meno.</div></div>
+    <div class="card"><div class="card-ico">🛒</div><div class="card-t">Zoznam „Prináš am"</div><div class="card-s">Každý nahodí čo prinesie. Nikto nenosí 5 gitár, nikto nezabudne repelent.</div><div class="card-tag">Kľúčová feature ⭐</div></div>
+    <div class="card"><div class="card-ico">💬</div><div class="card-t">Chat len pre účastníkov</div><div class="card-s">Súkromný, len pre prihlásených. Koordinácia bez skupín na WhatsApp.</div></div>
+    <div class="card"><div class="card-ico">📍</div><div class="card-t">Mapa + QR kód</div><div class="card-s">Zdieľateľný link a QR kód. Vytlačíš na papier, dáš na tabulu.</div></div>
+    <div class="card"><div class="card-ico">👁️</div><div class="card-t">Viditeľnosť na mieru</div><div class="card-s">Súkromné (len link) · Okolie (do 5 km) · Verejné (všetci)</div></div>
+    <div class="card"><div class="card-ico">⚠️</div><div class="card-t">Inteligentné upozornenia</div><div class="card-s">Vstupné? Chránené územie? System ťa upozorní čo treba skontrolovať.</div><div class="card-tag">Ochrana organizátora</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Sekcia 5 — Príklady</div>
+  <div class="sec-h">Aké spontánky ľudia organizujú</div>
+  <div class="grid2">
+    <div class="card"><div class="card-ico">🔥</div><div class="card-t">Opekačka v Haniske</div><div class="card-s">Rodičia s deťmi, časť ide z Prešova na bicykloch od Kauflandu.</div><div class="card-tag">14 záujemcov · Prešov</div></div>
+    <div class="card"><div class="card-ico">🚴</div><div class="card-t">Cyklovýlet Čermeľ</div><div class="card-s">Susedský výjazd, otvorené pre všetkých. Tempo pomalé, deti vítané.</div><div class="card-tag">8 záujemcov · Košice</div></div>
+    <div class="card"><div class="card-ico">🌿</div><div class="card-t">Piknik na Železnej studničke</div><div class="card-s">Každý prinesie niečo na jedenie. Gitara istá, miesto dostatočné.</div><div class="card-tag">22 záujemcov · Bratislava</div></div>
+    <div class="card"><div class="card-ico">🧒</div><div class="card-t">Detské ihrisko — susedské stretnutie</div><div class="card-s">Mamy a oteckovia z okolia, deti sa zahrajú, rodičia sa zoznámia.</div><div class="card-tag">6 záujemcov · Žilina</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Sekcia 6 — Testimonials</div>
+  <div class="sec-h">Čo hovoria ľudia</div>
+  <div class="quote"><div class="quote-t">„Nahodila som to do skupiny mamičiek. Za 20 minút sa prihlásilo 11 ľudí. Nikdy som nič takéto neorganizovala a zvládla som to."</div><div class="quote-a">Lucia, Prešov · mamička 2 detí</div></div>
+  <div class="quote"><div class="quote-t">„Prvýkrát som stretol susedov s ktorými sme 3 roky bývali vedľa seba a len kývali. Teraz chodíme každý mesiac."</div><div class="quote-a">Martin, Bratislava · sused</div></div>
+  <div class="quote"><div class="quote-t">„Zoznam Prináš am je geniálny. Nikdy viac 5 gitár a nula repelentov."</div><div class="quote-a">Jana, Košice · organizátorka</div></div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Sekcia 7 — Právny kontext</div>
+  <div class="sec-h">Je to bezpečné? Čo smiem a čo nie?</div>
+  <div class="sec-s">Ľudia sa pýtajú na zodpovednosť. Treba to adresovať priamo — nie schovávať do patičky.</div>
+  <div class="box">
+    <div class="box-lbl">Text pre sekciu</div>
+    <div class="box-t">Spontánka je neformálne stretnutie jednotlivcov — nie verejné podujatie v zmysle zákona. Každý účastník koná za seba. Vstupné? Pódium? Uzávierka priestoru? Systém ťa upozorní čo treba skontrolovať — a navrhne prepnúť na Oficiálne podujatie.</div>
+    <div class="box-n">Nie je to právna rada. Je to rozumný filter ktorý chráni organizátora pred neúmyselnými chybami.</div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Sekcia 8 — CTA</div>
+  <div class="sec-h">Záverečná výzva</div>
+  <div class="box">
+    <div class="box-lbl">Nadpis CTA sekcie</div>
+    <div class="box-t">Tvoja obec, tvoje susedstvo, tvoji ľudia.<br>Niekto musí byť prvý. Prečo nie ty?</div>
+  </div>
+  <div class="box">
+    <div class="box-lbl">CTA tlačidlo</div>
+    <div class="box-t">„Vytvoriť spontánku — trvá 2 minúty →"</div>
+  </div>
+  <div class="box">
+    <div class="box-lbl">Pod tlačidlom — micro copy</div>
+    <div class="box-t">Žiadna registrácia. Žiadne vstupné. Žiadny organizátor. Len ty a tvoji ľudia.</div>
+  </div>
+</div>
+
+</div>
+
+<!-- ═══ OBSAH SEKCIÍ ═══ -->
+<div class="panel" id="p-obsah">
+
+<div class="sec">
+  <div class="lbl">Navigácia</div>
+  <div class="sec-h">URL štruktúra</div>
+  <div class="box"><div class="box-lbl">Stránky</div>
+  <div class="box-t" style="font-family:var(--font-mono);font-size:12px;line-height:1.9">
+    /sk/komunita/spontanky — Landing + mapa akcií<br>
+    /sk/komunita/spontanky/vytvorit — Formulár<br>
+    /sk/komunita/spontanky/[id] — Detail akcie<br>
+    /sk/komunita/spontanky/[id]/chat — Chat (auth)
+  </div></div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Typy spontánok — zoznam</div>
+  <div class="sec-h">Kategórie na výber pri vytváraní</div>
+  <div class="pill-row">
+    <span class="pill">🔥 Opekačka</span><span class="pill">🚴 Cyklovýlet</span><span class="pill">🌿 Piknik</span>
+    <span class="pill">🏊 Plávanie</span><span class="pill">🎭 Kultúrny výlet</span><span class="pill">🧒 Detské stretnutie</span>
+    <span class="pill">👟 Turistika</span><span class="pill">☕ Káva vonku</span><span class="pill">🎮 Board game</span>
+    <span class="pill">🌙 Nočný výšlap</span><span class="pill">🏡 Susedské stretnutie</span><span class="pill">Iné</span>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Zoznam Prináš am — predvyplnené návrhy</div>
+  <div class="sec-h">Chips na rýchle pridanie podľa typu akcie</div>
+  <div class="box"><div class="box-lbl">Opekačka</div><div class="box-t">špekačky · chlieb · horčica · kečup · koláče · voda · pivo / nealko · deka · lopta · gitara · repelent · vrecká na odpad · lekárnička · uhlíky · zapaľovač</div></div>
+  <div class="box"><div class="box-lbl">Piknik</div><div class="box-t">sendviče · ovocie · voda · džús · deka · slnečný krém · frisbee · karty · lopta · tieňový dáždnik</div></div>
+  <div class="box"><div class="box-lbl">Cyklovýlet</div><div class="box-t">bicykel · helma · pumpa · záplatkový set · voda · energetické tyčinky · mapa / GPS · lekárnička</div></div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Disclaimer — verzie</div>
+  <div class="sec-h">Texty pre rôzne miesta v UI</div>
+  <div class="box"><div class="box-lbl">Krátky (pri RSVP)</div><div class="box-t">Každý koná za seba a zodpovedá za seba a svoje deti.</div></div>
+  <div class="box"><div class="box-lbl">Stredný (na karte akcie)</div><div class="box-t">Spontánka je neformálne stretnutie jednotlivcov. Každý účastník koná ako jednotlivec a zodpovedá za seba a svoje deti. Jedlo a vybavenie si nesie každý sám alebo dobrovoľne zdieľa. Alkohol len pre dospelých, nie pre vodičov.</div></div>
+  <div class="box"><div class="box-lbl">Plný (pri vytváraní)</div><div class="box-t">Toto je neformálne stretnutie jednotlivcov, nie organizovaná verejná akcia. Nie je to právna rada. Každý účastník koná ako jednotlivec a zodpovedá za seba a svoje deti. Jedlo, pitie a vybavenie si nesie každý sám alebo dobrovoľne zdieľa. Alkohol len pre dospelých, nie pre vodičov. Treba rešpektovať pravidlá miesta, nočný pokoj a pravidlá nakladania s odpadom. Ak sa akcia rozrastie, bude mať vstupné alebo iné charakteristiky verejného podujatia — môžu platiť zákonné povinnosti.</div></div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Prepojenie s DeepTalks</div>
+  <div class="sec-h">Integrácia na detail stránke akcie</div>
+  <div class="grid2">
+    <div class="card"><div class="card-ico">🃏</div><div class="card-t">„Čo zobrať so sebou"</div><div class="card-s">Na každej spontánke návrh kartičiek DeepTalks — rodinných, pre priateľov. „Rozhovory ku kávičke či ohňu."</div></div>
+    <div class="card"><div class="card-ico">📖</div><div class="card-t">Po akcii — zdieľaj príbeh</div><div class="card-s">„Ako prebehla spontánka? Zdieľajte príbeh s komunitou." CTA na Fórum.</div></div>
+    <div class="card"><div class="card-ico">📍</div><div class="card-t">Deep Talk akcia badge</div><div class="card-s">Organizátor môže označiť ako „Deep Talk akciu" — zobrazí sa na mape komunity.</div></div>
+    <div class="card"><div class="card-ico">🗓️</div><div class="card-t">Pravidelná spontánka</div><div class="card-s">Možnosť nastaviť opakovanú — každý mesiac, každý týždeň. Pre susedské skupiny.</div></div>
+  </div>
+</div>
+
+</div>
+
+<!-- ═══ TECH ČASŤ ═══ -->
+<div class="panel" id="p-tech">
+
+<div class="sec">
+  <div class="lbl">Čo už máme — z transcriptu</div>
+  <div class="sec-h">Hotový interaktívny widget + dátový model</div>
+  <div class="alert-box a-grn">Interaktívny widget existuje v transkripte: 5 tabov (Vytvorit / Detail / Prináš am / Chat / Gating), plne funkčný JS, všetky stavy. TypeScript interface pre dátový model je kompletný.</div>
+  <div class="box"><div class="box-lbl">Čo je v kóde</div>
+  <div class="box-t" style="font-size:12px;line-height:1.8">
+    ✓ Formulár vytvorenia (typ, názov, dátum, miesta, popis, viditeľnosť)<br>
+    ✓ Detail akcie (meta grid, RSVP tlačidlá s počtami, disclaimer)<br>
+    ✓ Zoznam Prináš am (claim, pridať položku, stav volný/obsadený)<br>
+    ✓ Chat (pinnutá správa, správy, input + odoslať)<br>
+    ✓ Gating systém (5 typov upozornení: blokovať / varovanie / info)<br>
+    ✓ TypeScript interface (Spontanka, Ucastnik, PrinesItem, ChatMessage)<br>
+    ✓ URL štruktúra navrhnutá
+  </div></div>
+</div>
+
+<div class="sec">
+  <div class="lbl">MVP — najrýchlejšie spustenie</div>
+  <div class="sec-h">Verzia bez backendu — za 1 deň</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><div class="step-t">Statická stránka + Google Form na „Prídem"</div><div class="step-s">Form zbiera meno + email, odpovede v Sheets. Žiadna databáza.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-t">Google Sheet ako zoznam Prináš am</div><div class="step-s">Zdieľaný Sheet — každý vyplní čo prinesie. Neelegantné ale funguje.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-t">WhatsApp link pre chat</div><div class="step-s">Tlačidlo „Pridaj sa do skupiny" → WhatsApp link. Skutočný chat neskôr.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-t">QR kód na link stránky</div><div class="step-s">qr-code-generator.com → PNG → na stránku. 2 minúty.</div></div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="lbl">Plná verzia — backend</div>
+  <div class="sec-h">Čo treba dorobiť pre produkčnú verziu</div>
+  <div class="grid2">
+    <div class="card"><div class="card-t">Auth</div><div class="card-s">Lightweight — meno + email na RSVP. Bez hesla, magic link.</div></div>
+    <div class="card"><div class="card-t">Real-time chat</div><div class="card-s">Supabase Realtime alebo WebSocket. Pre koordináciu v deň akcie.</div></div>
+    <div class="card"><div class="card-t">GPS + geofencing</div><div class="card-s">Viditeľnosť „Okolie" — zobrazí akciu ľuďom do 5 km. Mapbox API.</div></div>
+    <div class="card"><div class="card-t">CHKO/NP mapa SR</div><div class="card-s">Integrácia chránených území pre gating upozornenia. Open data SK.</div></div>
+    <div class="card"><div class="card-t">Push / email notifikácie</div><div class="card-s">Nová správa v chate, zmena RSVP, deň pred akciou.</div></div>
+    <div class="card"><div class="card-t">Mapa akcií</div><div class="card-s">Prehľad všetkých verejných spontánok na mape SR. Mapbox.</div></div>
+  </div>
+</div>
+
+</div>
+
+<!-- ═══ STAV ═══ -->
+<div class="panel" id="p-status">
+
+<div class="sec">
+  <div class="sec-h">Čo máme vs. čo chýba</div>
+  <table class="diff-table">
+    <thead><tr><th>Oblasť</th><th>Stav</th><th>Poznámka</th></tr></thead>
+    <tbody>
+      <tr><td>Interaktívny widget (UI)</td><td style="color:var(--color-text-success)">✓ Hotový</td><td>V transkripte, 5 tabov, JS funguje</td></tr>
+      <tr><td>TypeScript dátový model</td><td style="color:var(--color-text-success)">✓ Hotový</td><td>Spontanka, Ucastnik, PrinesItem, Chat</td></tr>
+      <tr><td>Gating systém — logika</td><td style="color:var(--color-text-success)">✓ Hotový</td><td>5 triggerov, 3 úrovne</td></tr>
+      <tr><td>URL štruktúra</td><td style="color:var(--color-text-success)">✓ Navrhnutá</td><td>/komunita/spontanky/[id]/chat</td></tr>
+      <tr><td>Landing page — obsah</td><td style="color:var(--color-text-warning)">◐ Práve teraz</td><td>Tento widget = kompletný brief</td></tr>
+      <tr><td>Texty UI (disclaimer, empty states)</td><td style="color:var(--color-text-success)">✓ V transkripte</td><td>Všetky 4 verzie disclaimeru</td></tr>
+      <tr><td>Predvyplnené návrhy Prináš am</td><td style="color:var(--color-text-success)">✓ Tu hore</td><td>3 typy, 15+ položiek každý</td></tr>
+      <tr><td>Implementácia v Next.js</td><td style="color:var(--color-text-danger)">✗ Chýba</td><td>Pre Claude Code</td></tr>
+      <tr><td>Backend (Supabase)</td><td style="color:var(--color-text-danger)">✗ Chýba</td><td>Auth, realtime, geofencing</td></tr>
+      <tr><td>Mapa SR s pinmi</td><td style="color:var(--color-text-danger)">✗ Chýba</td><td>Mapbox integrácia</td></tr>
+      <tr><td>MVP verzia (Google Forms)</td><td style="color:var(--color-text-warning)">◐ Navrhnutá</td><td>Dá sa spustiť za 1 deň</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sec">
+  <div class="lbl">Pre Claude Code — čo odovzdať</div>
+  <div class="sec-h">Brief pre implementáciu</div>
+  <div class="box"><div class="box-lbl">Súbory z transcriptu</div>
+  <div class="box-t" style="font-size:12px;line-height:1.8">
+    1. Widget kód (HTML, 5 tabov) — vizuálna referencia dizajnu<br>
+    2. TypeScript interface — dátový model<br>
+    3. Gating triggers — zoznam pravidiel<br>
+    4. Texty — disclaimery, empty states, UI copy<br>
+    5. Tento widget — landing page obsah
+  </div></div>
+  <div class="box"><div class="box-lbl">Prvá správa pre Claude Code</div>
+  <div class="box-t" style="font-size:12px;line-height:1.6;font-style:italic">
+    „Implementuj stránku Spontánky pre DeepTalks. Príkladam (1) HTML widget ako vizuálna referencia, (2) TypeScript dátový model, (3) landing page brief. Vytvor: /sk/komunita/spontanky (landing + mapa), /sk/komunita/spontanky/vytvorit (formulár), /sk/komunita/spontanky/[id] (detail). Dáta zatiaľ mock — Supabase integrácia neskôr."
+  </div></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  var idx={landing:0,obsah:1,tech:2,status:3}[id];
+  document.querySelectorAll('.tab')[idx].classList.add('on');
+}
+</script>

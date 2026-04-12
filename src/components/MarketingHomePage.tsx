@@ -21,74 +21,74 @@ type MarketingHomePageProps = {
 }
 
 const questionPool = [
-  'Co by si mi povedal/a, keby si vedel/a, ze sa nehnevam a nebudem sudit?',
-  'Co si si o mne dlho nechaval/a pre seba, lebo si nevedel/a, ako to povedat?',
-  'Kedy si sa pri mne naposledy citil/a naozaj v bezpeci?',
-  'Aku vetu by si dnes potreboval/a pocut viac nez radu?',
-  'Co medzi nami funguje lepsie, nez si bezne pripustame?',
-  'Ktora tema sa nam vracia dokola a stale ju obchadzame?',
-  'Co by zmenilo dnesny vecer z "ok" na naozaj blizky?',
-  'Za co mi chces podakovat, aj ked to znie uplne obycajne?',
-  'Co by si si prial/a, aby som si vsimal/a skor?',
-  'Kde medzi nami este existuje priestor na vacsiu jemnost?',
+  'Čo by si mi povedal/a, keby si vedel/a, že sa nehnevám a nebudem súdiť?',
+  'Čo si si o mne dlho nechával/a pre seba, lebo si nevedel/a, ako to povedať?',
+  'Kedy si sa pri mne naposledy cítil/a naozaj v bezpečí?',
+  'Akú vetu by si dnes potreboval/a počuť viac než radu?',
+  'Čo medzi nami funguje lepšie, než si bežne pripúšťame?',
+  'Ktorá téma sa nám vracia dokola a stále ju obchádzame?',
+  'Čo by zmenilo dnešný večer z "ok" na naozaj blízky?',
+  'Za čo mi chceš poďakovať, aj keď to znie úplne obyčajne?',
+  'Čo by si si prial/a, aby som si všímal/a skôr?',
+  'Kde medzi nami ešte existuje priestor na väčšiu jemnosť?',
 ]
 
 const problemCards = [
   {
     title: '"Ako ti bolo?" - "Dobre."',
-    description: 'Kazdy den ten isty nerozhovor.',
+    description: 'Každý deň ten istý nerozhovor.',
   },
   {
-    title: 'Vecer vedla seba, kazdy v telefone',
-    description: 'Spolu, ale kazdy v inom svete.',
+    title: 'Večer vedľa seba, každý v telefóne',
+    description: 'Spolu, ale každý v inom svete.',
   },
   {
-    title: 'Tinedzer sa zatvara a rodic nevie preco',
-    description: 'Stena rastie postupne. A potom uz stoji.',
+    title: 'Tínedžer sa zatvára a rodič nevie prečo',
+    description: 'Stena rastie postupne. A potom už stojí.',
   },
   {
-    title: 'Chcem sa ospravedlnit, neviem ako zacat',
-    description: 'Slova cakaju. Chyba len prva veta.',
+    title: 'Chcem sa ospravedlniť, neviem ako začať',
+    description: 'Slová čakajú. Chýba len prvá veta.',
   },
 ]
 
 const relationshipAreas = [
   {
     icon: Heart,
-    title: 'Pary',
-    description: 'Kazdodenne aj hlboke rozhovory, dovera a intimita.',
+    title: 'Páry',
+    description: 'Každodenné aj hlboké rozhovory, dôvera a intimita.',
     href: '/skupiny/pary',
     badge: 'Priorita',
   },
   {
     icon: Users,
-    title: 'Rodic a dieta',
-    description: 'Od prvych emocii po citlive rozhovory s teenagerom.',
+    title: 'Rodič a dieťa',
+    description: 'Od prvých emócií po citlivé rozhovory s tínedžerom.',
     href: '/skupiny/rodic-dieta',
     badge: 'Priorita',
   },
   {
     icon: Sparkles,
     title: 'Priatelia',
-    description: 'Anti-small-talk. Otazky, ktore spravia zo znamych blizkych ludi.',
+    description: 'Anti-small-talk. Otázky, ktoré spravia zo známych blízkych ľudí.',
     href: '/skupiny/priatelia',
   },
   {
     icon: Briefcase,
-    title: 'Praca',
-    description: 'Psychologicke bezpecie, hranice a lepsia timova komunikacia.',
+    title: 'Práca',
+    description: 'Psychologické bezpečie, hranice a lepšia tímová komunikácia.',
     href: '/skupiny/praca',
   },
   {
     icon: GraduationCap,
-    title: 'Skola',
-    description: 'Trieda ako komunita. Rozhovory, ktore pomahaju ucit aj patrit.',
+    title: 'Škola',
+    description: 'Trieda ako komunita. Rozhovory, ktoré pomáhajú učiť aj patriť.',
     href: '/skupiny/skola',
   },
   {
     icon: Trees,
     title: 'Seniori',
-    description: 'Pribehy, spomienky a mosty medzi generaciami.',
+    description: 'Príbehy, spomienky a mosty medzi generáciami.',
     href: '/skupiny/seniori',
   },
 ]
@@ -96,52 +96,52 @@ const relationshipAreas = [
 const tools = [
   {
     featured: true,
-    badge: 'Nove · Zadarmo',
+    badge: 'Nové · Zadarmo',
     title: 'Daily Connection',
-    description: 'Kazdy den jedna otazka pre vas dvoch. Odpovedas sam/a, potom objavis partnerovu odpoved.',
-    meta: 'Pary · 5 minut denne · streak',
+    description: 'Každý deň jedna otázka pre vás dvoch. Odpovedáš sám/a, potom objavíš partnerovu odpoveď.',
+    meta: 'Páry · 5 minút denne · streak',
     href: '/apps/couplesync',
-    cta: 'Vyskusat',
+    cta: 'Vyskúšať',
   },
   {
     badge: 'Zadarmo',
-    title: 'Komunikacny kompas',
-    description: 'Konkretne vety pre 100+ situacii, ked nevies ako zacat.',
-    meta: 'Vsetky skupiny · hned pouzitelne',
+    title: 'Komunikačný kompas',
+    description: 'Konkrétne vety pre 100+ situácií, keď nevieš ako začať.',
+    meta: 'Všetky skupiny · hneď použiteľné',
     href: '/kompas',
-    cta: 'Otvorit',
+    cta: 'Otvoriť',
   },
   {
-    badge: 'Online + fyzicke',
-    title: 'Konverzacne karticky',
-    description: 'Otazky v roznych urovniach pre partnerov, priatelov aj rodiny.',
-    meta: 'Karticky · stolova atmosfera',
+    badge: 'Online + fyzické',
+    title: 'Konverzačné kartičky',
+    description: 'Otázky v rôznych úrovniach pre partnerov, priateľov aj rodiny.',
+    meta: 'Kartičky · stolová atmosféra',
     href: '/apps/spoznajme-sa',
-    cta: 'Vybrat',
+    cta: 'Vybrať',
   },
   {
     badge: 'Zadarmo',
     title: 'CoupleSync',
-    description: 'Otazky o hodnotach, hraniciach a buducnosti s odhalenim zhody.',
-    meta: 'Pary · 300+ tem',
+    description: 'Otázky o hodnotách, hraniciach a budúcnosti s odhalením zhody.',
+    meta: 'Páry · 300+ tém',
     href: '/apps/couplesync',
-    cta: 'Vyplnit',
+    cta: 'Vyplniť',
   },
   {
-    badge: 'Skupinove',
-    title: 'Herd Vote a Hadajka',
-    description: 'Hrave formaty pre partiu, tim alebo event, kde sa kazdy zapoji.',
-    meta: 'Priatelia · eventy · timy',
+    badge: 'Skupinové',
+    title: 'Herd Vote a Hádanka',
+    description: 'Hravé formáty pre partiu, tím alebo event, kde sa každý zapojí.',
+    meta: 'Priatelia · eventy · tímy',
     href: '/apps',
-    cta: 'Pozriet hry',
+    cta: 'Pozrieť hry',
   },
   {
-    badge: 'Predplatne',
+    badge: 'Predplatné',
     title: 'Legacy Spomienky',
-    description: 'Tyzdenne otazky emailom a pribeh, z ktoreho raz vznikne kniha spomienok.',
-    meta: 'Rodina · seniori · darcek',
+    description: 'Týždenné otázky emailom a príbeh, z ktorého raz vznikne kniha spomienok.',
+    meta: 'Rodina · seniori · darček',
     href: '/produkty/predplatne',
-    cta: 'Zistit viac',
+    cta: 'Zistiť viac',
   },
 ]
 
@@ -149,35 +149,35 @@ const communityItems = [
   {
     icon: CalendarDays,
     title: 'Akcie a stretnutia',
-    description: 'Opekacky, vylety, Blind Talk a dalsie formaty v mestach napriec Slovenskom.',
+    description: 'Opekačky, výlety, Blind Talk a ďalšie formáty v mestách naprieč Slovenskom.',
     href: '/komunita/akcie',
   },
   {
     icon: MapPin,
-    title: 'Spontanky',
-    description: '"Ideme tam, pridajte sa." Rychle lokalne stretnutia bez zbytocnej organizacie.',
+    title: 'Spontánky',
+    description: '"Ideme tam, pridajte sa." Rýchle lokálne stretnutia bez zbytočnej organizácie.',
     href: '/komunita/spontanky',
   },
   {
     icon: MessagesSquare,
-    title: 'Organizuj vlastne stretnutie',
-    description: 'Pomoc s grafikou, kartickami aj tym, ako prilakat ludi vo svojom meste.',
+    title: 'Organizuj vlastné stretnutie',
+    description: 'Pomoc s grafikou, kartičkami aj tým, ako prilákať ľudí vo svojom meste.',
     href: '/komunita/organizuj',
   },
 ]
 
 const stories = [
   {
-    quote: 'Prvykrat po rokoch sme sa s dcerou rozpravali celu noc. Jedna otazka otvorila dvere, na ktore sme uz skoro zabudli.',
+    quote: 'Prvýkrát po rokoch sme sa s dcérou rozprávali celú noc. Jedna otázka otvorila dvere, na ktoré sme už skoro zabudli.',
     author: 'Marta, Bratislava',
   },
   {
-    quote: 'Z Daily Connection sa stal nas vecerny ritual. Pat minut denne spravilo viac nez dalsi serial.',
-    author: 'Jana a Peter, Zilina',
+    quote: 'Z Daily Connection sa stal náš večerný rituál. Päť minút denne spravilo viac než ďalší seriál.',
+    author: 'Jana a Peter, Žilina',
   },
   {
-    quote: 'Karticky na stole pred workshopom a za pol hodinu padli veci, ktore by inak nezazneli cele mesiace.',
-    author: 'Lucia, HR manazerka',
+    quote: 'Kartičky na stole pred workshopom a za pol hodinu padli veci, ktoré by inak nezazneli celé mesiace.',
+    author: 'Lucia, HR manažérka',
   },
 ]
 
@@ -212,33 +212,33 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
 
               <div className="space-y-5">
                 <h1 className="max-w-4xl text-5xl leading-[0.98] sm:text-6xl lg:text-8xl">
-                  Pretoze realita je lepsia
+                  Pretože realita je lepšia
                   <br />
                   <span className="gradient-text italic">ako obrazovka.</span>
                 </h1>
 
                 <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-                  Nastroje, otazky a komunita pre ludi, ktori chcu mat hlbsie vztahy
-                  v rodine, vztahu, praci aj priatelstve.
+                  Nástroje, otázky a komunita pre ľudí, ktorí chcú mať hlbšie vzťahy
+                  v rodine, vzťahu, práci aj priateľstve.
                 </p>
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
                   <div className="text-2xl font-semibold text-primary">500+</div>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">Otazok a situacii</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">Otázok a situácií</p>
                 </div>
                 <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
                   <div className="text-2xl font-semibold text-primary">6</div>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">Skupin vztahov</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">Skupín vzťahov</p>
                 </div>
                 <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
                   <div className="text-2xl font-semibold text-primary">SK · UA</div>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">Bilingvalne</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">Bilingválne</p>
                 </div>
                 <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur">
                   <div className="text-2xl font-semibold text-primary">100%</div>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">Zadarmo zacat</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">Zadarmo začať</p>
                 </div>
               </div>
 
@@ -247,14 +247,14 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
                   href={`/${lang}/kompas`}
                   className="btn-hero inline-flex items-center justify-center gap-2 px-7 py-4 text-sm sm:text-base"
                 >
-                  Vyskusaj otazku dna
+                  Vyskúšaj otázku dňa
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   href={`/${lang}/apps`}
                   className="btn-warm inline-flex items-center justify-center gap-2 px-7 py-4 text-sm sm:text-base"
                 >
-                  Pozriet nastroje
+                  Pozrieť nástroje
                 </Link>
               </div>
             </div>
@@ -265,10 +265,10 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
                   <div className="mb-6 flex items-center justify-between">
                     <div>
                       <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
-                        Otazka dna
+                        Otázka dňa
                       </p>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        Klikni a rotuj dalsie inspiracie
+                        Klikni a rotuj ďalšie inšpirácie
                       </p>
                     </div>
                     <MessageCircleQuestion className="h-8 w-8 text-primary/80" />
@@ -283,7 +283,7 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
                       &ldquo;{currentQuestion}&rdquo;
                     </p>
                     <p className="mt-5 text-sm text-muted-foreground">
-                      Tato otazka je zadarmo. Dalsie najdes v Kompase a nastrojoch pre pary, rodiny aj priatelov.
+                      Táto otázka je zadarmo. Ďalšie nájdeš v Kompase a nástrojoch pre páry, rodiny aj priateľov.
                     </p>
                   </button>
 
@@ -292,13 +292,13 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
                       href={`/${lang}/kompas`}
                       className="rounded-2xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground transition hover:border-primary/30 hover:text-primary"
                     >
-                      Otvorit Kompas
+                      Otvoriť Kompas
                     </Link>
                     <Link
                       href={`/${lang}/apps/spoznajme-sa`}
                       className="rounded-2xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground transition hover:border-primary/30 hover:text-primary"
                     >
-                      Pustit karticky
+                      Pustiť kartičky
                     </Link>
                   </div>
                 </div>
@@ -311,15 +311,15 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
       <section className="border-b border-border px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl space-y-4">
-            <p className="label-gold">Preco DeepTalks</p>
+            <p className="label-gold">Prečo DeepTalks</p>
             <h2 className="text-4xl leading-tight sm:text-5xl">
-              Hovorime viac
+              Hovoríme viac
               <br />
-              <span className="text-muted-foreground italic">ako kedykolvek predtym.</span>
+              <span className="text-muted-foreground italic">ako kedykoľvek predtým.</span>
             </h2>
             <p className="text-lg leading-relaxed text-muted-foreground">
-              A predsa sa citime osameli. Sme v jednej miestnosti, ale kazdy v inom svete.
-              DeepTalks pomaha vratit ludi k realnej komunikacii.
+              A predsa sa cítime osamelí. Sme v jednej miestnosti, ale každý v inom svete.
+              DeepTalks pomáha vrátiť ľudí k reálnej komunikácii.
             </p>
           </div>
 
@@ -339,13 +339,13 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
           <div className="mb-10 max-w-3xl space-y-4">
             <p className="label-gold">Pre koho</p>
             <h2 className="text-4xl leading-tight sm:text-5xl">
-              Pre kazdy
+              Pre každý
               <br />
-              <span className="gradient-text">dolezity vztah.</span>
+              <span className="gradient-text">dôležitý vzťah.</span>
             </h2>
             <p className="text-lg leading-relaxed text-muted-foreground">
-              Iny vztah, ine napatie, iny jazyk. Vyber si skupinu a dostanes obsah,
-              ktory sedi na realne situacie.
+              Iný vzťah, iné napätie, iný jazyk. Vyber si skupinu a dostaneš obsah,
+              ktorý sedí na reálne situácie.
             </p>
           </div>
 
@@ -369,7 +369,7 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
                 <h3 className="text-2xl text-foreground transition group-hover:text-primary">{area.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{area.description}</p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary">
-                  Zistit viac
+                  Zistiť viac
                   <ArrowRight className="h-4 w-4" />
                 </span>
               </Link>
@@ -381,15 +381,15 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
       <section className="border-b border-border px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 max-w-3xl space-y-4">
-            <p className="label-gold">Nastroje</p>
+            <p className="label-gold">Nástroje</p>
             <h2 className="text-4xl leading-tight sm:text-5xl">
-              Zacni hned,
+              Začni hneď,
               <br />
               <span className="gradient-text">zadarmo.</span>
             </h2>
             <p className="text-lg leading-relaxed text-muted-foreground">
-              Bez zbytocnej bariery. Vyber si format, ktory vam sadne dnes vecer,
-              pri stole, na prechadzke alebo vo dvojici.
+              Bez zbytočnej bariéry. Vyber si formát, ktorý vám sadne dnes večer,
+              pri stole, na prechádzke alebo vo dvojici.
             </p>
           </div>
 
@@ -435,13 +435,13 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
           <div className="mb-10 max-w-3xl space-y-4">
             <p className="label-gold">Komunita</p>
             <h2 className="text-4xl leading-tight sm:text-5xl">
-              Ostrov ludskosti
+              Ostrov ľudskosti
               <br />
-              <span className="text-muted-foreground italic">uprostred digitalneho chaosu.</span>
+              <span className="text-muted-foreground italic">uprostred digitálneho chaosu.</span>
             </h2>
             <p className="text-lg leading-relaxed text-muted-foreground">
-              DeepTalks nie je len web. Je to siet stretnuti, mikroformatov a ludi,
-              ktori chcu byt viac spolu offline.
+              DeepTalks nie je len web. Je to sieť stretnutí, mikroformátov a ľudí,
+              ktorí chcú byť viac spolu offline.
             </p>
           </div>
 
@@ -454,7 +454,7 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
                 <h3 className="mt-5 text-2xl text-foreground transition group-hover:text-primary">{item.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary">
-                  Otvorit
+                  Otvoriť
                   <ArrowRight className="h-4 w-4" />
                 </span>
               </Link>
@@ -466,8 +466,8 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
       <section className="border-b border-border px-6 py-20">
         <div className="mx-auto max-w-5xl space-y-8 text-center">
           <div className="space-y-4">
-            <p className="label-gold">Ludia hovoria</p>
-            <h2 className="text-4xl sm:text-5xl">Pribehy z realneho zivota</h2>
+            <p className="label-gold">Ľudia hovoria</p>
+            <h2 className="text-4xl sm:text-5xl">Príbehy z reálneho života</h2>
           </div>
 
           <blockquote className="card-connection rounded-[28px] p-8 sm:p-10">
@@ -488,7 +488,7 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
                 className={`h-2.5 rounded-full transition ${
                   storyIndex === index ? 'w-10 bg-primary' : 'w-2.5 bg-primary/30'
                 }`}
-                aria-label={`Pribeh ${index + 1}`}
+                aria-label={`Príbeh ${index + 1}`}
               />
             ))}
           </div>
@@ -499,26 +499,26 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,168,128,0.2),transparent_42%)]" />
         <div className="relative mx-auto max-w-4xl text-center">
           <p className="text-3xl leading-relaxed text-foreground sm:text-5xl">
-            &ldquo;Sme hyperprepojeni a napriek tomu osameli. Jeden uprimny rozhovor
-            zmeni viac ako tisic lajkov.&rdquo;
+            &ldquo;Sme hyperprepojení a napriek tomu osamelí. Jeden úprimný rozhovor
+            zmení viac ako tisíc lajkov.&rdquo;
           </p>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            DeepTalks nie je terapia. Je to jemny, prakticky sprievodca zranitelnostou,
-            ked chces prestat obchadzat to podstatne.
+            DeepTalks nie je terapia. Je to jemný, praktický sprievodca zraniteľnosťou,
+            keď chceš prestať obchádzať to podstatné.
           </p>
           <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
             <Link
               href={`/${lang}/kompas`}
               className="btn-hero inline-flex items-center justify-center gap-2 px-8 py-4 text-base"
             >
-              Jedna otazka na dnesny vecer
+              Jedna otázka na dnešný večer
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href={`/${lang}/o-nas`}
               className="btn-warm inline-flex items-center justify-center px-8 py-4 text-base"
             >
-              Citat manifest
+              Čítať manifest
             </Link>
           </div>
         </div>
@@ -534,35 +534,35 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
               <span className="text-lg font-semibold">DeepTalks</span>
             </div>
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Pretoze realita je lepsia ako obrazovka. Nastroje, otazky a komunita
-              pre lepsie rozhovory.
+              Pretože realita je lepšia ako obrazovka. Nástroje, otázky a komunita
+              pre lepšie rozhovory.
             </p>
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Nastroje</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Nástroje</h3>
             <div className="space-y-2 text-sm">
               <Link href={`/${lang}/kompas`} className="block text-muted-foreground transition hover:text-foreground">Kompas</Link>
-              <Link href={`/${lang}/apps/spoznajme-sa`} className="block text-muted-foreground transition hover:text-foreground">Karticky</Link>
+              <Link href={`/${lang}/apps/spoznajme-sa`} className="block text-muted-foreground transition hover:text-foreground">Kartičky</Link>
               <Link href={`/${lang}/apps/couplesync`} className="block text-muted-foreground transition hover:text-foreground">CoupleSync</Link>
-              <Link href={`/${lang}/apps`} className="block text-muted-foreground transition hover:text-foreground">Dalsie hry</Link>
+              <Link href={`/${lang}/apps`} className="block text-muted-foreground transition hover:text-foreground">Ďalšie hry</Link>
             </div>
           </div>
 
           <div className="space-y-3">
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Oblasti</h3>
             <div className="space-y-2 text-sm">
-              <Link href={`/${lang}/skupiny/pary`} className="block text-muted-foreground transition hover:text-foreground">Pary</Link>
-              <Link href={`/${lang}/skupiny/rodic-dieta`} className="block text-muted-foreground transition hover:text-foreground">Rodic a dieta</Link>
+              <Link href={`/${lang}/skupiny/pary`} className="block text-muted-foreground transition hover:text-foreground">Páry</Link>
+              <Link href={`/${lang}/skupiny/rodic-dieta`} className="block text-muted-foreground transition hover:text-foreground">Rodič a dieťa</Link>
               <Link href={`/${lang}/skupiny/priatelia`} className="block text-muted-foreground transition hover:text-foreground">Priatelia</Link>
-              <Link href={`/${lang}/skupiny/praca`} className="block text-muted-foreground transition hover:text-foreground">Praca</Link>
+              <Link href={`/${lang}/skupiny/praca`} className="block text-muted-foreground transition hover:text-foreground">Práca</Link>
             </div>
           </div>
 
           <div className="space-y-3">
             <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Projekt</h3>
             <div className="space-y-2 text-sm">
-              <Link href={`/${lang}/o-nas`} className="block text-muted-foreground transition hover:text-foreground">Preco hovorit</Link>
+              <Link href={`/${lang}/o-nas`} className="block text-muted-foreground transition hover:text-foreground">Prečo hovoriť</Link>
               <Link href={`/${lang}/komunita`} className="block text-muted-foreground transition hover:text-foreground">Komunita</Link>
               <Link href={`/${lang}/b2b`} className="block text-muted-foreground transition hover:text-foreground">B2B</Link>
               <Link href={`/${lang}/produkty`} className="block text-muted-foreground transition hover:text-foreground">Produkty</Link>
@@ -573,9 +573,9 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
 
         <div className="border-t border-border">
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <span>© {new Date().getFullYear()} DeepTalks · Vsetky prava vyhradene.</span>
+            <span>© {new Date().getFullYear()} DeepTalks · Všetky práva vyhradené.</span>
             <div className="flex gap-4">
-              <Link href="/privacy" className="transition hover:text-foreground">Sukromie</Link>
+              <Link href="/privacy" className="transition hover:text-foreground">Súkromie</Link>
               <Link href="/terms" className="transition hover:text-foreground">Podmienky</Link>
             </div>
           </div>
