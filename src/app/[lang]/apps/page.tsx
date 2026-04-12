@@ -28,6 +28,16 @@ export default async function AppsPage({ params }: P) {
     { slug: 'spoznajme-sa', catKey: 'cards', image: spoznajmeSaImage, icon: '🃏' },
     { slug: 'hadacka', catKey: 'puzzles', image: hadackaImage, icon: '🎭' },
     { slug: 'couplesync', catKey: 'surveys', image: couplesyncImage, icon: '💕' },
+    {
+      slug: 'daily-connection',
+      catKey: 'daily-connection',
+      image: couplesyncImage,
+      icon: '🔥',
+      title: 'Daily Connection',
+      description: 'Každý deň jedna otázka pre vás dvoch. Malý rituál, ktorý drží blízkosť pri živote.',
+      cta: 'Otvoriť Daily Connection',
+      chipLabel: 'Daily Connection',
+    },
     { slug: 'ano-nie-hm', catKey: 'party', image: anoNieHmImage, icon: '⏱️' },
   ]
 
@@ -54,7 +64,7 @@ export default async function AppsPage({ params }: P) {
                 className="px-5 py-2 text-sm font-medium text-foreground/80 bg-card/60 backdrop-blur-sm border border-border/40 rounded-full transition-all hover:border-primary/40 hover:text-primary hover:shadow-md hover:shadow-primary/5"
               >
                 <span className="mr-1.5">{g.icon}</span>
-                {apps.categories[g.catKey]}
+                {g.chipLabel ?? apps.categories[g.catKey]}
               </Link>
             ))}
           </nav>
@@ -67,6 +77,9 @@ export default async function AppsPage({ params }: P) {
           <div className="grid gap-8 md:grid-cols-2">
             {gameList.map((item) => {
               const g = games[item.slug]
+              const title = item.title ?? g?.name
+              const description = item.description ?? g?.description
+              const cta = item.cta ?? g?.cta
               return (
                 <div
                   key={item.slug}
@@ -91,8 +104,8 @@ export default async function AppsPage({ params }: P) {
                   {/* Content */}
                   <div className="p-6 space-y-4">
                     <div>
-                      <h2 className="text-xl font-bold text-foreground mb-2">{g.name}</h2>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{g.description}</p>
+                      <h2 className="text-xl font-bold text-foreground mb-2">{title}</h2>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
                     </div>
                     <Button
                       asChild
@@ -100,7 +113,7 @@ export default async function AppsPage({ params }: P) {
                       variant="default"
                     >
                       <Link href={`/${lang}/apps/${item.slug}`}>
-                        {g.cta}
+                        {cta}
                       </Link>
                     </Button>
                   </div>

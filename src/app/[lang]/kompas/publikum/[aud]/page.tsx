@@ -1,15 +1,19 @@
 // PATH: src/app/[lang]/kompas/publikum/[aud]/page.tsx
+import { notFound } from 'next/navigation'
+import { KompasAudiencePage } from '@/components/KompasAudiencePage'
+import { type Locale, SUPPORTED_LOCALES } from '@/i18n/config'
+import { normalizeUrlLocale } from '@/lib/i18n-routing'
+import { getKompasAudienceBySlug } from '@/lib/kompas-content'
+
 type P = { params: Promise<{ lang: string; aud: string }> }
 
 export default async function Page({ params }: P) {
-  const { lang, aud } = await params
+  const { lang: raw, aud } = await params
+  const lang = normalizeUrlLocale(raw)
+  if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
 
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-semibold">Publikum: {aud}</h1>
-      <p className="text-muted-foreground mt-3">
-        Obsah a techniky pre toto publikum budú čoskoro.
-      </p>
-    </div>
-  )
+  const audience = getKompasAudienceBySlug(aud)
+  if (!audience) notFound()
+
+  return <KompasAudiencePage audience={audience} lang={lang} />
 }

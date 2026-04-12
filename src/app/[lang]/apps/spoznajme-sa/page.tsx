@@ -85,6 +85,12 @@ export default async function SpoznajmeSaPage({ params }: P) {
             >
               Spustiť hru
             </Link>
+            <Link
+              href={`/${lang}/produkty/karticky`}
+              className="px-6 py-3 rounded-lg border text-foreground hover:bg-muted transition-colors font-medium"
+            >
+              Fyzické edície
+            </Link>
             <a
               href="#ako-to-funguje"
               className="px-6 py-3 rounded-lg border text-foreground hover:bg-muted transition-colors font-medium"

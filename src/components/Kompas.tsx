@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { KOMPAS_DATA } from '@/data/kompas'
 
 const groupImages: Record<string, string> = {
@@ -17,6 +18,12 @@ interface KompasItem {
   topic: string
   subtopic: string
   phrases: string[]
+}
+
+type KompasProps = {
+  defaultGroup?: string | null
+  hideHero?: boolean
+  lockGroup?: boolean
 }
 
 function SubtopicCard({ item }: { item: KompasItem }) {
@@ -98,9 +105,13 @@ function SubtopicCard({ item }: { item: KompasItem }) {
   )
 }
 
-export default function Kompas() {
+export default function Kompas({
+  defaultGroup = null,
+  hideHero = false,
+  lockGroup = false,
+}: KompasProps) {
   const groups = Array.from(new Set(KOMPAS_DATA.map((item) => item.group)))
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(defaultGroup)
 
   const topics = selectedGroup
     ? Array.from(
@@ -114,6 +125,11 @@ export default function Kompas() {
 
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null)
 
+  useEffect(() => {
+    setSelectedGroup(defaultGroup ?? null)
+    setSelectedTopic(null)
+  }, [defaultGroup])
+
   const subtopics =
     selectedGroup && selectedTopic
       ? KOMPAS_DATA.filter(
@@ -124,51 +140,57 @@ export default function Kompas() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero section */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.15),transparent_70%)]" />
-        <div className="relative max-w-4xl mx-auto px-6 text-center">
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-4">
-            Komunikačný nástroj
-          </p>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Komunikačný <span className="italic font-serif text-primary">kompas</span>
-          </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
-            Praktické vety a kroky, keď nevieš, ako začať rozhovor. Vyber si pre koho, zvoľ tému a
-            otvor konkrétnu situáciu.
-          </p>
-        </div>
-      </section>
+      {!hideHero ? (
+        <section className="relative pt-32 pb-16 overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(var(--primary)/0.15),transparent_70%)]" />
+          <div className="relative max-w-4xl mx-auto px-6 text-center">
+            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-4">
+              Komunikačný nástroj
+            </p>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+              Komunikačný <span className="italic font-serif text-primary">kompas</span>
+            </h1>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
+              Praktické vety a kroky, keď nevieš, ako začať rozhovor. Vyber si pre koho, zvoľ tému a
+              otvor konkrétnu situáciu.
+            </p>
+          </div>
+        </section>
+      ) : null}
 
       <div className="max-w-6xl mx-auto px-6 pb-20">
         {/* Group selection */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {groups.map((group) => (
-            <button
-              key={group}
-              onClick={() => {
-                setSelectedGroup(group)
-                setSelectedTopic(null)
-              }}
-              className={`group flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 text-left ${
-                selectedGroup === group
-                  ? 'border-primary ring-2 ring-primary/20 shadow-lg shadow-primary/10'
-                  : 'border-border/40 hover:border-primary/40 hover:shadow-md'
-              }`}
-            >
-              <div className="w-full aspect-video overflow-hidden bg-muted">
-                <img
-                  src={groupImages[group] || '/images/kompas/default.png'}
-                  alt={group}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-4 text-center font-semibold text-foreground bg-card">
-                {group}
-              </div>
-            </button>
-          ))}
-        </div>
+        {!lockGroup ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {groups.map((group) => (
+              <button
+                key={group}
+                onClick={() => {
+                  setSelectedGroup(group)
+                  setSelectedTopic(null)
+                }}
+                className={`group flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 text-left ${
+                  selectedGroup === group
+                    ? 'border-primary ring-2 ring-primary/20 shadow-lg shadow-primary/10'
+                    : 'border-border/40 hover:border-primary/40 hover:shadow-md'
+                }`}
+              >
+                <div className="relative w-full aspect-video overflow-hidden bg-muted">
+                  <Image
+                    src={groupImages[group] || '/images/kompas/default.png'}
+                    alt={group}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-4 text-center font-semibold text-foreground bg-card">
+                  {group}
+                </div>
+              </button>
+            ))}
+          </div>
+        ) : null}
 
         {/* Children safety block */}
         {selectedGroup === 'Deti' && (
@@ -220,10 +242,12 @@ export default function Kompas() {
         {selectedGroup && selectedTopic && (
           <div>
             <div className="mb-8">
-              <img
+              <Image
                 src={groupImages[selectedGroup]}
                 alt={selectedGroup}
-                className="w-full h-64 object-cover rounded-2xl shadow-lg"
+                width={1200}
+                height={320}
+                className="h-64 w-full rounded-2xl object-cover shadow-lg"
               />
             </div>
 

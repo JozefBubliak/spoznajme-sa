@@ -73,6 +73,13 @@ const sections = [
       'Kráľovská disciplína DeepTalks. Elegantné balenie, zrozumiteľná mechanika a otázky, ktoré sa dajú vytiahnuť na stole, v aute aj na víkend.',
     items: [
       {
+        badge: 'Mapa',
+        name: 'Kartičkový systém DeepTalks',
+        description: 'Prehľad všetkých online, fyzických aj plánovaných kartičkových edícií na jednom mieste.',
+        price: 'Mapa edícií',
+        href: '/produkty/karticky',
+      },
+      {
         badge: 'Dostupné',
         name: 'Kartičky pre páry',
         description: 'Tri úrovne hĺbky, otázky na blízkosť, konflikty aj budúcnosť. Fungujú ako darček aj rituál.',
