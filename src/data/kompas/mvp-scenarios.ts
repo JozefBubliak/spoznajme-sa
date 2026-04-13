@@ -12,6 +12,14 @@ export const KOMPAS_AUDIENCE_GROUP_LABELS: Record<KompasAudienceSlug, string> = 
   priatelia: 'Priatelia',
   praca: 'Práca',
   'citlive-temy': 'Citlivé témy',
+  'vlastne-potreby': 'Vlastné potreby',
+  rodina: 'Rozšírená rodina',
+  randenie: 'Randenie',
+  rozchod: 'Rozchod',
+  peniaze: 'Peniaze',
+  zdravie: 'Zdravie',
+  susedia: 'Susedia',
+  'digitalna-komunikacia': 'Digitálna komunikácia',
 }
 
 export const KOMPAS_MOMENTS: KompasMoment[] = [

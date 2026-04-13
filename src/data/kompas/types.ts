@@ -5,6 +5,14 @@ export type KompasAudienceSlug =
   | 'priatelia'
   | 'praca'
   | 'citlive-temy'
+  | 'vlastne-potreby'
+  | 'rodina'
+  | 'randenie'
+  | 'rozchod'
+  | 'peniaze'
+  | 'zdravie'
+  | 'susedia'
+  | 'digitalna-komunikacia'
 
 export type KompasMomentSlug =
   | 'tazke-zaciatky'
