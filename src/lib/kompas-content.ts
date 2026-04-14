@@ -75,18 +75,18 @@ export const KOMPAS_AUDIENCES: KompasAudienceContent[] = [
     label: 'Deti',
     shortLabel: 'Deti',
     group: 'Deti',
-    eyebrow: 'Bezpečný jazyk pre mladých',
+    eyebrow: 'Deti, tínedžeri aj dospelí pri nich',
     description:
-      'Vetva pre deti a tínedžerov, kde sa učíme pomenovať, čo sa deje vo vnútri, a ako si vypýtať pomoc.',
+      'Jazyk pre deti a tínedžerov aj pre dospelých, ktorí s nimi potrebujú hovoriť citlivo, pokojne a bez zbytočného tlaku.',
     lead:
-      'Obsah má pomôcť deťom nájsť slová pre veci, ktoré sa ťažko hovoria nahlas: tlak, hanbu, smútok, neistotu či vzťahy.',
+      'Vetva spája dva smery: deti si tu môžu nájsť slová pre vlastné prežívanie a rodičia či blízki zas bezpečnejšie prvé vety, keď potrebujú byť oporou.',
     featuredSituations: [
-      'Ako povedať, že ma niečo trápi, aj keď neviem presne čo',
-      'Ako si vypýtať pomoc bez pocitu, že otravujem',
-      'Ako hovoriť o strachu, úzkosti alebo osamelosti',
-      'Ako pomenovať hranice medzi kamarátmi a na internete',
+      'Ako sa dieťaťa spýtať, čo prežíva, bez výsluchu',
+      'Ako hovoriť po ťažkom dni v škole alebo pri šikanovaní',
+      'Ako vysvetliť rozvod, smrť či silné emócie bez zľahčovania',
+      'Ako dať deťom aj tínedžerom slová pre pomoc, strach a online svet',
     ],
-    themeSlugs: ['emocie-a-regulacia', 'zdravie-a-tazke-temy', 'identita-a-telo', 'digitalny-zivot'],
+    themeSlugs: ['emocie-a-regulacia', 'zdravie-a-tazke-temy', 'identita-a-telo', 'digitalny-zivot', 'skola-a-ucenie'],
     relatedLinks: [
       { label: 'Rodič–dieťa vetva', href: '/kompas/rodic-dieta' },
       { label: 'Citlivé témy', href: '/kompas/publikum/citlive-temy' },
@@ -190,6 +190,198 @@ export const KOMPAS_AUDIENCES: KompasAudienceContent[] = [
     ],
     canonicalHref: '/kompas/publikum/citlive-temy',
   },
+  {
+    slug: 'vlastne-potreby',
+    label: 'Vlastné potreby',
+    shortLabel: 'Vlastné potreby',
+    group: 'Vlastné potreby',
+    eyebrow: 'Sebaobhajoba bez pocitu viny',
+    description:
+      'Konkrétne prvé vety pre momenty, keď potrebuješ prestať sa zmenšovať, pomenovať potrebu alebo povedať nie bez drámy.',
+    lead:
+      'Táto vetva pomáha tam, kde človek vie, že niečo potrebuje povedať za seba, ale staré reflexy ho tlačia do ospravedlňovania, mlčania alebo prehnaného vysvetľovania.',
+    featuredSituations: [
+      'Ako prestať sa ospravedlňovať za vlastné potreby',
+      'Ako povedať nesúhlas bez pocitu viny',
+      'Ako požiadať o pomoc bez hanby a bez maskovania',
+      'Ako vo vzťahu konečne povedať, čo ma bolí alebo čo chcem',
+    ],
+    themeSlugs: ['zacinat-rozovor', 'emocie-a-regulacia', 'hranice-a-dohody', 'identita-a-telo'],
+    relatedLinks: [
+      { label: 'Kompas témy', href: '/kompas/temy' },
+      { label: 'Citlivé témy', href: '/kompas/publikum/citlive-temy' },
+      { label: 'Online kartičky', href: '/apps/spoznajme-sa' },
+    ],
+    canonicalHref: '/kompas/vlastne-potreby',
+  },
+  {
+    slug: 'rodina',
+    label: 'Rozšírená rodina',
+    shortLabel: 'Rodina',
+    group: 'Rozšírená rodina',
+    eyebrow: 'Rodičia, súrodenci, svokrovci, dedičstvo',
+    description:
+      'Vetva pre rodinné rozhovory, ktoré bývajú citlivé práve preto, že v nich ide o blízkosť, lojalitu, staré roly a dlhú pamäť.',
+    lead:
+      'Od svokrovcov cez nevyžiadané rady až po dedičstvo alebo staré zranenia z detstva. Táto vetva pomáha hovoriť pravdu bez potreby rodinu rozbiť.',
+    featuredSituations: [
+      'Ako nastaviť hranice s rodičmi alebo svokrovcami',
+      'Ako hovoriť o rozvode rodičov či rodinných stretnutiach bez vojny',
+      'Ako povedať, že rodinný humor alebo výchova zraňovali',
+      'Ako otvoriť peniaze, dedičstvo alebo návštevy po narodení dieťaťa',
+    ],
+    themeSlugs: ['hranice-a-dohody', 'konflikt-a-spolupraca', 'zmeny-a-prechody', 'zdravie-a-tazke-temy', 'identita-a-telo'],
+    relatedLinks: [
+      { label: 'Rodič–dieťa vetva', href: '/kompas/rodic-dieta' },
+      { label: 'Citlivé témy', href: '/kompas/publikum/citlive-temy' },
+      { label: 'Všetky témy Kompasu', href: '/kompas/temy' },
+    ],
+    canonicalHref: '/kompas/rodina',
+  },
+  {
+    slug: 'randenie',
+    label: 'Randenie',
+    shortLabel: 'Randenie',
+    group: 'Randenie',
+    eyebrow: 'Začiatky, iskra aj jasné nie',
+    description:
+      'Prvé vety pre sympatie, pozvania, nejasné statusy, exkluzivitu aj férové ukončenie kontaktu na začiatku.',
+    lead:
+      'Randenie často nestroskotá na cite, ale na tom, že nikto nechce byť prvý, kto povie niečo jasné. Táto vetva dáva konkrétny jazyk práve na tie momenty medzi nádejou a neistotou.',
+    featuredSituations: [
+      'Ako povedať, že sa mi niekto páči alebo ho pozvať na rande',
+      'Ako sa spýtať, čo medzi nami vlastne je',
+      'Ako pomenovať, že chcem viac než nezáväznosť',
+      'Ako odmietnuť alebo ukončiť začínajúci kontakt bez zbytočnej krutosti',
+    ],
+    themeSlugs: ['zacinat-rozovor', 'hranice-a-dohody', 'zmeny-a-prechody', 'emocie-a-regulacia'],
+    relatedLinks: [
+      { label: 'Kompas pre páry', href: '/kompas/pary' },
+      { label: 'Všetky témy Kompasu', href: '/kompas/temy' },
+      { label: 'Online kartičky', href: '/apps/spoznajme-sa' },
+    ],
+    canonicalHref: '/kompas/randenie',
+  },
+  {
+    slug: 'rozchod',
+    label: 'Rozchod',
+    shortLabel: 'Rozchod',
+    group: 'Rozchod',
+    eyebrow: 'Koniec vzťahu bez zbytočnej krutosti',
+    description:
+      'Jazyk pre rozchody, pauzy, hranice po rozchode, rozhovory s deťmi aj ospravedlnenie za to, ako sme kedysi odišli.',
+    lead:
+      'Niektoré vzťahy sa končia preto, aby sa neubližovalo ďalej. Táto vetva pomáha nájsť presnejšie slová v situáciách, kde nejasnosť často bolí viac než pravda.',
+    featuredSituations: [
+      'Ako ukončiť vzťah jasne a bez krutosti',
+      'Ako povedať, že potrebujem pauzu alebo priestor',
+      'Ako nastaviť kontakt po rozchode',
+      'Ako hovoriť s deťmi, rodinou alebo bývalým partnerom po veľkej zmene',
+    ],
+    themeSlugs: ['zmeny-a-prechody', 'hranice-a-dohody', 'emocie-a-regulacia', 'zdravie-a-tazke-temy'],
+    relatedLinks: [
+      { label: 'Kompas pre páry', href: '/kompas/pary' },
+      { label: 'Rodina', href: '/kompas/rodina' },
+      { label: 'Citlivé témy', href: '/kompas/publikum/citlive-temy' },
+    ],
+    canonicalHref: '/kompas/rozchod',
+  },
+  {
+    slug: 'peniaze',
+    label: 'Peniaze',
+    shortLabel: 'Peniaze',
+    group: 'Peniaze',
+    eyebrow: 'Financie bez hanby a bez tajomstiev',
+    description:
+      'Situácie okolo míňania, dlhov, požičaných peňazí, spoločnej domácnosti aj rodinnej finančnej pomoci.',
+    lead:
+      'Peniaze často rozbíjajú vzťahy nie preto, že by ich bolo málo, ale preto, že sa o nich hovorí neskoro, nejasne alebo s veľkou hanbou. Táto vetva dáva konkrétne prvé vety tam, kde býva najväčšie ticho.',
+    featuredSituations: [
+      'Ako hovoriť s partnerom o rozdielnych výdavkoch',
+      'Ako povedať, že si niečo nemôžem dovoliť bez hanby',
+      'Ako sa ozvať kvôli vráteniu požičaných peňazí',
+      'Ako otvoriť dlh, spoločný rozpočet alebo finančné pravidlá doma',
+    ],
+    themeSlugs: ['hranice-a-dohody', 'konflikt-a-spolupraca', 'zmeny-a-prechody', 'zdravie-a-tazke-temy'],
+    relatedLinks: [
+      { label: 'Kompas pre páry', href: '/kompas/pary' },
+      { label: 'Rozšírená rodina', href: '/kompas/rodina' },
+      { label: 'Všetky témy Kompasu', href: '/kompas/temy' },
+    ],
+    canonicalHref: '/kompas/peniaze',
+  },
+  {
+    slug: 'zdravie',
+    label: 'Zdravie',
+    shortLabel: 'Zdravie',
+    group: 'Zdravie',
+    eyebrow: 'Choroba, starostlivosť, diagnóza',
+    description:
+      'Prvé vety pre diagnózy, dlhodobé choroby, starostlivosť o blízkych, rozhovory s lekárom aj témy smrti a straty.',
+    lead:
+      'Keď vstúpi do života choroba alebo slabnutie blízkeho, bežný jazyk často nestačí. Táto vetva pomáha hovoriť pravdivo, bez popretia a bez zbytočného chaosu.',
+    featuredSituations: [
+      'Ako povedať rodine o vážnej diagnóze',
+      'Ako hovoriť o starostlivosti o starého rodiča alebo o vlastnom limite',
+      'Ako sa ozvať lekárovi, keď sa necítim vypočutý',
+      'Ako reagovať, keď mi niekto povie o ťažkej chorobe',
+    ],
+    themeSlugs: ['zdravie-a-tazke-temy', 'emocie-a-regulacia', 'zmeny-a-prechody'],
+    relatedLinks: [
+      { label: 'Citlivé témy', href: '/kompas/publikum/citlive-temy' },
+      { label: 'Rozšírená rodina', href: '/kompas/rodina' },
+      { label: 'Všetky témy Kompasu', href: '/kompas/temy' },
+    ],
+    canonicalHref: '/kompas/zdravie',
+  },
+  {
+    slug: 'susedia',
+    label: 'Susedia',
+    shortLabel: 'Susedia',
+    group: 'Susedia',
+    eyebrow: 'Spoločný priestor bez eskalácie',
+    description:
+      'Krátke, použiteľné vstupy pre hluk, spolubývanie, nevhodné poznámky a porušovanie spoločných pravidiel.',
+    lead:
+      'Nie každý konflikt je intímny a nie každý sa dá vyriešiť mlčaním. Táto vetva je pre momenty, keď treba zasiahnuť pokojne, ale jasne vo verejnom alebo spoločnom priestore.',
+    featuredSituations: [
+      'Ako povedať susedovi, že ruší pokoj alebo spánok',
+      'Ako riešiť opakujúci sa problém so spolubývajúcim',
+      'Ako reagovať na rasistický alebo sexistický komentár v spoločnosti',
+      'Ako slušne ukončiť návštevu alebo pomenovať porušenie pravidiel',
+    ],
+    themeSlugs: ['hranice-a-dohody', 'konflikt-a-spolupraca', 'identita-a-telo'],
+    relatedLinks: [
+      { label: 'Kompas témy', href: '/kompas/temy' },
+      { label: 'Citlivé témy', href: '/kompas/publikum/citlive-temy' },
+      { label: 'Online kartičky', href: '/apps/spoznajme-sa' },
+    ],
+    canonicalHref: '/kompas/susedia',
+  },
+  {
+    slug: 'digitalna-komunikacia',
+    label: 'Digitálna komunikácia',
+    shortLabel: 'Digitálna komunikácia',
+    group: 'Digitálna komunikácia',
+    eyebrow: 'Telefóny, správy, online konflikt',
+    description:
+      'Vetva pre ghosting, toxické komentáre, online kritiku, čas na telefóne aj obsah, ktorý narúša vzťahy.',
+    lead:
+      'Veľa dnešných konfliktov nevzniká tvárou v tvár, ale cez obrazovku. Táto vetva dáva konkrétny jazyk na situácie, kde sa pozornosť, hranice a ticho dejú online.',
+    featuredSituations: [
+      'Ako reagovať na toxický komentár alebo online kritiku',
+      'Ako povedať, že ma niekto ghostuje',
+      'Ako otvoriť tému telefónu vo vzťahu alebo v rodine',
+      'Ako pomenovať, že mi niečí obsah alebo štýl komunikácie nesedí',
+    ],
+    themeSlugs: ['digitalny-zivot', 'hranice-a-dohody', 'emocie-a-regulacia', 'zacinat-rozovor'],
+    relatedLinks: [
+      { label: 'Digitálny život', href: '/kompas/tema/digitalny-zivot' },
+      { label: 'Deti', href: '/kompas/deti' },
+      { label: 'Všetky témy Kompasu', href: '/kompas/temy' },
+    ],
+    canonicalHref: '/kompas/digitalna-komunikacia',
+  },
 ]
 
 export const KOMPAS_THEMES: KompasThemeContent[] = [
@@ -202,7 +394,7 @@ export const KOMPAS_THEMES: KompasThemeContent[] = [
     lead:
       'Najťažší býva prvý krok. Táto téma zbiera vstupy, ktoré otvárajú priestor bez tlaku a výsluchu.',
     keywords: ['Začať rozhovor', 'Sociálne situácie', 'Blízkosť', 'Čo trápi deti'],
-    audienceSlugs: ['rodic-dieta', 'pary', 'priatelia', 'praca'],
+    audienceSlugs: ['rodic-dieta', 'deti', 'pary', 'priatelia', 'praca', 'vlastne-potreby', 'rodina', 'randenie', 'peniaze', 'zdravie', 'susedia', 'digitalna-komunikacia'],
     featuredSituations: [
       'Ako sa opýtať na školu inak než „čo bolo?“',
       'Ako začať večerný check-in vo dvojici bez pocitu povinnosti',
@@ -222,7 +414,7 @@ export const KOMPAS_THEMES: KompasThemeContent[] = [
     lead:
       'Pomáha tam, kde rozhovor neblokuje obsah, ale zaplavenie. Namiesto „upokoj sa“ dáva konkrétny jazyk a tempo.',
     keywords: ['Emócie', 'regulácia', 'Podpora', 'Vlastné emócie', 'Zdravie & psychika'],
-    audienceSlugs: ['rodic-dieta', 'deti', 'pary', 'priatelia', 'citlive-temy'],
+    audienceSlugs: ['rodic-dieta', 'deti', 'pary', 'priatelia', 'citlive-temy', 'vlastne-potreby', 'rodina', 'rozchod', 'zdravie', 'digitalna-komunikacia'],
     featuredSituations: [
       'Ako reagovať, keď dieťa plače alebo zamrzne',
       'Ako povedať partnerovi, že som zahltený/á, bez odseknutia',
@@ -242,7 +434,7 @@ export const KOMPAS_THEMES: KompasThemeContent[] = [
     lead:
       'Táto téma je o rešpekte. Ako povedať nie, čo potrebujem a čo už nechcem niesť namiesto druhých.',
     keywords: ['Hranice', 'Kolegovia', 'Osobná hygiena'],
-    audienceSlugs: ['rodic-dieta', 'pary', 'priatelia', 'praca', 'citlive-temy'],
+    audienceSlugs: ['rodic-dieta', 'pary', 'priatelia', 'praca', 'citlive-temy', 'vlastne-potreby', 'rodina', 'randenie', 'rozchod', 'peniaze', 'zdravie', 'susedia', 'digitalna-komunikacia'],
     featuredSituations: [
       'Ako nastaviť hranice pri obrazovkách alebo večernom režime',
       'Ako odmietnuť úlohu od kolegu bez straty vzťahu',
@@ -262,7 +454,7 @@ export const KOMPAS_THEMES: KompasThemeContent[] = [
     lead:
       'Konflikt nemusí ničiť vzťah. Potrebuje však lepší jazyk, pauzu a schopnosť pomenovať, čo sa deje pod povrchom.',
     keywords: ['Konflikty', 'Konflikt', 'Konflikty v tíme'],
-    audienceSlugs: ['rodic-dieta', 'pary', 'priatelia', 'praca'],
+    audienceSlugs: ['rodic-dieta', 'pary', 'priatelia', 'praca', 'rodina', 'peniaze', 'susedia'],
     featuredSituations: [
       'Rovnaká hádka vo dvojici dokola',
       'Dieťa robí scénu na verejnosti a rodič už ide vybuchnúť',
@@ -282,7 +474,7 @@ export const KOMPAS_THEMES: KompasThemeContent[] = [
     lead:
       'Keď sa mení prostredie alebo dynamika, staré vety už nestačia. Táto téma dáva premostenia namiesto chaosu.',
     keywords: ['Zmeny', 'prechody', 'Komunikácia so šéfom'],
-    audienceSlugs: ['rodic-dieta', 'pary', 'praca'],
+    audienceSlugs: ['rodic-dieta', 'pary', 'praca', 'rodina', 'randenie', 'rozchod', 'peniaze', 'zdravie'],
     featuredSituations: [
       'Ako hovoriť o rozvode, sťahovaní alebo novej škole',
       'Ako otvoriť tému veľkého rozhodnutia vo vzťahu',
@@ -302,7 +494,7 @@ export const KOMPAS_THEMES: KompasThemeContent[] = [
     lead:
       'Táto téma nehasí len problémy. Vedome buduje teplo, zvedavosť a pocit, že sa ešte stále vidíme.',
     keywords: ['Spomienky', 'Blízkosť', 'Podpora'],
-    audienceSlugs: ['pary', 'priatelia', 'rodic-dieta'],
+    audienceSlugs: ['pary', 'priatelia', 'rodic-dieta', 'rozchod', 'praca'],
     featuredSituations: [
       'Ako vytvoriť malý denný rituál spojenia',
       'Ako sa vrátiť k dobrým spoločným spomienkam, keď vzťah stvrdol',
@@ -322,7 +514,7 @@ export const KOMPAS_THEMES: KompasThemeContent[] = [
     lead:
       'Moderné konflikty často nevznikajú z charakteru, ale zo zariadení, pozornosti a nejasných dohôd.',
     keywords: ['Digitálny život'],
-    audienceSlugs: ['rodic-dieta', 'deti', 'pary'],
+    audienceSlugs: ['rodic-dieta', 'deti', 'pary', 'digitalna-komunikacia'],
     featuredSituations: [
       'Ako hovoriť s deťmi o telefóne a internete bez vojny',
       'Ako pomenovať, že telefón zjedol partnerský kontakt',
@@ -362,7 +554,7 @@ export const KOMPAS_THEMES: KompasThemeContent[] = [
     lead:
       'Pri ťažkých témach nestačí odvaha. Potrebujeme aj vhodné tempo, primeranosť veku a citlivú formuláciu.',
     keywords: ['Ťažké situácie', 'Zdravie', 'psychika', 'Závislosti'],
-    audienceSlugs: ['rodic-dieta', 'deti', 'pary', 'citlive-temy'],
+    audienceSlugs: ['rodic-dieta', 'deti', 'pary', 'citlive-temy', 'rodina', 'rozchod', 'peniaze', 'zdravie'],
     featuredSituations: [
       'Ako hovoriť s dieťaťom o rozvode, smrti alebo šikane',
       'Ako sa spýtať, či je niekto v depresii alebo v ohrození',
@@ -382,7 +574,7 @@ export const KOMPAS_THEMES: KompasThemeContent[] = [
     lead:
       'Tam, kde sa ľudia hanbia alebo boja odmietnutia, je dôležité hovoriť obzvlášť jemne a presne.',
     keywords: ['Identita', 'telo', 'intim', 'Osobná hygiena'],
-    audienceSlugs: ['deti', 'pary', 'citlive-temy'],
+    audienceSlugs: ['deti', 'pary', 'citlive-temy', 'vlastne-potreby', 'rodina', 'rozchod', 'susedia'],
     featuredSituations: [
       'Ako hovoriť o tele, dozrievaní a sexualite primerane veku',
       'Ako v páre pomenovať intimitu bez hanby a útoku',

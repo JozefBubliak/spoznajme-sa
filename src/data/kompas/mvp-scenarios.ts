@@ -4,6 +4,7 @@ import type {
   KompasMomentSlug,
   KompasScenario,
 } from './types'
+import { KOMPAS_NEW_CARDS_SEED } from './kompas-new-cards-seed'
 
 export const KOMPAS_AUDIENCE_GROUP_LABELS: Record<KompasAudienceSlug, string> = {
   'rodic-dieta': 'Rodič → Dieťa',
@@ -2170,4 +2171,5 @@ export const KOMPAS_SCENARIOS: KompasScenario[] = [
     directVersion: 'Prosím, pomôž mi. Teraz to potrebujem.',
     avoid: 'Nezačni vetou, ktorá znehodnotí vlastnú potrebu ešte skôr, než zaznie.',
   },
+  ...KOMPAS_NEW_CARDS_SEED,
 ]
