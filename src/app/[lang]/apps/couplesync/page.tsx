@@ -154,7 +154,7 @@ export default async function Page({ params }: P) {
             </div>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg">
-                <Link href="https://couplesync.deeptalks.eu">Otvoriť aktuálnu verziu</Link>
+                <Link href={`/${lang}/apps/couplesync/play`}>Spustiť dotazník</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <Link href={`/${lang}/skupiny/pary`}>Sekcia pre páry</Link>
@@ -241,7 +241,7 @@ export default async function Page({ params }: P) {
                 </p>
                 <div className="mt-5 flex flex-col gap-3">
                   <Button asChild size="lg">
-                    <Link href="https://couplesync.deeptalks.eu">Spustiť CoupleSync</Link>
+                    <Link href={`/${lang}/apps/couplesync/play`}>Spustiť CoupleSync</Link>
                   </Button>
                   <Button asChild variant="outline">
                     <Link href={`/${lang}/apps/daily-connection`}>Pozrieť Daily Connection</Link>
