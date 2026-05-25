@@ -33,7 +33,7 @@ interface GameState {
   answeredCount?: number; myAnswer?: string | null
   rounds?: RoundInfo[]; configuredRounds?: RoundInfo[]
 }
-interface Category { id: string; name: string; count: number }
+interface Category { id: string; name: string; question_count: number; icon?: string; group_tag?: string; description_sk?: string | null }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -435,6 +435,7 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
   gs: GameState; code: string; lang: string; onRefresh: () => void
 }) {
   const [locking, setLocking] = useState(false)
+  const [copied, setCopied] = useState(false)
   const joinUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/${lang}/herd-vote/play/${code}`
     : `/${lang}/herd-vote/play/${code}`
@@ -446,7 +447,12 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
     setLocking(false)
   }
 
-  const copyLink = () => navigator.clipboard?.writeText(joinUrl)
+  const copyLink = () => {
+    navigator.clipboard?.writeText(joinUrl).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2200)
+    })
+  }
 
   return (
     <div className="hv-bg hv-particles">
@@ -473,8 +479,12 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
           <div className="flex items-center gap-2 bg-black/20 rounded-xl px-4 py-3">
             <span className="flex-1 hv-text-muted text-sm truncate font-mono">{joinUrl}</span>
             <button onClick={copyLink}
-              className="hv-btn-secondary px-3 py-1.5 text-xs">
-              Kopírovať
+              className={`px-3 py-1.5 text-xs rounded-lg border font-semibold transition-all duration-200 ${
+                copied
+                  ? 'bg-green-500/20 border-green-500/40 text-green-300'
+                  : 'hv-btn-secondary'
+              }`}>
+              {copied ? '✓ Skopírované' : 'Kopírovať'}
             </button>
           </div>
           
@@ -523,6 +533,7 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
   // Step 1 – category picker (phase === 'config')
   const [selCats, setSelCats] = useState<Category[]>([])
   const [search, setSearch] = useState('')
+  const [filterGroup, setFilterGroup] = useState('all')
   const [confirming, setConfirming] = useState(false)
 
   // Step 2 – round-by-round setup (phase === 'round_setup')
@@ -582,16 +593,34 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
     setStarting(false)
   }
 
+  const GROUP_FILTERS = [
+    { key: 'all', label: 'Všetky' },
+    { key: 'zabava', label: '🎬 Zábava' },
+    { key: 'sport', label: '⚽ Šport' },
+    { key: 'historia', label: '⚔️ História' },
+    { key: 'geo', label: '🌍 Geografia' },
+    { key: 'veda', label: '🔬 Veda' },
+    { key: 'jedlo', label: '🍕 Jedlo' },
+    { key: 'kultura', label: '🎨 Kultúra' },
+    { key: 'tech', label: '💻 Tech' },
+    { key: 'sk', label: '🇸🇰 Slovensko' },
+    { key: 'funny', label: '🤯 Niche' },
+    { key: 'deti', label: '🧒 Pre deti' },
+    { key: 'deeptalks', label: '💬 DeepTalks' },
+  ]
+
   // ── STEP 1: Category picker ────────────────────────────────────────────────
   if (gs.phase === 'config') {
-    const filtered = categories.filter(c =>
-      !search || c.name.toLowerCase().includes(search.toLowerCase())
-    )
+    const filtered = categories.filter(c => {
+      const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase())
+      const matchGroup = filterGroup === 'all' || c.group_tag === filterGroup
+      return matchSearch && matchGroup
+    })
     const roundLabel = (n: number) => n === 1 ? '1 kolo' : n < 5 ? `${n} kolá` : `${n} kôl`
 
     return (
       <div className="hv-bg hv-particles">
-        <div className="max-w-2xl mx-auto p-6 space-y-5">
+        <div className="max-w-2xl mx-auto p-6 space-y-4">
           {/* Header */}
           <div className="flex items-center gap-3 pt-2">
             <div className="w-12 h-12 rounded-2xl bg-purple-500/15 border border-purple-500/20 flex items-center justify-center text-xl">🎯</div>
@@ -615,13 +644,30 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
           {/* Search */}
           <input
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => { setSearch(e.target.value); if (e.target.value) setFilterGroup('all') }}
             placeholder="Hľadaj kategóriu…"
             className="hv-input w-full px-4 py-3"
           />
 
+          {/* Group filter chips */}
+          <div className="flex flex-wrap gap-1.5">
+            {GROUP_FILTERS.map(gf => (
+              <button
+                key={gf.key}
+                onClick={() => { setFilterGroup(gf.key); setSearch('') }}
+                className={`px-3 py-1.5 rounded-full text-[11px] font-semibold border transition-all ${
+                  filterGroup === gf.key
+                    ? 'border-purple-500/50 bg-purple-500/20 text-purple-200'
+                    : 'border-white/10 bg-white/[0.03] text-white/50 hover:border-white/25 hover:text-white/70'
+                }`}
+              >
+                {gf.label}
+              </button>
+            ))}
+          </div>
+
           {/* Category grid */}
-          <div className="grid grid-cols-2 gap-2.5 max-h-[42vh] overflow-y-auto pr-1 pb-1">
+          <div className="grid grid-cols-2 gap-2.5 max-h-[38vh] overflow-y-auto pr-1 pb-1">
             {filtered.length === 0 && (
               <div className="col-span-2 text-center py-10 hv-text-dim text-sm">Nič sa nenašlo</div>
             )}
@@ -643,10 +689,14 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
                       {selIdx + 1}
                     </span>
                   )}
+                  <div className="text-xl mb-1">{cat.icon ?? '❓'}</div>
                   <div className={`font-semibold text-sm leading-snug pr-7 ${isSel ? 'text-purple-200' : 'text-white/80'}`}>
                     {cat.name}
                   </div>
-                  <div className="text-xs mt-1 hv-text-dim">{cat.count} otázok</div>
+                  {cat.description_sk && (
+                    <div className="text-[11px] mt-0.5 hv-text-dim leading-snug line-clamp-2">{cat.description_sk}</div>
+                  )}
+                  <div className="text-[11px] mt-1.5 text-purple-400/70 font-semibold">{cat.question_count} otázok</div>
                 </button>
               )
             })}
@@ -747,7 +797,7 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
                 <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center text-lg shrink-0">🎯</div>
                 <div>
                   <div className="font-semibold text-white">{presetCat.name}</div>
-                  <div className="text-xs hv-text-dim">{presetCat.count} dostupných otázok</div>
+                  <div className="text-xs hv-text-dim">{presetCat.question_count} dostupných otázok</div>
                 </div>
               </div>
             ) : (
@@ -756,7 +806,7 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
                 <select value={catId} onChange={e => setCatId(e.target.value)}
                   className="hv-input w-full px-3 py-2.5">
                   {categories.map(c => (
-                    <option key={c.id} value={c.id}>{c.name} ({c.count} otázok)</option>
+                    <option key={c.id} value={c.id}>{c.name} ({c.question_count} otázok)</option>
                   ))}
                 </select>
               </div>
