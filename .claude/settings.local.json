@@ -30,7 +30,8 @@
       "Bash(mkdir -p \"/mnt/e/Projekty/spoznajme-sa/src/app/[lang]/herd-vote/lobby\" 2>/dev/null; echo ok)",
       "PowerShell(supabase --version 2>&1)",
       "PowerShell(vercel --version 2>&1)",
-      "Bash(Remove-Item \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\middleware.ts\")"
+      "Bash(Remove-Item \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\middleware.ts\")",
+      "Bash(git commit -m ' *)"
     ]
   }
 }
