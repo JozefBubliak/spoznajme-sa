@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useState, useRef, Suspense } from 'react'
 
 // ── Interná: iba pre testovanie ──────────────────────────────────
@@ -14,7 +14,6 @@ function setCookie(name: string, value: string, maxAge: number) {
 }
 
 function UnlockForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const nextPath = searchParams.get('next') ?? ''
 
@@ -46,6 +45,10 @@ function UnlockForm() {
     if (e.key === 'Backspace' && !digits[idx] && idx > 0) {
       inputs.current[idx - 1]?.focus()
     }
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      submit(digits.join(''))
+    }
   }
 
   const handlePaste = (e: React.ClipboardEvent) => {
@@ -57,11 +60,17 @@ function UnlockForm() {
   }
 
   const submit = (code: string) => {
+    if (code.length < 6) {
+      setError(true)
+      setShake(true)
+      setTimeout(() => { setShake(false); inputs.current[0]?.focus() }, 600)
+      return
+    }
     if (code === CORRECT) {
       setCookie(COOKIE_NAME, COOKIE_VALUE, COOKIE_MAX_AGE)
-      // Redirect späť na play alebo default
       const dest = nextPath || window.location.pathname.replace('/unlock', '/play')
-      router.replace(dest)
+      // Full reload — ensures cookie is sent with the proxy request
+      window.location.href = dest
     } else {
       setError(true)
       setShake(true)
@@ -115,7 +124,7 @@ function UnlockForm() {
 
           {error && <p className="error-msg">Nesprávny kód. Skús znova.</p>}
 
-          <button type="submit" className="unlock-btn" disabled={digits.some((d) => !d)}>
+          <button type="submit" className="unlock-btn">
             Otvoriť →
           </button>
         </form>
