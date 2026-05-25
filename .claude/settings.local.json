@@ -27,7 +27,9 @@
       "Read(//mnt/e/Projekty/spoznajme-sa/**)",
       "Read(//mnt/e/Projekty/**)",
       "Bash(find /mnt/e/Projekty/spoznajme-sa/src/app -name \"page.tsx\" | head -60 2>/dev/null)",
-      "Bash(mkdir -p \"/mnt/e/Projekty/spoznajme-sa/src/app/[lang]/herd-vote/lobby\" 2>/dev/null; echo ok)"
+      "Bash(mkdir -p \"/mnt/e/Projekty/spoznajme-sa/src/app/[lang]/herd-vote/lobby\" 2>/dev/null; echo ok)",
+      "PowerShell(supabase --version 2>&1)",
+      "PowerShell(vercel --version 2>&1)"
     ]
   }
 }
