@@ -1,5 +1,6 @@
 'use client'
 // Standalone Herd Vote hub — own nav, no global SiteHeader
+import { use } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
@@ -90,9 +91,9 @@ export default function HerdVoteHubLayout({
   params,
 }: {
   children: React.ReactNode
-  params: { lang: string }
+  params: Promise<{ lang: string }>
 }) {
-  const lang = params?.lang ?? 'sk'
+  const { lang } = use(params)
 
   return (
     <div className="min-h-screen" style={{ background: 'hsl(250 25% 6%)' }}>
