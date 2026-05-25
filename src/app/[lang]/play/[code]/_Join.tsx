@@ -554,9 +554,9 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
     })
   }, [])
 
-  // When moving to the next round, reset the form and pre-fill category from picked list
+  // When moving to the next round, reset form (but keep scoring mode — user set it intentionally)
   useEffect(() => {
-    setQCount(5); setSeconds(30); setScoring('simple'); setErr('')
+    setQCount(5); setSeconds(30); setErr('')
     if (pickedCats[nextIdx]) setCatId(pickedCats[nextIdx].id)
   }, [nextIdx]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -828,16 +828,24 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
             <div className="space-y-2">
               <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Bodovanie</label>
               <div className="grid grid-cols-2 gap-2">
-                {(['simple', 'weighted'] as const).map(m => (
-                  <button key={m} onClick={() => setScoring(m)}
-                    className={`py-2.5 rounded-xl border font-semibold text-sm transition-all ${
-                      scoring === m
-                        ? 'border-purple-500/40 bg-purple-500/15 text-purple-300'
-                        : 'border-white/10 text-white/40 hover:border-white/20 hover:text-white/60'
-                    }`}>
-                    {m === 'simple' ? '🎯 Klasické' : '🏎 Rýchlostné'}
-                  </button>
-                ))}
+                <button onClick={() => setScoring('simple')}
+                  className={`p-3 rounded-xl border-2 text-left transition-all ${
+                    scoring === 'simple'
+                      ? 'border-purple-500/60 bg-purple-500/15'
+                      : 'border-white/15 bg-white/[0.03] hover:border-white/30'
+                  }`}>
+                  <div className={`font-bold text-sm ${scoring === 'simple' ? 'text-purple-200' : 'text-white/80'}`}>🎯 Klasické</div>
+                  <div className={`text-[11px] mt-0.5 ${scoring === 'simple' ? 'text-purple-300/70' : 'text-white/40'}`}>správna odpoveď = bod</div>
+                </button>
+                <button onClick={() => setScoring('weighted')}
+                  className={`p-3 rounded-xl border-2 text-left transition-all ${
+                    scoring === 'weighted'
+                      ? 'border-purple-500/60 bg-purple-500/15'
+                      : 'border-white/15 bg-white/[0.03] hover:border-white/30'
+                  }`}>
+                  <div className={`font-bold text-sm ${scoring === 'weighted' ? 'text-purple-200' : 'text-white/80'}`}>🏎 Rýchlostné</div>
+                  <div className={`text-[11px] mt-0.5 ${scoring === 'weighted' ? 'text-purple-300/70' : 'text-white/40'}`}>rýchlejší = viac bodov</div>
+                </button>
               </div>
             </div>
 
@@ -1150,6 +1158,18 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
     if (id) setPlayerId(id)
     if (nm) setPlayerName(nm)
   }, [code])
+
+  // Clear stale player session when game is reset to lobby (new game started)
+  // If we had a stored playerId but the server says myPlayer is null and phase=lobby,
+  // the game was reset — clean up so JoinForm shows fresh without stale state.
+  useEffect(() => {
+    if (!loading && !gs?.isOwner && playerId && !gs?.myPlayer && gs?.phase === 'lobby') {
+      sessionStorage.removeItem(`herd-player-${code}`)
+      sessionStorage.removeItem(`herd-name-${code}`)
+      setPlayerId(null)
+      setPlayerName('')
+    }
+  }, [loading, gs?.isOwner, gs?.myPlayer, gs?.phase, playerId, code])
 
   const fetchState = useCallback(async (pid?: string | null) => {
     if (!code) return

@@ -23,8 +23,14 @@ export async function POST(_req: NextRequest, context: any) {
 
   if (!game) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
+  // 1. Mark all rounds finished and set phase to final
   await s.from('herd_rounds').update({ status: 'finished' }).eq('game_code', gameCode)
   await s.from('herd_games').update({ phase: 'final' }).eq('code', gameCode)
+
+  // 2. Delete players so next game session starts clean
+  //    (same cleanup as POST /api/games — new game and end game are equivalent resets)
+  await s.from('herd_answers').delete().eq('game_code', gameCode)
+  await s.from('herd_players').delete().eq('game_code', gameCode)
 
   return NextResponse.json({ success: true })
 }
