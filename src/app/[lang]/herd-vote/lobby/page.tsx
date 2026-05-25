@@ -1,16 +1,15 @@
 'use client'
 // /sk/herd-vote/lobby
-// Create a new game (requires login) OR join existing game by code
+// Create a new game (requires login + access) OR join existing game by code
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { supabaseClient } from '@/integrations/supabase/client'
+import AccessGate from '@/components/AccessGate'
 
 type Game = { code: string; phase: string; playerCount: number }
 
-export default function HerdVoteLobbyPage() {
+function LobbyContent({ lang }: { lang: string }) {
   const router = useRouter()
-  const params = useParams() as { lang?: string }
-  const lang = params?.lang ?? 'sk'
 
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -37,10 +36,6 @@ export default function HerdVoteLobbyPage() {
   }, [])
 
   const createGame = async () => {
-    if (!user) {
-      router.push(`/auth?next=/${lang}/herd-vote/lobby`)
-      return
-    }
     setCreating(true)
     setErr('')
     try {
@@ -102,12 +97,6 @@ export default function HerdVoteLobbyPage() {
             </p>
           </div>
 
-          {!user && (
-            <div className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 text-sm text-amber-300">
-              Na vytvorenie hry sa musíš prihlásiť.
-            </div>
-          )}
-
           {err && (
             <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 text-red-300 text-sm">
               {err}
@@ -124,7 +113,7 @@ export default function HerdVoteLobbyPage() {
                 <span className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
                 Vytváram…
               </span>
-            ) : user ? '+ Vytvoriť hru' : '🔐 Prihlásiť sa a vytvoriť hru'}
+            ) : '+ Vytvoriť hru'}
           </button>
         </div>
 
@@ -192,5 +181,16 @@ export default function HerdVoteLobbyPage() {
 
       </div>
     </div>
+  )
+}
+
+// ── Page export — wraps with AccessGate ──────────────────────────────────────
+export default function HerdVoteLobbyPage() {
+  const params = useParams() as { lang?: string }
+  const lang = params?.lang ?? 'sk'
+  return (
+    <AccessGate productSlug="herd-vote" lang={lang}>
+      <LobbyContent lang={lang} />
+    </AccessGate>
   )
 }
