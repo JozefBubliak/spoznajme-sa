@@ -436,8 +436,8 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
 }) {
   const [locking, setLocking] = useState(false)
   const joinUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/${lang}/play/${code}`
-    : `/${lang}/play/${code}`
+    ? `${window.location.origin}/${lang}/herd-vote/play/${code}`
+    : `/${lang}/herd-vote/play/${code}`
 
   const lock = async () => {
     setLocking(true)

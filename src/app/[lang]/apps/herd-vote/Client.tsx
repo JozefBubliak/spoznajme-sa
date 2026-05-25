@@ -16,7 +16,7 @@ export default function HerdVoteClient({ lang }: { lang: string }) {
 
   useEffect(() => {
     supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      if (!session?.user) { router.replace(`/${lang}/auth/login`); return }
+      if (!session?.user) { router.replace(`/auth?next=${encodeURIComponent(`/${lang}/herd-vote/lobby`)}`); return }
       setUser(session.user)
       setLoading(false)
       fetch('/api/games/active').then(r => r.ok ? r.json() : { games: [] })
@@ -25,13 +25,19 @@ export default function HerdVoteClient({ lang }: { lang: string }) {
     })
   }, [lang, router])
 
+  // Auth is at /auth (no lang prefix) — redirect there preserving return URL
+  const goToLogin = () => {
+    const returnTo = `/${lang}/herd-vote/lobby`
+    router.replace(`/auth?next=${encodeURIComponent(returnTo)}`)
+  }
+
   const createGame = async () => {
     setCreating(true); setErr('')
     try {
       const r = await fetch('/api/games', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
       const d = await r.json()
       if (r.ok && d.gameCode) {
-        router.push(`/${lang}/play/${d.gameCode}`)
+        router.push(`/${lang}/herd-vote/play/${d.gameCode}`)
       } else {
         setErr(d.error ?? 'Chyba pri vytváraní hry')
         setCreating(false)
@@ -121,7 +127,7 @@ export default function HerdVoteClient({ lang }: { lang: string }) {
             {games.map(g => (
               <div key={g.code}
                 className="hv-card p-5 flex items-center gap-4 cursor-pointer group"
-                onClick={() => router.push(`/${lang}/play/${g.code}`)}>
+                onClick={() => router.push(`/${lang}/herd-vote/play/${g.code}`)}>
                 <div className="flex-1 min-w-0">
                   <div className="font-mono font-black text-white text-xl tracking-[0.2em]">{g.code}</div>
                   <div className="flex items-center gap-2 mt-1.5">

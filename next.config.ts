@@ -25,6 +25,14 @@ const nextConfig: NextConfig = {
     r.push({ source: `/apps`, destination: `/sk/apps`, permanent: true })
     r.push({ source: `/play`, destination: `/sk/apps/spoznajme-sa/play`, permanent: true })
 
+    // Herd Vote hub redirects — old /apps/herd-vote/* → /herd-vote/*
+    for (const l of SUP) {
+      r.push({ source: `/${l}/apps/herd-vote`, destination: `/${l}/herd-vote`, permanent: true })
+      r.push({ source: `/${l}/apps/herd-vote/admin`, destination: `/${l}/herd-vote/lobby`, permanent: true })
+      r.push({ source: `/${l}/apps/herd-vote/kategorie`, destination: `/${l}/herd-vote/kategorie`, permanent: true })
+      r.push({ source: `/${l}/play/:code`, destination: `/${l}/herd-vote/play/:code`, permanent: false })
+    }
+
     return r
   },
 }

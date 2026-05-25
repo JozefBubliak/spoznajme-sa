@@ -6,6 +6,12 @@ import { useAuth } from "@/hooks/useAuth"
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
 
+// Hub routes that have their own navigation — site header must be hidden there
+const HUB_PATTERNS = [
+  /^\/[a-z]{2}\/herd-vote(\/|$)/,
+  /^\/[a-z]{2}\/karticky(\/|$)/,
+]
+
 export default function SiteHeader({ lang: propLang }: { lang?: string }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -14,6 +20,9 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
   const { user, signOut } = useAuth()
   const l = propLang || (pathname ? (pathname.split("/")[1] || "sk") : "sk")
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  // Don't render on standalone hub pages (they have their own nav)
+  if (pathname && HUB_PATTERNS.some(re => re.test(pathname))) return null
 
   const items = [
     { href: `/${l}/o-nas`, label: "Prečo hovoriť" },

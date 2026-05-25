@@ -23,7 +23,11 @@
       "mcp__Claude_in_Chrome__tabs_context_mcp",
       "Bash(Get-ChildItem -Path \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\app\" -Recurse -Filter \"*.tsx\" -File)",
       "Bash(dir \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\app\\\\[lang]\\\\apps\\\\herd-vote\")",
-      "Bash(dir \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\components\")"
+      "Bash(dir \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\components\")",
+      "Read(//mnt/e/Projekty/spoznajme-sa/**)",
+      "Read(//mnt/e/Projekty/**)",
+      "Bash(find /mnt/e/Projekty/spoznajme-sa/src/app -name \"page.tsx\" | head -60 2>/dev/null)",
+      "Bash(mkdir -p \"/mnt/e/Projekty/spoznajme-sa/src/app/[lang]/herd-vote/lobby\" 2>/dev/null; echo ok)"
     ]
   }
 }
