@@ -58,14 +58,14 @@ export default async function AppsPage({ params }: P) {
       slug: 'herd-vote',
       catKey: 'herd-vote',
       image: quizGameImage,
-      icon: '◎',
+      icon: '🐂',
       audience: ['priatelia', 'rodina', 'tím'],
       status: 'Live',
       title: 'Herd Vote',
       description:
         'Skupinový kvíz s moderátorom a hráčmi cez kód. Silný na event, večer aj teambuilding.',
-      href: `/${lang}/apps/herd-vote`,
-      cta: 'Spustiť kvíz',
+      href: `/${lang}/herd-vote`,
+      cta: 'Otvoriť Herd Vote',
     },
     {
       slug: 'hadacka',

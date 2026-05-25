@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { supabaseClient } from '@/integrations/supabase/client'
+import { supabase } from '@/lib/supabaseClient'          // same client as auth/page.tsx
 import { type ProductSlug, TESTING_MODE, isAdminEmail, type AccessResult } from '@/lib/access'
 
 interface AccessState {
@@ -11,7 +11,7 @@ interface AccessState {
 
 /**
  * Client-side access check hook.
- * Mirrors the logic in access-server.ts for use in client components.
+ * Uses onAuthStateChange for reliable session detection (no race condition after login redirect).
  */
 export function useAccess(productSlug: ProductSlug): AccessState {
   const [state, setState] = useState<AccessState>({
@@ -23,16 +23,15 @@ export function useAccess(productSlug: ProductSlug): AccessState {
   useEffect(() => {
     let cancelled = false
 
-    async function check() {
-      const { data: { session } } = await supabaseClient.auth.getSession()
+    async function check(sessionUser: { id: string; email?: string } | null) {
       if (cancelled) return
 
-      if (!session?.user) {
+      if (!sessionUser) {
         setState({ result: 'no-auth', loading: false, userEmail: null })
         return
       }
 
-      const email = session.user.email ?? null
+      const email = sessionUser.email ?? null
 
       // Admins always have access
       if (isAdminEmail(email)) {
@@ -40,17 +39,17 @@ export function useAccess(productSlug: ProductSlug): AccessState {
         return
       }
 
-      // Testing mode: logged in = access
+      // Testing mode: any logged-in user has access
       if (TESTING_MODE) {
         setState({ result: 'granted', loading: false, userEmail: email })
         return
       }
 
-      // Production: check entitlements
-      const { data } = await supabaseClient
+      // Production: check entitlements table
+      const { data } = await supabase
         .from('user_entitlements')
         .select('id, expires_at')
-        .eq('user_id', session.user.id)
+        .eq('user_id', sessionUser.id)
         .eq('product_slug', productSlug)
         .maybeSingle()
 
@@ -61,7 +60,7 @@ export function useAccess(productSlug: ProductSlug): AccessState {
         return
       }
 
-      const expired = data.expires_at && new Date(data.expires_at) < new Date()
+      const expired = data.expires_at && new Date(data.expires_at as string) < new Date()
       setState({
         result: expired ? 'no-access' : 'granted',
         loading: false,
@@ -69,8 +68,20 @@ export function useAccess(productSlug: ProductSlug): AccessState {
       })
     }
 
-    check()
-    return () => { cancelled = true }
+    // Subscribe to auth state — fires immediately with current state
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      check(session?.user ?? null)
+    })
+
+    // Also run immediately in case onAuthStateChange has a delay
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!cancelled) check(session?.user ?? null)
+    })
+
+    return () => {
+      cancelled = true
+      subscription.unsubscribe()
+    }
   }, [productSlug])
 
   return state

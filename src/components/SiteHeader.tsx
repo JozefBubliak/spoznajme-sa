@@ -70,7 +70,7 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
             </div>
           ) : (
             <Link
-              href={`/auth/login?next=${encodeURIComponent(currentPath)}`}
+              href={`/auth?next=${encodeURIComponent(currentPath)}`}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Prihlásiť sa
@@ -113,7 +113,7 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
               </button>
             ) : (
               <Link
-                href={`/auth/login?next=${encodeURIComponent(currentPath)}`}
+                href={`/auth?next=${encodeURIComponent(currentPath)}`}
                 onClick={() => setMobileOpen(false)}
                 className="text-sm text-muted-foreground"
               >
