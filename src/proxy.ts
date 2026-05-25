@@ -38,11 +38,28 @@ function isBot(ua: string | null) {
   return !!ua && /(bot|crawler|spider|crawling)/i.test(ua);
 }
 
+const DEV_COOKIE = 'cs_dev'
+const DEV_TOKEN = 'allowed'
+
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (pathname.startsWith("/_next") || pathname.startsWith("/api") || pathname.startsWith("/assets")) {
     return NextResponse.next();
   }
+
+  // ── CoupleSync play protection ────────────────────────────────
+  const isPlayRoute = /^\/[a-z]{2}\/apps\/couplesync\/play/.test(pathname)
+  if (isPlayRoute) {
+    const cookie = req.cookies.get(DEV_COOKIE)
+    if (cookie?.value !== DEV_TOKEN) {
+      const lang = pathname.split('/')[1] ?? 'sk'
+      const unlockUrl = new URL(`/${lang}/apps/couplesync/unlock`, req.url)
+      unlockUrl.searchParams.set('next', pathname)
+      return NextResponse.redirect(unlockUrl)
+    }
+  }
+
+  // ── i18n root redirect ────────────────────────────────────────
   if (pathname === "/") {
     if (isBot(req.headers.get("user-agent"))) return NextResponse.next();
     const lang = negotiate(req, FALLBACK);
@@ -55,4 +72,4 @@ export function proxy(req: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ["/"] };
+export const config = { matcher: ["/", "/:lang/apps/couplesync/play/:path*"] };
