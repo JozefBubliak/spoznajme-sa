@@ -148,7 +148,7 @@ export async function POST(req: NextRequest, context: any) {
     localePrefix,
 
     runId,
-    runNumber: run.run_number ?? null,
+    runNumber: run?.run_number ?? null,
     questions: selectedCount,
   })
 }

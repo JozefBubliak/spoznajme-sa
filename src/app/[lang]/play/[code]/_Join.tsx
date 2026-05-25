@@ -834,6 +834,10 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
     setBusy(false)
   }, [code, onRefresh])
 
+  // Find next 'ready' round — used when current round finishes
+  const nextReadyRound = gs.rounds?.find(r => r.status === 'ready')
+
+  // No active round yet (shouldn't happen in playing phase, but guard)
   if (!round) return <div className="hv-bg"><Spinner /></div>
 
   const s = round.status
@@ -847,11 +851,11 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
   const maxStat = Math.max(1, ...Object.values(stats))
 
   const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
-    shown: { bg: 'bg-blue-500/15 border-blue-500/25', text: 'text-blue-300', label: '👁 Zobrazená otázka' },
-    running: { bg: 'bg-green-500/15 border-green-500/25', text: 'text-green-300', label: '⏱ Timer beží' },
-    locked: { bg: 'bg-amber-500/15 border-amber-500/25', text: 'text-amber-300', label: '🔒 Odpovede uzamknuté' },
-    results: { bg: 'bg-purple-500/15 border-purple-500/25', text: 'text-purple-300', label: '📊 Výsledky' },
-    finished: { bg: 'bg-green-500/15 border-green-500/25', text: 'text-green-300', label: '✅ Kolo skončilo' },
+    shown:    { bg: 'bg-blue-500/15 border-blue-500/25',   text: 'text-blue-300',   label: '👁 Zobrazená otázka' },
+    running:  { bg: 'bg-green-500/15 border-green-500/25', text: 'text-green-300',  label: '⏱ Timer beží' },
+    locked:   { bg: 'bg-amber-500/15 border-amber-500/25', text: 'text-amber-300',  label: '🔒 Odpovede uzamknuté' },
+    results:  { bg: 'bg-purple-500/15 border-purple-500/25',text: 'text-purple-300',label: '📊 Výsledky' },
+    finished: { bg: 'bg-teal-500/15 border-teal-500/25',   text: 'text-teal-300',   label: '✅ Kolo skončilo' },
   }
   const sc = statusConfig[s] ?? { bg: 'bg-white/5 border-white/10', text: 'hv-text-muted', label: s }
 
@@ -881,7 +885,7 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
           </div>
         )}
 
-        {/* Action buttons */}
+        {/* ── Action buttons ── */}
         <div className="space-y-2.5 mt-auto">
           {isShown && (
             <button onClick={() => act(`rounds/timer/start`, { seconds: round.question_seconds })}
@@ -908,12 +912,39 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
               {q && q.qIndex < q.total - 1 ? '→ Ďalšia otázka' : '✅ Ukončiť kolo'}
             </button>
           )}
+
+          {/* ── After round finishes: start next round OR end game ── */}
+          {isFinished && nextReadyRound && (
+            <button
+              onClick={() => act('rounds/start', { index: nextReadyRound.idx })}
+              disabled={busy}
+              className="hv-btn-success w-full py-3 font-black">
+              ▶ Spustiť kolo {nextReadyRound.idx + 1}
+            </button>
+          )}
+          {isFinished && !nextReadyRound && (
+            <button
+              onClick={() => act('end', {})}
+              disabled={busy}
+              className="hv-btn-primary w-full py-3 font-black">
+              🏁 Ukončiť hru
+            </button>
+          )}
         </div>
 
         {/* Progress */}
-        {q && (
+        {q && !isFinished && (
           <div className="text-center hv-text-dim text-xs">
             Kolo {(round.idx ?? 0) + 1}/{gs.total_rounds} · Otázka {q.qIndex + 1}/{q.total}
+          </div>
+        )}
+        {isFinished && (
+          <div className="text-center text-xs">
+            <span className="text-teal-400 font-semibold">Kolo {(round.idx ?? 0) + 1} dokončené</span>
+            {nextReadyRound
+              ? <span className="hv-text-dim"> · zostáva {gs.total_rounds - (round.idx ?? 0) - 1} kôl</span>
+              : <span className="hv-text-dim"> · posledné kolo</span>
+            }
           </div>
         )}
       </div>

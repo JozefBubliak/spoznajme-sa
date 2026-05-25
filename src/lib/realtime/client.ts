@@ -57,8 +57,11 @@ class RealtimeClientImpl {
       const notify = () => this._notify(key)
       const filter = `game_code=eq.${gameCode.toUpperCase()}`
 
+      // Channel name MUST match what server publishes to (herd-game-${key})
+      // so that Supabase broadcast events are delivered.
+      // postgres_changes provide DB-level redundancy; broadcast provides instant delivery.
       const channel = client
-        .channel(`herd-state-${key}`)
+        .channel(`herd-game-${key}`)
         .on('postgres_changes', {
           event: '*', schema: 'public', table: 'herd_games',
           filter: `code=eq.${gameCode.toUpperCase()}`
@@ -72,6 +75,8 @@ class RealtimeClientImpl {
         .on('postgres_changes', {
           event: '*', schema: 'public', table: 'herd_answers', filter
         }, notify)
+        // Broadcast events from server (instant delivery, complements polling)
+        .on('broadcast', { event: 'herd-event' }, notify)
         .subscribe()
 
       this.channels.set(key, channel)

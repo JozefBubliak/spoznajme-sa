@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(req: Request) {
-  const pathname = new URL(req.url).pathname
-  const match = pathname.match(/\/api\/games\/([^/]+)\/answers/i)
-  const gameCode = (match?.[1] ?? '').toUpperCase()
+export async function POST(req: NextRequest, context: any) {
+  // Use route params — consistent with all other routes, not fragile URL regex
+  const gameCode = String(context?.params?.code ?? '').toUpperCase()
   if (!gameCode) {
     return NextResponse.json(
       { error: 'Invalid route (missing game code)' },
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   }
 
   const { playerId, roundId, qIndex, answer } = body
-  if (!gameCode || !playerId || !roundId || typeof qIndex !== 'number') {
+  if (!playerId || !roundId || typeof qIndex !== 'number') {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
@@ -30,13 +30,21 @@ export async function POST(req: Request) {
 
   const { data: round } = await s
     .from('herd_rounds')
-    .select('status, q_index')
+    .select('status, q_index, timer_deadline')
     .eq('id', roundId)
     .eq('game_code', gameCode)
     .maybeSingle()
 
   if (!round || round.status !== 'running' || (round.q_index || 0) !== qIndex) {
     return NextResponse.json({ error: 'Round not accepting answers' }, { status: 400 })
+  }
+
+  // Reject answers submitted after timer deadline (1 s grace period for network latency)
+  if (round.timer_deadline) {
+    const deadline = new Date(round.timer_deadline as string).getTime()
+    if (Date.now() > deadline + 1000) {
+      return NextResponse.json({ error: 'Timer expired' }, { status: 400 })
+    }
   }
 
   const { data: existing } = await s

@@ -14,7 +14,16 @@
       "Bash(cmd /c \"npx tsc --noEmit 2>&1\")",
       "Bash(cmd /c \"cd c:\\\\Users\\\\bubli\\\\spoznajme-sa && npx tsc --noEmit 2>&1\")",
       "Bash(cmd /c \"cd c:\\\\Users\\\\bubli\\\\spoznajme-sa && npx tsc --noEmit > tsc_output.txt 2>&1 && echo NO_ERRORS || echo HAS_ERRORS\")",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "Bash(Get-ChildItem -Path \"E:\\\\Projekty\\\\spoznajme-sa\" -Recurse -Directory)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)",
+      "Bash(grep -v \"^d.*\\\\\\\\.git\\\\|^d.*\\\\\\\\.next\")",
+      "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(Get-ChildItem -Path \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\app\" -Recurse -Filter \"*.tsx\" -File)",
+      "Bash(dir \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\app\\\\[lang]\\\\apps\\\\herd-vote\")",
+      "Bash(dir \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\components\")"
     ]
   }
 }
