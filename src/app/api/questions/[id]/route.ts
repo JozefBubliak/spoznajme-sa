@@ -1,4 +1,4 @@
-// src/app/api/questions/[id]/route.ts
+﻿// src/app/api/questions/[id]/route.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { supabase } from '@/lib/supabaseAdmin' // server-side client (service role)
@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(_req: NextRequest, context: any) {
     try {
-      const questionId = parseInt(String(context?.params?.id ?? ''), 10)
+      const questionId = parseInt(String((await Promise.resolve(context?.params))?.id ?? ''), 10)
 
     if (!Number.isFinite(questionId) || questionId <= 0) {
       return NextResponse.json({ error: 'Invalid question ID' }, { status: 400 })

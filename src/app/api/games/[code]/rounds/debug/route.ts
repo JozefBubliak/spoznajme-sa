@@ -1,4 +1,4 @@
-// PATH: src/app/api/games/[code]/rounds/debug/route.ts
+﻿// PATH: src/app/api/games/[code]/rounds/debug/route.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  const gameCode = String((await Promise.resolve(context?.params))?.code ?? '').toUpperCase()
   if (!gameCode) {
     return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
   }

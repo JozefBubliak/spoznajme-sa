@@ -1,4 +1,4 @@
-// PATH: src/app/api/games/[code]/rounds/[roundId]/question/route.ts
+﻿// PATH: src/app/api/games/[code]/rounds/[roundId]/question/route.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
@@ -13,8 +13,8 @@ type FourAnswers = {
 }
 
 export async function GET(req: NextRequest, context: any) {
-  const gameCode = String(context?.params?.code ?? '').toUpperCase()
-  const rId = String(context?.params?.roundId ?? '')
+  const gameCode = String((await Promise.resolve(context?.params))?.code ?? '').toUpperCase()
+  const rId = String((await Promise.resolve(context?.params))?.roundId ?? '')
   if (!gameCode || !rId) {
     return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
   }

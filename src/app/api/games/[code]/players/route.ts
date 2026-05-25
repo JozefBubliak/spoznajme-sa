@@ -1,4 +1,4 @@
-// PATH: src/app/api/games/[code]/players/route.ts
+﻿// PATH: src/app/api/games/[code]/players/route.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic'
 
 // GET – vráti zoznam hráčov v hre
 export async function GET(_req: NextRequest, context: any) {
-  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  const gameCode = String((await Promise.resolve(context?.params))?.code ?? '').toUpperCase()
   if (!gameCode) {
     return NextResponse.json({ players: [] })
   }
@@ -26,7 +26,7 @@ export async function GET(_req: NextRequest, context: any) {
 
 // POST – pripojí hráča do hry
 export async function POST(req: NextRequest, context: any) {
-  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  const gameCode = String((await Promise.resolve(context?.params))?.code ?? '').toUpperCase()
   if (!gameCode) {
     return NextResponse.json({ error: 'Invalid game code' }, { status: 400 })
   }

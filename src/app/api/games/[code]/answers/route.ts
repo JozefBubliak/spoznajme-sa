@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+﻿import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 
@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest, context: any) {
   // Use route params — consistent with all other routes, not fragile URL regex
-  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  const gameCode = String((await Promise.resolve(context?.params))?.code ?? '').toUpperCase()
   if (!gameCode) {
     return NextResponse.json(
       { error: 'Invalid route (missing game code)' },

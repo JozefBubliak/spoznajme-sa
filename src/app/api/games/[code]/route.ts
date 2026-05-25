@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+﻿import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { getSession } from '@/app/api/games/_session'
 import { supabaseServer } from '@/integrations/supabase/server'
@@ -8,7 +8,7 @@ import { getActiveRun } from './_runs'
 export const dynamic = 'force-dynamic'
 
 export async function GET(_req: NextRequest, context: any) {
-  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  const gameCode = String((await Promise.resolve(context?.params))?.code ?? '').toUpperCase()
   if (!gameCode) {
     return NextResponse.json({ error: 'Invalid route' }, { status: 400 })
   }

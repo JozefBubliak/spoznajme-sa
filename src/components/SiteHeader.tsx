@@ -27,7 +27,6 @@ export default function SiteHeader({ lang: propLang }: { lang?: string }) {
   const items = [
     { href: `/${l}/o-nas`, label: "Prečo hovoriť" },
     { href: `/${l}/skupiny`, label: "Oblasti" },
-    { href: `/${l}/apps`, label: "Nástroje" },
     { href: `/${l}/komunita`, label: "Komunita" },
     { href: `/${l}/produkty`, label: "Produkty" },
   ]

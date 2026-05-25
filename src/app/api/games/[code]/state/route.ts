@@ -1,4 +1,4 @@
-// PATH: src/app/api/games/[code]/state/route.ts
+﻿// PATH: src/app/api/games/[code]/state/route.ts
 // Comprehensive game state endpoint – polled by both moderator and players.
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
@@ -8,7 +8,7 @@ import { supabaseServer } from '@/integrations/supabase/server'
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest, context: any) {
-  const gameCode = String(context?.params?.code ?? '').toUpperCase()
+  const gameCode = String((await Promise.resolve(context?.params))?.code ?? '').toUpperCase()
   if (!gameCode) return NextResponse.json({ error: 'Game not found' }, { status: 404 })
 
   const url = new URL(req.url)
