@@ -27,6 +27,7 @@ export async function POST(req: NextRequest, context: any) {
     prepSeconds,
     questionSeconds,
     scoringMode,
+    scoring: scoringConfig,
     localePrefix: localePrefixRaw,
   } = body
 
@@ -106,11 +107,14 @@ export async function POST(req: NextRequest, context: any) {
     ...existingSettings,
     localePrefix,
   }
+  // Persist full scoring config so results/route.ts can read roundSettings.scoring directly
+  if (scoringConfig && typeof scoringConfig === 'object') {
+    roundSettings.scoring = scoringConfig
+  }
   if (runId) {
     roundSettings.runId = runId
   } else {
     delete (roundSettings as any).runId
-
   }
 
   const { data: saved, error } = await s

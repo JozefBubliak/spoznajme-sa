@@ -541,7 +541,19 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
   const [catId, setCatId] = useState('') // fallback if pickedCats lost (page refresh)
   const [qCount, setQCount] = useState(5)
   const [seconds, setSeconds] = useState(30)
-  const [scoring, setScoring] = useState<'simple' | 'weighted'>('simple')
+  // Scoring configuration (persists across rounds — moderator changes explicitly)
+  const [scoringMode, setScoringMode] = useState<'classic' | 'podium'>('classic')
+  // Classic mode inputs
+  const [classicCorrect, setClassicCorrect] = useState(1)
+  const [classicIncorrect, setClassicIncorrect] = useState(0)
+  const [classicNone, setClassicNone] = useState(0)
+  // Podium mode inputs
+  const [podiumTier1, setPodiumTier1] = useState(5)
+  const [podiumTier2, setPodiumTier2] = useState(3)
+  const [podiumTier3, setPodiumTier3] = useState(1)
+  const [podiumIncorrect, setPodiumIncorrect] = useState(0)
+  const [podiumNone, setPodiumNone] = useState(0)
+
   const [saving, setSaving] = useState(false)
   const [err, setErr] = useState('')
   const [starting, setStarting] = useState(false)
@@ -577,9 +589,15 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
     const effectiveCatId = pickedCats[nextIdx]?.id ?? catId
     if (!effectiveCatId) { setErr('Vyber kategóriu'); return }
     setSaving(true); setErr('')
+    const scoringConfig = scoringMode === 'classic'
+      ? { mode: 'classic' as const, correct: classicCorrect, incorrect: classicIncorrect, none: classicNone }
+      : { mode: 'podium' as const, tiers: [podiumTier1, podiumTier2, podiumTier3], incorrect: podiumIncorrect, none: podiumNone }
     const res = await api(`/api/games/${code}/rounds/config`, 'POST', {
       index: nextIdx, categoryId: effectiveCatId, questions: qCount,
-      prepSeconds: 5, questionSeconds: seconds, scoringMode: scoring, localePrefix: 'sk',
+      prepSeconds: 5, questionSeconds: seconds,
+      scoringMode: scoringMode === 'classic' ? 'simple' : 'weighted',
+      scoring: scoringConfig,
+      localePrefix: 'sk',
     })
     setSaving(false)
     if (res.ok) onRefresh()
@@ -825,28 +843,97 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
               </div>
             </div>
 
-            <div className="space-y-2">
+            {/* ── Scoring configuration ── */}
+            <div className="space-y-3">
               <label className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Bodovanie</label>
+
+              {/* Mode toggle */}
               <div className="grid grid-cols-2 gap-2">
-                <button onClick={() => setScoring('simple')}
+                <button
+                  onClick={() => setScoringMode('classic')}
                   className={`p-3 rounded-xl border-2 text-left transition-all ${
-                    scoring === 'simple'
+                    scoringMode === 'classic'
                       ? 'border-purple-500/60 bg-purple-500/15'
                       : 'border-white/15 bg-white/[0.03] hover:border-white/30'
-                  }`}>
-                  <div className={`font-bold text-sm ${scoring === 'simple' ? 'text-purple-200' : 'text-white/80'}`}>🎯 Klasické</div>
-                  <div className={`text-[11px] mt-0.5 ${scoring === 'simple' ? 'text-purple-300/70' : 'text-white/40'}`}>správna odpoveď = bod</div>
+                  }`}
+                >
+                  <div className={`font-bold text-sm ${scoringMode === 'classic' ? 'text-purple-200' : 'text-white/80'}`}>🎯 Klasické</div>
+                  <div className={`text-[11px] mt-0.5 ${scoringMode === 'classic' ? 'text-purple-300/70' : 'text-white/40'}`}>rovnaké body pre všetkých</div>
                 </button>
-                <button onClick={() => setScoring('weighted')}
+                <button
+                  onClick={() => setScoringMode('podium')}
                   className={`p-3 rounded-xl border-2 text-left transition-all ${
-                    scoring === 'weighted'
+                    scoringMode === 'podium'
                       ? 'border-purple-500/60 bg-purple-500/15'
                       : 'border-white/15 bg-white/[0.03] hover:border-white/30'
-                  }`}>
-                  <div className={`font-bold text-sm ${scoring === 'weighted' ? 'text-purple-200' : 'text-white/80'}`}>🏎 Rýchlostné</div>
-                  <div className={`text-[11px] mt-0.5 ${scoring === 'weighted' ? 'text-purple-300/70' : 'text-white/40'}`}>rýchlejší = viac bodov</div>
+                  }`}
+                >
+                  <div className={`font-bold text-sm ${scoringMode === 'podium' ? 'text-purple-200' : 'text-white/80'}`}>🏎 Poradové</div>
+                  <div className={`text-[11px] mt-0.5 ${scoringMode === 'podium' ? 'text-purple-300/70' : 'text-white/40'}`}>rýchlejší = viac bodov</div>
                 </button>
               </div>
+
+              {/* Classic config */}
+              {scoringMode === 'classic' && (
+                <div className="rounded-xl border border-white/8 bg-white/[0.02] p-4 space-y-3">
+                  <p className="text-[11px] hv-text-dim leading-relaxed">
+                    Každý hráč dostane rovnaký počet bodov bez ohľadu na to, kedy odpovedal.
+                  </p>
+                  {[
+                    { label: '✅ Správna odpoveď', desc: 'Hráč zvolil správnu možnosť', val: classicCorrect, set: setClassicCorrect },
+                    { label: '❌ Zlá odpoveď', desc: 'Hráč zvolil nesprávnu možnosť', val: classicIncorrect, set: setClassicIncorrect },
+                    { label: '💤 Žiadna odpoveď', desc: 'Hráč vôbec neodpovedal', val: classicNone, set: setClassicNone },
+                  ].map(row => (
+                    <div key={row.label} className="flex items-center gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-semibold text-white/80">{row.label}</div>
+                        <div className="text-[10px] hv-text-dim">{row.desc}</div>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <input
+                          type="number"
+                          value={row.val}
+                          onChange={e => row.set(Number(e.target.value))}
+                          className="hv-input w-16 px-2 py-1.5 text-center text-sm"
+                        />
+                        <span className="text-[11px] hv-text-dim w-4">b</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Podium config */}
+              {scoringMode === 'podium' && (
+                <div className="rounded-xl border border-white/8 bg-white/[0.02] p-4 space-y-3">
+                  <p className="text-[11px] hv-text-dim leading-relaxed">
+                    Body dostanú len tí, čo odpovedali správne — čím rýchlejšie, tým viac. Ostatní (zlá / žiadna odpoveď) dostanú body podľa nastavenia nižšie.
+                  </p>
+                  {[
+                    { label: '🥇 1. miesto', desc: 'Prvý hráč, čo odpovedal správne', val: podiumTier1, set: setPodiumTier1 },
+                    { label: '🥈 2. miesto', desc: 'Druhý hráč, čo odpovedal správne', val: podiumTier2, set: setPodiumTier2 },
+                    { label: '🥉 3. miesto a ďalší', desc: 'Tretí a každý ďalší správny', val: podiumTier3, set: setPodiumTier3 },
+                    { label: '❌ Zlá odpoveď', desc: 'Hráč zvolil nesprávnu možnosť', val: podiumIncorrect, set: setPodiumIncorrect },
+                    { label: '💤 Žiadna odpoveď', desc: 'Hráč vôbec neodpovedal', val: podiumNone, set: setPodiumNone },
+                  ].map(row => (
+                    <div key={row.label} className="flex items-center gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-semibold text-white/80">{row.label}</div>
+                        <div className="text-[10px] hv-text-dim">{row.desc}</div>
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <input
+                          type="number"
+                          value={row.val}
+                          onChange={e => row.set(Number(e.target.value))}
+                          className="hv-input w-16 px-2 py-1.5 text-center text-sm"
+                        />
+                        <span className="text-[11px] hv-text-dim w-4">b</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {err && (
