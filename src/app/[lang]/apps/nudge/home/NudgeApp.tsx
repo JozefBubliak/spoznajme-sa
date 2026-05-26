@@ -2,10 +2,40 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { supabase } from '@/lib/supabase/client'
+import { supabase, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from '@/lib/supabaseClient'
 
-// One scoped helper — reuses the existing singleton's auth session
-const rel = supabase.schema('rel')
+// ── rel-schema RPC helper ─────────────────────────────────────────────────────
+// Uses the project singleton (storageKey 'cards-auth') so auth.uid() is always
+// populated. Avoids supabase.schema('rel') which creates a second GoTrueClient.
+
+async function relRpc<T = unknown>(
+  fn: string,
+  args: Record<string, unknown> = {},
+): Promise<{ data: T | null; error: { message: string } | null }> {
+  const { data: { session } } = await supabase.auth.getSession()
+
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_PUBLISHABLE_KEY,
+      'Authorization': session?.access_token ? `Bearer ${session.access_token}` : '',
+      'Content-Profile': 'rel',
+      'Prefer': 'return=representation',
+    },
+    body: JSON.stringify(args),
+  })
+
+  if (!res.ok) {
+    let msg = `HTTP ${res.status}`
+    try { msg = (await res.json()).message ?? msg } catch { /* ignore */ }
+    return { data: null, error: { message: msg } }
+  }
+
+  const text = await res.text()
+  const data: T = text ? JSON.parse(text) : null
+  return { data, error: null }
+}
 
 // ── Shell layout ─────────────────────────────────────────────────────────────
 // Defined outside NudgeApp so React keeps a stable component reference
@@ -102,18 +132,14 @@ export function NudgeApp({ lang, userId }: Props) {
   // ── Load state ───────────────────────────────────────────────────────────
 
   const loadState = useCallback(async () => {
-    // Wait for the singleton client to restore the session from localStorage
-    // before firing any authenticated RPC calls.
-    await supabase.auth.getSession()
-
-    const { data, error } = await rel.rpc('get_my_couple')
+    const { data, error } = await relRpc<CoupleState[]>('get_my_couple')
 
     if (error || !data || (Array.isArray(data) && data.length === 0)) {
       setView({ kind: 'no-couple' })
       return
     }
 
-    const state: CoupleState = Array.isArray(data) ? data[0] : data
+    const state: CoupleState = Array.isArray(data) ? data[0] : (data as CoupleState)
 
     if (!state.partner_joined) {
       setView({ kind: 'pending', invite_code: state.invite_code })
@@ -128,7 +154,7 @@ export function NudgeApp({ lang, userId }: Props) {
     setView({ kind: 'active', state })
 
     // Load recent nudges
-    const { data: nudges } = await rel.rpc('get_recent_nudges', { p_limit: 8 })
+    const { data: nudges } = await relRpc<RecentNudge[]>('get_recent_nudges', { p_limit: 8 })
     setRecentNudges((nudges ?? []) as RecentNudge[])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -141,7 +167,7 @@ export function NudgeApp({ lang, userId }: Props) {
   async function handleCreate() {
     setJoinLoading(true)
     setJoinError('')
-    const { data, error } = await rel.rpc('create_couple')
+    const { data, error } = await relRpc<{ couple_id: string; invite_code: string }[]>('create_couple')
     if (error) {
       setJoinError(error.message)
       setJoinLoading(false)
@@ -149,7 +175,7 @@ export function NudgeApp({ lang, userId }: Props) {
     }
     const row = Array.isArray(data) ? data[0] : data
     setJoinLoading(false)
-    setView({ kind: 'pending', invite_code: row.invite_code })
+    if (row) setView({ kind: 'pending', invite_code: row.invite_code })
   }
 
   async function handleJoin() {
@@ -159,7 +185,7 @@ export function NudgeApp({ lang, userId }: Props) {
     }
     setJoinLoading(true)
     setJoinError('')
-    const { error } = await rel.rpc('join_couple', { p_code: joinCode.trim() })
+    const { error } = await relRpc('join_couple', { p_code: joinCode.trim() })
     if (error) {
       setJoinError(error.message === 'invalid invite code' ? 'Kód nebol nájdený.' : error.message)
       setJoinLoading(false)
@@ -171,7 +197,7 @@ export function NudgeApp({ lang, userId }: Props) {
 
   async function handleSaveSetup() {
     setSetupSaving(true)
-    const { error } = await rel.rpc('save_nudge_prefs', {
+    const { error } = await relRpc('save_nudge_prefs', {
       p_per_week:      setupPerWeek,
       p_love_language: setupLang,
       p_novelty_ratio: setupNovelty,
@@ -187,7 +213,7 @@ export function NudgeApp({ lang, userId }: Props) {
   async function handleRequestNudge() {
     setNudgeLoading(true)
     setLiveNudge(null)
-    const { data, error } = await rel.rpc('request_nudge')
+    const { data, error } = await relRpc<{ nudge_id: string; prompt: string }[]>('request_nudge')
     setNudgeLoading(false)
     if (error) {
       alert('Nepodarilo sa načítať tip: ' + error.message)
@@ -199,7 +225,7 @@ export function NudgeApp({ lang, userId }: Props) {
   }
 
   async function handleMarkDone(nudgeId: string) {
-    await rel.rpc('mark_nudge_done', { p_nudge_id: nudgeId })
+    await relRpc('mark_nudge_done', { p_nudge_id: nudgeId })
     setLiveNudge(null)
     setRecentNudges((prev) =>
       prev.map((n) => (n.nudge_id === nudgeId ? { ...n, marked_done: true } : n)),
