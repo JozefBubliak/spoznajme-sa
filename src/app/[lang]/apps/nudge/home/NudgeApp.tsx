@@ -2,7 +2,10 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
-import { relBrowser } from '@/lib/supabase/rel-browser'
+import { supabase } from '@/lib/supabase/client'
+
+// One scoped helper — reuses the existing singleton's auth session
+const rel = supabase.schema('rel')
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -76,12 +79,10 @@ export function NudgeApp({ lang, userId }: Props) {
   const [joinError, setJoinError] = useState('')
   const [joinLoading, setJoinLoading] = useState(false)
 
-  const sb = relBrowser()
-
   // ── Load state ───────────────────────────────────────────────────────────
 
   const loadState = useCallback(async () => {
-    const { data, error } = await sb.rpc('get_my_couple')
+    const { data, error } = await rel.rpc('get_my_couple')
 
     if (error || !data || (Array.isArray(data) && data.length === 0)) {
       setView({ kind: 'no-couple' })
@@ -103,7 +104,7 @@ export function NudgeApp({ lang, userId }: Props) {
     setView({ kind: 'active', state })
 
     // Load recent nudges
-    const { data: nudges } = await sb.rpc('get_recent_nudges', { p_limit: 8 })
+    const { data: nudges } = await rel.rpc('get_recent_nudges', { p_limit: 8 })
     setRecentNudges((nudges ?? []) as RecentNudge[])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -116,7 +117,7 @@ export function NudgeApp({ lang, userId }: Props) {
   async function handleCreate() {
     setJoinLoading(true)
     setJoinError('')
-    const { data, error } = await sb.rpc('create_couple')
+    const { data, error } = await rel.rpc('create_couple')
     if (error) {
       setJoinError(error.message)
       setJoinLoading(false)
@@ -134,7 +135,7 @@ export function NudgeApp({ lang, userId }: Props) {
     }
     setJoinLoading(true)
     setJoinError('')
-    const { error } = await sb.rpc('join_couple', { p_code: joinCode.trim() })
+    const { error } = await rel.rpc('join_couple', { p_code: joinCode.trim() })
     if (error) {
       setJoinError(error.message === 'invalid invite code' ? 'Kód nebol nájdený.' : error.message)
       setJoinLoading(false)
@@ -146,7 +147,7 @@ export function NudgeApp({ lang, userId }: Props) {
 
   async function handleSaveSetup() {
     setSetupSaving(true)
-    const { error } = await sb.rpc('save_nudge_prefs', {
+    const { error } = await rel.rpc('save_nudge_prefs', {
       p_per_week:      setupPerWeek,
       p_love_language: setupLang,
       p_novelty_ratio: setupNovelty,
@@ -162,7 +163,7 @@ export function NudgeApp({ lang, userId }: Props) {
   async function handleRequestNudge() {
     setNudgeLoading(true)
     setLiveNudge(null)
-    const { data, error } = await sb.rpc('request_nudge')
+    const { data, error } = await rel.rpc('request_nudge')
     setNudgeLoading(false)
     if (error) {
       alert('Nepodarilo sa načítať tip: ' + error.message)
@@ -174,7 +175,7 @@ export function NudgeApp({ lang, userId }: Props) {
   }
 
   async function handleMarkDone(nudgeId: string) {
-    await sb.rpc('mark_nudge_done', { p_nudge_id: nudgeId })
+    await rel.rpc('mark_nudge_done', { p_nudge_id: nudgeId })
     setLiveNudge(null)
     setRecentNudges((prev) =>
       prev.map((n) => (n.nudge_id === nudgeId ? { ...n, marked_done: true } : n)),
