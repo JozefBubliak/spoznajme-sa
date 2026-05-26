@@ -31,7 +31,11 @@
       "PowerShell(supabase --version 2>&1)",
       "PowerShell(vercel --version 2>&1)",
       "Bash(Remove-Item \"E:\\\\Projekty\\\\spoznajme-sa\\\\src\\\\middleware.ts\")",
-      "Bash(git commit -m ' *)"
+      "Bash(git commit -m ' *)",
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__computer",
+      "mcp__Claude_in_Chrome__javascript_tool",
+      "Bash(mkdir -p \"E:/Projekty/spoznajme-sa/src/app/[lang]/apps/nudge/home\")"
     ]
   }
 }
