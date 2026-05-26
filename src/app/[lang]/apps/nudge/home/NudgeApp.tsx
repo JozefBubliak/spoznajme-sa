@@ -7,6 +7,26 @@ import { supabase } from '@/lib/supabase/client'
 // One scoped helper — reuses the existing singleton's auth session
 const rel = supabase.schema('rel')
 
+// ── Shell layout ─────────────────────────────────────────────────────────────
+// Defined outside NudgeApp so React keeps a stable component reference
+// across renders and never unmounts/remounts it.
+
+function Shell({ children, lang }: { children: React.ReactNode; lang: string }) {
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+        <Link
+          href={`/${lang}/apps/nudge`}
+          className="text-xs text-muted-foreground hover:text-foreground"
+        >
+          ← Späť na popis
+        </Link>
+        <div className="mt-6">{children}</div>
+      </div>
+    </div>
+  )
+}
+
 // ── Types ────────────────────────────────────────────────────────────────────
 
 type LoveLanguage = 'words' | 'time' | 'touch' | 'gifts' | 'acts'
@@ -82,6 +102,10 @@ export function NudgeApp({ lang, userId }: Props) {
   // ── Load state ───────────────────────────────────────────────────────────
 
   const loadState = useCallback(async () => {
+    // Wait for the singleton client to restore the session from localStorage
+    // before firing any authenticated RPC calls.
+    await supabase.auth.getSession()
+
     const { data, error } = await rel.rpc('get_my_couple')
 
     if (error || !data || (Array.isArray(data) && data.length === 0)) {
@@ -189,29 +213,11 @@ export function NudgeApp({ lang, userId }: Props) {
     })
   }
 
-  // ── Render helpers ────────────────────────────────────────────────────────
-
-  function Shell({ children }: { children: React.ReactNode }) {
-    return (
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-          <Link
-            href={`/${lang}/apps/nudge`}
-            className="text-xs text-muted-foreground hover:text-foreground"
-          >
-            ← Späť na popis
-          </Link>
-          <div className="mt-6">{children}</div>
-        </div>
-      </div>
-    )
-  }
-
   // ── Loading ───────────────────────────────────────────────────────────────
 
   if (view.kind === 'loading') {
     return (
-      <Shell>
+      <Shell lang={lang}>
         <div className="flex items-center justify-center py-24 text-muted-foreground text-sm">
           Načítavam…
         </div>
@@ -223,7 +229,7 @@ export function NudgeApp({ lang, userId }: Props) {
 
   if (view.kind === 'error') {
     return (
-      <Shell>
+      <Shell lang={lang}>
         <div className="rounded-3xl border border-destructive/30 bg-destructive/5 p-7 text-sm text-destructive">
           {view.message}
         </div>
@@ -235,7 +241,7 @@ export function NudgeApp({ lang, userId }: Props) {
 
   if (view.kind === 'no-couple') {
     return (
-      <Shell>
+      <Shell lang={lang}>
         <div className="space-y-6">
           <div className="space-y-3">
             <span className="inline-flex rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
@@ -342,7 +348,7 @@ export function NudgeApp({ lang, userId }: Props) {
 
   if (view.kind === 'pending') {
     return (
-      <Shell>
+      <Shell lang={lang}>
         <div className="space-y-6">
           <div className="space-y-3">
             <span className="inline-flex rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
@@ -404,7 +410,7 @@ export function NudgeApp({ lang, userId }: Props) {
 
   if (view.kind === 'setup') {
     return (
-      <Shell>
+      <Shell lang={lang}>
         <div className="space-y-8">
           <div className="space-y-3">
             <span className="inline-flex rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
@@ -526,7 +532,7 @@ export function NudgeApp({ lang, userId }: Props) {
   const ll = state.love_language ? LL_META[state.love_language] : null
 
   return (
-    <Shell>
+    <Shell lang={lang}>
       <div className="space-y-8">
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
