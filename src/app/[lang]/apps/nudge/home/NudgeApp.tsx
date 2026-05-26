@@ -232,11 +232,29 @@ export function NudgeApp({ lang, userId }: Props) {
     )
   }
 
-  function copyCode(code: string) {
-    navigator.clipboard.writeText(code).then(() => {
+  function joinUrl(code: string) {
+    const origin = typeof window !== 'undefined'
+      ? window.location.origin
+      : 'https://deeptalks.eu'
+    return `${origin}/${lang}/apps/nudge/join/${code}`
+  }
+
+  function copyLink(code: string) {
+    navigator.clipboard.writeText(joinUrl(code)).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     })
+  }
+
+  async function handleNativeShare(code: string) {
+    const url = joinUrl(code)
+    if (navigator.share) {
+      await navigator.share({
+        title: 'DeepTalks – pripoj sa ku mne',
+        text: 'Pridaj sa ku mne na DeepTalks Nudge Engine 💌',
+        url,
+      })
+    }
   }
 
   // ── Loading ───────────────────────────────────────────────────────────────
@@ -388,36 +406,88 @@ export function NudgeApp({ lang, userId }: Props) {
             </p>
           </div>
 
-          <div className="rounded-3xl border border-primary/20 bg-primary/5 p-7 text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-              Tvoj párovací kód
-            </p>
-            <p className="mt-4 font-mono text-5xl font-bold tracking-[0.3em] text-foreground">
-              {view.invite_code}
-            </p>
-            <button
-              onClick={() => copyCode(view.invite_code)}
-              className="mt-5 rounded-xl border border-primary/30 bg-primary/10 px-5 py-2.5 text-sm font-medium text-primary transition hover:bg-primary/20"
-            >
-              {copied ? '✓ Skopírované' : 'Kopírovať kód'}
-            </button>
+          {/* Share panel */}
+          <div className="rounded-3xl border border-primary/20 bg-primary/5 p-7 space-y-5">
+            <div className="text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                Tvoj pozývací link
+              </p>
+              <p className="mt-3 break-all rounded-xl border border-primary/20 bg-background/60 px-4 py-2.5 font-mono text-sm text-foreground">
+                {typeof window !== 'undefined'
+                  ? joinUrl(view.invite_code)
+                  : `deeptalks.eu/${lang}/apps/nudge/join/…`}
+              </p>
+            </div>
+
+            {/* Native share – zobrazí sa len keď API existuje (mobily) */}
+            {typeof navigator !== 'undefined' && !!navigator.share && (
+              <button
+                onClick={() => handleNativeShare(view.invite_code)}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+              >
+                <span>↑</span> Zdieľať link
+              </button>
+            )}
+
+            {/* Sieťové tlačidlá */}
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {/* WhatsApp */}
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(`Pridaj sa ku mne na DeepTalks 💌\n${joinUrl(view.invite_code)}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center gap-1.5 rounded-2xl border border-border/60 bg-card/80 py-3.5 text-xs font-medium text-foreground transition hover:border-green-500/40 hover:bg-green-500/5"
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-green-500" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                WhatsApp
+              </a>
+
+              {/* Telegram */}
+              <a
+                href={`https://t.me/share/url?url=${encodeURIComponent(joinUrl(view.invite_code))}&text=${encodeURIComponent('Pridaj sa ku mne na DeepTalks 💌')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center gap-1.5 rounded-2xl border border-border/60 bg-card/80 py-3.5 text-xs font-medium text-foreground transition hover:border-sky-500/40 hover:bg-sky-500/5"
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-sky-500" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+                Telegram
+              </a>
+
+              {/* Viber */}
+              <a
+                href={`viber://forward?text=${encodeURIComponent(`Pridaj sa ku mne na DeepTalks 💌\n${joinUrl(view.invite_code)}`)}`}
+                className="flex flex-col items-center gap-1.5 rounded-2xl border border-border/60 bg-card/80 py-3.5 text-xs font-medium text-foreground transition hover:border-violet-500/40 hover:bg-violet-500/5"
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6 fill-violet-500" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11.4 0C6.39.04 1.64 3.17.44 8.25c-.57 2.42-.51 4.95.18 7.34.68 2.38 2.03 4.4 3.9 5.92l.01 2.49s-.04.7.44.84c.57.17.93-.37 1.46-.97l1.13-1.38c1.57.38 3.19.48 4.79.29 5.79-.68 10.01-5.6 9.64-11.58C21.64 4.85 17.12.18 11.4 0zm.14 2.17c4.74.14 8.74 3.85 9.08 8.67.3 4.59-2.95 8.69-7.43 9.51-1.51.28-3.06.18-4.52-.27l-.61-.19-.43.52-1.02 1.25v-1.97l-.32-.22a9.33 9.33 0 0 1-3.72-5.38 11.2 11.2 0 0 1-.16-6.47C3.41 4.02 7.25 2.01 11.54 2.17zM8.1 6.34c-.19-.01-.38.04-.55.15-.43.29-.78.62-1.01 1.13-.2.43-.19.88-.03 1.32.36 1.01.93 1.95 1.62 2.75.82 1.03 1.81 1.94 2.92 2.68.68.47 1.42.82 2.2 1.07.55.18 1.1.22 1.62-.07.41-.22.73-.57 1.01-.95.17-.22.15-.53-.04-.73l-1.6-1.62c-.2-.2-.52-.24-.76-.09l-.85.57a.38.38 0 0 1-.46-.04c-.39-.33-.76-.69-1.09-1.08a8.18 8.18 0 0 1-.86-1.37.38.38 0 0 1 .07-.46l.53-.6c.18-.21.2-.51.04-.73L8.7 6.56a.54.54 0 0 0-.6-.22zm3.76.7c-.31 0-.57.25-.57.57v.01c0 .31.25.57.57.57h.01c1.35.06 2.44 1.15 2.5 2.5v.01c0 .31.25.57.57.57s.57-.25.57-.57v-.01a3.65 3.65 0 0 0-3.65-3.65zm-.06 1.81c-.31 0-.57.25-.57.57s.25.57.57.57a.88.88 0 0 1 .88.88c0 .31.25.57.57.57s.57-.25.57-.57a2.02 2.02 0 0 0-2.02-2.02z"/>
+                </svg>
+                Viber
+              </a>
+
+              {/* Kopírovať link */}
+              <button
+                onClick={() => copyLink(view.invite_code)}
+                className="flex flex-col items-center gap-1.5 rounded-2xl border border-border/60 bg-card/80 py-3.5 text-xs font-medium text-foreground transition hover:border-primary/40 hover:bg-primary/5"
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth={1.8} xmlns="http://www.w3.org/2000/svg">
+                  <rect x="9" y="9" width="13" height="13" rx="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                {copied ? '✓ Skopírované' : 'Kopírovať link'}
+              </button>
+            </div>
           </div>
 
           <div className="rounded-3xl border border-border/60 bg-card/80 p-6">
             <p className="text-sm font-semibold text-foreground">Čo teraz?</p>
             <ol className="mt-3 space-y-2 text-sm text-muted-foreground">
-              <li>1. Pošli partnerovi kód cez správu alebo ho ukáž na obrazovke.</li>
-              <li>
-                2. Partner si otvorí{' '}
-                <Link
-                  href={`/${lang}/apps/nudge/home`}
-                  className="text-primary hover:underline"
-                >
-                  túto stránku
-                </Link>
-                , prihlási sa a zadá kód.
-              </li>
-              <li>3. Potom nastavíte jazyk lásky a frekvenciu nudgov.</li>
+              <li>1. Zdieľaj link vyššie — partnerovi stačí kliknúť.</li>
+              <li>2. Partner sa prihlási a je automaticky prepojený s tebou.</li>
+              <li>3. Potom každý nastaví jazyk lásky a frekvenciu tipov.</li>
             </ol>
           </div>
 
