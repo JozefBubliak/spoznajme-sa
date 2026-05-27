@@ -606,8 +606,13 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
 
   const startGame = async () => {
     setStarting(true)
-    await api(`/api/games/${code}/rounds/start`, 'POST', { index: 0 })
-    onRefresh()
+    setErr('')
+    const res = await api(`/api/games/${code}/rounds/start`, 'POST', { index: 0 })
+    if (res.success) {
+      onRefresh()
+    } else {
+      setErr(res.error ?? 'Hru sa nepodarilo spustiť')
+    }
     setStarting(false)
   }
 

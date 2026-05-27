@@ -4,9 +4,36 @@ import type { NextRequest } from 'next/server'
 import { RealtimeServer } from '@/lib/realtime/server'
 import { supabaseServer } from '@/integrations/supabase/server'
 import { getSession } from '@/app/api/games/_session'
-import { ensureActiveRun } from '../../_runs'
+import { asArray } from '@/lib/supabase/safe'
+import {
+  ensureActiveRun,
+  isRandomQuestionRpcUnavailable,
+  isUsageStorageUnavailable,
+} from '../../_runs'
 
 export const dynamic = 'force-dynamic'
+
+function normalizeQuestionIds(data: unknown): string[] {
+  return asArray<unknown>(Array.isArray(data) ? data : [])
+    .map((row) => {
+      if (typeof row === 'string') return row
+      if (row && typeof row === 'object' && 'id' in row) {
+        const id = (row as { id?: unknown }).id
+        return typeof id === 'string' ? id : ''
+      }
+      return ''
+    })
+    .filter(Boolean)
+}
+
+function shuffle<T>(items: T[]): T[] {
+  const copy = [...items]
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[copy[i], copy[j]] = [copy[j], copy[i]]
+  }
+  return copy
+}
 
 export async function POST(req: NextRequest, context: any) {
   const session = await getSession()
@@ -43,7 +70,7 @@ export async function POST(req: NextRequest, context: any) {
   // Check if questions are already selected for this round
   let questionIds: string[] = []
   if (Array.isArray(roundSettings.questions) && roundSettings.questions.length > 0) {
-    questionIds = roundSettings.questions
+    questionIds = normalizeQuestionIds(roundSettings.questions)
   } else {
     // Select random questions for this round
     const { data: questions, error: qErr } = await s.rpc('random_herd_questions', {
@@ -54,10 +81,47 @@ export async function POST(req: NextRequest, context: any) {
     })
 
     if (qErr) {
-      return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
-    }
+      if (!isRandomQuestionRpcUnavailable(qErr) && !isUsageStorageUnavailable(qErr)) {
+        return NextResponse.json({ error: qErr.message }, { status: 400 })
+      }
 
-    questionIds = questions || []
+      let usedIds = new Set<string>()
+      if (runId) {
+        const { data: usedRows, error: usedErr } = await s
+          .from('herd_question_usage')
+          .select('question_id')
+          .eq('run_id', runId)
+          .eq('category_id', round.category)
+
+        if (usedErr && !isUsageStorageUnavailable(usedErr)) {
+          return NextResponse.json({ error: usedErr.message }, { status: 400 })
+        }
+
+        usedIds = new Set(
+          asArray<{ question_id: string }>(usedRows).map((row) => row.question_id)
+        )
+      }
+
+      const localeFilter = `locale.is.null,locale.ilike.${localePrefix}%`
+      const { data: fallbackQuestions, error: fallbackErr } = await s
+        .from('herd_questions')
+        .select('id')
+        .eq('category_id', round.category)
+        .eq('classic', true)
+        .or(localeFilter)
+
+      if (fallbackErr) {
+        return NextResponse.json({ error: fallbackErr.message }, { status: 400 })
+      }
+
+      questionIds = shuffle(
+        asArray<{ id: string }>(fallbackQuestions)
+          .map((row) => row.id)
+          .filter((id) => !usedIds.has(id))
+      ).slice(0, round.count)
+    } else {
+      questionIds = normalizeQuestionIds(questions)
+    }
     if (questionIds.length < round.count) {
       return NextResponse.json({ error: 'NOT_ENOUGH_QUESTIONS' }, { status: 400 })
     }
@@ -95,9 +159,13 @@ export async function POST(req: NextRequest, context: any) {
       question_id: questionId,
     }))
 
-    await s.from('herd_question_usage').upsert(usageRows, {
+    const { error: usageErr } = await s.from('herd_question_usage').upsert(usageRows, {
       onConflict: 'run_id,question_id'
     })
+
+    if (usageErr && !isUsageStorageUnavailable(usageErr)) {
+      console.warn('[rounds/start] Unable to record question usage:', usageErr.message)
+    }
   }
 
   // Update game to playing state
@@ -107,12 +175,15 @@ export async function POST(req: NextRequest, context: any) {
     .eq('code', gameCode)
 
   // Get the first question to show
-  const { data: firstQuestion } = await s
+  const { data: firstQuestion, error: firstQuestionErr } = await s
     .from('herd_questions')
     .select('*')
     .eq('id', questionIds[0])
     .single()
 
+  if (firstQuestionErr) {
+    return NextResponse.json({ error: firstQuestionErr.message }, { status: 400 })
+  }
   if (!firstQuestion) {
     return NextResponse.json({ error: 'QUESTION_NOT_FOUND' }, { status: 404 })
   }

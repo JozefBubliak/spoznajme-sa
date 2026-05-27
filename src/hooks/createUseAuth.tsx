@@ -31,21 +31,16 @@ export function createUseAuth(client: SupabaseClient, cookieName?: string) {
                 .from('user_profiles')
                 .select('*')
                 .eq('id', id)
-                .single()
+                .maybeSingle()
 
               if (!profileData) {
-                const { data: inserted } = await client
-                  .from('user_profiles')
-                  .insert({
-                    id,
-                    email: email ?? '',
-                    paid_access: false,
-                    daily_questions_date: null,
-                    daily_questions_used: 0,
-                  })
-                  .select('*')
-                  .single()
-                setProfile(inserted)
+                setProfile({
+                  id,
+                  email: email ?? '',
+                  paid_access: false,
+                  daily_questions_date: null,
+                  daily_questions_used: 0,
+                })
               } else {
                 setProfile(profileData)
               }

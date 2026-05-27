@@ -3,6 +3,7 @@
 // Falls back silently if realtime is unavailable (e.g. missing env vars).
 
 import type { RealtimeChannel } from '@supabase/supabase-js'
+import { supabaseClient } from '@/integrations/supabase/client'
 
 type ChangeCallback = () => void
 
@@ -46,21 +47,13 @@ class RealtimeClientImpl {
 
   private _connect(key: string, gameCode: string) {
     try {
-      // Lazy import to avoid SSR issues
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-      if (!supabaseUrl || !supabaseAnonKey) return
-
-      const { createClient } = require('@supabase/supabase-js')
-      const client = createClient(supabaseUrl, supabaseAnonKey)
-
       const notify = () => this._notify(key)
       const filter = `game_code=eq.${gameCode.toUpperCase()}`
 
       // Channel name MUST match what server publishes to (herd-game-${key})
       // so that Supabase broadcast events are delivered.
       // postgres_changes provide DB-level redundancy; broadcast provides instant delivery.
-      const channel = client
+      const channel = supabaseClient
         .channel(`herd-game-${key}`)
         .on('postgres_changes', {
           event: '*', schema: 'public', table: 'herd_games',
