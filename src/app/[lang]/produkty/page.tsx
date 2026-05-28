@@ -9,7 +9,7 @@ type P = { params: Promise<{ lang: string }> }
 
 const stats = [
   { value: '5', label: 'produktových vetiev na jednej mape' },
-  { value: '6+', label: 'digitálnych nástrojov dostupných už teraz' },
+  { value: '7+', label: 'digitálnych nástrojov dostupných už teraz' },
   { value: '2', label: 'fyzické edície pripravené na predaj' },
   { value: 'B2B', label: 'workshopy, školy a firemné balíčky' },
 ]
@@ -42,6 +42,14 @@ const sections = [
         description: 'Partnerský dotazník, ktorý odhalí zhodu aj slepé miesta vo vzťahu.',
         price: 'Vyplníte každý zvlášť',
         href: '/apps/couplesync',
+      },
+      {
+        badge: 'Súkromné',
+        name: 'Intímne dobrodružstvo',
+        description: 'Hravý súkromný priestor pre páry: úlohy, polohy, fľaša, kocky, výzvy a ďalšie módy na jeden večer.',
+        price: 'Spustenie s heslom 090720',
+        href: '/intimne-dobrodruzstvo/index.html',
+        action: 'Spustiť hru →',
       },
       {
         badge: 'Zadarmo',
@@ -256,6 +264,9 @@ export default async function ProduktyPage({ params }: P) {
               <Button asChild variant="outline" size="lg">
                 <Link href={`/${lang}/b2b`}>Pozrieť B2B ponuku</Link>
               </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href="/intimne-dobrodruzstvo/index.html">Spustiť Intímne dobrodružstvo</Link>
+              </Button>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {stats.map((stat) => (
@@ -295,7 +306,7 @@ export default async function ProduktyPage({ params }: P) {
                         {item.description}
                       </p>
                       <div className="mt-5 text-sm font-medium text-primary">
-                        {item.href ? 'Otvoriť detail →' : 'Zaradené v produktovej mape'}
+                        {item.href ? ('action' in item && item.action ? item.action : 'Otvoriť detail →') : 'Zaradené v produktovej mape'}
                       </div>
                     </div>
                   )
@@ -305,7 +316,11 @@ export default async function ProduktyPage({ params }: P) {
                   }
 
                   return (
-                    <Link key={item.name} href={`/${lang}${item.href}`} className="block h-full">
+                    <Link
+                      key={item.name}
+                      href={item.href.startsWith('/intimne-dobrodruzstvo') ? item.href : `/${lang}${item.href}`}
+                      className="block h-full"
+                    >
                       {content}
                     </Link>
                   )
