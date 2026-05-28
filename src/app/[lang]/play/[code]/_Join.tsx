@@ -3,6 +3,7 @@
 // Both roles land on the same URL; the server detects ownership via session.
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { Check, Copy, QrCode, Share2 } from 'lucide-react'
 import { RealtimeClient } from '@/lib/realtime/client'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -40,6 +41,52 @@ interface Category { id: string; name: string; question_count: number; icon?: st
 const ANSWER_COLORS = ['hv-answer-a', 'hv-answer-b', 'hv-answer-c', 'hv-answer-d']
 const ANSWER_LABELS = ['A', 'B', 'C', 'D']
 const ANSWER_ICONS = ['▲', '◆', '●', '■']
+const AVATAR_COLORS = [
+  'bg-red-400', 'bg-blue-400', 'bg-green-400', 'bg-amber-400',
+  'bg-purple-400', 'bg-pink-400', 'bg-teal-400', 'bg-orange-400',
+]
+const PODIUM_COLORS = ['bg-yellow-400', 'bg-gray-300', 'bg-amber-600']
+const PODIUM_HEIGHTS = ['h-32', 'h-24', 'h-20']
+const MEDALS = ['🥇', '🥈', '🥉']
+
+const SHARE_PLATFORMS = [
+  {
+    label: 'WhatsApp',
+    className: 'bg-green-500 hover:bg-green-600',
+    getUrl: (url: string, code: string) =>
+      `https://wa.me/?text=${encodeURIComponent(`Pripoj sa do Herd Vote hry. Kód: ${code}\n${url}`)}`,
+  },
+  {
+    label: 'Telegram',
+    className: 'bg-sky-500 hover:bg-sky-600',
+    getUrl: (url: string, code: string) =>
+      `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(`Pripoj sa do Herd Vote hry. Kód: ${code}`)}`,
+  },
+  {
+    label: 'Facebook',
+    className: 'bg-blue-600 hover:bg-blue-700',
+    getUrl: (url: string) =>
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+  },
+  {
+    label: 'LinkedIn',
+    className: 'bg-blue-700 hover:bg-blue-800',
+    getUrl: (url: string) =>
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+  },
+  {
+    label: 'Viber',
+    className: 'bg-purple-600 hover:bg-purple-700',
+    getUrl: (url: string, code: string) =>
+      `viber://forward?text=${encodeURIComponent(`Pripoj sa do Herd Vote hry. Kód: ${code} ${url}`)}`,
+  },
+  {
+    label: 'X',
+    className: 'bg-slate-900 hover:bg-black',
+    getUrl: (url: string, code: string) =>
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(`Pripoj sa do Herd Vote hry. Kód: ${code}`)}&url=${encodeURIComponent(url)}`,
+  },
+]
 
 async function api(path: string, method = 'GET', body?: unknown) {
   const r = await fetch(path, {
@@ -78,26 +125,19 @@ function TimerRing({ deadline, seconds }: { deadline: string | null; seconds: nu
   }, [deadline, seconds])
 
   const pct = seconds > 0 ? remaining / seconds : 0
-  const r = 48
-  const circ = 2 * Math.PI * r
-  const dash = circ * pct
   const urgent = remaining <= 5
-  const color = urgent ? 'hsl(0 70% 55%)' : remaining <= 10 ? 'hsl(40 90% 55%)' : 'hsl(150 60% 50%)'
 
   return (
-    <div className="flex flex-col items-center gap-1">
-      <svg width="120" height="120" className="-rotate-90">
-        <circle cx="60" cy="60" r={r} fill="none" stroke="hsla(250 20% 20% / 0.6)" strokeWidth="6" />
-        <circle cx="60" cy="60" r={r} fill="none" stroke={color} strokeWidth="6"
-          strokeDasharray={`${dash} ${circ}`}
-          strokeLinecap="round"
-          style={{ transition: 'stroke-dasharray 0.25s linear, stroke 0.3s' }}
-        />
-      </svg>
-      <span className={`-mt-[84px] text-4xl font-black tabular-nums ${urgent ? 'text-red-400 animate-pulse' : 'text-white'}`}>
+    <div className="w-full max-w-sm mx-auto flex flex-col items-center gap-2">
+      <span className={`text-5xl font-black tabular-nums ${urgent ? 'text-red-500 animate-pulse' : 'text-white'}`}>
         {remaining}
       </span>
-      <span className="mt-[38px] text-xs hv-text-dim">sekúnd</span>
+      <div className="w-full h-2 rounded-full bg-white/20 overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all duration-300 ${urgent ? 'bg-red-500' : 'bg-white'}`}
+          style={{ width: `${Math.max(0, Math.min(100, pct * 100))}%` }}
+        />
+      </div>
     </div>
   )
 }
@@ -137,6 +177,10 @@ function AnswerBtn({
   )
 }
 
+function initials(name: string) {
+  return name.trim().slice(0, 1).toUpperCase() || '?'
+}
+
 function GameLeaderboard({ players, highlight }: { players: Player[]; highlight?: string }) {
   return (
     <div className="space-y-2">
@@ -146,6 +190,9 @@ function GameLeaderboard({ players, highlight }: { players: Player[]; highlight?
         >
           <span className={`hv-lb-rank ${i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'default'}`}>
             {i + 1}
+          </span>
+          <span className={`w-9 h-9 rounded-full ${AVATAR_COLORS[i % AVATAR_COLORS.length]} flex items-center justify-center text-white font-black shrink-0`}>
+            {initials(p.name)}
           </span>
           <span className="flex-1 font-semibold text-white truncate">{p.name}</span>
           <span className="font-black text-purple-300 tabular-nums">{p.score} b</span>
@@ -158,12 +205,68 @@ function GameLeaderboard({ players, highlight }: { players: Player[]; highlight?
 function PlayerList({ players }: { players: Player[] }) {
   return (
     <div className="flex flex-wrap gap-2">
-      {players.map(p => (
-        <span key={p.id} className="hv-player-pill">
-          <span className="w-2 h-2 rounded-full bg-green-400" />
+      {players.map((p, i) => (
+        <span key={p.id} className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3 py-1.5 text-sm font-bold text-white backdrop-blur-sm">
+          <span className={`w-7 h-7 rounded-full ${AVATAR_COLORS[i % AVATAR_COLORS.length]} flex items-center justify-center text-xs font-black text-white`}>
+            {initials(p.name)}
+          </span>
           {p.name}
         </span>
       ))}
+    </div>
+  )
+}
+
+function FinalPodium({ players, highlight }: { players: Player[]; highlight?: string }) {
+  const sorted = [...players].sort((a, b) => b.score - a.score)
+  const top3 = sorted.slice(0, 3)
+  const rest = sorted.slice(3)
+  const podiumOrder = top3.length >= 3 ? [top3[1], top3[0], top3[2]] : top3
+  const podiumRanks = top3.length >= 3 ? [1, 0, 2] : top3.map((_, i) => i)
+
+  if (!sorted.length) {
+    return (
+      <div className="hv-stage-panel p-6 text-center text-white/70">
+        Výsledky ešte nie sú dostupné.
+      </div>
+    )
+  }
+
+  return (
+    <div className="w-full max-w-3xl space-y-8">
+      <div className="flex items-end justify-center gap-3 md:gap-5">
+        {podiumOrder.map((p, i) => {
+          const rank = podiumRanks[i]
+          return (
+            <div key={p.id} className="flex flex-col items-center flex-1 min-w-0 animate-reveal-up" style={{ animationDelay: `${i * 0.12}s` }}>
+              <span className="text-4xl md:text-5xl mb-2">{MEDALS[rank] ?? '🏅'}</span>
+              <div className={`hv-stage-panel w-full p-3 text-center mb-2 ${p.id === highlight ? 'ring-4 ring-white/60' : ''}`}>
+                <div className={`w-12 h-12 mx-auto mb-2 rounded-full ${AVATAR_COLORS[rank % AVATAR_COLORS.length]} flex items-center justify-center text-white font-black text-xl`}>
+                  {initials(p.name)}
+                </div>
+                <p className="text-white font-black text-sm md:text-base truncate">{p.name}</p>
+                <p className="text-white/80 font-mono text-lg font-black">{p.score} b</p>
+              </div>
+              <div className={`${PODIUM_COLORS[rank] ?? 'bg-white/30'} ${PODIUM_HEIGHTS[rank] ?? 'h-20'} w-full rounded-t-2xl shadow-xl shadow-black/15`} />
+            </div>
+          )
+        })}
+      </div>
+
+      {rest.length > 0 && (
+        <div className="space-y-2">
+          {rest.map((p, i) => (
+            <div key={p.id} className={`flex items-center gap-3 rounded-2xl bg-white/10 border border-white/15 px-4 py-3 backdrop-blur-sm ${p.id === highlight ? 'ring-2 ring-white/50' : ''}`}>
+              <span className="text-white/45 font-black w-8 text-right">{i + 4}.</span>
+              <span className={`w-10 h-10 rounded-full ${AVATAR_COLORS[(i + 3) % AVATAR_COLORS.length]} flex items-center justify-center text-white font-black`}>
+                {initials(p.name)}
+              </span>
+              <span className="text-white font-bold flex-1 truncate">{p.name}</span>
+              <span className="text-white/85 font-mono font-black">{p.score} b</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -410,22 +513,19 @@ function PlayerFinal({ gs, playerId }: { gs: GameState; playerId: string }) {
   const myPos = lb.findIndex(p => p.id === playerId)
 
   return (
-    <div className="hv-bg hv-particles flex flex-col items-center justify-center p-6 gap-8">
+    <div className="hv-stage min-h-screen flex flex-col items-center justify-center p-6 gap-8">
       <div className="text-center animate-fade-in space-y-3">
         <div className="text-6xl mb-2">🏆</div>
         <h1 className="text-3xl font-black text-white">Koniec hry!</h1>
         {myPos >= 0 && (
-          <p className="hv-text-muted">
+          <p className="text-white/70">
             Skončil si na <span className="text-amber-300 font-bold">{myPos + 1}. mieste</span>
-            <span className="hv-text-dim mx-2">·</span>
-            <span className="text-purple-300 font-bold">{lb[myPos]?.score ?? 0} bodov</span>
+            <span className="text-white/30 mx-2">·</span>
+            <span className="text-white font-bold">{lb[myPos]?.score ?? 0} bodov</span>
           </p>
         )}
       </div>
-      <div className="w-full max-w-sm hv-card-glow p-6">
-        <h3 className="hv-text-dim text-xs uppercase tracking-widest font-semibold mb-4">Finálne poradie</h3>
-        <GameLeaderboard players={lb} highlight={playerId} />
-      </div>
+      <FinalPodium players={lb} highlight={playerId} />
     </div>
   )
 }
@@ -437,9 +537,12 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
 }) {
   const [locking, setLocking] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [sharing, setSharing] = useState(false)
   const joinUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/${lang}/herd-vote/play/${code}`
     : `/${lang}/herd-vote/play/${code}`
+  const shareTitle = `Herd Vote ${code}`
+  const shareText = `Pripoj sa do Herd Vote hry. Zadaj iba svoje meno alebo názov tímu a čakaj na moderátora. Kód: ${code}`
 
   const lock = async () => {
     setLocking(true)
@@ -453,6 +556,21 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
       setCopied(true)
       setTimeout(() => setCopied(false), 2200)
     })
+  }
+
+  const shareLink = async () => {
+    if (!navigator.share) {
+      copyLink()
+      return
+    }
+    setSharing(true)
+    try {
+      await navigator.share({ title: shareTitle, text: shareText, url: joinUrl })
+    } catch {
+      // User cancellation is fine; keep the lobby calm.
+    } finally {
+      setSharing(false)
+    }
   }
 
   return (
@@ -476,20 +594,55 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
             </div>
           </div>
 
-          {/* Join link */}
-          <div className="flex items-center gap-2 bg-black/20 rounded-xl px-4 py-3">
-            <span className="flex-1 hv-text-muted text-sm truncate font-mono">{joinUrl}</span>
-            <button onClick={copyLink}
-              className={`px-3 py-1.5 text-xs rounded-lg border font-semibold transition-all duration-200 ${
-                copied
-                  ? 'bg-green-500/20 border-green-500/40 text-green-300'
-                  : 'hv-btn-secondary'
-              }`}>
-              {copied ? '✓ Skopírované' : 'Kopírovať'}
-            </button>
+          {/* Join link + sharing */}
+          <div className="rounded-2xl border border-white/10 bg-white/10 p-4 space-y-4 backdrop-blur-xl">
+            <div className="flex items-center justify-between text-white">
+              <span className="flex items-center gap-2 text-sm font-bold">
+                <QrCode className="w-4 h-4" />
+                QR & zdieľanie
+              </span>
+              <button
+                type="button"
+                onClick={shareLink}
+                disabled={sharing}
+                className="inline-flex items-center gap-2 rounded-xl bg-white/15 px-3 py-2 text-xs font-bold text-white transition hover:bg-white/25 disabled:opacity-50"
+              >
+                <Share2 className="w-4 h-4" />
+                {sharing ? 'Zdieľam…' : 'Zdieľať'}
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2 bg-black/20 rounded-xl px-3 py-2 border border-white/10">
+              <span className="flex-1 hv-text-muted text-xs truncate font-mono text-left">{joinUrl}</span>
+              <button onClick={copyLink}
+                className={`inline-flex items-center gap-1 px-2.5 py-1.5 text-xs rounded-lg border font-semibold transition-all duration-200 ${
+                  copied
+                    ? 'bg-green-500/20 border-green-500/40 text-green-300'
+                    : 'bg-white/10 border-white/15 text-white hover:bg-white/20'
+                }`}>
+                {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                {copied ? 'Skopírované' : 'Kopírovať'}
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {SHARE_PLATFORMS.map(platform => (
+                <a
+                  key={platform.label}
+                  href={platform.getUrl(joinUrl, code)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${platform.className} rounded-xl px-3 py-2 text-center text-xs font-black text-white transition`}
+                >
+                  {platform.label}
+                </a>
+              ))}
+            </div>
           </div>
           
-          <p className="hv-text-dim text-sm">Naskenujte QR alebo otvorte link v prehliadači</p>
+          <p className="hv-text-dim text-sm">
+            Link otvorí hráčsku obrazovku: meno/tím → pripojiť → čakáreň.
+          </p>
         </div>
 
         {/* Players */}
@@ -1179,45 +1332,45 @@ function ModeratorFinal({ gs }: { gs: GameState }) {
   const reveal = () => setRevealed(r => Math.min(r + 1, lb.length))
 
   const toReveal = lb.length > 2 ? [...lb].reverse() : lb
+  const allRevealed = revealed >= lb.length
 
   return (
-    <div className="hv-bg hv-particles flex flex-col items-center justify-center p-6 gap-8">
+    <div className="hv-stage min-h-screen flex flex-col items-center justify-center p-6 gap-8">
       <div className="text-center animate-fade-in space-y-3">
         <div className="text-7xl mb-2">🏆</div>
-        <h1 className="text-4xl font-black hv-text-gradient">Hra skončila!</h1>
-        <p className="hv-text-muted">Odhaľte výsledky po jednom</p>
+        <h1 className="text-4xl font-black text-white">Hra skončila!</h1>
+        <p className="text-white/70">{allRevealed ? 'Finálne pódium' : 'Odhaľte výsledky po jednom'}</p>
       </div>
 
-      <div className="w-full max-w-md space-y-3">
-        {lb.length <= 2 ? (
-          <GameLeaderboard players={lb} />
-        ) : (
-          <>
-            {toReveal.slice(0, revealed).map((p, i) => {
-              const pos = lb.length - i
-              return (
-                <div key={p.id}
-                  className="hv-lb-row animate-reveal-up"
-                  style={{ animationDelay: `${i * 0.1}s` }}
-                >
-                  <span className={`hv-lb-rank ${pos === 1 ? 'gold' : pos === 2 ? 'silver' : pos === 3 ? 'bronze' : 'default'}`}
-                    style={{ width: '3rem', height: '3rem', fontSize: '1.25rem' }}>
-                    {pos}
-                  </span>
-                  <span className="flex-1 font-bold text-white text-xl">{p.name}</span>
-                  <span className="font-black text-purple-300 text-xl tabular-nums">{p.score} b</span>
-                </div>
-              )
-            })}
-            {revealed < lb.length && (
-              <button onClick={reveal}
-                className="hv-btn-primary w-full py-4 text-lg">
-                {lb.length - revealed === 1 ? '🥇 Odhaliť víťaza!' : `Odhaliť #${lb.length - revealed}`}
-              </button>
-            )}
-          </>
-        )}
-      </div>
+      {allRevealed ? (
+        <FinalPodium players={lb} />
+      ) : (
+        <div className="w-full max-w-md space-y-3">
+          {toReveal.slice(0, revealed).map((p, i) => {
+            const pos = lb.length - i
+            return (
+              <div key={p.id}
+                className="flex items-center gap-3 rounded-2xl bg-white/10 border border-white/15 px-4 py-3 backdrop-blur-sm animate-reveal-up"
+                style={{ animationDelay: `${i * 0.1}s` }}
+              >
+                <span className={`hv-lb-rank ${pos === 1 ? 'gold' : pos === 2 ? 'silver' : pos === 3 ? 'bronze' : 'default'}`}
+                  style={{ width: '3rem', height: '3rem', fontSize: '1.25rem' }}>
+                  {pos}
+                </span>
+                <span className={`w-11 h-11 rounded-full ${AVATAR_COLORS[i % AVATAR_COLORS.length]} flex items-center justify-center text-white font-black`}>
+                  {initials(p.name)}
+                </span>
+                <span className="flex-1 font-bold text-white text-xl truncate">{p.name}</span>
+                <span className="font-black text-white text-xl tabular-nums">{p.score} b</span>
+              </div>
+            )
+          })}
+          <button onClick={reveal}
+            className="hv-btn-primary w-full py-4 text-lg">
+            {lb.length - revealed === 1 ? '🥇 Odhaliť víťaza!' : `Odhaliť #${lb.length - revealed}`}
+          </button>
+        </div>
+      )}
     </div>
   )
 }

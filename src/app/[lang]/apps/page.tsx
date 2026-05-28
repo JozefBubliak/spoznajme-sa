@@ -10,6 +10,7 @@ import spoznajmeSaImage from '@/assets/spoznajme-sa-cards.jpg'
 import hadackaImage from '@/assets/hadacka-game.jpg'
 import couplesyncImage from '@/assets/couplesync-app.jpg'
 import anoNieHmImage from '@/assets/hadacka-game.jpg'
+import { OFFLINE_TOOLS } from './_offline-tools/tools'
 
 type P = { params: Promise<{ lang: string }> }
 
@@ -146,6 +147,45 @@ export default async function AppsPage({ params }: P) {
     },
   ]
 
+  const offlineTools = [
+    {
+      slug: 'nezabudni',
+      audience: ['páry'],
+      status: 'Nové',
+      description: 'Rýchly generátor konkrétneho nápadu podľa mena, záujmov a rozpočtu.',
+    },
+    {
+      slug: 'misie',
+      audience: ['páry'],
+      status: 'Nové',
+      description: 'Denné mikro-misie pre neho alebo pre ňu. Jeden impulz, ktorý sa dá spraviť dnes.',
+    },
+    {
+      slug: 'rande',
+      audience: ['páry'],
+      status: 'Nové',
+      description: 'Losovanie rande podľa rozpočtu a nálady: zadarmo, malé, víkendové, hlboké alebo odvážne.',
+    },
+    {
+      slug: 'rozbi-rutinu',
+      audience: ['páry'],
+      status: 'Nové',
+      description: 'Offline výzvy od miernych po šialené, aby večer neskončil automaticky pri obrazovke.',
+    },
+    {
+      slug: 'kompas',
+      audience: ['páry', 'rodina'],
+      status: 'Nové',
+      description: 'Ťažké rozhovory rozdelené podľa situácie: jemná veta, priama veta, čomu sa vyhnúť.',
+    },
+    {
+      slug: 'car-games',
+      audience: ['rodina', 'priatelia'],
+      status: 'Nové',
+      description: 'Hry do auta s pravidlami, minimálnym počtom hráčov a variantmi bez obrazovky.',
+    },
+  ]
+
   const filters = [
     { label: 'Všetko', href: '#dostupne' },
     { label: 'Páry', href: `/${lang}/skupiny/pary` },
@@ -270,6 +310,49 @@ export default async function AppsPage({ params }: P) {
                       </Link>
                     </div>
                   </article>
+                )
+              })}
+            </div>
+          </section>
+
+          <section className="space-y-5">
+            <div className="max-w-3xl space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">Offline impulzy zo sesterského projektu</p>
+              <h2 className="text-3xl font-bold tracking-tight text-foreground">Telefón ukáže nápad a potom ide bokom.</h2>
+              <p className="text-base leading-relaxed text-muted-foreground">
+                Prenesené miniapky pre rande, misie, výzvy, cesty autom a náročné rozhovory. Sú krátke, použiteľné hneď a nevyžadujú účet.
+              </p>
+            </div>
+            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+              {offlineTools.map((item) => {
+                const tool = OFFLINE_TOOLS[item.slug]
+                return (
+                  <Link
+                    key={item.slug}
+                    href={`/${lang}/apps/${item.slug}`}
+                    className="group overflow-hidden rounded-3xl border border-border/60 bg-card/80 transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
+                  >
+                    <div className={`bg-gradient-to-br ${tool.theme} p-6 text-white`}>
+                      <div className="flex items-start justify-between gap-3">
+                        <span className="text-4xl">{tool.icon}</span>
+                        <span className="rounded-full bg-white/20 px-3 py-1 text-[11px] font-semibold">
+                          {item.status}
+                        </span>
+                      </div>
+                      <h3 className="mt-5 text-2xl font-black">{tool.title}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-white/80">{item.description}</p>
+                    </div>
+                    <div className="space-y-4 p-5">
+                      <div className="flex flex-wrap gap-2">
+                        {item.audience.map((tag) => (
+                          <span key={tag} className="rounded-full border border-border/60 bg-background/70 px-3 py-1 text-[11px] font-medium text-muted-foreground">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="text-sm font-semibold text-primary">Otvoriť →</div>
+                    </div>
+                  </Link>
                 )
               })}
             </div>
