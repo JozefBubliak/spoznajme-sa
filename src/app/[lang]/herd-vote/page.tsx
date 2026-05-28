@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { type Locale, SUPPORTED_LOCALES } from '@/i18n/config'
+import HerdVoteEntryClient from './HerdVoteEntryClient'
 
 type P = { params: Promise<{ lang: string }> }
 
@@ -30,36 +31,8 @@ export default async function HerdVoteHubPage({ params }: P) {
     <div className="hv-bg hv-particles min-h-screen">
 
       {/* HERO */}
-      <section className="max-w-4xl mx-auto px-5 pt-20 pb-16 text-center space-y-8">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/25 bg-purple-500/10 text-purple-300 text-xs font-semibold uppercase tracking-widest">
-          <span>🐂</span> Skupinová hra
-        </div>
-        <h1 className="text-5xl md:text-6xl font-black text-white leading-tight tracking-tight">
-          Zisti, kto vás naozaj
-          <br />
-          <span className="hv-text-gradient">dobre pozná.</span>
-        </h1>
-        <p className="text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
-          Moderátor spustí hru, hráči odpovedajú na mobile. Odpovede ukážu,
-          kto myslí rovnako — a kto vás prekvapí.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link
-            href={`/${lang}/herd-vote/lobby`}
-            className="hv-btn-primary px-8 py-4 text-base font-black rounded-2xl"
-          >
-            🎮 Vytvoriť hru
-          </Link>
-          <Link
-            href={`/${lang}/herd-vote/join`}
-            className="hv-btn-secondary px-8 py-4 text-base font-semibold rounded-2xl"
-          >
-            Pripojiť sa kódom
-          </Link>
-        </div>
-        <p className="text-xs text-white/30">
-          Zadarmo · Bez inštalácie · Funguje na každom telefóne
-        </p>
+      <section className="max-w-5xl mx-auto px-5 pt-12 pb-12 text-center">
+        <HerdVoteEntryClient lang={lang as Locale} />
       </section>
 
       {/* HOW IT WORKS */}

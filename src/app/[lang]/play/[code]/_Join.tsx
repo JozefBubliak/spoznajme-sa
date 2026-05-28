@@ -39,6 +39,7 @@ interface Category { id: string; name: string; question_count: number; icon?: st
 
 const ANSWER_COLORS = ['hv-answer-a', 'hv-answer-b', 'hv-answer-c', 'hv-answer-d']
 const ANSWER_LABELS = ['A', 'B', 'C', 'D']
+const ANSWER_ICONS = ['▲', '◆', '●', '■']
 
 async function api(path: string, method = 'GET', body?: unknown) {
   const r = await fetch(path, {
@@ -107,26 +108,29 @@ function AnswerBtn({
   const isCorrect = correct === letter
   const isWrong = locked && selected && !isCorrect
   const dim = locked && !isCorrect && !selected
+  const showResult = Boolean(correct)
 
   return (
     <button
       onClick={onClick}
       disabled={locked}
       className={`
-        relative w-full flex items-center gap-3 p-4 rounded-2xl border-2 text-left font-semibold
+        relative w-full flex items-center gap-4 p-5 rounded-2xl border-2 text-left font-black
         transition-all duration-300 select-none
-        ${selected && !locked ? 'scale-[1.02] ring-2 ring-white/20' : ''}
-        ${isCorrect ? 'hv-answer-correct border-2 !text-green-200' : ''}
-        ${isWrong ? 'hv-answer-wrong border-2 !text-red-300 line-through opacity-60' : ''}
-        ${dim ? 'opacity-20' : ''}
-        ${!locked && !selected ? `${ANSWER_COLORS[index]} text-white border-transparent hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] cursor-pointer shadow-lg` : ''}
-        ${selected && !locked ? `${ANSWER_COLORS[index]} text-white border-white/20` : ''}
+        min-h-[5.5rem] md:min-h-[5.625rem]
+        ${ANSWER_COLORS[index]} text-white border-transparent shadow-lg
+        ${selected && !locked ? 'scale-[1.02] ring-4 ring-white/75' : ''}
+        ${isCorrect ? 'ring-4 ring-white scale-[1.02] brightness-110' : ''}
+        ${isWrong ? 'opacity-50 scale-[0.98]' : ''}
+        ${dim && showResult ? 'opacity-35' : ''}
+        ${locked && !showResult ? 'opacity-70 cursor-not-allowed' : ''}
+        ${!locked && !selected ? 'hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] cursor-pointer' : ''}
       `}
     >
-      <span className="w-9 h-9 rounded-xl bg-black/20 backdrop-blur-sm flex items-center justify-center font-black text-base shrink-0">
-        {letter}
+      <span className="w-10 h-10 flex items-center justify-center text-2xl text-white/70 shrink-0">
+        {ANSWER_ICONS[index]}
       </span>
-      <span className="leading-snug flex-1">{text}</span>
+      <span className="leading-snug flex-1 text-lg md:text-xl">{text}</span>
       {isCorrect && <span className="ml-auto text-2xl">✓</span>}
       {isWrong && <span className="ml-auto text-2xl">✗</span>}
     </button>
@@ -311,24 +315,21 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
 
   const locked = ['locked', 'results', 'finished'].includes(round.status)
   const showTimer = round.status === 'running' && round.timer_deadline
+  const answersLocked = round.status !== 'running' || !!myAnswer || locked
 
   return (
-    <div className="hv-bg hv-particles flex flex-col">
+    <div className="hv-stage flex flex-col p-4 md:p-5">
       {/* Header bar */}
-      <div className="bg-black/30 backdrop-blur-sm border-b border-white/5 px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3 text-sm">
-          <span className="hv-badge bg-purple-500/15 text-purple-300 border border-purple-500/20 text-[0.65rem]">
-            Kolo {(round.idx ?? 0) + 1}
-          </span>
-          <span className="hv-text-muted">
-            Otázka <span className="text-white font-bold">{q.qIndex + 1}/{q.total}</span>
-          </span>
+      <div className="flex items-center justify-between text-sm md:text-base font-semibold text-white/70">
+        <span>Kolo {(round.idx ?? 0) + 1} z {gs.total_rounds}</span>
+        <div className="flex items-center gap-3">
+          {gs.myPlayer && (
+            <span className="rounded-full bg-white/10 px-3 py-1 text-white/80">
+              {gs.myPlayer.score} b
+            </span>
+          )}
+          <span>{gs.answeredCount ?? 0}/{gs.playerCount} Odpovedali</span>
         </div>
-        {gs.myPlayer && (
-          <div className="hv-badge bg-purple-500/10 text-purple-300 border border-purple-500/20 text-xs">
-            {gs.myPlayer.score} b
-          </div>
-        )}
       </div>
 
       {/* Timer */}
@@ -339,38 +340,38 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
       )}
 
       {/* Content */}
-      <div className="flex-1 px-4 py-6 flex flex-col gap-5 max-w-xl mx-auto w-full">
+      <div className="flex-1 py-5 flex flex-col gap-5 w-full">
         {/* Question */}
-        <div className={`hv-card-glow p-6 ${!showTimer ? 'mt-4' : ''}`}>
-          <p className="text-white text-xl font-bold leading-snug text-center">{q.text}</p>
+        <div className="hv-stage-panel px-5 py-8 md:px-8 md:py-10">
+          <p className="text-white text-2xl md:text-3xl font-black leading-snug text-center">{q.text}</p>
         </div>
 
         {/* Waiting for timer */}
         {round.status === 'shown' && (
-          <div className="text-center hv-text-muted text-sm animate-pulse">Čakáme na spustenie timera…</div>
+          <div className="hv-stage-panel px-4 py-4 text-center text-sm md:text-base font-bold text-white/85">
+            Moderátor číta otázku. Odpovede sa odomknú po spustení timera.
+          </div>
         )}
 
         {/* Answers */}
-        {round.status !== 'shown' && (
-          <div className="grid grid-cols-1 gap-3">
-            {ANSWER_LABELS.map((letter, i) => {
-              const text = [q.a, q.b, q.c, q.d][i]
-              if (!text) return null
-              return (
-                <AnswerBtn
-                  key={letter}
-                  letter={letter}
-                  text={text}
-                  index={i}
-                  selected={myAnswer === letter}
-                  correct={locked ? (q.correct ?? null) : null}
-                  locked={locked || !!myAnswer}
-                  onClick={() => submitAnswer(letter)}
-                />
-              )
-            })}
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+          {ANSWER_LABELS.map((letter, i) => {
+            const text = [q.a, q.b, q.c, q.d][i]
+            if (!text) return null
+            return (
+              <AnswerBtn
+                key={letter}
+                letter={letter}
+                text={text}
+                index={i}
+                selected={myAnswer === letter}
+                correct={locked ? (q.correct ?? null) : null}
+                locked={answersLocked}
+                onClick={() => submitAnswer(letter)}
+              />
+            )
+          })}
+        </div>
 
         {/* Result feedback */}
         {locked && q.correct && (
@@ -1010,9 +1011,9 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
   const sc = statusConfig[s] ?? { bg: 'bg-white/5 border-white/10', text: 'hv-text-muted', label: s }
 
   return (
-    <div className="hv-bg hv-particles flex flex-col md:flex-row gap-0 min-h-screen">
+    <div className="hv-stage flex flex-col md:flex-row gap-0 min-h-screen">
       {/* Left sidebar: controls */}
-      <div className="w-full md:w-72 bg-black/20 backdrop-blur-sm border-b md:border-b-0 md:border-r border-white/5 p-5 flex flex-col gap-4">
+      <div className="w-full md:w-72 bg-white/10 backdrop-blur-md border-b md:border-b-0 md:border-r border-white/15 p-5 flex flex-col gap-4">
         {/* Status badge */}
         <div className={`rounded-xl px-3 py-2.5 text-center font-bold text-sm border ${sc.bg} ${sc.text} ${isRunning ? 'animate-pulse' : ''}`}>
           {sc.label}
@@ -1100,20 +1101,31 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
       </div>
 
       {/* Right: question + stats */}
-      <div className="flex-1 p-6 space-y-6 overflow-y-auto">
+      <div className="flex-1 p-4 md:p-6 space-y-5 overflow-y-auto">
         {q && (
           <>
-            <div className="hv-card-glow p-6">
-              <p className="text-white text-2xl font-bold leading-snug">{q.text}</p>
+            <div className="flex items-center justify-between text-sm md:text-base font-semibold text-white/70">
+              <span>Kolo {(round.idx ?? 0) + 1} z {gs.total_rounds}</span>
+              <span>{gs.answeredCount ?? 0}/{gs.playerCount} Odpovedali</span>
+            </div>
+
+            <div className="hv-stage-panel px-5 py-8 md:px-8 md:py-10">
+              <p className="text-white text-2xl md:text-3xl font-black leading-snug text-center">{q.text}</p>
               {q.correct && (
-                <p className="mt-3 text-green-400 text-sm font-semibold">
+                <p className="mt-4 text-center text-green-200 text-sm font-bold">
                   ✓ Správna odpoveď: {q.correct}
                 </p>
               )}
             </div>
 
+            {isShown && (
+              <div className="hv-stage-panel px-4 py-4 text-center text-sm md:text-base font-bold text-white/85">
+                Moderátor číta otázku. Odpovede sa odomknú po spustení timera.
+              </div>
+            )}
+
             {/* Answer options */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
               {ANSWER_LABELS.map((letter, i) => {
                 const text = [q.a, q.b, q.c, q.d][i]
                 if (!text) return null
@@ -1121,25 +1133,21 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
                 const pct = maxStat > 0 ? Math.round((cnt / maxStat) * 100) : 0
                 const isCorrectAnswer = q.correct === letter
                 return (
-                  <div key={letter} className={`rounded-2xl border p-4 transition-all ${
-                    isCorrectAnswer ? 'border-green-500/30 bg-green-500/10' : 'border-white/5 bg-white/[0.03]'
+                  <div key={letter} className={`${ANSWER_COLORS[i]} rounded-2xl border-2 border-transparent p-5 min-h-[5.5rem] md:min-h-[5.625rem] transition-all shadow-lg ${
+                    isCorrectAnswer ? 'ring-4 ring-white brightness-110' : ''
                   }`}>
                     <div className="flex items-center gap-2 mb-2">
-                      <span className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm ${
-                        isCorrectAnswer ? 'bg-green-500/30 text-green-300' : 'bg-white/10 text-white/50'
-                      }`}>
-                        {letter}
+                      <span className="w-10 h-10 flex items-center justify-center text-2xl text-white/70 shrink-0">
+                        {ANSWER_ICONS[i]}
                       </span>
-                      <span className={`font-semibold flex-1 ${isCorrectAnswer ? 'text-green-300' : 'text-white/80'}`}>{text}</span>
+                      <span className="font-black flex-1 text-white text-lg md:text-xl leading-snug">{text}</span>
                       {(isLocked || isResults) && (
                         <span className="font-black text-white text-lg tabular-nums">{cnt}</span>
                       )}
                     </div>
                     {(isLocked || isResults) && (
-                      <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                        <div className={`h-full rounded-full transition-all duration-700 ${
-                          isCorrectAnswer ? 'bg-green-500/70' : 'bg-white/15'
-                        }`}
+                      <div className="h-2 bg-black/15 rounded-full overflow-hidden">
+                        <div className="h-full rounded-full bg-white/50 transition-all duration-700"
                           style={{ width: `${pct}%` }} />
                       </div>
                     )}
@@ -1242,6 +1250,7 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   const [playerName, setPlayerName] = useState<string>('')
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const mountedRef = useRef(true)
+  const joinedAtRef = useRef<number | null>(null)
 
   useEffect(() => {
     if (!code) return
@@ -1255,7 +1264,8 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   // If we had a stored playerId but the server says myPlayer is null and phase=lobby,
   // the game was reset — clean up so JoinForm shows fresh without stale state.
   useEffect(() => {
-    if (!loading && !gs?.isOwner && playerId && !gs?.myPlayer && gs?.phase === 'lobby') {
+    const recentlyJoined = joinedAtRef.current !== null && Date.now() - joinedAtRef.current < 10000
+    if (!loading && !gs?.isOwner && playerId && !gs?.myPlayer && gs?.phase === 'lobby' && !recentlyJoined) {
       sessionStorage.removeItem(`herd-player-${code}`)
       sessionStorage.removeItem(`herd-name-${code}`)
       setPlayerId(null)
@@ -1302,6 +1312,7 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   const handleJoined = (id: string, name: string) => {
     sessionStorage.setItem(`herd-player-${code}`, id)
     sessionStorage.setItem(`herd-name-${code}`, name)
+    joinedAtRef.current = Date.now()
     setPlayerId(id)
     setPlayerName(name)
     fetchState(id)
@@ -1337,7 +1348,9 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   }
 
   // ── PLAYER ───────────────────────────────────────────────────────────────────
-  if (!playerId || !gs.myPlayer) {
+  const hasLocalPlayer = Boolean(playerId && playerName)
+
+  if (!hasLocalPlayer) {
     return (
       <JoinForm
         code={code} gamePhase={phase} lobbyLocked={lobby_locked}
@@ -1346,14 +1359,24 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
     )
   }
 
+  const activePlayerId = playerId as string
+
+  if (!gs.myPlayer) {
+    if (phase === 'lobby') return <PlayerLobby gs={gs} myName={playerName} />
+    if (phase === 'config' || phase === 'round_setup') {
+      return <PlayerWaiting message="Si pripojený. Moderátor nastavuje hru…" gs={gs} playerId={activePlayerId} />
+    }
+    return <PlayerWaiting message="Pripájame ťa do hry…" gs={gs} playerId={activePlayerId} />
+  }
+
   if (phase === 'lobby') return <PlayerLobby gs={gs} myName={playerName} />
-  if (phase === 'config' || phase === 'round_setup') return <PlayerWaiting message="Moderátor nastavuje hru…" gs={gs} playerId={playerId} />
-  if (phase === 'final') return <PlayerFinal gs={gs} playerId={playerId} />
+  if (phase === 'config' || phase === 'round_setup') return <PlayerWaiting message="Moderátor nastavuje hru…" gs={gs} playerId={activePlayerId} />
+  if (phase === 'final') return <PlayerFinal gs={gs} playerId={activePlayerId} />
 
   if (phase === 'playing') {
-    if (!round) return <PlayerWaiting message="Čakáme na prvú otázku…" gs={gs} playerId={playerId} />
-    if (round.status === 'finished') return <PlayerWaiting message="Kolo skončilo. Čakáme na ďalšie…" gs={gs} playerId={playerId} />
-    return <PlayerGame gs={gs} code={code} playerId={playerId} />
+    if (!round) return <PlayerWaiting message="Čakáme na prvú otázku…" gs={gs} playerId={activePlayerId} />
+    if (round.status === 'finished') return <PlayerWaiting message="Kolo skončilo. Čakáme na ďalšie…" gs={gs} playerId={activePlayerId} />
+    return <PlayerGame gs={gs} code={code} playerId={activePlayerId} />
   }
 
   return <PlayerLobby gs={gs} myName={playerName} />
