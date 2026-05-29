@@ -88,17 +88,18 @@ function resolveAssignment(result: DiceRollResult, p1: Partner, p2: Partner): As
   return { actor, receiver, scope };
 }
 
-/** Build a natural Slovak sentence: "Jozef, masíruj Monike chodidlá" */
+function displayName(p: Partner, fallback: string): string {
+  return p.name.trim() || fallback;
+}
+
+/** Build a natural Slovak sentence, using names if set or generic fallbacks */
 function buildPrompt(prompt: string, assignment: Assignment): string {
   const { actor, receiver, scope } = assignment;
-  if (scope === 'mutual') {
-    return `${actor.name} a ${receiver.name}: ${prompt}`;
-  }
-  if (scope === 'receiver_self') {
-    return `${actor.name}: ${prompt}`;
-  }
-  // partner_to_receiver or either
-  return `${actor.name} → ${receiver.name}: ${prompt}`;
+  const aName = displayName(actor, 'Aktívny/á');
+  const rName = displayName(receiver, 'Príjemca');
+  if (scope === 'mutual') return prompt;
+  if (scope === 'receiver_self') return `${rName}: ${prompt}`;
+  return `${aName}: ${prompt}`;
 }
 
 // ── Sub-components ─────────────────────────────────────────────────────────
@@ -185,11 +186,14 @@ export default function KockyPage() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const { p1: sp1, p2: sp2 } = JSON.parse(saved);
-        if (sp1?.name) { setP1(sp1); setP2(sp2); setPhase('settings'); }
+        setP1(sp1 ?? { name: '', gender: 'female' });
+        setP2(sp2 ?? { name: '', gender: 'male' });
       }
       const savedSettings = localStorage.getItem(SETTINGS_KEY);
       if (savedSettings) setSettings(JSON.parse(savedSettings));
     } catch { /* ignore */ }
+    // Always start on settings, names are optional
+    setPhase('settings');
   }, []);
 
   const savePartners = () => {
@@ -242,34 +246,36 @@ export default function KockyPage() {
   const goToSettings = () => setPhase('settings');
   const endGame = () => { setPhase('settings'); setRoll(null); setTimerDone(false); setRollCount(0); };
 
-  // ── Names screen ────────────────────────────────────────────────────────
+  // ── Names screen (optional) ──────────────────────────────────────────────
 
   if (phase === 'names') {
-    const valid = p1.name.trim().length > 0 && p2.name.trim().length > 0;
     return (
       <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center px-4 py-12">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md space-y-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md space-y-6">
 
           <div className="text-center">
-            <div className="text-5xl mb-4">🎲</div>
-            <h1 className="text-3xl font-black">Intímne kocky</h1>
-            <p className="text-gray-400 mt-2">Zadajte mená — budú súčasťou každej úlohy.</p>
+            <div className="text-4xl mb-3">👤</div>
+            <h2 className="text-2xl font-black">Mená partnerov</h2>
+            <p className="text-gray-400 mt-2 text-sm">Voliteľné — ak zadáte mená, úlohy budú osobnejšie.<br />Môžete kedykoľvek preskočiť.</p>
           </div>
 
-          {[{ label: 'Prvý partner', val: p1, set: setP1 }, { label: 'Druhý partner', val: p2, set: setP2 }].map(({ label, val, set }) => (
-            <div key={label} className="space-y-3">
+          {[
+            { label: 'Partner 1', val: p1, set: setP1 },
+            { label: 'Partner 2', val: p2, set: setP2 },
+          ].map(({ label, val, set }) => (
+            <div key={label} className="space-y-2">
               <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">{label}</p>
               <input
                 type="text"
-                placeholder="Meno…"
+                placeholder="Meno (nepovinné)…"
                 value={val.name}
                 onChange={(e) => set((v) => ({ ...v, name: e.target.value }))}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-rose-500 text-lg font-semibold"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-rose-500 text-base font-semibold"
               />
               <div className="flex gap-2">
                 {(['female', 'male'] as Gender[]).map((g) => (
                   <button key={g} onClick={() => set((v) => ({ ...v, gender: g }))}
-                    className={`flex-1 py-2.5 rounded-xl text-sm font-bold border transition-all ${
+                    className={`flex-1 py-2 rounded-xl text-sm font-bold border transition-all ${
                       val.gender === g ? 'bg-rose-600 border-rose-500 text-white' : 'bg-white/5 border-white/10 text-gray-400'
                     }`}>
                     {g === 'female' ? '♀ Žena' : '♂ Muž'}
@@ -279,11 +285,18 @@ export default function KockyPage() {
             </div>
           ))}
 
-          <motion.button whileTap={{ scale: 0.97 }} disabled={!valid}
-            onClick={() => { savePartners(); setPhase('settings'); }}
-            className="w-full py-4 rounded-3xl font-black text-lg bg-gradient-to-r from-rose-500 to-pink-600 disabled:opacity-30 disabled:cursor-not-allowed shadow-lg shadow-rose-900">
-            Pokračovať →
-          </motion.button>
+          <div className="flex gap-3">
+            <motion.button whileTap={{ scale: 0.97 }}
+              onClick={() => { savePartners(); setPhase('settings'); }}
+              className="flex-1 py-4 rounded-3xl font-black bg-gradient-to-r from-rose-500 to-pink-600 shadow-lg">
+              Uložiť
+            </motion.button>
+            <motion.button whileTap={{ scale: 0.97 }}
+              onClick={() => setPhase('settings')}
+              className="flex-1 py-4 rounded-3xl font-bold bg-white/8 text-gray-300">
+              Preskočiť
+            </motion.button>
+          </div>
         </motion.div>
       </div>
     );
@@ -295,12 +308,7 @@ export default function KockyPage() {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center px-4 py-8">
         <div className="w-full max-w-md mb-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-black">🎲 Intímne kocky</h1>
-            <button onClick={() => setPhase('names')} className="text-xs text-gray-500 hover:text-gray-300 mt-0.5">
-              👤 {p1.name} & {p2.name} ·&nbsp;<span className="underline">zmeniť</span>
-            </button>
-          </div>
+          <h1 className="text-xl font-black">🎲 Intímne kocky</h1>
           {rollCount > 0 && (
             <span className="text-xs text-gray-500 bg-white/5 px-2.5 py-1 rounded-full">{rollCount}× hodené</span>
           )}
@@ -376,6 +384,20 @@ export default function KockyPage() {
             </div>
           </button>
 
+          {/* Optional names */}
+          <button onClick={() => setPhase('names')}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-2xl border border-white/5 bg-white/5 hover:bg-white/8 transition-colors">
+            <div>
+              <p className="text-sm font-semibold text-gray-300">
+                {p1.name || p2.name
+                  ? `👤 ${p1.name || 'Partner 1'} & ${p2.name || 'Partner 2'}`
+                  : '👤 Nastaviť mená partnerov'}
+              </p>
+              <p className="text-xs text-gray-600 mt-0.5">Voliteľné — úlohy budú osobnejšie</p>
+            </div>
+            <span className="text-gray-600 text-sm">→</span>
+          </button>
+
           {/* Roll button */}
           <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
             onClick={doRoll} disabled={loading}
@@ -413,6 +435,8 @@ export default function KockyPage() {
     const { actor, receiver, scope } = assignment;
     const isMutual = scope === 'mutual';
     const isSelf = scope === 'receiver_self';
+    const actorName = displayName(actor, 'Aktívny/á');
+    const receiverName = displayName(receiver, 'Príjemca');
     const prompt = buildPrompt(roll.result.prompt_sk, assignment);
 
     return (
@@ -435,14 +459,14 @@ export default function KockyPage() {
             {/* WHO does WHAT to WHOM */}
             <div className="flex items-center gap-2 mb-4 bg-black/20 rounded-2xl px-3 py-2">
               {isMutual ? (
-                <span className="font-black text-base">{actor.name} ↔ {receiver.name}</span>
+                <span className="font-black text-base">Obaja spolu</span>
               ) : isSelf ? (
-                <span className="font-black text-base">{actor.name} (sám/sama)</span>
+                <span className="font-black text-base">{receiverName} (sám/sama)</span>
               ) : (
                 <>
-                  <span className="font-black text-base">{actor.name}</span>
-                  <span className="text-white/60 text-sm">robí</span>
-                  <span className="font-black text-base">{receiver.name}</span>
+                  <span className="font-black text-base">{actorName}</span>
+                  <span className="text-white/60 text-sm">→</span>
+                  <span className="font-black text-base">{receiverName}</span>
                 </>
               )}
             </div>
@@ -510,7 +534,7 @@ export default function KockyPage() {
               <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-3">
                 <p className="text-green-400 font-black text-xl">✅ Hotovo!</p>
-                <p className="text-gray-400 text-sm mt-1">Ako sa cítili {actor.name} a {receiver.name}?</p>
+                <p className="text-gray-400 text-sm mt-1">Ako sa cítili {actorName} a {receiverName}?</p>
               </motion.div>
             )}
           </AnimatePresence>
