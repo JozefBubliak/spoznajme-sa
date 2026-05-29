@@ -35,7 +35,9 @@
       "mcp__Claude_in_Chrome__navigate",
       "mcp__Claude_in_Chrome__computer",
       "mcp__Claude_in_Chrome__javascript_tool",
-      "Bash(mkdir -p \"E:/Projekty/spoznajme-sa/src/app/[lang]/apps/nudge/home\")"
+      "Bash(mkdir -p \"E:/Projekty/spoznajme-sa/src/app/[lang]/apps/nudge/home\")",
+      "Bash(mkdir -p \"E:/Projekty/spoznajme-sa/src/app/[lang]/apps/kocky\")",
+      "PowerShell(cd \"E:\\\\Projekty\\\\spoznajme-sa\" && npx tsc --noEmit 2>&1 | Where-Object { $_ -match \"error TS\" } | Measure-Object | Select-Object -ExpandProperty Count)"
     ]
   }
 }
