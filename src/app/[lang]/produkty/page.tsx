@@ -44,12 +44,12 @@ const sections = [
         href: '/apps/couplesync',
       },
       {
-        badge: 'Súkromné',
-        name: 'Intímne dobrodružstvo',
-        description: 'Hravý súkromný priestor pre páry: úlohy, polohy, fľaša, kocky, výzvy a ďalšie módy na jeden večer.',
-        price: 'Spustenie s heslom 090720',
-        href: '/intimne-dobrodruzstvo/index.html',
-        action: 'Spustiť hru →',
+        badge: 'Nové',
+        name: 'Intímne kocky',
+        description: 'Generátor intímnych úloh pre páry — zóna, technika, čas. 90+ zón, 100+ techník, 6 módov. Úlohy sú personalizované na vaše mená.',
+        price: 'Zadarmo pre páry',
+        href: '/apps/kocky',
+        action: 'Hrať teraz →',
       },
       {
         badge: 'Zadarmo',
