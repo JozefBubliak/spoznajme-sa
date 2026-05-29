@@ -38,6 +38,12 @@ Toto nie je kopirovanie cudzieho obsahu. Je to prehlad mechanik, ktore sa opakuj
 - Quiz/guess mode: partner hada odpoved druheho, az potom sa ukaze realna odpoved.
 - Needs deck: potreby sa formuluju pozitivne a prakticky, nie ako vycitka.
 - Profile tuning: dvojica si postupne vytvori profil tempa, intenzity, preferovanych zmyslov a no-go tem.
+- Mood sharing: jednoduche naladove vstupy pred vyzvou, aby generator vedel zvolit jemny, hravy alebo planovany rezim.
+- Conflict repair: niektore appky uz pridavaju repair tools; pre nas to znamena navratove karty po zlej/trapnej/nesadnutej vyzve.
+- Date planner: vyzva nie je izolovana karta, ale moze zohladnit cas, rozpocet, pocasie, online/offline a energiu.
+- Time capsule: odlozene odkazy alebo fantazie, ktore sa otvoria o tyzden/mesiac.
+- Milestones: par si uklada vyznamne momenty, nazvy scen a oblubene ritualy.
+- Lightweight games: would-you-rather, trivia, sketch/guess a kreativne canvas hry pre pary, ktore nechcu hned sexualny obsah.
 
 ## Rozhodnutia pre nas projekt
 
@@ -46,3 +52,4 @@ Toto nie je kopirovanie cudzieho obsahu. Je to prehlad mechanik, ktore sa opakuj
 - Vyzva ma mat `cat`, `kind`, `level`, `duration`, `note`, aby UI aj neskorsi generator vedeli filtrovat.
 - Karty su pisane ako navrhy pre par, nie ako prikazy. Preskocenie alebo odlozenie je normalny vysledok.
 - Dobre vztahove appky neriesia iba sex; vracaju par k zvedavosti, pamati vztahu, drobnym ritualom a planovaniu. Preto DeepTalks vyzvy maju mat aj ne-sexualne mosty k intimite.
+- Posledne doplnene vetvy: Nalada, Repair, Rande plan, Casova kapsula, Milniky, Minihry a Kreativne. Tieto vetvy riesia udrzatelnost produktu, nie len pocet erotickych karticiek.
