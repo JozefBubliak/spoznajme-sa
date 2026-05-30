@@ -22,7 +22,8 @@ export async function GET() {
       .from('tasks')
       .select('id,custom_id,level,action_type,description,prep_time,task_time,status,viewed,group')
       .order('level', { ascending: true })
-      .order('created_at', { ascending: true });
+      .order('created_at', { ascending: true })
+      .range(0, 9999);
 
     if (error) {
       return NextResponse.json({ tasks: [], error: error.message }, { status: 500 });
