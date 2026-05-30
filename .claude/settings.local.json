@@ -46,7 +46,10 @@
       "Bash(gh run *)",
       "Bash(gh deployment *)",
       "Bash(vercel --version)",
-      "Bash(npx vercel *)"
+      "Bash(npx vercel *)",
+      "Bash(cat supabase/.temp/project-ref)",
+      "Bash(ls supabase/.temp/)",
+      "Bash(node scripts/classify_tasks.js)"
     ]
   }
 }
