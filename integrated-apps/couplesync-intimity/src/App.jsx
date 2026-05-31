@@ -20,6 +20,19 @@ const TopicDetail = lazy(() => import('./pages/TopicDetail'));
 const SimpleQuiz = lazy(() => import('./pages/SimpleQuiz'));
 const AdvancedModule = lazy(() => import('./pages/AdvancedModule'));
 const PairResults = lazy(() => import('./pages/PairResults'));
+const DailyPulse = lazy(() => import('./pages/DailyPulse'));
+const ConversationCards = lazy(() => import('./pages/ConversationCards'));
+const BucketList = lazy(() => import('./pages/BucketList'));
+const TajnyOdkaz = lazy(() => import('./pages/TajnyOdkaz'));
+const NezabudniNaNU = lazy(() => import('./pages/NezabudniNaNU'));
+const ZhodyBezOdmietnutia = lazy(() => import('./pages/ZhodyBezOdmietnutia'));
+const TridsiestSestOtazok = lazy(() => import('./pages/TridsiestSestOtazok'));
+const VztahKompas = lazy(() => import('./pages/VztahKompas'));
+const ParovyDennik = lazy(() => import('./pages/ParovyDennik'));
+const VzajomnyProfil = lazy(() => import('./pages/VzajomnyProfil'));
+const RandePlanovat = lazy(() => import('./pages/RandePlanovat'));
+const TazkeRozhovory = lazy(() => import('./pages/TazkeRozhovory'));
+const ParovaHra = lazy(() => import('./pages/ParovaHra'));
 
 const LoadingScreen = () => (
   <div className="fixed inset-0 flex items-center justify-center">
@@ -52,6 +65,19 @@ const AuthenticatedApp = () => {
           <Route path="/quiz/simple/:slug" element={<SimpleQuiz />} />
           <Route path="/quiz/advanced/:slug" element={<AdvancedModule />} />
           <Route path="/results" element={<PairResults />} />
+          <Route path="/pulse" element={<DailyPulse />} />
+          <Route path="/karty" element={<ConversationCards />} />
+          <Route path="/zoznam" element={<BucketList />} />
+          <Route path="/tajny-odkaz" element={<TajnyOdkaz />} />
+          <Route path="/nezabudni" element={<NezabudniNaNU />} />
+          <Route path="/zhody" element={<ZhodyBezOdmietnutia />} />
+          <Route path="/36-otazok" element={<TridsiestSestOtazok />} />
+          <Route path="/kompas" element={<VztahKompas />} />
+          <Route path="/dennik" element={<ParovyDennik />} />
+          <Route path="/vzajomny-profil" element={<VzajomnyProfil />} />
+          <Route path="/rande" element={<RandePlanovat />} />
+          <Route path="/tazke-rozhovory" element={<TazkeRozhovory />} />
+          <Route path="/hra" element={<ParovaHra />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

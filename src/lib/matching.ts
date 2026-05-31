@@ -31,8 +31,8 @@ export function calculateCompatibility(
       const av = new Set(A.values ?? []);
       const bv = new Set(B.values ?? []);
       const inter = [...av].filter((v) => bv.has(v)).length;
-      const union = new Set([...av, ...bv]).size;
-      return union === 0 ? 0 : Math.round((inter / union) * 100);
+      const largestSelection = Math.max(av.size, bv.size);
+      return largestSelection === 0 ? 0 : Math.round((inter / largestSelection) * 100);
     }
     case 'scale': {
       const A = a as AnswerDataScale;

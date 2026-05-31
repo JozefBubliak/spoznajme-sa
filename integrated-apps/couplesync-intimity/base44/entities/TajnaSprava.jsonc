@@ -1,0 +1,26 @@
+{
+  "name": "TajnaSprava",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "title": "ID rel\u00e1cie"
+    },
+    "text": {
+      "type": "string",
+      "title": "Text spr\u00e1vy"
+    },
+    "revealed": {
+      "type": "boolean",
+      "title": "Odhalen\u00e1"
+    },
+    "reveal_date": {
+      "type": "string",
+      "title": "D\u00e1tum odhalenia"
+    }
+  },
+  "required": [
+    "session_id",
+    "text"
+  ]
+}

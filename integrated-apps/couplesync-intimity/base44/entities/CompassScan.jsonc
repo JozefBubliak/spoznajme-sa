@@ -1,0 +1,37 @@
+{
+  "name": "CompassScan",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "title": "ID rel\u00e1cie"
+    },
+    "communication": {
+      "type": "integer",
+      "title": "Komunik\u00e1cia (1\u20135)"
+    },
+    "closeness": {
+      "type": "integer",
+      "title": "Bl\u00edzkos\u0165 (1\u20135)"
+    },
+    "conflict": {
+      "type": "integer",
+      "title": "Konflikty \u2013 ako ich zvl\u00e1dame (1\u20135)"
+    },
+    "time_together": {
+      "type": "integer",
+      "title": "Spolo\u010dn\u00fd \u010das (1\u20135)"
+    },
+    "overall": {
+      "type": "integer",
+      "title": "Celkovo (1\u20135)"
+    },
+    "notes": {
+      "type": "string",
+      "title": "\u010co by sme chceli zlep\u0161i\u0165"
+    }
+  },
+  "required": [
+    "session_id"
+  ]
+}

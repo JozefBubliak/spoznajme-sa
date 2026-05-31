@@ -1,0 +1,43 @@
+{
+  "name": "RelationshipDate",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "N\u00e1zov"
+    },
+    "month": {
+      "type": "integer",
+      "title": "Mesiac (1-12)"
+    },
+    "day": {
+      "type": "integer",
+      "title": "De\u0148 (1-31)"
+    },
+    "year": {
+      "type": "integer",
+      "title": "Rok (volite\u013en\u00fd)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "v\u00fdro\u010die",
+        "narodeniny",
+        "prv\u00e9 rande",
+        "svadba",
+        "in\u00e9"
+      ],
+      "title": "Typ"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Pozn\u00e1mka"
+    }
+  },
+  "required": [
+    "title",
+    "month",
+    "day",
+    "type"
+  ]
+}

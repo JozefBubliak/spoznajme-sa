@@ -25,4 +25,14 @@ try {
 New-Item -ItemType Directory -Force -Path $public | Out-Null
 Copy-Item -Path (Join-Path $dist '*') -Destination $public -Recurse -Force
 
+$publicIndex = Join-Path $public 'index.html'
+if (Test-Path $publicIndex) {
+  $utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
+  [System.IO.File]::WriteAllText(
+    $publicIndex,
+    [System.IO.File]::ReadAllText($publicIndex).Replace("`r`n", "`n"),
+    $utf8WithoutBom
+  )
+}
+
 Write-Host "Copied CoupleSync intimacy build to $public"

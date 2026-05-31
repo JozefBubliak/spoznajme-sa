@@ -1,0 +1,46 @@
+{
+  "name": "GiftNote",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "N\u00e1pad na dar\u010dek"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Z\u00e1\u017eitok",
+        "Kvety",
+        "Jedlo & n\u00e1poje",
+        "Oble\u010denie",
+        "Kozmetika",
+        "Knihy",
+        "In\u00e9"
+      ],
+      "title": "Kateg\u00f3ria"
+    },
+    "budget": {
+      "type": "string",
+      "enum": [
+        "Bezplatn\u00e9",
+        "do 10\u20ac",
+        "10\u201330\u20ac",
+        "30\u2013100\u20ac",
+        "100\u20ac+"
+      ],
+      "title": "Rozpo\u010det"
+    },
+    "used": {
+      "type": "boolean",
+      "title": "Vyu\u017eit\u00e9"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Pozn\u00e1mka"
+    }
+  },
+  "required": [
+    "title",
+    "category"
+  ]
+}

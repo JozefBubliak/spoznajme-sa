@@ -1,0 +1,17 @@
+export const QUESTIONS = [
+  { key: 'hard_day', label: 'Ke\u010f m\u00e1m \u0165a\u017ek\u00fd de\u0148, pomáha mi...', options: ['Objatie', 'Ticho a priestor', 'Porozpr\u00e1va\u0165 sa', 'Praktická pomoc'] },
+  { key: 'weekend', label: 'Ide\u00e1lny v\u00edkend vyzer\u00e1 takto:', options: ['Doma v pokoji', 'V\u00fdlet a prir\u00f3da', '\u013eudia a spolo\u010dnos\u0165', 'Akt\u00edvny \u0161port'] },
+  { key: 'conflict', label: 'Pri h\u00e1dke potrebujem:', options: ['Pauzu a \u010das', 'Hne\u010f to vyrieši\u0165', 'Ujistenie, \u017ee je OK', 'Priestor na myslenie'] },
+  { key: 'affection', label: 'Moja obľúbená forma lásky je:', options: ['Fyzick\u00fd dotyk', 'Slov\u00e1 ocenenia', '\u010ciny a pomoc', 'Spolo\u010dn\u00fd \u010das'] },
+  { key: 'morning', label: 'R\u00e1no som...', options: ['Rann\u00e9 vt\u00e1\u010da', 'No\u010dn\u00e1 sova', 'Z\u00e1lež\u00ed od d\u0148a', 'Potrebujem \u010das na rozbeh'] },
+  { key: 'surprise', label: 'Prekvapenia...', options: ['Milujem ich!', 'Z\u00e1leží aké', 'Rad\u0161ej viem vopred', 'Ne\u010dakan\u00e9 veci str\u00e9sujú'] },
+  { key: 'stress', label: 'Ke\u010f som vystresovan\u00fd/\u00e1, chcem:', options: ['By\u0165 s\u00e1m/sama', 'Rozpr\u00e1va\u0165 sa', 'Na \u0161port alebo von', 'Zjes\u0165 nie\u010do dobr\u00e9'] },
+  { key: 'gift', label: 'Dar\u010dek, ktor\u00fd ma pote\u0161\u00ed najviac:', options: ['Z\u00e1\u017eitok', 'Romantick\u00e1 vec', 'Jedlo alebo sladkos\u0165', 'Ru\u010dne p\u00edsan\u00fd list'] },
+  { key: 'vacation', label: 'Na dovolenke chcem:', options: ['Akt\u00edvne a dobrodru\u017ene', 'Pl\u00e1\u017e a relax', 'Kult\u00fara a mest\u00e1', 'Prir\u00f3da a turistika'] },
+  { key: 'sick', label: 'Ke\u010f som chor\u00fd/\u00e1, chcem:', options: ['Ve\u013ea pozornosti', 'By\u0165 s\u00e1m/sama', 'Tich\u00e9 spolo\u010dn\u00edctvo', 'Jedlo a pokoj'] },
+  { key: 'public', label: 'Ne\u017enos\u0165 na verejnosti:', options: ['P\u00e1\u010di sa mi', 'Trochu nepohodln\u00e9', 'Z\u00e1leží od situácie', 'Vyhýbam sa'] },
+  { key: 'money', label: 'O peniazoch sa bav\u00edm:', options: ['Rad/rada, otvorene', 'Vyhýbam sa tomu', 'Len ke\u010f treba', 'M\u00e1m r\u00e1d/rada syst\u00e9m'] },
+  { key: 'praise', label: 'Pochvala od partnera m\u00e1 by\u0165:', options: ['Konkr\u00e9tna a detailná', 'Kr\u00e1tka a \u010dast\u00e1', 'Pred \u013eu\u010fmi', 'V kl\u00fade len pre m\u0148a'] },
+  { key: 'future', label: 'O budúcnosti rozmýšľam:', options: ['Pl\u00e1nujem v\u0161etko', 'Id\u00e9m de\u0148 za d\u0148om', 'Sny m\u00e1m, pl\u00e1n nie', 'Pl\u00e1nujem s partnerom'] },
+  { key: 'apology', label: 'Ke\u010f sa chce\u0161 zmieri\u0165 po h\u00e1dke:', options: ['Povie\u017e to slovami', 'Obj\u00edme\u0161 ma', 'Urob\u00ed\u0161 nie\u010do pekn\u00e9', 'D\u00e1\u0161 mi priestor'] },
+];

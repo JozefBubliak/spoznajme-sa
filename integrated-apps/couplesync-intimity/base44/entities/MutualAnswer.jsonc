@@ -1,0 +1,26 @@
+{
+  "name": "MutualAnswer",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "title": "ID rel\u00e1cie"
+    },
+    "question_key": {
+      "type": "string",
+      "title": "K\u013e\u00fa\u010d ot\u00e1zky"
+    },
+    "self_answer": {
+      "type": "string",
+      "title": "Moja odpove\u010f (o sebe)"
+    },
+    "partner_guess": {
+      "type": "string",
+      "title": "M\u00f4j tip (o partnerovi)"
+    }
+  },
+  "required": [
+    "session_id",
+    "question_key"
+  ]
+}

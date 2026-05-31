@@ -5,6 +5,22 @@ const unwrap = ({ data, error }) => {
   return data;
 };
 
+const applyFilters = (query, filters) => Object.entries(filters).reduce(
+  (currentQuery, [column, value]) => currentQuery.eq(column, value),
+  query,
+);
+
+const createStore = (table, { order } = {}) => ({
+  list: async (filters = {}) => {
+    let query = applyFilters(supabase.from(table).select("*"), filters);
+    if (order) query = query.order(order.column, { ascending: order.ascending });
+    return unwrap(await query);
+  },
+  create: async (values) => unwrap(await supabase.from(table).insert(values).select().single()),
+  update: async (id, values) => unwrap(await supabase.from(table).update(values).eq("id", id).select().single()),
+  remove: async (id) => unwrap(await supabase.from(table).delete().eq("id", id)),
+});
+
 const listAllTopics = async () => {
   const topics = [];
   const pageSize = 1000;
@@ -66,5 +82,54 @@ export const dataApi = {
       .single()),
     listPair: async (sessionId) => unwrap(await supabase
       .rpc("list_pair_responses", { p_session_id: sessionId })),
+  },
+  companion: {
+    dailyPulses: {
+      list: async (sessionId, date) => unwrap(await supabase
+        .rpc("list_daily_pulse_state", { p_session_id: sessionId, p_date: date })),
+      save: async (values) => unwrap(await supabase
+        .from("daily_pulses")
+        .upsert(values, { onConflict: "session_id,user_id,date" })
+        .select()
+        .single()),
+    },
+    bucketItems: createStore("bucket_items", { order: { column: "created_at", ascending: false } }),
+    secretMessages: {
+      list: async (sessionId) => unwrap(await supabase
+        .rpc("list_secret_message_state", { p_session_id: sessionId })),
+      create: async (values) => unwrap(await supabase.from("secret_messages").insert(values).select().single()),
+      reveal: async (messageId) => unwrap(await supabase
+        .rpc("reveal_secret_message", { p_message_id: messageId })),
+    },
+    partnerProfiles: {
+      getMine: async () => unwrap(await supabase.from("partner_profiles").select("*").maybeSingle()),
+      save: async (values) => unwrap(await supabase
+        .from("partner_profiles")
+        .upsert(values, { onConflict: "user_id" })
+        .select()
+        .single()),
+    },
+    relationshipDates: createStore("relationship_dates", { order: { column: "created_at", ascending: false } }),
+    giftNotes: createStore("gift_notes", { order: { column: "created_at", ascending: false } }),
+    matchingAnswers: {
+      list: async (sessionId) => unwrap(await supabase
+        .rpc("list_matching_answer_state", { p_session_id: sessionId })),
+      save: async (values) => unwrap(await supabase
+        .from("matching_answers")
+        .upsert(values, { onConflict: "session_id,user_id,proposal_key" })
+        .select()
+        .single()),
+    },
+    compassScans: createStore("compass_scans", { order: { column: "created_at", ascending: false } }),
+    journalEntries: createStore("journal_entries", { order: { column: "created_at", ascending: false } }),
+    mutualAnswers: {
+      list: async (sessionId, expectedCount) => unwrap(await supabase
+        .rpc("list_mutual_answer_state", { p_session_id: sessionId, p_expected_count: expectedCount })),
+      save: async (values) => unwrap(await supabase
+        .from("mutual_answers")
+        .upsert(values, { onConflict: "session_id,user_id,question_key" })
+        .select()
+        .single()),
+    },
   },
 };

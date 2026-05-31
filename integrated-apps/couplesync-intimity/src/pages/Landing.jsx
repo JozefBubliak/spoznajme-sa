@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight, Check, Heart, KeyRound, LockKeyhole,
   MessageCircleHeart, ShieldCheck, Sparkles, UsersRound,
+  Brain, Flame, AlertTriangle, Compass,
 } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 
@@ -178,6 +179,36 @@ export default function Landing() {
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">{text}</p>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="border-y border-primary/5 bg-[#f7f0f4]/60">
+          <div className="mx-auto max-w-6xl px-5 py-20 lg:py-28">
+            <div className="max-w-2xl mb-12">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Oblasti, ktoré preskúmate</p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-4xl">Päť okruhov. Jeden spoločný obraz.</h2>
+              <p className="mt-4 text-muted-foreground">Každá oblasť sa pýta na veci, o ktorých sa páry buď boja hovoriť, alebo jednoducho nevedia, ako začať.</p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {[
+                { icon: Flame, label: "Intimita a sexualita", desc: "Túžby, hranice, roly a fantázie — každý sám za seba, výsledok spoločne.", color: "bg-rose-50 text-rose-600", tag: "Jadro aplikácie" },
+                { icon: Brain, label: "Attachment a vzorce", desc: "Ako milujete, prečo reagujete tak ako reagujete a čo ste prevzali z minulosti.", color: "bg-purple-50 text-purple-600", tag: "Psychologická vrstva" },
+                { icon: AlertTriangle, label: "Konflikty a spúšťače", desc: "Konkrétne reakcie pod tlakom, čo každý potrebuje po hádke a kde sú hranice.", color: "bg-amber-50 text-amber-600", tag: "Vzťahová dynamika" },
+                { icon: ShieldCheck, label: "Tabuizované témy", desc: "Žiarlivosť, nevera, závislosti, trauma — veci, o ktorých sa mlčí, kým nie je neskoro.", color: "bg-slate-100 text-slate-600", tag: "Odvaha hovoriť" },
+                { icon: Compass, label: "Spoločná budúcnosť", desc: "Nie sny, ale konkrétne rozhodnutia — bývanie, deti, kariéra, záväzky.", color: "bg-blue-50 text-blue-600", tag: "Dlhodobý výhľad" },
+              ].map(({ icon: Icon, label, desc, color, tag }) => (
+                <article key={label} className="group rounded-3xl border border-primary/8 bg-white/80 p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/15">
+                  <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${color}`}><Icon className="h-5 w-5" /></div>
+                  <span className="mt-4 inline-block text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">{tag}</span>
+                  <h3 className="mt-1 text-lg font-semibold tracking-tight text-foreground">{label}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{desc}</p>
+                </article>
+              ))}
+              <article className="rounded-3xl border border-dashed border-primary/20 bg-primary/3 p-6 flex flex-col justify-center items-start">
+                <Sparkles className="h-5 w-5 text-primary/40 mb-3" />
+                <p className="text-sm font-medium text-foreground/60">Ďalšie oblasti pribudnú postupne podľa vašich odpovedí.</p>
+              </article>
+            </div>
           </div>
         </section>
 

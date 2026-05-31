@@ -1,0 +1,51 @@
+{
+  "name": "PartnerProfile",
+  "type": "object",
+  "properties": {
+    "flowers": {
+      "type": "string",
+      "title": "Ob\u013e\u00faben\u00e9 kvety"
+    },
+    "coffee": {
+      "type": "string",
+      "title": "Ob\u013e\u00faben\u00e1 k\u00e1va"
+    },
+    "chocolate": {
+      "type": "string",
+      "title": "Ob\u013e\u00faben\u00e1 \u010dokol\u00e1da/sladkos\u0165"
+    },
+    "film_genre": {
+      "type": "string",
+      "title": "Ob\u013e\u00faben\u00fd \u017e\u00e1ner"
+    },
+    "clothing_size": {
+      "type": "string",
+      "title": "Ve\u013ekos\u0165 oble\u010denia"
+    },
+    "shoe_size": {
+      "type": "string",
+      "title": "Ve\u013ekos\u0165 top\u00e1nok"
+    },
+    "hard_day_help": {
+      "type": "string",
+      "title": "Po \u0165a\u017ekom dni pom\u00e1ha"
+    },
+    "gift_dont": {
+      "type": "string",
+      "title": "Ako dar\u010dek NIE (\u010do nechce)"
+    },
+    "wishes": {
+      "type": "string",
+      "title": "Raz povedala/povedal, \u017ee chce..."
+    },
+    "favorite_place": {
+      "type": "string",
+      "title": "Ob\u013e\u00faben\u00e9 miesto"
+    },
+    "notes": {
+      "type": "string",
+      "title": "\u010eal\u0161ie pozn\u00e1mky"
+    }
+  },
+  "required": []
+}

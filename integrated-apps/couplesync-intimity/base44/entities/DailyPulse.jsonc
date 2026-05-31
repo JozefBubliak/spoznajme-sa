@@ -1,0 +1,27 @@
+{
+  "name": "DailyPulse",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "title": "ID rel\u00e1cie"
+    },
+    "date": {
+      "type": "string",
+      "title": "D\u00e1tum (YYYY-MM-DD)"
+    },
+    "question_id": {
+      "type": "string",
+      "title": "ID ot\u00e1zky"
+    },
+    "answer": {
+      "type": "string",
+      "title": "Odpove\u010f"
+    }
+  },
+  "required": [
+    "session_id",
+    "date",
+    "question_id"
+  ]
+}

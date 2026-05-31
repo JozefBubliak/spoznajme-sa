@@ -1,0 +1,29 @@
+{
+  "name": "MatchingAnswer",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "title": "ID rel\u00e1cie"
+    },
+    "proposal_key": {
+      "type": "string",
+      "title": "K\u013e\u00fa\u010d n\u00e1vrhu"
+    },
+    "answer": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "maybe",
+        "later",
+        "no"
+      ],
+      "title": "Odpove\u010f"
+    }
+  },
+  "required": [
+    "session_id",
+    "proposal_key",
+    "answer"
+  ]
+}

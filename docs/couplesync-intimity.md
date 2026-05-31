@@ -19,9 +19,11 @@ z existujúcich podkladov alebo build výstupov nezanikne.
 
 ## Supabase
 
-Schéma modulu je pripravená v
-`supabase/migrations/20260531_010_couplesync_intimity.sql`. Po aplikovaní
-migrácie sa taxonómia importuje z pôvodných podkladov:
+Základná schéma modulu je pripravená v
+`supabase/migrations/20260531_010_couplesync_intimity.sql`. Doplnkové
+vzťahové nástroje, ich RLS politiky a bezpečné odhaľovacie RPC funkcie sú
+v `supabase/migrations/20260531_012_couplesync_companion_tools.sql`. Po
+aplikovaní migrácií sa taxonómia importuje z pôvodných podkladov:
 
 ```powershell
 supabase db push --dry-run
@@ -34,6 +36,15 @@ npm run import:taxonomy
 `supabase db push` potrebuje lokálnu premennú `SUPABASE_DB_PASSWORD`.
 Import potrebuje serverovú premennú `SUPABASE_SERVICE_ROLE_KEY`. Ani jednu
 z nich nikdy nevkladajte do browserového bundlu alebo do Gitu.
+
+## Zabudované nástroje
+
+Vedľa pôvodných intímnych dotazníkov sú v jednom vnorenom balíku dostupné
+aj denné impulzy, karty rozhovoru, spoločný zoznam, tajné odkazy, zhody bez
+odmietnutia, 36 otázok, vzťahový kompas, párový denník, vzájomný profil,
+plánovač rande, ťažké rozhovory a párová hra. Modul `Nezabudni na ňu` je
+v tejto prihlásenej aplikácii cloudová verzia; lokálny súkromný zápisník
+hostiteľa pod `/<lang>/apps/nezabudni` ostáva samostatný.
 
 ## Dočasný prístupový kód
 

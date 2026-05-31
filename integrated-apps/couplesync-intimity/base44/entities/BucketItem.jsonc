@@ -1,0 +1,42 @@
+{
+  "name": "BucketItem",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "title": "ID rel\u00e1cie"
+    },
+    "title": {
+      "type": "string",
+      "title": "N\u00e1zov"
+    },
+    "category": {
+      "type": "string",
+      "title": "Kateg\u00f3ria",
+      "enum": [
+        "Za\u017ei\u0165 spolu",
+        "Nav\u0161t\u00edvi\u0165",
+        "Doma & int\u00edmne",
+        "Odvaha",
+        "Sny"
+      ]
+    },
+    "partner_confirmed": {
+      "type": "boolean",
+      "title": "Partner potvrdil z\u00e1ujem"
+    },
+    "completed": {
+      "type": "boolean",
+      "title": "Splnen\u00e9"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Pozn\u00e1mka"
+    }
+  },
+  "required": [
+    "session_id",
+    "title",
+    "category"
+  ]
+}

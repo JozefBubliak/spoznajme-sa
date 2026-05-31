@@ -1,0 +1,39 @@
+{
+  "name": "JournalEntry",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "title": "ID rel\u00e1cie"
+    },
+    "title": {
+      "type": "string",
+      "title": "Nadpis"
+    },
+    "content": {
+      "type": "string",
+      "title": "Obsah"
+    },
+    "tag": {
+      "type": "string",
+      "enum": [
+        "Zistenie",
+        "Spomienka",
+        "V\u010fa\u010dnos\u0165",
+        "V\u00fdzva",
+        "Moment",
+        "In\u00e9"
+      ],
+      "title": "\u0160t\u00edtok"
+    },
+    "mood": {
+      "type": "string",
+      "title": "N\u00e1lada (emoji)"
+    }
+  },
+  "required": [
+    "session_id",
+    "title",
+    "content"
+  ]
+}
