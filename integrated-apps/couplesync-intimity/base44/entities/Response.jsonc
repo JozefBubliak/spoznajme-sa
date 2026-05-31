@@ -1,0 +1,44 @@
+{
+  "name": "Response",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "title": "ID rel\u00e1cie"
+    },
+    "topic_slug": {
+      "type": "string",
+      "title": "Slug t\u00e9my"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "muz",
+        "zena"
+      ],
+      "title": "Pohlavie"
+    },
+    "version": {
+      "type": "string",
+      "enum": [
+        "simple",
+        "advanced"
+      ],
+      "title": "Verzia"
+    },
+    "answers": {
+      "type": "object",
+      "title": "Odpovede"
+    },
+    "completed": {
+      "type": "boolean",
+      "title": "Dokon\u010den\u00e9"
+    }
+  },
+  "required": [
+    "session_id",
+    "topic_slug",
+    "gender",
+    "version"
+  ]
+}

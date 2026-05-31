@@ -151,8 +151,8 @@ export default async function AppsPage({ params }: P) {
     {
       slug: 'nezabudni',
       audience: ['páry'],
-      status: 'Nové',
-      description: 'Rýchly generátor konkrétneho nápadu podľa mena, záujmov a rozpočtu.',
+      status: 'MVP',
+      description: 'Súkromný zápisník pre malé gestá, dátumy, darčekové nápady a plánovanie rande.',
     },
     {
       slug: 'misie',

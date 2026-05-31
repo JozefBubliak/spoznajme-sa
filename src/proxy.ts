@@ -1,5 +1,6 @@
 ﻿// src/proxy.ts
 import { NextRequest, NextResponse } from "next/server";
+import { COUPLESYNC_PREVIEW_COOKIE, isCoupleSyncPreviewUnlocked } from "@/lib/couplesync-preview";
 
 const SUPPORTED = ["en","sk","cs","pl","hu","fr","de","uk","ru","es"] as const;
 type Lang = typeof SUPPORTED[number];
@@ -38,8 +39,14 @@ function isBot(ua: string | null) {
   return !!ua && /(bot|crawler|spider|crawling)/i.test(ua);
 }
 
-const DEV_COOKIE = 'cs_dev'
-const DEV_TOKEN = 'allowed'
+function isProtectedCoupleSyncPath(pathname: string) {
+  return (
+    /^\/[a-z]{2}\/apps\/couplesync\/play(?:\/|$)/.test(pathname) ||
+    /^\/[a-z]{2}\/apps\/couplesync\/intimity(?:\/|$)/.test(pathname) ||
+    /^\/couplesync-intimity(?:\/|$)/.test(pathname) ||
+    /^\/intimne-dobrodruzstvo(?:\/|$)/.test(pathname)
+  )
+}
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -47,14 +54,14 @@ export function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // ── CoupleSync play protection ────────────────────────────────
-  const isPlayRoute = /^\/[a-z]{2}\/apps\/couplesync\/play/.test(pathname)
-  if (isPlayRoute) {
-    const cookie = req.cookies.get(DEV_COOKIE)
-    if (cookie?.value !== DEV_TOKEN) {
-      const lang = pathname.split('/')[1] ?? 'sk'
+  // ── Temporary CoupleSync preview protection ──────────────────
+  if (isProtectedCoupleSyncPath(pathname)) {
+    const cookie = req.cookies.get(COUPLESYNC_PREVIEW_COOKIE)
+    if (!isCoupleSyncPreviewUnlocked(cookie?.value)) {
+      const pathLocale = normalizeLocale(pathname.split('/')[1] ?? '')
+      const lang = pathLocale ?? normalizeLocale(req.cookies.get('dl_lang')?.value ?? '') ?? 'sk'
       const unlockUrl = new URL(`/${lang}/apps/couplesync/unlock`, req.url)
-      unlockUrl.searchParams.set('next', pathname)
+      unlockUrl.searchParams.set('next', `${pathname}${req.nextUrl.search}`)
       return NextResponse.redirect(unlockUrl)
     }
   }
@@ -72,4 +79,12 @@ export function proxy(req: NextRequest) {
   return NextResponse.next();
 }
 
-export const config = { matcher: ["/", "/:lang/apps/couplesync/play/:path*"] };
+export const config = {
+  matcher: [
+    "/",
+    "/:lang/apps/couplesync/play/:path*",
+    "/:lang/apps/couplesync/intimity/:path*",
+    "/couplesync-intimity/:path*",
+    "/intimne-dobrodruzstvo/:path*",
+  ],
+};

@@ -35,6 +35,22 @@ const nextConfig: NextConfig = {
 
     return r
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/couplesync-intimity',
+          destination: '/couplesync-intimity/index.html',
+        },
+      ],
+      fallback: [
+        {
+          source: '/couplesync-intimity/:path*',
+          destination: '/couplesync-intimity/index.html',
+        },
+      ],
+    }
+  },
 }
 
 export default nextConfig

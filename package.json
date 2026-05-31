@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "npm run typecheck && next build",
+    "build:couplesync-intimity": "powershell -ExecutionPolicy Bypass -File scripts/build-couplesync-intimity.ps1",
     "build:dev": "vite build --mode development",
     "start": "next start",
     "preview": "vite preview",

@@ -1,0 +1,118 @@
+{
+  "name": "Topic",
+  "type": "object",
+  "properties": {
+    "topic_id": {
+      "type": "string",
+      "title": "Topic ID (taxonomia)"
+    },
+    "name_sk": {
+      "type": "string",
+      "title": "N\u00e1zov"
+    },
+    "slug": {
+      "type": "string",
+      "title": "Slug (URL)"
+    },
+    "path_sk": {
+      "type": "string",
+      "title": "Cesta (breadcrumb)"
+    },
+    "level": {
+      "type": "integer",
+      "title": "\u00darove\u0148 v strome"
+    },
+    "node_type": {
+      "type": "string",
+      "enum": [
+        "category",
+        "subcategory",
+        "topic",
+        "leaf"
+      ],
+      "title": "Typ uzla"
+    },
+    "category": {
+      "type": "string",
+      "title": "Kateg\u00f3ria"
+    },
+    "description_sk": {
+      "type": "string",
+      "title": "Popis"
+    },
+    "module_type": {
+      "type": "string",
+      "title": "Typ modulu"
+    },
+    "simple_enabled": {
+      "type": "boolean",
+      "title": "Jednoduch\u00e1 verzia"
+    },
+    "advanced_enabled": {
+      "type": "boolean",
+      "title": "Roz\u0161\u00edren\u00e1 verzia"
+    },
+    "simple_available": {
+      "type": "boolean",
+      "title": "Jednoduch\u00e1 verzia (legacy)"
+    },
+    "advanced_available": {
+      "type": "boolean",
+      "title": "Roz\u0161\u00edren\u00e1 verzia (legacy)"
+    },
+    "simple_blocks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Simple bloky"
+    },
+    "advanced_blocks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Advanced bloky"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Roly"
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Dimenzie"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Tagy"
+    },
+    "alt_names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "title": "Alternat\u00edvne n\u00e1zvy"
+    },
+    "classification_confidence": {
+      "type": "number",
+      "title": "Istota klasifik\u00e1cie"
+    },
+    "image": {
+      "type": "string",
+      "title": "Obr\u00e1zok"
+    }
+  },
+  "required": [
+    "name_sk",
+    "module_type"
+  ]
+}

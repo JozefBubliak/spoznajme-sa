@@ -1,0 +1,118 @@
+{
+  "tags": {
+    "adult_couples": "Taxonómia pre dospelých partnerov.",
+    "general": "Všeobecná položka bez špecifického technického tagu.",
+    "oral": "Ústna/orálna erotická oblasť.",
+    "mouth": "Bozky, ústa, jazyk.",
+    "fluids": "Telesné tekutiny ako tematická oblasť.",
+    "urine": "Moč/watersports ako tabu kategória.",
+    "anal": "Análna erotika a súvisiace témy.",
+    "vaginal": "Vaginálna penetrácia alebo stimulácia.",
+    "penetration": "Penetračné aktivity alebo fantázie.",
+    "genitals": "Genitálne časti tela alebo stimulácia.",
+    "orgasm": "Orgazmus, vyvrcholenie a kontrola.",
+    "toy": "Sexuálne pomôcky alebo hračky.",
+    "lubricant": "Lubrikanty a zmyslové látky.",
+    "bdsm": "BDSM/kink oblasť.",
+    "power": "Dominancia, submisia, kontrola.",
+    "restraint": "Bondage alebo obmedzenie pohybu.",
+    "impact": "Impact play / plieskanie / úderové kategórie.",
+    "pain": "Bolesť ako erotická alebo hraničná téma.",
+    "rough": "Drsnejšia dynamika.",
+    "edge": "Rizikové alebo hraničné kategórie.",
+    "group": "Viac osôb, trojky, skupinové scenáre.",
+    "non_monogamy": "Non-monogamy, swingers, hotwife/cuckold scenáre.",
+    "fantasy": "Fantázia alebo predstavivosť.",
+    "roleplay": "Roleplay alebo hraný scenár.",
+    "fetish": "Fetish / špecifická príťažlivosť.",
+    "material": "Materiály ako latex, koža, PVC.",
+    "clothing": "Oblečenie, bielizeň, uniformy.",
+    "feet": "Chodidlá, topánky, nohy.",
+    "mind": "Hypnóza, zmenené stavy, myseľ.",
+    "digital": "Digitálna erotika, sexting, online.",
+    "media": "Pornografia, erotické médiá, audio/video.",
+    "massage": "Masáž a dotyk.",
+    "touch": "Dotyková stimulácia.",
+    "nudity": "Nahota a vizuálne telo.",
+    "body": "Telesnosť a vizuálna príťažlivosť.",
+    "breasts": "Prsia.",
+    "nipples": "Bradavky.",
+    "buttocks": "Zadok.",
+    "jealousy": "Žiarlivosť ako erotická téma.",
+    "ownership": "Vlastníctvo/kontrola v roleplay.",
+    "chastity": "Chastity a zamknutie.",
+    "orgasm_control": "Edging, denial, kontrola orgazmu.",
+    "reproduction": "Plodnosť, antikoncepcia, reprodukčné fantázie.",
+    "food": "Jedlo ako erotický prvok.",
+    "messy": "Messy play, sploshing.",
+    "water": "Sprcha, kúpeľ, voda.",
+    "public_risk": "Verejné alebo rizikové prostredie ako fantázia.",
+    "anonymity": "Anonymita alebo masky.",
+    "stranger": "Cudzinec/neznámy ako scenár.",
+    "pet_play": "Pet play ako dospelý roleplay.",
+    "primal": "Primal play, lovec/korisť."
+  },
+  "dimensions": {
+    "recommended_usage_values": {
+      "questionnaire_item": "Bežná položka do dotazníka.",
+      "sensitive_kink": "Citlivejšia kink položka; vhodné až po otvorení rozšírených tém.",
+      "fantasy_or_roleplay": "Položka vhodná aj ako čisto fantazijný alebo roleplay scenár.",
+      "edge_boundary": "Hraničná/riziková kategória; používať najmä na označenie hraníc, nie ako odporúčanie.",
+      "exclude_filter": "Zakázané alebo nevhodné oblasti; nepoužívať ako pozitívnu preferenciu."
+    },
+    "node_type_values": [
+      "category",
+      "fantasy",
+      "fetish",
+      "fluid_or_substance",
+      "orgasm_or_arousal",
+      "position",
+      "practice_or_preference",
+      "relational_scenario",
+      "roleplay_scenario",
+      "root",
+      "subcategory",
+      "toy_or_prop"
+    ],
+    "suggested_answer_scale": [
+      "áno",
+      "skôr áno",
+      "možno",
+      "iba fantázia",
+      "chcem sa o tom porozprávať",
+      "skôr nie",
+      "nie",
+      "tvrdá hranica"
+    ],
+    "suggested_runtime_dimensions": {
+      "reality_level": [
+        "realita",
+        "fantázia",
+        "iba_médiá",
+        "iba_rozhovor",
+        "nikdy"
+      ],
+      "role": [
+        "dáva",
+        "prijíma",
+        "sleduje",
+        "je_sledovaný",
+        "spoločne",
+        "fantazíruje"
+      ],
+      "sensitivity": [
+        "mäkké",
+        "intímne",
+        "kink",
+        "edge",
+        "exclude"
+      ],
+      "gender_relevance": [
+        "nezávislé",
+        "muž",
+        "žena",
+        "podľa_role"
+      ]
+    }
+  }
+}

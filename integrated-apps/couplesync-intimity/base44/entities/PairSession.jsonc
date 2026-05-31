@@ -1,0 +1,35 @@
+{
+  "name": "PairSession",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "title": "K\u00f3d rel\u00e1cie"
+    },
+    "partner1_gender": {
+      "type": "string",
+      "title": "Pohlavie partnera 1"
+    },
+    "partner2_gender": {
+      "type": "string",
+      "title": "Pohlavie partnera 2"
+    },
+    "partner2_email": {
+      "type": "string",
+      "title": "Email partnera 2"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "waiting",
+        "active",
+        "completed"
+      ],
+      "title": "Stav"
+    }
+  },
+  "required": [
+    "code",
+    "status"
+  ]
+}

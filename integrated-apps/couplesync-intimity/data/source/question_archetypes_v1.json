@@ -1,0 +1,259 @@
+[
+  {
+    "archetype_id": "topic_gate",
+    "title_sk": "Brána témy",
+    "intent": "Zistiť, či chce respondent tému vôbec otvoriť.",
+    "ui_component": "single_choice",
+    "response_shape": {
+      "value": "yes|later|no|lock",
+      "note_optional": true
+    },
+    "example_templates_sk": [
+      "Chceš túto tému preskúmať?",
+      "Je táto téma niečo, čo chceš teraz otvoriť?"
+    ],
+    "default_options_sk": [
+      "Áno, chcem preskúmať",
+      "Ešte nie",
+      "Nie, nechcem túto tému riešiť",
+      "Zamknúť tému"
+    ]
+  },
+  {
+    "archetype_id": "interest_scale",
+    "title_sk": "Miera záujmu / príťažlivosti",
+    "intent": "Zachytiť, ako respondent vníma tému: túžba, zvedavosť, neutralita alebo odmietnutie.",
+    "ui_component": "single_choice_or_slider",
+    "response_shape": {
+      "interest": "strong_yes|yes|maybe|neutral|no|hard_no",
+      "score_0_100_optional": true
+    },
+    "example_templates_sk": [
+      "Ako veľmi ťa táto téma láka?",
+      "Ako silno ťa samotná predstava vzrušuje?"
+    ]
+  },
+  {
+    "archetype_id": "experience_status",
+    "title_sk": "Skúsenosť",
+    "intent": "Rozlíšiť reálnu skúsenosť od teoretickej znalosti alebo fantázie.",
+    "ui_component": "single_choice_or_multi_choice",
+    "response_shape": {
+      "experience": "experienced|tried_once|theoretical|none",
+      "roles_optional": []
+    },
+    "example_templates_sk": [
+      "Máš s touto témou skúsenosť?",
+      "Máš skúsenosť v niektorej z rolí?"
+    ]
+  },
+  {
+    "archetype_id": "role_choice",
+    "title_sk": "Výber roly",
+    "intent": "Zistiť, ktorá rola respondenta láka alebo je predstaviteľná.",
+    "ui_component": "multi_choice",
+    "response_shape": {
+      "roles": [],
+      "primary_role_optional": "string",
+      "role_confidence": "sure|maybe|unknown"
+    },
+    "example_templates_sk": [
+      "Ktorá rola je pre teba predstaviteľnejšia?",
+      "Láka ťa skôr prijímať, poskytovať alebo obe?"
+    ]
+  },
+  {
+    "archetype_id": "fantasy_frequency",
+    "title_sk": "Frekvencia fantázie",
+    "intent": "Zistiť, či sa téma objavuje vo fantáziách a v akom kontexte.",
+    "ui_component": "matrix_single_choice",
+    "response_shape": {
+      "contexts": {
+        "masturbation": "often|sometimes|rarely|never",
+        "partner_sex": "often|sometimes|rarely|never",
+        "daytime": "often|sometimes|rarely|never"
+      }
+    },
+    "example_templates_sk": [
+      "Kedy sa ti táto predstava objavuje?",
+      "Je táto téma súčasťou tvojich fantázií?"
+    ]
+  },
+  {
+    "archetype_id": "fantasy_reality_transfer",
+    "title_sk": "Fantázia vs realita",
+    "intent": "Rozlíšiť, či chce respondent tému realizovať, ponechať ako fantáziu alebo len pomenovať.",
+    "ui_component": "single_choice_with_conditions",
+    "response_shape": {
+      "transfer": "want_try|try_if_partner_wants|maybe_with_conditions|fantasy_only|not_comfortable",
+      "conditions_optional": "text"
+    },
+    "example_templates_sk": [
+      "Ako to máš momentálne s prenesením do reality?",
+      "Má to zostať len fantázia alebo to chceš skúsiť?"
+    ]
+  },
+  {
+    "archetype_id": "frequency_style",
+    "title_sk": "Frekvencia a štýl zaradenia",
+    "intent": "Určiť, či má byť téma pravidelná, občasná, spontánna, plánovaná alebo rituálna.",
+    "ui_component": "multi_choice",
+    "response_shape": {
+      "frequency": "regular|mood_based|rare|partner_led",
+      "style": [
+        "spontaneous",
+        "planned",
+        "ritual",
+        "bonus"
+      ]
+    },
+    "example_templates_sk": [
+      "Ako často by ti to vyhovovalo?",
+      "Chceš, aby to bolo spontánne, plánované alebo ako rituál?"
+    ]
+  },
+  {
+    "archetype_id": "parameter_scale",
+    "title_sk": "Parametre praktiky",
+    "intent": "Zachytiť technické preferencie ako tlak, tempo, rozsah, hĺbka, rytmus, trvanie.",
+    "ui_component": "parameter_matrix",
+    "response_shape": {
+      "pressure": "soft|medium|firm|strong|custom",
+      "tempo": "slow|medium|fast|waves|static|custom",
+      "depth_or_range": "string",
+      "rhythm": "constant|waves|hold|pulses|custom"
+    },
+    "example_templates_sk": [
+      "Aký tlak preferuješ?",
+      "Aké tempo alebo rytmus ti sedí?",
+      "Aký rozsah je pre teba predstaviteľný?"
+    ]
+  },
+  {
+    "archetype_id": "technique_matrix",
+    "title_sk": "Matica techník / variantov",
+    "intent": "Ponúknuť konkrétne varianty témy bez toho, aby sa každá stala samostatným dotazníkom.",
+    "ui_component": "multi_choice_with_intensity",
+    "response_shape": {
+      "selected_techniques": [],
+      "interest_by_technique": {},
+      "notes_optional": true
+    },
+    "example_templates_sk": [
+      "Ktoré varianty ťa lákajú?",
+      "Ktoré techniky sú pre teba skôr áno/možno/nie?"
+    ]
+  },
+  {
+    "archetype_id": "combination_matrix",
+    "title_sk": "Kombinácie",
+    "intent": "Zistiť, s čím sa má téma kombinovať: zóny, praktiky, polohy, pomôcky, fáza aktu.",
+    "ui_component": "multi_choice",
+    "response_shape": {
+      "combinations": [],
+      "phase": [
+        "foreplay",
+        "during_sex",
+        "solo",
+        "after"
+      ],
+      "avoid_combinations": []
+    },
+    "example_templates_sk": [
+      "S čím by si túto tému chcel/a kombinovať?",
+      "Kedy počas intimity by ti to dávalo zmysel?"
+    ]
+  },
+  {
+    "archetype_id": "position_context",
+    "title_sk": "Polohy a kontext tela",
+    "intent": "Mapovať polohy, pohodlie, ergonómiu a fyzický kontext.",
+    "ui_component": "multi_choice_plus_text",
+    "response_shape": {
+      "positions": [],
+      "comfort_notes": "text",
+      "avoid_positions": []
+    },
+    "example_templates_sk": [
+      "V akých polohách si to vieš predstaviť?",
+      "Ktoré polohy ti pri tejto téme sedia alebo nesedia?"
+    ]
+  },
+  {
+    "archetype_id": "power_dynamic",
+    "title_sk": "Dynamika moci",
+    "intent": "Zachytiť dominanciu, submisiu, vedenie, poslušnosť, kontrolu, službu alebo worship.",
+    "ui_component": "multi_choice_with_role",
+    "response_shape": {
+      "dominant_interest": "yes|maybe|no",
+      "submissive_interest": "yes|maybe|no",
+      "control_elements": [],
+      "tone": []
+    },
+    "example_templates_sk": [
+      "Láka ťa v tejto téme skôr viesť alebo sa nechať viesť?",
+      "Aký tón dynamiky ti sedí?"
+    ]
+  },
+  {
+    "archetype_id": "visibility_privacy",
+    "title_sk": "Sledovanie, videnie, záznam, súkromie",
+    "intent": "Riešiť voyeurizmus, exhibíciu, fotky, video, digitálnu erotiku a hranice zdieľania.",
+    "ui_component": "branching_multi_choice",
+    "response_shape": {
+      "watching": "yes|maybe|no",
+      "being_watched": "yes|maybe|no",
+      "recording": "yes_private|maybe|no",
+      "sharing": "never|private_only|discuss"
+    },
+    "example_templates_sk": [
+      "Láka ťa sledovať alebo byť sledovaný/á?",
+      "Má byť táto téma čisto súkromná?"
+    ]
+  },
+  {
+    "archetype_id": "social_scenario",
+    "title_sk": "Sociálny / viac-osobový scenár",
+    "intent": "Mapovať tretiu osobu, iný pár, sledovanie, účasť, fantáziu vs realitu.",
+    "ui_component": "scenario_builder",
+    "response_shape": {
+      "scenario": [],
+      "third_person_type": "known|unknown|professional_fantasy|couple|none",
+      "participation": "watch|be_watched|participate|fantasy_only",
+      "reality_transfer": "string"
+    },
+    "example_templates_sk": [
+      "Je to pre teba skôr fantázia alebo reálna možnosť?",
+      "Lákalo by ťa sledovať, byť sledovaný/á alebo sa zúčastniť?"
+    ]
+  },
+  {
+    "archetype_id": "barriers_and_blocks",
+    "title_sk": "Bariéry a bloky",
+    "intent": "Zachytiť, čo respondentovi bráni tému skúmať alebo preniesť do reality.",
+    "ui_component": "multi_choice_plus_text",
+    "response_shape": {
+      "barriers": [],
+      "other": "text",
+      "helpful_conditions": "text"
+    },
+    "example_templates_sk": [
+      "Čo by mohol byť tvoj blok?",
+      "Čo by ti pomohlo cítiť sa uvoľnenejšie?"
+    ]
+  },
+  {
+    "archetype_id": "partner_note",
+    "title_sk": "Poznámka partnerovi",
+    "intent": "Umožniť respondentovi povedať partnerovi vlastnými slovami, čo chce, čoho sa bojí alebo čo potrebuje.",
+    "ui_component": "free_text",
+    "response_shape": {
+      "message_to_partner": "text",
+      "fear_or_need_optional": "text"
+    },
+    "example_templates_sk": [
+      "Čo chceš, aby partner/ka vedel/a?",
+      "Čoho sa bojíš alebo čo nechceš?"
+    ]
+  }
+]

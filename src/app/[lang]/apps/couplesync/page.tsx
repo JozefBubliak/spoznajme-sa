@@ -157,6 +157,9 @@ export default async function Page({ params }: P) {
                 <Link href={`/${lang}/apps/couplesync/play`}>Spustiť dotazník</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
+                <Link href={`/${lang}/apps/couplesync/intimity`}>Intímne preferencie · 18+</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
                 <Link href={`/${lang}/skupiny/pary`}>Sekcia pre páry</Link>
               </Button>
             </div>
@@ -250,6 +253,17 @@ export default async function Page({ params }: P) {
                     <Link href={`/${lang}/apps/spoznajme-sa`}>Konverzačné kartičky</Link>
                   </Button>
                 </div>
+              </div>
+
+              <div className="rounded-3xl border border-rose-300/40 bg-rose-50/70 p-7">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-rose-700">Dočasne chránená novinka · 18+</p>
+                <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground">Intímne preferencie pre bezpečnejší rozhovor vo dvojici.</h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  Samostatný CoupleSync modul pomáha pomenovať hranice, zvedavosť a spoločné témy. Počas pilotnej prevádzky je dostupný iba cez prístupový kód.
+                </p>
+                <Button asChild className="mt-5">
+                  <Link href={`/${lang}/apps/couplesync/intimity`}>Otvoriť pilotný modul</Link>
+                </Button>
               </div>
             </div>
           </section>

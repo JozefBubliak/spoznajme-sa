@@ -1,0 +1,27 @@
+{
+  "name": "Globalny strom sexualnych preferencii a praktik dospelych parov v2",
+  "created_by": "ChatGPT",
+  "language": "sk",
+  "scope": "Taxonómia názvov a oblastí pre dotazník dospelých párov. Neobsahuje návody na vykonávanie praktík.",
+  "counts": {
+    "nodes_total": 2237,
+    "categories_level_1": 90,
+    "subcategories_level_2": 275,
+    "items_level_3": 1871,
+    "recommended_usage": {
+      "edge_boundary": 73,
+      "exclude_filter": 15,
+      "fantasy_or_roleplay": 256,
+      "questionnaire_item": 1570,
+      "root": 1,
+      "sensitive_kink": 322
+    }
+  },
+  "files": {
+    "tree": "sexualna_taxonomia_tree_v2.json",
+    "flat": "sexualna_taxonomia_flat_v2.json",
+    "tags": "sexualna_taxonomia_tags_v2.json",
+    "schema": "sexualna_taxonomia_schema_v2.json",
+    "synonyms": "sexualna_taxonomia_synonyma_v2.json"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Advanced Questionnaire Module Schema",
+  "description": "Schéma pre rozšírený modul jednej praktiky alebo témy.",
+  "type": "object",
+  "required": [
+    "topic_id",
+    "version",
+    "module_type",
+    "blocks",
+    "branching"
+  ],
+  "properties": {
+    "topic_id": {
+      "type": "string"
+    },
+    "version": {
+      "const": "advanced"
+    },
+    "module_type": {
+      "type": "string"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "branching": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "if": {
+            "type": "object"
+          },
+          "then": {
+            "type": "object"
+          },
+          "else": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "summary_for_user": {
+          "type": "object"
+        },
+        "summary_for_partner": {
+          "type": "object"
+        },
+        "matched_items": {
+          "type": "array"
+        },
+        "conversation_topics": {
+          "type": "array"
+        },
+        "fantasy_only_items": {
+          "type": "array"
+        },
+        "not_now_items": {
+          "type": "array"
+        }
+      }
+    }
+  }
+}

@@ -8,7 +8,7 @@ import { type Locale, SUPPORTED_LOCALES } from '@/i18n/config'
 type P = { params: Promise<{ lang: string }> }
 
 export const metadata = {
-  title: 'Nudge Engine – malé gestá, veľký vzťah | DeepTalks',
+  title: 'Nezabudni na ňu – malé gestá, veľký vzťah | DeepTalks',
   description:
     'Dostávaj inšpiráciu pre malé gestá lásky prispôsobené tvojmu partnerovi. Nie generické rady — konkrétne tipy podľa jazykov lásky.',
 }
@@ -115,7 +115,7 @@ export default async function NudgeLandingPage({ params }: P) {
             </Link>
             <div className="space-y-4">
               <span className="inline-flex rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                Nudge Engine
+                Nezabudni na ňu · Nudge Engine
               </span>
               <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
                 Malé gestá, ktoré udržiavajú vzťah živý. Každý deň, bez veľkého premýšľania.
@@ -142,6 +142,9 @@ export default async function NudgeLandingPage({ params }: P) {
             <div className="flex flex-wrap gap-3">
               <Button asChild size="lg">
                 <Link href={`/${lang}/apps/nudge/home`}>Vyskúšať zadarmo</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href={`/${lang}/apps/nezabudni`}>Otvoriť súkromný zápisník</Link>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <Link href={`/${lang}/skupiny/pary`}>Viac pre páry</Link>

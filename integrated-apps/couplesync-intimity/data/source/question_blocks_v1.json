@@ -1,0 +1,493 @@
+[
+  {
+    "block_id": "intro_warm",
+    "label_sk": "Úvod a naladenie",
+    "purpose": "Krátko pomenovať tému a vytvoriť kontext bez moralizovania.",
+    "archetypes": [],
+    "variables": [
+      "topic_name",
+      "short_description",
+      "tone"
+    ],
+    "output_fields": [
+      "intro_seen"
+    ]
+  },
+  {
+    "block_id": "topic_gate",
+    "label_sk": "Chcem tému preskúmať?",
+    "purpose": "Prvá brána pred vstupom do témy.",
+    "archetypes": [
+      "topic_gate"
+    ],
+    "default_questions": [
+      {
+        "id": "q_topic_gate",
+        "archetype_id": "topic_gate",
+        "text_sk": "Chceš tému {topic_name} preskúmať?"
+      }
+    ],
+    "output_fields": [
+      "topic_gate_status"
+    ],
+    "branching": {
+      "yes": "continue",
+      "later": "soft_exit",
+      "no": "end_topic",
+      "lock": "lock_topic"
+    }
+  },
+  {
+    "block_id": "basic_interest",
+    "label_sk": "Základný záujem",
+    "purpose": "Rýchly radar: láka, neláka, možno, neviem.",
+    "archetypes": [
+      "interest_scale"
+    ],
+    "default_questions": [
+      {
+        "id": "q_interest",
+        "archetype_id": "interest_scale",
+        "text_sk": "Ako veľmi ťa téma {topic_name} láka?"
+      }
+    ],
+    "output_fields": [
+      "interest_level",
+      "interest_score_optional"
+    ]
+  },
+  {
+    "block_id": "experience",
+    "label_sk": "Skúsenosť",
+    "purpose": "Rozlíšiť, či respondent tému zažil, pozná teoreticky alebo nemá skúsenosť.",
+    "archetypes": [
+      "experience_status"
+    ],
+    "default_questions": [
+      {
+        "id": "q_experience",
+        "archetype_id": "experience_status",
+        "text_sk": "Máš s témou {topic_name} skúsenosť?"
+      }
+    ],
+    "output_fields": [
+      "experience_status"
+    ]
+  },
+  {
+    "block_id": "experience_by_role",
+    "label_sk": "Skúsenosť podľa roly",
+    "purpose": "Použiť pri témach, kde sa zásadne líši rola: hore/dole, prijímam/poskytujem, vediem/nechám sa viesť.",
+    "archetypes": [
+      "experience_status",
+      "role_choice"
+    ],
+    "variables": [
+      "roles"
+    ],
+    "default_questions": [
+      {
+        "id": "q_experience_roles",
+        "archetype_id": "experience_status",
+        "text_sk": "Máš skúsenosť s témou {topic_name} v niektorej z týchto rolí?"
+      }
+    ],
+    "output_fields": [
+      "experience_by_role"
+    ]
+  },
+  {
+    "block_id": "role_preference",
+    "label_sk": "Preferovaná rola",
+    "purpose": "Rýchlo určiť, ktorá rola je pre respondenta príťažlivá alebo predstaviteľná.",
+    "archetypes": [
+      "role_choice"
+    ],
+    "variables": [
+      "roles"
+    ],
+    "default_questions": [
+      {
+        "id": "q_role_preference",
+        "archetype_id": "role_choice",
+        "text_sk": "Ktorá rola je pre teba pri téme {topic_name} predstaviteľnejšia?"
+      }
+    ],
+    "output_fields": [
+      "preferred_roles"
+    ]
+  },
+  {
+    "block_id": "receiving_role",
+    "label_sk": "Rola: prijímam",
+    "purpose": "Detail pre osobu, ktorá prijíma stimuláciu, pozornosť, kontrolu alebo aktivitu.",
+    "archetypes": [
+      "interest_scale",
+      "frequency_style",
+      "parameter_scale",
+      "barriers_and_blocks",
+      "partner_note"
+    ],
+    "default_questions": [
+      {
+        "id": "q_receive_arousal",
+        "archetype_id": "interest_scale",
+        "text_sk": "Ako ti sedí rola prijímania pri téme {topic_name}?"
+      },
+      {
+        "id": "q_receive_frequency",
+        "archetype_id": "frequency_style",
+        "text_sk": "Ako často alebo v akom štýle by ti to vyhovovalo?"
+      }
+    ],
+    "output_fields": [
+      "receive_interest",
+      "receive_frequency",
+      "receive_conditions"
+    ]
+  },
+  {
+    "block_id": "providing_role",
+    "label_sk": "Rola: poskytujem",
+    "purpose": "Detail pre osobu, ktorá aktivitu poskytuje, vedie, vykonáva alebo iniciuje.",
+    "archetypes": [
+      "interest_scale",
+      "frequency_style",
+      "barriers_and_blocks",
+      "partner_note"
+    ],
+    "default_questions": [
+      {
+        "id": "q_provide_arousal",
+        "archetype_id": "interest_scale",
+        "text_sk": "Ako ti sedí rola poskytovania pri téme {topic_name}?"
+      },
+      {
+        "id": "q_provide_learning",
+        "archetype_id": "barriers_and_blocks",
+        "text_sk": "Čo by ti pomohlo cítiť sa pri poskytovaní istejšie?"
+      }
+    ],
+    "output_fields": [
+      "provide_interest",
+      "provide_confidence",
+      "provide_conditions"
+    ]
+  },
+  {
+    "block_id": "top_bottom_roles",
+    "label_sk": "Roly hore/dole",
+    "purpose": "Použiť pri témach, kde rola hore/dole zásadne mení psychológiu a preferencie.",
+    "archetypes": [
+      "role_choice",
+      "interest_scale",
+      "parameter_scale",
+      "power_dynamic"
+    ],
+    "variables": [
+      "top_role_label",
+      "bottom_role_label"
+    ],
+    "output_fields": [
+      "top_role_interest",
+      "bottom_role_interest",
+      "top_bottom_preferences"
+    ]
+  },
+  {
+    "block_id": "fantasy_context",
+    "label_sk": "Fantázia a vnútorný postoj",
+    "purpose": "Zistiť, či sa téma objavuje v predstavách a aký pocit vyvoláva.",
+    "archetypes": [
+      "fantasy_frequency",
+      "interest_scale"
+    ],
+    "default_questions": [
+      {
+        "id": "q_fantasy_presence",
+        "archetype_id": "fantasy_frequency",
+        "text_sk": "Je téma {topic_name} súčasťou tvojich fantázií alebo predstáv?"
+      },
+      {
+        "id": "q_fantasy_arousal",
+        "archetype_id": "interest_scale",
+        "text_sk": "Ako silno ťa samotná predstava vzrušuje?"
+      }
+    ],
+    "output_fields": [
+      "fantasy_presence",
+      "fantasy_contexts",
+      "fantasy_arousal"
+    ]
+  },
+  {
+    "block_id": "fantasy_reality_transfer",
+    "label_sk": "Prenesenie fantázie do reality",
+    "purpose": "Rozlíšiť realizáciu, podmienky, fantasy-only a odmietnutie bez dlhého vysvetľovania.",
+    "archetypes": [
+      "fantasy_reality_transfer"
+    ],
+    "default_questions": [
+      {
+        "id": "q_transfer",
+        "archetype_id": "fantasy_reality_transfer",
+        "text_sk": "Ako to máš momentálne s prenesením témy {topic_name} do reality?"
+      }
+    ],
+    "output_fields": [
+      "reality_transfer",
+      "conditions"
+    ]
+  },
+  {
+    "block_id": "frequency_style",
+    "label_sk": "Frekvencia a štýl",
+    "purpose": "Či má ísť o pravidelnú, občasnú, spontánnu alebo rituálnu súčasť intimity.",
+    "archetypes": [
+      "frequency_style"
+    ],
+    "default_questions": [
+      {
+        "id": "q_frequency_style",
+        "archetype_id": "frequency_style",
+        "text_sk": "Aká frekvencia a štýl by ti pri téme {topic_name} vyhovovali?"
+      }
+    ],
+    "output_fields": [
+      "frequency",
+      "style"
+    ]
+  },
+  {
+    "block_id": "attraction_drivers",
+    "label_sk": "Čo ma na tom láka",
+    "purpose": "Zachytiť dôvody príťažlivosti: telo, moc, služba, blízkosť, vizuál, tabu, technika.",
+    "archetypes": [
+      "technique_matrix"
+    ],
+    "variables": [
+      "attraction_options"
+    ],
+    "default_questions": [
+      {
+        "id": "q_attraction_drivers",
+        "archetype_id": "technique_matrix",
+        "text_sk": "Čo ťa na téme {topic_name} najviac priťahuje?"
+      }
+    ],
+    "output_fields": [
+      "attraction_drivers"
+    ]
+  },
+  {
+    "block_id": "technical_parameters",
+    "label_sk": "Technické parametre",
+    "purpose": "Tlak, tempo, rozsah, hĺbka, rytmus, trvanie, pauzy.",
+    "archetypes": [
+      "parameter_scale"
+    ],
+    "default_questions": [
+      {
+        "id": "q_params",
+        "archetype_id": "parameter_scale",
+        "text_sk": "Aké parametre by ti pri téme {topic_name} sedeli?"
+      }
+    ],
+    "output_fields": [
+      "pressure",
+      "tempo",
+      "depth_or_range",
+      "rhythm",
+      "duration",
+      "pauses"
+    ]
+  },
+  {
+    "block_id": "technique_matrix",
+    "label_sk": "Techniky a varianty",
+    "purpose": "Výber konkrétnych variantov bez toho, aby sa celé muselo písať ručne pre každú tému.",
+    "archetypes": [
+      "technique_matrix"
+    ],
+    "variables": [
+      "technique_options"
+    ],
+    "output_fields": [
+      "selected_techniques",
+      "technique_interest_map"
+    ]
+  },
+  {
+    "block_id": "combinations",
+    "label_sk": "Kombinácie",
+    "purpose": "S čím sa téma spája: iná zóna, orál, ruky, pomôcky, poloha, fáza aktu.",
+    "archetypes": [
+      "combination_matrix"
+    ],
+    "variables": [
+      "combination_options"
+    ],
+    "output_fields": [
+      "preferred_combinations",
+      "avoid_combinations"
+    ]
+  },
+  {
+    "block_id": "positions_context",
+    "label_sk": "Polohy a ergonómia",
+    "purpose": "Výber polôh, pohodlia, telesných možností a kontextu.",
+    "archetypes": [
+      "position_context"
+    ],
+    "variables": [
+      "position_options"
+    ],
+    "output_fields": [
+      "positions",
+      "comfort_notes"
+    ]
+  },
+  {
+    "block_id": "object_toy_matrix",
+    "label_sk": "Pomôcky, hračky a objekty",
+    "purpose": "Výber pomôcok, rekvizít, materiálov alebo predmetov, ktoré patria k téme.",
+    "archetypes": [
+      "technique_matrix",
+      "combination_matrix"
+    ],
+    "variables": [
+      "object_options",
+      "toy_options"
+    ],
+    "output_fields": [
+      "selected_objects",
+      "selected_toys",
+      "toy_conditions"
+    ]
+  },
+  {
+    "block_id": "power_dynamic",
+    "label_sk": "Mocenská dynamika",
+    "purpose": "Dominancia, submisia, vedenie, kontrola, poslušnosť, výmena rolí.",
+    "archetypes": [
+      "power_dynamic"
+    ],
+    "default_questions": [
+      {
+        "id": "q_power_dynamic",
+        "archetype_id": "power_dynamic",
+        "text_sk": "Aká dynamika moci ti pri téme {topic_name} sedí?"
+      }
+    ],
+    "output_fields": [
+      "power_dynamic_preferences"
+    ]
+  },
+  {
+    "block_id": "worship_service",
+    "label_sk": "Worship / service",
+    "purpose": "Uctievanie, služba, oddanosť, prosby, pochvala, príkazy, prípadne ponižovanie ako kink.",
+    "archetypes": [
+      "power_dynamic",
+      "technique_matrix"
+    ],
+    "default_questions": [
+      {
+        "id": "q_worship_service",
+        "archetype_id": "technique_matrix",
+        "text_sk": "Ktoré prvky worship/service ťa pri téme {topic_name} lákajú?"
+      }
+    ],
+    "output_fields": [
+      "worship_service_elements"
+    ]
+  },
+  {
+    "block_id": "dirty_talk_voice",
+    "label_sk": "Slová, hlas a dirty talk",
+    "purpose": "Slovné pokyny, pochvaly, príkazy, vulgárnosť, šepkanie, zvuky, ticho.",
+    "archetypes": [
+      "technique_matrix"
+    ],
+    "variables": [
+      "voice_options",
+      "word_options"
+    ],
+    "output_fields": [
+      "communication_tone",
+      "preferred_words",
+      "voice_style"
+    ]
+  },
+  {
+    "block_id": "visibility_watching",
+    "label_sk": "Sledovanie, videnie a súkromie",
+    "purpose": "Použiť pri témach typu masturbácia pred partnerom, voyeurizmus, exhibícia, fotky, video, digitálna erotika.",
+    "archetypes": [
+      "visibility_privacy"
+    ],
+    "output_fields": [
+      "watching_preference",
+      "being_watched_preference",
+      "recording_preference",
+      "sharing_boundary"
+    ]
+  },
+  {
+    "block_id": "social_group_scenario",
+    "label_sk": "Tretia osoba / skupinový scenár",
+    "purpose": "Trojka, swingers, hotwife/cuckold, skupina, známa/neznáma osoba, sledovanie/účasť.",
+    "archetypes": [
+      "social_scenario",
+      "fantasy_reality_transfer",
+      "barriers_and_blocks"
+    ],
+    "output_fields": [
+      "social_scenario",
+      "third_person_type",
+      "participation_mode",
+      "reality_transfer",
+      "conditions"
+    ]
+  },
+  {
+    "block_id": "solo_shared_visibility",
+    "label_sk": "Sólo / spoločné / viditeľné",
+    "purpose": "Masturbácia, sólo aktivita, spoločná masturbácia, vedená masturbácia, watch-me dynamika.",
+    "archetypes": [
+      "fantasy_frequency",
+      "visibility_privacy",
+      "role_choice"
+    ],
+    "output_fields": [
+      "solo_preference",
+      "shared_preference",
+      "watching_preference",
+      "guidance_preference"
+    ]
+  },
+  {
+    "block_id": "barriers",
+    "label_sk": "Bariéry, bloky, odradzujúce faktory",
+    "purpose": "Zachytiť brzdy bez toho, aby sa téma zmenila na bezpečnostný manuál.",
+    "archetypes": [
+      "barriers_and_blocks"
+    ],
+    "output_fields": [
+      "barriers",
+      "helpful_conditions"
+    ]
+  },
+  {
+    "block_id": "partner_summary",
+    "label_sk": "Výstup pre partnera",
+    "purpose": "Krátky zdieľateľný výstup: čo ma láka, čo možno, čo len fantázia, čo nie.",
+    "archetypes": [
+      "partner_note"
+    ],
+    "output_fields": [
+      "partner_message",
+      "share_level"
+    ]
+  }
+]

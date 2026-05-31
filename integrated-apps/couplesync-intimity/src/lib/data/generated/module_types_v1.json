@@ -1,0 +1,391 @@
+[
+  {
+    "module_type_id": "simple_radar",
+    "label_sk": "Jednoduchý radar témy",
+    "description": "Rýchle zistenie záujmu, skúsenosti, fantázia vs realita a základnej hranice.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "advanced_blocks": [],
+    "examples": [
+      "bozky",
+      "dotyky",
+      "oblečenie",
+      "atmosféra"
+    ]
+  },
+  {
+    "module_type_id": "basic_preference",
+    "label_sk": "Bežná preferencia",
+    "description": "Témy, kde stačí záujem, štýl, frekvencia, atmosféra a základné nie.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "frequency_style",
+      "attraction_drivers",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience",
+      "fantasy_context",
+      "frequency_style",
+      "attraction_drivers",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "romantický sex",
+      "spontánny sex",
+      "bozky",
+      "masáž"
+    ]
+  },
+  {
+    "module_type_id": "role_based",
+    "label_sk": "Rolová praktika",
+    "description": "Témy, kde sa odpovede zásadne líšia podľa roly.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience_by_role",
+      "role_preference",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience_by_role",
+      "role_preference",
+      "receiving_role",
+      "providing_role",
+      "fantasy_context",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "orál",
+      "pegging",
+      "worship/service",
+      "dominancia/submisia"
+    ]
+  },
+  {
+    "module_type_id": "top_bottom_power_oral",
+    "label_sk": "Hore/dole + orál + mocenská dynamika",
+    "description": "Šablóna pre Face Sitting a podobné témy, kde je dôležitá rola hore/dole, orálna stimulácia, tlak, worship a moc.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience_by_role",
+      "role_preference",
+      "fantasy_reality_transfer",
+      "attraction_drivers",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience_by_role",
+      "top_bottom_roles",
+      "receiving_role",
+      "providing_role",
+      "frequency_style",
+      "attraction_drivers",
+      "technical_parameters",
+      "power_dynamic",
+      "worship_service",
+      "dirty_talk_voice",
+      "fantasy_context",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "face sitting",
+      "queening",
+      "kinging"
+    ]
+  },
+  {
+    "module_type_id": "technical_body_practice",
+    "label_sk": "Technická telesná praktika",
+    "description": "Témy, kde treba riešiť rozsah, tlak, tempo, hĺbku, rytmus, kombinácie a polohy.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "role_preference",
+      "technical_parameters",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "fantasy_context",
+      "experience_by_role",
+      "receiving_role",
+      "providing_role",
+      "technical_parameters",
+      "technique_matrix",
+      "combinations",
+      "positions_context",
+      "object_toy_matrix",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "análna stimulácia prstami",
+      "fisting",
+      "prostata",
+      "manuálna stimulácia"
+    ]
+  },
+  {
+    "module_type_id": "giver_receiver_technique_matrix",
+    "label_sk": "Dávam/prijímam + techniky",
+    "description": "Témy typu orál, manuálna stimulácia, masáž, kde treba rozdeliť poskytovanie a prijímanie.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience_by_role",
+      "role_preference",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience_by_role",
+      "receiving_role",
+      "providing_role",
+      "technique_matrix",
+      "technical_parameters",
+      "combinations",
+      "dirty_talk_voice",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "orálny sex",
+      "cunnilingus",
+      "fellatio",
+      "ručná stimulácia"
+    ]
+  },
+  {
+    "module_type_id": "selection_matrix",
+    "label_sk": "Výberová matica",
+    "description": "Témy, kde hlavný výstup je zoznam preferovaných možností a intenzita záujmu.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "technique_matrix",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "technique_matrix",
+      "technical_parameters",
+      "combinations",
+      "positions_context",
+      "partner_summary"
+    ],
+    "examples": [
+      "polohy",
+      "miesta",
+      "oblečenie",
+      "typy bozkov"
+    ]
+  },
+  {
+    "module_type_id": "object_toy_matrix",
+    "label_sk": "Pomôcky / objekty / materiály",
+    "description": "Pomôcky, hračky, rekvizity, materiály, fetiš objekty.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "object_toy_matrix",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience",
+      "object_toy_matrix",
+      "technical_parameters",
+      "combinations",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "vibrátor",
+      "dildo",
+      "latex",
+      "pančuchy",
+      "foot fetish"
+    ]
+  },
+  {
+    "module_type_id": "solo_shared_visibility",
+    "label_sk": "Sólo / spoločná / sledovaná aktivita",
+    "description": "Masturbácia, spoločná masturbácia, vedenie, sledovanie a súkromie.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "solo_shared_visibility",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "fantasy_context",
+      "experience",
+      "solo_shared_visibility",
+      "visibility_watching",
+      "object_toy_matrix",
+      "dirty_talk_voice",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "masturbácia",
+      "watch me",
+      "vedená masturbácia"
+    ]
+  },
+  {
+    "module_type_id": "visibility_media",
+    "label_sk": "Sledovanie / exhibícia / digitálna erotika",
+    "description": "Témy s pohľadom, sledovaním, fotkami, videom, online erotikou a súkromím.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "visibility_watching",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "fantasy_context",
+      "visibility_watching",
+      "social_group_scenario",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "voyeurizmus",
+      "exhibícia",
+      "erotické fotky",
+      "spoločné sledovanie porna"
+    ]
+  },
+  {
+    "module_type_id": "social_group_scenario",
+    "label_sk": "Sociálny alebo viac-osobový scenár",
+    "description": "Trojky, swingers, hotwife/cuckold, skupina, tretia osoba, iný pár.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "fantasy_reality_transfer",
+      "social_group_scenario",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "fantasy_context",
+      "social_group_scenario",
+      "visibility_watching",
+      "power_dynamic",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "trojka",
+      "swingers",
+      "hotwife",
+      "cuckold",
+      "skupinový sex"
+    ]
+  },
+  {
+    "module_type_id": "power_dynamic",
+    "label_sk": "Mocenská dynamika / BDSM / kontrola",
+    "description": "Dominancia, submisia, bondage, kontrola, trest/odmena, worship, humiliation/praise.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "role_preference",
+      "power_dynamic",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience_by_role",
+      "role_preference",
+      "power_dynamic",
+      "worship_service",
+      "dirty_talk_voice",
+      "technical_parameters",
+      "fantasy_context",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "dominancia",
+      "submisia",
+      "bondage",
+      "spanking",
+      "chastity",
+      "worship"
+    ]
+  },
+  {
+    "module_type_id": "edge_filter",
+    "label_sk": "Hraničná / fantasy-only / exclude téma",
+    "description": "Témy, ktoré majú primárne slúžiť na pomenovanie fantázie, hranice alebo neotváranie v jednoduchom režime.",
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "fantasy_context",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "examples": [
+      "breath play",
+      "blood play",
+      "CNC fantasy",
+      "extrémne tabu kategórie"
+    ]
+  }
+]

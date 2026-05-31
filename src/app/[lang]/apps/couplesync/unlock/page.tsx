@@ -3,23 +3,14 @@
 import { useSearchParams } from 'next/navigation'
 import { useState, useRef, Suspense } from 'react'
 
-// ── Interná: iba pre testovanie ──────────────────────────────────
-const CORRECT = '090720'
-const COOKIE_NAME = 'cs_dev'
-const COOKIE_VALUE = 'allowed'
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 7 // 7 dní
-
-function setCookie(name: string, value: string, maxAge: number) {
-  document.cookie = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax`
-}
-
 function UnlockForm() {
   const searchParams = useSearchParams()
   const nextPath = searchParams.get('next') ?? ''
 
   const [digits, setDigits] = useState(['', '', '', '', '', ''])
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(searchParams.get('error') === '1')
   const [shake, setShake] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const inputs = useRef<Array<HTMLInputElement | null>>([])
 
   const handleChange = (idx: number, val: string) => {
@@ -37,7 +28,7 @@ function UnlockForm() {
     // auto-submit when all filled
     if (v && idx === 5) {
       const code = [...next.slice(0, 5), v].join('')
-      if (code.length === 6) submit(code)
+      if (code.length === 6) void submit(code)
     }
   }
 
@@ -47,7 +38,7 @@ function UnlockForm() {
     }
     if (e.key === 'Enter') {
       e.preventDefault()
-      submit(digits.join(''))
+      void submit(digits.join(''))
     }
   }
 
@@ -55,23 +46,31 @@ function UnlockForm() {
     const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6)
     if (pasted.length === 6) {
       setDigits(pasted.split(''))
-      submit(pasted)
+      void submit(pasted)
     }
   }
 
-  const submit = (code: string) => {
+  const submit = async (code: string) => {
+    if (submitting) return
     if (code.length < 6) {
       setError(true)
       setShake(true)
       setTimeout(() => { setShake(false); inputs.current[0]?.focus() }, 600)
       return
     }
-    if (code === CORRECT) {
-      setCookie(COOKIE_NAME, COOKIE_VALUE, COOKIE_MAX_AGE)
-      const dest = nextPath || window.location.pathname.replace('/unlock', '/play')
-      // Full reload — ensures cookie is sent with the proxy request
+    setSubmitting(true)
+    const response = await fetch('/api/couplesync-preview/unlock', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code }),
+    }).catch(() => null)
+
+    if (response?.ok) {
+      const safeNextPath = nextPath.startsWith('/') && !nextPath.startsWith('//') ? nextPath : ''
+      const dest = safeNextPath || window.location.pathname.replace('/unlock', '/play')
       window.location.href = dest
     } else {
+      setSubmitting(false)
       setError(true)
       setShake(true)
       setDigits(['', '', '', '', '', ''])
@@ -84,7 +83,7 @@ function UnlockForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    submit(digits.join(''))
+    void submit(digits.join(''))
   }
 
   return (
@@ -103,13 +102,15 @@ function UnlockForm() {
         <h1 className="unlock-title">Testovacie prostredie</h1>
         <p className="unlock-sub">Zadaj prístupový kód</p>
 
-        <form onSubmit={handleSubmit}>
+        <form action="/api/couplesync-preview/unlock" method="post" onSubmit={handleSubmit}>
+          <input type="hidden" name="next" value={nextPath} />
           <div className={`digits-row ${shake ? 'shake' : ''}`} onPaste={handlePaste}>
             {digits.map((d, i) => (
               <input
                 key={i}
                 ref={(el) => { inputs.current[i] = el }}
                 type="text"
+                name="digit"
                 inputMode="numeric"
                 pattern="[0-9]"
                 maxLength={1}
@@ -124,8 +125,8 @@ function UnlockForm() {
 
           {error && <p className="error-msg">Nesprávny kód. Skús znova.</p>}
 
-          <button type="submit" className="unlock-btn">
-            Otvoriť →
+          <button type="submit" className="unlock-btn" disabled={submitting}>
+            {submitting ? 'Overujem...' : 'Otvoriť →'}
           </button>
         </form>
       </div>

@@ -1,0 +1,353 @@
+[
+  {
+    "topic_id": "pilot.facesitting",
+    "name_sk": "Face Sitting",
+    "module_type": "top_bottom_power_oral",
+    "source_docs": [
+      "Face sitting M.docx",
+      "Face sitting ž.docx"
+    ],
+    "roles": [
+      "hore",
+      "dole"
+    ],
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience_by_role",
+      "role_preference",
+      "fantasy_reality_transfer",
+      "attraction_drivers",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience_by_role",
+      "top_bottom_roles",
+      "receiving_role",
+      "providing_role",
+      "frequency_style",
+      "attraction_drivers",
+      "technical_parameters",
+      "power_dynamic",
+      "worship_service",
+      "dirty_talk_voice",
+      "fantasy_context",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "custom_dimensions": [
+      "tlak",
+      "tempo",
+      "kontrola",
+      "worship_service",
+      "dirty_talk",
+      "smother_breath_as_edge",
+      "fantazia_vs_realita",
+      "bariery"
+    ],
+    "question_style": "osobitne pre mužskú a ženskú perspektívu; vetvenie podľa skúsenosti HORE/DOLE"
+  },
+  {
+    "topic_id": "pilot.anal_fingering",
+    "name_sk": "Análna stimulácia prstami",
+    "module_type": "technical_body_practice",
+    "source_docs": [
+      "17_Anal_a_stimulacia_zadku.docx"
+    ],
+    "roles": [
+      "prijimam",
+      "poskytujem"
+    ],
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "role_preference",
+      "technical_parameters",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "fantasy_context",
+      "experience_by_role",
+      "receiving_role",
+      "providing_role",
+      "technical_parameters",
+      "technique_matrix",
+      "combinations",
+      "positions_context",
+      "object_toy_matrix",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "custom_dimensions": [
+      "rozsah_prsty",
+      "tlak",
+      "tempo",
+      "hlbka",
+      "rytmus",
+      "kombinacie",
+      "prostata",
+      "lubrikant",
+      "polohy",
+      "zrkadlo_roli"
+    ],
+    "question_style": "technicky detailný modul so stupienkami, parametrami a zrkadlom rolí"
+  },
+  {
+    "topic_id": "pilot.oral_intimacy",
+    "name_sk": "Orálna intimita",
+    "module_type": "giver_receiver_technique_matrix",
+    "source_docs": [
+      "14_Oralna_intimita.docx"
+    ],
+    "roles": [
+      "prijimam",
+      "poskytujem"
+    ],
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience_by_role",
+      "role_preference",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience_by_role",
+      "receiving_role",
+      "providing_role",
+      "technique_matrix",
+      "technical_parameters",
+      "combinations",
+      "dirty_talk_voice",
+      "barriers",
+      "partner_summary"
+    ],
+    "custom_dimensions": [
+      "techniky",
+      "tempo",
+      "intenzita",
+      "kombinacia_s_rukami",
+      "zakoncenie",
+      "chut_vona",
+      "dirty_talk"
+    ],
+    "question_style": "dávam/prijímam + techniky podľa tela a role"
+  },
+  {
+    "topic_id": "pilot.positions",
+    "name_sk": "Polohy a ergonómia",
+    "module_type": "selection_matrix",
+    "source_docs": [
+      "16_Polohy_a_ergonomia.docx"
+    ],
+    "roles": [
+      "obaja"
+    ],
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "technique_matrix",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "technique_matrix",
+      "technical_parameters",
+      "combinations",
+      "positions_context",
+      "partner_summary"
+    ],
+    "custom_dimensions": [
+      "preferovane_polohy",
+      "frekvencia_menenia",
+      "kontakt",
+      "kontrola",
+      "hlbka",
+      "pohodlie",
+      "telesne_moznosti"
+    ],
+    "question_style": "výberová matica polôh, nie hlboký technický modul pre každú polohu"
+  },
+  {
+    "topic_id": "pilot.toys",
+    "name_sk": "Pomôcky a hračky",
+    "module_type": "object_toy_matrix",
+    "source_docs": [
+      "18_Pomocky_a_hracky.docx"
+    ],
+    "roles": [
+      "solo",
+      "spolu",
+      "partner_pouziva",
+      "ja_pouzivam"
+    ],
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "object_toy_matrix",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience",
+      "object_toy_matrix",
+      "technical_parameters",
+      "combinations",
+      "fantasy_reality_transfer",
+      "barriers",
+      "partner_summary"
+    ],
+    "custom_dimensions": [
+      "typ_pomocky",
+      "solo_vs_spolu",
+      "kto_ovlada",
+      "intenzita",
+      "kombinacie",
+      "diskretnost"
+    ],
+    "question_style": "matica objektov a hračiek s použitím sólo/spolu"
+  },
+  {
+    "topic_id": "pilot.tempo_intensity_orgasm",
+    "name_sk": "Tempo, intenzita a orgazmus",
+    "module_type": "technical_body_practice",
+    "source_docs": [
+      "19_Tempo_intenzita_a_orgazmus.docx"
+    ],
+    "roles": [
+      "prijimam",
+      "poskytujem",
+      "obaja"
+    ],
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "role_preference",
+      "technical_parameters",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "technical_parameters",
+      "technique_matrix",
+      "combinations",
+      "fantasy_reality_transfer",
+      "partner_summary"
+    ],
+    "custom_dimensions": [
+      "tlak",
+      "tempo",
+      "hlbka",
+      "rytmus",
+      "waving",
+      "edging",
+      "orgasm_control",
+      "prestávky"
+    ],
+    "question_style": "parametrický modul; veľa škál a protokolových volieb"
+  },
+  {
+    "topic_id": "pilot.kissing_touch",
+    "name_sk": "Bozky, dotyky a maznanie",
+    "module_type": "basic_preference",
+    "source_docs": [
+      "10_Bozky_dotyky_a_maznanie.docx"
+    ],
+    "roles": [
+      "prijimam",
+      "poskytujem",
+      "obaja"
+    ],
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "frequency_style",
+      "attraction_drivers",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "experience",
+      "fantasy_context",
+      "frequency_style",
+      "attraction_drivers",
+      "barriers",
+      "partner_summary",
+      "technique_matrix",
+      "combinations"
+    ],
+    "custom_dimensions": [
+      "typ_bozku",
+      "cast_tela",
+      "jemne_vs_intenzivne",
+      "hryzenie",
+      "jazyk",
+      "kontakt"
+    ],
+    "question_style": "jemná/intenzívna preferencia + časti tela"
+  },
+  {
+    "topic_id": "pilot.masturbation_solo",
+    "name_sk": "Masturbácia a sólo aktivity",
+    "module_type": "solo_shared_visibility",
+    "source_docs": [
+      "12_Masturbacia_a_solo_aktivity.docx"
+    ],
+    "roles": [
+      "solo",
+      "spolocne",
+      "sledujem",
+      "som_sledovany",
+      "vediem",
+      "som_vedeny"
+    ],
+    "simple_blocks": [
+      "topic_gate",
+      "basic_interest",
+      "experience",
+      "solo_shared_visibility",
+      "fantasy_reality_transfer",
+      "barriers"
+    ],
+    "advanced_blocks": [
+      "intro_warm",
+      "topic_gate",
+      "fantasy_context",
+      "experience",
+      "solo_shared_visibility",
+      "visibility_watching",
+      "object_toy_matrix",
+      "dirty_talk_voice",
+      "barriers",
+      "partner_summary"
+    ],
+    "custom_dimensions": [
+      "solo_pre_seba",
+      "spolocna_masturbacia",
+      "watch_me",
+      "vedena_masturbacia",
+      "pomocky",
+      "hanba_komfort"
+    ],
+    "question_style": "viditeľnosť, zdieľanie a vedenie sú dôležitejšie než len technika"
+  }
+]

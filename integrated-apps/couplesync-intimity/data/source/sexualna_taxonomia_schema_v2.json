@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Adult Couples Sexual Preference Taxonomy Node",
+  "type": "object",
+  "required": [
+    "id",
+    "parent_id",
+    "level",
+    "name_sk",
+    "node_type",
+    "path_sk",
+    "tags",
+    "recommended_usage"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "parent_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "name_sk": {
+      "type": "string"
+    },
+    "name_en": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "node_type": {
+      "type": "string"
+    },
+    "path_sk": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_usage": {
+      "type": "string",
+      "enum": [
+        "questionnaire_item",
+        "sensitive_kink",
+        "fantasy_or_roleplay",
+        "edge_boundary",
+        "exclude_filter",
+        "root"
+      ]
+    },
+    "source": {
+      "type": "string"
+    }
+  }
+}

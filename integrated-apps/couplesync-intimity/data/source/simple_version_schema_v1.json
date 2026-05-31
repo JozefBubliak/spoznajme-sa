@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Simple Questionnaire Version Schema",
+  "description": "Schéma pre jednoduchý rýchly radar témy.",
+  "type": "object",
+  "required": [
+    "topic_id",
+    "version",
+    "module_type",
+    "blocks"
+  ],
+  "properties": {
+    "topic_id": {
+      "type": "string"
+    },
+    "version": {
+      "const": "simple"
+    },
+    "module_type": {
+      "type": "string"
+    },
+    "max_questions_recommended": {
+      "type": "integer",
+      "default": 12
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "interest_level": {
+          "type": "string"
+        },
+        "experience_status": {
+          "type": "string"
+        },
+        "preferred_roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fantasy_reality_status": {
+          "type": "string"
+        },
+        "share_recommendation": {
+          "type": "string"
+        },
+        "partner_match_status": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
