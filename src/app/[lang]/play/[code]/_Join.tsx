@@ -3,8 +3,10 @@
 // Both roles land on the same URL; the server detects ownership via session.
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Check, Copy, QrCode, Share2 } from 'lucide-react'
+import { Check, Copy, QrCode, Share2, Volume2, VolumeX } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { RealtimeClient } from '@/lib/realtime/client'
+import { sfx, haptic, burstConfetti, bigConfetti, nickSuggestions } from './_fx'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -22,6 +24,7 @@ interface QuestionInfo {
   id: string; text: string
   a: string; b: string; c: string; d: string
   correct: string | null
+  funFact?: string | null
   qIndex: number; total: number
 }
 interface GameState {
@@ -111,6 +114,100 @@ function Spinner() {
   )
 }
 
+// Floating sound on/off. Also the guaranteed first user gesture that unlocks audio.
+function MuteButton() {
+  const [muted, setMuted] = useState(false)
+  useEffect(() => { setMuted(sfx().muted) }, [])
+  return (
+    <button
+      type="button"
+      aria-label={muted ? 'Zapnúť zvuk' : 'Vypnúť zvuk'}
+      onClick={() => { sfx().unlock(); setMuted(sfx().toggleMuted()) }}
+      className="fixed bottom-4 right-4 z-50 w-11 h-11 rounded-full bg-black/40 border border-white/20 backdrop-blur-md text-white/80 flex items-center justify-center hover:bg-black/60 transition"
+    >
+      {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+    </button>
+  )
+}
+
+// Quick "3 · 2 · 1" hype flash. Non-blocking — answers stay tappable underneath.
+function CountdownFlash({ trigger, reduced }: { trigger: number; reduced: boolean }) {
+  const [n, setN] = useState<number | null>(null)
+  useEffect(() => {
+    if (!trigger) return
+    if (reduced) { sfx().go(); haptic('go'); return }
+    let step = 3
+    setN(step)
+    sfx().tick(); haptic('tick')
+    const id = setInterval(() => {
+      step -= 1
+      if (step <= 0) {
+        clearInterval(id); setN(0); sfx().go(); haptic('go')
+        setTimeout(() => setN(null), 550)
+      } else { setN(step); sfx().tick(); haptic('tick') }
+    }, 550)
+    return () => clearInterval(id)
+  }, [trigger, reduced])
+
+  return (
+    <AnimatePresence>
+      {n !== null && (
+        <motion.div
+          className="fixed inset-0 z-40 flex items-center justify-center pointer-events-none"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        >
+          <motion.span
+            key={n}
+            initial={{ scale: 0.4, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 1.8, opacity: 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="text-[9rem] font-black text-white drop-shadow-[0_8px_30px_rgba(168,85,247,0.6)]"
+          >
+            {n === 0 ? 'ŠTART' : n}
+          </motion.span>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
+
+function StreakBadge({ count }: { count: number }) {
+  if (count < 2) return null
+  return (
+    <motion.span
+      initial={{ scale: 0.5, rotate: -8 }} animate={{ scale: 1, rotate: 0 }}
+      className="inline-flex items-center gap-1 rounded-full bg-orange-500/20 border border-orange-400/40 px-3 py-1 text-sm font-black text-orange-300"
+    >
+      🔥 {count} v rade
+    </motion.span>
+  )
+}
+
+function FunFactCard({ text }: { text?: string | null }) {
+  if (!text) return null
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+      className="rounded-2xl border border-amber-400/25 bg-amber-400/10 px-5 py-4 text-center"
+    >
+      <p className="text-amber-300 text-xs font-black uppercase tracking-widest mb-1">Vedel si?</p>
+      <p className="text-white/90 text-sm leading-relaxed">{text}</p>
+    </motion.div>
+  )
+}
+
+// rank delta since the previous scoreboard: +n up, -n down, 0 unchanged/new
+function DeltaTag({ delta }: { delta: number }) {
+  if (!delta) return null
+  const up = delta > 0
+  return (
+    <span className={`text-[0.7rem] font-black tabular-nums ${up ? 'text-green-400' : 'text-red-400'}`}>
+      {up ? '▲' : '▼'}{Math.abs(delta)}
+    </span>
+  )
+}
+
 function TimerRing({ deadline, seconds }: { deadline: string | null; seconds: number }) {
   const [remaining, setRemaining] = useState(seconds)
   useEffect(() => {
@@ -151,20 +248,28 @@ function AnswerBtn({
   const showResult = Boolean(correct)
 
   return (
-    <button
+    <motion.button
       onClick={onClick}
       disabled={locked}
+      initial={{ opacity: 0 }}
+      animate={
+        isCorrect ? { opacity: 1, scale: [1, 1.05, 1] }
+          : isWrong ? { opacity: 1, x: [0, -7, 7, -5, 5, 0] }
+            : { opacity: 1 }
+      }
+      transition={{ delay: locked ? 0 : index * 0.06, duration: showResult ? 0.5 : 0.25 }}
+      whileTap={!locked ? { scale: 0.96 } : undefined}
       className={`
         relative w-full flex items-center gap-4 p-5 rounded-2xl border-2 text-left font-black
-        transition-all duration-300 select-none
+        transition-[filter,opacity] duration-300 select-none
         min-h-[5.5rem] md:min-h-[5.625rem]
         ${ANSWER_COLORS[index]} text-white border-transparent shadow-lg
-        ${selected && !locked ? 'scale-[1.02] ring-4 ring-white/75' : ''}
-        ${isCorrect ? 'ring-4 ring-white scale-[1.02] brightness-110' : ''}
-        ${isWrong ? 'opacity-50 scale-[0.98]' : ''}
+        ${selected && !locked ? 'ring-4 ring-white/75' : ''}
+        ${isCorrect ? 'ring-4 ring-white brightness-110' : ''}
+        ${isWrong ? 'opacity-50' : ''}
         ${dim && showResult ? 'opacity-35' : ''}
         ${locked && !showResult ? 'opacity-70 cursor-not-allowed' : ''}
-        ${!locked && !selected ? 'hover:scale-[1.02] hover:brightness-110 active:scale-[0.98] cursor-pointer' : ''}
+        ${!locked && !selected ? 'hover:brightness-110 cursor-pointer' : ''}
       `}
     >
       <span className="w-10 h-10 flex items-center justify-center text-2xl text-white/70 shrink-0">
@@ -173,7 +278,7 @@ function AnswerBtn({
       <span className="leading-snug flex-1 text-lg md:text-xl">{text}</span>
       {isCorrect && <span className="ml-auto text-2xl">✓</span>}
       {isWrong && <span className="ml-auto text-2xl">✗</span>}
-    </button>
+    </motion.button>
   )
 }
 
@@ -181,11 +286,13 @@ function initials(name: string) {
   return name.trim().slice(0, 1).toUpperCase() || '?'
 }
 
-function GameLeaderboard({ players, highlight }: { players: Player[]; highlight?: string }) {
+function GameLeaderboard({ players, highlight, deltas }: { players: Player[]; highlight?: string; deltas?: Record<string, number> }) {
   return (
-    <div className="space-y-2">
+    <motion.div layout className="space-y-2">
       {players.map((p, i) => (
-        <div key={p.id}
+        <motion.div key={p.id} layout
+          initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 40 }}
           className={`hv-lb-row ${p.id === highlight ? 'highlight' : ''}`}
         >
           <span className={`hv-lb-rank ${i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'default'}`}>
@@ -195,10 +302,11 @@ function GameLeaderboard({ players, highlight }: { players: Player[]; highlight?
             {initials(p.name)}
           </span>
           <span className="flex-1 font-semibold text-white truncate">{p.name}</span>
+          {deltas && <DeltaTag delta={deltas[p.id] ?? 0} />}
           <span className="font-black text-purple-300 tabular-nums">{p.score} b</span>
-        </div>
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   )
 }
 
@@ -279,14 +387,17 @@ function JoinForm({ code, gamePhase, lobbyLocked, onJoined }: {
   const [name, setName] = useState('')
   const [err, setErr] = useState('')
   const [busy, setBusy] = useState(false)
+  const [nicks] = useState(() => nickSuggestions(3))
 
   const join = async () => {
     const n = name.trim()
     if (!n) { setErr('Zadaj svoje meno alebo názov tímu.'); return }
     setBusy(true); setErr('')
+    sfx().unlock()
     const res = await api(`/api/games/${code}/players`, 'POST', { name: n })
     setBusy(false)
     if (res.playerId) {
+      sfx().join(); haptic('select')
       onJoined(res.playerId, res.name ?? n)
     } else {
       setErr(res.error ?? 'Nepodarilo sa pripojiť.')
@@ -330,6 +441,14 @@ function JoinForm({ code, gamePhase, lobbyLocked, onJoined }: {
             maxLength={30}
             className="hv-input w-full px-4 py-3.5 text-lg"
           />
+          <div className="flex flex-wrap gap-1.5">
+            {nicks.map(nk => (
+              <button key={nk} type="button" onClick={() => { setName(nk); setErr('') }}
+                className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white transition">
+                {nk}
+              </button>
+            ))}
+          </div>
           {err && (
             <div className="bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-2 text-red-300 text-sm">
               {err}
@@ -356,6 +475,11 @@ function JoinForm({ code, gamePhase, lobbyLocked, onJoined }: {
 // ─── Player Lobby ─────────────────────────────────────────────────────────────
 
 function PlayerLobby({ gs, myName }: { gs: GameState; myName: string }) {
+  const prevCount = useRef(gs.playerCount)
+  useEffect(() => {
+    if (gs.playerCount > prevCount.current) sfx().join()
+    prevCount.current = gs.playerCount
+  }, [gs.playerCount])
   return (
     <div className="hv-bg hv-particles flex flex-col items-center justify-center p-6 gap-8">
       <div className="text-center animate-fade-in space-y-3">
@@ -379,7 +503,7 @@ function PlayerLobby({ gs, myName }: { gs: GameState; myName: string }) {
 
 // ─── Player Game (question + answer phase) ────────────────────────────────────
 
-function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playerId: string }) {
+function PlayerGame({ gs, code, playerId, deltas, myStreak }: { gs: GameState; code: string; playerId: string; deltas?: Record<string, number>; myStreak?: number }) {
   const round = gs.round
   const q = gs.question
   const [myAnswer, setMyAnswer] = useState<string | null>(gs.myAnswer ?? null)
@@ -393,10 +517,14 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
     if (!round || myAnswer || sending || round.status !== 'running') return
     setSending(true)
     setMyAnswer(letter)
-    await api(`/api/games/${code}/answers`, 'POST', {
+    sfx().select(); haptic('select')
+    const res = await api(`/api/games/${code}/answers`, 'POST', {
       playerId, roundId: round.id, qIndex: round.q_index, answer: letter,
     })
     setSending(false)
+    // Server rejected it (timer expired, round locked…) — release the pick so
+    // the player isn't left staring at a selection that never registered.
+    if (res?.error && !res?.ignored) setMyAnswer(null)
   }
 
   if (!round || !q) {
@@ -425,13 +553,16 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
       {/* Header bar */}
       <div className="flex items-center justify-between text-sm md:text-base font-semibold text-white/70">
         <span>Kolo {(round.idx ?? 0) + 1} z {gs.total_rounds}</span>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          {!!myStreak && myStreak >= 2 && <StreakBadge count={myStreak} />}
           {gs.myPlayer && (
             <span className="rounded-full bg-white/10 px-3 py-1 text-white/80">
               {gs.myPlayer.score} b
             </span>
           )}
-          <span>{gs.answeredCount ?? 0}/{gs.playerCount} Odpovedali</span>
+          <motion.span key={gs.answeredCount ?? 0} initial={{ scale: 1.25 }} animate={{ scale: 1 }}>
+            {gs.answeredCount ?? 0}/{gs.playerCount} odpovedalo
+          </motion.span>
         </div>
       </div>
 
@@ -494,11 +625,14 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
           </div>
         )}
 
+        {/* Fun fact */}
+        {locked && <FunFactCard text={q.funFact} />}
+
         {/* Results leaderboard */}
         {round.status === 'results' && gs.leaderboard && (
           <div className="hv-card p-5">
             <h3 className="hv-text-dim text-xs uppercase tracking-widest font-semibold mb-4">Priebežné poradie</h3>
-            <GameLeaderboard players={gs.leaderboard} highlight={playerId} />
+            <GameLeaderboard players={gs.leaderboard} highlight={playerId} deltas={deltas} />
           </div>
         )}
       </div>
@@ -508,15 +642,21 @@ function PlayerGame({ gs, code, playerId }: { gs: GameState; code: string; playe
 
 // ─── Player Final ─────────────────────────────────────────────────────────────
 
-function PlayerFinal({ gs, playerId }: { gs: GameState; playerId: string }) {
+function PlayerFinal({ gs, playerId, reduced }: { gs: GameState; playerId: string; reduced?: boolean }) {
   const lb = gs.leaderboard ?? []
   const myPos = lb.findIndex(p => p.id === playerId)
+  const won = myPos === 0
+
+  useEffect(() => {
+    sfx().podium()
+    if (won && !reduced) bigConfetti()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="hv-stage min-h-screen flex flex-col items-center justify-center p-6 gap-8">
       <div className="text-center animate-fade-in space-y-3">
-        <div className="text-6xl mb-2">🏆</div>
-        <h1 className="text-3xl font-black text-white">Koniec hry!</h1>
+        <div className="text-6xl mb-2">{won ? '👑' : '🏆'}</div>
+        <h1 className="text-3xl font-black text-white">{won ? 'Vyhral si!' : 'Koniec hry!'}</h1>
         {myPos >= 0 && (
           <p className="text-white/70">
             Skončil si na <span className="text-amber-300 font-bold">{myPos + 1}. mieste</span>
@@ -546,6 +686,7 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
 
   const lock = async () => {
     setLocking(true)
+    sfx().unlock(); sfx().lock()
     await api(`/api/games/${code}/lock-lobby`, 'POST')
     onRefresh()
     setLocking(false)
@@ -701,6 +842,7 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
   const [classicCorrect, setClassicCorrect] = useState(1)
   const [classicIncorrect, setClassicIncorrect] = useState(0)
   const [classicNone, setClassicNone] = useState(0)
+  const [classicSpeedBonus, setClassicSpeedBonus] = useState(2) // Kahoot-style: faster correct = more
   // Podium mode inputs
   const [podiumTier1, setPodiumTier1] = useState(5)
   const [podiumTier2, setPodiumTier2] = useState(3)
@@ -744,7 +886,7 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
     if (!effectiveCatId) { setErr('Vyber kategóriu'); return }
     setSaving(true); setErr('')
     const scoringConfig = scoringMode === 'classic'
-      ? { mode: 'classic' as const, correct: classicCorrect, incorrect: classicIncorrect, none: classicNone }
+      ? { mode: 'classic' as const, correct: classicCorrect, incorrect: classicIncorrect, none: classicNone, speedBonus: Math.max(0, classicSpeedBonus) }
       : { mode: 'podium' as const, tiers: [podiumTier1, podiumTier2, podiumTier3], incorrect: podiumIncorrect, none: podiumNone }
     const res = await api(`/api/games/${code}/rounds/config`, 'POST', {
       index: nextIdx, categoryId: effectiveCatId, questions: qCount,
@@ -1036,10 +1178,11 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
               {scoringMode === 'classic' && (
                 <div className="rounded-xl border border-white/8 bg-white/[0.02] p-4 space-y-3">
                   <p className="text-[11px] hv-text-dim leading-relaxed">
-                    Každý hráč dostane rovnaký počet bodov bez ohľadu na to, kedy odpovedal.
+                    Základné body za správnu odpoveď + rýchlostný bonus (čím skôr, tým viac) + bonus za sériu správnych odpovedí (🔥 +1 až +5).
                   </p>
                   {[
-                    { label: '✅ Správna odpoveď', desc: 'Hráč zvolil správnu možnosť', val: classicCorrect, set: setClassicCorrect },
+                    { label: '✅ Správna odpoveď', desc: 'Základ za správnu možnosť', val: classicCorrect, set: setClassicCorrect },
+                    { label: '⚡ Rýchlostný bonus', desc: '0 = vypnuté · max navyše za bleskovú odpoveď', val: classicSpeedBonus, set: setClassicSpeedBonus },
                     { label: '❌ Zlá odpoveď', desc: 'Hráč zvolil nesprávnu možnosť', val: classicIncorrect, set: setClassicIncorrect },
                     { label: '💤 Žiadna odpoveď', desc: 'Hráč vôbec neodpovedal', val: classicNone, set: setClassicNone },
                   ].map(row => (
@@ -1124,8 +1267,8 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
 
 // ─── Moderator Playing ────────────────────────────────────────────────────────
 
-function ModeratorPlaying({ gs, code, onRefresh }: {
-  gs: GameState; code: string; onRefresh: () => void
+function ModeratorPlaying({ gs, code, onRefresh, deltas }: {
+  gs: GameState; code: string; onRefresh: () => void; deltas?: Record<string, number>
 }) {
   const round = gs.round
   const q = gs.question
@@ -1133,6 +1276,7 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
 
   const act = useCallback(async (path: string, body?: unknown) => {
     setBusy(true)
+    sfx().unlock(); sfx().select()
     await api(`/api/games/${code}/${path}`, 'POST', body ?? {})
     onRefresh()
     setBusy(false)
@@ -1300,8 +1444,9 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
                     </div>
                     {(isLocked || isResults) && (
                       <div className="h-2 bg-black/15 rounded-full overflow-hidden">
-                        <div className="h-full rounded-full bg-white/50 transition-all duration-700"
-                          style={{ width: `${pct}%` }} />
+                        <motion.div className="h-full rounded-full bg-white/50"
+                          initial={{ width: 0 }} animate={{ width: `${pct}%` }}
+                          transition={{ duration: 0.7, ease: 'easeOut' }} />
                       </div>
                     )}
                   </div>
@@ -1309,11 +1454,14 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
               })}
             </div>
 
+            {/* Fun fact */}
+            {(isLocked || isResults) && <FunFactCard text={q.funFact} />}
+
             {/* Leaderboard in results */}
             {isResults && gs.leaderboard && (
               <div className="hv-card p-5">
                 <h3 className="hv-text-dim text-xs uppercase tracking-widest font-semibold mb-4">Priebežné poradie</h3>
-                <GameLeaderboard players={gs.leaderboard} />
+                <GameLeaderboard players={gs.leaderboard} deltas={deltas} />
               </div>
             )}
           </>
@@ -1325,14 +1473,30 @@ function ModeratorPlaying({ gs, code, onRefresh }: {
 
 // ─── Moderator Final ──────────────────────────────────────────────────────────
 
-function ModeratorFinal({ gs }: { gs: GameState }) {
+function ModeratorFinal({ gs, code, lang, reduced }: { gs: GameState; code: string; lang: string; reduced?: boolean }) {
   const lb = gs.leaderboard ?? gs.players ?? []
   const [revealed, setRevealed] = useState(lb.length <= 2 ? lb.length : 0)
+  const [closing, setClosing] = useState(false)
 
-  const reveal = () => setRevealed(r => Math.min(r + 1, lb.length))
+  const closeGame = async () => {
+    setClosing(true)
+    await api(`/api/games/${code}/end`, 'POST')
+    window.location.href = `/${lang}/herd-vote/lobby`
+  }
+
+  const reveal = () => { sfx().reveal(); haptic('tick'); setRevealed(r => Math.min(r + 1, lb.length)) }
 
   const toReveal = lb.length > 2 ? [...lb].reverse() : lb
   const allRevealed = revealed >= lb.length
+
+  const firedRef = useRef(false)
+  useEffect(() => {
+    if (allRevealed && !firedRef.current) {
+      firedRef.current = true
+      sfx().podium()
+      if (!reduced) bigConfetti()
+    }
+  }, [allRevealed, reduced])
 
   return (
     <div className="hv-stage min-h-screen flex flex-col items-center justify-center p-6 gap-8">
@@ -1343,7 +1507,16 @@ function ModeratorFinal({ gs }: { gs: GameState }) {
       </div>
 
       {allRevealed ? (
-        <FinalPodium players={lb} />
+        <>
+          <FinalPodium players={lb} />
+          <button
+            onClick={closeGame}
+            disabled={closing}
+            className="hv-btn-secondary px-6 py-3 rounded-2xl font-bold"
+          >
+            {closing ? 'Ukončujem…' : 'Ukončiť hru a späť do lobby'}
+          </button>
+        </>
       ) : (
         <div className="w-full max-w-md space-y-3">
           {toReveal.slice(0, revealed).map((p, i) => {
@@ -1403,6 +1576,7 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   const [playerName, setPlayerName] = useState<string>('')
   const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const mountedRef = useRef(true)
+  const stoppedRef = useRef(false)
   const joinedAtRef = useRef<number | null>(null)
 
   useEffect(() => {
@@ -1433,26 +1607,33 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
       const qs = id ? `?playerId=${encodeURIComponent(id)}` : ''
       const r = await fetch(`/api/games/${code}/state${qs}`, { cache: 'no-store' })
       if (!mountedRef.current) return
-      if (r.status === 404) { setNotFound(true); setLoading(false); return }
+      if (r.status === 404) {
+        setNotFound(true); setLoading(false)
+        stoppedRef.current = true // stop polling a code that doesn't exist
+        return
+      }
       if (r.ok) {
         const data = await r.json()
         setGs(data)
-        setLoading(false)
       }
-    } catch { /* silent */ }
+      // Always release the loading gate — a transient 5xx must not leave the
+      // screen stuck on "Načítavam…" forever; the next poll will recover.
+      setLoading(false)
+    } catch { setLoading(false) }
   }, [code, playerId])
 
   const startPolling = useCallback((pid?: string | null) => {
     if (pollRef.current) clearTimeout(pollRef.current)
     const tick = async () => {
       await fetchState(pid)
-      if (mountedRef.current) pollRef.current = setTimeout(tick, 1500)
+      if (mountedRef.current && !stoppedRef.current) pollRef.current = setTimeout(tick, 1500)
     }
     tick()
   }, [fetchState])
 
   useEffect(() => {
     mountedRef.current = true
+    stoppedRef.current = false
     startPolling(playerId)
     return () => { mountedRef.current = false; if (pollRef.current) clearTimeout(pollRef.current) }
   }, [startPolling, playerId])
@@ -1473,6 +1654,82 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
 
   const handleRefresh = useCallback(() => fetchState(), [fetchState])
 
+  // ── Feel layer: sound, haptics, confetti, streak, rank deltas ───────────────
+  const reduced = useReducedMotion()
+  const gsRef = useRef<GameState | null>(null)
+  gsRef.current = gs
+  const [countdownTick, setCountdownTick] = useState(0)
+  const [myStreak, setMyStreak] = useState(0)
+  const myStreakRef = useRef(0)
+  const [deltas, setDeltas] = useState<Record<string, number>>({})
+  const prevBoardRef = useRef<Record<string, number>>({})
+  const prevStatusRef = useRef<string | undefined>(undefined)
+  const prevPhaseRef = useRef<string | undefined>(undefined)
+  const scoredKeyRef = useRef<string>('')
+
+  // one-time audio unlock on the first real user gesture
+  useEffect(() => {
+    const unlock = () => sfx().unlock()
+    window.addEventListener('pointerdown', unlock, { once: true })
+    window.addEventListener('keydown', unlock, { once: true })
+    return () => {
+      window.removeEventListener('pointerdown', unlock)
+      window.removeEventListener('keydown', unlock)
+    }
+  }, [])
+
+  const st = gs?.round?.status
+  const rk = gs?.round ? `${gs.round.id}:${gs.round.q_index}` : ''
+  const ph = gs?.phase
+  useEffect(() => {
+    const g = gsRef.current
+    if (!g) return
+
+    if (ph && ph !== prevPhaseRef.current) {
+      if (ph === 'lobby') { myStreakRef.current = 0; setMyStreak(0); prevBoardRef.current = {} }
+      prevPhaseRef.current = ph
+    }
+
+    if (st && st !== prevStatusRef.current) {
+      prevStatusRef.current = st
+      if (st === 'running') setCountdownTick(t => t + 1)
+      if (st === 'locked') {
+        sfx().lock(); haptic('tick')
+        if (!g.isOwner && g.myPlayer && !g.myAnswer) sfx().timeUp()
+      }
+      if (st === 'results' && rk && rk !== scoredKeyRef.current) {
+        scoredKeyRef.current = rk
+        sfx().reveal()
+        // rank deltas vs the previous scoreboard
+        const board = g.leaderboard ?? []
+        const nd: Record<string, number> = {}
+        board.forEach((p, i) => {
+          const prev = prevBoardRef.current[p.id]
+          nd[p.id] = prev === undefined ? 0 : prev - i
+        })
+        setDeltas(nd)
+        prevBoardRef.current = Object.fromEntries(board.map((p, i) => [p.id, i]))
+
+        if (g.isOwner) {
+          sfx().results()
+        } else if (g.myPlayer) {
+          const correct = !!g.question?.correct && g.myAnswer === g.question.correct
+          if (correct) {
+            myStreakRef.current += 1
+            setMyStreak(myStreakRef.current)
+            sfx().correct(); haptic('correct')
+            if (myStreakRef.current >= 2) sfx().streak(myStreakRef.current)
+            if (!reduced) burstConfetti(0.8)
+          } else {
+            myStreakRef.current = 0
+            setMyStreak(0)
+            if (g.myAnswer) { sfx().wrong(); haptic('wrong') }
+          }
+        }
+      }
+    }
+  }, [st, rk, ph, reduced])
+
   // ── Render ──────────────────────────────────────────────────────────────────
 
   if (!code) return (
@@ -1491,46 +1748,49 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   if (!gs) return <div className="hv-bg"><Spinner /></div>
 
   const { phase, isOwner, round, lobby_locked } = gs
-
-  // ── MODERATOR ───────────────────────────────────────────────────────────────
-  if (isOwner) {
-    if (phase === 'lobby') return <ModeratorLobby gs={gs} code={code} lang={lang} onRefresh={handleRefresh} />
-    if (phase === 'config' || phase === 'round_setup') return <ModeratorRoundSetup gs={gs} code={code} onRefresh={handleRefresh} />
-    if (phase === 'playing') return <ModeratorPlaying gs={gs} code={code} onRefresh={handleRefresh} />
-    if (phase === 'final') return <ModeratorFinal gs={gs} />
-  }
-
-  // ── PLAYER ───────────────────────────────────────────────────────────────────
+  const activePlayerId = playerId as string
   const hasLocalPlayer = Boolean(playerId && playerName)
 
-  if (!hasLocalPlayer) {
-    return (
-      <JoinForm
-        code={code} gamePhase={phase} lobbyLocked={lobby_locked}
-        onJoined={handleJoined}
-      />
-    )
-  }
-
-  const activePlayerId = playerId as string
-
-  if (!gs.myPlayer) {
-    if (phase === 'lobby') return <PlayerLobby gs={gs} myName={playerName} />
-    if (phase === 'config' || phase === 'round_setup') {
-      return <PlayerWaiting message="Si pripojený. Moderátor nastavuje hru…" gs={gs} playerId={activePlayerId} />
+  const screen = (() => {
+    // ── MODERATOR ─────────────────────────────────────────────────────────────
+    if (isOwner) {
+      if (phase === 'lobby') return <ModeratorLobby gs={gs} code={code} lang={lang} onRefresh={handleRefresh} />
+      if (phase === 'config' || phase === 'round_setup') return <ModeratorRoundSetup gs={gs} code={code} onRefresh={handleRefresh} />
+      if (phase === 'playing') return <ModeratorPlaying gs={gs} code={code} onRefresh={handleRefresh} deltas={deltas} />
+      if (phase === 'final') return <ModeratorFinal gs={gs} code={code} lang={lang} reduced={!!reduced} />
     }
-    return <PlayerWaiting message="Pripájame ťa do hry…" gs={gs} playerId={activePlayerId} />
-  }
 
-  if (phase === 'lobby') return <PlayerLobby gs={gs} myName={playerName} />
-  if (phase === 'config' || phase === 'round_setup') return <PlayerWaiting message="Moderátor nastavuje hru…" gs={gs} playerId={activePlayerId} />
-  if (phase === 'final') return <PlayerFinal gs={gs} playerId={activePlayerId} />
+    // ── PLAYER ────────────────────────────────────────────────────────────────
+    if (!hasLocalPlayer) {
+      return <JoinForm code={code} gamePhase={phase} lobbyLocked={lobby_locked} onJoined={handleJoined} />
+    }
 
-  if (phase === 'playing') {
-    if (!round) return <PlayerWaiting message="Čakáme na prvú otázku…" gs={gs} playerId={activePlayerId} />
-    if (round.status === 'finished') return <PlayerWaiting message="Kolo skončilo. Čakáme na ďalšie…" gs={gs} playerId={activePlayerId} />
-    return <PlayerGame gs={gs} code={code} playerId={activePlayerId} />
-  }
+    if (!gs.myPlayer) {
+      if (phase === 'lobby') return <PlayerLobby gs={gs} myName={playerName} />
+      if (phase === 'config' || phase === 'round_setup') {
+        return <PlayerWaiting message="Si pripojený. Moderátor nastavuje hru…" gs={gs} playerId={activePlayerId} />
+      }
+      return <PlayerWaiting message="Pripájame ťa do hry…" gs={gs} playerId={activePlayerId} />
+    }
 
-  return <PlayerLobby gs={gs} myName={playerName} />
+    if (phase === 'lobby') return <PlayerLobby gs={gs} myName={playerName} />
+    if (phase === 'config' || phase === 'round_setup') return <PlayerWaiting message="Moderátor nastavuje hru…" gs={gs} playerId={activePlayerId} />
+    if (phase === 'final') return <PlayerFinal gs={gs} playerId={activePlayerId} reduced={!!reduced} />
+
+    if (phase === 'playing') {
+      if (!round) return <PlayerWaiting message="Čakáme na prvú otázku…" gs={gs} playerId={activePlayerId} />
+      if (round.status === 'finished') return <PlayerWaiting message="Kolo skončilo. Čakáme na ďalšie…" gs={gs} playerId={activePlayerId} />
+      return <PlayerGame gs={gs} code={code} playerId={activePlayerId} deltas={deltas} myStreak={myStreak} />
+    }
+
+    return <PlayerLobby gs={gs} myName={playerName} />
+  })()
+
+  return (
+    <>
+      {screen}
+      <MuteButton />
+      <CountdownFlash trigger={countdownTick} reduced={!!reduced} />
+    </>
+  )
 }

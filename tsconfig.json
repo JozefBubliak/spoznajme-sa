@@ -30,7 +30,8 @@
   },
   "exclude": [
     "node_modules",
-    "supabase/functions"
+    "**/supabase/functions",
+    "spoznajme-sa"
   ],
   "include": [
     "next-env.d.ts",
