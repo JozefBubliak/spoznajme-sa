@@ -134,21 +134,25 @@ Inšpirácia na konkrétne možnosti = prekonvertované `.md` z `dotazník/` (ma
 
 ---
 
-## 6. Čo postaviť ďalej (poradie)
+## 6. Čo postaviť ďalej (poradie) — stav
 
-1. **Anonymná párovacia infra** (§3): Supabase tabuľky `dotaznik_*`, RLS na `kod`+`secret`,
-   generovanie kódu, link s `#k=…`, `device_token` v `localStorage`, cron auto-mazanie +30 dní,
-   tlačidlo „Zmazať všetko". **Žiadne prihlásenie partnerov.** (Admin gate na strome ostáva.)
-2. **Voľba režimu** na štarte (`live` / `blind`) + prezývky + spárovanie.
-3. **Komponenty typov odpovedí** — 8 do v1: Postoj (1), Semafor (2), Frekvencia (3), Rola (4),
-   Škála/Intenzita (5), Multi (7), Skúsenosť (12), Voľný text (11).
-4. **Screening logika** so zámkami (§2 Režim B), symetrická, real-time cez Supabase realtime.
-5. **Úroveň L3 `okruh`** do stromu (`strom.ts` + route `/m/[modul]/o/[okruh]`) + prvé reálne
-   otázky pre 1 Tier-1 modul (napr. `A1`).
-6. **Vyhodnotenie** — Double-Blind filter + *Mapa spoločnej rozkoše*.
-7. **Režim A „Naživo"** — sprievodca rozhovorom (edu-box + návrhové otázky, nič sa neukladá).
-8. **Režim C „Otvorená karta"** (jednosmerné zdieľanie).
-9. Až potom obsah ostatných modulov (z „mišmaš" dokumentov, modul po module).
+1. ✅ **Anonymná párovacia infra** (§3): tabuľky `dotaznik_*`, RLS bez policies, kód+secret v `#k=`,
+   `localStorage`, cron auto-mazanie +30 dní, „Zmazať všetko". Bez prihlásenia partnerov.
+   *(Treba spustiť `supabase/migrations/20260908_dotaznik.sql`.)*
+2. ✅ **Voľba režimu** (`live` / `blind`) + prezývky + spárovanie — `/dotaznik/par`, `/dotaznik/p/[kod]`.
+3. ✅ **8 komponentov typov odpovedí** — `_odpovede.tsx` (postoj, semafor, frekvencia, rola=2 zrkadlové
+   riadky, intenzita, multi, skúsenosť, text). Auto-save, predvyplnenie pri návrate.
+4. ✅ **Screening logika so zámkami** (§2 Režim B), symetrická, polling (mount/fokus/8 s).
+   `_screening.tsx` + `_stav.ts`.
+5. 🟡 **Úroveň L3 `okruh`** — zatiaľ `okruh = sekcia`. Prvé reálne otázky: modul
+   `predohra-naladenie / mentalna-priprava` (sekcie skúsenosť/preferencie/hranice) v `otazky.ts`.
+   Plný L3 route level + prepísanie `strom.ts` podľa `dotaznik-strom-navrh.md` = ešte pred nami.
+6. ✅ **Double-Blind vyhodnotenie + Mapa** — `/api/.../vyhodnotenie` + `_mapa.tsx`.
+   Zobrazí len zhodu, nesúlad nikde.
+7. ⬜ **Režim A „Naživo"** — sprievodca rozhovorom (edu-box + návrhové otázky, nič sa neukladá).
+8. ⬜ **Režim C „Otvorená karta"** (jednosmerné zdieľanie).
+9. ⬜ Obsah ostatných modulov (z „mišmaš" dokumentov, modul po module).
+10. ⬜ Neskôr: nahradiť polling Supabase realtime; L3 route `/m/[modul]/o/[okruh]`.
 
 ---
 
