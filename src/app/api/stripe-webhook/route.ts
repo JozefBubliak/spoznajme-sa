@@ -3,8 +3,9 @@ import Stripe from 'stripe'
 import { grantAccess } from '@/lib/access-server'
 import { type ProductSlug } from '@/lib/access'
 
-// Stripe requires the raw body for signature verification
-export const config = { api: { bodyParser: false } }
+// App Router: raw body sa číta cez req.text() nižšie (žiadny bodyParser config).
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET

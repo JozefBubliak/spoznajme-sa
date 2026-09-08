@@ -31,8 +31,9 @@ export function calculateCompatibility(
       const av = new Set(A.values ?? []);
       const bv = new Set(B.values ?? []);
       const inter = [...av].filter((v) => bv.has(v)).length;
-      const union = new Set([...av, ...bv]).size;
-      return union === 0 ? 0 : Math.round((inter / union) * 100);
+      // Dice coefficient: 2·|A∩B| / (|A|+|B|)
+      const total = av.size + bv.size;
+      return total === 0 ? 0 : Math.round(((2 * inter) / total) * 100);
     }
     case 'scale': {
       const A = a as AnswerDataScale;

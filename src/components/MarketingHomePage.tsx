@@ -524,67 +524,6 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
         </div>
       </section>
 
-      <footer className="border-t border-border bg-card/20">
-        <div className="mx-auto grid max-w-6xl gap-8 px-6 py-14 md:grid-cols-2 xl:grid-cols-4">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-primary">
-                <div className="h-2 w-2 rounded-full bg-primary" />
-              </div>
-              <span className="text-lg font-semibold">DeepTalks</span>
-            </div>
-            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Pretože realita je lepšia ako obrazovka. Nástroje, otázky a komunita
-              pre lepšie rozhovory.
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Nástroje</h3>
-            <div className="space-y-2 text-sm">
-              <Link href={`/${lang}/kompas`} className="block text-muted-foreground transition hover:text-foreground">Kompas</Link>
-              <Link href={`/${lang}/apps/spoznajme-sa`} className="block text-muted-foreground transition hover:text-foreground">Kartičky</Link>
-              <Link href={`/${lang}/apps/otazka-dna`} className="block text-muted-foreground transition hover:text-foreground">Otázka dňa</Link>
-              <Link href={`/${lang}/apps/daily-connection`} className="block text-muted-foreground transition hover:text-foreground">Daily Connection</Link>
-              <Link href={`/${lang}/apps/couplesync`} className="block text-muted-foreground transition hover:text-foreground">CoupleSync</Link>
-              <Link href={`/${lang}/produkty/legacy`} className="block text-muted-foreground transition hover:text-foreground">Legacy</Link>
-              <Link href={`/${lang}/apps`} className="block text-muted-foreground transition hover:text-foreground">Ďalšie hry</Link>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Oblasti</h3>
-            <div className="space-y-2 text-sm">
-              <Link href={`/${lang}/skupiny/pary`} className="block text-muted-foreground transition hover:text-foreground">Páry</Link>
-              <Link href={`/${lang}/skupiny/rodic-dieta`} className="block text-muted-foreground transition hover:text-foreground">Rodič a dieťa</Link>
-              <Link href={`/${lang}/skupiny/priatelia`} className="block text-muted-foreground transition hover:text-foreground">Priatelia</Link>
-              <Link href={`/${lang}/skupiny/praca`} className="block text-muted-foreground transition hover:text-foreground">Práca</Link>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Projekt</h3>
-            <div className="space-y-2 text-sm">
-              <Link href={`/${lang}/o-nas`} className="block text-muted-foreground transition hover:text-foreground">Prečo hovoriť</Link>
-              <Link href={`/${lang}/komunita`} className="block text-muted-foreground transition hover:text-foreground">Komunita</Link>
-              <Link href={`/${lang}/b2b`} className="block text-muted-foreground transition hover:text-foreground">B2B</Link>
-              <Link href={`/${lang}/produkty`} className="block text-muted-foreground transition hover:text-foreground">Produkty</Link>
-              <Link href={`/${lang}/produkty/tricka`} className="block text-muted-foreground transition hover:text-foreground">Merch</Link>
-              <Link href={`/${lang}/kontakt`} className="block text-muted-foreground transition hover:text-foreground">Kontakt</Link>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-border">
-          <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <span>© {new Date().getFullYear()} DeepTalks · Všetky práva vyhradené.</span>
-            <div className="flex gap-4">
-              <Link href={`/${lang}/ochrana-sukromia`} className="transition hover:text-foreground">Súkromie</Link>
-              <Link href={`/${lang}/podmienky`} className="transition hover:text-foreground">Podmienky</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

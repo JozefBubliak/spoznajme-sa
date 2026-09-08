@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { IntlProvider } from '@/components/IntlProvider'
 import SiteHeader from '@/components/SiteHeader'
+import SiteFooter from '@/components/SiteFooter'
 import { getDictionary } from '@/i18n/server'
 import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config'
 
@@ -24,6 +25,7 @@ export default async function LangLayout({ children, params }: P) {
         <SiteHeader lang={lang} />
       </Suspense>
       <main>{children}</main>
+      <SiteFooter lang={lang} />
     </IntlProvider>
   )
 }
