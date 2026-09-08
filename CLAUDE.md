@@ -61,6 +61,9 @@ Presmerovania v `next.config.ts`: `/pomocky → /kompas`, `/apps/herd-vote/* →
 - **Hádačka** — `/[lang]/apps/hadacka`
 - **Áno–Nie–Hm** — party hra `/[lang]/apps/ano-nie-hm`
 
+### Neverejné pracovné vetvy
+- **`/[lang]/dotaznik/**`** — strom stránok intímneho dotazníka pre páry (cieľ: čo sa komu páči/nepáči/neutrál, princíp Double Blind). Zatiaľ **len kostra navigácie, bez otázok**. Strom = `src/lib/dotaznik/strom.ts` (11 modulov → témy → 17-sekciová kostra + helpery `getModul/getTema/sekcieTemy/susedna*` + `cesta.*`). Zdieľané UI: `src/app/[lang]/dotaznik/_ui.tsx`. Vlastný `layout.tsx` (noindex, „pracovná verzia" lišta). Neverejné: `robots.ts` disallow `/dotaznik`, nie je v `sitemap.ts` ani v navigácii. Vetvenie: `chcem` (Áno/Ešte nie/Nie → témy / dočasný / trvalý zámok), `rola` (prijímam/poskytujem/oboje pre zrkadlové témy). Ďalší krok: naplniť sekcie otázkami + prepojiť s `apps/couplesync` engine + DB/pair-kód.
+
 ### Rozpracované / duplicitné herné implementácie
 - `apps/spoznajme-sa` vs `produkty/karticky` vs `apps/cards` — stále **tri vstupy do kartičiek** (nezjednotené).
 - `play/[code]` (root aj `[lang]`) + `herd-vote/play/[code]` — orchestrácia živej hry.
