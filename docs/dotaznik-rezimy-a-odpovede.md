@@ -2,7 +2,16 @@
 
 > Nadväzuje na `dotaznik-strom-navrh.md` (strom tém). Tu je **ako to dvaja ľudia vypĺňajú**,
 > aké sú **režimy**, ako sa to **vyhodnocuje vedľa seba** a aké **typy odpovedí** potrebujeme.
-> Stav: návrh na revíziu. Nasadené na produkcii, **len pre admina** (`/[lang]/dotaznik`).
+> Stav: **rozhodnuté (2026-09-08)**, viď §8. Nasadené na produkcii, len pre admina (`/[lang]/dotaznik`).
+
+## 0. Rozhodnutia (zapracované)
+
+1. **Bez registrácie. Maximálne anonymne.** Žiadny e-mail, žiadny účet. Len prezývka + kód páru. Dáta ephemerálne, auto-mazanie, tlačidlo „zmazať všetko".
+2. **Režim = jeden pre celý pár** a celý dotazník (pokrýva všetky moduly). Nie prepínateľný per modul.
+3. **Zhodné `Nie` → úplne skryť** (žiadny zoznam „spoločné hranice").
+4. **v1 = Režim A (Naživo) + Režim B (Bez trapasu).** Režim C (Otvorená karta) príde hneď v ďalšej iterácii — potrebuje rovnakú párovaciu infra ako B, ale je jednoduchší.
+5. **„Neskúšal(a), zaujíma ma" u oboch = zhoda 💚** (nie len tip).
+6. **v1 = 8+ typov odpovedí** (nie len 5).
 
 ---
 
@@ -42,46 +51,51 @@
 - **Výstup:** *Mapa spoločnej rozkoše* — len zhody, zoradené 💚 obaja chcú → 🌱 obaja zvedaví → … + odporúčaný ďalší krok.
 - Anonymná štatistika pre projekt OK; v rámci páru skryté.
 
-### Režim C — „Otvorená karta" (jednosmerné zdieľanie)
+### Režim C — „Otvorená karta" (jednosmerné zdieľanie) — *ďalšia iterácia (nie v1)*
 - „Chcem, aby partner vedel, čo chcem." Vyplním **celú tému / modul** (aj neutrál, aj hranice) a **pošlem**.
 - Partner dostane **report mojich preferencií** — číta, nemusí odpovedať. Môže mi poslať späť ten svoj.
 - Bez zamykania, bez skrývania nesúladu — je to **vedomé odhalenie**, riziko trapasu beriem na seba.
 - Voľby pri odoslaní: „zdieľať len zelené (čo chcem)" · „zdieľať všetko vrátane hraníc".
-
-### Hybrid (odporúčané neskôr)
-Default beží **Režim B**, ale pri konkrétnej téme si môžem prepnúť na **C**:
-„Túto tému: [Vyhodnotiť ako zhodu 🔒] alebo [Ukázať partnerovi otvorene 📨]".
+- Technicky je jednoduchší než B (žiadne zámky, žiadny double-blind filter) → pridá sa hneď po v1.
 
 ---
 
-## 3. Párovanie a dáta (návrh schémy)
+## 3. Anonymné párovanie a dáta
+
+**Bez účtu, bez e-mailu.** Model:
+
+1. Partner A otvorí `/dotaznik`, zvolí režim, zadá **prezývku** (napr. „Ja"). Vznikne **kód páru** (napr. `LUNA-4712`) + tajný `pin` v URL.
+2. A pošle B **link** (`/dotaznik/p/LUNA-4712#k=<secret>`) hocijakým kanálom. Žiadny e-mail cez nás.
+3. B otvorí link, zadá svoju prezývku → je spárovaný. Identita = `slot` `a` / `b` + `device_token` v `localStorage` (aby sa vedel vrátiť na tom istom zariadení).
+4. **Auto-mazanie:** celý pár + odpovede sa zmažú po **30 dňoch** nečinnosti (cron). Kedykoľvek tlačidlo **„Zmazať všetko"** (obaja aj jeden).
+5. Žiadna história medzi „sedeniami" nad rámec tohto kódu. Žiadna analytika nad obsahom odpovedí. Voliteľne: úplne anonymná agregovaná štatistika (len počty „modul X: zhoda áno/nie"), bez väzby na pár — **default vypnuté**, opt-in.
 
 ```
 dotaznik_pary
-  id (uuid)              kod (text, unique, 6–8 zn.)
-  user_a / user_b (uuid) rezim ('live' | 'blind' | 'open')
-  vytvorene, aktualizovane
+  id (uuid)            kod (text, unique)      pin_hash (text)   -- overenie z URL secret
+  rezim ('live'|'blind')                       prezyvka_a, prezyvka_b (text, null)
+  vytvorene, posledna_aktivita                 zmazat_po (timestamptz)  -- +30 dní, posúva sa
 
-dotaznik_stav_temy         -- screening + zámky, per user
-  par_id, user_id, modul, tema
-  stav ('ano' | 'este_nie' | 'nie' | 'hotovo')
-  dovod (text, null), zdielat_dovod (bool)
+dotaznik_stav_temy       -- screening + zámky; slot = 'a'|'b'
+  par_id, slot, modul, tema
+  stav ('ano'|'este_nie'|'nie'|'hotovo')
+  updated_at
+  -- Pozn.: dôvod odmietnutia zámerne NEukladáme (menej dát = menej rizika).
+
+dotaznik_odpovede        -- jednotky hodnotenia (L4); slot = 'a'|'b'
+  par_id, slot, modul, okruh, polozka
+  typ (viď §4), rola ('prijimam'|'poskytujem'|null)
+  hodnota (jsonb)        poznamka (text, null)
   updated_at
 
-dotaznik_odpovede          -- jednotky hodnotenia (L4)
-  par_id, user_id, modul, okruh, polozka
-  typ (viď §4), rola ('prijimam' | 'poskytujem' | null)
-  hodnota (jsonb — podľa typu)
-  poznamka (text, null)
-  updated_at
-
-dotaznik_zdielania         -- Režim C
-  par_id, od_user, modul/tema, rozsah ('zelene' | 'vsetko'), vytvorene
+-- Režim C (neskôr):
+dotaznik_zdielania
+  par_id, od_slot, rozsah ('zelene'|'vsetko'), vytvorene
 ```
 
-- Progresívne ukladanie (auto-save po každej položke).
-- Zámky sa prejavia **real-time** (Supabase realtime na `dotaznik_stav_temy`).
-- Obaja partneri = prihlásení používatelia (alebo „host" s menom + device-token, ak nechceme nútiť registráciu).
+- **RLS / prístup:** čítať/písať smie len ten, kto pozná `kod` + `secret` (pin). Server nikdy nevydá odpovede jedného slotu druhému skôr, než to dovolí logika režimu (§2/§5).
+- Progresívne ukladanie (auto-save po položke). Zámky **real-time** (Supabase realtime na `dotaznik_stav_temy`).
+- Bez `device_token` sa dá pokračovať zadaním kódu + secret znova (link si treba odložiť — ako pri MojoUpgrade).
 
 ---
 
@@ -114,30 +128,48 @@ Inšpirácia na konkrétne možnosti = prekonvertované `.md` z `dotazník/` (ma
 
 - Na spoločne otvorenú tému: tabuľka **JA | PARTNER** po okruhoch — ale len riadky so **zhodou**.
 - **% zhody** na tému = podiel položiek, kde sú obaja ≥ `Skôr áno`.
-- Zóny: 💚 spoločná chuť · 🌱 spoločná zvedavosť (obaja `zaujíma ma`) · 😐 obaja neutrál · *(nesúlad skrytý)*.
-- Odporúčania: 💚 → naplánujte konkrétne · 🌱 → skúste scenár S0/S1 · 😐 → netlačte.
+- Zóny: 💚 **zhoda** = obaja `chcem`/`skôr áno` **alebo obaja `neskúšal, zaujíma ma`** (počíta sa ako zhoda) · 😐 obaja neutrál · *(nesúlad skrytý)*.
+- Odporúčania: 💚 (skúsenosť) → naplánujte konkrétne · 💚 (obaja zvedaví) → skúste scenár S0/S1 · 😐 → netlačte.
 - Prepojenie ďalej: na 💚/🌱 ponúknuť kartičku / rozhovor / „session card".
 
 ---
 
 ## 6. Čo postaviť ďalej (poradie)
 
-1. **DB schéma** (§3) v Supabase + pair-kód flow (znovupoužiť model z `apps/couplesync` alebo nový).
-2. **Auth pre oboch** partnerov (alebo host + device-token). Admin gate už je.
-3. **Voľba režimu** na štarte + prepínač (`live` / `blind` / `open`).
-4. **Komponenty typov odpovedí** — najprv 5 najčastejších: Postoj (1), Semafor (2), Škála/Intenzita (5), Multi (7), Skúsenosť (12).
-5. **Screening logika** so zámkami (§2 Režim B), symetrická, real-time.
-6. **Úroveň L3 `okruh`** do stromu + prvé reálne otázky pre 1 Tier-1 modul (napr. `A1`).
-7. **Vyhodnotenie** — Double-Blind filter + *Mapa spoločnej rozkoše*.
-8. Až potom obsah ostatných modulov (z „mišmaš" dokumentov, modul po module).
+1. **Anonymná párovacia infra** (§3): Supabase tabuľky `dotaznik_*`, RLS na `kod`+`secret`,
+   generovanie kódu, link s `#k=…`, `device_token` v `localStorage`, cron auto-mazanie +30 dní,
+   tlačidlo „Zmazať všetko". **Žiadne prihlásenie partnerov.** (Admin gate na strome ostáva.)
+2. **Voľba režimu** na štarte (`live` / `blind`) + prezývky + spárovanie.
+3. **Komponenty typov odpovedí** — 8 do v1: Postoj (1), Semafor (2), Frekvencia (3), Rola (4),
+   Škála/Intenzita (5), Multi (7), Skúsenosť (12), Voľný text (11).
+4. **Screening logika** so zámkami (§2 Režim B), symetrická, real-time cez Supabase realtime.
+5. **Úroveň L3 `okruh`** do stromu (`strom.ts` + route `/m/[modul]/o/[okruh]`) + prvé reálne
+   otázky pre 1 Tier-1 modul (napr. `A1`).
+6. **Vyhodnotenie** — Double-Blind filter + *Mapa spoločnej rozkoše*.
+7. **Režim A „Naživo"** — sprievodca rozhovorom (edu-box + návrhové otázky, nič sa neukladá).
+8. **Režim C „Otvorená karta"** (jednosmerné zdieľanie).
+9. Až potom obsah ostatných modulov (z „mišmaš" dokumentov, modul po module).
 
 ---
 
-## 7. Rozhodnutia pre teba
+## 7. Ako to robia podobné nástroje vo svete (rešerš)
 
-1. **Registrácia povinná** pre oboch, alebo stačí „host + meno + link"?
-2. **Režim = na úrovni páru** (jeden pre celý dotazník) alebo **prepínateľný per modul**?
-3. Pri **zhodnom `Nie`** — ukázať ako „spoločná hranica" (diskrétne), alebo úplne skryť?
-4. **Report o partnerovi (Režim C)** — povoliť hneď v v1, alebo až po Režime B?
-5. „Neskúšal(a), zaujíma ma" pri oboch — brať ako **zhodu** (💚 do mapy) alebo len jemný tip (🌱)?
-6. Koľko typov odpovedí do **v1** — len 5, alebo rovno 8+?
+| Nástroj | Párovanie | Súkromie | Čo si vziať |
+|---|---|---|---|
+| **MojoUpgrade** (web, zdarma) | žiadny účet; zadáš e-mail partnera len na poslanie linku | nič sa neukladá medzi sedeniami, žiadny profil, žiadne reklamné pixely; výsledok = URL (ktokoľvek s linkom ho otvorí — ich slabina) | čistý „no-account" model; zobrazí sa **len** zhoda; „no" nikdy nevidno; match = obaja „áno" **alebo** jeden „áno" + druhý „ak partner chce" |
+| **YNM / „Yes No Maybe" apps** | anonymné prihlásenie by default — **žiadny e-mail ani údaje** | „tvoje možno zostane tvoje, tvoje nie zostane tvoje, žiadny zoznam odmietnutí neexistuje" | anonymná identita bez PII; 100+ otázok od mierneho po odvážne; každý na svojom telefóne, svojím tempom |
+| **Kindu** (app) | pár cez kód/pozvánku | swipe „áno/nie/možno", zobrazí sa len match | swipe UX; ideas feed |
+
+**Náš model:** ako MojoUpgrade/YNM (žiadny účet, len kód + prezývka, zobrazí sa len zhoda),
++ navyše **auto-mazanie po 30 dňoch** a tlačidlo „Zmazať všetko", + **secret v URL fragmente**
+(`#k=…`, nechodí na server) namiesto verejne uhádnuteľného odkazu → opravená slabina MojoUpgrade.
+
+Zdroje: [MojoUpgrade – čo to je](https://emira.io/articles/what-is-mojo-upgrade) ·
+[MojoUpgrade alternatívy](https://ynm.me/blog/mojoupgrade-alternative/) ·
+[YNM – digitálny yes/no/maybe](https://ynm.me/blog/yes-no-maybe-app/) ·
+[Yes/No/Maybe list (Wikipedia)](https://en.wikipedia.org/wiki/Yes_no_maybe_list)
+
+## 8. Stav rozhodnutí
+
+Všetkých 6 otázok zodpovedaných — viď **§0**. Ďalší krok: implementovať §6 body 1–3
+(anonymná párovacia infra + režim + prvé komponenty odpovedí).
