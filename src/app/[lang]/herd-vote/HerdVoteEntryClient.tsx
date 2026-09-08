@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronDown, Languages, Settings, Users } from 'lucide-react'
 import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config'
+import { useAuth } from '@/hooks/useAuth'
 
 const LOCALE_LABELS: Record<Locale, { label: string; flag: string }> = {
   en: { label: 'English', flag: '🇬🇧' },
@@ -22,6 +23,7 @@ type Role = 'host' | 'player'
 
 export default function HerdVoteEntryClient({ lang }: { lang: Locale }) {
   const router = useRouter()
+  const { user, loading: authLoading } = useAuth()
   const [role, setRole] = useState<Role>('host')
   const [joinCode, setJoinCode] = useState('')
   const [showLanguages, setShowLanguages] = useState(false)
@@ -29,6 +31,11 @@ export default function HerdVoteEntryClient({ lang }: { lang: Locale }) {
 
   const selectedLocale = LOCALE_LABELS[lang]
   const normalizedCode = useMemo(() => joinCode.trim().toUpperCase(), [joinCode])
+
+  const lobbyPath = `/${lang}/herd-vote/lobby`
+  // Logged in → straight to the lobby. Logged out → login first, then land
+  // right back in the lobby (no confusing bounce mid-flow).
+  const hostHref = user ? lobbyPath : `/auth?next=${encodeURIComponent(lobbyPath)}`
 
   const switchLanguage = (nextLang: Locale) => {
     setShowLanguages(false)
@@ -72,16 +79,23 @@ export default function HerdVoteEntryClient({ lang }: { lang: Locale }) {
                 <Settings className="w-5 h-5 text-purple-200" />
               </div>
               <div className="text-left">
-                <h2 className="text-lg font-black text-white">Vytvoriť hru</h2>
-                <p className="text-sm text-white/55 mt-0.5">Pripravíš lobby, QR kód a ručne riadiš otázky aj časomieru.</p>
+                <h2 className="text-lg font-black text-white">
+                  {user ? 'Spustiť hru' : 'Vytvoriť hru'}
+                </h2>
+                <p className="text-sm text-white/55 mt-0.5">
+                  {user
+                    ? 'Si prihlásený. Klikni a rovno pripravíš lobby a QR kód.'
+                    : 'Pripravíš lobby, QR kód a ručne riadiš otázky aj časomieru.'}
+                </p>
               </div>
             </div>
             <button
               type="button"
-              onClick={() => router.push(`/${lang}/herd-vote/lobby`)}
+              onClick={() => router.push(hostHref)}
+              disabled={authLoading}
               className="hv-btn-primary w-full py-4 text-base font-black rounded-2xl"
             >
-              Vstúpiť ako moderátor →
+              {authLoading ? 'Načítavam…' : user ? 'Spustiť hru →' : 'Prihlásiť a vytvoriť hru →'}
             </button>
           </>
         ) : (
