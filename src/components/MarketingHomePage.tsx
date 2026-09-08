@@ -579,8 +579,8 @@ export default function MarketingHomePage({ lang = 'sk' }: MarketingHomePageProp
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-6 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <span>© {new Date().getFullYear()} DeepTalks · Všetky práva vyhradené.</span>
             <div className="flex gap-4">
-              <Link href="/privacy" className="transition hover:text-foreground">Súkromie</Link>
-              <Link href="/terms" className="transition hover:text-foreground">Podmienky</Link>
+              <Link href={`/${lang}/ochrana-sukromia`} className="transition hover:text-foreground">Súkromie</Link>
+              <Link href={`/${lang}/podmienky`} className="transition hover:text-foreground">Podmienky</Link>
             </div>
           </div>
         </div>
