@@ -101,7 +101,7 @@ export async function GET(req: NextRequest, context: any) {
       if (questionId) {
         const { data: q } = await s
           .from('herd_questions')
-          .select('id, question_text, answer_a, answer_b, answer_c, answer_d, correct_answer')
+          .select('id, question_text, answer_a, answer_b, answer_c, answer_d, correct_answer, fun_fact')
           .eq('id', questionId)
           .maybeSingle()
 
@@ -115,6 +115,7 @@ export async function GET(req: NextRequest, context: any) {
             c: q.answer_c,
             d: q.answer_d,
             correct: revealAnswer ? (q.correct_answer as string) : null,
+            funFact: revealAnswer ? ((q as any).fun_fact ?? null) : null,
             qIndex,
             total: questionIds.length,
           }
@@ -134,8 +135,12 @@ export async function GET(req: NextRequest, context: any) {
         result.myAnswer = ans?.answer ?? null
       }
 
-      // ── Answer stats (moderator only, locked/results) ─────────────────────
-      if (isOwner && ['locked', 'results'].includes(activeRound.status ?? '')) {
+      // ── Answer count + stats ─────────────────────────────────────────────
+      // The plain count is visible to everyone as soon as the timer runs, so
+      // the moderator knows when to lock and players see live progress.
+      // The A/B/C/D distribution stays moderator-only and only after the round
+      // is locked, so it never biases players who are still answering.
+      if (['running', 'locked', 'results'].includes(activeRound.status ?? '')) {
         const { data: allAnswers } = await s
           .from('herd_answers')
           .select('answer')
@@ -143,13 +148,17 @@ export async function GET(req: NextRequest, context: any) {
           .eq('round_id', activeRound.id)
           .eq('q_index', qIndex)
 
-        const stats: Record<string, number> = { A: 0, B: 0, C: 0, D: 0 }
-        for (const a of allAnswers ?? []) {
-          const k = (a.answer as string)?.toUpperCase()
-          if (k && k in stats) stats[k]++
+        const rows = allAnswers ?? []
+        result.answeredCount = rows.length
+
+        if (isOwner && ['locked', 'results'].includes(activeRound.status ?? '')) {
+          const stats: Record<string, number> = { A: 0, B: 0, C: 0, D: 0 }
+          for (const a of rows) {
+            const k = (a.answer as string)?.toUpperCase()
+            if (k && k in stats) stats[k]++
+          }
+          result.answerStats = stats
         }
-        result.answerStats = stats
-        result.answeredCount = (allAnswers ?? []).length
       }
 
       // ── Leaderboard (results phase or finished) ───────────────────────────

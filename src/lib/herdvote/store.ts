@@ -19,6 +19,8 @@ export type ScoringClassic = {
   correct: number;
   incorrect: number;
   none: number;
+  /** Optional Kahoot-style bonus (0 = off): faster correct answers earn up to this many extra points. */
+  speedBonus?: number;
 };
 
 export type ScoringPodium = {

@@ -26,17 +26,27 @@ export async function GET(_req: NextRequest) {
   const countMap = new Map(asArray(countRes.data).map((c: any) => [c.id, c.count ?? 0]))
   const active = asArray(catRes.data)
 
+  const MIN_QUESTIONS = 5 // a round needs at least this many to be worth picking
+
+  const mapped = active.map((c: any) => ({
+    id: c.id,
+    name: c.name,
+    slug: c.slug ?? '',
+    icon: c.icon ?? '❓',
+    group_tag: c.group_tag ?? 'veda',
+    description_sk: c.description_sk ?? null,
+    source_hint: c.source_hint ?? null,
+    sort_order: c.sort_order ?? 100,
+    question_count: countMap.get(c.id) ?? 0,
+  }))
+
+  // Only expose categories that can actually run a round. Roughly 85% of the
+  // catalog currently has no questions — showing them just leads moderators
+  // into a dead "NOT_ENOUGH_QUESTIONS" on start.
+  const playable = mapped.filter(c => c.question_count >= MIN_QUESTIONS)
+
   return NextResponse.json({
-    categories: active.map((c: any) => ({
-      id: c.id,
-      name: c.name,
-      slug: c.slug ?? '',
-      icon: c.icon ?? '❓',
-      group_tag: c.group_tag ?? 'veda',
-      description_sk: c.description_sk ?? null,
-      source_hint: c.source_hint ?? null,
-      sort_order: c.sort_order ?? 100,
-      question_count: countMap.get(c.id) ?? 0,
-    })),
+    categories: playable,
+    _meta: { total: mapped.length, playable: playable.length },
   })
 }
