@@ -53,8 +53,9 @@ export const PRODUCTS: Record<ProductSlug, ProductConfig> = {
   'quiz': {
     slug: 'quiz',
     name: 'Quiz',
-    hubPath: '/apps/quiz',
-    upgradePath: '/apps/quiz/upgrade',
+    // legacy offline quiz removed — kept as alias to Herd Vote
+    hubPath: '/herd-vote',
+    upgradePath: '/herd-vote/upgrade',
     stripePriceId: process.env.STRIPE_PRICE_QUIZ,
   },
 }

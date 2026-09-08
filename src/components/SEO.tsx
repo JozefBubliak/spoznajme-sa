@@ -12,7 +12,7 @@ export default function SEO({
   title = 'Spoznajme sa – tímová kvízová hra',
   description = 'Zábavný kvíz pre tímy, školy a akcie. Spoznaj sa cez otázky a body!',
   image = 'https://deeptalks.eu/og-image.jpg',
-  url = 'https://deeptalks.eu/sk/apps/quiz'
+  url = 'https://deeptalks.eu/sk/herd-vote'
 }: SEOProps) {
   return (
     <Head>
