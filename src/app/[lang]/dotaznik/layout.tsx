@@ -3,11 +3,26 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
+import { getSession } from '@/app/api/games/_session'
+import { isAdminEmail } from '@/lib/access'
 
-// Neverejné, nezaraditeľné do vyhľadávačov — pracovná verzia.
+// Neverejné, nezaraditeľné do vyhľadávačov — pracovná verzia, len pre adminov.
 export const metadata: Metadata = {
   title: 'Dotazník intímnych preferencií (pracovná verzia)',
   robots: { index: false, follow: false, nocache: true },
+}
+
+// Admin gate číta cookie → celý strom musí byť dynamický (žiadny prerender).
+export const dynamic = 'force-dynamic'
+
+// Záložný zoznam adminov (ak nie je nastavený ADMIN_EMAILS env na produkcii).
+const FALLBACK_ADMINS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
+
+async function guardAdmin() {
+  const session = await getSession()
+  const email = session?.user?.email?.toLowerCase()
+  const ok = !!email && (isAdminEmail(email) || FALLBACK_ADMINS.includes(email))
+  if (!ok) notFound()
 }
 
 export default async function DotaznikLayout({
@@ -21,11 +36,14 @@ export default async function DotaznikLayout({
   const lang = normalizeUrlLocale(raw)
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
 
+  // Zatiaľ prístup len pre adminov.
+  await guardAdmin()
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* pracovná lišta — kým je nástroj neverejný */}
       <div className="w-full border-b border-[hsl(var(--warning))]/30 bg-[hsl(var(--warning))]/10 px-4 py-1.5 text-center text-[11px] font-medium uppercase tracking-widest text-[hsl(var(--warning))]">
-        Pracovná verzia · neverejné · zatiaľ len kostra stromu
+        Pracovná verzia · len pre adminov · zatiaľ len kostra stromu
       </div>
 
       <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur">
