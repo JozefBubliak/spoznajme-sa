@@ -115,7 +115,8 @@ export async function GET(req: NextRequest, context: any) {
             c: q.answer_c,
             d: q.answer_d,
             correct: revealAnswer ? (q.correct_answer as string) : null,
-            funFact: revealAnswer ? ((q as any).fun_fact ?? null) : null,
+            // Fun fact is the moderator's line to read aloud — never sent to players.
+            funFact: revealAnswer && isOwner ? ((q as any).fun_fact ?? null) : null,
             qIndex,
             total: questionIds.length,
           }

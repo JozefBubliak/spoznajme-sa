@@ -11,75 +11,136 @@ export default async function HerdVoteHubPage({ params }: P) {
   const lang = normalizeUrlLocale(raw)
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
 
-  const categories = [
-    { icon: '👨‍👩‍👦', title: 'Rodina', desc: 'Spomienky, tradície, detstvo a to, čo si o sebe myslíme, že už vieme.' },
-    { icon: '💑', title: 'Páry', desc: 'Láskavé aj prekvapivé otázky, ktoré ukážu, ako dobre sa naozaj poznáte.' },
-    { icon: '👫', title: 'Priatelia', desc: 'Večerný formát pre skupiny, ktoré sa chcú zabaviť aj trochu odhaliť.' },
-    { icon: '💼', title: 'Tím / práca', desc: 'Psychologicky bezpečné otázky na spoznávanie kolegov bez trápnosti.' },
-    { icon: '🏫', title: 'Škola', desc: 'Pre triedy a detské skupiny. Ľahké, zrozumiteľné a bez vylučovania.' },
-    { icon: '🎉', title: 'Zmiešané skupiny', desc: 'Pre partie, ktoré sa ešte dobre nepoznajú, ale chcú sa rýchlo rozhýbať.' },
+  const stats = [
+    { value: '23', label: 'kategórií' },
+    { value: '2 600+', label: 'otázok' },
+    { value: '4–20', label: 'hráčov' },
+    { value: '0', label: 'inštalácií' },
   ]
 
   const steps = [
-    { n: '01', title: 'Vyber kategóriu', desc: 'Rodina, priatelia, práca alebo čistý zábavný kvíz.' },
-    { n: '02', title: 'Vytvor lobby', desc: 'Prihlás sa, klikni a dostaneš kód + QR. Trvá 10 sekúnd.' },
-    { n: '03', title: 'Hráči sa pripoja', desc: 'Každý naskenuje QR alebo zadá kód na telefóne. Bez inštalácie.' },
-    { n: '04', title: 'Hraj a porovnaj', desc: 'Moderátor spúšťa otázky, hráči odpovedajú, výsledky sa ukážu hneď.' },
+    { n: '1', title: 'Vytvor hru', desc: 'Prihlás sa a klikni. Dostaneš 6-znakový kód a QR. Trvá to 10 sekúnd.' },
+    { n: '2', title: 'Hráči sa pripoja', desc: 'Naskenujú QR alebo zadajú kód v telefóne. Žiadna aplikácia, žiadna registrácia.' },
+    { n: '3', title: 'Ty moderuješ', desc: 'Čítaš otázky, spúšťaš časomieru, odhaľuješ správne odpovede aj zaujímavosti.' },
+    { n: '4', title: 'Rebríček naživo', desc: 'Body podľa rýchlosti, série 🔥, pohyb v poradí a finálne pódium s konfetami.' },
+  ]
+
+  const categories = [
+    { icon: '🎬', name: 'Popkultúra – Hudba, Film, Seriály' },
+    { icon: '🐾', name: 'Zvieratá & rastliny' },
+    { icon: '🪐', name: 'Vesmír a planéty' },
+    { icon: '🎨', name: 'Kultúra a umenie' },
+    { icon: '⚽', name: 'Šport' },
+    { icon: '🏛️', name: 'História Svet' },
+    { icon: '💬', name: 'Slang a internetová kultúra' },
+    { icon: '🤯', name: 'Zábavné rekordy & kuriozity' },
+    { icon: '🇸🇰', name: 'História Slovensko' },
+    { icon: '🧠', name: 'Logika & rýchla matematika' },
+    { icon: '💻', name: 'Technológie a vynálezy' },
+    { icon: '🎯', name: 'Tipni si' },
+  ]
+
+  const audiences = [
+    { icon: '👨‍👩‍👦', title: 'Rodina', desc: 'Večer pri stole namiesto telefónov v ruke.' },
+    { icon: '👫', title: 'Partia', desc: 'Rozhýbe aj skupinu, ktorá sa ešte dobre nepozná.' },
+    { icon: '💼', title: 'Tím / práca', desc: 'Teambuilding bez trápnosti a nútených aktivít.' },
+    { icon: '🏫', title: 'Škola', desc: 'Trieda proti triede. Rýchle, férové, bez vylučovania.' },
   ]
 
   return (
     <div className="hv-bg hv-particles min-h-screen">
 
       {/* HERO */}
-      <section className="max-w-5xl mx-auto px-5 pt-12 pb-12 text-center">
+      <section className="max-w-5xl mx-auto px-5 pt-14 pb-14 md:pt-20">
+        <div className="text-center space-y-4 mb-10">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white/80 backdrop-blur-md">
+            <span>🐂</span> Pub-kvíz s moderátorom
+          </span>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-[1.05]">
+            Otázka na plátne.<br />
+            <span className="hv-text-gradient">Odpovede na mobiloch.</span>
+          </h1>
+          <p className="text-white/70 text-base md:text-lg max-w-xl mx-auto">
+            Ty čítaš otázky a moderuješ, hráči ťukajú na telefóne. Body za rýchlosť,
+            série a naživo sa mení rebríček. Hra na 15–45 minút.
+          </p>
+        </div>
+
         <HerdVoteEntryClient lang={lang as Locale} />
+
+        <div className="mt-10 grid grid-cols-4 gap-3 max-w-lg mx-auto">
+          {stats.map(s => (
+            <div key={s.label} className="text-center">
+              <div className="text-2xl md:text-3xl font-black text-white tabular-nums">{s.value}</div>
+              <div className="text-[0.65rem] md:text-xs uppercase tracking-widest text-white/50 mt-0.5">{s.label}</div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="max-w-4xl mx-auto px-5 py-12">
-        <h2 className="text-xl font-black text-white/80 uppercase tracking-widest text-center mb-8">
+      <section className="max-w-5xl mx-auto px-5 py-14">
+        <h2 className="text-xs font-black text-white/60 uppercase tracking-[0.25em] text-center mb-10">
           Ako to funguje
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {steps.map(s => (
             <div key={s.n} className="hv-card p-5 space-y-3">
-              <div className="text-3xl font-black text-purple-500/40 font-mono">{s.n}</div>
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500/30 to-blue-500/20 border border-purple-400/30 flex items-center justify-center text-sm font-black text-white">
+                {s.n}
+              </div>
               <h3 className="font-bold text-white text-sm">{s.title}</h3>
-              <p className="text-xs text-white/50 leading-relaxed">{s.desc}</p>
+              <p className="text-xs text-white/55 leading-relaxed">{s.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* CATEGORIES */}
-      <section className="max-w-4xl mx-auto px-5 py-12">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-black text-white/80 uppercase tracking-widest">
-            Kategórie
-          </h2>
+      <section className="max-w-5xl mx-auto px-5 py-14">
+        <div className="flex items-end justify-between mb-6 gap-4">
+          <div>
+            <h2 className="text-xs font-black text-white/60 uppercase tracking-[0.25em]">Kategórie</h2>
+            <p className="text-white/45 text-sm mt-1">Vyber si sadu na každé kolo. Otázky sa v hre neopakujú.</p>
+          </div>
           <Link href={`/${lang}/herd-vote/kategorie`}
-            className="text-xs text-purple-400 hover:text-purple-300 transition-colors">
-            Všetky kategórie →
+            className="shrink-0 text-xs font-bold text-purple-300 hover:text-purple-200 transition-colors whitespace-nowrap">
+            Všetky →
           </Link>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="flex flex-wrap gap-2">
           {categories.map(c => (
-            <div key={c.title} className="hv-card p-5 space-y-2">
-              <div className="text-2xl">{c.icon}</div>
-              <h3 className="font-bold text-white text-sm">{c.title}</h3>
-              <p className="text-xs text-white/50 leading-relaxed">{c.desc}</p>
+            <span key={c.name}
+              className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-3.5 py-2 text-sm font-semibold text-white/80 backdrop-blur-sm">
+              <span>{c.icon}</span>{c.name}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* AUDIENCES */}
+      <section className="max-w-5xl mx-auto px-5 py-14">
+        <h2 className="text-xs font-black text-white/60 uppercase tracking-[0.25em] text-center mb-10">
+          Pre koho
+        </h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {audiences.map(a => (
+            <div key={a.title} className="hv-card p-5 space-y-2">
+              <div className="text-2xl">{a.icon}</div>
+              <h3 className="font-bold text-white text-sm">{a.title}</h3>
+              <p className="text-xs text-white/50 leading-relaxed">{a.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* BOTTOM CTA */}
-      <section className="max-w-xl mx-auto px-5 py-16 text-center space-y-5">
-        <div className="hv-card-glow p-8 space-y-4">
+      <section className="max-w-xl mx-auto px-5 py-16 text-center">
+        <div className="hv-card-glow p-8 md:p-10 space-y-4">
           <div className="text-4xl">🚀</div>
-          <h2 className="text-2xl font-black text-white">Pripravený hrať?</h2>
-          <p className="text-sm text-white/50">
-            Hra trvá 15–45 minút. Ideálna pre 4–20 ľudí.
+          <h2 className="text-2xl md:text-3xl font-black text-white">Pripravený hrať?</h2>
+          <p className="text-sm text-white/55">
+            Nič sa neinštaluje. Nič sa neplatí za skúšku. Otvor lobby a pošli link.
           </p>
           <Link
             href={`/${lang}/herd-vote/lobby`}

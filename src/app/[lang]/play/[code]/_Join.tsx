@@ -221,20 +221,26 @@ function TimerRing({ deadline, seconds }: { deadline: string | null; seconds: nu
     return () => clearInterval(id)
   }, [deadline, seconds])
 
-  const pct = seconds > 0 ? remaining / seconds : 0
+  const pct = seconds > 0 ? Math.max(0, Math.min(1, remaining / seconds)) : 0
   const urgent = remaining <= 5
+  const R = 52
+  const C = 2 * Math.PI * R
 
   return (
-    <div className="w-full max-w-sm mx-auto flex flex-col items-center gap-2">
-      <span className={`text-5xl font-black tabular-nums ${urgent ? 'text-red-500 animate-pulse' : 'text-white'}`}>
+    <div className="relative w-32 h-32 md:w-36 md:h-36">
+      <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
+        <circle cx="60" cy="60" r={R} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="9" />
+        <circle
+          cx="60" cy="60" r={R} fill="none"
+          stroke={urgent ? '#f87171' : '#ffffff'} strokeWidth="9" strokeLinecap="round"
+          strokeDasharray={C}
+          strokeDashoffset={C * (1 - pct)}
+          style={{ transition: 'stroke-dashoffset 0.3s linear, stroke 0.3s' }}
+        />
+      </svg>
+      <span className={`absolute inset-0 flex items-center justify-center text-4xl md:text-5xl font-black tabular-nums ${urgent ? 'text-red-300 animate-pulse' : 'text-white'}`}>
         {remaining}
       </span>
-      <div className="w-full h-2 rounded-full bg-white/20 overflow-hidden">
-        <div
-          className={`h-full rounded-full transition-all duration-300 ${urgent ? 'bg-red-500' : 'bg-white'}`}
-          style={{ width: `${Math.max(0, Math.min(100, pct * 100))}%` }}
-        />
-      </div>
     </div>
   )
 }
@@ -625,8 +631,7 @@ function PlayerGame({ gs, code, playerId, deltas, myStreak }: { gs: GameState; c
           </div>
         )}
 
-        {/* Fun fact */}
-        {locked && <FunFactCard text={q.funFact} />}
+        {/* Fun fact is moderator-only (they read it aloud) — not shown here. */}
 
         {/* Results leaderboard */}
         {round.status === 'results' && gs.leaderboard && (
@@ -721,7 +726,7 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
         <div className="hv-card-glow p-8 text-center space-y-5">
           <div className="space-y-2">
             <p className="hv-text-dim text-xs uppercase tracking-widest font-semibold">Kód hry</p>
-            <div className="text-6xl md:text-7xl font-black text-white tracking-[0.2em] font-mono">{code}</div>
+            <div className="hv-code-hero text-6xl md:text-8xl font-black text-white tracking-[0.15em] font-mono">{code}</div>
           </div>
           
           {/* QR Code */}

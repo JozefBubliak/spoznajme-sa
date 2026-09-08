@@ -96,9 +96,9 @@ export default function HerdVoteHubLayout({
   const { lang } = use(params)
 
   return (
-    <div className="min-h-screen" style={{ background: 'hsl(250 25% 6%)' }}>
+    <div className="hv-bg min-h-screen">
       <HerdVoteNav lang={lang} />
-      {/* Offset for fixed nav */}
+      {/* Offset for fixed nav — gradient continues seamlessly behind it */}
       <div className="pt-14">
         {children}
       </div>
