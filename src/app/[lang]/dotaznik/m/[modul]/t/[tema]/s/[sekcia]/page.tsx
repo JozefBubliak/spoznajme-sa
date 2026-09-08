@@ -9,7 +9,9 @@ import {
   MODULY,
   type SekciaId,
 } from '@/lib/dotaznik/strom'
+import { otazkySekcie } from '@/lib/dotaznik/otazky'
 import { Krok } from '../../../../../../_ui'
+import SekciaOtazky from '../../../../../../_odpovede'
 
 type P = { params: Promise<{ lang: string; modul: string; tema: string; sekcia: string }> }
 
@@ -46,6 +48,21 @@ export default async function TemaSekcia({ params }: P) {
   const dalejHref = dalsia
     ? cesta.temaSekcia(modul.slug, tema.slug, dalsia.id)
     : cesta.temaHotovo(modul.slug, tema.slug)
+
+  // Ak má sekcia reálne otázky → interaktívny formulár, inak kostra.
+  if (otazkySekcie(modul.slug, tema.slug, sekcia.id).length > 0) {
+    return (
+      <SekciaOtazky
+        lang={lang}
+        modul={modul.slug}
+        tema={tema.slug}
+        sekcia={sekcia.id}
+        nazovSekcie={`${tema.nazov} · ${sekcia.nazov}`}
+        dalejHref={dalejHref}
+        spatHref={spatHref}
+      />
+    )
+  }
 
   return (
     <Krok
