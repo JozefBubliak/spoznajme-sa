@@ -168,7 +168,9 @@ export default function ParDashboard({ lang, kod }: { lang: string; kod: string 
 
       <div className="flex flex-col gap-3">
         <button
-          onClick={() => router.push(`/${lang}/dotaznik/moduly`)}
+          onClick={() =>
+            router.push(`/${lang}/dotaznik/${pair?.rezim === 'live' ? 'nazivo' : 'moduly'}`)
+          }
           className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
         >
           {pair?.rezim === 'live' ? 'Spustiť sprievodcu rozhovorom →' : 'Prejsť na moduly →'}
