@@ -10,15 +10,17 @@ export async function GET(_req: NextRequest) {
 
   const s = supabaseServer() // service role — bypasses RLS
 
-  // Get all active games for the user
+  // Recent, not-yet-finished games this moderator owns.
   const { data: games } = await s
     .from('herd_games')
     .select('code, phase, created_at')
     .eq('owner_id', session.user.id)
-    .in('phase', ['lobby', 'config', 'playing'])
+    .in('phase', ['lobby', 'config', 'round_setup', 'playing'])
     .order('created_at', { ascending: false })
+    .limit(20)
 
-  // Get player counts for each game
+  const STALE_LOBBY_MS = 6 * 60 * 60 * 1000 // 6h
+
   const gamesWithCounts = await Promise.all(
     (games || []).map(async (game) => {
       const { count: playerCount } = await s
@@ -30,11 +32,21 @@ export async function GET(_req: NextRequest) {
         code: game.code,
         phase: game.phase,
         playerCount: playerCount || 0,
-        createdAt: game.created_at
+        createdAt: game.created_at,
       }
     })
   )
 
-  return NextResponse.json({ games: gamesWithCounts })
+  // Only surface games worth resuming: anything in progress, or a fresh lobby.
+  // An empty lobby left sitting for hours is abandoned — don't clutter the list.
+  const now = Date.now()
+  const resumable = gamesWithCounts.filter((g) => {
+    if (g.phase !== 'lobby') return true
+    if (g.playerCount > 0) return true
+    const age = now - new Date(g.createdAt as string).getTime()
+    return age < STALE_LOBBY_MS
+  })
+
+  return NextResponse.json({ games: resumable })
 }
 
