@@ -2,13 +2,53 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { getModul, MODULY, susednyModul } from '@/lib/dotaznik/strom'
-import { sprievodcaUzol } from '@/lib/dotaznik/sprievodca'
+import { sprievodcaUzol, type SprievodcaUzol } from '@/lib/dotaznik/sprievodca'
 import { Krok } from '../../_ui'
 
 type P = { params: Promise<{ lang: string; modul: string }> }
 
 export function generateStaticParams() {
   return MODULY.map((m) => ({ modul: m.slug }))
+}
+
+function Blok({ nadpis, text }: { nadpis: string; text: string }) {
+  return (
+    <div>
+      <div className="text-xs font-semibold uppercase tracking-widest text-primary/70">{nadpis}</div>
+      <p className="mt-1 text-sm leading-relaxed text-foreground">{text}</p>
+    </div>
+  )
+}
+
+function Zoznam({ nadpis, polozky, ton }: { nadpis: string; polozky: string[]; ton?: 'safe' }) {
+  return (
+    <div>
+      <div
+        className={`text-xs font-semibold uppercase tracking-widest ${
+          ton === 'safe' ? 'text-[hsl(var(--warning))]' : 'text-primary/70'
+        }`}
+      >
+        {nadpis}
+      </div>
+      <ul className="mt-1.5 space-y-1 text-sm leading-relaxed text-foreground">
+        {polozky.map((x) => (
+          <li key={x}>• {x}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+function Uzol({ u }: { u: SprievodcaUzol }) {
+  return (
+    <div className="space-y-4">
+      {u.co && <Blok nadpis="Čo to je" text={u.co} />}
+      {u.preco && <Blok nadpis="Prečo to páry skúšajú" text={u.preco} />}
+      {u.bezpecne && u.bezpecne.length > 0 && <Zoznam nadpis="Bezpečne" polozky={u.bezpecne} ton="safe" />}
+      {u.akoZacat && u.akoZacat.length > 0 && <Zoznam nadpis="Ako začať" polozky={u.akoZacat} />}
+      <Zoznam nadpis="Na rozhovor" polozky={u.prompty} />
+    </div>
+  )
 }
 
 export default async function NazivoModul({ params }: P) {
@@ -33,36 +73,23 @@ export default async function NazivoModul({ params }: P) {
           : { href: p('/dotaznik/nazivo/hotovo'), label: 'Dokončiť' }
       }
     >
-      {uvod.edu && (
-        <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 text-sm leading-relaxed text-foreground">
-          {uvod.edu}
-        </div>
-      )}
-      {uvod.prompty.length > 0 && (
-        <div className="rounded-2xl border border-border/70 bg-card/50 p-5">
-          <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Na začiatok
-          </div>
-          <ul className="mt-2 space-y-1.5 text-sm text-foreground">
-            {uvod.prompty.map((q) => (
-              <li key={q}>• {q}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5">
+        <Uzol u={uvod} />
+      </div>
 
-      {modul.temy.map((t) => {
+      {modul.temy.map((t, i) => {
         const u = sprievodcaUzol(`${modul.slug}/${t.slug}`, t.popis)
         return (
           <div key={t.slug} className="rounded-2xl border border-border/70 bg-card/40 p-5">
-            <div className="text-sm font-semibold text-foreground">{t.nazov}</div>
+            <div className="text-sm font-semibold text-foreground">
+              {modul.cislo}.{i + 1} · {t.nazov}
+              {t.rizikova && <span className="ml-2 text-xs text-[hsl(var(--warning))]">🔒 rizikové</span>}
+              {t.zrkadlova && <span className="ml-2 text-xs text-muted-foreground">⇄ prijímam/poskytujem</span>}
+            </div>
             <p className="mt-1 text-xs text-muted-foreground">{t.popis}</p>
-            {u.edu && <p className="mt-3 text-sm leading-relaxed text-foreground">{u.edu}</p>}
-            <ul className="mt-3 space-y-1.5 text-sm text-foreground">
-              {u.prompty.map((q) => (
-                <li key={q}>• {q}</li>
-              ))}
-            </ul>
+            <div className="mt-4">
+              <Uzol u={u} />
+            </div>
           </div>
         )
       })}
