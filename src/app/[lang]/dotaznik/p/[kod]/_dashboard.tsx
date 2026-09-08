@@ -130,9 +130,7 @@ export default function ParDashboard({ lang, kod }: { lang: string; kod: string 
     <div className={`${wrap} space-y-8`}>
       <div>
         <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">Váš pár</p>
-        <h1 className="text-2xl font-semibold text-foreground">
-          {pair?.rezim === 'live' ? 'Režim Naživo' : 'Režim Bez trapasu'}
-        </h1>
+        <h1 className="text-2xl font-semibold text-foreground">Bez trapasu — každý sám</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Kód <span className="font-mono font-semibold text-foreground">{kod}</span> · ty:{' '}
           <span className="text-foreground">{jaSom || '—'}</span> · partner/ka:{' '}
@@ -168,12 +166,10 @@ export default function ParDashboard({ lang, kod }: { lang: string; kod: string 
 
       <div className="flex flex-col gap-3">
         <button
-          onClick={() =>
-            router.push(`/${lang}/dotaznik/${pair?.rezim === 'live' ? 'nazivo' : 'moduly'}`)
-          }
+          onClick={() => router.push(`/${lang}/dotaznik/moduly`)}
           className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
         >
-          {pair?.rezim === 'live' ? 'Spustiť sprievodcu rozhovorom →' : 'Prejsť na moduly →'}
+          Prejsť na moduly →
         </button>
         <button onClick={zmazat} className="text-xs text-[hsl(var(--destructive))]/80 transition hover:text-[hsl(var(--destructive))]">
           Zmazať všetko (pár aj odpovede)

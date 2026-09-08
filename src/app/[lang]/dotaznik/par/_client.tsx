@@ -4,17 +4,15 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { readPar, writePar, clearPar, parsujOdkaz, usePar } from '../_par'
 
-type Rezim = 'live' | 'blind'
-
 export default function ParClient({ lang }: { lang: string }) {
   const router = useRouter()
   const { par, ready } = usePar()
-  const [rezim, setRezim] = useState<Rezim>('blind')
   const [prezyvka, setPrezyvka] = useState('')
   const [odkaz, setOdkaz] = useState('')
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
 
+  const p = (s: string) => `/${lang}${s}`
   const go = (kod: string) => router.push(`/${lang}/dotaznik/p/${kod}`)
 
   async function vytvorit() {
@@ -24,11 +22,11 @@ export default function ParClient({ lang }: { lang: string }) {
       const r = await fetch('/api/dotaznik/pary', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ rezim, prezyvka }),
+        body: JSON.stringify({ rezim: 'blind', prezyvka }),
       })
       const d = await r.json()
       if (!r.ok) throw new Error(d.error ?? 'chyba')
-      writePar({ kod: d.kod, secret: d.secret, slot: 'a', rezim: d.rezim, prezyvka: prezyvka || 'Ja' })
+      writePar({ kod: d.kod, secret: d.secret, slot: 'a', rezim: 'blind', prezyvka: prezyvka || 'Ja' })
       go(d.kod)
     } catch (e) {
       setErr(e instanceof Error ? e.message : 'chyba')
@@ -59,7 +57,6 @@ export default function ParClient({ lang }: { lang: string }) {
 
   if (!ready) return <div className="mx-auto max-w-2xl px-5 py-14 text-sm text-muted-foreground">Načítavam…</div>
 
-  // Už existuje lokálny pár
   const existujuci = readPar()
   if (par && existujuci) {
     return (
@@ -67,8 +64,7 @@ export default function ParClient({ lang }: { lang: string }) {
         <h1 className="text-2xl font-semibold text-foreground">Máš rozrobený pár</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Kód <span className="font-mono font-semibold text-foreground">{existujuci.kod}</span> · rola{' '}
-          {existujuci.slot === 'a' ? 'tvorca' : 'pozvaný/á'} · režim{' '}
-          {existujuci.rezim === 'live' ? 'Naživo' : 'Bez trapasu'}
+          {existujuci.slot === 'a' ? 'tvorca' : 'pozvaný/á'}
         </p>
         <div className="mt-8 flex flex-col gap-3">
           <button
@@ -92,70 +88,54 @@ export default function ParClient({ lang }: { lang: string }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-2xl px-5 py-12 space-y-10">
+    <div className="mx-auto w-full max-w-2xl px-5 py-12 space-y-8">
       <div>
-        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">Krok 1 — Pár</p>
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">Ako to chcete robiť?</p>
         <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-          Bez registrácie. Len prezývka a kód.
+          Spolu pri jednom, alebo každý sám?
         </h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          Žiadny e-mail, žiadny účet. Kód páru + tajný odkaz pošleš partnerovi hocijako. Dáta sa
-          po 30 dňoch samé zmažú a kedykoľvek ich zmažeš tlačidlom.
-        </p>
       </div>
 
-      <label className="block">
-        <span className="text-sm font-medium text-foreground">Tvoja prezývka (voliteľné)</span>
+      {/* NAŽIVO — jedno zariadenie, žiadne párovanie */}
+      <div className="rounded-2xl border border-border/70 bg-card/60 p-5 space-y-3">
+        <div className="text-sm font-semibold text-foreground">Naživo — spolu pri jednom zariadení</div>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Sadnite si vedľa seba. Sprievodca vás prevedie témami, dá kontext a otázky na rozhovor.
+          Nič sa neklikne ani neukladá — a netreba žiadny kód.
+        </p>
+        <button
+          onClick={() => router.push(p('/dotaznik/nazivo'))}
+          className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
+        >
+          Spustiť sprievodcu →
+        </button>
+      </div>
+
+      {/* BEZ TRAPASU — dve zariadenia, párovanie kódom */}
+      <div className="rounded-2xl border border-border/70 bg-card/60 p-5 space-y-3">
+        <div className="text-sm font-semibold text-foreground">Bez trapasu — každý sám, potom mapa zhôd</div>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Každý odpovedá na svojom zariadení, oddelene. Ukáže sa len to, kde ste sa zhodli —
+          nesúlad nikto neuvidí. Bez e-mailu, bez účtu.
+        </p>
         <input
           value={prezyvka}
           onChange={(e) => setPrezyvka(e.target.value)}
           maxLength={24}
-          placeholder="napr. Ja"
-          className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
+          placeholder="Tvoja prezývka (voliteľné)"
+          className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-primary"
         />
-      </label>
-
-      {/* Vytvoriť */}
-      <div className="rounded-2xl border border-border/70 bg-card/60 p-5 space-y-4">
-        <div className="text-sm font-semibold text-foreground">Vytvoriť nový pár</div>
-        <div className="space-y-2">
-          {(
-            [
-              ['blind', 'Bez trapasu', 'Oddelene. Ukáže sa len zhoda, nesúlad nikto neuvidí.'],
-              ['live', 'Naživo', 'Sprievodca rozhovorom. Nič sa neukladá.'],
-            ] as const
-          ).map(([val, nazov, popis]) => (
-            <label
-              key={val}
-              className={`flex cursor-pointer gap-3 rounded-xl border p-3 transition ${
-                rezim === val ? 'border-primary bg-primary/5' : 'border-border/60'
-              }`}
-            >
-              <input
-                type="radio"
-                name="rezim"
-                checked={rezim === val}
-                onChange={() => setRezim(val)}
-                className="mt-0.5"
-              />
-              <span>
-                <span className="block text-sm font-medium text-foreground">{nazov}</span>
-                <span className="block text-xs text-muted-foreground">{popis}</span>
-              </span>
-            </label>
-          ))}
-        </div>
         <button
           onClick={vytvorit}
           disabled={busy}
-          className="rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:opacity-50"
+          className="rounded-full border border-primary bg-primary/10 px-6 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary/20 disabled:opacity-50"
         >
-          Vytvoriť a získať odkaz
+          Vytvoriť pár a získať odkaz
         </button>
       </div>
 
-      {/* Pripojiť */}
-      <div className="rounded-2xl border border-border/70 bg-card/60 p-5 space-y-3">
+      {/* PRIPOJIŤ SA */}
+      <div className="rounded-2xl border border-border/70 bg-card/40 p-5 space-y-3">
         <div className="text-sm font-semibold text-foreground">Mám odkaz od partnera/partnerky</div>
         <input
           value={odkaz}
