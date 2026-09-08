@@ -512,17 +512,20 @@ function PlayerLobby({ gs, myName }: { gs: GameState; myName: string }) {
 function PlayerGame({ gs, code, playerId, deltas, myStreak }: { gs: GameState; code: string; playerId: string; deltas?: Record<string, number>; myStreak?: number }) {
   const round = gs.round
   const q = gs.question
-  const [myAnswer, setMyAnswer] = useState<string | null>(gs.myAnswer ?? null)
   const [sending, setSending] = useState(false)
 
-  useEffect(() => {
-    if (gs.myAnswer !== undefined) setMyAnswer(gs.myAnswer)
-  }, [gs.myAnswer])
+  // Optimistic pick, scoped to the current round+question. On any new question
+  // this falls back to the server value (null for a fresh question) — so a
+  // selection can never bleed over from the previous round.
+  const qKey = round ? `${round.id}:${round.q_index}` : ''
+  const [pick, setPick] = useState<{ key: string; letter: string } | null>(null)
+  const myAnswer: string | null =
+    pick && pick.key === qKey ? pick.letter : (gs.myAnswer ?? null)
 
   const submitAnswer = async (letter: string) => {
     if (!round || myAnswer || sending || round.status !== 'running') return
     setSending(true)
-    setMyAnswer(letter)
+    setPick({ key: qKey, letter })
     sfx().select(); haptic('select')
     const res = await api(`/api/games/${code}/answers`, 'POST', {
       playerId, roundId: round.id, qIndex: round.q_index, answer: letter,
@@ -530,7 +533,7 @@ function PlayerGame({ gs, code, playerId, deltas, myStreak }: { gs: GameState; c
     setSending(false)
     // Server rejected it (timer expired, round locked…) — release the pick so
     // the player isn't left staring at a selection that never registered.
-    if (res?.error && !res?.ignored) setMyAnswer(null)
+    if (res?.error && !res?.ignored) setPick(null)
   }
 
   if (!round || !q) {
@@ -835,6 +838,10 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
   const [search, setSearch] = useState('')
   const [filterGroup, setFilterGroup] = useState('all')
   const [confirming, setConfirming] = useState(false)
+  // Number of rounds. null = auto (= number of selected categories). Moderator
+  // can override: more rounds than categories → extra rounds pick a category in step 2.
+  const [numRounds, setNumRounds] = useState<number | null>(null)
+  const roundsCount = Math.max(1, numRounds ?? selCats.length)
 
   // Step 2 – round-by-round setup (phase === 'round_setup')
   const [pickedCats, setPickedCats] = useState<Category[]>([]) // preserved from step 1
@@ -881,7 +888,7 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
   const confirmCategories = async () => {
     if (!selCats.length) return
     setConfirming(true)
-    const res = await api(`/api/games/${code}/config`, 'POST', { totalRounds: selCats.length })
+    const res = await api(`/api/games/${code}/config`, 'POST', { totalRounds: roundsCount })
     if (res.ok) { setPickedCats(selCats); onRefresh() }
     setConfirming(false)
   }
@@ -1043,6 +1050,31 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
             </div>
           )}
 
+          {/* Round count */}
+          {selCats.length > 0 && (
+            <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
+              <div className="flex-1">
+                <div className="text-xs hv-text-dim uppercase tracking-widest font-semibold">Počet kôl</div>
+                <div className="text-[11px] hv-text-dim mt-0.5">
+                  {roundsCount > selCats.length
+                    ? `${roundsCount - selCats.length} kolám navyše vyberieš kategóriu v ďalšom kroku`
+                    : roundsCount < selCats.length
+                      ? `použije sa prvých ${roundsCount} vybraných kategórií`
+                      : 'jedno kolo na každú vybranú kategóriu'}
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <button type="button" onClick={() => setNumRounds(Math.max(1, roundsCount - 1))}
+                  className="w-8 h-8 rounded-lg border border-white/15 text-white/80 hover:bg-white/10">−</button>
+                <input type="number" min={1} max={20} value={roundsCount}
+                  onChange={e => setNumRounds(Math.max(1, Math.min(20, +e.target.value || 1)))}
+                  className="hv-input w-14 px-2 py-1.5 text-center" />
+                <button type="button" onClick={() => setNumRounds(Math.min(20, roundsCount + 1))}
+                  className="w-8 h-8 rounded-lg border border-white/15 text-white/80 hover:bg-white/10">+</button>
+              </div>
+            </div>
+          )}
+
           {/* Confirm */}
           <button
             onClick={confirmCategories}
@@ -1053,7 +1085,7 @@ function ModeratorRoundSetup({ gs, code, onRefresh }: {
               ? 'Ukladám…'
               : selCats.length === 0
                 ? 'Vyber aspoň 1 kategóriu'
-                : `Potvrdiť výber — ${roundLabel(selCats.length)} →`}
+                : `Potvrdiť výber — ${roundLabel(roundsCount)} →`}
           </button>
         </div>
       </div>

@@ -124,16 +124,22 @@ export async function GET(req: NextRequest, context: any) {
       }
 
       // ── Player's own answer ───────────────────────────────────────────────
-      if (playerId && activeRound.status !== 'shown') {
-        const { data: ans } = await s
-          .from('herd_answers')
-          .select('answer')
-          .eq('game_code', gameCode)
-          .eq('round_id', activeRound.id)
-          .eq('q_index', qIndex)
-          .eq('player_id', playerId)
-          .maybeSingle()
-        result.myAnswer = ans?.answer ?? null
+      // Always send an explicit value for the current round/question so the
+      // client never carries a stale selection from the previous round.
+      if (playerId) {
+        if (activeRound.status === 'shown') {
+          result.myAnswer = null // answers not open yet
+        } else {
+          const { data: ans } = await s
+            .from('herd_answers')
+            .select('answer')
+            .eq('game_code', gameCode)
+            .eq('round_id', activeRound.id)
+            .eq('q_index', qIndex)
+            .eq('player_id', playerId)
+            .maybeSingle()
+          result.myAnswer = ans?.answer ?? null
+        }
       }
 
       // ── Answer count + stats ─────────────────────────────────────────────
