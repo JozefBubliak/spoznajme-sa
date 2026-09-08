@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { cesta, getTema, sekcieTemy, MODULY } from '@/lib/dotaznik/strom'
-import { Krok, Volba } from '../../../../../_ui'
+import Screening from '../../../../../_screening'
 
 type P = { params: Promise<{ lang: string; modul: string; tema: string }> }
 
@@ -15,34 +15,22 @@ export default async function TemaChcem({ params }: P) {
   const found = getTema(modulSlug, temaSlug)
   if (!found) notFound()
   const { modul, tema } = found
-  const p = (s: string) => `/${lang}${s}`
 
-  // Áno → rola (ak zrkadlová) alebo rovno prvá sekcia; Ešte nie / Nie → zámok.
   const prvaSekcia = sekcieTemy(tema)[0]
-  const anoHref = tema.zrkadlova
+  const cielAno = tema.zrkadlova
     ? cesta.temaRola(modul.slug, tema.slug)
     : cesta.temaSekcia(modul.slug, tema.slug, prvaSekcia.id)
 
   return (
-    <Krok
-      krok={`${tema.nazov} — screening`}
-      nadpis={`Chceš skúmať tému „${tema.nazov}“?`}
-      lead="Ak jeden z vás zvolí „Nie“ alebo „Ešte nie“, téma sa zamkne obom."
-      spat={{ href: p(cesta.tema(modul.slug, tema.slug)), label: 'Späť na tému' }}
-    >
-      <Volba href={p(anoHref)} nazov="Áno, chcem to skúmať" ton="ano" />
-      <Volba
-        href={p(`${cesta.temaHotovo(modul.slug, tema.slug)}?stav=docasny`)}
-        nazov="Ešte nie"
-        popis="Dočasný zámok."
-        ton="mozno"
-      />
-      <Volba
-        href={p(`${cesta.temaHotovo(modul.slug, tema.slug)}?stav=trvaly`)}
-        nazov="Nie"
-        popis="Trvalý zámok."
-        ton="nie"
-      />
-    </Krok>
+    <Screening
+      lang={lang}
+      modul={modul.slug}
+      tema={tema.slug}
+      nazov={tema.nazov}
+      spatHref={cesta.tema(modul.slug, tema.slug)}
+      cielAno={cielAno}
+      cielEsteNie={`${cesta.temaHotovo(modul.slug, tema.slug)}?stav=docasny`}
+      cielNie={`${cesta.temaHotovo(modul.slug, tema.slug)}?stav=trvaly`}
+    />
   )
 }

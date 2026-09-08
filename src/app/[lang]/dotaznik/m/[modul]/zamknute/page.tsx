@@ -39,9 +39,9 @@ export default async function ModulZamknute({ params, searchParams }: P) {
     >
       {!trvaly && (
         <Volba
-          href={p(cesta.modulTemy(modul.slug))}
+          href={p(cesta.modulChcem(modul.slug))}
           nazov="Odomknúť teraz"
-          popis="Otvorí sa zoznam tém v tomto module."
+          popis="Znova otvorí screening — zvoľ „Áno“."
           ton="ano"
         />
       )}
