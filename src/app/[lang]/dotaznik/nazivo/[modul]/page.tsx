@@ -63,6 +63,7 @@ export default async function NazivoModul({ params }: P) {
 
   return (
     <Krok
+      siroky
       krok={`Naživo · modul ${modul.cislo} — ${modul.ikona}`}
       nadpis={modul.nazov}
       lead={modul.popis}
@@ -73,23 +74,26 @@ export default async function NazivoModul({ params }: P) {
           : { href: p('/dotaznik/nazivo/hotovo'), label: 'Dokončiť' }
       }
     >
+      {/* Rámec modulu — vysvetlenie a bezpečie sú tu RAZ, nie v každej téme */}
       <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5">
         <Uzol u={uvod} />
       </div>
 
+      {/* Témy = len otázky na rozhovor */}
       {modul.temy.map((t, i) => {
         const u = sprievodcaUzol(`${modul.slug}/${t.slug}`, t.popis)
         return (
           <div key={t.slug} className="rounded-2xl border border-border/70 bg-card/40 p-5">
             <div className="text-sm font-semibold text-foreground">
               {modul.cislo}.{i + 1} · {t.nazov}
-              {t.rizikova && <span className="ml-2 text-xs text-[hsl(var(--warning))]">🔒 rizikové</span>}
-              {t.zrkadlova && <span className="ml-2 text-xs text-muted-foreground">⇄ prijímam/poskytujem</span>}
+              {t.zrkadlova && <span className="ml-2 text-xs text-muted-foreground">⇄ prijímam / poskytujem</span>}
             </div>
             <p className="mt-1 text-xs text-muted-foreground">{t.popis}</p>
-            <div className="mt-4">
-              <Uzol u={u} />
-            </div>
+            <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-foreground">
+              {u.prompty.map((q) => (
+                <li key={q}>• {q}</li>
+              ))}
+            </ul>
           </div>
         )
       })}

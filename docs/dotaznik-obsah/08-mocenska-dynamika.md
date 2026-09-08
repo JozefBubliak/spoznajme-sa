@@ -12,6 +12,21 @@
 
 ---
 
+## Tón a filozofia tohto modulu (dôležité)
+
+- **Žiadne tabu.** Ľudia netúžia len po romantike — túžia aj po dominancii a submisii,
+  mnohí považujú **bolesť za vzrušujúcu**, ponižovanie, kontrolu, „použitie", tvrdšie
+  praktiky. To všetko je normálne a patrí sem otvorene, bez zjemňovania („mäkké putá"
+  a podobné opatrné formulácie sú zlé — nazývaj veci priamo: putá, lano, bitie, výprask).
+- **Všetko je konsenzuálne a v dohodnutých hraniciach.** To je jediná podmienka.
+- **Bezpečnosť, hranice, bezpečné slovo, aftercare, súhlas** — to všetko má **vlastnú
+  samostatnú sekciu/modul** (doména I — Hranice, zdravie a telo). **Inde sa to nerieši
+  ani neopakuje.** V tomto module ani v jeho témach žiadne „Bezpečne" bloky.
+- **Vysvetlenie „čo to je" a úrovne/stupne** patria RAZ do úvodu modulu (alebo do sekcie
+  `intro`), **nie do každej témy.** Témy = priamo otázky, čo koho láka a čo je hranica.
+
+---
+
 ## Modul — úvod
 
 **Čo to je.** Konsenzuálna hra, kde si dvojica vedome a **dočasne** rozdelí rolu:

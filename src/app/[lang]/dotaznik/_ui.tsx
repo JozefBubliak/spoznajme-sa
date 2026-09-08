@@ -12,6 +12,7 @@ export function Krok({
   spat,
   children,
   dalej,
+  siroky,
 }: {
   krok?: string
   nadpis: string
@@ -19,9 +20,10 @@ export function Krok({
   spat?: { href: string; label?: string }
   children?: ReactNode
   dalej?: { href: string; label?: string }
+  siroky?: boolean
 }) {
   return (
-    <div className="mx-auto w-full max-w-2xl px-5 py-10 sm:py-14">
+    <div className={`mx-auto w-full px-5 py-10 sm:py-14 ${siroky ? 'max-w-4xl' : 'max-w-2xl'}`}>
       {spat && (
         <Link
           href={spat.href}
