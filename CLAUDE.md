@@ -61,8 +61,12 @@ Presmerovania v `next.config.ts`: `/pomocky → /kompas`, `/apps/herd-vote/* →
 - **Hádačka** — `/[lang]/apps/hadacka`
 - **Áno–Nie–Hm** — party hra `/[lang]/apps/ano-nie-hm`
 
-### Neverejné pracovné vetvy
-- **`/[lang]/dotaznik/**`** — strom stránok intímneho dotazníka pre páry (cieľ: čo sa komu páči/nepáči/neutrál, princíp Double Blind). Zatiaľ **len kostra navigácie, bez otázok**. Strom = `src/lib/dotaznik/strom.ts` (11 modulov → témy → 17-sekciová kostra + helpery `getModul/getTema/sekcieTemy/susedna*` + `cesta.*`). Zdieľané UI: `src/app/[lang]/dotaznik/_ui.tsx`. Vlastný `layout.tsx` (noindex, „pracovná verzia" lišta). Neverejné: `robots.ts` disallow `/dotaznik`, nie je v `sitemap.ts` ani v navigácii. Vetvenie: `chcem` (Áno/Ešte nie/Nie → témy / dočasný / trvalý zámok), `rola` (prijímam/poskytujem/oboje pre zrkadlové témy). Ďalší krok: naplniť sekcie otázkami + prepojiť s `apps/couplesync` engine + DB/pair-kód.
+### Neverejné pracovné vetvy — `/[lang]/dotaznik/**` (intímny dotazník pre páry)
+Cieľ: čo sa komu páči/nepáči/neutrál, Double Blind. Na prod, **admin-only** (`dotaznik/layout.tsx`: `getSession`+`isAdminEmail`+fallback list, `force-dynamic`, non-admin → 404). noindex + `robots.ts` disallow, mimo `sitemap.ts`/navigácie.
+- **Strom stránok (kostra, bez otázok):** `src/lib/dotaznik/strom.ts` (11 zjednodušených modulov → témy → 17-sekciová kostra + helpery + `cesta.*`). Zdieľané UI `_ui.tsx`. Vetvenie: `chcem` (Áno/Ešte nie/Nie), `rola` (prijímam/poskytujem).
+- **Návrh reálneho stromu:** `docs/dotaznik-strom-navrh.md` (9 domén → 54 modulov → ~215 okruhov → ~550 seed L4). `strom.ts` sa má podľa neho prepísať + pridať route level `okruh`.
+- **Anonymné párovanie (hotové):** `supabase/migrations/20260908_dotaznik.sql` (**treba spustiť na Supabase** — `dotaznik_pary/stav_temy/odpovede/zdielania`, RLS bez policies = len service-role, `dotaznik_gc()`). Server helper `src/lib/dotaznik/server.ts` (kód+secret, sha256, `overPar`). API `src/app/api/dotaznik/**` (pary create/join/get/stav/odpoved/zmazat, `gc` cron). Klient `_par.ts` (localStorage), `/dotaznik/par` (create/join), `/dotaznik/p/[kod]` (dashboard, share-link, zmazať všetko). `vercel.json` cron → `/api/dotaznik/gc` denne.
+- **Ďalej (`docs/dotaznik-rezimy-a-odpovede.md` §6):** 8 komponentov typov odpovedí → screening lock logika (real-time) → L3 okruh → Double-Blind vyhodnotenie + Mapa → Režim A (Naživo) → Režim C.
 
 ### Rozpracované / duplicitné herné implementácie
 - `apps/spoznajme-sa` vs `produkty/karticky` vs `apps/cards` — stále **tri vstupy do kartičiek** (nezjednotené).
