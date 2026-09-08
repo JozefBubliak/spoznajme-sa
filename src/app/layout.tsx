@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -8,8 +9,10 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 const instrumentSerif = Instrument_Serif({ variable: "--font-instrument-serif", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
-  title: "Spoznajme sa",
-  description: "Zábavné a hlboké otázky pre každého.",
+  metadataBase: new URL("https://deeptalks.eu"),
+  title: "DeepTalks – rozhovory, ktoré spájajú",
+  description:
+    "Nástroje, otázky a komunita pre hlbšie vzťahy — v rodine, vzťahu, práci aj priateľstve.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -19,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           {children}
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
