@@ -5,6 +5,7 @@ import { SUPPORTED_LOCALES, type Locale } from '@/i18n/config'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { getSession } from '@/app/api/games/_session'
 import { isAdminEmail } from '@/lib/access'
+import { ParTag } from './_par-info'
 
 // Neverejné, nezaraditeľné do vyhľadávačov — pracovná verzia, len pre adminov.
 export const metadata: Metadata = {
@@ -54,12 +55,15 @@ export default async function DotaznikLayout({
           >
             Dotazník
           </Link>
-          <Link
-            href={`/${lang}/dotaznik/moduly`}
-            className="text-xs text-muted-foreground transition hover:text-foreground"
-          >
-            Mapa modulov
-          </Link>
+          <div className="flex items-center gap-4">
+            <ParTag lang={lang} />
+            <Link
+              href={`/${lang}/dotaznik/moduly`}
+              className="text-xs text-muted-foreground transition hover:text-foreground"
+            >
+              Mapa modulov
+            </Link>
+          </div>
         </div>
       </header>
 
