@@ -158,7 +158,10 @@ export async function GET(req: NextRequest, context: any) {
         const rows = allAnswers ?? []
         result.answeredCount = rows.length
 
-        if (isOwner && ['locked', 'results'].includes(activeRound.status ?? '')) {
+        // A/B/C/D distribution: shown to everyone once the round is locked
+        // (nobody can still be answering, so it no longer biases anyone) —
+        // same as Kahoot/Quizizz. During 'running' it stays hidden.
+        if (['locked', 'results'].includes(activeRound.status ?? '')) {
           const stats: Record<string, number> = { A: 0, B: 0, C: 0, D: 0 }
           for (const a of rows) {
             const k = (a.answer as string)?.toUpperCase()

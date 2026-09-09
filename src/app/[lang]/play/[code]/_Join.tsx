@@ -507,6 +507,56 @@ function PlayerLobby({ gs, myName }: { gs: GameState; myName: string }) {
   )
 }
 
+// ─── Answer distribution bars (shown after a round locks) ─────────────────────
+
+function AnswerDistribution({
+  stats,
+  correct,
+  mine,
+}: {
+  stats: Record<string, number>
+  correct: string | null
+  mine: string | null
+}) {
+  const total = Object.values(stats).reduce((a, b) => a + b, 0)
+  return (
+    <div className="hv-stage-panel px-4 py-4">
+      <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/40">
+        Ako odpovedali ostatní
+      </p>
+      <div className="flex items-end gap-2 md:gap-3">
+        {ANSWER_LABELS.map((letter, i) => {
+          const n = stats[letter] ?? 0
+          const pct = total ? Math.round((n / total) * 100) : 0
+          const isCorrect = correct === letter
+          const isMine = mine === letter
+          return (
+            <div key={letter} className="flex flex-1 flex-col items-center gap-1">
+              <span className="text-[11px] font-bold text-white/60">{n}</span>
+              <div className="flex h-24 w-full items-end rounded-lg bg-white/5">
+                <div
+                  className={`w-full rounded-lg transition-all duration-700 ${
+                    isCorrect ? 'bg-green-500/80' : 'bg-white/25'
+                  }`}
+                  style={{ height: `${Math.max(pct, n > 0 ? 8 : 0)}%` }}
+                />
+              </div>
+              <span
+                className={`text-sm font-black ${
+                  isCorrect ? 'text-green-400' : 'text-white/50'
+                }`}
+              >
+                {ANSWER_ICONS[i]} {letter}
+              </span>
+              {isMine && <span className="text-[10px] font-bold text-purple-300">ty</span>}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 // ─── Player Game (question + answer phase) ────────────────────────────────────
 
 function PlayerGame({ gs, code, playerId, deltas, myStreak }: { gs: GameState; code: string; playerId: string; deltas?: Record<string, number>; myStreak?: number }) {
@@ -616,6 +666,11 @@ function PlayerGame({ gs, code, playerId, deltas, myStreak }: { gs: GameState; c
           })}
         </div>
 
+        {/* Answer distribution — visible once the round is locked (Kahoot-style) */}
+        {locked && gs.answerStats && (
+          <AnswerDistribution stats={gs.answerStats} correct={q.correct ?? null} mine={myAnswer} />
+        )}
+
         {/* Result feedback */}
         {locked && q.correct && (
           <div className={`rounded-2xl border-2 p-5 text-center transition-all duration-500 ${
@@ -650,18 +705,45 @@ function PlayerGame({ gs, code, playerId, deltas, myStreak }: { gs: GameState; c
 
 // ─── Player Final ─────────────────────────────────────────────────────────────
 
-function PlayerFinal({ gs, playerId, reduced }: { gs: GameState; playerId: string; reduced?: boolean }) {
+function PlayerFinal({
+  gs,
+  playerId,
+  reduced,
+  stats,
+}: {
+  gs: GameState
+  playerId: string
+  reduced?: boolean
+  stats?: { correct: number; answered: number; total: number; best: number }
+}) {
   const lb = gs.leaderboard ?? []
   const myPos = lb.findIndex(p => p.id === playerId)
   const won = myPos === 0
+  const myScore = myPos >= 0 ? (lb[myPos]?.score ?? 0) : 0
+  const [shared, setShared] = useState(false)
 
   useEffect(() => {
     sfx().podium()
     if (won && !reduced) bigConfetti()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const shareResult = async () => {
+    const rank = myPos >= 0 ? `${myPos + 1}. z ${lb.length}` : ''
+    const line = stats && stats.total
+      ? `Herd Vote: ${rank} · ${myScore} b · ${stats.correct}/${stats.total} správnych${stats.best >= 2 ? ` · séria ${stats.best} 🔥` : ''}`
+      : `Herd Vote: ${rank} · ${myScore} bodov`
+    try {
+      if (navigator.share) await navigator.share({ text: line })
+      else {
+        await navigator.clipboard?.writeText(line)
+        setShared(true)
+        setTimeout(() => setShared(false), 2000)
+      }
+    } catch { /* cancelled */ }
+  }
+
   return (
-    <div className="hv-stage min-h-screen flex flex-col items-center justify-center p-6 gap-8">
+    <div className="hv-stage min-h-screen flex flex-col items-center justify-center p-6 gap-7">
       <div className="text-center animate-fade-in space-y-3">
         <div className="text-6xl mb-2">{won ? '👑' : '🏆'}</div>
         <h1 className="text-3xl font-black text-white">{won ? 'Vyhral si!' : 'Koniec hry!'}</h1>
@@ -669,11 +751,34 @@ function PlayerFinal({ gs, playerId, reduced }: { gs: GameState; playerId: strin
           <p className="text-white/70">
             Skončil si na <span className="text-amber-300 font-bold">{myPos + 1}. mieste</span>
             <span className="text-white/30 mx-2">·</span>
-            <span className="text-white font-bold">{lb[myPos]?.score ?? 0} bodov</span>
+            <span className="text-white font-bold">{myScore} bodov</span>
           </p>
         )}
       </div>
+
       <FinalPodium players={lb} highlight={playerId} />
+
+      {stats && stats.total > 0 && (
+        <div className="flex gap-3 text-center">
+          {[
+            ['Správne', `${stats.correct}/${stats.total}`],
+            ['Odpovedal', `${stats.answered}/${stats.total}`],
+            ['Najdlhšia séria', `${stats.best}${stats.best >= 2 ? ' 🔥' : ''}`],
+          ].map(([k, v]) => (
+            <div key={k} className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3">
+              <div className="text-lg font-black text-white">{v}</div>
+              <div className="text-[10px] uppercase tracking-widest text-white/40">{k}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <button
+        onClick={shareResult}
+        className="rounded-full border border-white/15 px-6 py-2.5 text-sm font-semibold text-white/80 transition hover:bg-white/10"
+      >
+        {shared ? 'Skopírované' : 'Zdieľať výsledok'}
+      </button>
     </div>
   )
 }
@@ -686,9 +791,12 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
   const [locking, setLocking] = useState(false)
   const [copied, setCopied] = useState(false)
   const [sharing, setSharing] = useState(false)
+  const [bigQr, setBigQr] = useState(false)
   const joinUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/${lang}/herd-vote/play/${code}`
     : `/${lang}/herd-vote/play/${code}`
+  const qrSrc = (px: number) =>
+    `https://api.qrserver.com/v1/create-qr-code/?size=${px}x${px}&data=${encodeURIComponent(joinUrl)}&color=2d1b69&bgcolor=ffffff`
   const shareTitle = `Herd Vote ${code}`
   const shareText = `Pripoj sa do Herd Vote hry. Zadaj iba svoje meno alebo názov tímu a čakaj na moderátora. Kód: ${code}`
 
@@ -734,14 +842,43 @@ function ModeratorLobby({ gs, code, lang, onRefresh }: {
           
           {/* QR Code */}
           <div className="flex justify-center">
-            <div className="bg-white rounded-2xl p-3 shadow-lg shadow-purple-500/10">
+            <button
+              type="button"
+              onClick={() => setBigQr(true)}
+              title="Zväčšiť na celú obrazovku (projektor)"
+              className="bg-white rounded-2xl p-3 shadow-lg shadow-purple-500/10 transition hover:scale-[1.02]"
+            >
               <img
-                src={`https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(joinUrl)}&color=2d1b69&bgcolor=ffffff`}
-                alt="QR kód"
+                src={qrSrc(300)}
+                alt="QR kód na pripojenie"
                 className="w-56 h-56 md:w-64 md:h-64 rounded-xl"
               />
-            </div>
+            </button>
           </div>
+          <button
+            type="button"
+            onClick={() => setBigQr(true)}
+            className="text-xs font-semibold text-purple-300 hover:text-purple-200"
+          >
+            ⛶ Zväčšiť QR na projektor
+          </button>
+
+          {bigQr && (
+            <div
+              onClick={() => setBigQr(false)}
+              className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-8 bg-[hsl(250_40%_6%)] p-6"
+            >
+              <div className="text-center">
+                <p className="text-sm uppercase tracking-[0.3em] text-white/40">Kód hry</p>
+                <p className="text-7xl font-black tracking-[0.15em] text-white md:text-9xl">{code}</p>
+              </div>
+              <div className="rounded-3xl bg-white p-6">
+                <img src={qrSrc(600)} alt="QR kód" className="h-[min(70vw,60vh)] w-[min(70vw,60vh)]" />
+              </div>
+              <p className="text-white/50">Naskenuj alebo choď na <span className="font-mono text-white/80">{joinUrl.replace(/^https?:\/\//, '')}</span></p>
+              <p className="text-xs text-white/30">(klikni kdekoľvek pre zatvorenie)</p>
+            </div>
+          )}
 
           {/* Join link + sharing */}
           <div className="rounded-2xl border border-white/10 bg-white/10 p-4 space-y-4 backdrop-blur-xl">
@@ -1698,6 +1835,10 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   const [countdownTick, setCountdownTick] = useState(0)
   const [myStreak, setMyStreak] = useState(0)
   const myStreakRef = useRef(0)
+  // Personal run stats for the final screen (client-tracked — server wipes
+  // players/answers on game end, so it can't compute these afterwards).
+  const [myStats, setMyStats] = useState({ correct: 0, answered: 0, total: 0, best: 0 })
+  const myStatsRef = useRef({ correct: 0, answered: 0, total: 0, best: 0 })
   const [deltas, setDeltas] = useState<Record<string, number>>({})
   const prevBoardRef = useRef<Record<string, number>>({})
   const prevStatusRef = useRef<string | undefined>(undefined)
@@ -1723,7 +1864,11 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
     if (!g) return
 
     if (ph && ph !== prevPhaseRef.current) {
-      if (ph === 'lobby') { myStreakRef.current = 0; setMyStreak(0); prevBoardRef.current = {} }
+      if (ph === 'lobby') {
+        myStreakRef.current = 0; setMyStreak(0); prevBoardRef.current = {}
+        myStatsRef.current = { correct: 0, answered: 0, total: 0, best: 0 }
+        setMyStats(myStatsRef.current)
+      }
       prevPhaseRef.current = ph
     }
 
@@ -1751,8 +1896,13 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
           sfx().results()
         } else if (g.myPlayer) {
           const correct = !!g.question?.correct && g.myAnswer === g.question.correct
+          const s = myStatsRef.current
+          s.total += 1
+          if (g.myAnswer) s.answered += 1
           if (correct) {
+            s.correct += 1
             myStreakRef.current += 1
+            if (myStreakRef.current > s.best) s.best = myStreakRef.current
             setMyStreak(myStreakRef.current)
             sfx().correct(); haptic('correct')
             if (myStreakRef.current >= 2) sfx().streak(myStreakRef.current)
@@ -1762,6 +1912,8 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
             setMyStreak(0)
             if (g.myAnswer) { sfx().wrong(); haptic('wrong') }
           }
+          myStatsRef.current = { ...s }
+          setMyStats(myStatsRef.current)
         }
       }
     }
@@ -1812,7 +1964,7 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
 
     if (phase === 'lobby') return <PlayerLobby gs={gs} myName={playerName} />
     if (phase === 'config' || phase === 'round_setup') return <PlayerWaiting message="Moderátor nastavuje hru…" gs={gs} playerId={activePlayerId} />
-    if (phase === 'final') return <PlayerFinal gs={gs} playerId={activePlayerId} reduced={!!reduced} />
+    if (phase === 'final') return <PlayerFinal gs={gs} playerId={activePlayerId} reduced={!!reduced} stats={myStats} />
 
     if (phase === 'playing') {
       if (!round) return <PlayerWaiting message="Čakáme na prvú otázku…" gs={gs} playerId={activePlayerId} />
