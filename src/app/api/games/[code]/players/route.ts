@@ -50,21 +50,34 @@ export async function POST(req: NextRequest, context: any) {
     return NextResponse.json({ error: 'Game not found' }, { status: 404 })
   }
 
+  // Reconnect: a player with this exact name already exists in this game →
+  // hand back their existing row (score intact). Works in ANY phase, so a
+  // player who lost their session can rejoin mid-game by re-entering the name.
+  const { data: existing } = await supabase
+    .from('herd_players')
+    .select('id, name, score')
+    .eq('game_code', gameCode)
+    .eq('name', playerName)
+    .maybeSingle()
+
+  if (existing) {
+    // In the lobby, a name clash is a real clash — ask for a different name.
+    // Once the game has started, the same name means "let me back in".
+    if (game.phase === 'lobby') {
+      return NextResponse.json({ error: 'Player name already taken' }, { status: 400 })
+    }
+    return NextResponse.json({
+      playerId: existing.id,
+      name: existing.name,
+      score: existing.score ?? 0,
+      reconnected: true,
+    })
+  }
+
+  // A brand-new player can only join while the lobby is open.
   const canJoinInCurrentPhase = game.phase === 'lobby' || game.phase === 'round_setup'
   if (game.lobby_locked || !canJoinInCurrentPhase) {
     return NextResponse.json({ error: 'Lobby is closed' }, { status: 400 })
-  }
-
-  // Check if player name is already taken
-  const { data: existing } = await supabase
-    .from('herd_players')
-    .select('id')
-    .eq('game_code', gameCode)
-    .eq('name', playerName)
-    .single()
-
-  if (existing) {
-    return NextResponse.json({ error: 'Player name already taken' }, { status: 400 })
   }
 
   // Add player to game

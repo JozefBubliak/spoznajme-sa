@@ -1517,15 +1517,30 @@ function ModeratorPlaying({ gs, code, onRefresh, deltas }: {
             </button>
           )}
           {isRunning && (
-            <button onClick={() => act('rounds/lock')} disabled={busy}
-              className="hv-btn-warning w-full py-3">
-              🔒 Uzamknúť odpovede
-            </button>
+            <>
+              <button onClick={() => act('rounds/lock')} disabled={busy}
+                className="hv-btn-warning w-full py-3">
+                🔒 Uzamknúť odpovede
+              </button>
+              <button onClick={() => act('rounds/timer/extend', { seconds: 10, roundId: round.id })}
+                disabled={busy}
+                className="w-full rounded-xl border border-white/15 py-2.5 text-sm font-semibold text-white/80 transition hover:bg-white/10">
+                + 10 s
+              </button>
+            </>
           )}
           {isLocked && (
             <button onClick={() => act('rounds/results', { roundId: round.id })} disabled={busy}
               className="hv-btn-primary w-full py-3">
               📊 Zobraziť výsledky
+            </button>
+          )}
+          {(isShown || isRunning || isLocked) && (
+            <button
+              onClick={() => { if (confirm('Preskočiť túto otázku bez bodovania?')) act('rounds/skip', { roundId: round.id }) }}
+              disabled={busy}
+              className="w-full rounded-xl border border-white/10 py-2.5 text-xs font-semibold text-white/50 transition hover:bg-white/5 hover:text-white/70">
+              ⏭ Preskočiť otázku
             </button>
           )}
           {isResults && (
@@ -1755,8 +1770,8 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
 
   useEffect(() => {
     if (!code) return
-    const id = sessionStorage.getItem(`herd-player-${code}`)
-    const nm = sessionStorage.getItem(`herd-name-${code}`)
+    const id = localStorage.getItem(`herd-player-${code}`)
+    const nm = localStorage.getItem(`herd-name-${code}`)
     if (id) setPlayerId(id)
     if (nm) setPlayerName(nm)
   }, [code])
@@ -1767,8 +1782,8 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   useEffect(() => {
     const recentlyJoined = joinedAtRef.current !== null && Date.now() - joinedAtRef.current < 10000
     if (!loading && !gs?.isOwner && playerId && !gs?.myPlayer && gs?.phase === 'lobby' && !recentlyJoined) {
-      sessionStorage.removeItem(`herd-player-${code}`)
-      sessionStorage.removeItem(`herd-name-${code}`)
+      localStorage.removeItem(`herd-player-${code}`)
+      localStorage.removeItem(`herd-name-${code}`)
       setPlayerId(null)
       setPlayerName('')
     }
@@ -1818,8 +1833,8 @@ export default function GameScreen({ code: rawCode, lang = 'sk' }: { code?: stri
   }, [code, fetchState])
 
   const handleJoined = (id: string, name: string) => {
-    sessionStorage.setItem(`herd-player-${code}`, id)
-    sessionStorage.setItem(`herd-name-${code}`, name)
+    localStorage.setItem(`herd-player-${code}`, id)
+    localStorage.setItem(`herd-name-${code}`, name)
     joinedAtRef.current = Date.now()
     setPlayerId(id)
     setPlayerName(name)
