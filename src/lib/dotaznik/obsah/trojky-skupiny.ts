@@ -448,7 +448,7 @@ const EDGE: Blok = {
 }
 
 export const TROJKY_SKUPINY: TemaObsah = {
-  slug: 'otvorenost/trojky-skupiny',
+  slug: 'trojky-skupiny/trojky-skupiny',
   nadpis: 'Trojky, skupiny a gangbang',
   zdielanieDovod: true,
   uvod: [

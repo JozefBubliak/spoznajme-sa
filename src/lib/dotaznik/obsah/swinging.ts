@@ -529,7 +529,7 @@ const POZNAMKY: Blok = {
 }
 
 export const SWINGING: TemaObsah = {
-  slug: 'otvorenost/swinging',
+  slug: 'swinging/swinging',
   nadpis: 'Swinging a výmena partnerov',
   zdielanieDovod: true,
   uvod: [

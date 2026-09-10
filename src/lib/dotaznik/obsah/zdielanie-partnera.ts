@@ -268,7 +268,7 @@ const POZNAMKY: Blok = {
 }
 
 export const ZDIELANIE_PARTNERA: TemaObsah = {
-  slug: 'otvorenost/zdielanie-partnera',
+  slug: 'zdielanie-partnera/zdielanie-partnera',
   nadpis: 'Zdieľanie partnera — hotwife / cuckold',
   zdielanieDovod: true,
   uvod: [

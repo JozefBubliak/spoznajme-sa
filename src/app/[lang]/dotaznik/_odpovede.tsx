@@ -216,6 +216,7 @@ export default function SekciaOtazky({
   nazovSekcie,
   dalejHref,
   spatHref,
+  otazky: otazkyProp,
 }: {
   lang: string
   modul: string
@@ -224,6 +225,8 @@ export default function SekciaOtazky({
   nazovSekcie: string
   dalejHref: string
   spatHref: string
+  /** Prebije banku z `otazky.ts` (napr. otázky vygenerované z L4 `polozky`). */
+  otazky?: Otazka[]
 }) {
   const router = useRouter()
   const { par, ready } = usePar()
@@ -232,7 +235,10 @@ export default function SekciaOtazky({
   const [ukladam, setUkladam] = useState(false)
   const timers = useRef<Record<string, number>>({})
 
-  const otazky = useMemo(() => otazkySekcie(modul, tema, sekcia), [modul, tema, sekcia])
+  const otazky = useMemo(
+    () => otazkyProp ?? otazkySekcie(modul, tema, sekcia),
+    [otazkyProp, modul, tema, sekcia],
+  )
   const okruh = sekcia // dočasne: okruh = sekcia (kým nepribudne L3)
 
   const p = (s: string) => `/${lang}${s}`

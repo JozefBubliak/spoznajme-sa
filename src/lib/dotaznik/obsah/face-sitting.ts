@@ -609,7 +609,7 @@ const SPOLOCNE: Blok[] = [
 ]
 
 export const FACE_SITTING: TemaObsah = {
-  slug: 'oralna-intimita/face-sitting',
+  slug: 'oral-kombinacie-polohy/face-sitting',
   nadpis: 'Face Sitting',
   zdielanieDovod: true,
   uvod: [

@@ -6,7 +6,9 @@
 > **Cieľ dotazníka:** zmapovať, čo sa každému partnerovi **páči / nepáči / je neutrálne**,
 > bez hodnotenia a bez zahanbenia (princíp Double Blind — zhoda sa ukáže len keď chcú obaja).
 >
-> Stav: **návrh na revíziu.** Kód (`src/lib/dotaznik/strom.ts` + stránky) sa vygeneruje až po odsúhlasení.
+> Stav: **implementované** v `src/lib/dotaznik/strom.ts` (`DOMENY` → `MODULY` → `temy` = okruhy s `polozky[]`).
+> `/moduly` grupuje podľa domén; sekcie `preferencie`/`techniky`/`scenare`/`hranice` bez vlastnej banky
+> generujú otázky z `polozky`. Ešte chýba: samostatný route level `/m/[modul]/o/[okruh]`.
 
 ---
 
