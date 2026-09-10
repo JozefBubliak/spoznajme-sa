@@ -500,8 +500,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'roleplay-scenare', cislo: 37, kod: 'F8', domena: 'F',
-    nazov: 'Roleplay a scenáre (bez tretej osoby)', popis: 'Mocenské, situačné, príbehové; prvky.', ikona: '🎬', citlivost: 3,
+    nazov: 'Roleplay a scenáre', popis: 'Výber rolí, dynamika, kostýmy, atmosféra, mini-scenáre (light/stred/hlbší), edge roly, rámec (kniha).', ikona: '🎬', citlivost: 3,
     temy: [
+      o('roleplay-scenare', 'Roleplay a scenáre', 'Kompletný sprievodca (kniha + dotazník) — roly, dynamika, scéna, mini-scenáre.'),
       o('mocenske', 'Mocenské', 'Roly moci.', ['Šéf / podriadený', 'Učiteľ / študent (dospelí)', 'Vypočúvanie', '„Prísny" tréner']),
       o('situacne', 'Situačné', 'Scenáre.', ['Neznámi v bare („pick-up")', 'Dlho odlúčení', '„Zakázané" (susedia)', 'Lekár / pacient', 'Masér / klient']),
       o('pribehove', 'Príbehové', 'S dejom.', ['Únos-fantázia (CNC — opt-in, prísne rámce)', '„Služobníčka"', 'Historické / kostýmové', 'Sci-fi / fantasy']),
