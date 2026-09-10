@@ -173,8 +173,9 @@ export const MODULY: Modul[] = [
   // ═══ B — TELO, DOTYK A ZMYSLY ═══════════════════════════════════════════
   {
     slug: 'bozky', cislo: 6, kod: 'B1', domena: 'B', tier1: true, zrkadlovy: true,
-    nazov: 'Bozky', popis: 'Typy, zóny, intenzita, bozk ako vedenie, kontext.', ikona: '💋', citlivost: 1,
+    nazov: 'Bozky, dotyky a manuálna stimulácia', popis: 'Bozky (typy, zóny, vedenie), dotyky a maznanie + manuálna stimulácia rukami (pre ňu / pre neho / spoločné zóny) (kniha).', ikona: '💋', citlivost: 1,
     temy: [
+      o('bozky', 'Bozky, dotyky a manuálna stimulácia', 'Kompletný sprievodca (kniha + dotazník) — bozky, maznanie a stimulácia rukami.'),
       o('typy', 'Typy', 'Aký bozk.', ['Jemné „motýlie"', 'Francúzsky / hlboký', 'Hryzenie pier', 'Sanie pier']),
       o('zony', 'Zóny', 'Kam.', ['Pery', 'Krk a kľúčna kosť', 'Uši', 'Brucho', 'Vnútorné stehná', 'Chrbát', 'Prsty / dlaň']),
       o('intenzita-tempo', 'Intenzita a tempo', 'Ako.', ['Pomalé a zmyselné', 'Striedavé', 'Dravé', 'Od jemných k hrubým']),
