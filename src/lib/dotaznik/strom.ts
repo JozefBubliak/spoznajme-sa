@@ -306,8 +306,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'analna-penetracia', cislo: 18, kod: 'D2', domena: 'D', zrkadlovy: true, rizikovy: true,
-    nazov: 'Análna penetrácia', popis: 'Príprava, čím, techniky a tempo, polohy, bezpečnosť.', ikona: '🍑', citlivost: 3,
+    nazov: 'Anál a stimulácia zadku', popis: 'Externá stimulácia, anilingus, prstovanie (rola + prostata), hračky, penetračný anál, DP, bezpečnosť.', ikona: '🍑', citlivost: 3,
     temy: [
+      o('analna-penetracia', 'Anál a stimulácia zadku', 'Kompletný sprievodca (kniha + dotazník) — celá análna doména.', undefined, { zrkadlova: true, rizikova: true }),
       o('priprava', 'Príprava', 'Než začneme.', ['Hygiena / klystír', 'Veľa lubrikantu', 'Postupné otváranie (prst → 2 → plug → viac)', 'Relaxácia / dych', '„Nikdy netlač ty, ja sa nasadím"']),
       o('cim', 'Čím', 'Nástroj.', ['Prst(y)', 'Plug (nosenie pred aktom)', 'Dildo', 'Penis', 'Strap-on']),
       o('techniky-tempo', 'Techniky a tempo', 'Ako.', ['Veľmi pomaly', 'Zastať pri odpore', 'Plytko dlho', 'Hlboko až keď poviem', 'Žiadne prekvapenia']),
