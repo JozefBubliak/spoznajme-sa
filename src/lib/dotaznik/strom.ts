@@ -227,8 +227,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'manualna-stimulacia', cislo: 11, kod: 'B6', domena: 'B', tier1: true, zrkadlovy: true,
-    nazov: 'Manuálna stimulácia (ruky a prsty)', popis: 'Vulva/klitoris, G-oblasť, penis, semenníky, vzájomne, sledovanie.', ikona: '✋', citlivost: 2,
+    nazov: 'Manuálna stimulácia a solo aktivity', popis: 'Vulva/klitoris, G-oblasť, penis, semenníky, vzájomne + masturbácia a solo aktivity v páre (kniha).', ikona: '✋', citlivost: 2,
     temy: [
+      o('manualna-stimulacia', 'Masturbácia a solo aktivity', 'Kompletný sprievodca (kniha + dotazník) — sólo pre seba, sledovanie, byť sledovaný, spoločná masturbácia, guided touch, remote play.'),
       o('vulva-klitoris', 'Vulva / klitoris', 'Prstami zvonka.', ['Krúženie', 'Hore-dole', '„Písanie abecedy"', 'Nepriamo cez pysky', 'Tlak dlaňou', 'S lubrikantom', 'Kombinácia s penetráciou prstami']),
       o('g-oblast', 'G-oblasť / vnútorné body', 'Prstami zvnútra.', ['„Come hither" pohyb', 'Tlak', 'Rytmus', '1–2–3 prsty', 'Kombinácia s klitorisom obojručne']),
       o('penis', 'Penis', 'Ručná stimulácia.', ['Úchop a rytmus', 'Točenie na hlavičke', '„Twist"', 'Obojručne', 'S lubrikantom', 'Tempo edging', '„Nasucho" vs mokro']),

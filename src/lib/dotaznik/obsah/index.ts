@@ -8,6 +8,7 @@ import { FETISE } from './fetise'
 import { ORALNA_INTIMITA } from './oralna-intimita'
 import { BDSM } from './bdsm'
 import { DLHODOBA_INTIMITA } from './dlhodoba-intimita'
+import { MASTURBACIA } from './masturbacia'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -21,6 +22,7 @@ const REGISTER: Record<string, TemaObsah> = {
   [ORALNA_INTIMITA.slug]: ORALNA_INTIMITA,
   [BDSM.slug]: BDSM,
   [DLHODOBA_INTIMITA.slug]: DLHODOBA_INTIMITA,
+  [MASTURBACIA.slug]: MASTURBACIA,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {
