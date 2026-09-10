@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { usePar } from './_par'
 import { useStavy, partnerZamok, najdiStav, ulozStav } from './_stav'
 import { Krok, Volba } from './_ui'
@@ -16,6 +16,12 @@ export default function Screening({
   cielAno,
   cielEsteNie,
   cielNie,
+  krok = 'Screening — bez tlaku',
+  nadpis,
+  lead,
+  extra,
+  neskorHref = '/dotaznik/moduly',
+  neskorLabel = 'Rozhodnem sa neskôr — späť na moduly',
 }: {
   lang: string
   modul: string
@@ -25,6 +31,16 @@ export default function Screening({
   cielAno: string
   cielEsteNie: string
   cielNie: string
+  /** Nadradený rámec (napr. „Modul 8 — 🎭"). */
+  krok?: string
+  /** Prebije predvolenú otázku „Chceš skúmať „…"?". */
+  nadpis?: string
+  /** Prebije predvolené vysvetlenie zámku. */
+  lead?: string
+  /** Doplnkový obsah pod tlačidlami (napr. „Preskočiť na ďalší modul", info o zrkadlovej téme). */
+  extra?: ReactNode
+  neskorHref?: string
+  neskorLabel?: string
 }) {
   const router = useRouter()
   const { par, ready } = usePar()
@@ -83,11 +99,12 @@ export default function Screening({
 
   return (
     <Krok
-      krok="Screening — bez tlaku"
-      nadpis={`Chceš skúmať „${nazov}“?`}
+      krok={krok}
+      nadpis={nadpis ?? `Chceš skúmať „${nazov}“?`}
       lead={
+        lead ??
         'Ak zvolíš „Nie“ alebo „Ešte nie“, oblasť sa zamkne aj partnerovi — aby ju zbytočne ' +
-        'nevypĺňal. Dôvod sa nezobrazí.'
+          'nevypĺňal. Dôvod sa nezobrazí.'
       }
       spat={{ href: p(spatHref), label: 'Späť' }}
     >
@@ -136,8 +153,10 @@ export default function Screening({
         <p className="mt-1 text-sm text-muted-foreground">Trvalý zámok — nezaujíma ma to.</p>
       </button>
 
-      <Link href={p('/dotaznik/moduly')} className="mt-2 block text-xs text-muted-foreground hover:text-foreground">
-        Rozhodnem sa neskôr — späť na moduly
+      {extra}
+
+      <Link href={p(neskorHref)} className="mt-2 block text-xs text-muted-foreground hover:text-foreground">
+        {neskorLabel}
       </Link>
     </Krok>
   )

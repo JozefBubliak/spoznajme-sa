@@ -35,11 +35,11 @@ export default async function ModulZamknute({ params, searchParams }: P) {
           ? 'Partner uvidí len ikonu trvalého zámku, bez detailov. Ak chceš, môžeš pridať jednovetový dôvod (voliteľné).'
           : 'Partner uvidí ikonu dočasného zámku. Kedykoľvek sa sem môžeš vrátiť a oblasť odomknúť.'
       }
-      spat={{ href: p(cesta.modulChcem(modul.slug)), label: 'Zmeniť voľbu' }}
+      spat={{ href: p(cesta.modul(modul.slug)), label: 'Zmeniť voľbu' }}
     >
       {!trvaly && (
         <Volba
-          href={p(cesta.modulChcem(modul.slug))}
+          href={p(cesta.modul(modul.slug))}
           nazov="Odomknúť teraz"
           popis="Znova otvorí screening — zvoľ „Áno“."
           ton="ano"

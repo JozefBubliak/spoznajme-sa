@@ -43,7 +43,7 @@ export default async function TemaSekcia({ params }: P) {
     ? cesta.temaSekcia(modul.slug, tema.slug, predch.id)
     : tema.zrkadlova
       ? cesta.temaRola(modul.slug, tema.slug)
-      : cesta.temaChcem(modul.slug, tema.slug)
+      : cesta.tema(modul.slug, tema.slug)
 
   const dalejHref = dalsia
     ? cesta.temaSekcia(modul.slug, tema.slug, dalsia.id)

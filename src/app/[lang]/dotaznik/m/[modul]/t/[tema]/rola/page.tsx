@@ -26,7 +26,7 @@ export default async function TemaRola({ params }: P) {
       krok={`${tema.nazov} — rola`}
       nadpis="Ako chceš pri tejto téme vystupovať?"
       lead="Zrkadlové otázky (napr. „chcem prijímať“ vs „chcem poskytovať“) sa spočítajú zvlášť pre každú rolu."
-      spat={{ href: p(cesta.temaChcem(modul.slug, tema.slug)), label: 'Späť na screening' }}
+      spat={{ href: p(cesta.tema(modul.slug, tema.slug)), label: 'Späť na screening' }}
     >
       <Volba href={p(cesta.temaSekcia(modul.slug, tema.slug, prva))} nazov="Chcem prijímať" />
       <Volba href={p(cesta.temaSekcia(modul.slug, tema.slug, prva))} nazov="Chcem poskytovať" />

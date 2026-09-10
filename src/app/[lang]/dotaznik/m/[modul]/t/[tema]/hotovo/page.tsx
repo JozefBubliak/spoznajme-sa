@@ -41,7 +41,7 @@ export default async function TemaHotovo({ params, searchParams }: P) {
           ? 'Partner uvidí len stav zámku. Zmeniť voľbu môžeš cez screening témy.'
           : 'Zhoda sa ukáže, keď túto tému dokončí aj partner/ka.'
       }
-      spat={{ href: p(cesta.temaChcem(modul.slug, tema.slug)), label: 'Zmeniť voľbu' }}
+      spat={{ href: p(cesta.tema(modul.slug, tema.slug)), label: 'Zmeniť voľbu' }}
     >
       {dalsiaTema ? (
         <Volba
