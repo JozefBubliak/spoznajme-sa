@@ -336,6 +336,7 @@ export const cesta = {
   modulHotovo: (m: string) => `/dotaznik/m/${m}/hotovo`,
   tema: (m: string, t: string) => `/dotaznik/m/${m}/t/${t}`,
   temaChcem: (m: string, t: string) => `/dotaznik/m/${m}/t/${t}/chcem`,
+  temaKniha: (m: string, t: string) => `/dotaznik/m/${m}/t/${t}/kniha`,
   temaRola: (m: string, t: string) => `/dotaznik/m/${m}/t/${t}/rola`,
   temaSekcia: (m: string, t: string, s: string) => `/dotaznik/m/${m}/t/${t}/s/${s}`,
   temaHotovo: (m: string, t: string) => `/dotaznik/m/${m}/t/${t}/hotovo`,
