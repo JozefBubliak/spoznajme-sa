@@ -138,7 +138,7 @@ Inšpirácia na konkrétne možnosti = prekonvertované `.md` z `dotazník/` (ma
 
 1. ✅ **Anonymná párovacia infra** (§3): tabuľky `dotaznik_*`, RLS bez policies, kód+secret v `#k=`,
    `localStorage`, cron auto-mazanie +30 dní, „Zmazať všetko". Bez prihlásenia partnerov.
-   *(Treba spustiť `supabase/migrations/20260908_dotaznik.sql`.)*
+   *(`supabase/migrations/20260908_dotaznik.sql` spustená na Supabase 2026-09-10.)*
 2. ✅ **Voľba režimu** (`live` / `blind`) + prezývky + spárovanie — `/dotaznik/par`, `/dotaznik/p/[kod]`.
 3. ✅ **8 komponentov typov odpovedí** — `_odpovede.tsx` (postoj, semafor, frekvencia, rola=2 zrkadlové
    riadky, intenzita, multi, skúsenosť, text). Auto-save, predvyplnenie pri návrate.
