@@ -119,8 +119,9 @@ export const MODULY: Modul[] = [
   // ═══ A — NALADENIE A RÁMEC ═══════════════════════════════════════════════
   {
     slug: 'mentalna-priprava-tuzba', cislo: 1, kod: 'A1', domena: 'A', tier1: true,
-    nazov: 'Mentálna príprava a túžba', popis: 'Vnútorné naladenie, bloky, libido, brzdy a spúšťače vzrušenia.', ikona: '🧠', citlivost: 1,
+    nazov: 'Mentálna príprava, túžba a dlhodobá intimita', popis: 'Vnútorné naladenie, bloky, libido, brzdy a spúšťače + dlhodobá vzťahová intimita (kniha).', ikona: '🧠', citlivost: 1,
     temy: [
+      o('mentalna-priprava-tuzba', 'Dlhodobá intimita vo vzťahu', 'Kompletný sprievodca (kniha + dotazník) — blízkosť, antirutina, rituály, iniciatíva, program na mieru.'),
       o('vnutorne-naladenie', 'Vnútorné naladenie', 'Ako sa dostať do hlavy pred intimitou.', ['Fantazírovanie a vizualizácia scén', 'Spomínanie na predošlé zážitky', 'Erotické príbehy v mysli', 'Mentálne hry so „zakázaným"', 'Mindfulness a dych pred sexom']),
       o('praca-s-blokmi', 'Práca s blokmi', 'Čo v hlave prekáža a ako to zmierniť.', ['Uvoľnenie stresu', 'Hanba „nie som dosť dobrý/á"', 'Tlak na výkon', 'Telo-image počas aktu', 'Rozptýlená myseľ / „to-do list v hlave"']),
       o('libido-chut', 'Libido a chuť', 'Úroveň túžby a rozdiely medzi nami.', ['Úroveň túžby', 'Rozdiel medzi nami', 'Spontánna vs responzívna túžba', 'Čo chuť spúšťa', 'Čo ju spoľahlivo zabíja']),
