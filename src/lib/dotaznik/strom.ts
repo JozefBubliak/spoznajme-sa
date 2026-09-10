@@ -429,8 +429,9 @@ export const MODULY: Modul[] = [
   // ═══ F — MOC, ROLA A SCÉNA ═══════════════════════════════════════════
   {
     slug: 'dominancia-submisia', cislo: 30, kod: 'F1', domena: 'F', zrkadlovy: true,
-    nazov: 'Dominancia / submisia (D/s)', popis: 'Dynamika, prejavy dominancie a submisie, protokoly.', ikona: '👑', citlivost: 3,
+    nazov: 'BDSM a mocenská dynamika', popis: 'D/s dynamika, verbálne hry, bondage, impact, senzorika, svorky, kontrola orgazmu, roleplay, rámec — celá F doména.', ikona: '👑', citlivost: 3,
     temy: [
+      o('dominancia-submisia', 'BDSM a mocenská dynamika', 'Kompletný sprievodca (kniha + dotazník) — celá doména moci, rolí a scény.', undefined, { zrkadlova: true, rizikova: true }),
       o('dynamika', 'Dynamika', 'Rozsah.', ['„Vanilla s korením" (občas)', 'Vyhradené scény', '24/7 prvky', 'Kto je Dom / sub / switch']),
       o('prejavy-dominancie', 'Prejavy dominancie', 'Ako vedie Dom.', ['Vedenie tempa', 'Príkazy', '„Nesmieš sa hýbať / vydávať zvuk"', 'Oslovenie (Pane / Pani / meno)', 'Povolenie na dotyk']),
       o('prejavy-submisie', 'Prejavy submisie', 'Ako sa prejavuje sub.', ['Poslúchať', 'Prosiť', '„Service" (obliekať, nosiť)', 'Pokľaknutie', 'Čakať v polohe']),
