@@ -373,8 +373,9 @@ export const MODULY: Modul[] = [
   // ═══ E — POMÔCKY A HRAČKY ═════════════════════════════════════════════
   {
     slug: 'vibratory-stimulatory', cislo: 24, kod: 'E1', domena: 'E', tier1: true,
-    nazov: 'Vibrátory a stimulátory', popis: 'Klitorálne, vnútorné/G, použitie, intenzita a vzory.', ikona: '📳', citlivost: 2,
+    nazov: 'Erotické pomôcky a hračky', popis: 'Vibrátory, dildá, análne, penisové a párové, DP, BDSM pomôcky, lubrikanty — celý katalóg (kniha).', ikona: '📳', citlivost: 2,
     temy: [
+      o('vibratory-stimulatory', 'Erotické pomôcky a hračky', 'Kompletný sprievodca (kniha + dotazník) — celý katalóg pomôcok pre páry aj jednotlivcov.'),
       o('klitoralne', 'Klitorálne', 'Typy.', ['Tyčinkové', '„Rabbit"', 'Prikladacie (wand)', 'Saco-tlakové („air-pulse")', 'Jazýčkové']),
       o('vnutorne-g', 'Vnútorné / G', 'Typy.', ['Zahnuté', '„Rabbit"', 'Vibračné vajíčko', 'Dvojité']),
       o('pouzitie', 'Použitie', 'Kedy a ako.', ['Sólo', 'Partner ovláda', 'Počas penetrácie (medzi telami)', 'Počas orálu', '„Hands-free"']),
@@ -576,8 +577,9 @@ export const MODULY: Modul[] = [
   // ═══ H — OTVORENOSŤ A ĎALŠÍ ĽUDIA ═════════════════════════════════════
   {
     slug: 'bi-zvedavost', cislo: 44, kod: 'H1', domena: 'H', zrkadlovy: true,
-    nazov: 'Bi-zvedavosť / rovnaké pohlavie', popis: 'Rovina, aktivity, kontext, pocity a identita.', ikona: '🌈', citlivost: 3,
+    nazov: 'Interakcie s rovnakým pohlavím', popis: 'Psychológia (fantázia vs. realita, bi curiosity), formáty interakcie, predstavy, hranice, komunikácia (kniha).', ikona: '🌈', citlivost: 3,
     temy: [
+      o('bi-zvedavost', 'Interakcie s rovnakým pohlavím', 'Kompletný sprievodca (kniha + dotazník) — zvedavosť, fantázie a praktiky.'),
       o('rovina', 'Rovina', 'Fantázia vs realita.', ['Len fantázia', '„Talk" počas sexu', 'Reálne']),
       o('aktivity', 'Aktivity', 'Čo.', ['Bozk', 'Dotyky', 'Orál', 'Penetrácia / strap-on', '„Kto s kým" pri viacerých']),
       o('kontext', 'Kontext', 'Kde.', ['Pri trojke', 'Sólo (bez partnera, s dohodou)', 'Pred partnerom']),

@@ -11,6 +11,8 @@ import { DLHODOBA_INTIMITA } from './dlhodoba-intimita'
 import { MASTURBACIA } from './masturbacia'
 import { BOZKY_DOTYKY } from './bozky-dotyky'
 import { ROLEPLAY } from './roleplay'
+import { POMOCKY_HRACKY } from './pomocky-hracky'
+import { ROVNAKE_POHLAVIE } from './rovnake-pohlavie'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -27,6 +29,8 @@ const REGISTER: Record<string, TemaObsah> = {
   [MASTURBACIA.slug]: MASTURBACIA,
   [BOZKY_DOTYKY.slug]: BOZKY_DOTYKY,
   [ROLEPLAY.slug]: ROLEPLAY,
+  [POMOCKY_HRACKY.slug]: POMOCKY_HRACKY,
+  [ROVNAKE_POHLAVIE.slug]: ROVNAKE_POHLAVIE,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {
