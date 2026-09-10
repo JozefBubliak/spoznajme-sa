@@ -52,7 +52,7 @@ export default async function TemaHotovo({ params, searchParams }: P) {
       ) : (
         <Volba href={p(cesta.modulHotovo(modul.slug))} nazov="Dokončiť modul" ton="ano" />
       )}
-      <Volba href={p(cesta.modulTemy(modul.slug))} nazov="Späť na zoznam tém" />
+      <Volba href={p(cesta.modul(modul.slug))} nazov="Späť na zoznam tém" />
     </Krok>
   )
 }

@@ -22,7 +22,7 @@ export default async function ModulHotovo({ params }: P) {
       krok="Modul dokončený"
       nadpis={`„${modul.nazov}“ máš za sebou.`}
       lead="Zhodu uvidíš až po tom, čo túto oblasť dokončí aj partner/ka."
-      spat={{ href: p(cesta.modulTemy(modul.slug)), label: 'Späť na témy' }}
+      spat={{ href: p(cesta.modul(modul.slug)), label: 'Späť na zoznam tém' }}
     >
       {dalsi ? (
         <Volba href={p(cesta.modul(dalsi.slug))} nazov={`Ďalší modul: ${dalsi.nazov}`} ton="ano" />

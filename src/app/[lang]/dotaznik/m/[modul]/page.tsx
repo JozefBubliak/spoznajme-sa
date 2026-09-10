@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { cesta, getModul, MODULY, susednyModul } from '@/lib/dotaznik/strom'
-import { Volba } from '../../_ui'
-import Screening from '../../_screening'
+import { Krok, Riadok, Volba } from '../../_ui'
 
 type P = { params: Promise<{ lang: string; modul: string }> }
 
@@ -10,8 +9,9 @@ export function generateStaticParams() {
   return MODULY.map((m) => ({ modul: m.slug }))
 }
 
-// Jedna obrazovka: rámec modulu + screening „Áno / Ešte nie / Nie" spolu.
-export default async function ModulIntro({ params }: P) {
+// Modul = rovno zoznam tém. Screening („Chcem to skúmať?") je až pri téme —
+// jedna otázka, nie dve (modul + téma).
+export default async function ModulTemy({ params }: P) {
   const { lang: raw, modul: modulSlug } = await params
   const lang = normalizeUrlLocale(raw)
   const modul = getModul(modulSlug)
@@ -20,29 +20,28 @@ export default async function ModulIntro({ params }: P) {
   const dalsi = susednyModul(modul.slug, 'dalej')
 
   return (
-    <Screening
-      lang={lang}
-      modul={modul.slug}
-      tema={null}
-      nazov={modul.nazov}
+    <Krok
       krok={`Modul ${modul.cislo} — ${modul.ikona}`}
       nadpis={modul.nazov}
-      lead={`${modul.popis} — Chceš túto oblasť skúmať? „Nie“ alebo „Ešte nie“ ju zamkne aj partnerovi; dôvod sa nezobrazí.`}
-      spatHref={cesta.moduly}
-      cielAno={cesta.modulTemy(modul.slug)}
-      cielEsteNie={`${cesta.modulZamknute(modul.slug)}?typ=docasny`}
-      cielNie={`${cesta.modulZamknute(modul.slug)}?typ=trvaly`}
-      neskorHref={cesta.moduly}
-      neskorLabel="Rozhodnem sa neskôr — späť na moduly"
-      extra={
-        dalsi ? (
-          <Volba
-            href={p(cesta.modul(dalsi.slug))}
-            nazov={`Preskočiť na: ${dalsi.nazov}`}
-            popis="Modul si môžeš otvoriť aj neskôr."
-          />
-        ) : null
-      }
-    />
+      lead={`${modul.popis} Pri každej téme sa spýtame, či ju chcete otvoriť (Áno / Ešte nie / Nie).`}
+      spat={{ href: p(cesta.moduly), label: 'Mapa modulov' }}
+    >
+      {modul.temy.map((t) => (
+        <Riadok
+          key={t.slug}
+          href={p(cesta.tema(modul.slug, t.slug))}
+          nazov={t.nazov}
+          popis={[t.popis, t.zrkadlova ? '· zrkadlová' : '', t.rizikova ? '· rizikové' : '']
+            .filter(Boolean)
+            .join(' ')}
+          ikona="•"
+        />
+      ))}
+
+      {dalsi && (
+        <Volba href={p(cesta.modul(dalsi.slug))} nazov={`Ďalší modul: ${dalsi.nazov}`} />
+      )}
+      <Volba href={p(cesta.modulHotovo(modul.slug))} nazov="Označiť modul za dokončený" ton="ano" />
+    </Krok>
   )
 }

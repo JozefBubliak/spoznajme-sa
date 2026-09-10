@@ -33,12 +33,12 @@ export default async function TemaIntro({ params }: P) {
       lead={[tema.popis, 'Chceš túto tému skúmať? „Nie“ alebo „Ešte nie“ ju zamkne aj partnerovi; dôvod sa nezobrazí.']
         .filter(Boolean)
         .join(' — ')}
-      spatHref={cesta.modulTemy(modul.slug)}
+      spatHref={cesta.modul(modul.slug)}
       cielAno={cielAno}
       cielEsteNie={`${cesta.temaHotovo(modul.slug, tema.slug)}?stav=docasny`}
       cielNie={`${cesta.temaHotovo(modul.slug, tema.slug)}?stav=trvaly`}
-      neskorHref={cesta.modulTemy(modul.slug)}
-      neskorLabel="Rozhodnem sa neskôr — späť na témy"
+      neskorHref={cesta.modul(modul.slug)}
+      neskorLabel="Rozhodnem sa neskôr — späť na zoznam tém"
       extra={
         tema.zrkadlova || tema.rizikova ? (
           <>
