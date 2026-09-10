@@ -5,6 +5,7 @@ import { ZDIELANIE_PARTNERA } from './zdielanie-partnera'
 import { SWINGING } from './swinging'
 import { ANALNA_PENETRACIA } from './analna-penetracia'
 import { FETISE } from './fetise'
+import { ORALNA_INTIMITA } from './oralna-intimita'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -15,6 +16,7 @@ const REGISTER: Record<string, TemaObsah> = {
   [SWINGING.slug]: SWINGING,
   [ANALNA_PENETRACIA.slug]: ANALNA_PENETRACIA,
   [FETISE.slug]: FETISE,
+  [ORALNA_INTIMITA.slug]: ORALNA_INTIMITA,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {

@@ -250,8 +250,9 @@ export const MODULY: Modul[] = [
   // ═══ C — ORÁL ══════════════════════════════════════════════════════════
   {
     slug: 'oral-vulva-klitoris', cislo: 13, kod: 'C1', domena: 'C', tier1: true, zrkadlovy: true,
-    nazov: 'Orál na vulvu a klitoris', popis: 'Techniky jazyka, tempo, kombinácie, poloha, dokončenie, rámce.', ikona: '👅', citlivost: 2,
+    nazov: 'Orálna intimita', popis: 'Cunnilingus, felácia, anilingus, 69, polohy, kombinácie a rámce — celá orál doména.', ikona: '👅', citlivost: 2,
     temy: [
+      o('oral-vulva-klitoris', 'Orálna intimita', 'Kompletný sprievodca (kniha + dotazník) — cunnilingus + felácia + anilingus.', undefined, { zrkadlova: true }),
       o('techniky-jazyka', 'Techniky jazyka', 'Ako jazykom.', ['Široké olizovanie', 'Hrot jazyka', 'Krúženie', '„Abeceda"', 'Bzučanie / vibrácia jazykom', 'Sanie klitorisu', 'Striedanie']),
       o('tempo-rytmus', 'Tempo a rytmus', 'Rytmus.', ['Pomalé budovanie', 'Stály rytmus (nemeniť tesne pred orgazmom)', 'Vlny', 'Rýchle finále']),
       o('kombinacie', 'Kombinácie', 'S rukou / hračkou.', ['S prstami vo vnútri', 'S prstom v anále', 'S vibrátorom', 'Držať pysky roztiahnuté', 'Ruka na bruchu / tlak']),
