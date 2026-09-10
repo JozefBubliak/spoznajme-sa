@@ -528,8 +528,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'telesne-tekutiny', cislo: 40, kod: 'G3', domena: 'G', rizikovy: true,
-    nazov: 'Telesné tekutiny a prirodzenosť', popis: 'Prirodzenosť, semeno, ženská ejakulácia, menštruačná krv, watersports.', ikona: '💦', citlivost: 3,
+    nazov: 'Fetiše, tekutiny a prirodzenosť', popis: 'Fetiš checklist, telesné tekutiny (sliny/semeno/vlhkosť/moč/slzy), materiály, časti tela, situačné fetiše.', ikona: '💦', citlivost: 3,
     temy: [
+      o('telesne-tekutiny', 'Fetiše a špecifické záujmy', 'Kompletný sprievodca (kniha + dotazník) — celá doména fetišov.', undefined, { rizikova: true }),
       o('prirodzenost', 'Prirodzenosť', 'Vôňa a chuť tela.', ['Vôňa / chuť partnera ako afrodiziakum', 'Pot', 'Sliny', '„Po sexe" stav']),
       o('semeno', 'Semeno', 'Kde.', ['V ústach / prehltnúť', 'Na tele / tvári', '„Creampie"', '„Felching" (hygiena)']),
       o('zenska-ejakulacia', 'Ženská ejakulácia / „squirting"', 'Postoj.', ['Ako cieľ', 'Ako bonus', 'Nezáujem', 'Podložka']),
