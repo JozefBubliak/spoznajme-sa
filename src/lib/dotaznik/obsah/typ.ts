@@ -14,11 +14,13 @@ export type Pohlavie = 'm' | 'z'
 
 /** Podmienka zobrazenia bloku — vyhodnocuje sa proti odpovediam vyššie v strome. */
 export type Podmienka = {
-  ot: string // id otázky
+  ot?: string // id otázky (vynechaj, ak podmieňuješ len pohlavím)
   je?: string // presná hodnota (jeden / skala / mrezka-bunka)
+  jeNiektora?: string[] // hodnota ∈ zoznam
   nie?: string // hodnota sa NEROVNÁ
   obsahuje?: string // pri 'viac': hodnota (pole) obsahuje tento reťazec
   obsahujeNiektoru?: string[] // pri 'viac': prienik s týmto zoznamom je neprázdny
+  pohlavie?: Pohlavie // blok sa zobrazí len mužovi / len žene
 }
 
 export type Moznost = { v: string; label: GText }

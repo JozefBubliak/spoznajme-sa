@@ -12,11 +12,14 @@ const META = '_meta'
 
 type Hodnoty = Record<string, unknown>
 
-function splna(pod: Podmienka | undefined, ans: Hodnoty): boolean {
+function splna(pod: Podmienka | undefined, ans: Hodnoty, pohlavie?: Pohlavie): boolean {
   if (!pod) return true
+  if (pod.pohlavie != null && pod.pohlavie !== pohlavie) return false
+  if (pod.ot == null) return true
   const h = ans[pod.ot] as { v?: unknown } | undefined
   const v = h?.v
   if (pod.je != null && v !== pod.je) return false
+  if (pod.jeNiektora != null && !(typeof v === 'string' && pod.jeNiektora.includes(v))) return false
   if (pod.nie != null && v === pod.nie) return false
   if (pod.obsahuje != null && !(Array.isArray(v) && v.includes(pod.obsahuje))) return false
   if (pod.obsahujeNiektoru != null) {
@@ -194,13 +197,13 @@ function Bloky({
     <>
       {bloky.map((b) => {
         if (b.druh === 'text') {
-          if (!splna(b.podmienka, ans)) return null
+          if (!splna(b.podmienka, ans, p)) return null
           const telo = G(b.telo)
           if (!telo && !b.nadpis) return null
           return <Prose key={b.id} nadpis={b.nadpis ? G(b.nadpis) : undefined} telo={telo} ton={b.ton} />
         }
         if (b.druh === 'tabulka') {
-          if (!splna(b.podmienka, ans)) return null
+          if (!splna(b.podmienka, ans, p)) return null
           return (
             <div key={b.id} className="overflow-x-auto rounded-2xl border border-border/70">
               {b.nadpis && (
@@ -234,7 +237,7 @@ function Bloky({
           )
         }
         if (b.druh === 'skupina') {
-          if (!splna(b.podmienka, ans)) return null
+          if (!splna(b.podmienka, ans, p)) return null
           return (
             <div key={b.id} className="space-y-4 rounded-2xl border border-border/60 bg-card/20 p-4">
               {b.nadpis && (
@@ -248,7 +251,7 @@ function Bloky({
           )
         }
         // otazka
-        if (!splna(b.podmienka, ans)) return null
+        if (!splna(b.podmienka, ans, p)) return null
         return (
           <OtazkaPole
             key={b.id}
