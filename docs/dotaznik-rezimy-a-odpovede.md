@@ -144,14 +144,19 @@ Inšpirácia na konkrétne možnosti = prekonvertované `.md` z `dotazník/` (ma
    riadky, intenzita, multi, skúsenosť, text). Auto-save, predvyplnenie pri návrate.
 4. ✅ **Screening logika so zámkami** (§2 Režim B), symetrická, polling (mount/fokus/8 s).
    `_screening.tsx` + `_stav.ts`.
-5. 🟡 **Úroveň L3 `okruh`** — zatiaľ `okruh = sekcia`. Reálne otázky v `otazky.ts`:
-   `predohra-naladenie / mentalna-priprava` (skúsenosť/preferencie/hranice) +
-   **`oralna-intimita / face-sitting`** (kontext, skúsenosť, parametre, preferencie, techniky,
-   scenáre, hranice, rizikové, pocity, session-card; ~55 položiek, HORE=prijímam / DOLE=poskytujem;
-   vzor: podporná dokumentácia „Face sitting ž./M.").
-   Plný L3 route level + prepísanie `strom.ts` podľa `dotaznik-strom-navrh.md` = ešte pred nami.
-   Pozn.: úvod modulu/témy a screening sú **zlúčené do jednej obrazovky** — `m/[modul]/page.tsx`
-   a `t/[tema]/page.tsx` renderujú priamo `<Screening>`; staré `/chcem` routy len `redirect()`.
+5. 🟡 **Obsah tém — dva režimy:**
+   - **Generický „section walker"** (`otazky.ts` + `_odpovede.tsx`): pevná kostra sekcií z `strom.ts`.
+     Reálne otázky zatiaľ len `predohra-naladenie / mentalna-priprava`.
+   - **„Kniha + dotazník" (data-driven)** — `src/lib/dotaznik/obsah/**` + renderer `_kniha.tsx`.
+     Žiadna téma nie je v kóde napevno; strom témy je obsah (bloky text/tabuľka/otázka/skupina),
+     vetví sa cez `podmienka` podľa skorších odpovedí, každý text má `m`/`z` variant (zrkadlové —
+     odpovede oboch partnerov sadnú proti sebe pri Double-Blind). Prvá téma 1:1: **face-sitting**
+     (`oralna-intimita/face-sitting`, zdroj „Face sitting M./ž."). Téma s obsahom → screening vedie
+     rovno na `/t/[tema]/kniha` (preskočí `rola`, roly rieši obsah cez vetvu skúsenosti).
+   - Modulový screening zrušený; úvod témy + screening = jedna obrazovka; staré `/chcem`, `/temy`
+     routy len `redirect()`.
+   - **TODO:** screening pod-voľba „dôvod v 1 vete", preklik na hĺbkový sprievodcu, `mrezka` render,
+     realtime namiesto pollingu.
 6. ✅ **Double-Blind vyhodnotenie + Mapa** — `/api/.../vyhodnotenie` + `_mapa.tsx`.
    Zobrazí len zhodu, nesúlad nikde.
 7. ⬜ **Režim A „Naživo"** — sprievodca rozhovorom (edu-box + návrhové otázky, nič sa neukladá).
