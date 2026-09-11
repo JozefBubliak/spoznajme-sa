@@ -638,8 +638,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'digitalna-dialkova', cislo: 50, kod: 'H8', domena: 'H',
-    nazov: 'Digitálna a diaľková intimita', popis: 'Sexting, ukladanie a riziko, porno spolu, kamera / VR / hračky na diaľku.', ikona: '📱', citlivost: 3,
+    nazov: 'Digitálna a diaľková intimita', popis: 'Sexting, ukladanie a riziko, porno spolu, kamera / VR / hračky na diaľku (kniha).', ikona: '📱', citlivost: 3,
     temy: [
+      o('digitalna-dialkova', 'Digitálna a diaľková intimita', 'Kompletný sprievodca (kniha + dotazník) — sexting, ukladanie a riziko, porno spolu, kamera/VR/diaľkové hračky.'),
       o('sexting', 'Sexting', 'Správy a fotky.', ['Texty', 'Hlasovky', 'Fotky (tvár áno / nie)', 'Video', 'Frekvencia', 'Kto iniciuje']),
       o('ukladanie-riziko', 'Ukladanie a riziko', 'Kde to žije.', ['Kde sa to ukladá', 'Mazanie', '„Nikdy tvár"', 'Dôvera', '„Revenge" riziko']),
       o('porno-spolu', 'Porno spolu', 'Spoločné pozeranie.', ['Spoločné pozeranie', 'Výber', '„Čo z toho by sme skúsili"', 'Individuálne porno a hranice']),

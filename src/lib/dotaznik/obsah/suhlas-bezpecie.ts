@@ -117,6 +117,17 @@ const HRANICE: Blok = {
         'Naprieč celým dotazníkom platí jedno „Áno – Možno – Nikdy". Tu si zapíš to, čo je väčšie než jedna téma — ' +
         'rozdiel medzi „mäkkým NIE" (za istých podmienok možno inokedy) a „tvrdým NIE" (nikdy, bod).',
     },
+    {
+      druh: 'otazka', id: 'hr_mantinely', typ: 'viac',
+      text: 'Rýchly prehľad — pri ktorých širších okruhoch mám jasné hranice (detaily sú v ich vlastných témach)',
+      moznosti: [
+        { v: 'rovnake_pohlavie', label: 'Interakcie s rovnakým pohlavím' },
+        { v: 'bdsm', label: 'BDSM prvky' },
+        { v: 'viac_partnerov', label: 'Viac partnerov naraz' },
+        { v: 'tekutiny', label: 'Telesné tekutiny' },
+        { v: 'ziadne', label: 'Žiadne z toho, som otvorený/á' },
+      ],
+    },
     { druh: 'otazka', id: 'hr_mekke_nie', typ: 'text', text: 'Moje „mäkké NIE" — čo je len podmienka, nie zákaz:' },
     { druh: 'otazka', id: 'hr_tvrde_nie', typ: 'text', text: 'Moje „tvrdé NIE" — čo je nikdy:' },
   ],
