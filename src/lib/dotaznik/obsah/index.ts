@@ -29,6 +29,7 @@ import { DIGITALNA_INTIMITA } from './digitalna-intimita'
 import { TELO_HANBA } from './telo-hanba'
 import { ZDRAVIE_OCHRANA_HYGIENA } from './zdravie-ochrana-hygiena'
 import { TANTRA_SLOW_SEX } from './tantra-slow-sex'
+import { KOMUNIKACIA_POCAS_PO } from './komunikacia-pocas-po'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -63,6 +64,7 @@ const REGISTER: Record<string, TemaObsah> = {
   [TELO_HANBA.slug]: TELO_HANBA,
   [ZDRAVIE_OCHRANA_HYGIENA.slug]: ZDRAVIE_OCHRANA_HYGIENA,
   [TANTRA_SLOW_SEX.slug]: TANTRA_SLOW_SEX,
+  [KOMUNIKACIA_POCAS_PO.slug]: KOMUNIKACIA_POCAS_PO,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {

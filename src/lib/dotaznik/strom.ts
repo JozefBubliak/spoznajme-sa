@@ -163,8 +163,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'komunikacia-pocas-po', cislo: 5, kod: 'A5', domena: 'A', tier1: true,
-    nazov: 'Komunikácia počas a po', popis: 'Počas aktu, spätná väzba, po akte, jemný aftercare.', ikona: '💬', citlivost: 1,
+    nazov: 'Komunikácia počas a po', popis: 'Tón a štýl, slovná navigácia, oslovovanie, pochvaly, humor, spätná väzba, po akte, jemný aftercare (kniha).', ikona: '💬', citlivost: 1,
     temy: [
+      o('komunikacia-pocas-po', 'Komunikácia počas a po', 'Kompletný sprievodca (kniha + dotazník) — tón, slovná navigácia, oslovovanie, pochvaly, humor, spätná väzba, aftercare.'),
       o('pocas-aktu', 'Počas aktu', 'Ako komunikujeme počas.', ['Ticho', 'Zvuky a dych', 'Slovné pokyny', 'Pochvala / povzbudenie', 'Smiech je OK']),
       o('spatna-vazba', 'Spätná väzba', 'Kedy a ako.', ['Priebežná', 'Až po akte', 'Dohodnuté signály „viac / menej / stop"']),
       o('po-akte', 'Po akte', 'Prvé minúty po.', ['Objatie a rozhovor', 'Ticho', 'Usnúť', 'Sprcha', '„Debrief" čo bolo super / čo inak']),

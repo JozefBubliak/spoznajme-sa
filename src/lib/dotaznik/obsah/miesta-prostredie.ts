@@ -166,6 +166,128 @@ const KLUBY: Blok = {
   ],
 }
 
+// ── Zvuk a rušenie ──────────────────────────────────────────────────
+// Doplnené z „dotaznik.xlsx" list „3) Prostredie, logistika, rituály" —
+// hlasitosť/hudba ako maskovanie zvuku, krátke okná príležitosti,
+// pred-rituál pripravenosti, prerušenia a návrat po nich.
+const ZVUK: Blok = {
+  druh: 'skupina', id: 'zvuk', nadpis: 'Zvuk, hudba a hlasitosť',
+  bloky: [
+    {
+      druh: 'otazka', id: 'zvu_hlasitost', typ: 'jeden',
+      text: 'Vlastné zvuky (moje aj partnerove) počas sexu',
+      moznosti: [
+        { v: 'chcem_pocut', label: 'Chcem partnera/ku počuť naplno' },
+        { v: 'hudba_maskuje', label: 'Radšej hudba, ktorá zvuky prekryje' },
+        { v: 'zalezi_na_mieste', label: 'Záleží na tom, kde sme (doma vs u niekoho)' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zvu_hudba', typ: 'jeden',
+      text: 'Hudba počas sexu',
+      moznosti: [
+        { v: 'ritmicka', label: 'Rytmická, udáva tempo' },
+        { v: 'ambient', label: 'Ambientná, na pozadí' },
+        { v: 'ticho', label: 'Radšej ticho' },
+      ],
+    },
+    { druh: 'otazka', id: 'zvu_playlist', typ: 'text', text: 'Môj „sex playlist" — žánre, ktoré fungujú (a ktoré sú tabu):' },
+  ],
+}
+
+// ── Krátke okno príležitosti ───────────────────────────────────────
+const KRATKE_OKNO: Blok = {
+  druh: 'skupina', id: 'kratke_okno', nadpis: 'Krátke okno príležitosti',
+  bloky: [
+    { druh: 'otazka', id: 'okn_kedy', typ: 'text', text: 'Kedy je u nás reálne „okno" na intimitu (čas, dni, situácie):' },
+    {
+      druh: 'otazka', id: 'okn_planovanie', typ: 'jeden',
+      text: 'V krátkom okne preferujem',
+      moznosti: [
+        { v: 'planovane', label: 'Vopred naplánované' },
+        { v: 'spontanne', label: 'Spontánne, keď okno vznikne' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'okn_co_v_kratkom', typ: 'jeden',
+      text: 'V krátkom okne (5–20 min) uprednostním',
+      moznosti: [
+        { v: 'rychly_sex', label: 'Rýchly sex' },
+        { v: 'intenzivne_maznanie', label: 'Intenzívne maznanie bez „musieť dokončiť"' },
+      ],
+    },
+  ],
+}
+
+// ── Pred-rituál a príprava ──────────────────────────────────────────
+const PRED_RITUAL: Blok = {
+  druh: 'skupina', id: 'pred_ritual', nadpis: 'Pred-rituál a príprava',
+  bloky: [
+    {
+      druh: 'otazka', id: 'pri_na_dosah', typ: 'viac',
+      text: 'Čo musí byť pripravené na dosah, aby som sa cítil(a) uvoľnene',
+      moznosti: [
+        { v: 'lubrikant', label: 'Lubrikant' },
+        { v: 'ochrana', label: 'Kondómy/ochrana' },
+        { v: 'uterak', label: 'Uterák' },
+        { v: 'voda', label: 'Voda na pitie' },
+        { v: 'hracky', label: 'Hračky' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'pri_priprava_vzrusujuca', typ: 'jeden',
+      text: 'Príprava (sprcha, prádlo, parfum) je pre mňa',
+      moznosti: [
+        { v: 'vzrusujuca_sucast', label: 'Vzrušujúca súčasť predohry' },
+        { v: 'minimalizmus', label: 'Chcem minimalizmus, rovno k veci' },
+      ],
+    },
+    p('pri_jest_pit', 'Pred sexom rád(a) niečo zjem/vypijem — nie je to pre mňa rušivé'),
+  ],
+}
+
+// ── Prerušenia a návrat ─────────────────────────────────────────────
+const PRERUSENIA: Blok = {
+  druh: 'skupina', id: 'preusenia', nadpis: 'Prerušenia a návrat',
+  bloky: [
+    { druh: 'otazka', id: 'per_pravidla', typ: 'text', text: 'Naše pravidlá pre prerušenia (mobil, zvonček, deti, zvieratá):' },
+    {
+      druh: 'otazka', id: 'per_pokracovat', typ: 'jeden',
+      text: 'Po prerušení',
+      moznosti: [
+        { v: 'pokracovat', label: 'Vieme pokojne pokračovať tam, kde sme skončili' },
+        { v: 'vypne_ma', label: 'Prerušenie ma väčšinou úplne vypne' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'per_navrat', typ: 'jeden',
+      text: 'Čo najviac pomáha pri návrate späť do nálady',
+      moznosti: [
+        { v: 'objatie_bozk', label: 'Objatie / bozk' },
+        { v: 'sprcha', label: 'Krátka prestávka / sprcha' },
+        { v: 'restart', label: 'Reštart úplne od začiatku' },
+      ],
+    },
+  ],
+}
+
+// ── Po sexe (v tomto priestore) ─────────────────────────────────────
+const PO_SEXE: Blok = {
+  druh: 'skupina', id: 'po_sexe', nadpis: 'Po sexe — v danom priestore',
+  bloky: [
+    {
+      druh: 'otazka', id: 'pos_potrebujem', typ: 'jeden',
+      text: 'Po sexe najviac potrebujem',
+      moznosti: [
+        { v: 'fyzicky_kontakt', label: 'Fyzický kontakt' },
+        { v: 'priestor', label: 'Trochu priestoru' },
+      ],
+    },
+    { druh: 'otazka', id: 'pos_slova', typ: 'text', text: 'Slová, ktoré chcem po sexe počuť (pochvala, uistenie, poďakovanie):' },
+    p('pos_nepriejemne_mobil', 'Okamžité siahnutie po mobile/odchod hneď po sexe je pre mňa nepríjemné'),
+  ],
+}
+
 // ── Bezpečnosť a diskrétnosť ──────────────────────────────────────────
 const BEZPECNOST: Blok = {
   druh: 'skupina', id: 'bezpecnost', nadpis: 'Bezpečnosť a diskrétnosť',
@@ -201,6 +323,11 @@ export const MIESTA_PROSTREDIE: TemaObsah = {
     HOTELY,
     NETRADICNE,
     KLUBY,
+    ZVUK,
+    KRATKE_OKNO,
+    PRED_RITUAL,
+    PRERUSENIA,
+    PO_SEXE,
     BEZPECNOST,
   ],
   zaver: [
