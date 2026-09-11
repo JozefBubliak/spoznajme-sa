@@ -645,8 +645,9 @@ export const MODULY: Modul[] = [
   // ═══ I — HRANICE, ZDRAVIE A TELO ═════════════════════════════════════
   {
     slug: 'suhlas-safewords', cislo: 51, kod: 'I1', domena: 'I', tier1: true,
-    nazov: 'Súhlas, safe-words a signály', popis: 'Safe-word systém, „nie teraz" kultúra, súhlas vopred vs priebežný, alkohol.', ikona: '🚦', citlivost: 1,
+    nazov: 'Súhlas, bezpečie a komunikácia', popis: 'Centrálny rámec pre celý dotazník — súhlas, safe-words, hygiena/ochrana (prehľad), tretie osoby, foto/video, žiarlivosť, hanba okolo fantázií, aftercare ako štandard (kniha).', ikona: '🚦', citlivost: 1,
     temy: [
+      o('suhlas-safewords', 'Súhlas, bezpečie a komunikácia', 'Kompletný sprievodca (kniha + dotazník) — základy súhlasu, safe-words, hygiena, tretie osoby, foto/video, žiarlivosť, hanba, aftercare, prevod fantázie do reality.'),
       o('safeword-system', 'Safe-word systém', 'Ako zastavíme.', ['Jedno slovo (STOP) vs semafor (zelená / žltá / červená)', 'Neverbálny signál (3× stisk / pustiť predmet)']),
       o('nie-teraz-kultura', '„Nie teraz" kultúra', 'Odmietnutie bez zranenia.', ['Ako odmietnuť bez zranenia', 'Ako prijať odmietnutie', '„Check-in" počas']),
       o('suhlas-vopred-priebezny', 'Súhlas vopred vs priebežný', 'Dohoda a jej zmena.', ['Čo si dohodneme pred scénou', 'Právo zmeniť názor kedykoľvek', '„Veto" na osoby / aktivity']),
