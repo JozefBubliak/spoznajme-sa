@@ -124,7 +124,7 @@ export const MODULY: Modul[] = [
       o('mentalna-priprava-tuzba', 'Dlhodobá intimita vo vzťahu', 'Kompletný sprievodca (kniha + dotazník) — blízkosť, antirutina, rituály, iniciatíva, program na mieru.'),
       o('vnutorne-naladenie', 'Vnútorné naladenie', 'Ako sa dostať do hlavy pred intimitou.', ['Fantazírovanie a vizualizácia scén', 'Spomínanie na predošlé zážitky', 'Erotické príbehy v mysli', 'Mentálne hry so „zakázaným"', 'Mindfulness a dych pred sexom']),
       o('praca-s-blokmi', 'Práca s blokmi', 'Čo v hlave prekáža a ako to zmierniť.', ['Uvoľnenie stresu', 'Hanba „nie som dosť dobrý/á"', 'Tlak na výkon', 'Telo-image počas aktu', 'Rozptýlená myseľ / „to-do list v hlave"']),
-      o('libido-chut', 'Libido a chuť', 'Úroveň túžby a rozdiely medzi nami.', ['Úroveň túžby', 'Rozdiel medzi nami', 'Spontánna vs responzívna túžba', 'Čo chuť spúšťa', 'Čo ju spoľahlivo zabíja']),
+      o('libido-chut', 'Libido a chuť', 'Kompletný sprievodca (kniha + dotazník) — úroveň túžby, rozdiel medzi nami, čo ju živí a čo zabíja.', ['Úroveň túžby', 'Rozdiel medzi nami', 'Spontánna vs responzívna túžba', 'Čo chuť spúšťa', 'Čo ju spoľahlivo zabíja']),
       o('brzdy-spustace', 'Brzdy a spúšťače vzrušenia (dual control)', 'Kompletný sprievodca (kniha + dotazník) — akcelerátor, brzda, kontext, komunikácia o brzde.', ['Kontexty, ktoré zapínajú', 'Kontexty, ktoré vypínajú', 'Strach z následkov', 'Hnev / nevyriešený konflikt', 'Únava', 'Alkohol']),
     ],
   },
@@ -207,8 +207,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'zmyslova-hra', cislo: 9, kod: 'B4', domena: 'B', rizikovy: true,
-    nazov: 'Zmyslová hra', popis: 'Zrak, sluch, čuch, chuť, hmat/teplota; layering a deprivácia.', ikona: '🎨', citlivost: 2,
+    nazov: 'Zmyslová hra', popis: 'Zrak, sluch, čuch, chuť, hmat/teplota; layering a deprivácia (kniha).', ikona: '🎨', citlivost: 2,
     temy: [
+      o('zmyslova-hra', 'Zmyslová hra', 'Kompletný sprievodca (kniha + dotazník) — zrak, sluch, čuch, chuť, hmat, layering a deprivácia.'),
       o('zrak', 'Zrak', 'Vizuál a jeho odopretie.', ['Zaviazané oči', 'Striptease', 'Sledovanie v zrkadle', 'Vizuálne podnety', '„Pozeraj sa mi do očí"']),
       o('sluch', 'Sluch', 'Zvuk a ticho.', ['Šepot', 'Dirty talk (jemný)', 'Hudba', 'Sluchová deprivácia (slúchadlá / biely šum)']),
       o('cuch', 'Čuch', 'Vône.', ['Prirodzená vôňa tela a pohlavia', 'Parfum / olej', 'Feromóny', '„Vôňa po sexe"']),
