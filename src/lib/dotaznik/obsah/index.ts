@@ -15,6 +15,9 @@ import { POMOCKY_HRACKY } from './pomocky-hracky'
 import { ROVNAKE_POHLAVIE } from './rovnake-pohlavie'
 import { PREDOHRA_NALADENIE } from './predohra-naladenie'
 import { SUHLAS_BEZPECIE } from './suhlas-bezpecie'
+import { BRZDY_SPUSTACE } from './brzdy-spustace'
+import { SPECIFICKE_OBDOBIA } from './specificke-obdobia'
+import { KONTEXT_VZTAHU } from './kontext-vztahu'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -35,6 +38,9 @@ const REGISTER: Record<string, TemaObsah> = {
   [ROVNAKE_POHLAVIE.slug]: ROVNAKE_POHLAVIE,
   [PREDOHRA_NALADENIE.slug]: PREDOHRA_NALADENIE,
   [SUHLAS_BEZPECIE.slug]: SUHLAS_BEZPECIE,
+  [BRZDY_SPUSTACE.slug]: BRZDY_SPUSTACE,
+  [SPECIFICKE_OBDOBIA.slug]: SPECIFICKE_OBDOBIA,
+  [KONTEXT_VZTAHU.slug]: KONTEXT_VZTAHU,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {

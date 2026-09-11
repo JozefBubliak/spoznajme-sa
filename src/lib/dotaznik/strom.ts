@@ -125,7 +125,7 @@ export const MODULY: Modul[] = [
       o('vnutorne-naladenie', 'Vnútorné naladenie', 'Ako sa dostať do hlavy pred intimitou.', ['Fantazírovanie a vizualizácia scén', 'Spomínanie na predošlé zážitky', 'Erotické príbehy v mysli', 'Mentálne hry so „zakázaným"', 'Mindfulness a dych pred sexom']),
       o('praca-s-blokmi', 'Práca s blokmi', 'Čo v hlave prekáža a ako to zmierniť.', ['Uvoľnenie stresu', 'Hanba „nie som dosť dobrý/á"', 'Tlak na výkon', 'Telo-image počas aktu', 'Rozptýlená myseľ / „to-do list v hlave"']),
       o('libido-chut', 'Libido a chuť', 'Úroveň túžby a rozdiely medzi nami.', ['Úroveň túžby', 'Rozdiel medzi nami', 'Spontánna vs responzívna túžba', 'Čo chuť spúšťa', 'Čo ju spoľahlivo zabíja']),
-      o('brzdy-spustace', 'Brzdy a spúšťače (dual control)', 'Kontexty, ktoré zapínajú alebo vypínajú.', ['Kontexty, ktoré zapínajú', 'Kontexty, ktoré vypínajú', 'Strach z následkov', 'Hnev / nevyriešený konflikt', 'Únava', 'Alkohol']),
+      o('brzdy-spustace', 'Brzdy a spúšťače vzrušenia (dual control)', 'Kompletný sprievodca (kniha + dotazník) — akcelerátor, brzda, kontext, komunikácia o brzde.', ['Kontexty, ktoré zapínajú', 'Kontexty, ktoré vypínajú', 'Strach z následkov', 'Hnev / nevyriešený konflikt', 'Únava', 'Alkohol']),
     ],
   },
   {
@@ -671,7 +671,14 @@ export const MODULY: Modul[] = [
       o('telo-image', 'Telo-image', 'Vzťah k vlastnému telu.', ['Čo o svojom tele neznesiem počuť / vidieť', 'Svetlo', 'Zrkadlá', 'Polohy, ktoré ma zneisťujú']),
       o('hanba-bloky', 'Hanba a bloky', 'Z čoho mám hanbu.', ['Z čoho mám hanbu', 'Čo mi pomáha ju znížiť', '„Nehodnotiaci" jazyk partnera']),
       o('spustace-historia', 'Spúšťače a história', 'Citlivé miesta.', ['Slová / dotyky / situácie, ktoré vypnú alebo vyvolajú zlú spomienku', 'Ako signalizovať „potrebujem pauzu"', 'Čo NErobiť keď sa to stane']),
-      o('specificke-obdobia', 'Špecifické obdobia', 'Fázy života.', ['Stres / rodičovstvo', 'Tehotenstvo a po pôrode', 'Menštruácia', 'Menopauza', 'Zdravotné stavy / lieky', 'Vek a únava', 'Dlhé odlúčenie']),
+      o('specificke-obdobia', 'Špecifické obdobia a obmedzenia', 'Kompletný sprievodca (kniha + dotazník) — fázy života od rodičovstva po vek a únavu.', ['Stres / rodičovstvo', 'Tehotenstvo a po pôrode', 'Menštruácia', 'Menopauza', 'Zdravotné stavy / lieky', 'Vek a únava', 'Dlhé odlúčenie']),
+    ],
+  },
+  {
+    slug: 'kontext-vztahu-zivotna-situacia', cislo: 54, kod: 'I4', domena: 'I', tier1: true,
+    nazov: 'Kontext vzťahu a životná situácia', popis: 'Fáza vzťahu, deti a súkromie, práca, bývanie, zdravie, skúsenosti a motivácia vyplniť tento dotazník (kniha).', ikona: '🧭', citlivost: 1,
+    temy: [
+      o('kontext-vztahu-zivotna-situacia', 'Kontext vzťahu a životná situácia', 'Kompletný sprievodca (kniha + dotazník) — fáza vzťahu, životná situácia, skúsenosti, motivácia.'),
     ],
   },
 ]
