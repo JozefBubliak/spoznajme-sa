@@ -335,8 +335,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'tempo-rytmus-choreografia', cislo: 20, kod: 'D4', domena: 'D',
-    nazov: 'Tempo, rytmus a „choreografia"', popis: 'Krivka, edging a stop-start, prechody, pauzy.', ikona: '📈', citlivost: 2,
+    nazov: 'Tempo, intenzita a orgazmus', popis: 'Kompletný sprievodca (kniha + dotazník) — spoločný slovník intenzity, vlny, edging protokoly, hotové scenáre, bezpečnosť.', ikona: '📈', citlivost: 2,
     temy: [
+      o('tempo-rytmus-choreografia', 'Tempo, intenzita a orgazmus', 'Kompletný sprievodca (kniha + dotazník) — parametre intenzity, vlny, edging protokoly, hotové scenáre.'),
       o('krivka', 'Krivka', 'Priebeh.', ['Pomaly a stále', 'Postupné stupňovanie', 'Vlny (rýchlo–pomaly)', 'Dlhá plošina', 'Rýchle finále']),
       o('edging-stop-start', 'Edging a stop-start', 'Odďaľovanie.', ['Koľko „takmer"', 'Kto rozhoduje o pauze', 'Predĺžená plošina', '„Ruined"']),
       o('prechody', 'Prechody', 'Zmeny.', ['Plynulé vs „prestávky na zmenu polohy"', 'Orál → penetrácia → orál', 'Ruka medzi']),

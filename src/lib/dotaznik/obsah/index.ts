@@ -20,6 +20,7 @@ import { SPECIFICKE_OBDOBIA } from './specificke-obdobia'
 import { KONTEXT_VZTAHU } from './kontext-vztahu'
 import { LIBIDO_CHUT } from './libido-chut'
 import { ZMYSLOVA_HRA } from './zmyslova-hra'
+import { TEMPO_INTENZITA } from './tempo-intenzita'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -45,6 +46,7 @@ const REGISTER: Record<string, TemaObsah> = {
   [KONTEXT_VZTAHU.slug]: KONTEXT_VZTAHU,
   [LIBIDO_CHUT.slug]: LIBIDO_CHUT,
   [ZMYSLOVA_HRA.slug]: ZMYSLOVA_HRA,
+  [TEMPO_INTENZITA.slug]: TEMPO_INTENZITA,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {
