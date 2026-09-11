@@ -151,8 +151,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'predohra-stupnovanie', cislo: 4, kod: 'A4', domena: 'A', tier1: true,
-    nazov: 'Predohra a stupňovanie', popis: 'Dĺžka a tempo, slow-sex prvky, poradie, naladenie po konflikte.', ikona: '🕰️', citlivost: 1,
+    nazov: 'Predohra a naladenie', popis: 'Fyzická príprava, signály pripravenosti, sexting, vedomá iniciácia, dĺžka a tempo, slow-sex prvky, poradie, naladenie po konflikte (kniha).', ikona: '🕰️', citlivost: 1,
     temy: [
+      o('predohra-stupnovanie', 'Predohra a naladenie', 'Kompletný sprievodca (kniha + dotazník) — príprava tela, signály, sexting, vedomá iniciácia, tempo a poradie predohry.'),
       o('dlzka-tempo', 'Dĺžka a tempo', 'Koľko predohry.', ['Quickie', 'Stredná', 'Dlhá „slow" predohra', 'Viac krátkych vĺn počas dňa']),
       o('slow-sex-prvky', 'Slow sex prvky', 'Vedomé spomalenie.', ['Tease & denial', 'Odkladanie penetrácie', 'Sústredenie na dych', 'Synchronizácia']),
       o('poradie', 'Poradie', 'Čo za čím.', ['Od jemného k dravému', 'Striedanie', '„Preskočiť rovno na…"', 'Čo musí prísť ako prvé']),

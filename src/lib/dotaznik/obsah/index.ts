@@ -13,6 +13,7 @@ import { BOZKY_DOTYKY } from './bozky-dotyky'
 import { ROLEPLAY } from './roleplay'
 import { POMOCKY_HRACKY } from './pomocky-hracky'
 import { ROVNAKE_POHLAVIE } from './rovnake-pohlavie'
+import { PREDOHRA_NALADENIE } from './predohra-naladenie'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -31,6 +32,7 @@ const REGISTER: Record<string, TemaObsah> = {
   [ROLEPLAY.slug]: ROLEPLAY,
   [POMOCKY_HRACKY.slug]: POMOCKY_HRACKY,
   [ROVNAKE_POHLAVIE.slug]: ROVNAKE_POHLAVIE,
+  [PREDOHRA_NALADENIE.slug]: PREDOHRA_NALADENIE,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {
