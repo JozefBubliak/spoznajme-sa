@@ -22,6 +22,9 @@ import { LIBIDO_CHUT } from './libido-chut'
 import { ZMYSLOVA_HRA } from './zmyslova-hra'
 import { TEMPO_INTENZITA } from './tempo-intenzita'
 import { FANTAZIE } from './fantazie'
+import { MIESTA_PROSTREDIE } from './miesta-prostredie'
+import { POLOHY } from './polohy'
+import { VAGINALNA_PENETRACIA } from './vaginalna-penetracia'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -49,6 +52,9 @@ const REGISTER: Record<string, TemaObsah> = {
   [ZMYSLOVA_HRA.slug]: ZMYSLOVA_HRA,
   [TEMPO_INTENZITA.slug]: TEMPO_INTENZITA,
   [FANTAZIE.slug]: FANTAZIE,
+  [MIESTA_PROSTREDIE.slug]: MIESTA_PROSTREDIE,
+  [POLOHY.slug]: POLOHY,
+  [VAGINALNA_PENETRACIA.slug]: VAGINALNA_PENETRACIA,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {

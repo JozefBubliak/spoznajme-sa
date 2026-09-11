@@ -66,6 +66,40 @@ const AKO_FUNGUJE: Blok = {
   ],
 }
 
+// ── Hranie s tabu ────────────────────────────────────────────────────
+// Zdroj: „32_Sny_tuzby_a_fantazie_a_TABU.docx" — krátky, generický fragment
+// (prekonávanie zábran, adrenalín, psychologická stimulácia); zaradené sem
+// ako doplnkový blok namiesto samostatnej témy.
+const TABU: Blok = {
+  druh: 'skupina', id: 'tabu', nadpis: 'Hranie s tabu',
+  bloky: [
+    {
+      druh: 'text', id: 'tabu_info',
+      telo:
+        'Prekonávanie zábran a skúmanie tabuizovaných tém môže byť cestou k novým dimenziám vzrušenia — ' +
+        'láka v tom adrenalín zo „zakázaného" a pocit odvahy, nie samotný akt. Vyžaduje jasnú komunikáciu a dôveru.',
+    },
+    {
+      druh: 'otazka', id: 'tabu_diskusia', typ: 'jeden',
+      text: 'Chcem diskutovať o svojich najtajnejších fantáziách s partnerom/kou',
+      moznosti: [
+        { v: 'ano', label: 'Áno, rád(a) sa podelím' },
+        { v: 'potrebujem_cas', label: 'Možno, potrebujem na to čas' },
+        { v: 'nie', label: 'Nie, necítim sa pri tom komfortne' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tabu_skumanie', typ: 'jeden',
+      text: 'Ako vnímam skúmanie tabuizovaných praktík všeobecne',
+      moznosti: [
+        { v: 'laka', label: 'Láka ma to, rád(a) by som ich preskúmal(a)' },
+        { v: 'mozno_pripraveny', label: 'Možno, ak sa na to budem cítiť pripravený/á' },
+        { v: 'nie', label: 'Nie, nemám o to záujem' },
+      ],
+    },
+  ],
+}
+
 // ── Negatívne pocity a zdieľanie ────────────────────────────────────
 const NEGATIVNE: Blok = {
   druh: 'skupina', id: 'negativne', nadpis: 'Negatívne pocity a zdieľanie',
@@ -120,6 +154,7 @@ export const FANTAZIE: TemaObsah = {
   telo: [
     AKO_FUNGUJE,
     ...OKRUHY.map(okruhBlok),
+    TABU,
     NEGATIVNE,
     PREKLAD,
   ],

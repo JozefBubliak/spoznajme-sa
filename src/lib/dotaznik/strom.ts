@@ -141,8 +141,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'prostredie-atmosfera', cislo: 3, kod: 'A3', domena: 'A', tier1: true,
-    nazov: 'Prostredie a atmosféra', popis: 'Priestor, zmysly priestoru, súkromie a príprava.', ikona: '🌙', citlivost: 1,
+    nazov: 'Miesta a prostredie', popis: 'Domáce priestory, exteriér a verejné prostredia, hotely, netradičné miesta, kluby, bezpečnosť a diskrétnosť (kniha).', ikona: '🌙', citlivost: 1,
     temy: [
+      o('prostredie-atmosfera', 'Miesta a prostredie', 'Kompletný sprievodca (kniha + dotazník) — domáce priestory, exteriér, hotely, netradičné miesta, kluby.'),
       o('priestor', 'Priestor', 'Kde.', ['Spálňa', 'Iná izba', 'Kúpeľňa', 'Kuchyňa / gauč', 'Vonku (legálne)', 'Auto', 'Hotel / chata']),
       o('zmysly-priestoru', 'Zmysly priestoru', 'Svetlo, zvuk, vôňa, teplota.', ['Svetlo (tma / sviečky / plné svetlo)', 'Hudba', 'Vôňa', 'Teplota', 'Posteľná bielizeň']),
       o('sukromie-rusenie', 'Súkromie a rušenie', 'Čo nás vyrušuje.', ['Deti doma', 'Tenké steny', 'Telefóny preč', 'Časový tlak vs „máme celú noc"']),
@@ -301,8 +302,9 @@ export const MODULY: Modul[] = [
   // ═══ D — PENETRÁCIA A PRIEBEH AKTU ═════════════════════════════════════
   {
     slug: 'vaginalna-penetracia', cislo: 17, kod: 'D1', domena: 'D', tier1: true, zrkadlovy: true,
-    nazov: 'Vaginálna penetrácia', popis: 'Nábeh, techniky, hĺbka a náraz, čím, rytmus.', ikona: '🌊', citlivost: 2,
+    nazov: 'Vaginálna penetrácia', popis: 'Nábeh, techniky, hĺbka a náraz, čím, rytmus, vaginálny fisting (kniha).', ikona: '🌊', citlivost: 2,
     temy: [
+      o('vaginalna-penetracia', 'Vaginálna penetrácia', 'Kompletný sprievodca (kniha + dotazník) — nábeh, techniky, hĺbka, rytmus, vaginálny fisting.'),
       o('nabeh', 'Nábeh', 'Prvé chvíle.', ['Lubrikácia', 'Pomalý vstup', '„Počkaj, kým poviem"', 'Plytké ťahy na začiatku', 'Dýchať']),
       o('techniky', 'Techniky', 'Ako.', ['Plytké vs hlboké', '„Angling" (uhol na prednú stenu)', '„Rocking" / grinding', 'Krúženie', 'Striedanie hĺbky', 'Kombinácia s klitorisom']),
       o('hlbka-naraz', 'Hĺbka a náraz', 'Ako hlboko.', ['Plytká hra', 'Stredná', 'Hlboko', 'Naráž na krčok — príjemné / nepríjemné / limit']),
@@ -324,8 +326,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'polohy', cislo: 19, kod: 'D3', domena: 'D', tier1: true,
-    nazov: 'Polohy', popis: 'Základné a varianty, prístup a kontakt, kontrola, ergonómia, nábytok.', ikona: '🧩', citlivost: 2,
+    nazov: 'Polohy', popis: 'Základné a varianty, prístup a kontakt, kontrola, ergonómia, nábytok (kniha).', ikona: '🧩', citlivost: 2,
     temy: [
+      o('polohy', 'Polohy', 'Kompletný sprievodca (kniha + dotazník) — klasické polohy, poloha × anál/prístup/hračky/prostredie, ergonómia.'),
       o('zakladne', 'Základné', 'Repertoár.', ['Misionárska (+ varianty)', '„Doggy"', 'Jazdkyňa', 'Reverzná jazdkyňa', 'Lyžičky', 'V stoji']),
       o('pristup-kontakt', 'Prístup a kontakt', 'Blízkosť.', ['Očný kontakt vs bez', 'Hĺbka podľa polohy', 'Prístup ruky ku klitorisu', 'Bozkávanie počas']),
       o('kontrola', 'Kontrola', 'Kto vedie.', ['Kto vedie pohyb', '„Pin down" (pritlačiť ruky)', 'Ja úplne pasívny/a', 'Striedanie kto je hore']),

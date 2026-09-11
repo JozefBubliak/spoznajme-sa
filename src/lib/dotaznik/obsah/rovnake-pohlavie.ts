@@ -173,6 +173,13 @@ export const ROVNAKE_POHLAVIE: TemaObsah = {
         'Rozdiel medzi romantickou a telesnou túžbou. Fantázia nemusí meniť orientáciu.',
     },
     {
+      druh: 'text', id: 'terminologia', nadpis: 'Soft bi vs. hard bi',
+      telo:
+        'Bežné rozlíšenie: „soft bi" — dotyky, bozkávanie, spoločná nahota, bez penetrácie; ' +
+        '„hard bi" — orál alebo penetrácia s rovnakým pohlavím. Netreba prechádzať od jedného k druhému — ' +
+        'je v poriadku ostať natrvalo pri soft bi.',
+    },
+    {
       druh: 'text', id: 'ramec', nadpis: 'Rámec', ton: 'info',
       telo:
         'Súhlas všetkých, ochrana pred infekciami, právo kedykoľvek prestať. ' +
