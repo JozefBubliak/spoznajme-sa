@@ -14,7 +14,7 @@ export default async function ModulyMapa({ params }: P) {
   return (
     <Krok
       krok="Mapa tém"
-      nadpis="9 oblastí, 56 modulov. Poradie je odporúčané, nie povinné."
+      nadpis="9 oblastí, 57 modulov. Poradie je odporúčané, nie povinné."
       lead="Vyber si oblasť a modul. Každý modul sa otvára otázkou „Chcem to skúmať?“ a vetví sa na okruhy a konkrétne položky."
       spat={{ href: p(cesta.atlas), label: 'Atlas' }}
       siroky
