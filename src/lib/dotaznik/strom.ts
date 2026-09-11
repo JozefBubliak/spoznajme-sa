@@ -683,6 +683,13 @@ export const MODULY: Modul[] = [
       o('kontext-vztahu-zivotna-situacia', 'Kontext vzťahu a životná situácia', 'Kompletný sprievodca (kniha + dotazník) — fáza vzťahu, životná situácia, skúsenosti, motivácia.'),
     ],
   },
+  {
+    slug: 'fantazie-preklad-reality', cislo: 56, kod: 'A6', domena: 'A', tier1: true,
+    nazov: 'Fantázie — screening a preklad do reality', popis: 'Najčastejšie okruhy fantázií so škálami frekvencie/dôležitosti a samostatným prepínačom realizácie pre každý okruh (kniha).', ikona: '💭', citlivost: 2,
+    temy: [
+      o('fantazie-preklad-reality', 'Fantázie — screening a preklad do reality', 'Kompletný sprievodca (kniha + dotazník) — 7 okruhov fantázií, frekvencia/dôležitosť, prepínač realizácie, negatívne pocity.'),
+    ],
+  },
 ]
 
 // ── Meta uzly (mimo modulov) ───────────────────────────────────────────────
