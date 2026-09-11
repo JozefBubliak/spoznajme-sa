@@ -662,8 +662,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'zdravie-ochrana-hygiena', cislo: 52, kod: 'I2', domena: 'I', tier1: true,
-    nazov: 'Zdravie, ochrana a hygiena', popis: 'Antikoncepcia, STI, hygiena, bolesť vs nepohodlie.', ikona: '🩺', citlivost: 2,
+    nazov: 'Zdravie, ochrana a hygiena', popis: 'Antikoncepcia, STI, hygiena, bolesť vs nepohodlie, funkčné ťažkosti, mobilita, alergie, reflexia (kniha).', ikona: '🩺', citlivost: 2,
     temy: [
+      o('zdravie-ochrana-hygiena', 'Zdravie, ochrana a hygiena', 'Kompletný sprievodca (kniha + dotazník) — antikoncepcia, STI, hygiena, funkčné ťažkosti, mobilita, alergie, reflexia.'),
       o('antikoncepcia', 'Antikoncepcia', 'Metóda a zodpovednosť.', ['Metóda', 'Zodpovednosť', '„Pull-out" ako (ne)spoľahlivosť', 'Núdzová']),
       o('sti', 'STI', 'Testovanie a ochrana.', ['Testovanie (kedy naposledy, ako často)', 'Status', 'Kondómy (vždy / pri niektorých aktivitách / nie)', 'Pri otvorenom vzťahu protokol']),
       o('hygiena', 'Hygiena', 'Pred a po.', ['Sprcha pred / po', 'Intímna hygiena', 'Hračky (čistenie, materiály, zdieľanie)', 'Anál → nikdy späť k vulve', 'Ruky / nechty']),
@@ -672,8 +673,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'telo-hanba-citlive', cislo: 53, kod: 'I3', domena: 'I', tier1: true,
-    nazov: 'Telo, hanba a citlivé miesta', popis: 'Telo-image, hanba a bloky, spúšťače a história, špecifické obdobia.', ikona: '🫀', citlivost: 2,
+    nazov: 'Telo, hanba a citlivé miesta', popis: 'Telo-image, hanba a bloky, spúšťače a história, špecifické obdobia (kniha).', ikona: '🫀', citlivost: 2,
     temy: [
+      o('telo-hanba-citlive', 'Sebaprijatie, telo a hanba', 'Kompletný sprievodca (kniha + dotazník) — vzťah k vlastnému telu, hanba a bloky, spúšťače, sebaprijatie.'),
       o('telo-image', 'Telo-image', 'Vzťah k vlastnému telu.', ['Čo o svojom tele neznesiem počuť / vidieť', 'Svetlo', 'Zrkadlá', 'Polohy, ktoré ma zneisťujú']),
       o('hanba-bloky', 'Hanba a bloky', 'Z čoho mám hanbu.', ['Z čoho mám hanbu', 'Čo mi pomáha ju znížiť', '„Nehodnotiaci" jazyk partnera']),
       o('spustace-historia', 'Spúšťače a história', 'Citlivé miesta.', ['Slová / dotyky / situácie, ktoré vypnú alebo vyvolajú zlú spomienku', 'Ako signalizovať „potrebujem pauzu"', 'Čo NErobiť keď sa to stane']),

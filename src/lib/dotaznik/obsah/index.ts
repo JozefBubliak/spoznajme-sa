@@ -26,6 +26,8 @@ import { MIESTA_PROSTREDIE } from './miesta-prostredie'
 import { POLOHY } from './polohy'
 import { VAGINALNA_PENETRACIA } from './vaginalna-penetracia'
 import { DIGITALNA_INTIMITA } from './digitalna-intimita'
+import { TELO_HANBA } from './telo-hanba'
+import { ZDRAVIE_OCHRANA_HYGIENA } from './zdravie-ochrana-hygiena'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -57,6 +59,8 @@ const REGISTER: Record<string, TemaObsah> = {
   [POLOHY.slug]: POLOHY,
   [VAGINALNA_PENETRACIA.slug]: VAGINALNA_PENETRACIA,
   [DIGITALNA_INTIMITA.slug]: DIGITALNA_INTIMITA,
+  [TELO_HANBA.slug]: TELO_HANBA,
+  [ZDRAVIE_OCHRANA_HYGIENA.slug]: ZDRAVIE_OCHRANA_HYGIENA,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {

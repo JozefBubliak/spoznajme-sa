@@ -47,6 +47,17 @@ const UROVEN: Blok = {
         { v: 'rastie_dlhodobo', label: 'Dlhodobo rastie' },
       ],
     },
+    {
+      druh: 'otazka', id: 'uro_styl', typ: 'viac', inePovolene: true,
+      text: 'Aký štýl intimity mi najviac sedí (môžeš vybrať viac)',
+      moznosti: [
+        { v: 'romanticky', label: 'Romantický, pomalý' },
+        { v: 'vasnivy', label: 'Vášnivý, naliehavý' },
+        { v: 'hravy', label: 'Hravý, so smiechom' },
+        { v: 'ritualizovany', label: 'Ritualizovaný — vždy podobný postup' },
+        { v: 'spontanny', label: 'Spontánny, rôzny zakaždým' },
+      ],
+    },
   ],
 }
 
