@@ -138,6 +138,20 @@ $doc.Close(); $word.Quit()
 
 **Ďalší krok: strany 111-120.**
 
+**Druhá korekcia metódy (po ďalšej spätnej väzbe používateľa, po dávkach do str. 400):** aj po prvej korekcii som pri viacerých dávkach (121-140, 161-180, 181-200, 341-360, 361-380) písal „žiadny nový nález" na základe overenia len **existencie témy/kľúčového slova** cez `grep` (napr. „existuje niekde `masáž`?"), nie porovnania **skutočného textu, otázok a možností** zo zdroja s tým, čo je na webe. To je presne ten istý druh chyby ako predtým, len o úroveň jemnejšia.
+
+Skutočná oprava: pre každú dávku som teraz (1) extrahoval z Wordu surový text danej stránky, (2) prečítal ho celý — vrátane dlhých „Čo to prináša?" inšpiračných odsekov, nie len otázky, (3) porovnal vetu po vete s obsahom v `obsah/*.ts`, (4) až potom doplnil, čo reálne chýbalo. Výsledky tejto opravy pre už „uzavreté" dávky:
+
+| Strany | Čo sa predtým prehliadlo (len keyword-check) | Kam doplnené |
+|---|---|---|
+| 121-140 | Celý blok „mentálna príprava" (fantazírovanie, zdieľanie túžob vopred, vizualizácia ako mentálne aktivity) — mali sme len fyzickú prípravu tela, nie psychickú. Jemné oslovenia počas maznania („miláčik", „moja kráska") s otázkou smeru (dávať/prijímať/oboje). Konkrétna otázka na obsah intímneho denníka. | `predohra-naladenie.ts` (nový blok MENTALNA_PRIPRAVA), `komunikacia-pocas-po.ts` (osl_mazna), `roleplay.ts` (rit_dennik_temy) |
+| 161-180 | „Úplná tma" ako koncept odlišný od zaviazaných očí (tma = obom, páska = jednému). Maska (estetika/anonymita) ako odlišný koncept od pásky (deprivácia). Kategorizácia druhov verbálnych prejavov (nežné/dirty talk/opisovanie/roleplay/vulgárne/ticho) — mali sme len 1 všeobecnú možnosť. Inšpiračný text pri vôňach (konkrétne oleje, „voňavý rituál") — mali sme prázdne textové pole bez kontextu. Krok-za-krokom návod na „zmyslový rituál". | `zmyslova-hra.ts` (ZRAK rozšírený o tma/maska/oblečenie, SLUCH o slu_druhy_prejavov, CUCH o info text, LAYERING o rituál tip) |
+| 181-200 | „Jemné obmedzenie reči" (pásik cez ústa) ako kombinovateľná senzorická položka popri páske/štupliach/kukle — mali sme len samostatný BDSM „gag" ako nástroj dominancie, nie ako súčasť jemnej zmyslovej kombinácie. | `bdsm.ts` (SENZORIKA → sen_prostriedky) |
+| 341-360 | „Chladené kovové predmety" ako teplotný podnet — iný pocit než ľad (pomalšie sa zohrieva). | `zmyslova-hra.ts` (HMAT → hma_teplota) |
+| 361-380 | Overené — skutočne duplikát, žiadny ďalší nový nález nad rámec vyššie. | — |
+
+Dávky 1-120 a 201-340 (predtým označené ako duplicitné) **ešte neprešli touto druhou, prísnejšou kontrolou** — len prvou korekciou (téma+niektoré konkrétne body cez grep). Toto je otvorená položka, na ktorú treba nadviazať pred ďalším postupom vpred v dokumente.
+
 ## Kľúčové zistenie (po prečítaní obsahu, nie len nadpisov)
 
 `zdroj.docx` je doslovné **zreťazenie všetkých 33 číslovaných zdrojových súborov za sebou** (každý
