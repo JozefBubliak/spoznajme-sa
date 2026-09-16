@@ -718,7 +718,9 @@ export const ANALNA_PENETRACIA: TemaObsah = {
         'Veľa lubrikantu (ideálne silikónový; vodný je OK, no rýchlejšie schne) a priebežné dopĺňanie. ' +
         'Krátke nechty alebo rukavice, pomalý vstup, trpezlivosť, dýchanie na výdych pri vniknutí. ' +
         'Semafor / dohodnuté gesto, malé „OK?" check-iny. ' +
-        'Anál → vagína nikdy bez výmeny ochrany. Krátka hygienická rutina pred hrou (toaleta, teplá sprcha, pokojná hlava), uterák poruke.',
+        'Anál → vagína nikdy bez výmeny ochrany. Krátka hygienická rutina pred hrou (toaleta, teplá sprcha, pokojná hlava), uterák poruke. ' +
+        'Umývanie rúk pred aj po je dôležitejšie, než sa zdá — análna oblasť nesie baktérie (napr. Shigella), ktoré sa fekálno-orálnou cestou dajú preniesť aj cez prsty. ' +
+        'Po hnačke alebo črevnej infekcii je rozumné počkať aspoň 2 týždne pred análnou hrou.',
     },
   ],
   telo: [
