@@ -78,6 +78,16 @@ const SLUCH: Blok = {
         { v: 'nie', label: 'Nie, necítim sa pri tom dobre' },
       ],
     },
+    {
+      druh: 'otazka', id: 'slu_ton_hlasu', typ: 'jeden',
+      text: 'Aký tón hlasu ma najviac vzrušuje (nie čo sa hovorí, ale ako to znie)',
+      moznosti: [
+        { v: 'jemny_lask', label: 'Jemné a láskavé šepkanie' },
+        { v: 'dominantny', label: 'Dominantný a príkazový tón' },
+        { v: 'hlboky', label: 'Hrubší, hlboký hlas' },
+        { v: 'nezalezi', label: 'Nezáleží mi na tóne' },
+      ],
+    },
   ],
 }
 
