@@ -179,6 +179,7 @@ const HMAT: Blok = {
       moznosti: [
         { v: 'lad', label: 'Ľad' },
         { v: 'teply_olej', label: 'Teplý olej' },
+        { v: 'chladeny_kov', label: 'Chladené kovové predmety (iný pocit než ľad — pomalšie sa zohrievajú)' },
         { v: 'striedanie', label: 'Striedanie teplého a studeného' },
       ],
     },
