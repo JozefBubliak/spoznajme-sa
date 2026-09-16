@@ -333,6 +333,16 @@ const MASAZ: Blok = {
       ],
     },
     {
+      druh: 'otazka', id: 'mas_techniky', typ: 'viac',
+      text: 'Konkrétne masážne techniky, ktoré ma lákajú',
+      moznosti: [
+        { v: 'palm_glide', label: 'Plynulé hladenie celou dlaňou (dlhé ťahy)' },
+        { v: 'miesenie', label: 'Miesenie a hnetenie (ramená, stehná)' },
+        { v: 'macacie_pazuriky', label: '„Mačacie pazúriky" — jemné škrabkanie nechtami' },
+        { v: 'skalp', label: 'Masáž vlasovej pokožky/hlavy' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'mas_oleje', typ: 'jeden',
       text: 'Masážne oleje',
       moznosti: [

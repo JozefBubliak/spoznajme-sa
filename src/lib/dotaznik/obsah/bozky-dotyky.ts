@@ -66,6 +66,16 @@ const BOZKY_USTA: Blok = {
       ],
     },
     p('boz_ocny_kontakt', 'Bozkávanie s hlbokým pohľadom do očí'),
+    {
+      druh: 'otazka', id: 'boz_predavanie_tekutin', typ: 'jeden',
+      text: 'Predávanie tekutiny z úst do úst počas bozku (dúšok vína, šampanského, sladkého nápoja)',
+      moznosti: [
+        { v: 'robime', label: 'Už to robíme a som spokojný/á' },
+        { v: 'tuzim', label: 'Túžim to vyskúšať' },
+        { v: 'mozno', label: 'Možno, za istých okolností' },
+        { v: 'nie', label: 'Nie, neláka ma to' },
+      ],
+    },
   ],
 }
 
