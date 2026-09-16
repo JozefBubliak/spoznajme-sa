@@ -318,6 +318,7 @@ const RITUALY: Blok = {
     p('rit_disciplinovanie', 'Disciplinovanie ako rituál'),
     p('rit_treasure_hunt', '„Love treasure hunt" — zmyslové hľadanie/lúštenie so sexuálnou odmenou'),
     p('rit_eroticky_dennik', 'Erotický denník — striedavo si zapisovať a plniť si túžby druhého'),
+    p('rit_body_writing', '„Body-writing" — písanie slova/odkazu prstom na partnerovu kožu, ktorý má uhádnuť'),
   ],
 }
 

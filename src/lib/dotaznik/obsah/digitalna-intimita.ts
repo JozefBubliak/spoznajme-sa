@@ -174,6 +174,35 @@ const EROTICKA_LITERATURA: Blok = {
   ],
 }
 
+// ── Platformy na tvorbu obsahu (OnlyFans a podobné) ─────────────────
+const PLATFORMY: Blok = {
+  druh: 'skupina', id: 'platformy', nadpis: 'Platformy na tvorbu obsahu (OnlyFans a podobné)',
+  uvod:
+    'Ide o zásadne inú vec než súkromný sexting — obsah smeruje k cudzím ľuďom, často za peniaze. ' +
+    'Riziká: reputácia, anonymita, finančné stopy, možnosť úniku. Vyžaduje spoločný súhlas oboch, nie rozhodnutie jedného.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'plat_postoj', typ: 'jeden',
+      text: 'Náš spoločný postoj k platformám na tvorbu platieného intímneho obsahu',
+      moznosti: [
+        { v: 'ano_podmienky', label: 'Áno, za prísnych podmienok (napr. bez tváre, pseudonym)' },
+        { v: 'mozno', label: 'Možno, potrebujeme sa o tom viac porozprávať' },
+        { v: 'nie', label: 'Nie, nechceme to' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'plat_riziko', typ: 'viac',
+      text: 'Čo by sme museli mať ošetrené, ak by sme do toho išli',
+      moznosti: [
+        { v: 'anonymita', label: 'Úplná anonymita (žiadna tvár, žiadne rozpoznateľné znaky)' },
+        { v: 'financie', label: 'Oddelené financie/účet' },
+        { v: 'suhlas_oboch', label: 'Výslovný súhlas oboch pred každým zverejnením' },
+        { v: 'ukoncenie', label: 'Jasná dohoda, ako a kedy s tým prestaneme' },
+      ],
+    },
+  ],
+}
+
 // ── Kamera, VR, hračky na diaľku ───────────────────────────────────
 const KAMERA_VR: Blok = {
   druh: 'skupina', id: 'kamera_vr', nadpis: 'Kamera, VR a hračky na diaľku',
@@ -224,6 +253,7 @@ export const DIGITALNA_INTIMITA: TemaObsah = {
     PORNO,
     EROTICKA_LITERATURA,
     KAMERA_VR,
+    PLATFORMY,
   ],
   zaver: [
     {
