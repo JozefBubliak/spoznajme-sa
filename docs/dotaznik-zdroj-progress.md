@@ -43,6 +43,49 @@ nový modul B7 `nepenetrativne-trenie.ts`) + jeden menší nový blok („rýchl
 **Ak sa objaví nový/iný `zdroj.docx`** (zmenená veľkosť súboru oproti 2 716 438 B), tento log stráca
 platnosť a treba znova prejsť mapou sekcií — postup v tomto súbore ostáva rovnaký.
 
+## Fáza 2 — hlbšia revízia podľa skutočných strán Wordu (od 2026-09-16)
+
+Používateľ do `zdroj.docx` pridal Wordovo číslovanie strán (footer field `PAGE`). Cez Word COM
+automatizáciu (PowerShell, `Documents.Open` → `GoTo(1,1,N)` → `Range.Text`) viem teraz vytiahnuť
+**skutočný, Wordom prepočítaný text presne pre zvolený rozsah strán** — žiadne odhadovanie podľa
+riadkov. Dokument má **2 595 strán** (aktuálna verzia, veľkosť 2 710 759 B, zo 16. 9. 2026).
+
+**Zistenie z Fázy 1 platí ďalej** (33 zreťazených zdrojov + master-outline), ALE Fáza 1 kontrolovala
+len či otázky/možnosti už poznáme — **nekontrolovala text/rady/tipy/scenáre a normalizačné rámce**,
+ktoré sa v zdroji tiež nachádzajú a v našich témach chýbajú. Fáza 2 preto ide stranu po strane (dávky
+do 10 strán, nikdy nepretŕhajúc tému) a pre každú dávku vyťažuje:
+1. Otázky a možnosti (aj bez otáznika, ak je z kontextu jasné, že ide o otázku).
+2. Text/rady/tipy/scenáre ako `druh: 'text'` bloky (nie len ako otázky s možnosťami).
+3. Obavy/mýty vhodné na normalizáciu (napr. „análna stimulácia u muža ≠ homosexualita").
+4. Kde zdroj mlčí na jasnú tému → dohľadanie vo všeobecných zdrojoch (čo ľudí reálne priťahuje a prečo).
+
+Skript na vytiahnutie ľubovoľného rozsahu strán (uložiť ako `.ps1` a spustiť cez PowerShell nástroj):
+```powershell
+$src = "C:\Users\-A-L-O-H-A-\OneDrive\Documenten\dotazník\zdroj.docx"
+$out = "<scratchpad>\zdroj_pX_Y.txt"
+$word = New-Object -ComObject Word.Application
+$word.Visible = $false
+$doc = $word.Documents.Open($src, $false, $true)
+$pStart = ($doc.GoTo(1,1,<PRVA_STRANA>)).Start
+$pEnd   = ($doc.GoTo(1,1,<POSLEDNA_STRANA+1>)).Start
+[System.IO.File]::WriteAllText($out, $doc.Range($pStart,$pEnd).Text, [System.Text.Encoding]::UTF8)
+$doc.Close(); $word.Quit()
+```
+(Dôležité: bez `[ref]` wrapperov — COM late-binding v PowerShell ich nepotrebuje a s nimi `GoTo` vracia zlý index.)
+
+### Log dávok (strany podľa Wordu)
+
+| Strany | Obsah | Nájdené chýbajúce | Kam doplnené |
+|---|---|---|---|
+| 1-10 | 09_Predohra_a_naladenie: starostlivosť o telo, oblečenie, iniciatíva (formy/tipy/dynamika/situácie/kedy), spontánny sex, signály pripravenosti, očný kontakt, sexting | „Tipy na experimentovanie" (3 scenáre), „Kedy je ideálne začať iniciatívu", „Situácie ktoré podporujú iniciatívu" (inšpiratívne príklady) | `dlhodoba-intimita.ts` (INICIATIVA: ini_tipy, ini_kedy, ini_situacie) |
+| — | (naprieč Fázou 1, príklad chýbajúceho normalizačného rámca) | análna stimulácia u muža ≠ homosexualita | `analna-penetracia.ts` (psychologicky_ramec) |
+
+| 11-20 | pokrač. 09_Predohra: sexting formy, vedomá iniciácia, 5️⃣ prostredie a atmosféra (osvetlenie, domáce miesta, exteriér, netradičné, kluby, psychológia dobrodružstva) | Osvetlenie (typ/intenzita), upravenosť miestnosti + materiály, frekvencia experimentovania s prostredím, dôležitosť pocitu dobrodružstva, diskrétne pomôcky mimo spálne | `miesta-prostredie.ts` (nový blok OSVETLENIE; doplnky do EXTERIER) |
+
+| 21-30 | pokrač. 5️⃣ organizácia prostredia (hudba), 6️⃣ zmyslová predohra: zrak (erotické filmy — celá podtéma), sluch (verbálne príkazy), čuch (prirodzená vôňa, oleje, aromaterapia) | Hudobný žáner ako preferencia, verbálne príkazy (tón autority), erotické filmy spolu (typ/očakávania/priebeh — celá podtéma chýbala), vedomé privoniavanie ako rituál, konkrétne vône/oleje | `zmyslova-hra.ts` (SLUCH, CUCH doplnené), `digitalna-intimita.ts` (PORNO rozšírené o por_typ/por_ocakavanie/por_priebeh) |
+
+**Ďalší krok: strany 31-40.**
+
 ## Kľúčové zistenie (po prečítaní obsahu, nie len nadpisov)
 
 `zdroj.docx` je doslovné **zreťazenie všetkých 33 číslovaných zdrojových súborov za sebou** (každý

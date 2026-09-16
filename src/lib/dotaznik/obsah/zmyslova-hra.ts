@@ -57,6 +57,27 @@ const SLUCH: Blok = {
       ],
     },
     p('slu_zvuky', 'Vlastné zvuky (dych, vzdychy) počas intimity si chcem vedome dovoliť, nepotláčať'),
+    {
+      druh: 'otazka', id: 'slu_hudobny_zaner', typ: 'jeden',
+      text: 'Hudobný žáner, ktorý mi počas intimity najviac sedí',
+      moznosti: [
+        { v: 'rnb_jazz', label: 'Zmyselné R&B alebo jazz' },
+        { v: 'klavir', label: 'Jemné klavírne skladby' },
+        { v: 'dynamicke', label: 'Dynamické, rytmické melódie' },
+        { v: 'ambient', label: 'Ambientná hudba' },
+        { v: 'ziadna', label: 'Nepreferujem hudbu počas intimity' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'slu_verbalne_prikazy', typ: 'jeden',
+      text: 'Verbálne príkazy počas aktu (tón autority)',
+      moznosti: [
+        { v: 'tvrde', label: 'Milujem tvrdé, autoritatívne príkazy' },
+        { v: 'jemne', label: 'Mám rád(a) jemné vedenie' },
+        { v: 'mozno', label: 'Možno, ak to nebude príliš tvrdé' },
+        { v: 'nie', label: 'Nie, necítim sa pri tom dobre' },
+      ],
+    },
   ],
 }
 
@@ -75,6 +96,8 @@ const CUCH: Blok = {
         { v: 'aromaterapia', label: 'Aromaterapia (sviečky, esenciálne oleje) ako súčasť atmosféry' },
       ],
     },
+    p('cuc_vedome_privoniavanie', 'Vedomé privoniavanie ku krku, zápästiam alebo vlasom partnera počas predohry (ako rituál) ma láka'),
+    { druh: 'otazka', id: 'cuc_preferovane_vone', typ: 'text', text: 'Konkrétne vône, ktoré ma najviac vzrušujú alebo upokojujú (napr. santalové drevo, ylang-ylang, vanilka, kokos):' },
   ],
 }
 

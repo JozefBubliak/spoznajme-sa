@@ -95,6 +95,26 @@ const EXTERIER: Blok = {
       telo: 'Vždy bez svedkov, bez rizika priestupku a s jasným plánom rýchleho ukončenia. Diskrétnosť má prednosť pred vzrušením z rizika.',
     },
     { druh: 'otazka', id: 'ext_hranica', typ: 'text', text: 'Kde je moja hranica diskrétnosti — čo je pre mňa ešte OK a čo už nie:' },
+    {
+      druh: 'otazka', id: 'ext_frekvencia', typ: 'jeden',
+      text: 'Ako často by som chcel(a) experimentovať s prostredím',
+      moznosti: [
+        { v: 'pravidelne', label: 'Pravidelne (napr. raz mesačne)' },
+        { v: 'obcas', label: 'Občas, keď je správna príležitosť' },
+        { v: 'special', label: 'Len pri špeciálnych príležitostiach' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'ext_dobrodruzstvo_dolezitost', typ: 'jeden',
+      text: 'Ako dôležitý je pre mňa pocit dobrodružstva v intímnych chvíľach',
+      moznosti: [
+        { v: 'velmi', label: 'Veľmi — posilňuje našu dôveru' },
+        { v: 'dolezity', label: 'Dôležitý — pomáha nám vyhnúť sa rutine' },
+        { v: 'zaujimave', label: 'Zaujímavé, ale nie kľúčové' },
+        { v: 'nie', label: 'Nie je to pre mňa dôležité' },
+      ],
+    },
+    p('ext_diskretne_pomocky', 'Diskrétne erotické pomôcky mimo spálne (menšie, tiché, prenosné) ma lákajú'),
   ],
 }
 
@@ -163,6 +183,41 @@ const KLUBY: Blok = {
       ],
     },
     p('klu_bez_zaznamu', 'Pravidlá súkromia a zákaz akéhokoľvek záznamu sú pre mňa podmienkou'),
+  ],
+}
+
+// ── Osvetlenie a úprava priestoru ────────────────────────────────────
+const OSVETLENIE: Blok = {
+  druh: 'skupina', id: 'osvetlenie', nadpis: 'Osvetlenie a úprava priestoru',
+  bloky: [
+    {
+      druh: 'otazka', id: 'osv_typ', typ: 'jeden',
+      text: 'Preferované osvetlenie pri intímnych chvíľach',
+      moznosti: [
+        { v: 'tlmene', label: 'Tlmené svetlo — lampy alebo sviečky' },
+        { v: 'farebne', label: 'Farebné svetlo (LED — červená/modrá)' },
+        { v: 'tma', label: 'Úplná tma' },
+        { v: 'denne', label: 'Prirodzené denné svetlo' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'osv_intenzita', typ: 'jeden',
+      text: 'Intenzita svetla',
+      moznosti: [
+        { v: 'jemne', label: 'Jemné, romantické' },
+        { v: 'priame', label: 'Priame — zvýrazní detaily tiel' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'osv_upravenost', typ: 'jeden',
+      text: 'Ako veľmi mi záleží na upravenosti miestnosti',
+      moznosti: [
+        { v: 'velmi', label: 'Uprataná posteľ a čisté prostredie sú nutnosť' },
+        { v: 'dekoracie', label: 'Baví ma dekorácia (kvety, svetelné reťaze)' },
+        { v: 'nezalezi', label: 'Nezáleží mi na tom' },
+      ],
+    },
+    { druh: 'otazka', id: 'osv_materialy', typ: 'text', text: 'Materiály a detaily, ktoré mi prinášajú pohodlie (mäkké látky, optimálna teplota):' },
   ],
 }
 
@@ -319,6 +374,7 @@ export const MIESTA_PROSTREDIE: TemaObsah = {
   ],
   telo: [
     DOMACE,
+    OSVETLENIE,
     EXTERIER,
     HOTELY,
     NETRADICNE,

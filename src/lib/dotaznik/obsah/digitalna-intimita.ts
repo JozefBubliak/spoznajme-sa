@@ -100,6 +100,39 @@ const PORNO: Blok = {
         { v: 'nie', label: 'Nie, neláka ma to' },
       ],
     },
+    {
+      druh: 'otazka', id: 'por_typ', typ: 'viac',
+      text: 'Aký typ erotického obsahu by ma najviac lákal',
+      moznosti: [
+        { v: 'jemna_zmyselna', label: 'Jemná erotika so zmyselnou atmosférou' },
+        { v: 'vasnive', label: 'Vášnivé, realistické scény' },
+        { v: 'pribeh', label: 'So silným príbehom a estetikou' },
+        { v: 'amaterske', label: 'Prirodzené, amatérske' },
+        { v: 'odvaznejsie', label: 'Odvážnejšie (špecifické fantázie/fetiše)' },
+        { v: 'nelaka', label: 'Nič z toho ma nelákajú' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'por_ocakavanie', typ: 'jeden',
+      text: 'Čo od spoločného sledovania očakávam',
+      moznosti: [
+        { v: 'inspiracia', label: 'Inšpiráciu pre náš intímny život' },
+        { v: 'komunikacia', label: 'Otvorenejšiu komunikáciu o túžbach' },
+        { v: 'vzrusenie', label: 'Zvýšenie vzrušenia a blízkosti' },
+        { v: 'len_zvedavost', label: 'Len zvedavosť, nie súčasť intímneho života' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'por_priebeh', typ: 'viac',
+      text: 'Ako by malo spoločné sledovanie prebiehať',
+      moznosti: [
+        { v: 'obcasne', label: 'Občasné, na spestrenie' },
+        { v: 'cielene', label: 'S cieľom objavovať nové fantázie' },
+        { v: 'atmosfera', label: 'V príjemnej atmosfére (sviečky, víno)' },
+        { v: 'ako_predohra', label: 'Ako súčasť predohry — vzájomné dráždenie' },
+        { v: 'masturbacia_pocas', label: 'Masturbácia počas sledovania (sólo alebo vzájomne)' },
+      ],
+    },
     { druh: 'otazka', id: 'por_vyber', typ: 'text', text: 'Kto by mal vyberať, čo pozeráme, a podľa čoho:' },
     { druh: 'otazka', id: 'por_co_skusit', typ: 'text', text: 'Čo by som z videného chcel(a) skúsiť aj naživo:' },
     {

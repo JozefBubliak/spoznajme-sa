@@ -679,6 +679,17 @@ export const ANALNA_PENETRACIA: TemaObsah = {
     },
     {
       druh: 'text',
+      id: 'psychologicky_ramec',
+      nadpis: 'Bez zmiešaných pocitov',
+      ton: 'info',
+      telo:
+        'Análna oblasť má u oboch pohlaví husté nervové zakončenia a je citlivá sama osebe — záujem o jej stimuláciu ' +
+        'nehovorí nič o sexuálnej orientácii ani o mužnosti. U muža stimulácia análnej oblasti (vrátane prostaty) ' +
+        'nerovná sa homosexualita — je to len ďalšia príjemná zóna tela. Keď to obaja partneri takto chápu, môžu sa ' +
+        'o téme rozprávať pokojne a rozhodnúť sa, či a ako do nej ísť, bez hanby alebo obáv „čo to o mne hovorí".',
+    },
+    {
+      druh: 'text',
       id: 'bezpecne',
       nadpis: 'Bezpečne a s pôžitkom',
       ton: 'vystraha',

@@ -202,6 +202,25 @@ const INICIATIVA: Blok = {
       ],
     },
     {
+      druh: 'otazka', id: 'ini_kedy', typ: 'jeden',
+      text: 'Kedy je pre mňa ideálne začať iniciatívu',
+      moznosti: [
+        { v: 'vecer', label: 'Večer, keď je pokojná atmosféra' },
+        { v: 'rano', label: 'Ráno, hneď po prebudení' },
+        { v: 'kedykolvek', label: 'Kedykoľvek počas dňa — podľa nálady' },
+        { v: 'specialne', label: 'V špeciálnych situáciách (oslavy, výlety)' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'ini_situacie', typ: 'viac',
+      text: 'Ktoré situácie ma najviac naladia na iniciatívu (inšpirácia, môžeš vybrať viac)',
+      moznosti: [
+        { v: 'bozk_bez_varovania', label: 'Partner ma vášnivo pobozká bez varovania' },
+        { v: 'pevne_objatie', label: 'Partner ma pevne objíme a vezme do náručia' },
+        { v: 'dotyky_pri_cinnosti', label: 'Partner začne jemné dotyky počas bežných činností (varenie, upratovanie, film)' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'ini_gesta', typ: 'viac',
       text: 'Aké gestá preferujem pri iniciatíve',
       moznosti: [
@@ -230,6 +249,14 @@ const INICIATIVA: Blok = {
         { v: 'aktivna', label: 'Aktívna (rada vediem a signalizujem túžbu)' },
         { v: 'dynamicka', label: 'Dynamická rovnováha (mením podľa nálady)' },
       ],
+    },
+    {
+      druh: 'text', id: 'ini_tipy', nadpis: 'Tipy na vyskúšanie', ton: 'info',
+      telo:
+        '„Deň spontánnosti" — dohodnite si deň, keď si obaja dáte za cieľ iniciovať spontánne, ' +
+        'napríklad ráno v kuchyni alebo večer pri filme. ' +
+        '„Jemný večer" — začnite nežnou masážou a pomaly stupňujte intenzitu dotykov, kým sa zmenia na vášnivé objatia. ' +
+        '„Dominantný večer" — dohodnite sa vopred, že jeden z vás bude na jeden večer viesť (jasné pokyny, kam sa dotýkať, čo povedať) a druhý len prijíma.',
     },
   ],
 }
