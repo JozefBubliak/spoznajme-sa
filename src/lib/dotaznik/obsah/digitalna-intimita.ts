@@ -232,6 +232,16 @@ const KAMERA_VR: Blok = {
       ],
     },
     { druh: 'otazka', id: 'kam_platformy', typ: 'text', text: 'Na ktorých platformách sa cítim súkromne/bezpečne (a ktorým sa vyhýbam):' },
+    {
+      druh: 'otazka', id: 'kam_ovladanie_pravidla', typ: 'viac',
+      text: 'Ak by sme skúsili hračku na diaľkové ovládanie, čo potrebujem mať vopred jasné',
+      moznosti: [
+        { v: 'kto_ovlada', label: 'Kto drží ovládač (ja/partner/striedavo) — nie oboje naraz' },
+        { v: 'casove_okno', label: 'Vopred dohodnuté časové okno, nie kedykoľvek bez varovania' },
+        { v: 'okamzite_vypnutie', label: 'Moje okamžité právo vypnúť/požiadať o zastavenie, bez otázok' },
+        { v: 'len_suvkromie', label: 'Len v súkromí, nikdy na verejnosti' },
+      ],
+    },
   ],
 }
 

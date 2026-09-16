@@ -67,6 +67,16 @@ const BOZKY_USTA: Blok = {
     },
     p('boz_ocny_kontakt', 'Bozkávanie s hlbokým pohľadom do očí'),
     {
+      druh: 'otazka', id: 'boz_miera_vlhkosti', typ: 'jeden',
+      text: 'Miera „vlhkosti" bozku, ktorá mi je príjemná',
+      moznosti: [
+        { v: 'suchsie', label: 'Skôr suchšie, jemné pery' },
+        { v: 'jemne_vlhke', label: 'Jemne vlhké' },
+        { v: 'velmi_vlhke', label: 'Veľmi vlhké, vášnivé' },
+        { v: 'snowballing', label: '„Snowballing" — vedomé predávanie slín z úst do úst' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'boz_predavanie_tekutin', typ: 'jeden',
       text: 'Predávanie tekutiny z úst do úst počas bozku (dúšok vína, šampanského, sladkého nápoja)',
       moznosti: [

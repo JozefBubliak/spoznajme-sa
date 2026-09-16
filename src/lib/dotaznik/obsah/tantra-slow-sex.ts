@@ -236,6 +236,16 @@ const NO_GOAL: Blok = {
       ],
     },
     {
+      druh: 'otazka', id: 'nog_kolko_minut', typ: 'jeden',
+      text: 'Koľko minút viem realisticky vydržať v dotyku bez cieľa, bez toho, aby som začal(a) tlačiť na pokračovanie',
+      moznosti: [
+        { v: '5', label: 'Asi 5 minút' },
+        { v: '10', label: 'Asi 10 minút' },
+        { v: '20', label: '20 minút a viac' },
+        { v: 'neviem', label: 'Neviem, nikdy som to neskúšal(a) vedome merať' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'nog_hranica_genital', typ: 'jeden',
       text: 'Hranica „bez genitálií" v no-goal režime',
       moznosti: [
