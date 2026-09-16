@@ -279,6 +279,7 @@ const HRY: Blok = {
         { v: 'hadanky', label: 'Hádanky s intímnymi odmenami' },
         { v: 'nikdy_som_este', label: '„Nikdy som ešte..." (odhalenie túžob)' },
         { v: 'vyzvy', label: 'Vzájomné erotické výzvy' },
+        { v: 'flaska', label: 'Erotická „točená fľaška" — náhodná výzva (bozk, masáž, škrabkanie)' },
       ],
     },
     {
