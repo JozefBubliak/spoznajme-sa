@@ -128,6 +128,8 @@ $doc.Close(); $word.Quit()
 
 **🔍 PRIESKUM VZORIEK ĎALEJ V DOKUMENTE (str. 350-2500):** vzorkovanie odhalilo, že "predohra" duplicitná slučka končí približne okolo strany 400-450, potom nasleduje SKUTOČNE NOVÝ obsah: gangbang (~450), zdieľanie partnera/hotwife (~600), sofistikovaný UI/interakčný dizajn s posuvníkmi 0-100 a "zrkadlom rolí" ktoré sa partnerovi odhalí len pri jeho súhlase (~800 — zaujímavý náznak zamýšľaného dizajnu, nie len obsahu), citované štatistiky s odkazom na "PLOS" (~1000), dvojitá penetrácia/strap-on/pegging (~1300), štruktúrovaný BDSM rámec so SSC/RACK terminológiou (~1600), fetiše (~1900), petting/nepenetratívne aktivity (~2500). Pokračujeme lineárne, ale toto potvrdzuje, že za duplicitnou zónou je bohatý nový materiál.
 
+| 341-360 | doslovné opakovanie zmyslovej hry (teplota, textúry, deprivácia, zrkadlá, tma, sviečky, synchronizácia dychu/zmyslov) — teraz systematicky v m/z pároch | Žiadna — overené porovnaním, doslovný duplikát. Potvrdzuje, že "predohra" slučka pokračuje aspoň do str. 360 | — |
+
 **Od strany 121 ďalej: dávky po 20 stranách** (so súhlasom používateľa), pri zachovaní rovnakej dôkladnosti — každá otázka a možnosť sa musí prejsť a overiť cez grep, nielen posúdiť podľa témy.
 
 **Poznámka k metóde (dôležitá, po spätnej väzbe používateľa):** pri prvom prejdení strán 71-110 som viacero bodov označil ako duplicitu len na základe podobnosti TÉMY s už postaveným obsahom, bez toho, aby som každý konkrétny bod overil cez `grep`. To bola chyba — pri druhom, dôkladnom prejdení sa našli 3 reálne medzery (prechod k penetrácii, prekvapenie v BDSM, tempo realizácie fantázie). Odteraz každý konkrétny bod/otázku zo zdroja overiť cez `grep` v `obsah/*.ts`, nie len posúdiť „znie to povedome".
