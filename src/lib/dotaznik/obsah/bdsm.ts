@@ -148,6 +148,7 @@ const BONDAGE: Blok = {
         { v: 'stolicka', label: 'O stoličku' },
         { v: 'hogtie', label: '„Hogtie"' },
         { v: 'stoj', label: 'V stoji' },
+        { v: 'suspension', label: 'Suspenzia (zavesenie zo zeme) — len teoretický záujem, vyžaduje skúsený rigger a vybavenie' },
       ],
     },
     {
@@ -458,6 +459,15 @@ const POMOCKY: Blok = {
       ],
     },
     p('nakrcnik', 'Nákrčník a vodítko ako symbol podriadenosti'),
+    {
+      druh: 'otazka', id: 'pet_play', typ: 'jeden',
+      text: '„Pet play" — hranie roly zvieratka (šteniatko/mačička), nielen nákrčník ako symbol, ale celé správanie a mimika',
+      moznosti: [
+        { v: 'laka', label: 'Láka ma to — chcel(a) by som si to vyskúšať naplno' },
+        { v: 'prvky', label: 'Len jemné prvky (napr. štvornožkovanie, mrnčanie), nie celá scéna' },
+        { v: 'nie', label: 'Nie, to nie je pre mňa' },
+      ],
+    },
     {
       druh: 'otazka', id: 'cbt', typ: 'jeden',
       text: 'CBT — stimulácia penisu a semenníkov s prvkom bolesti',

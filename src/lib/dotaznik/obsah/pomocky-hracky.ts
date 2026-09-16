@@ -41,6 +41,8 @@ const VIBRATORY: Blok = {
         { v: 'rovny', label: 'Klasický rovný' },
         { v: 'g_bod', label: 'Zakrivený na G-bod' },
         { v: 'dlhy', label: 'Dlhší na hĺbku' },
+        { v: 'wand', label: 'Veľký masážny prikladací vibrátor (wand, napr. Hitachi štýl) — silný, plošný podnet' },
+        { v: 'venusine_gulicky', label: 'Venušine guličky (nosené aj mimo sexu, jemná stimulácia/kegel cvičenie)' },
       ],
     },
     {
@@ -207,6 +209,7 @@ const PENISOVE: Blok = {
       ],
     },
     p('pen_parove_vibr', 'Párový vibrátor (tvar U) nosený počas penetrácie'),
+    p('pen_sex_stroj', 'Automatizovaný sexuálny stroj (nastaviteľné tempo/hĺbka, jeden sleduje, druhý ovláda diaľkovo)'),
   ],
 }
 
