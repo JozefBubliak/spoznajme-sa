@@ -521,6 +521,17 @@ const RAMEC: Blok = {
       ],
     },
     { druh: 'otazka', id: 'ra_debrief', typ: 'text', text: 'Ako a kedy debrief (napr. „2+2" — dve super, dve na úpravu; čo nabudúce):' },
+    {
+      druh: 'otazka', id: 'ra_vyber_osob', typ: 'viac', inePovolene: true,
+      text: 'Pri výbere ďalších osôb je pre nás dôležité',
+      moznosti: [
+        { v: 'spolahlivost', label: 'Spoľahlivosť a rešpekt k našim pravidlám' },
+        { v: 'testy', label: 'Testy STI, hygienické návyky' },
+        { v: 'diskretnost', label: 'Diskrétnosť, mlčanlivosť' },
+        { v: 'znamy', label: 'Skôr niekto z klubu/komunity, nie úplne náhodný' },
+      ],
+    },
+    { druh: 'otazka', id: 'ra_nudzovy_plan', typ: 'text', text: 'Náš núdzový plán — ako kedykoľvek okamžite prerušiť večer bez vysvetľovania a bezpečne sa dostať domov:' },
   ],
 }
 
