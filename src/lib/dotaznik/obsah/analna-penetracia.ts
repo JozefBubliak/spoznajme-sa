@@ -524,6 +524,13 @@ const KOMBINACIE: Blok = {
     postojOt('komb_anilingus_prst', 'Anilingus + prst / plug súčasne'),
     postojOt('komb_public', 'Public play light — nositeľný plug / vajce s dohodnutými signálmi a časovými oknami'),
     { druh: 'otazka', id: 'komb_scenar', typ: 'text', text: 'Ako by mal vyzerať náš prvý spoločný pokus (miesto, dĺžka, kto prijíma, stop-signál):' },
+    {
+      druh: 'text', id: 'komb_dilatacia_tip', ton: 'info',
+      telo:
+        'Postupné zvykanie na väčší priemer nie je o rekorde, ale o pohodlí: séria 3–5 veľkostí (napr. S → M → L), ' +
+        'každú nosiť/skúšať 10–20 minút v uvoľnenej polohe, bez ponáhľania sa na ďalší level. Tvar ruky pri fistingu je vždy zúžený ' +
+        '(„tulipán" — prsty pospolu, palec pritlačený), nikdy nie plná päsť; lubrikant sa dopĺňa pri každom prechode na väčší priemer.',
+    },
   ],
 }
 
@@ -687,6 +694,20 @@ export const ANALNA_PENETRACIA: TemaObsah = {
         'nehovorí nič o sexuálnej orientácii ani o mužnosti. U muža stimulácia análnej oblasti (vrátane prostaty) ' +
         'nerovná sa homosexualita — je to len ďalšia príjemná zóna tela. Keď to obaja partneri takto chápu, môžu sa ' +
         'o téme rozprávať pokojne a rozhodnúť sa, či a ako do nej ísť, bez hanby alebo obáv „čo to o mne hovorí".',
+    },
+    {
+      druh: 'text',
+      id: 'statistiky',
+      nadpis: 'Ako bežné to naozaj je',
+      ton: 'info',
+      telo:
+        'Reprezentatívny prieskum v USA (PLOS ONE) zistil, že 43,5 % žien považuje nejakú formu análneho dotyku za príjemnú — ' +
+        '40,3 % vonkajší dotyk, 34,6 % vnútornú stimuláciu, 28,3 % konkrétne partnerov prst vo vnútri. ' +
+        'Medzi tými, čo si to obľúbili, väčšina (56–68 %) hovorí, že prvé pokusy príjemné neboli — obľuba prišla neskôr vďaka spôsobu, ' +
+        'akým to partner robil, emocionálnemu prepojeniu, dostatku času na vzrušenie a dostatku lubrikantu. ' +
+        'Austrálsky prieskum ASHR2 zistil, že 17 % ľudí malo v poslednom roku skúsenosť s análnou stimuláciou prstami. ' +
+        'Francúzsky prieskum IFOP zistil, že 22 % žien už niekedy prstom penetrovalo partnera. ' +
+        'Skrátka — nie je to okrajová záležitosť ani niečo, čo treba hneď „vedieť robiť": pre väčšinu ľudí je to zručnosť, ktorá sa buduje postupne.',
     },
     {
       druh: 'text',
