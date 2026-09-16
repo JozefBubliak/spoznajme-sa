@@ -248,6 +248,12 @@ const IMPACT: Blok = {
       ],
     },
     {
+      druh: 'text', id: 'imp_bezpecnost_modriny', ton: 'vystraha',
+      telo:
+        'Pri výraznejšej intenzite (3) nechaj rovnakej zóne aspoň 48 hodín na zotavenie, kým na ňu zopakuješ ' +
+        'silnejší dopad — skontroluj citlivosť a farbu kože pred ďalšou scénou.',
+    },
+    {
       druh: 'otazka', id: 'imp_vyznam', typ: 'viac',
       text: 'Význam',
       moznosti: [

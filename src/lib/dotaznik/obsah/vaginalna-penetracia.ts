@@ -98,6 +98,7 @@ const TECHNIKY: Blok = {
       moznosti: [
         { v: 'plytke_hlboke', label: 'Striedanie plytkých a hlbokých ťahov' },
         { v: 'angling', label: '„Angling" — uhol smerom na prednú stenu (G-bod)' },
+        { v: 'a_bod', label: 'Tlak hlboko vpredu blízko krčka (A-bod) pri hlbších ťahoch' },
         { v: 'rocking', label: '„Rocking" / grinding — kývanie panvou bez vyťahovania' },
         { v: 'kruzenie', label: 'Krúženie panvou' },
         { v: 'shallowing', label: '„Shallowing" — vedome plytšie vstupy (napr. na začiatku/pri edgingu)' },
