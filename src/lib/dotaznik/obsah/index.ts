@@ -31,6 +31,7 @@ import { ZDRAVIE_OCHRANA_HYGIENA } from './zdravie-ochrana-hygiena'
 import { TANTRA_SLOW_SEX } from './tantra-slow-sex'
 import { KOMUNIKACIA_POCAS_PO } from './komunikacia-pocas-po'
 import { ORGAZMUS_KONTROLA } from './orgazmus-kontrola'
+import { NEPENETRATIVNE_TRENIE } from './nepenetrativne-trenie'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -66,6 +67,8 @@ const REGISTER: Record<string, TemaObsah> = {
   [ZDRAVIE_OCHRANA_HYGIENA.slug]: ZDRAVIE_OCHRANA_HYGIENA,
   [TANTRA_SLOW_SEX.slug]: TANTRA_SLOW_SEX,
   [KOMUNIKACIA_POCAS_PO.slug]: KOMUNIKACIA_POCAS_PO,
+  [ORGAZMUS_KONTROLA.slug]: ORGAZMUS_KONTROLA,
+  [NEPENETRATIVNE_TRENIE.slug]: NEPENETRATIVNE_TRENIE,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {

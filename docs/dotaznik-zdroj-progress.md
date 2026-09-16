@@ -35,7 +35,13 @@ to zodpovedá zhruba 2–4 stranám pôvodného textu. Veľkosť dávky sa dá k
 
 ## Stav
 
-**Posledný spracovaný riadok: 0** (ešte nezačaté)
+**Posledný spracovaný riadok: 67589 / 67589** — celý dokument zmapovaný a overený obsahovým vzorkovaním
+(nie len podľa nadpisov). Nájdená a doplnená jediná chýbajúca celá téma (`13_Nepenetrativne_aktivity` →
+nový modul B7 `nepenetrativne-trenie.ts`) + jeden menší nový blok („rýchly/surový sex" → doplnené do
+`vaginalna-penetracia.ts`). Zvyšok dokumentu potvrdený ako duplicita už postavených tém.
+
+**Ak sa objaví nový/iný `zdroj.docx`** (zmenená veľkosť súboru oproti 2 716 438 B), tento log stráca
+platnosť a treba znova prejsť mapou sekcií — postup v tomto súbore ostáva rovnaký.
 
 ## Kľúčové zistenie (po prečítaní obsahu, nie len nadpisov)
 
@@ -54,11 +60,11 @@ Mapa sekcií (riadky v `zdroj_v2.txt`, 67 590 riadkov spolu):
 | 5814-10715 | master-outline úryvky (senzorika/fetiše/BDSM/roleplay/predohra) | ✅ duplicita (zmyslova-hra.ts, roleplay.ts, predohra-naladenie.ts) — overené vzorkovaním |
 | 10716-17559 | 25_Swingers_a_vymena_partnerov | ✅ `swinging.ts` |
 | 17560-27357 | 17_Anal_a_stimulacia_zadku (1. kópia) | ✅ `analna-penetracia.ts` |
-| 27358-39600 | 17_Anal_a_stimulacia_zadku (2. kópia, opakuje sa) | ⏳ treba spot-check na odchýlky |
-| 39601-50980 | 22_BDSM_a_mocenska_dynamika | ✅ `bdsm.ts` (veľká sekcia, ~11 380 r. — spot-check odporúčaný) |
+| 27358-39600 | Mišmaš: zvyšky anál Q&A, celý `Finalny_strom_tem_komplet.docx` (od r. ~32013), „rýchly/surový sex" + aftercare, BDSM bondage/disciplína počas penetrácie, fetiše (bielizeň, sledovanie, pančuchy, latex, opätky, nohy) | ✅ overené vzorkovaním na 5+ miestach — duplicita (`analna-penetracia.ts`, `bdsm.ts`, `fetise.ts`) OKREM „rýchly/surový sex", ktorý bol skutočne nový → **pridané** ako blok SUROVY do `vaginalna-penetracia.ts` |
+| 39601-50980 | 22_BDSM_a_mocenska_dynamika (label), ale obsahuje aj mišmaš „Polohy/adaptácie" obsah (r. ~45000+) | ✅ BDSM časť = `bdsm.ts` (postavené priamo z originálu). Polohy/mobilita časť = `polohy.ts` VARIACIE (už pokryté, malý prekryv, netreba doplniť) |
 | 50981-53668 | 21_Fetise | ✅ `fetise.ts` |
 | 53669-55620 | 26_Hotwifing_a_cuckolding_CNM | ✅ `zdielanie-partnera.ts` |
-| 55621-57282 | 18_Pomocky_a_hracky | ⏳ overiť voči `pomocky-hracky.ts` (ten bol postavený z menšieho úryvku) |
+| 55621-57282 | 18_Pomocky_a_hracky (DP konfigurácie, análne kolíky ako Q&A) | ✅ overené — `pomocky-hracky.ts` už má DP blok aj análne kolíky |
 | 57283-60237 | 14_Oralna_intimita | ✅ `oralna-intimita.ts` |
 | 60238-62577 | 24_Trojky_skupiny_a_gangbang | ✅ `trojky-skupiny.ts` |
 | 62578-64127 | 19_Tempo_intenzita_a_orgazmus | ✅ `tempo-intenzita.ts` |

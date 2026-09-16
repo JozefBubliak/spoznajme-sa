@@ -162,6 +162,48 @@ const CIM: Blok = {
 }
 
 // ── Rytmus ─────────────────────────────────────────────────────────
+// ── Rýchly a surový sex ────────────────────────────────────────────
+// Doplnené zo zdroj.docx (systematická revízia, pozri
+// docs/dotaznik-zdroj-progress.md) — kontrast k pomalému/nežnému štýlu:
+// rýchly, dravší sex a rozpoznanie hranice medzi vzrušujúcou intenzitou
+// a nepríjemným tlakom.
+const SUROVY: Blok = {
+  druh: 'skupina', id: 'surovy', nadpis: 'Rýchly a „surový" sex',
+  bloky: [
+    {
+      druh: 'otazka', id: 'sur_kedy', typ: 'jeden',
+      text: 'Rýchly, dravší sex ma láka najviac, keď',
+      moznosti: [
+        { v: 'spontanne', label: 'Príde spontánne, ako iskra' },
+        { v: 'po_teasingu', label: 'Príde po dlhšom teasingu (napätie → výbuch)' },
+        { v: 'kratky_intenzivny', label: 'Je krátky a intenzívny' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'sur_co_je_surove', typ: 'viac',
+      text: 'Čo je pre mňa „surové" v dobrom zmysle',
+      moznosti: [
+        { v: 'pevnejsie_drzanie', label: 'Pevnejšie držanie a vedenie' },
+        { v: 'rychle_tempo', label: 'Rýchle tempo' },
+        { v: 'dravsie_prejavy', label: 'Dravšie bozkávanie / zvuky' },
+        { v: 'menej_slov', label: 'Menej rozprávania, viac tela' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'sur_kontrast', typ: 'jeden',
+      text: 'Kontrast — jemná predohra → dravší vstup',
+      moznosti: [
+        { v: 'lakave', label: 'Veľmi ma láka, telo cíti, že ma partner naozaj chce' },
+        { v: 'zalezi', label: 'Záleží na nálade' },
+        { v: 'nie', label: 'Radšej konzistentný štýl bez kontrastu' },
+      ],
+    },
+    { druh: 'otazka', id: 'sur_akurat', typ: 'text', text: 'Čo presne chcem cítiť, keď je intenzita „akurát" (napätie v panve, tlak, pocit vedenia):' },
+    { druh: 'otazka', id: 'sur_uz_veela', typ: 'text', text: 'Môj signál, že je to už príliš (telo sa stiahne, dych sa zlomí nepríjemne, potrebujem pauzu):' },
+    { druh: 'otazka', id: 'sur_signal_stop', typ: 'text', text: 'Náš dohodnutý signál na spomalenie/stop pri rýchlom sexe:' },
+  ],
+}
+
 const RYTMUS: Blok = {
   druh: 'skupina', id: 'rytmus', nadpis: 'Rytmus',
   bloky: [
@@ -236,6 +278,7 @@ export const VAGINALNA_PENETRACIA: TemaObsah = {
     HLBKA,
     CIM,
     RYTMUS,
+    SUROVY,
     FISTING,
   ],
   zaver: [

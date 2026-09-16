@@ -245,8 +245,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'nepenetrativne-trenie', cislo: 12, kod: 'B7', domena: 'B', zrkadlovy: true,
-    nazov: 'Nepenetratívne trenie', popis: 'Frottage, intercrural, tribbing, grinding.', ikona: '🌀', citlivost: 2,
+    nazov: 'Nepenetratívne trenie', popis: 'Frottage, intercrural, tribbing, titjob, grinding (kniha).', ikona: '🌀', citlivost: 2,
     temy: [
+      o('nepenetrativne-trenie', 'Nepenetratívne trenie', 'Kompletný sprievodca (kniha + dotazník) — frottage, interkrurálny sex, tribbing, titjob, grinding.'),
       o('frottage', 'Frottage / „dry humping"', 'Trenie tiel.', ['Cez oblečenie', 'Cez bielizeň', 'Nahí bez penetrácie']),
       o('intercrural', 'Intercrural / stehná', 'Penis medzi stehnami.', ['Penis medzi stehnami', 'S lubrikantom', 'Poloha']),
       o('tribbing', 'Tribbing / vulva na vulve', 'Trenie vulvy.', ['Na stehno', 'Na zadok', 'Na telo partnera']),
