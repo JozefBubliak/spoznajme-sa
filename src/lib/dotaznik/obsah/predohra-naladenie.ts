@@ -43,6 +43,15 @@ const PRIPRAVA: Blok = {
       ],
     },
     {
+      druh: 'otazka', id: 'pri_spolocny_kupel', typ: 'jeden',
+      text: 'Spoločný kúpeľ alebo sprcha ako rituál pred intimitou (nie hygiena zvlášť, ale spoločná chvíľa)',
+      moznosti: [
+        { v: 'ano', label: 'Áno, je to pre mňa ideálny spôsob relaxu a prepojenia' },
+        { v: 'mozno', label: 'Možno, záleží na nálade' },
+        { v: 'nie', label: 'Nie, radšej sa pripravím sám/sama' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'pri_oblecenie', typ: 'viac', inePovolene: true,
       text: 'Aké oblečenie ma pri intímnych chvíľach najviac láka (nosiť aj vidieť na partnerovi)',
       moznosti: [
