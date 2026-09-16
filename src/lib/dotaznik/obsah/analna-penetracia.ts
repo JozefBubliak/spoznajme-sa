@@ -220,6 +220,7 @@ const PRST_PRIJIMAM: Blok = {
         { v: 'press_hold', label: 'Press & Hold — pevný tlak 3–8 s na bode, ktorý „volá"' },
         { v: 'pulse', label: 'Pulse — krátke pulzy smerom k otvoru' },
         { v: 'edge_trace', label: 'Edge-Trace — sledovanie okraja špičkou prsta' },
+        { v: 'grip_rock', label: 'Grip & Rock — jedna ruka drží oporu pri otvore, druhá jemne "hojdá" panvu' },
       ],
     },
     {
@@ -231,6 +232,7 @@ const PRST_PRIJIMAM: Blok = {
         { v: 'piston', label: 'Piston — rýchle krátke ťahy, intervaly 5–15 → pauza' },
         { v: 'expand', label: 'Expand — 2 prsty: najprv paralelne, potom jemné roztváranie' },
         { v: 'come_hither', label: 'Come-Hither — krátke pritiahnutia smerom k pupku' },
+        { v: 'anchor', label: 'Anchor — jeden prst drží príjemné miesto vnútri, druhá ruka pracuje zvonka' },
       ],
     },
     {
