@@ -155,6 +155,7 @@ const NETRADICNE: Blok = {
         { v: 'balkon', label: 'Balkón / terasa' },
         { v: 'garaz', label: 'Garáž / pivnica' },
         { v: 'kancelaria', label: 'Kancelária mimo pracovnej doby' },
+        { v: 'sauna', label: 'Verejná sauna/wellness (diskrétne, mimo špičky)' },
       ],
     },
   ],
