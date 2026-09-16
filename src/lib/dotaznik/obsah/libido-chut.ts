@@ -48,6 +48,14 @@ const UROVEN: Blok = {
       ],
     },
     {
+      druh: 'text', id: 'uro_synchronia', ton: 'info',
+      telo:
+        '30-dňový denníkový výskum 133 párov (Vowels, Mark a kol., 2018) zistil, že túžba u väčšiny ľudí ' +
+        'kolíše pravidelne — zhruba raz až dvakrát mesačne — a je stabilná len na obdobia do 3 dní. U väčšiny ' +
+        'párov toto kolísanie prebieha dokonca súbežne (synchrónne). Nesúlad v konkrétny deň je preto skôr ' +
+        'štatistická náhoda než znak problému vo vzťahu.',
+    },
+    {
       druh: 'otazka', id: 'uro_styl', typ: 'viac', inePovolene: true,
       text: 'Aký štýl intimity mi najviac sedí (môžeš vybrať viac)',
       moznosti: [
@@ -58,6 +66,42 @@ const UROVEN: Blok = {
         { v: 'spontanny', label: 'Spontánny, rôzny zakaždým' },
       ],
     },
+  ],
+}
+
+// ── Asexuálne spektrum ────────────────────────────────────────────────
+const ASEXUALITA: Blok = {
+  druh: 'skupina', id: 'asexualita', nadpis: 'Ak sexuálna túžba chýba takmer úplne',
+  uvod:
+    'Pre časť ľudí nejde len o „nižšiu" chuť, ale o jej takmer úplnu neprítomnosť — to je legitímna súčasť ' +
+    'ľudskej sexuality (asexuálne spektrum), nie porucha, ktorú treba opraviť.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'asex_identifikacia', typ: 'jeden',
+      text: 'Ako by som opísal(a) svoju sexuálnu túžbu k druhým ľuďom',
+      moznosti: [
+        { v: 'bezna', label: 'Bežne ju cítim, sedí na mňa nič z tohto' },
+        { v: 'len_vztah', label: '„Demisexuálne" — túžbu cítim len k ľuďom, s ktorými mám hlbokú citovú väzbu' },
+        { v: 'zriedkava', label: '„Graysexuálne" — cítim ju len zriedka alebo veľmi slabo' },
+        { v: 'takmer_nikdy', label: 'Takmer nikdy necítim sexuálnu príťažlivosť k nikomu (asexuálne)' },
+      ],
+    },
+    {
+      druh: 'text', id: 'asex_romanticka', ton: 'info',
+      telo:
+        'Sexuálna a romantická príťažlivosť sú dve oddelené veci. Človek môže byť asexuálny a zároveň túžiť ' +
+        'po romantickom vzťahu, blízkosti, bozkoch a objatí — alebo naopak, sex si užívať bez potreby romantiky.',
+    },
+    {
+      druh: 'otazka', id: 'asex_romanticka_tuzba', typ: 'jeden',
+      text: 'Bez ohľadu na sex — po akej blízkosti túžim',
+      moznosti: [
+        { v: 'romanticka_aj_fyzicka', label: 'Romantická aj nesexuálna fyzická blízkosť (objatie, bozky)' },
+        { v: 'len_romanticka', label: 'Len romantická/citová, fyzický kontakt ma neláka' },
+        { v: 'len_priatelska', label: 'Skôr hlboké priateľstvo než romantika' },
+      ],
+    },
+    { druh: 'otazka', id: 'asex_partnerovi', typ: 'text', text: 'Čo by som chcel(a), aby o tomto partner/ka vedel(a) alebo pochopil(a):' },
   ],
 }
 
@@ -83,13 +127,24 @@ const ROZDIEL: Blok = {
     },
     p('roz_osobne', 'Keď má partner/ka menšiu chuť, dokážem to nebrať osobne (nie je to o mojej príťažlivosti)'),
     {
+      druh: 'text', id: 'roz_vyskum', ton: 'info',
+      telo:
+        'Výskum 229 dlhodobých párov (Vowels & Mark, 2020) ukázal 17 rôznych stratégií zvládania rozdielnej ' +
+        'chuti — a stratégie, ktoré zapájajú OBOCH partnerov (komunikácia, spoločná iná aktivita, „mať sex aj tak"), ' +
+        'vedú k vyššej spokojnosti než samotárske stratégie (masturbácia sólo) alebo úplné odpútanie sa („nič nerobiť").',
+    },
+    {
       druh: 'otazka', id: 'roz_riesenie', typ: 'viac',
-      text: 'Čo nám pri rozdielnej chuti pomáha',
+      text: 'Čo nám pri rozdielnej chuti pomáha (vyber všetko, čo sedí)',
       moznosti: [
-        { v: 'kompromis', label: 'Hľadanie strednej cesty (frekvencia aj forma)' },
-        { v: 'alternativy', label: 'Alternatívne formy blízkosti, keď jeden nemá chuť na plný sex' },
-        { v: 'planovanie', label: 'Plánovanie namiesto čakania na spontánnu chuť oboch naraz' },
         { v: 'rozhovor', label: 'Pravidelný otvorený rozhovor o tom, bez obviňovania' },
+        { v: 'planovanie', label: 'Naplánovanie konkrétneho termínu namiesto čakania na spontánnu chuť oboch naraz' },
+        { v: 'iny_akt', label: 'Iná forma intimity namiesto plného sexu (orál, ruky, hračky)' },
+        { v: 'blizkost_bez_sexu', label: 'Fyzická blízkosť bez sexu (masáž, spoločná sprcha, objatie)' },
+        { v: 'spusobit_chut', label: 'Partner s väčšou chuťou sa snaží jemne „nadchnúť" toho druhého (dotyk, nálada), nie tlačiť' },
+        { v: 'kompromis', label: 'Hľadanie strednej cesty (frekvencia aj forma)' },
+        { v: 'solo_s_ohladom', label: 'Sólo aktivita (masturbácia) s ohľaduplným vysvetlením, nie ako odmietnutie partnera' },
+        { v: 'pockat', label: 'Jednoducho počkať, kým chuť príde sama — a byť s tým v pohode' },
       ],
     },
   ],
@@ -192,6 +247,7 @@ export const LIBIDO_CHUT: TemaObsah = {
   ],
   telo: [
     UROVEN,
+    ASEXUALITA,
     ROZDIEL,
     TYP_TUZBY,
     ZIVI,

@@ -204,6 +204,14 @@ export const ORGAZMUS_KONTROLA: TemaObsah = {
       druh: 'text', id: 'odkaz', nadpis: 'Súvisiaca téma', ton: 'info',
       telo: 'Mechanika tempa, vĺn a edgingu pred samotným orgazmom má vlastnú tému „Tempo, intenzita a orgazmus".',
     },
+    {
+      druh: 'text', id: 'gap', nadpis: '„Orgazmový gap" nie je biológia', ton: 'info',
+      telo:
+        'Výskum (Harvey, Jones & Copulsky, 2023, na vzorke cis aj trans/nebinárnych ľudí) ukazuje, že to, ' +
+        'čí orgazmus sa v posteli „počíta" viac, sa väčšinou riadi naučenými rodovými scenármi (kto iniciuje, ' +
+        'kto sa má sústrediť na koho), nie biológiou. Tieto scenáre prežívajú aj v queer vzťahoch. Explicitne ' +
+        'povedať, čo konkrétne funguje, namiesto spoliehania sa na predpoklady, tento vzorec dokáže zmeniť.',
+    },
   ],
   telo: [
     AKO_STYL,
