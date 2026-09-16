@@ -190,6 +190,13 @@ const SCENARE: Blok = {
         { v: 'nikdy', label: 'Nikdy' },
       ],
     },
+    {
+      druh: 'text', id: 'sce_tipy_stupnovane', nadpis: 'Tipy podľa skúsenosti', ton: 'info',
+      telo:
+        'Pre začiatok: začnite pomaly — očný kontakt, jemné dotyky; keď napätie stúpne, zrýchlite tempo a pridajte pevnejší dotyk. ' +
+        'Pre pokročilých: skúste kontrolu orgazmu (pauzy pri odďaľovaní), použite hračku počas pomalého tempa a potom zmeňte rytmus, striedajte role. ' +
+        'Pre zvedavých: kombinujte jemné hladkanie pierkom s pevnejšími dotykmi rúk.',
+    },
   ],
 }
 

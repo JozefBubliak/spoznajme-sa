@@ -116,6 +116,16 @@ const CHUT: Blok = {
       ],
     },
     { druh: 'otazka', id: 'chu_kde', typ: 'text', text: 'Ktoré chute a na ktorých miestach tela sú pre mňa lákavé:' },
+    p('chu_kombinacia_tekutin', 'Kombinácia telesných tekutín s inou chuťou (med, sladký sirup) ma láka'),
+    {
+      druh: 'otazka', id: 'chu_alkohol', typ: 'jeden',
+      text: 'Alkohol (víno, šampanské) ako súčasť erotických hier',
+      moznosti: [
+        { v: 'ano', label: 'Áno, znie to vzrušujúco' },
+        { v: 'mozno_jemne', label: 'Možno, ak to bude jemné a bezpečné' },
+        { v: 'nie', label: 'Nie, nechcem miešať alkohol a intimitu' },
+      ],
+    },
   ],
 }
 

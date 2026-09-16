@@ -263,6 +263,51 @@ const SENZORIKA: Blok = {
 }
 
 // ── Neštandardné rituály ────────────────────────────────────
+// ── Erotické hry (formát party hry, nie roleplay postáv) ──────────────
+// Doplnené zo zdroj.docx, systematická revízia (docs/dotaznik-zdroj-progress.md).
+const HRY: Blok = {
+  druh: 'skupina', id: 'hry', nadpis: 'Erotické hry',
+  bloky: [
+    {
+      druh: 'otazka', id: 'hry_typ', typ: 'viac', inePovolene: true,
+      text: 'Ktoré erotické hry ma oslovujú',
+      moznosti: [
+        { v: 'kocky', label: 'Erotické kocky s úlohami' },
+        { v: 'karty', label: 'Kartové/stolové hry s erotickými úlohami' },
+        { v: 'pisanie', label: 'Písanie erotických scén alebo listov' },
+        { v: 'hadanky', label: 'Hádanky s intímnymi odmenami' },
+        { v: 'nikdy_som_este', label: '„Nikdy som ešte..." (odhalenie túžob)' },
+        { v: 'vyzvy', label: 'Vzájomné erotické výzvy' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'hry_odmeny_tresty', typ: 'jeden',
+      text: 'Odmeny a tresty v hrách',
+      moznosti: [
+        { v: 'ano', label: 'Áno, zvyšujú napätie' },
+        { v: 'jemne', label: 'Áno, ale jemné a zábavné' },
+        { v: 'nie', label: 'Nie, preferujem neutrálne hry' },
+      ],
+    },
+    p('hry_kreslenie', 'Kreslenie na telo (čokoláda, farby) ako súčasť hry ma láka'),
+    {
+      druh: 'otazka', id: 'hry_verejne', typ: 'jeden',
+      text: 'Diskrétne senzuálne hry na verejnosti (nenápadné dotyky, šepot)',
+      moznosti: [
+        { v: 'ano', label: 'Áno, vzrušuje ma to' },
+        { v: 'mozno', label: 'Možno, podľa situácie' },
+        { v: 'nie', label: 'Nie, necítim sa pri tom komfortne' },
+      ],
+    },
+    { druh: 'otazka', id: 'hry_verejne_miesta', typ: 'viac', text: 'Ak áno — ktoré miesta', moznosti: [
+      { v: 'restauracia', label: 'Reštaurácia' },
+      { v: 'kino', label: 'Kino' },
+      { v: 'park', label: 'Park / príroda' },
+      { v: 'auto', label: 'Auto' },
+    ]},
+  ],
+}
+
 const RITUALY: Blok = {
   druh: 'skupina', id: 'rituy', nadpis: 'Neštandardné rituály',
   bloky: [
@@ -270,6 +315,8 @@ const RITUALY: Blok = {
     p('rit_lepenie_pier', 'Lepenie pier (symbolické mlčanie)'),
     p('rit_obmedzenie', 'Hranie s obmedzením pohybu'),
     p('rit_disciplinovanie', 'Disciplinovanie ako rituál'),
+    p('rit_treasure_hunt', '„Love treasure hunt" — zmyslové hľadanie/lúštenie so sexuálnou odmenou'),
+    p('rit_eroticky_dennik', 'Erotický denník — striedavo si zapisovať a plniť si túžby druhého'),
   ],
 }
 
@@ -398,6 +445,7 @@ export const ROLEPLAY: TemaObsah = {
     ROZSAH,
     KOSTYMY,
     ATMOSFERA,
+    HRY,
     SENZORIKA,
     RITUALY,
     KOMBINACIE,

@@ -84,7 +84,17 @@ $doc.Close(); $word.Quit()
 
 | 21-30 | pokrač. 5️⃣ organizácia prostredia (hudba), 6️⃣ zmyslová predohra: zrak (erotické filmy — celá podtéma), sluch (verbálne príkazy), čuch (prirodzená vôňa, oleje, aromaterapia) | Hudobný žáner ako preferencia, verbálne príkazy (tón autority), erotické filmy spolu (typ/očakávania/priebeh — celá podtéma chýbala), vedomé privoniavanie ako rituál, konkrétne vône/oleje | `zmyslova-hra.ts` (SLUCH, CUCH doplnené), `digitalna-intimita.ts` (PORNO rozšírené o por_typ/por_ocakavanie/por_priebeh) |
 
-**Ďalší krok: strany 31-40.**
+| 31-40 | pokrač. čuch (konkrétne vône, erotická masáž), 6.4 chuť (jedlo, tekutiny, alkohol), 6.5 hmat, spoločné aktivity ako predohra, budovanie napätia a zdržovanie (+ tipy) | Kombinácia tekutín s chuťou, alkohol v hrách, spoločné aktivity ako predohra (varenie/kúpeľ/erotické listy/tanec/prechádzka — celý koncept chýbal), pauzy pri predohre, verbálne dráždenie, 3 konkrétne scenáre zdržovania | `zmyslova-hra.ts` (CHUT), `dlhodoba-intimita.ts` (AKTIVITY rozšírené), `predohra-naladenie.ts` (DLZKA_TEMPO rozšírené) |
+
+| 41-50 | Kreatívne hry, dynamika moci/BDSM-light (viazanie, disciplína, kontrola času, prekvapenie, pomôcky), tempo/psychológia predohry | „Love treasure hunt", erotický denník (named hry), stupňované tipy (začiatočník/pokročilý/zvedavý). Zvyšok (viazanie/disciplína/kontrola/prekvapenie) potvrdený ako duplicita `bdsm.ts` | `roleplay.ts` (RITUALY), `tempo-intenzita.ts` (SCENARE — stupňované tipy) |
+
+**Konvencie potvrdené/pridané počas Fázy 2 (aplikovať aj spätne pri príležitosti):**
+- Možnosti výberu vždy v poradí pozitívne → neutrálne → odmietavé (nie na konci) — `POSTOJ` vzor to už robí.
+- Pri témach, kde zdroj mlčí, použiť `WebSearch` (dostupný) na dohľadanie odborných štúdií aj laickej diskusie o tom, čo ľudí reálne priťahuje a prečo — nie len zoznam toho, čo odmietajú.
+
+| 51-60 | Dotyky/tempo/orgazmus (jemné vs intenzívne), dynamika predohry (tempo), 7️⃣ predohra cez hravosť: erotické hry (kocky/karty/hádanky/„Nikdy som ešte"/výzvy), senzuálne hry na verejnosti, kreslenie na telo | Celá kategória „erotické hry" (párty-štýl hry, nie roleplay postáv) chýbala | `roleplay.ts` (nový blok HRY) |
+
+**Ďalší krok: strany 61-70.**
 
 ## Kľúčové zistenie (po prečítaní obsahu, nie len nadpisov)
 

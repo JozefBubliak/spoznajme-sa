@@ -183,6 +183,31 @@ const DLZKA_TEMPO: Blok = {
     p('dt_tease_denial', 'Vedomé spomalenie — tease & denial, odkladanie penetrácie'),
     p('dt_synchronizacia', 'Sústredenie na dych a synchronizáciu s partnerom'),
     {
+      druh: 'otazka', id: 'dt_pauzy_vnimanie', typ: 'jeden',
+      text: 'Ako vnímam pauzy počas predohry (na bozky, hladenie, pohľad do očí)',
+      moznosti: [
+        { v: 'milujem', label: 'Milujem ich — pridávajú romantiku a očakávanie' },
+        { v: 'zalezi', label: 'Záleží na situácii' },
+        { v: 'nemam_rad', label: 'Nemám ich rád(a), preferujem plynulé tempo' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_formy_drazdenia', typ: 'viac',
+      text: 'Formy dráždenia a zdržovania, ktoré mi vyhovujú',
+      moznosti: [
+        { v: 'bez_priamej_stimulacie', label: 'Jemné dráždenie bez priamej stimulácie (okolo intímnych miest)' },
+        { v: 'kratke_pauzy', label: 'Krátke pauzy počas aktu' },
+        { v: 'verbalne_drazdenie', label: 'Verbálne dráždenie — opisovanie, čo príde ďalej' },
+      ],
+    },
+    {
+      druh: 'text', id: 'dt_tipy_zdrzovanie', nadpis: 'Tipy na vyskúšanie', ton: 'info',
+      telo:
+        '„Jemné zdržovanie" — jeden z vás strieda dotyky s náhlymi pauzami, kedy len dýcha na citlivé miesta bez dotyku. ' +
+        '„Spontánne objatie" — počas bežného večera začnite bozkávať krk, odtiahnite sa s úsmevom a nechajte partnera v napätí. ' +
+        '„Kombinovaná predohra" — začnite spoločným kúpeľom, pokračujte masážou a zakončite zdržovaním počas hladenia.',
+    },
+    {
       druh: 'otazka', id: 'dt_poradie', typ: 'jeden',
       text: 'Preferované poradie predohry',
       moznosti: [
