@@ -32,6 +32,7 @@ import { TANTRA_SLOW_SEX } from './tantra-slow-sex'
 import { KOMUNIKACIA_POCAS_PO } from './komunikacia-pocas-po'
 import { ORGAZMUS_KONTROLA } from './orgazmus-kontrola'
 import { NEPENETRATIVNE_TRENIE } from './nepenetrativne-trenie'
+import { CNM_ENM } from './cnm-enm'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -69,6 +70,7 @@ const REGISTER: Record<string, TemaObsah> = {
   [KOMUNIKACIA_POCAS_PO.slug]: KOMUNIKACIA_POCAS_PO,
   [ORGAZMUS_KONTROLA.slug]: ORGAZMUS_KONTROLA,
   [NEPENETRATIVNE_TRENIE.slug]: NEPENETRATIVNE_TRENIE,
+  [CNM_ENM.slug]: CNM_ENM,
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {

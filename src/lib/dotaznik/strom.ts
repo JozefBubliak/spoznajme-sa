@@ -631,8 +631,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'cnm-enm', cislo: 49, kod: 'H7', domena: 'H',
-    nazov: 'CNM/ENM a vzťahové štruktúry', popis: 'Model, politika informovania, poly tvary, praktické.', ikona: '♾️', citlivost: 3,
+    nazov: 'CNM/ENM a vzťahové štruktúry', popis: 'Model, politika informovania, poly tvary, motívy, žiarlivosť/kompersia, praktické, autonómia (kniha).', ikona: '♾️', citlivost: 3,
     temy: [
+      o('cnm-enm', 'CNM/ENM a vzťahové štruktúry', 'Kompletný sprievodca (kniha + dotazník) — modely, komunikácia, konfigurácie, motívy, žiarlivosť a kompersia, praktické otázky, autonómia.'),
       o('model', 'Model', 'Štruktúra vzťahu.', ['Striktná monogamia', '„Monogamish"', 'Otvorený vzťah', 'Swinging ako lifestyle', 'Polyamoria', 'Relationship anarchy']),
       o('politika-informovania', 'Politika informovania', 'Čo si hovoríme.', ['Plná transparentnosť', '„DADT"', '„Hall pass"']),
       o('poly-tvary', 'Poly tvary', 'Konfigurácie.', ['„V"', 'Triáda / throuple', 'Quad', 'Hierarchická (primárny / sekundárny) vs nehierarchická', '„Solo poly"', 'Polyfidelita']),

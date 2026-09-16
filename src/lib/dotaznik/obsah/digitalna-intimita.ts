@@ -147,6 +147,33 @@ const PORNO: Blok = {
   ],
 }
 
+// ── Erotická literatúra ─────────────────────────────────────────────
+const EROTICKA_LITERATURA: Blok = {
+  druh: 'skupina', id: 'eroticka_literatura', nadpis: 'Čítanie erotických príbehov',
+  bloky: [
+    {
+      druh: 'otazka', id: 'lit_citam', typ: 'jeden',
+      text: 'Čítanie erotických príbehov/literatúry (knihy, fanfiction, audio)',
+      moznosti: [
+        { v: 'robim_rada', label: 'Robím to a baví ma to' },
+        { v: 'tuzim', label: 'Túžim to vyskúšať' },
+        { v: 'mozno', label: 'Možno, za istých okolností' },
+        { v: 'nie', label: 'Nie, neláka ma to' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'lit_nahlas', typ: 'jeden',
+      text: 'Čítanie úryvku nahlas partnerovi/partnerke ako predohra',
+      moznosti: [
+        { v: 'laka', label: 'Láka ma to' },
+        { v: 'mozno', label: 'Možno, za istých okolností' },
+        { v: 'nie', label: 'Nie, radšej si to nechám pre seba' },
+      ],
+    },
+    { druh: 'otazka', id: 'lit_zdielat', typ: 'text', text: 'Príbeh/scéna, ktorá ma najviac oslovila a chcel(a) by som ju zdieľať:' },
+  ],
+}
+
 // ── Kamera, VR, hračky na diaľku ───────────────────────────────────
 const KAMERA_VR: Blok = {
   druh: 'skupina', id: 'kamera_vr', nadpis: 'Kamera, VR a hračky na diaľku',
@@ -195,6 +222,7 @@ export const DIGITALNA_INTIMITA: TemaObsah = {
     SEXTING,
     UKLADANIE,
     PORNO,
+    EROTICKA_LITERATURA,
     KAMERA_VR,
   ],
   zaver: [

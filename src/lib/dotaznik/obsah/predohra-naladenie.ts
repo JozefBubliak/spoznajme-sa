@@ -298,6 +298,49 @@ const TELO_NA_TELO: Blok = {
   ],
 }
 
+// ── Masáž ────────────────────────────────────────────────────────────
+const MASAZ: Blok = {
+  druh: 'skupina', id: 'masaz', nadpis: 'Masáž',
+  bloky: [
+    {
+      druh: 'otazka', id: 'mas_typ', typ: 'viac',
+      text: 'Aké formy masáže by ma oslovili? (Vyber všetky.)',
+      moznosti: [
+        { v: 'klasicka', label: 'Klasická relaxačná masáž (chrbát, krk, ramená)' },
+        { v: 'eroticka', label: 'Erotická masáž zameraná na intímne partie' },
+        { v: 'cele_telo', label: 'Pomalá masáž celého tela bez konkrétneho cieľa' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mas_oleje', typ: 'jeden',
+      text: 'Masážne oleje',
+      moznosti: [
+        { v: 'oteplujuce', label: 'Otepľujúce' },
+        { v: 'chladive', label: 'Chladivé' },
+        { v: 'bez_efektu', label: 'Bez špeciálneho efektu, len na kĺzavosť' },
+        { v: 'bez_oleja', label: 'Radšej bez oleja' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mas_kombinacia', typ: 'jeden',
+      text: 'Chcem masáž kombinovať s ďalšími technikami (bozkávanie, jemné dotyky)?',
+      moznosti: [
+        { v: 'ano', label: 'Áno, rád(a) kombinujem' },
+        { v: 'obcas', label: 'Občas, podľa nálady' },
+        { v: 'nie', label: 'Nie, preferujem masáž samostatne' },
+      ],
+    },
+    { druh: 'otazka', id: 'mas_kto', typ: 'jeden',
+      text: 'Kto zvyčajne masíruje',
+      moznosti: [
+        { v: 'striedame', label: 'Striedame sa' },
+        { v: 'ja_davam', label: 'Radšej dávam ja' },
+        { v: 'ja_prijimam', label: 'Radšej prijímam ja' },
+      ],
+    },
+  ],
+}
+
 // ── Hravé petting hry ──────────────────────────────────────────────
 const HRAVE_HRY: Blok = {
   druh: 'skupina', id: 'hrave_hry', nadpis: 'Hravé petting hry',
@@ -473,6 +516,7 @@ export const PREDOHRA_NALADENIE: TemaObsah = {
     SIGNALY,
     MAPA_PREDOHRY,
     TELO_NA_TELO,
+    MASAZ,
     HRAVE_HRY,
     KOMBINOVANA,
     SEXTING,
