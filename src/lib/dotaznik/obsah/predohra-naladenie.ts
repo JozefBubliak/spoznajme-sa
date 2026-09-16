@@ -53,6 +53,16 @@ const PRIPRAVA: Blok = {
       ],
     },
     p('pri_sebavedomie', 'Oblečenie / vlasy / detaily, ktoré mi dodávajú sebavedomie, sú pre mňa dôležité'),
+    {
+      druh: 'otazka', id: 'pri_doplnky', typ: 'viac',
+      text: 'Doplnky, ktoré mi pri intímnych chvíľach pridávajú na sebavedomí',
+      moznosti: [
+        { v: 'podpatky', label: 'Podpätky' },
+        { v: 'bosé', label: 'Bosé nohy / prirodzenosť' },
+        { v: 'sperky', label: 'Šperky (náušnice, náhrdelník)' },
+        { v: 'ziadne', label: 'Žiadne — bez doplnkov mi je najlepšie' },
+      ],
+    },
   ],
 }
 

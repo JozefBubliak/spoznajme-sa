@@ -83,6 +83,7 @@ const HANBA: Blok = {
     },
     p('han_vykon', 'Tlak na výkon (musím dopadnúť „dobre") mi bráni sa uvoľniť'),
     p('han_todo_list', 'Rozptýlená myseľ / „to-do list v hlave" mi bráni byť prítomný/á'),
+    p('han_nie_dost_dobry', 'Pocit „nie som dosť dobrý/á" (výzor, skúsenosti, technika v porovnaní s inými) sa mi počas intimity vracia'),
   ],
 }
 
