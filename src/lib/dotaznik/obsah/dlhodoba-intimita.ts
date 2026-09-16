@@ -163,6 +163,31 @@ const NOVOTA: Blok = {
   ],
 }
 
+// ── Spoločné vzdelávanie o intimite ─────────────────────────────
+const VZDELAVANIE: Blok = {
+  druh: 'skupina', id: 'vzdelavanie', nadpis: 'Spoločné vzdelávanie o intimite',
+  bloky: [
+    {
+      druh: 'otazka', id: 'vzd_zaujem', typ: 'jeden',
+      text: 'Záujem o spoločné vzdelávanie sa o intímnych témach (nie erotický obsah, ale poznatky/zručnosti)',
+      moznosti: [
+        { v: 'ano', label: 'Áno, rád(a) sa učím nové veci' },
+        { v: 'mozno', label: 'Možno, ak by to bolo zábavné a nenútené' },
+        { v: 'nie', label: 'Nie, preferujem vlastné experimentovanie' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vzd_forma', typ: 'viac',
+      text: 'Aké formy vzdelávania by ma lákali',
+      moznosti: [
+        { v: 'knihy', label: 'Knihy alebo články' },
+        { v: 'videa', label: 'Videá alebo online kurzy' },
+        { v: 'workshop', label: 'Workshop alebo seminár (osobne)' },
+      ],
+    },
+  ],
+}
+
 // ── Pomôcky pre pár (soft set) ─────────────────────────────────
 const POMOCKY: Blok = {
   druh: 'skupina', id: 'pomocky', nadpis: 'Pomôcky pre pár (soft set)',
@@ -395,6 +420,7 @@ export const DLHODOBA_INTIMITA: TemaObsah = {
     PROSTREDIE,
     SENZORIKA,
     NOVOTA,
+    VZDELAVANIE,
     POMOCKY,
     INICIATIVA,
     SPONTANNY,

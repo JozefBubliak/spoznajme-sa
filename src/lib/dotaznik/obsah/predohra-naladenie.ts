@@ -58,6 +58,7 @@ const PRIPRAVA: Blok = {
       text: 'Doplnky, ktoré mi pri intímnych chvíľach pridávajú na sebavedomí',
       moznosti: [
         { v: 'podpatky', label: 'Podpätky' },
+        { v: 'cizmy', label: 'Erotické čižmy' },
         { v: 'bosé', label: 'Bosé nohy / prirodzenosť' },
         { v: 'sperky', label: 'Šperky (náušnice, náhrdelník)' },
         { v: 'ziadne', label: 'Žiadne — bez doplnkov mi je najlepšie' },

@@ -180,6 +180,15 @@ const PREKLAD: Blok = {
         { v: 'az_pripraveni', label: 'Len keď sa obaja budeme cítiť úplne pripravení' },
       ],
     },
+    {
+      druh: 'otazka', id: 'pre_prehodnocovanie', typ: 'jeden',
+      text: 'Fantázie sa časom menia — ako často by som ich chcel(a) s partnerom/kou znova prebrať',
+      moznosti: [
+        { v: 'pravidelne', label: 'Pravidelne, každých pár týždňov/mesiacov' },
+        { v: 'ked_nieco_nove', label: 'Len keď sa objaví niečo nové, čo chcem zdieľať' },
+        { v: 'nechcem_casto', label: 'Nechcem o tom hovoriť príliš často' },
+      ],
+    },
   ],
 }
 
