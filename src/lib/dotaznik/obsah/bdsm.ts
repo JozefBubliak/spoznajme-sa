@@ -297,6 +297,7 @@ const SENZORIKA: Blok = {
         { v: 'stuple', label: 'Štuple do uší' },
         { v: 'sluchadla', label: 'Slúchadlá s bielym šumom' },
         { v: 'kukla', label: 'Kukla' },
+        { v: 'obmedzenie_reci', label: 'Jemné obmedzenie reči (napr. pásik cez ústa) — len s výslovným súhlasom a dohodnutým signálom rukou namiesto slova' },
       ],
     },
     {
