@@ -122,6 +122,8 @@ $doc.Close(); $word.Quit()
 
 | 261-280 | doslovné opakovanie obsahu už spracovaného v dávkach 141-180 (miesta/prostredie, osvetlenie, hudba, čuch/vône, verbálne prejavy) — teraz systematicky v m/z pároch | Žiadna — overené porovnaním, doslovný duplikát | — |
 
+| 281-300 | doslovné opakovanie (vône/aromaterapia, jedlo/tekutiny, hmat/tempo, erotické hry) — teraz systematicky v m/z pároch, vrátane už doplnenej „predávanie tekutín" otázky | Žiadna — overené porovnaním, doslovný duplikát | — |
+
 **Od strany 121 ďalej: dávky po 20 stranách** (so súhlasom používateľa), pri zachovaní rovnakej dôkladnosti — každá otázka a možnosť sa musí prejsť a overiť cez grep, nielen posúdiť podľa témy.
 
 **Poznámka k metóde (dôležitá, po spätnej väzbe používateľa):** pri prvom prejdení strán 71-110 som viacero bodov označil ako duplicitu len na základe podobnosti TÉMY s už postaveným obsahom, bez toho, aby som každý konkrétny bod overil cez `grep`. To bola chyba — pri druhom, dôkladnom prejdení sa našli 3 reálne medzery (prechod k penetrácii, prekvapenie v BDSM, tempo realizácie fantázie). Odteraz každý konkrétny bod/otázku zo zdroja overiť cez `grep` v `obsah/*.ts`, nie len posúdiť „znie to povedome".
