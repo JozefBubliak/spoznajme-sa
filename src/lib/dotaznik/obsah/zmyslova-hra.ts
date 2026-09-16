@@ -27,14 +27,24 @@ const ZRAK: Blok = {
   druh: 'skupina', id: 'zrak', nadpis: 'Zrak — vizuál a jeho odopretie',
   bloky: [
     {
+      druh: 'text', id: 'zra_info',
+      telo:
+        'Zrak dokáže atmosféru posilniť aj úplne vypnúť — a oba smery fungujú ako vzrušenie. Zrkadlo mení uhol pohľadu na seba aj na partnera; ' +
+        'zaviazané oči nechajú vidieť len jedného z dvoch; úplná tma odoberie zrak obom naraz a preloží pozornosť na dotyk, dych a vôňu.',
+    },
+    {
       druh: 'otazka', id: 'zra_co', typ: 'viac', inePovolene: true,
       text: 'Čo ma na tejto zmyslovej rovine láka',
       moznosti: [
-        { v: 'zaviazane_oci', label: 'Zaviazané oči (odopretie zraku zvýrazní ostatné zmysly)' },
+        { v: 'zaviazane_oci', label: 'Zaviazané oči — jeden z nás nevidí, druhý áno (napätie z neistoty, čo príde)' },
+        { v: 'tma', label: 'Úplná tma — nevidí ani jeden z nás (zrak odpadá obom, zbystrí sa dotyk aj sluch)' },
         { v: 'striptiz', label: 'Striptíz / pomalé vyzliekanie' },
-        { v: 'zrkadlo', label: 'Sledovanie seba/partnera v zrkadle' },
-        { v: 'vizualne_podnety', label: 'Vizuálne podnety (svetlo, farby, obraz)' },
+        { v: 'zrkadlo', label: 'Sledovanie seba/partnera v zrkadle (nový uhol na to, čo sa práve deje)' },
+        { v: 'vizualne_podnety', label: 'Vizuálne podnety (tlmené svetlo, farebné LED, sviečky)' },
+        { v: 'oblecenie', label: 'Erotické oblečenie/kostým ako vizuálny prvok predohry' },
+        { v: 'maska', label: 'Maska (anonymita/estetika — iné než zaviazané oči, vidím ja, nevidí sa moja tvár)' },
         { v: 'ocny_kontakt', label: '„Pozeraj sa mi do očí" počas intimity' },
+        { v: 'zatvorene_oci', label: 'Radšej zatvorené oči — sústredím sa na pocity, nie na pohľad' },
       ],
     },
     p('zra_odopretie', 'Odopretie zraku (tma, páska) mi pomáha uvoľniť sa a viac cítiť'),
@@ -79,6 +89,18 @@ const SLUCH: Blok = {
       ],
     },
     {
+      druh: 'otazka', id: 'slu_druhy_prejavov', typ: 'viac', inePovolene: true,
+      text: 'Aké druhy verbálnych prejavov ma vzrušujú',
+      moznosti: [
+        { v: 'komplimenty', label: 'Nežné komplimenty ("Si nádherná/ý.")' },
+        { v: 'dirty_talk', label: 'Priamy dirty talk (odvážne, explicitné slová)' },
+        { v: 'opisovanie', label: 'Opisovanie toho, čo sa práve deje alebo bude nasledovať' },
+        { v: 'roleplay_rec', label: 'Roleplay oslovenia ("môj pán", "zlý chlapec"...)' },
+        { v: 'vulgarne', label: 'Vulgárne výrazové spojenia (v rámci dohodnutých hraníc)' },
+        { v: 'ticho', label: 'Žiadne slová — preferujem ticho' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'slu_ton_hlasu', typ: 'jeden',
       text: 'Aký tón hlasu ma najviac vzrušuje (nie čo sa hovorí, ale ako to znie)',
       moznosti: [
@@ -96,6 +118,13 @@ const CUCH: Blok = {
   druh: 'skupina', id: 'cuch', nadpis: 'Čuch — vône',
   bloky: [
     {
+      druh: 'text', id: 'cuc_info',
+      telo:
+        'Vôňa je jeden z najsilnejších spúšťačov túžby, lebo ide priamo na emócie a pamäť. Ylang-ylang podporuje uvoľnenie, jazmín prebúdza vášeň, ' +
+        'vanilka a santalové drevo dávajú pocit hrejivého pokoja — a prírodný olej na pulzných bodoch (zápästia, krk, dekolt) zvýrazní vlastnú telesnú vôňu, ' +
+        'namiesto toho, aby ju prebil. Tip na rituál: naviaž jednu konkrétnu vôňu len na spoločné noci — po čase sa vám v hlave prepojí s túžbou.',
+    },
+    {
       druh: 'otazka', id: 'cuc_co', typ: 'viac', inePovolene: true,
       text: 'Čo ma na tejto zmyslovej rovine láka',
       moznosti: [
@@ -104,10 +133,11 @@ const CUCH: Blok = {
         { v: 'feromony', label: 'Predstava feromónov a prirodzeného „chemického" priťahovania' },
         { v: 'vona_po_sexe', label: '„Vôňa po sexe" — nesprchovať sa hneď' },
         { v: 'aromaterapia', label: 'Aromaterapia (sviečky, esenciálne oleje) ako súčasť atmosféry' },
+        { v: 'masaz_s_olejom', label: 'Masáž s vonným olejom (teplo rúk + vôňa spolu uvoľňujú telo aj myseľ)' },
       ],
     },
     p('cuc_vedome_privoniavanie', 'Vedomé privoniavanie ku krku, zápästiam alebo vlasom partnera počas predohry (ako rituál) ma láka'),
-    { druh: 'otazka', id: 'cuc_preferovane_vone', typ: 'text', text: 'Konkrétne vône, ktoré ma najviac vzrušujú alebo upokojujú (napr. santalové drevo, ylang-ylang, vanilka, kokos):' },
+    { druh: 'otazka', id: 'cuc_preferovane_vone', typ: 'text', text: 'Konkrétne vône, ktoré ma najviac vzrušujú alebo upokojujú (napr. santalové drevo, ylang-ylang, vanilka, kokos, pačuli):' },
   ],
 }
 
@@ -176,6 +206,13 @@ const LAYERING: Blok = {
       telo:
         'Kombinovanie zmyslov (napr. zaviazané oči + šepot + ľad) alebo postupné odoberanie jedného zmyslu ' +
         'zosilňuje vnímanie ostatných. Ide o jemnú formu hry, nie o silovú kontrolu — vždy s možnosťou kedykoľvek prestať.',
+    },
+    {
+      druh: 'text', id: 'layering_ritual_tip', ton: 'info',
+      telo:
+        'Inšpirácia na vyskúšanie: naplánuj predohru ako malý rituál pre všetky zmysly naraz — zhasni svetlá, zapáľ sviečku, pusti jemnú hudbu ' +
+        'a použi vonný olej. Partnerovi zaviaž oči a skúmaj jeho telo pierkom, teplým olejom a pomalými bozkami, intenzitu zvyšuj postupne a sleduj reakcie. ' +
+        'Alebo skús opačný extrém — úplnú tmu a ticho, len dych a dotyk, bez akéhokoľvek plánu.',
     },
     {
       druh: 'otazka', id: 'lay_co', typ: 'viac',
