@@ -44,6 +44,24 @@ const TELO_IMAGE: Blok = {
     },
     { druh: 'otazka', id: 'ti_nepocut', typ: 'text', text: 'Čo o svojom tele neznesiem počuť ani vidieť zdôrazňované:' },
     { druh: 'otazka', id: 'ti_polohy_zneistuju', typ: 'text', text: 'Ktoré polohy alebo uhly pohľadu ma robia neistým/ou:' },
+    {
+      druh: 'text', id: 'ti_genital_info', ton: 'info',
+      telo:
+        'Spokojnosť s vlastnými genitáliami je samostatná vec od celkového telesného obrazu — výskum (Komlenac ' +
+        'a kol., 2020) ukazuje, že práve táto konkrétna nespokojnosť súvisí s úzkostným štýlom vo vzťahu a ' +
+        'predpovedá častejšie problémy s túžbou, vzrušením aj orgazmom.',
+    },
+    {
+      druh: 'otazka', id: 'ti_genital_spokojnost', typ: 'jeden',
+      text: 'Ako som spokojný/á s výzorom vlastných genitálií',
+      moznosti: [
+        { v: 'velmi', label: 'Veľmi spokojný/á' },
+        { v: 'skor_ano', label: 'Skôr spokojný/á' },
+        { v: 'neutral', label: 'Neutrálne, nepremýšľam nad tým' },
+        { v: 'skor_nie', label: 'Skôr nespokojný/á' },
+        { v: 'velmi_nie', label: 'Veľmi nespokojný/á' },
+      ],
+    },
   ],
 }
 

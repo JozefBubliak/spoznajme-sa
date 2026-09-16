@@ -22,6 +22,43 @@ const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
   druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
 })
 
+// ── Vlastný vzťah k masturbácii ──────────────────────────────────────
+// Zdroj: kvalitatívne štúdie o hanbe/tabu okolo masturbácie (napr. mladé
+// Indky, Singh a kol., 2025) ukazujú, že vina a hanba okolo sólo aktivít
+// sú v mnohých kultúrach bežné a silné — táto karta to explicitne
+// pomenúva PRED ponukou spoločných/párových foriem nižšie.
+const VLASTNY_VZTAH: Blok = {
+  druh: 'skupina', id: 'vlastny_vztah', nadpis: 'Môj vlastný vzťah k masturbácii',
+  uvod:
+    'Vina alebo hanba okolo masturbácie sú v mnohých kultúrach a náboženských prostrediach bežné a silne ' +
+    'naučené — nie sú znakom, že je s tebou niečo v neporiadku. Masturbácia je celoživotne bežná prax u väčšiny ' +
+    'ľudí (naprieč pohlaviami) a sama osebe nespôsobuje žiadne fyzické ani psychické poškodenie.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'vv_pocit', typ: 'jeden',
+      text: 'Ako sa väčšinou cítim po masturbácii',
+      moznosti: [
+        { v: 'uvolneny', label: 'Uvoľnený/á, v pohode' },
+        { v: 'neutral', label: 'Neutrálne' },
+        { v: 'obcas_vina', label: 'Občas mám pocit viny alebo hanby' },
+        { v: 'casto_vina', label: 'Často mám pocit viny alebo hanby' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vv_povod', typ: 'viac',
+      text: 'Ak sa vina/hanba objavuje, odkiaľ podľa mňa pochádza',
+      podmienka: { ot: 'vv_pocit', jeNiektora: ['obcas_vina', 'casto_vina'] },
+      moznosti: [
+        { v: 'vychova', label: 'Výchova/náboženstvo, s ktorým som vyrastal(a)' },
+        { v: 'okolie', label: 'Postoj okolia/priateľov' },
+        { v: 'porovnavanie', label: 'Porovnávanie s tým, koľko/ako to „majú" robiť iní' },
+        { v: 'neviem', label: 'Neviem presne' },
+      ],
+    },
+    { druh: 'otazka', id: 'vv_frekvencia', typ: 'text', text: 'Ako často masturbujem (voliteľné, len orientačne, žiadne „správne" číslo neexistuje):' },
+  ],
+}
+
 // ── Sólo pre seba ────────────────────────────────────────────────────
 const SOLO: Blok = {
   druh: 'skupina', id: 'solo', nadpis: 'Sólo pre seba (otvorené zdieľanie)',
@@ -352,6 +389,7 @@ export const MASTURBACIA: TemaObsah = {
         { v: 'ziadne', label: 'Zatiaľ nič konkrétne — som zvedavý/á' },
       ],
     },
+    VLASTNY_VZTAH,
     SOLO,
     VOYEUR,
     EXHIB,
