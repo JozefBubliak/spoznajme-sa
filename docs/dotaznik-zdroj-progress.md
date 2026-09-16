@@ -94,7 +94,19 @@ $doc.Close(); $word.Quit()
 
 | 51-60 | Dotyky/tempo/orgazmus (jemné vs intenzívne), dynamika predohry (tempo), 7️⃣ predohra cez hravosť: erotické hry (kocky/karty/hádanky/„Nikdy som ešte"/výzvy), senzuálne hry na verejnosti, kreslenie na telo | Celá kategória „erotické hry" (párty-štýl hry, nie roleplay postáv) chýbala | `roleplay.ts` (nový blok HRY) |
 
-**Ďalší krok: strany 61-70.**
+| 61-70 | pokrač. 5️⃣-7️⃣: spoločné aktivity ako predohra, dynamika (pauzy/zdržovanie), prostredie/osvetlenie, erotické hry (kocky/karty/„Nikdy som ešte"/výzvy), dotykové hry a masáže, neverbálna komunikácia (pohľady/dych/telesná odozva), hravosť/spontánnosť, pravidelná komunikácia o potrebách | Masáž ako vlastná téma (klasická/erotická, oleje, kombinácie) — jediná skutočná medzera, zvyšok potvrdený ako duplicita (osvetlenie, erotické hry, verbálna navigácia, spontánnosť už postavené) | `predohra-naladenie.ts` (nový blok MASAZ) |
+
+| 71-80 | pokrač. rituály intimity, erotické filmy, dĺžka predohry, príprava, mentálna príprava, budovanie očakávania, romantické gestá, oslovovanie, sexting, znova erotické hry, „11 RITUÁLY INTIMITY" (sprcha pred maznaním, masáž ako úvod, **prechod od maznania k sexu — signály že partner je pripravený, dohoda kedy prejsť na penetráciu**) | **Explicitná dohoda/signál na prechod k penetrácii** — SIGNALY riešil len všeobecné signály náklonnosti, nie tento konkrétny prechodový bod. (Prvý prechod bol pri druhom, dôkladnejšom prejdení tejto dávky — pri prvom prejdení som to nesprávne označil ako „100% duplicita", čo bola chyba spôsobená plytkým porovnávaním podľa témy namiesto konkrétneho grep overenia každého bodu.) | `predohra-naladenie.ts` (SIGNALY: nová otázka sig_prechod_penetracia) |
+
+| 81-90 | roleplay scenáre (šéf/sekretárka, lekár/pacient...), BDSM dynamika moci (príkazy, kontrola času/edging, **hranie s prekvapením a nečakanými prvkami** — zmena polohy bez upozornenia, nová hračka ako prekvapenie, nečakaný dotyk, hlasová kontrola), prechod na „08_Dlhodoba_intimita" | **Prekvapenie v rámci vopred dohodnutých hraníc** — celý koncept "súhlas s TÝM, že ma partner môže prekvapiť" (nie s konkrétnou vecou) v `bdsm.ts` chýbal | `bdsm.ts` (nový blok PREKVAPENIE) |
+
+| 91-100 | dokončenie „08_Dlhodoba_intimita" (denné gestá, iniciatíva, spontánny sex), **prelínanie fantázií a reality — ako by si rada začala s ich realizáciou (malými krokmi / spontánne / len keď obaja pripravení)**, rôznorodosť prostredí, „VEĽKÝ ZOZNAM TÉM K PREDOHRE" (znova) | **Tempo prístupu k realizácii fantázie** (postupné kroky vs. spontánne vs. až keď pripravení) — `fantazie.ts` PREKLAD mal len odkaz na „Pilot" kartu, nie túto konkrétnu voľbu štýlu | `fantazie.ts` (PREKLAD: nová otázka pre_pristup) |
+
+| 101-110 | opakovanie romantických gest, dôvery/očného kontaktu, verbálnych prejavov, spontánnosti, fantázií a reality (m/z varianty) | Overené znova cez grep (ťahanie za vlasy → `dlhodoba-intimita.ts` ✅, kontrola polôh dominantným partnerom → dostatočne pokryté cez `rola_dom`/`rola_ktora` v `bdsm.ts`) — žiadna ďalšia nová medzera nad rámec vyššie uvedených 3 opráv | — |
+
+**Poznámka k metóde (dôležitá, po spätnej väzbe používateľa):** pri prvom prejdení strán 71-110 som viacero bodov označil ako duplicitu len na základe podobnosti TÉMY s už postaveným obsahom, bez toho, aby som každý konkrétny bod overil cez `grep`. To bola chyba — pri druhom, dôkladnom prejdení sa našli 3 reálne medzery (prechod k penetrácii, prekvapenie v BDSM, tempo realizácie fantázie). Odteraz každý konkrétny bod/otázku zo zdroja overiť cez `grep` v `obsah/*.ts`, nie len posúdiť „znie to povedome".
+
+**Ďalší krok: strany 111-120.**
 
 ## Kľúčové zistenie (po prečítaní obsahu, nie len nadpisov)
 

@@ -171,6 +171,15 @@ const PREKLAD: Blok = {
         'použite kartu „Pilot" v téme „Súhlas, bezpečie a komunikácia".',
     },
     { druh: 'otazka', id: 'pre_prve', typ: 'text', text: 'Ktorý okruh by som chcel(a) posunúť ďalej ako prvý:' },
+    {
+      druh: 'otazka', id: 'pre_pristup', typ: 'jeden',
+      text: 'Akým tempom chcem k realizácii pristupovať',
+      moznosti: [
+        { v: 'male_kroky', label: 'Malými krokmi, postupne budovať dôveru' },
+        { v: 'spontanne', label: 'Spontánne, podľa nálady, bez veľkého plánovania' },
+        { v: 'az_pripraveni', label: 'Len keď sa obaja budeme cítiť úplne pripravení' },
+      ],
+    },
   ],
 }
 

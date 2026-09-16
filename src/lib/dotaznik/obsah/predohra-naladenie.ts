@@ -85,6 +85,16 @@ const SIGNALY: Blok = {
         { v: 'nie', label: 'Nie, radšej mám oči zatvorené' },
       ],
     },
+    {
+      druh: 'otazka', id: 'sig_prechod_penetracia', typ: 'jeden',
+      text: 'Ako chcem, aby sme sa dohodli na chvíli prechodu z maznania/predohry k penetrácii',
+      moznosti: [
+        { v: 'nepriamy_signal', label: 'Nepriamy signál (zmena tempa/dychu, konkrétny dotyk)' },
+        { v: 'slovo_otazka', label: 'Krátke slovo alebo otázka nahlas ("teraz?")' },
+        { v: 'iniciativa_partnera', label: 'Nechám iniciatívu na partnerovi/ke, sledujem jeho/jej signál' },
+        { v: 'plynule', label: 'Nepotrebujem dohodu — cítim, kedy je to prirodzené' },
+      ],
+    },
   ],
 }
 

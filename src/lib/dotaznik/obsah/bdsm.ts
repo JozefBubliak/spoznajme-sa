@@ -607,6 +607,28 @@ const SCENY: Blok = {
   ],
 }
 
+// ── Prekvapenie v rámci hraníc ────────────────────────────────
+const PREKVAPENIE: Blok = {
+  druh: 'skupina', id: 'prekvapenie', nadpis: 'Prekvapenie v rámci vopred dohodnutých hraníc',
+  uvod:
+    'Ide o súhlas s tým, ŽE ma partner/ka môže prekvapiť — nie súhlas s konkrétnou vecou vopred. ' +
+    'Funguje len tam, kde sú hranice a stop-slovo už jasne dohodnuté a dôvera je vysoká.',
+  bloky: [
+    p('prek_zmena_polohy', 'Náhla zmena polohy bez upozornenia (v rámci už known/OK polôh)'),
+    p('prek_nova_hracka', 'Prekvapenie novou hračkou alebo technikou počas aktu'),
+    p('prek_necakany_dotyk', 'Nečakaný bozk, dotyk alebo jemné škrabnutie v neplánovanej chvíli'),
+    {
+      druh: 'otazka', id: 'prek_celkovo', typ: 'jeden',
+      text: 'Celkovo, ako vnímam prvok prekvapenia počas intimity',
+      moznosti: [
+        { v: 'milujem', label: 'Milujem to, pridáva to napätie' },
+        { v: 'zalezi', label: 'Záleží na type prekvapenia' },
+        { v: 'radsej_dohoda', label: 'Radšej mám všetko dohodnuté vopred' },
+      ],
+    },
+  ],
+}
+
 // ── Rámec, hranice, aftercare ────────────────────────────────
 const RAMEC: Blok = {
   druh: 'skupina', id: 'ramec', nadpis: 'Rámec, hranice a aftercare',
@@ -692,6 +714,7 @@ export const BDSM: TemaObsah = {
     KONTEXTY,
     EDGE,
     SCENY,
+    PREKVAPENIE,
     RAMEC,
   ],
   zaver: [
