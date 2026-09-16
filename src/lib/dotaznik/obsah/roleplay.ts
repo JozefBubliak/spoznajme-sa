@@ -318,6 +318,16 @@ const RITUALY: Blok = {
     p('rit_disciplinovanie', 'Disciplinovanie ako rituál'),
     p('rit_treasure_hunt', '„Love treasure hunt" — zmyslové hľadanie/lúštenie so sexuálnou odmenou'),
     p('rit_eroticky_dennik', 'Erotický denník — striedavo si zapisovať a plniť si túžby druhého'),
+    {
+      druh: 'otazka', id: 'rit_dennik_temy', typ: 'viac', inePovolene: true,
+      text: 'Ak by sme viedli spoločný intímny denník, čo by som doň chcel(a) zahrnúť',
+      moznosti: [
+        { v: 'fantazie', label: 'Nové fantázie, ktoré ma napadnú' },
+        { v: 'co_fungovalo', label: 'Čo nám naposledy fungovalo / čo si zopakovať' },
+        { v: 'zoznam_priani', label: 'Zoznam vecí, ktoré chcem raz vyskúšať' },
+        { v: 'vdaka', label: 'Krátke poďakovanie/pochvala po spoločnej chvíli' },
+      ],
+    },
     p('rit_body_writing', '„Body-writing" — písanie slova/odkazu prstom na partnerovu kožu, ktorý má uhádnuť'),
   ],
 }

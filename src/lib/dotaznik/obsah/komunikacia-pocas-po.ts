@@ -123,6 +123,16 @@ const OSLOVOVANIE: Blok = {
         { v: 'bez_oslovovania', label: 'Bez špeciálneho oslovovania' },
       ],
     },
+    {
+      druh: 'otazka', id: 'osl_mazna', typ: 'jeden',
+      text: 'Jemné, láskyplné oslovenia počas maznania (nie dominantné tituly — skôr „miláčik", „moja kráska/princezná")',
+      moznosti: [
+        { v: 'rad_oslovujem', label: 'Rád(a) takto oslovujem partnera/ku' },
+        { v: 'rad_prijimam', label: 'Túžim, aby ma partner/ka takto oslovoval(a)' },
+        { v: 'oboje', label: 'Oboje — chcem oslovenia dávať aj prijímať' },
+        { v: 'nie', label: 'Nepreferujem oslovenia počas maznania' },
+      ],
+    },
     { druh: 'otazka', id: 'osl_genitalie_ok', typ: 'text', text: 'Pomenovania pre genitálie, ktoré sú pre mňa OK:' },
     { druh: 'otazka', id: 'osl_genitalie_nie', typ: 'text', text: 'Pomenovania pre genitálie, ktoré nechcem počuť:' },
     p('osl_vlastnicky_jazyk', '„Vlastnícky" jazyk („si môj/moja", „patríš mi") ma vzrušuje'),

@@ -67,6 +67,37 @@ const PRIPRAVA: Blok = {
   ],
 }
 
+// ── Mentálna príprava a budovanie očakávania ─────────────────────────
+const MENTALNA_PRIPRAVA: Blok = {
+  druh: 'skupina', id: 'mentalna_priprava', nadpis: 'Mentálna príprava a budovanie očakávania',
+  bloky: [
+    {
+      druh: 'text', id: 'men_info',
+      telo:
+        'Intimita nezačína dotykom — začína v hlave. Fantazírovanie počas dňa, zdieľanie túžob vopred alebo len ' +
+        'vedomé spomalenie a naladenie sa dokážu vytvoriť očakávanie, ktoré predĺži a zintenzívni to, čo príde večer.',
+    },
+    {
+      druh: 'otazka', id: 'men_priprava', typ: 'viac', inePovolene: true,
+      text: 'Ako sa psychicky pripravujem na intímne chvíle',
+      moznosti: [
+        { v: 'fantazirujem', label: 'Fantazírujem o rôznych situáciách' },
+        { v: 'zdielam', label: 'Zdieľam svoje túžby a očakávania s partnerom vopred' },
+        { v: 'relaxujem', label: 'Relaxujem, aby som sa naladil(a) na správnu atmosféru' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'men_aktivity', typ: 'viac', inePovolene: true,
+      text: 'Aké mentálne aktivity ma najviac vzrušujú',
+      moznosti: [
+        { v: 'scenar', label: 'Predstavovanie si konkrétnych scén' },
+        { v: 'role_v_mysli', label: 'Hranie rolí vo svojej mysli' },
+        { v: 'vizualizacia', label: 'Vizualizovanie blízkosti s partnerom' },
+      ],
+    },
+  ],
+}
+
 // ── Signály pripravenosti ────────────────────────────────────────────
 const SIGNALY: Blok = {
   druh: 'skupina', id: 'signaly', nadpis: 'Signály pripravenosti a očný kontakt',
@@ -544,6 +575,7 @@ export const PREDOHRA_NALADENIE: TemaObsah = {
   ],
   telo: [
     PRIPRAVA,
+    MENTALNA_PRIPRAVA,
     SIGNALY,
     MAPA_PREDOHRY,
     TELO_NA_TELO,
