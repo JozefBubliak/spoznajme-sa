@@ -100,6 +100,21 @@ const TABU: Blok = {
   ],
 }
 
+// ── Známa/slávna osoba ────────────────────────────────────────────
+// Zdroj: Joyal, Cossette & Lapierre (2015) — fantázia o slávnej/známej osobe
+// patrí medzi najintenzívnejšie a najčastejšie fantázie vôbec (nad polovicu
+// vzorky), preto má vlastnú kartu namiesto splynutia s klastrom „Impersonal".
+const SLAVNA_OSOBA: Blok = {
+  druh: 'skupina', id: 'slavna_osoba', nadpis: 'Slávna alebo verejne známa osoba',
+  bloky: [
+    {
+      druh: 'text', id: 'slavna_info',
+      telo: 'Jedna z najbežnejších fantázií vôbec — predstava sexu so slávnou herečkou/hercom, spevákom/čkou alebo inou verejne známou osobou.',
+    },
+    { druh: 'otazka', id: 'slavna_frekvencia', typ: 'jeden', text: 'Ako často sa mi táto predstava vracia', moznosti: FREKV_DOLEZITOST },
+  ],
+}
+
 // ── Negatívne pocity a zdieľanie ────────────────────────────────────
 const NEGATIVNE: Blok = {
   druh: 'skupina', id: 'negativne', nadpis: 'Negatívne pocity a zdieľanie',
@@ -154,6 +169,7 @@ export const FANTAZIE: TemaObsah = {
   telo: [
     AKO_FUNGUJE,
     ...OKRUHY.map(okruhBlok),
+    SLAVNA_OSOBA,
     TABU,
     NEGATIVNE,
     PREKLAD,

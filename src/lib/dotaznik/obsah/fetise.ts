@@ -261,6 +261,7 @@ const ROLEPLAY: Blok = {
     p('rp_identita', 'Skrývanie identity — maska, zaviazané oči, „slepá dôvera"'),
     p('rp_verejny', 'Verejný sex (diskrétny)'),
     p('rp_kostymy', 'Sex v kostýmoch (zvieracie uši, fantasy oblečenie)'),
+    p('rp_prezliekanie', 'Obliekanie si oblečenia bežne spájaného s opačným pohlavím (crossdressing) ako súčasť hry'),
     p('rp_smoking', 'Smoking fetish — partner fajčí počas aktu'),
     p('rp_tehotenstvo', 'Fetiš na tehotenstvo / laktáciu (bruško, dojčenie ako prvok)'),
     p('rp_vek', 'Fetiš na vekový rozdiel — ako roleplay „mladší / starší" (len dospelí)'),

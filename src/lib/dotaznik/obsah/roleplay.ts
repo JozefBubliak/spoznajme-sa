@@ -34,6 +34,7 @@ const ROLY: Blok = {
         { v: 'policajt', label: 'Policajt/ka – zadržaný/á' },
         { v: 'lekar', label: 'Lekár/ka – pacient/ka' },
         { v: 'trener', label: 'Prísny tréner' },
+        { v: 'eskort', label: 'Platená spoločníčka/spoločník – klient/ka (hrané, nie reálne)' },
       ],
     },
     {
