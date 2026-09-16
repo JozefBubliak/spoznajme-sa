@@ -474,6 +474,15 @@ const RAMEC: Blok = {
       ],
     },
     {
+      druh: 'otazka', id: 'ra_novy_partner_tempo', typ: 'jeden',
+      text: 'S úplne novým/neznámym partnerom potrebujem na predohru a budovanie dôvery',
+      moznosti: [
+        { v: 'rovnako', label: 'Rovnaký prístup ako inak — netreba viac času' },
+        { v: 'viac_casu', label: 'Výrazne viac času, postupné skúšanie hraníc' },
+        { v: 'nevieme', label: 'Ešte nevieme, nemáme skúsenosť' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'ra_miesto', typ: 'viac', inePovolene: true,
       text: 'Kde by nám to bolo komfortné',
       moznosti: [
