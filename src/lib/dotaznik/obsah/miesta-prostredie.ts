@@ -87,6 +87,7 @@ const EXTERIER: Blok = {
       moznosti: [
         { v: 'kino', label: 'Kino' },
         { v: 'park', label: 'Park' },
+        { v: 'swingers_klub', label: 'Swingers klub (téma sama o sebe — pozri modul o zdieľaní partnera)' },
         { v: 'ziadne', label: 'Žiadne — radšej súkromie' },
       ],
     },

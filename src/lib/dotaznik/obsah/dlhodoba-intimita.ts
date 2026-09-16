@@ -229,6 +229,10 @@ const INICIATIVA: Blok = {
   druh: 'skupina', id: 'iniciativa', nadpis: 'Sexuálna iniciatíva',
   bloky: [
     {
+      druh: 'text', id: 'ini_formy_popis',
+      telo: 'Iniciatíva môže mať mnoho podôb — od romantických gest cez hravé flirtovanie až po intenzívne prejavy túžby. Každý partner má svoje preferencie, ktoré dokážu podnietiť vášeň a blízkosť.',
+    },
+    {
       druh: 'otazka', id: 'ini_formy', typ: 'viac', inePovolene: true,
       text: 'Aké formy iniciatívy ma najviac vzrušujú',
       moznosti: [

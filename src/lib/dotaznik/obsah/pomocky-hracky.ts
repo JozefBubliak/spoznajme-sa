@@ -313,6 +313,15 @@ const KONTEXT: Blok = {
         { v: 'diskretne', label: 'Diskrétne mimo domova' },
       ],
     },
+    {
+      druh: 'otazka', id: 'kombinacia_naraz', typ: 'jeden',
+      text: 'Kombinovať viacero pomôcok/techník naraz (napr. viazanie + vibrátor + zmena polohy) v jednej scéne',
+      moznosti: [
+        { v: 'ano', label: 'Áno, lákajú ma komplexnejšie scenáre' },
+        { v: 'mozno', label: 'Možno, ak to nebude príliš intenzívne' },
+        { v: 'nie', label: 'Nie, dávam prednosť jednoduchej hre — jedna vec naraz' },
+      ],
+    },
     { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'GREEN (áno, chcem):' },
     { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'YELLOW (možno, opatrne):' },
     { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'RED (tvrdá hranica — nikdy):' },
