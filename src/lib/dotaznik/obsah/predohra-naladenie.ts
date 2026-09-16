@@ -204,6 +204,182 @@ const DLZKA_TEMPO: Blok = {
   ],
 }
 
+// ── Mapa predohry ─────────────────────────────────────────────────────
+// Doplnené z „dotaznik.xlsx" list „4) Predohra, maznanie, petting" —
+// hĺbková revízia odhalila veľké množstvo mikro-scén a situačných uhlov,
+// ktoré tu chýbali.
+const MAPA_PREDOHRY: Blok = {
+  druh: 'skupina', id: 'mapa_predohry', nadpis: 'Mapa predohry',
+  bloky: [
+    { druh: 'otazka', id: 'map_co_sa_pocita', typ: 'text', text: 'Čo pre mňa reálne znamená „predohra" (čo sa tam ráta a čo je už „hlavná časť"):' },
+    {
+      druh: 'otazka', id: 'map_dlzka', typ: 'jeden',
+      text: 'Ideálna dĺžka predohry',
+      moznosti: [
+        { v: 'kratka', label: 'Krátka' },
+        { v: 'stredna', label: 'Stredná' },
+        { v: 'dlha', label: 'Dlhá' },
+        { v: 'zalezi', label: 'Veľmi závisí od chvíle' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'map_pomer', typ: 'jeden',
+      text: 'Pomer „mentálne" (slová, očný kontakt, fantázia) vs. „telesné" (dotyk, trenie)',
+      moznosti: [
+        { v: 'mentalne', label: 'Viac mentálne' },
+        { v: 'telesne', label: 'Viac telesné' },
+        { v: 'vyvazene', label: 'Vyvážené' },
+      ],
+    },
+    { druh: 'otazka', id: 'map_turn_off', typ: 'text', text: 'Čo je v predohre pre mňa „turn-off" (vytrhne ma, vypne):' },
+  ],
+}
+
+// ── Telo na telo — mikro-scény ────────────────────────────────────────
+const TELO_NA_TELO: Blok = {
+  druh: 'skupina', id: 'telo_na_telo', nadpis: 'Telo na telo — mikro-scény',
+  bloky: [
+    {
+      druh: 'otazka', id: 'tnt_lyzicky', typ: 'viac',
+      text: 'Lyžičky (kontakt zozadu) — čo chcem cítiť',
+      moznosti: [
+        { v: 'pevne_objatie', label: 'Pevné objatie' },
+        { v: 'ruky_hrudnik', label: 'Ruky na hrudi' },
+        { v: 'ruky_brucho', label: 'Ruky na bruchu' },
+        { v: 'ruky_genital', label: 'Ruky na stehnách/genitáliách' },
+      ],
+    },
+    p('tnt_lezanie_na_mne', 'Váha partnera/ky na mne (telo na telo, tlak, dych) je pre mňa vzrušujúca'),
+    {
+      druh: 'otazka', id: 'tnt_brucho_brucho', typ: 'jeden',
+      text: 'Trenie brucho-brucho',
+      moznosti: [
+        { v: 'cez_pradlo', label: 'Cez prádlo' },
+        { v: 'nahi', label: 'Nahí' },
+        { v: 'mix', label: 'Mix oboch' },
+        { v: 'nie', label: 'Nie je to pre mňa' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tnt_len_objatie', typ: 'jeden',
+      text: '„Len objatie" ako predohra — viem sa z neho postupne rozbehnúť',
+      moznosti: [
+        { v: 'ano', label: 'Áno, prirodzene' },
+        { v: 'niekedy', label: 'Niekedy, závisí od nálady' },
+        { v: 'nie', label: 'Nie, objatie a sex sú pre mňa oddelené' },
+      ],
+    },
+    { druh: 'otazka', id: 'tnt_flow', typ: 'text', text: 'Môj ideálny sled krokov „cuddle → bozk → dotyk → …" (kde začať, kedy eskalovať):' },
+  ],
+}
+
+// ── Hravé petting hry ──────────────────────────────────────────────
+const HRAVE_HRY: Blok = {
+  druh: 'skupina', id: 'hrave_hry', nadpis: 'Hravé petting hry',
+  bloky: [
+    {
+      druh: 'otazka', id: 'hra_cez_oblecenie', typ: 'jeden',
+      text: 'Dráždenie cez oblečenie („outercourse")',
+      moznosti: [
+        { v: 'ako_predohra', label: 'Skvelé ako predohra' },
+        { v: 'ako_hlavna', label: 'Môže byť aj samostatná aktivita' },
+        { v: 'nie', label: 'Nie je to pre mňa' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'hra_len_ruky', typ: 'jeden',
+      text: '„Len ruky" (bez bozkov, bez úst) ako samostatná hra',
+      moznosti: POSTOJ,
+    },
+    {
+      druh: 'otazka', id: 'hra_len_usta', typ: 'jeden',
+      text: '„Len ústa" (bez rúk) ako samostatná hra',
+      moznosti: POSTOJ,
+    },
+    {
+      druh: 'otazka', id: 'hra_zakazana_zona', typ: 'jeden',
+      text: '„Zakázaná zóna" tease (priblíženie a stiahnutie sa)',
+      moznosti: [
+        { v: 'laka', label: 'Láka ma, mám rád(a) napätie' },
+        { v: 'frustruje', label: 'Skôr ma to frustruje' },
+        { v: 'nie', label: 'Nie je to pre mňa' },
+      ],
+    },
+  ],
+}
+
+// ── Kombinovaná stimulácia ────────────────────────────────────────
+const KOMBINOVANA: Blok = {
+  druh: 'skupina', id: 'kombinovana', nadpis: 'Kombinovaná stimulácia',
+  bloky: [
+    { druh: 'otazka', id: 'kom_top_prijimam', typ: 'text', text: 'Top kombinácie, ktoré chcem prijímať naraz (napr. genitál + bradavky, genitál + hrádza):' },
+    { druh: 'otazka', id: 'kom_top_poskytujem', typ: 'text', text: 'Top kombinácie, ktoré rád(a) poskytujem naraz:' },
+    {
+      druh: 'otazka', id: 'kom_rytmus', typ: 'jeden',
+      text: 'Pri kombinácii uprednostňujem',
+      moznosti: [
+        { v: 'staly', label: 'Stabilný rytmus na oboch miestach' },
+        { v: 'striedanie', label: 'Striedanie — jedna ruka drží rytmus, druhá mení' },
+      ],
+    },
+    { druh: 'otazka', id: 'kom_too_much', typ: 'text', text: 'Kedy je to pre mňa „too much" (preťaženie, necitlivosť) a ako to má partner/ka spoznať:' },
+  ],
+}
+
+// ── Teasing cez deň ──────────────────────────────────────────────
+const TEASING_DEN: Blok = {
+  druh: 'skupina', id: 'teasing_den', nadpis: 'Teasing cez deň — rozšírené',
+  bloky: [
+    { druh: 'otazka', id: 'tea_priklady_viet', typ: 'text', text: 'Konkrétne príklady viet/správ, ktoré ma cez deň najviac zapnú:' },
+    {
+      druh: 'otazka', id: 'tea_smeruje_k_planu', typ: 'jeden',
+      text: 'Majú správy smerovať k večernému plánu, alebo sú len flirt bez záväzku',
+      moznosti: [
+        { v: 'plan', label: 'Radšej smerujú k jasnému plánu' },
+        { v: 'flirt', label: 'Len flirt, bez záväzku' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tea_mikro_dotyky', typ: 'viac',
+      text: 'Mikro-dotyky doma počas dňa, ktoré ma najviac zapnú',
+      moznosti: [
+        { v: 'prsty_telo', label: 'Prejdenie prstami po tele' },
+        { v: 'stisk_zadku', label: 'Stisk zadku' },
+        { v: 'bozk_krk', label: 'Bozk na krk' },
+      ],
+    },
+    p('tea_nebrat_osobne', 'Keď na teaser rituál nereagujem, chcem, aby partner/ka to nebral(a) osobne'),
+  ],
+}
+
+// ── Signály nálady ──────────────────────────────────────────────
+const SIGNALY_NALADY: Blok = {
+  druh: 'skupina', id: 'signaly_nalady', nadpis: 'Signály nálady',
+  bloky: [
+    { druh: 'otazka', id: 'sig_chcem_ta', typ: 'text', text: 'Môj najlepší signál „chcem ťa" (konkrétne slovo/dotyk/pohľad):' },
+    { druh: 'otazka', id: 'sig_dnes_jemne', typ: 'text', text: 'Ako mám dať najavo „dnes jemne" (a čo to pre mňa znamená v praxi):' },
+    { druh: 'otazka', id: 'sig_dnes_rychlo', typ: 'text', text: 'Ako mám dať najavo „dnes rýchlo" (a čo aj tak musí zostať — bozk, slová, aftercare):' },
+    { druh: 'otazka', id: 'sig_dnes_nie_objatie', typ: 'text', text: 'Čo chcem počuť, keď poviem „dnes nie, ale objatie áno", aby som to nebral(a) ako odmietnutie:' },
+  ],
+}
+
+// ── Vyzliekanie a odhalenie ───────────────────────────────────────
+const VYZLIEKANIE: Blok = {
+  druh: 'skupina', id: 'vyzliekanie', nadpis: 'Vyzliekanie a odhalenie',
+  bloky: [
+    {
+      druh: 'otazka', id: 'vyz_tempo', typ: 'jeden',
+      text: 'Preferované tempo vyzliekania',
+      moznosti: [
+        { v: 'pomale', label: 'Pomalé, postupné, s bozkom na každú časť' },
+        { v: 'rychle', label: 'Rýchlo, rovno k nahote' },
+      ],
+    },
+    { druh: 'otazka', id: 'vyz_necha_obleceneho', typ: 'text', text: 'Čo by som chcel(a), aby partner/ka nechal(a) na sebe oblečené (prádlo, podpätky, tričko):' },
+    p('vyz_striptease', 'Striptíz / predvedenie tela ma láka'),
+  ],
+}
+
 // ── Naladenie po konflikte a špeciálne kontexty ──────────────────────
 const KONFLIKT: Blok = {
   druh: 'skupina', id: 'konflikt', nadpis: 'Naladenie po konflikte a špeciálne kontexty',
@@ -227,6 +403,24 @@ const KONFLIKT: Blok = {
         { v: 'nesexualne', label: 'Radšej nesexuálna blízkosť v takej chvíli' },
       ],
     },
+    {
+      druh: 'otazka', id: 'kon_novota', typ: 'jeden',
+      text: 'Predohra v novom prostredí (hotel, roleplay)',
+      moznosti: [
+        { v: 'viac_experimentu', label: 'Chcem viac experimentu' },
+        { v: 'bezpecny_default', label: 'Radšej bezpečný, známy postup' },
+      ],
+    },
+    { druh: 'otazka', id: 'kon_kratky_ritual', typ: 'text', text: 'Pri únave — môj ideálny krátky rituál (5–20 min), ktorý stále môže byť sexi:' },
+    {
+      druh: 'otazka', id: 'kon_reaktivny_start', typ: 'jeden',
+      text: 'Keď chuť hneď nie je — bezpečný štart',
+      moznosti: [
+        { v: 'skusme_uvidime', label: '„Skúsme 5 minút a uvidíme"' },
+        { v: 'jasne_nie', label: 'Radšej jasné „dnes nie" bez skúšania' },
+      ],
+    },
+    { druh: 'otazka', id: 'kon_len_blizkost', typ: 'text', text: 'Čo presne je pre mňa „blízkosť bez sexu" — čo sa deje, ako dlho, kde sa to končí:' },
     { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo chcem, aby partner/ka vedel(a) (1–3 vety):' },
   ],
 }
@@ -252,7 +446,14 @@ export const PREDOHRA_NALADENIE: TemaObsah = {
   telo: [
     PRIPRAVA,
     SIGNALY,
+    MAPA_PREDOHRY,
+    TELO_NA_TELO,
+    HRAVE_HRY,
+    KOMBINOVANA,
     SEXTING,
+    TEASING_DEN,
+    SIGNALY_NALADY,
+    VYZLIEKANIE,
     INICIACIA,
     DLZKA_TEMPO,
     KONFLIKT,

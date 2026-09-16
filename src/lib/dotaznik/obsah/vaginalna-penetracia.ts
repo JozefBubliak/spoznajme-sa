@@ -23,6 +23,47 @@ const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
   druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
 })
 
+// ── Penetrácia ako voľba ──────────────────────────────────────────────
+// Doplnené z „dotaznik.xlsx" list „7) Penetrácia & polohy" — chýbajúci
+// rámec „musí byť/nemusí byť" a protokol pri nepohodlí.
+const VOLBA: Blok = {
+  druh: 'skupina', id: 'volba', nadpis: 'Penetrácia ako voľba',
+  bloky: [
+    {
+      druh: 'otazka', id: 'vol_dolezitost', typ: 'jeden',
+      text: 'Ako dôležitá je pre mňa penetrácia v rámci sexu',
+      moznosti: [
+        { v: 'must_have', label: '„Must-have" — bez nej mi niečo chýba' },
+        { v: 'nice_to_have', label: '„Nice-to-have" — príjemná, nie nutná' },
+        { v: 'casto_staci_bez', label: 'Často mi stačí aj sex bez penetrácie' },
+      ],
+    },
+    { druh: 'otazka', id: 'vol_kedy_nie', typ: 'text', text: 'Situácie, kedy penetráciu nechcem (únava, stres, tlak na výkon, časový stres):' },
+    {
+      druh: 'otazka', id: 'vol_kedy_najlepsie', typ: 'jeden',
+      text: 'Kedy je pre mňa penetrácia najpríjemnejšia',
+      moznosti: [
+        { v: 'hlavne_jedlo', label: 'Ako „hlavné jedlo" — dlhšia, ústredná časť' },
+        { v: 'finale', label: 'Ako finále na záver' },
+        { v: 'kratka_stred', label: 'Ako krátka časť uprostred' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vol_setup', typ: 'jeden',
+      text: 'Príprava vopred vs. spontánnosť',
+      moznosti: [
+        { v: 'setup_dopredu', label: 'Radšej mať „setup" pripravený vopred' },
+        { v: 'spontannost', label: 'Spontánnosť aj za cenu prerušení' },
+      ],
+    },
+    {
+      druh: 'text', id: 'vol_diskomfort', ton: 'info',
+      telo: 'Pri nepohodlí je prvým krokom vždy spomaliť, opýtať sa, prípadne zmeniť polohu alebo pridať lubrikant — nikdy pokračovať cez bolesť.',
+    },
+    { druh: 'otazka', id: 'vol_prvy_krok', typ: 'text', text: 'Čo chcem ako prvý krok, keď sa objaví nepohodlie (spomaliť / zastaviť / opýtať sa / zmeniť polohu / viac lubrikantu):' },
+  ],
+}
+
 // ── Nábeh ────────────────────────────────────────────────────────────
 const NABEH: Blok = {
   druh: 'skupina', id: 'nabeh', nadpis: 'Nábeh — prvé chvíle',
@@ -59,9 +100,20 @@ const TECHNIKY: Blok = {
         { v: 'angling', label: '„Angling" — uhol smerom na prednú stenu (G-bod)' },
         { v: 'rocking', label: '„Rocking" / grinding — kývanie panvou bez vyťahovania' },
         { v: 'kruzenie', label: 'Krúženie panvou' },
+        { v: 'shallowing', label: '„Shallowing" — vedome plytšie vstupy (napr. na začiatku/pri edgingu)' },
       ],
     },
     p('tec_kombinacia_klitoris', 'Kombinácia penetrácie s ručnou stimuláciou klitorisu ma výrazne zosilňuje'),
+    {
+      druh: 'otazka', id: 'tec_pairing_kto', typ: 'jeden',
+      text: '„Pairing" (súbežná stimulácia klitorisu počas penetrácie) — kto ju robí',
+      moznosti: [
+        { v: 'ja_sam', label: 'Ja sám/sama' },
+        { v: 'partner', label: 'Partner/ka rukou' },
+        { v: 'hracka', label: 'Hračka' },
+        { v: 'nie', label: 'Radšej bez toho — ruší mi to rytmus' },
+      ],
+    },
   ],
 }
 
@@ -178,6 +230,7 @@ export const VAGINALNA_PENETRACIA: TemaObsah = {
     },
   ],
   telo: [
+    VOLBA,
     NABEH,
     TECHNIKY,
     HLBKA,

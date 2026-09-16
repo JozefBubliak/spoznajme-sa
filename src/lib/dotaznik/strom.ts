@@ -350,8 +350,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'orgazmus-kontrola', cislo: 21, kod: 'D5', domena: 'D', zrkadlovy: true,
-    nazov: 'Orgazmus a jeho kontrola', popis: 'Cesta, poradie a počet, kontrola (D/s), po orgazme.', ikona: '✨', citlivost: 3,
+    nazov: 'Orgazmus a jeho kontrola', popis: 'Cesta, poradie a počet, kontrola (D/s), po orgazme (kniha).', ikona: '✨', citlivost: 3,
     temy: [
+      o('orgazmus-kontrola', 'Orgazmus a jeho kontrola', 'Kompletný sprievodca (kniha + dotazník) — orgazmus ako štýl, cesta, synchronizácia, kontrola, viacnásobné vlny, po orgazme.'),
       o('cesta', 'Cesta k orgazmu', 'Odkiaľ.', ['Z klitorisu', 'Z penetrácie', 'Kombinovaný', 'Z bradaviek', 'Z análu', '„Nezáleží, nemusí prísť"']),
       o('poradie-pocet', 'Poradie a počet', 'Kto a koľko.', ['Ja prvý/á', 'On / ona prvý/á', 'Súčasne (ak vyjde)', 'Viacnásobný', 'Pauza a druhé kolo']),
       o('kontrola-ds', 'Kontrola (D/s prvok)', 'Povolenie a zákaz.', ['„Nesmieš, kým nedovolím" (denial)', '„Teraz" (na povel)', 'Počítanie', 'Zákaz na dni', '„Forced" (nútený viacnásobný / overstim)'], { rizikova: true }),

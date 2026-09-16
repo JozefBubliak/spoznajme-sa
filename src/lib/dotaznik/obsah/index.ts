@@ -30,6 +30,7 @@ import { TELO_HANBA } from './telo-hanba'
 import { ZDRAVIE_OCHRANA_HYGIENA } from './zdravie-ochrana-hygiena'
 import { TANTRA_SLOW_SEX } from './tantra-slow-sex'
 import { KOMUNIKACIA_POCAS_PO } from './komunikacia-pocas-po'
+import { ORGAZMUS_KONTROLA } from './orgazmus-kontrola'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".

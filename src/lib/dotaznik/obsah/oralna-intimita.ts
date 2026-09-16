@@ -453,6 +453,58 @@ const KONTEXTY: Blok = {
 }
 
 // ── Rámec & poznámky ──────────────────────────────────────────────
+// ── Výkonový tlak a uvoľnenie ─────────────────────────────────────
+// Doplnené z „dotaznik.xlsx" list „6) Orálna intimita" — všeobecný rámec
+// (čo je celkovo vzrušujúce/vypínajúce), výkonová úzkosť pri poskytovaní
+// a čo pred orálom pomáha uvoľniť sa.
+const VYKON_UVOLNENIE: Blok = {
+  druh: 'skupina', id: 'vykon_uvolnenie', nadpis: 'Výkonový tlak a uvoľnenie',
+  bloky: [
+    {
+      druh: 'otazka', id: 'vyk_co_vzrusuje', typ: 'viac',
+      text: 'Čo je na orále celkovo najviac vzrušujúce',
+      moznosti: [
+        { v: 'pocit', label: 'Fyzický pocit' },
+        { v: 'pohlad', label: 'Pohľad na to' },
+        { v: 'moc_odovzdanie', label: 'Moc alebo odovzdanie' },
+        { v: 'intenzita', label: 'Intenzita' },
+        { v: 'tabu', label: 'Nádych tabu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vyk_stres', typ: 'viac',
+      text: 'Čo ma pri poskytovaní najviac stresuje (ak vôbec)',
+      moznosti: [
+        { v: 'vydrz', label: 'Výdrž' },
+        { v: 'erekcia', label: 'Erekcia (u muža)' },
+        { v: 'spravne', label: 'Že to robím „správne"' },
+        { v: 'partner_trpi', label: 'Obava, že sa partner/ka trápi' },
+        { v: 'ziadny_stres', label: 'Žiaden stres, som v pohode' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vyk_bez_tlaku', typ: 'jeden',
+      text: 'Dohoda „dnes bez tlaku na orgazmus"',
+      moznosti: [
+        { v: 'pomaha', label: 'Veľmi mi pomáha' },
+        { v: 'niekedy', label: 'Niekedy sa hodí' },
+        { v: 'nepotrebujem', label: 'Nepotrebujem to' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vyk_uvolni', typ: 'viac',
+      text: 'Čo ma pred orálom najviac uvoľní',
+      moznosti: [
+        { v: 'sprcha', label: 'Sprcha' },
+        { v: 'ticho', label: 'Ticho' },
+        { v: 'ocny_kontakt', label: 'Očný kontakt' },
+        { v: 'masaz', label: 'Krátka masáž' },
+        { v: 'teasing', label: 'Krátky teasing' },
+      ],
+    },
+  ],
+}
+
 const RAMEC: Blok = {
   druh: 'skupina', id: 'ramec', nadpis: 'Rámec, komfort a poznámky',
   bloky: [
@@ -526,6 +578,7 @@ export const ORALNA_INTIMITA: TemaObsah = {
     KOMBINACIE,
     FEEL,
     KONTEXTY,
+    VYKON_UVOLNENIE,
     RAMEC,
   ],
   zaver: [

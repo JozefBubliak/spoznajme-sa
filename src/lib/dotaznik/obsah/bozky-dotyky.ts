@@ -396,6 +396,36 @@ const TEMPO: Blok = {
   ],
 }
 
+// ── Celotelová mapa dotykov ─────────────────────────────────────
+// Doplnené z „dotaznik.xlsx" list „5) Zónové mapy tela" — chýbajúci
+// systematický nástroj na zmapovanie celého tela, nie len jednotlivých zón.
+const CELOTELOVA_MAPA: Blok = {
+  druh: 'skupina', id: 'celotelova_mapa', nadpis: 'Celotelová mapa dotykov',
+  bloky: [
+    {
+      druh: 'text', id: 'map_info', ton: 'info',
+      telo: 'Rýchle zoradenie celého tela do štyroch košov: erotické, neutrálne (príjemné, ale nespúšťa to sex), citlivé (len niekedy/len jemne) a „nikdy".',
+    },
+    { druh: 'otazka', id: 'map_eroticke', typ: 'text', text: '5 zón, ktoré sú pre mňa najviac erotické:' },
+    { druh: 'otazka', id: 'map_neutralne', typ: 'text', text: '5 zón, ktoré sú príjemné ako blízkosť, ale sex nespúšťajú:' },
+    { druh: 'otazka', id: 'map_citlive', typ: 'text', text: '5 zón, ktoré sú citlivé len niekedy (po športe, po sprche, pri únave, po orgazme) — a kedy presne:' },
+    { druh: 'otazka', id: 'map_nikdy', typ: 'text', text: '3 zóny, ktoré sú pre mňa tvrdé „nikdy", a jedna veta, ako to chcem, aby partner/ka rešpektoval(a):' },
+    { druh: 'otazka', id: 'map_booster', typ: 'text', text: 'Top 3 miesta mimo genitálií, ktoré ma najrýchlejšie vzrušia:' },
+    {
+      druh: 'otazka', id: 'map_signaly_prilis', typ: 'viac',
+      text: 'Ako partner/ka pozná, že je tlak/intenzita už príliš',
+      moznosti: [
+        { v: 'dych', label: 'Zmena dychu' },
+        { v: 'napatie', label: 'Napätie v tele' },
+        { v: 'pohyb_panvy', label: 'Pohyb panvy preč' },
+        { v: 'stuhnutie', label: 'Stuhnutie' },
+        { v: 'odtahovanie', label: 'Odťahovanie sa' },
+        { v: 'radsej_slovo', label: 'Radšej chcem, aby som to len povedal(a)' },
+      ],
+    },
+  ],
+}
+
 // ── Senzorika + rámec ────────────────────────────────────────
 const RAMEC: Blok = {
   druh: 'skupina', id: 'ramec', nadpis: 'Senzorika, rámec a poznámky',
@@ -467,6 +497,7 @@ export const BOZKY_DOTYKY: TemaObsah = {
     MVN,
     MNP,
     SPOL_ZONY,
+    CELOTELOVA_MAPA,
     TEMPO,
     RAMEC,
   ],

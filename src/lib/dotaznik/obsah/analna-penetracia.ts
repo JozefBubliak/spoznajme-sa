@@ -621,6 +621,12 @@ const KOMUNIKACIA: Blok = {
         { v: 'kratke', label: 'Krátke kľúčové slová podľa dohody' },
       ],
     },
+    {
+      druh: 'otazka', id: 'kom_okamzity_switch', typ: 'text',
+      text: 'Naša veta pre okamžitý „komfort switch" (napr. „dnes len zvonka") — čo presne znamená, že sa má okamžite prejsť len na externú stimuláciu:',
+    },
+    { druh: 'otazka', id: 'kom_pomenovania_ok', typ: 'text', text: 'Pomenovania tejto oblasti, ktoré sú pre mňa OK (anál/riť/zadoček...):' },
+    { druh: 'otazka', id: 'kom_pomenovania_nie', typ: 'text', text: 'Pomenovania, ktoré nechcem počuť:' },
   ],
 }
 
