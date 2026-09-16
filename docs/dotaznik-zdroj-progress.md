@@ -118,6 +118,8 @@ $doc.Close(); $word.Quit()
 
 | 221-240 | ďalšia master-outline TOC (dotyková mapa, manuál, nepenetratívne, análne warm-up, polohy, pomôcky, BDSM bezpečnosť) — potom 5. doslovné opakovanie "VEĽKÝ ZOZNAM TÉM K PREDOHRE" | **A-bod** (hlboký predný bod blízko krčka, odlišný od G-bodu) — chýbal. **48-hodinová pauza pred opakovaním silnejšieho impact play na tú istú zónu** (bezpečnostná poznámka o kontrole modrín) — chýbala. Bezpečnostné nožnice pri bondáži už boli pokryté (bond_boundaries), moje prvé hľadanie to minulo nepresným výrazom | `vaginalna-penetracia.ts` (TECHNIKY: a_bod), `bdsm.ts` (IMPACT: bezpečnostný text imp_bezpecnost_modriny) |
 
+| 241-260 | doslovné opakovanie obsahu už spracovaného v dávkach 91-140 (denné gestá, prelamovanie rutiny, dôvera, rituály, iniciatíva/dynamika, spontánny sex, nepriame signály, sexting) — teraz systematicky v m/z pároch | Žiadna — overené porovnaním s už spracovaným obsahom, ide o doslovný duplikát | — |
+
 **Od strany 121 ďalej: dávky po 20 stranách** (so súhlasom používateľa), pri zachovaní rovnakej dôkladnosti — každá otázka a možnosť sa musí prejsť a overiť cez grep, nielen posúdiť podľa témy.
 
 **Poznámka k metóde (dôležitá, po spätnej väzbe používateľa):** pri prvom prejdení strán 71-110 som viacero bodov označil ako duplicitu len na základe podobnosti TÉMY s už postaveným obsahom, bez toho, aby som každý konkrétny bod overil cez `grep`. To bola chyba — pri druhom, dôkladnom prejdení sa našli 3 reálne medzery (prechod k penetrácii, prekvapenie v BDSM, tempo realizácie fantázie). Odteraz každý konkrétny bod/otázku zo zdroja overiť cez `grep` v `obsah/*.ts`, nie len posúdiť „znie to povedome".
