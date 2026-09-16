@@ -28,6 +28,10 @@ const FREKV: Moznost[] = [
 const BLIZKOST: Blok = {
   druh: 'skupina', id: 'blizkost', nadpis: 'Emocionálna blízkosť a antirutina',
   bloky: [
+    {
+      druh: 'text', id: 'bliz_info',
+      telo: 'Prepojenie na emocionálnej úrovni je základom silného vzťahu. Spoločné zdieľanie myšlienok, pocitov a túžob pomáha lepšie porozumieť partnerovi a vytvára priestor pre otvorenosť.',
+    },
     p('bliz_zamerat', 'Chceme sa viac zamerať na prehlbovanie emocionálnej blízkosti'),
     p('bliz_antirutina', 'Chceme prelomiť monotónnosť skúšaním niečoho nového'),
     p('bliz_hra_otazok', 'Skúmať túžby spolu pomocou otázok alebo hier'),
@@ -59,6 +63,10 @@ const RITUALY: Blok = {
 const AKTIVITY: Blok = {
   druh: 'skupina', id: 'aktivity', nadpis: 'Týždenné a špeciálne aktivity',
   bloky: [
+    {
+      druh: 'text', id: 'akt_info',
+      telo: 'Naplánovanie spoločných aktivít alebo experimentov môže priniesť nové podnety a zamedziť rutine.',
+    },
     p('akt_zaviest', 'Chcem zaviesť pravidelné týždenné alebo sezónne aktivity na posilnenie spojenia'),
     {
       druh: 'otazka', id: 'akt_ktore', typ: 'viac', inePovolene: true,
@@ -262,6 +270,10 @@ const INICIATIVA: Blok = {
       ],
     },
     {
+      druh: 'text', id: 'ini_dynamika_popis', nadpis: 'Dynamika iniciatívy',
+      telo: 'Každý má svoj spôsob, ako prejavuje a očakáva sexuálnu iniciatívu. Niektorí radi vedú, iní sa odovzdajú, niekto preferuje rovnováhu.',
+    },
+    {
       druh: 'otazka', id: 'ini_dynamika', typ: 'jeden',
       text: 'Ako vnímam dynamiku iniciatívy',
       moznosti: [
@@ -296,6 +308,10 @@ const SPONTANNY: Blok = {
   druh: 'skupina', id: 'spontanny', nadpis: 'Spontánny sex',
   bloky: [
     {
+      druh: 'text', id: 'spo_info',
+      telo: 'Spontánne momenty sú jedinečné svojou nečakanosťou — na rozdiel od naplánovanej intimity vznikajú z okamihu, nie z prípravy.',
+    },
+    {
       druh: 'otazka', id: 'spo_pocit', typ: 'jeden',
       text: 'Ako sa cítim pri spontánnom sexe',
       moznosti: [
@@ -321,6 +337,10 @@ const SPONTANNY: Blok = {
 const FANTAZIE: Blok = {
   druh: 'skupina', id: 'fantazie', nadpis: 'Fantázie → realita',
   bloky: [
+    {
+      druh: 'text', id: 'fan_info',
+      telo: 'Fantázie sú mostom medzi túžbami a realitou. Vytvorenie bezpečného priestoru na ich zdieľanie zahŕňa dôveru, rešpekt a ochotu počúvať partnerove túžby bez posudzovania.',
+    },
     {
       druh: 'otazka', id: 'fan_zdielam', typ: 'jeden',
       text: 'Ako často zdieľam s partnerom svoje fantázie',
@@ -365,6 +385,10 @@ const FANTAZIE: Blok = {
 const PROGRAM: Blok = {
   druh: 'skupina', id: 'program', nadpis: 'Vášeň cez rutinu a „program na mieru"',
   bloky: [
+    {
+      druh: 'text', id: 'prg_info',
+      telo: 'Aj každodenné aktivity môžu byť príležitosťou na posilnenie intimity — spoločné varenie, večerné prechádzky alebo sledovanie filmov môžu pomôcť udržať vášeň vo vzťahu.',
+    },
     {
       druh: 'otazka', id: 'prg_rutiny', typ: 'viac',
       text: 'Ktoré rutinné aktivity by sme premenili na intímne momenty',

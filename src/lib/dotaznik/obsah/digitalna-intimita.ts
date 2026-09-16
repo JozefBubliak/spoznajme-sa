@@ -91,6 +91,10 @@ const PORNO: Blok = {
   druh: 'skupina', id: 'porno', nadpis: 'Porno spolu',
   bloky: [
     {
+      druh: 'text', id: 'por_info',
+      telo: 'Erotický obsah môže byť skvelým spôsobom, ako prebudiť zmysly, inšpirovať sa a otvoriť medzi partnermi diskusiu o túžbach — nie náhrada za intimitu, ale jej doplnok.',
+    },
+    {
       druh: 'otazka', id: 'por_spolocne', typ: 'jeden',
       text: 'Spoločné pozeranie erotického/porno obsahu',
       moznosti: [
