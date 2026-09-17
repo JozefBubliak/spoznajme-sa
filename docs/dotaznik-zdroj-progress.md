@@ -1,3 +1,35 @@
+## CODEX-2026-09-17 — aktuálny checkpoint spolupráce
+
+Táto sekcia spresňuje staršie checkpointy nižšie; historický log ostáva zachovaný. Pracovný protokol: `docs/AI-COLLAB.md`. Codex má odteraz priamy lokálny prístup; starší postup posielania TS súborov cez chat už nie je potrebný.
+
+### Načítané vstupy a rozsah tejto dávky
+
+- `CLAUDE.md`, koreňový `AGENTS.md`; dokumenty `dotaznik-strom-navrh.md`, `dotaznik-rezimy-a-odpovede.md`, `dotaznik-vyskumne-zdroje.md`, tento denník, `dotaznik-obsah/08-mocenska-dynamika.md`; kontext `produkty-a-roadmapa.md`, `svetove-inspiracie.md`.
+- Celé `obsah/typ.ts`, `obsah/index.ts`, `strom.ts`, `otazky.ts`, `_odpovede.tsx`, `_kniha.tsx`; doplnkové čítanie route knihy, API odpovedí a vyhodnotenia, `server.ts`, `_par.ts`, `_stav.ts`.
+- Ide o audit implementácie a kalibráciu denníka, NIE o nový úplný SOURCE ↔ REPO audit kapitol. `swinging.ts` kontrolovaný cielene na podmienky a aktuálne zmeny; `analna-penetracia.ts` v tejto dávke obsahovo neauditovaný.
+- Pozorovaný HEAD: pôvodne `dff898b993e3c782e367ff7afba58fd3763b8115`, potom počas čítania `043e6316fd3c5eabf36feeddbf6aac100ba07b74`. Vetva `main`; existujúce cudzie zmeny zachované.
+- Dostupný zdroj: `C:\Users\-A-L-O-H-A-\OneDrive\Documenten\dotazník\zdroj.docx`, 2 710 759 B; SHA256 `F9B5B3B747E2D439D50A56BA7ED3C6E34F5E6AFE6C305134EE1918C915BE5AA8`. Overená identita súboru, obsah DOCX v tejto dávke nečítaný.
+- Skutočný inventár vyhodnotením lokálneho stromu: **56 modulov, 238 tém, 34 registrovaných hybridných obsahov**. Staršie počty 57/215/33 sú historické.
+
+### Nové zistenia (otvorené, bez zásahu do aplikácie)
+
+| ID | Priorita / os | Dôkaz a výsledok | Ďalší krok |
+|---|---|---|---|
+| DQ-001 | P1 / SHARE | `src/app/api/dotaznik/pary/[kod]/vyhodnotenie/route.ts`, funkcia `vyhodnot`: len `postoj`, `rola`, `semafor`, `skusenost` majú osobitné filtre. Hybridné `skala`, `jeden`, `viac`, `mrezka` spadnú do `kontext`; GET potom vracia obe surové hodnoty. Synteticky overené: `skala` s A=`nie`, B=`tuzim` vracia `kontext`, rovnako `jeden` a mriežka s odmietnutým riadkom. `postoj` rovnaký nesúlad správne skryje. GET nekontroluje dokončenie témy ani stav zámku. | Navrhnúť sémantiku pozitívnej zhody pre jednotlivé otázky; neznáme typy bezpečne skryť, filtrovať aj mriežkové bunky a vetvy; nepovažovať text automaticky za súhlas na zdieľanie. Regresné testy pred opravou. |
+| DQ-002 | P1 / SHARE | `odpoved/route.ts` GET aj PUT overujú spoločný secret páru cez `overPar`, ale slot `a/b` prijímajú od klienta. `server.ts` neviaže overenie na osobnú identitu slotu; `_par.ts` obsahuje spoločný secret v pozývacom odkaze. Zmena slotu preto na úrovni týchto handlerov umožňuje vybrať alebo zapisovať druhý slot. Statická kontrola; proti živej DB neskúšané. | Oddeliť pozvánku/spoločný pár od poverenia konkrétneho účastníka a overovať slot serverovo. |
+| DQ-003 | P1 / GATE | Generický `_odpovede.tsx` používa `useStavy` a `partnerZamok`; `_kniha.tsx` ani route `m/[modul]/t/[tema]/kniha/page.tsx` túto kontrolu nemajú. PUT odpovede nekontroluje screening. Priamy vstup do knihy tak nie je touto vrstvou zamknutý. Staticky potvrdené; UI/DB end-to-end ešte neoverené. | Zjednotiť kontrolu vstupu a ukladania vrátane servera a načítavania stavu. |
+| DQ-004 | P2 / BRANCH | Aktuálny `swinging.ts` už má podmienky na SOFT (`ss_postoj`) a FULL/VOYEUR_FS (`fs_postoj`), všetky `nie: 'nie'`. Starý nález „žiadne vetvenie“ je prekonaný. Funkcia `splna` však pri nezodpovedanej otázke vráti true pre negatívnu podmienku. `sw_vstup` nemá nadväzujúcu podmienku. | BRANCH zostáva PARTIAL: dohodnúť explicitné pozitívne otvorenie; nepísať druhú opravu už doplnených podmienok. Synteticky overené prázdno=true, explicitné nie=false. |
+| DQ-005 | P2 / auditná presnosť | Register má 34 obsahov; dokumentácia ešte označuje renderer mriežky ako TODO, hoci `_kniha.tsx` ho implementuje. Kalibračná poznámka o Anále hovorí „celo-dedup-read“, ale vlastný podrobný log uvádza len ~1 350 riadkov priamo + cielené overenie zvyšku. | Používať nové počty; Anál ponechať PARTIAL a obnoviť presný source checkpoint pred pokračovaním. |
+
+### Overenie a ďalší presný krok
+
+Funkcie `vyhodnot` a `splna` boli extrahované z aktuálnych TS/TSX súborov pomocou TypeScript AST, preložené a spustené izolovane so syntetickými hodnotami. Žiadne volanie aplikácie, siete ani živej databázy. Inventár získaný vyhodnotením `strom.ts` a spočítaním záznamov registra. Nie je to end-to-end test ani potvrdenie správnosti celého dotazníka.
+
+Najbližšie prevziať `NEXT-001` v protokole a opraviť ochranu odpovedí s regresnými testami. Obsahová fronta zostáva v `NEXT-002`; staršie nálezy bez nového dôkazu znovu neotvárať. V tejto dávke boli zmenené iba dva dokumenty spolupráce, bez commitu a nasadenia; typecheck/build sa pre dokumentačnú zmenu nespúšťal.
+
+---
+
+
 # zdroj.docx — postupná extrakcia po dávkach (stav)
 
 > Účel: `zdroj.docx` je obrovský „mišmaš" dokument (49 630 odsekov vo Worde), z ktorého sme doteraz
@@ -201,6 +233,53 @@ Mapa sekcií (riadky v `zdroj_v2.txt`, 67 590 riadkov spolu):
   - Krížovou kontrolou pri tejto príležitosti potvrdené, že `fetise.ts` a `polohy.ts` pokrývajú zodpovedajúci "pretečený" obsah (nohavičkový fetiš, predstieranie spánku, pľuvanie do úst, misionárska/zozadu/cowgirl preferencie) — žiadny ďalší nález.
 
 **Dôležité pre pokračovanie:** kapitoly označené ✅ v tabuľke vyššie boli overené *pred* touto treťou korekciou metódy (téma + čiastočný grep). Vzhľadom na to, že aj Swingers aj Anál (obe označené ✅ v predošlom kole) mali po tomto dôkladnejšom prejdení reálne — hoci malé — medzery, je pravdepodobné, že aj zvyšné ✅ kapitoly (BDSM, Fetiše, Pomôcky, Orál, Trojky, Tempo, Masturbácia, Bozky, Roleplay, Miesta, Vaginálna, Polohy, Rovnaké pohlavie) obsahujú podobne drobné medzery, kým neprejdú rovnakým celo-dedup-čítaním.
+
+## Spoločný audit s druhým AI nástrojom („Codex", od 2026-09-17)
+
+Dohodnutý postup s druhým AI nástrojom, ktorý pristupuje k `zdroj.docx` cez document retrieval
+(po témach, nie sekvenčne) namiesto priameho prístupu k tomuto repozitáru:
+
+- **Claude = implementačná pravda.** Pozná živý `strom.ts`, register `obsah/index.ts`, presne čo
+  renderer (`_kniha.tsx`) podporuje, a vie rovno zapísať zistený gap do správneho `.ts`.
+- **Codex = obsahová pravda zo zdroja.** Číta `zdroj.docx` po témach, oddeľuje unikátny obsah od
+  duplicít/konverzačného balastu, porovnáva s aktuálnym `TemaObsah`, ktorý mu Claude pošle.
+- Existujúci dátový model (`typ.ts`: `TemaObsah`, `Podmienka`, `GText`/`gtext`, `OtazkaBlok.rola:
+  'prijimam'|'poskytujem'`) sa **nemení** — obe strany ho berú ako cieľový formát, nie ako niečo,
+  čo treba nanovo navrhnúť.
+- Workflow: Claude pošle Codexu aktuálny obsah konkrétneho `.ts` súboru → Codex porovná so všetkými
+  relevantnými miestami v zdroji a vráti audit podľa osí nižšie → Claude zapíše opravy.
+
+**Dôležité rozlíšenie rozsahu, ktoré Codex zatiaľ nemal k dispozícii:** `strom.ts` má ~57 modulov
+/ ~215 tém (L3 okruh) celkovo. Z toho má zatiaľ len **33** plný „kniha + dotazník" hybrid formát
+(tento register). Zvyšných ~180 tém beží na všeobecnom „section walkeri" (`otazky.ts` +
+`_odpovede.tsx`), ktorý otázky generuje mechanicky z `tema.polozky` (L4 seed frázy) — nie je to
+„nič", ale je to plytšie než hybrid formát. Audit podľa osí nižšie dáva plný zmysel najprv pre tých
+33 hotových; pre zvyšných ~180 je prvá otázka jednoduchšia („má téma vôbec zmysluplné L4 seedy?").
+
+### Osi coverage (na tému)
+
+`EDU` (úvod/kniha) · `GATE` (chcem/nechcem preskúmať) · `EXP` (skúsenosť) · `RECEIVE` (prijímam) ·
+`GIVE` (poskytujem) · `PREF` (varianty/intenzita/frekvencia) · `LIMITS` (hranice/podmienky) ·
+`SAFETY` (bezpečnosť/consent) · `ACTION` (tip/experiment/scenár) · `GENDER` (m/z líšenie tam, kde
+má) · `BRANCH` (vetvenie) · `SHARE` (čo sa a prečo (ne)zdieľa partnerovi)
+
+Stavy: `OK` / `PARTIAL` / `MISSING` / `N/A` / `SOURCE_ONLY` (v zdroji je, v repo chýba) /
+`REPO_ONLY` (v repo pridané nad rámec zdroja — napr. blok Pegging, PLOS ONE štatistiky — **treba
+explicitne označovať**, nech sa nepletie s „stratené zo zdroja").
+
+### Kvalita zdroja (na tému)
+
+`TITLE_ONLY` · `OUTLINE` · `QUESTIONS_ONLY` · `FULL_BLOCK` · `MULTIPLE_VERSIONS` ·
+`HEAVY_DUPLICATION` · `CHAT_ARTIFACT`
+
+### Kalibračná tabuľka (vypĺňa sa priebežne — najprv 2–3 už známe témy, potom zvyšok z 33)
+
+| Téma (`.ts`) | EDU | GATE | EXP | RECEIVE | GIVE | PREF | LIMITS | SAFETY | ACTION | GENDER | BRANCH | SHARE | Kvalita zdroja | Poznámka |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `swinging.ts` | | | | | | | | | | | | | HEAVY_DUPLICATION | Claude už prešiel celo-dedup-read (6988→2110 r.), 2 gaps opravené — dobrý kalibračný kandidát na krížovú kontrolu metódy |
+| `analna-penetracia.ts` | | | | | | | | | | | | | HEAVY_DUPLICATION | **Oprava presnosti (DQ-005, Codex):** predošlá poznámka „celo-dedup-read" bola nepresná. Skutočný rozsah: 21328→7403 unikátnych riadkov, z toho ~1350 prečítaných priamo sekvenčne + cielené overenie zvyšku podľa kľúčových blokov (technika/hygiena/pegging/prekryvy). 5 gaps opravené vrát. nového bloku Pegging (REPO_ONLY rámovanie, nie doslovný prepis). Zostáva PARTIAL, kým sa neprečíta zvyšných ~6000 riadkov sekvenčne. |
+| `bdsm.ts`, `fetise.ts`, `pomocky-hracky.ts`, `oralna-intimita.ts`, `trojky-skupiny.ts`, `tempo-intenzita.ts`, `masturbacia.ts`, `bozky-dotyky.ts`, `roleplay.ts`, `miesta-prostredie.ts`, `vaginalna-penetracia.ts`, `polohy.ts`, `rovnake-pohlavie.ts` | | | | | | | | | | | | | ? | fronta — ešte neprešli celo-dedup-read metódou; `rovnake-pohlavie.ts` a `miesta-prostredie.ts` mali medzičasom (2026-09-17) po jednotlivých nahláseniach opravené konkrétne body, ale nie plný audit |
+| zvyšných 19 z 33 | | | | | | | | | | | | | ? | zatiaľ neaudit­ované touto metódou |
 
 ## Log dávok
 
