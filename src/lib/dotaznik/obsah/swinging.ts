@@ -5,7 +5,9 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // Zdroj: „25_Swingers_a_vymena_partnerov" (mišmaš mnohých návrhov; do tejto témy
 // ide swingers-špecifický obsah — soft/full swap, klub, prostredie, pravidlá,
 // matice aktivít, voyeuristic full swap, štvorka, asymetrická výmena).
-// Gangbang/bukkake/skupinový sex → téma „Trojky a skupiny";
+// Gangbang/bukkake sa v `fs_formy` ponúkajú len ako swap-FORMÁT v rámci swingers scény
+// (zámerný prekryv na úrovni jednej voľby) — hĺbková mechanika/dynamika skupinového sexu
+// samotného patrí do „Trojky a skupiny" (`trojky-skupiny.ts`), nekopíruje sa sem.
 // hotwife/cuckold/kandalizmus → téma „Zdieľanie partnera".
 // z-verzia = ženský pohľad, m-verzia = mužský; rovnaké id + hodnoty (Double-Blind).
 // ─────────────────────────────────────────────────────────────────────────────
@@ -133,11 +135,11 @@ const SOFT: Blok = {
   druh: 'skupina',
   id: 'soft_swap',
   nadpis: 'Soft swap (bez penetrácie)',
+  podmienka: { ot: 'ss_postoj', nie: 'nie' },
   uvod:
     'Vstupná brána do otvorenosti bez úplnej výmeny — bozky, dotyky, orálny sex, spoločná masturbácia, pozorovanie. ' +
     'Pre niekoho je prijateľnejšia interakcia so ženami, pre iného s mužmi, niekto je otvorený obom.',
   bloky: [
-    postojOt('ss_postoj', 'Zapojiť soft swap (bez penetrácie)?'),
     {
       druh: 'otazka', id: 'ss_muz_aktivity', typ: 'viac', inePovolene: true,
       text: 'Aké aktivity si viem predstaviť s mužom v rámci soft swapu?',
@@ -269,11 +271,11 @@ const FULL: Blok = {
   druh: 'skupina',
   id: 'full_swap',
   nadpis: 'Full swap (úplná výmena partnerov)',
+  podmienka: { ot: 'fs_postoj', nie: 'nie' },
   uvod:
     'Najintenzívnejšia forma — plná penetrácia a ďalšie aktivity s inými osobami vo vopred dohodnutých hraniciach. ' +
     'Nie je pre žiarlivých; je pre tých, ktorých vzrušuje vidieť partnera s niekým iným.',
   bloky: [
-    postojOt('fs_postoj', 'Zapojiť full swap (úplná výmena partnerov)?'),
     {
       druh: 'otazka', id: 'fs_formy', typ: 'viac', inePovolene: true,
       text: 'V akom formáte si viem predstaviť full swap?',
@@ -358,6 +360,7 @@ const VOYEUR_FS: Blok = {
   druh: 'skupina',
   id: 'voyeur_fs',
   nadpis: 'Voyeuristický full swap — jeden sa pozerá, druhý si užíva',
+  podmienka: { ot: 'fs_postoj', nie: 'nie' },
   bloky: [
     {
       druh: 'otazka', id: 'vfs_predstava', typ: 'viac', inePovolene: true,
@@ -583,7 +586,19 @@ export const SWINGING: TemaObsah = {
         'Tematické večery — maskované párty a erotické hry, kde anonymita zvyšuje vzrušenie.',
     },
   ],
-  telo: [PROSTREDIE, WATCH, SOFT, FULL, VOYEUR_FS, AKTIVITY, PARTNER_HRANICE, RAMEC, POZNAMKY],
+  telo: [
+    PROSTREDIE,
+    WATCH,
+    postojOt('ss_postoj', 'Zapojiť soft swap (bez penetrácie)?'),
+    SOFT,
+    postojOt('fs_postoj', 'Zapojiť full swap (úplná výmena partnerov)?'),
+    FULL,
+    VOYEUR_FS,
+    AKTIVITY,
+    PARTNER_HRANICE,
+    RAMEC,
+    POZNAMKY,
+  ],
   zaver: [
     {
       druh: 'text',
