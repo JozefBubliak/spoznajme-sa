@@ -552,7 +552,9 @@ export const ORALNA_INTIMITA: TemaObsah = {
       telo:
         'Gag reflex a STOP signály (ťuknutie, stisk ruky, „žltá / červená"), dohoda na pauzách a dýchaní (nosom, pomalý návrat). ' +
         'Hygiena pred orálom; kondóm pri felácii, dentálna blana pri cunnilinguse / anilinguse. ' +
-        'Sliny vs. lubrikant — kedy a ako. Pri análnych prvkoch vždy lubrikant a jasné „cross-clean" pravidlá.',
+        'Sliny vs. lubrikant — kedy a ako. Pri análnych prvkoch vždy lubrikant a jasné „cross-clean" pravidlá. ' +
+        'Orál a výmena slín (bozky, „snowballing") vedia preniesť niektoré STI — herpes, kvapavku a chlamýdie aj v hrdle, syfilis, HPV. ' +
+        'Pri aftách, krvácaní ďasien, bolesti hrdla alebo aktívnom výskyte herpesu je namieste pauza.',
     },
   ],
   telo: [
