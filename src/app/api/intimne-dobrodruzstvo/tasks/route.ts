@@ -1,3 +1,4 @@
+import { adventureAccess } from '@/lib/adventure-access';
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 
@@ -30,7 +31,10 @@ function mapTask(task: DbTask) {
   };
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
+  if (await adventureAccess() !== 'owner') return NextResponse.json({ error: 'Forbidden' }, { status: 403, headers: { 'Cache-Control': 'private, no-store', 'X-Robots-Tag': 'noindex, nofollow' } });
   try {
     const supabase = supabaseAdmin();
 
@@ -60,7 +64,7 @@ export async function GET() {
       .filter((task) => task.description && Number.isFinite(task.level))
       .map(mapTask);
 
-    return NextResponse.json({ tasks });
+    return NextResponse.json({ tasks }, { headers: { 'Cache-Control': 'private, no-store', 'X-Robots-Tag': 'noindex, nofollow' } });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({ tasks: [], error: message }, { status: 500 });

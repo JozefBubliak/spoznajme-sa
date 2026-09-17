@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intímne Dobrodružstvo — Polohy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#1a0f1e;--bg2:#221528;--card:#2d1a3a;--card-hover:#3a2248;
+  --accent:#d080e8;--accent2:#f0b0f0;--text:#f0e6f6;--text2:#b090c0;
+  --border:#4a2d5a;--gold:#e8c56a;--easy:#5cc88a;--medium:#e8c56a;--hard:#e87878;
+}
+body{background:var(--bg);color:var(--text);font-family:Georgia,serif;min-height:100vh}
+
+/* HEADER */
+header{background:linear-gradient(135deg,#2d0a40,#1a0f1e);padding:20px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header h1{font-size:1.5rem;color:var(--accent2);letter-spacing:.04em}
+header h1 small{color:var(--text2);font-size:.9rem;font-style:italic}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=text]{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:20px;font-size:.88rem;width:190px;outline:none;font-family:Georgia,serif}
+input[type=text]:focus{border-color:var(--accent)}
+input[type=text]::placeholder{color:var(--text2)}
+select{background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:20px;font-size:.88rem;outline:none;cursor:pointer;font-family:Georgia,serif}
+select option{background:var(--bg2)}
+button{background:var(--card);border:1px solid var(--border);color:var(--text);padding:7px 15px;border-radius:20px;font-size:.88rem;cursor:pointer;transition:all .18s;font-family:Georgia,serif}
+button:hover{background:var(--card-hover);border-color:var(--accent)}
+.btn-random{background:linear-gradient(135deg,#6a2080,#a030c0);border-color:var(--accent);font-weight:bold}
+.btn-random:hover{background:linear-gradient(135deg,#8030a8,#c050e0)}
+
+/* STATS */
+.statsbar{padding:8px 28px;background:var(--bg2);font-size:.82rem;color:var(--text2);display:flex;gap:18px;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;padding:22px 28px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:all .18s;position:relative}
+.card:hover{background:var(--card-hover);border-color:var(--accent);transform:translateY(-2px);box-shadow:0 6px 22px rgba(160,40,220,.18)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.card-name{font-size:1.05rem;color:var(--accent2);font-weight:bold}
+.fav-btn{background:none;border:none;font-size:1.1rem;cursor:pointer;padding:0;line-height:1;color:var(--text2)}
+.fav-btn.on{color:var(--gold)}
+.card-cat{display:inline-block;background:rgba(200,80,230,.13);color:var(--accent);font-size:.73rem;padding:3px 10px;border-radius:20px;margin-bottom:9px}
+.card-desc{font-size:.83rem;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{margin-top:10px;display:flex;justify-content:space-between;align-items:center}
+.dots{display:flex;gap:4px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+.dot.e{background:var(--easy)}.dot.m{background:var(--medium)}.dot.h{background:var(--hard)}
+.diff-lbl{font-size:.73rem;color:var(--text2)}
+
+/* MODAL */
+.mbg{position:fixed;inset:0;background:rgba(8,3,12,.82);z-index:100;display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(5px)}
+.mbg.hidden{display:none}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:540px;width:100%;max-height:92vh;overflow-y:auto;padding:30px;position:relative;box-shadow:0 22px 60px rgba(120,0,180,.35)}
+.mcl{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--text2);font-size:1.4rem;cursor:pointer;padding:4px;line-height:1}
+.mcl:hover{color:var(--text)}
+.mcat{display:inline-block;background:rgba(200,80,230,.13);color:var(--accent);font-size:.78rem;padding:4px 12px;border-radius:20px;margin-bottom:10px}
+.mname{font-size:1.75rem;color:var(--accent2);margin-bottom:8px}
+.mdiff{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+.mdots{display:flex;gap:5px}
+.mdot{width:10px;height:10px;border-radius:50%;background:var(--border)}
+.mdot.e{background:var(--easy)}.mdot.m{background:var(--medium)}.mdot.h{background:var(--hard)}
+.mdlbl{font-size:.83rem;color:var(--text2)}
+.slbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:7px;margin-top:18px}
+.mdesc{font-size:.93rem;color:var(--text);line-height:1.72}
+.mtip{font-size:.88rem;color:var(--gold);line-height:1.6;background:rgba(232,197,106,.08);border-left:3px solid var(--gold);padding:10px 14px;border-radius:0 8px 8px 0}
+.mprompt{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:11px;font-size:.78rem;color:var(--text2);font-family:monospace;line-height:1.5;margin-top:7px;word-break:break-word}
+.bcopy{margin-top:7px;font-size:.8rem;padding:6px 13px}
+.mnav{display:flex;gap:8px;margin-top:22px;justify-content:space-between}
+.mnav button{flex:1}
+.mfav{font-size:.9rem}
+.mfav.on{color:var(--gold);border-color:var(--gold)}
+.empty{grid-column:1/-1;text-align:center;color:var(--text2);padding:60px 20px;font-size:1rem;line-height:2}
+@media(max-width:580px){header{padding:14px}.grid{padding:14px;gap:10px}header h1{font-size:1.15rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💫 Intímne Dobrodružstvo <small>— Polohy</small></h1>
+  <div class="controls">
+    <input type="text" id="srch" placeholder="🔍 Hľadať…" oninput="render()">
+    <select id="fCat" onchange="render()">
+      <option value="">Všetky kategórie</option>
+      <option>Klasické</option><option>Ona navrchu</option><option>Zozadu</option>
+      <option>Bok po boku</option><option>Sediace</option><option>Stojacie</option><option>Špeciálne</option>
+    </select>
+    <select id="fDiff" onchange="render()">
+      <option value="">Všetky náročnosti</option>
+      <option value="1">⭐ Ľahká</option>
+      <option value="2">⭐⭐ Stredná</option>
+      <option value="3">⭐⭐⭐ Náročná</option>
+    </select>
+    <select id="fSort" onchange="render()">
+      <option value="id">Poradie</option>
+      <option value="az">Abecedne</option>
+      <option value="da">Náročnosť ↑</option>
+      <option value="dd">Náročnosť ↓</option>
+      <option value="fav">Obľúbené prvé</option>
+    </select>
+    <button class="btn-random" onclick="rnd()">🎲 Náhodná</button>
+    <button id="btnFav" onclick="togFavMode()">❤️ Obľúbené</button>
+  </div>
+</header>
+<div class="statsbar" id="stats"></div>
+<div class="grid" id="grid"></div>
+
+<!-- MODAL -->
+<div class="mbg hidden" id="mbg" onclick="bgClick(event)">
+ <div class="modal">
+  <button class="mcl" onclick="closeM()">✕</button>
+  <div class="mcat" id="mcat"></div>
+  <div class="mname" id="mname"></div>
+  <div class="mdiff"><div class="mdots" id="mdots"></div><span class="mdlbl" id="mdlbl"></span></div>
+  <div class="slbl">Popis</div>
+  <div class="mdesc" id="mdesc"></div>
+  <div class="slbl">💡 Tip</div>
+  <div class="mtip" id="mtip"></div>
+  <div class="slbl">🤖 AI Prompt <span style="font-size:.7rem;color:var(--text2)">(pre Leonardo.ai / NovelAI / SeaArt)</span></div>
+  <div class="mprompt" id="mprompt"></div>
+  <button class="bcopy" onclick="cpyPrompt()">📋 Skopírovať prompt</button>
+  <div class="mnav">
+   <button onclick="nav(-1)">← Predošlá</button>
+   <button class="mfav" id="mfavbtn" onclick="togMFav()">🤍 Obľúbená</button>
+   <button onclick="nav(1)">Nasledujúca →</button>
+  </div>
+ </div>
+</div>
+
+<script>
+// ─── DATABÁZA ──────────────────────────────────────────────────────────────────
+const P=[
+// KLASICKÉ
+{id:1,n:"Misionár",c:"Klasické",d:1,
+desc:"On leží na nej, obaja tvárou k sebe. Najintímnejšia a najromantickejšia poloha — priamy kontakt tela, bozkávanie, pohľad do očí. Pohyb riadi väčšinou on, ale ona môže aktívne pomáhať pohybom bokov.",
+tip:"Vankúš pod jej bokmi zdvihne panvu a výrazne zintenzívni pocity pre oboch — odporúčame vyskúšať hneď.",
+pr:"Two adult figures in missionary position, man gently on top of woman, tender face-to-face intimate embrace, elegant art nouveau illustrated style, warm candlelight, tasteful and graceful"},
+
+{id:2,n:"Misionár s vankúšom",c:"Klasické",d:1,
+desc:"Klasický misionár, ale s vankúšom alebo skladanou prikrývkou pod jej bokmi. Zdvihnutá panva zmení uhol prieniku — výrazne intenzívnejší zážitok pri minimálnej zmene. Jeden z najjednoduchších, ale najúčinnejších trikov.",
+tip:"Experimentujte s výškou — väčší vankúš, iný uhol, iné pocity. Ideálne pre polohu s hlbším uhlom.",
+pr:"Two adult figures, missionary position with cushion elevating woman's hips, intimate tender pose, warm artistic illustration, elegant style"},
+
+{id:3,n:"Nohy hore",c:"Klasické",d:2,
+desc:"Misionár, ale ona položí nohy na jeho plecia. Hlbší prieník a silnejšia stimulácia. Ona má menej možnosti pohybu, on riadi rytmus a hĺbku. Ideálne keď chcete intenzívnejšie pocity bez zmeny základnej polohy.",
+tip:"Ona môže ohnúť kolená viac k hrudníku pre ešte hlbší efekt — ale len pokiaľ je to pohodlné.",
+pr:"Two adult figures, intimate position with woman's legs raised over man's shoulders, deep connection, tasteful elegant artistic illustration, warm soft lighting"},
+
+{id:4,n:"Zavreté nohy",c:"Klasické",d:1,
+desc:"Misionár, ale ona drží nohy pri sebe — on klečí alebo leží medzi nimi s nohami von. Užší pocit pre oboch, výraznejšia stimulácia pre ňu. Jednoduchá zmena s veľkým účinkom.",
+tip:"On môže pohybovať svojimi stehnami jemne von a dovnútra počas pohybu pre ešte väčší efekt.",
+pr:"Two adult figures, closed legs missionary variant, man astride woman's closed thighs, intimate and close connection, tasteful warm artistic illustration"},
+
+{id:5,n:"Mačka (CAT)",c:"Klasické",d:2,
+desc:"Variácia misionára — on sa posunie trochu vyššie, aby jeho telo pri každom pohybe stimulovalo jej citlivé miesta. Menej klasický prieník, ale oveľa silnejšia stimulácia pre ňu. Ideálne keď chce ona dosiahnuť vyvrcholenie.",
+tip:"Pohyb je ritmický hore-dole, nie dnu-von. Trvá chvíľu nájsť správny rytmus — ale oplatí sa.",
+pr:"Two adult figures, coital alignment technique position, man positioned slightly higher, rhythmic rocking motion, intimate artistic illustration, warm candlelight, tasteful"},
+
+{id:6,n:"Motýľ",c:"Klasické",d:1,
+desc:"Ona leží na okraji postele alebo stola, on stojí alebo kľačí pred ňou. Výborný uhol prieniku, pohodlná poloha pre ňu, on má plnú kontrolu nad rytmom. Perfektná klasika okrajov postele.",
+tip:"On môže jej dvíhať boky pre perfektný uhol. Výška postele alebo stola hrá dôležitú rolu.",
+pr:"Two adult figures, butterfly edge-of-bed position, woman lying at edge with man standing before her, intimate tasteful artistic illustration, warm lighting"},
+
+{id:7,n:"Trojuholník",c:"Klasické",d:1,
+desc:"Ona leží na chrbte, kolená pokrčené a zdvihnuté. On kľačí pred ňou a drží jej nohy od kolien. Dobrý uhol prieniku, ona môže meniť polohu nôh pre rôzne pocity — bližšie, ďalej, viac von.",
+tip:"Ona môže dávať nohy na jeho hrudník, alebo ho objímať nohami okolo pása — každá poloha inak stimuluje.",
+pr:"Two adult figures, triangle intimate position, woman lying with raised knees, man kneeling before her, tasteful warm artistic illustration, candlelit atmosphere"},
+
+{id:8,n:"Tajná záhrada",c:"Klasické",d:1,
+desc:"Misionár, ale ona má nohy skrížené za jeho chrbtom. Intenzívny kontakt celého tela, nemožno sa vzdialiť — len blízkosť a teplo. Pocit úplného prepojenia.",
+tip:"Ona môže stiahnuť nohy pevnejšie pre väčšiu tesnosť a intenzitu pocitov.",
+pr:"Two adult figures, intimate missionary with woman's legs crossed behind man's back, full-body embrace, locked together, tasteful warm artistic illustration"},
+
+{id:9,n:"Príliv",c:"Klasické",d:1,
+desc:"Misionár s vedomými, dlhými a pomalými pohybmi — ako vlny. Sústredenie na dýchanie a rytmus, nie na rýchlosť. Menej intenzívne, ale hlboko zmyslové a relaxujúce.",
+tip:"Skúste synchronizovať dýchanie — nádych spolu, výdych spolu. Prekvapivý efekt.",
+pr:"Two adult figures, slow sensual missionary position, wave-like rhythmic movement, deeply intimate, warm glowing artistic illustration, soft romantic focus"},
+
+// ONA NAVRCHU
+{id:10,n:"Jazdkyňa",c:"Ona navrchu",d:1,
+desc:"Ona sedí na ňom tvárou k nemu, on leží. Ona má plnú kontrolu nad rytmom, hĺbkou aj uhlom pohybu. Skvelá pre jej stimuláciu — môže sa pohybovať presne tak, ako jej vyhovuje.",
+tip:"Ona sa môže opreť rukami o jeho hrudník alebo nakláňať dopredu pre lepšiu stimuláciu citlivých miest.",
+pr:"Two adult figures, cowgirl position, woman confidently on top facing man, intimate loving pose, tasteful artistic illustration, warm lighting, elegant style"},
+
+{id:11,n:"Naklonená jazdkyňa",c:"Ona navrchu",d:1,
+desc:"Jazdkyňa, ale ona sa predkloní a oprie lakťami alebo rukami o jeho hrudník. Mení uhol prieniku, viac kontaktu tela, možnosť bozkávania. Kombinácia kontroly a intimity.",
+tip:"Čím viac sa predkloní, tým lepšie trenie v oblasti, ktorú chce stimulovať.",
+pr:"Two adult figures, leaning forward cowgirl position, woman atop man leaning forward kissing, intimate face-to-face contact, tasteful artistic illustration, warm romantic lighting"},
+
+{id:12,n:"Vzpriamená jazdkyňa",c:"Ona navrchu",d:2,
+desc:"Ona sedí na ňom vzpriamene, chrbát rovno, ruky na jeho hrudi alebo bokoch. Hlboký prieník, on vidí ju celú, ona má pohľad na neho. Vyžaduje trochu kondície v stehnách.",
+tip:"On môže pomáhať tým, že drží jej boky — pomáha s pohybom a intenzitou.",
+pr:"Two adult figures, upright cowgirl position, woman sitting straight-backed on reclining man, confident intimate pose, tasteful artistic illustration"},
+
+{id:13,n:"Obrátená jazdkyňa",c:"Ona navrchu",d:1,
+desc:"Ona sedí naňho chrbtom. On vidí jej chrbát, ona kontroluje pohyb. Iný uhol prieniku, výborná stimulácia pre neho. Ona sa môže opreť rukami o jeho nohy.",
+tip:"On môže pohybovať bokmi zdola alebo len nechať ňu robiť všetko — oboje je príjemné.",
+pr:"Two adult figures, reverse cowgirl position, woman sitting on man facing away, intimate tasteful artistic illustration, warm elegant lighting"},
+
+{id:14,n:"Sed zozadu",c:"Ona navrchu",d:2,
+desc:"On sedí, ona sedí naňho chrbtom a opiera sa o jeho nohy alebo posteľ pred sebou. Výborný uhol, ona má veľa slobody pohybu. Vyžaduje trochu kondície, ale výsledok je intenzívny.",
+tip:"Ona sa môže opreť rukami o koberec alebo posteľ pred sebou pre lepšiu stabilitu a pohyb.",
+pr:"Two adult figures, reverse seated cowgirl, woman facing away seated on man's lap, leaning forward, intimate tasteful artistic illustration"},
+
+// ZOZADU
+{id:15,n:"Doggy style",c:"Zozadu",d:1,
+desc:"Ona kľačí na štyroch, on za ňou. Najobľúbenejšia poloha zozadu — hlboký prieník, on má dobrý výhľad a kontrolu. Ona môže urobiť oblúk chrbtom pre ešte lepší uhol.",
+tip:"Ona môže spustiť hlavu a predlaktia na posteľ (lazy doggy) pre hlbší prieník a príjemnejšiu stimuláciu.",
+pr:"Two adult figures, classic doggy style position, woman on all fours, man kneeling behind her, intimate tasteful artistic illustration, warm lighting, elegant style"},
+
+{id:16,n:"Ploský doggy",c:"Zozadu",d:1,
+desc:"Ona leží na bruchu, on leží na nej zozadu. Pohodlná a intímna variácia doggy — menej hlboká, ale veľmi príjemná. Jej telo je opretý o posteľ, jeho váha je príjemná a intímna.",
+tip:"Ona si môže dať vankúš pod boky pre lepší uhol. On môže bozkávať jej krk a šepkať do ucha.",
+pr:"Two adult figures, flat prone doggy position, woman lying face down, man lying tenderly on top behind her, warm intimate pose, tasteful artistic illustration"},
+
+{id:17,n:"Vzpriamený zozadu",c:"Zozadu",d:2,
+desc:"Ona kľačí, on kľačí za ňou, ale obaja sú vzpriamení — nie na štyroch. On môže objímať jej hrudník, bozkávať krk, šepkať do ucha. Veľmi intímna variácia.",
+tip:"On má voľné ruky — môže nimi stimulovať jej telo počas pohybu.",
+pr:"Two adult figures, upright kneeling doggy variant, both kneeling upright on bed, man embracing woman from behind tenderly, tasteful artistic illustration"},
+
+{id:18,n:"Stojaci zozadu",c:"Zozadu",d:2,
+desc:"Obaja stoja, on za ňou, ona mierne predklonená — drží sa stenu, stôl alebo čelo postele. Vzrušujúca, spontánna poloha s hlbokým prienikom. Výška hrá rolu.",
+tip:"Ona môže kontrolovať hĺbku tým, ako veľmi sa predkloní.",
+pr:"Two adult figures, standing doggy style, woman leaning forward braced against wall, man standing behind her, passionate intimate position, tasteful artistic illustration"},
+
+{id:19,n:"Oblúk",c:"Zozadu",d:2,
+desc:"Doggy style, ale ona urobí oblúk — zdvihne hlavu a hrudník nahor, ruky má pred sebou. Mení uhol prieniku a je to vizuálne atraktívna poloha. Trochu náročnejšie na chrbát.",
+tip:"Podložte jej kolená mäkkým vankúšom pre pohodlnejšiu polohu.",
+pr:"Two adult figures, arched doggy style, woman elegantly arching her back upward, man behind her, intimate artistic pose, tasteful elegant illustration, warm lighting"},
+
+{id:20,n:"Sfinx",c:"Zozadu",d:2,
+desc:"Ona leží na bruchu, ale zdvihne hornú časť tela na predlaktiach — ako sfinx. On leží za ňou alebo kľačí. Iný uhol ako ploský doggy — jej vyvýšená poloha mení pocity.",
+tip:"Výška predlaktí mení uhol prieniku — experimentujte s tým.",
+pr:"Two adult figures, sphinx intimate position, woman lying propped on forearms lifting upper body, man behind her, elegant intimate pose, tasteful artistic illustration"},
+
+// BOK PO BOKU
+{id:21,n:"Lyžičky",c:"Bok po boku",d:1,
+desc:"Obaja ležia na boku, on za ňou, prieník zozadu. Najpohodlnejšia poloha — skvelá ráno alebo keď ste unavení. Veľa intímneho kontaktu, bozkávanie krku, objímanie. Žiadna námaha.",
+tip:"Ona môže zdvihnúť vrchnú nohu a opreť ju o jeho nohu — uľahčí to prístup a pohyb.",
+pr:"Two adult figures, classic spooning intimate position, both lying on their sides, man tenderly behind woman, warm cozy bedroom atmosphere, tasteful artistic illustration"},
+
+{id:22,n:"Tvárou v tvár bok po boku",c:"Bok po boku",d:2,
+desc:"Obaja ležia na boku ale tvárou k sebe. Pomalá, intímna, romantická poloha — veľa bozkávania. Vyžaduje trochu trpezlivosti nájsť správny uhol, ale výsledok je výnimočne romantický.",
+tip:"Ona môže zdvihnúť nohu a hodiť ju cez jeho bok pre lepší prieník.",
+pr:"Two adult figures, face to face lying side by side, intimate embrace and kissing while making love, romantic soft lighting, tasteful artistic illustration"},
+
+{id:23,n:"Nožničky",c:"Bok po boku",d:2,
+desc:"On leží na boku, ona leží kolmo na neho — ich telá tvoria tvar T alebo X. Netradičný uhol prieniku, výborná stimulácia. Trochu experimentálne, ale príjemné a nové.",
+tip:"Začnite pomaly a nájdite rytmus — pohyb je iný ako v klasických polohách.",
+pr:"Two adult figures, scissors side-lying position, bodies perpendicular forming T-shape, intimate unique angle, tasteful artistic illustration, warm lighting"},
+
+{id:24,n:"Klbko",c:"Bok po boku",d:1,
+desc:"Lyžičky, ale ona pokrčí kolená k hrudníku — obaja sú stočení do klbka. Veľmi intímne, on je celým telom okolo nej. Výborné pri emocionálnom prepojení alebo ráno.",
+tip:"On môže položiť ruku na jej brucho pre ešte väčší kontakt a pocit bezpečia.",
+pr:"Two adult figures, curled spooning intimate position, woman curled with knees drawn up, man curled warmly around her, cozy intimate nest, tasteful artistic illustration"},
+
+{id:25,n:"Plynutie",c:"Bok po boku",d:1,
+desc:"Lyžičky s minimálnym pohybom — skôr prepojenie a pocit kontaktu ako aktívny akt. Skvelé ráno alebo pri únave. Intimita bez námahy — len teplo a blízkosť.",
+tip:"Sústreďte sa na dýchanie a pocit, nie na pohyb. Menej je niekedy oveľa viac.",
+pr:"Two adult figures, gentle spooning intimate position, completely relaxed minimal movement, tender morning intimacy, warm golden light, cozy tasteful artistic illustration"},
+
+// SEDIACE
+{id:26,n:"Tantrika",c:"Sediace",d:1,
+desc:"On sedí (po turecky alebo s natiahnutými nohami), ona sedí v jeho lone tvárou k nemu, nohy okolo jeho chrbta. Veľmi intímna, romantická poloha — veľa kontaktu, bozkávania, pohľad do očí. Pomalý, hlboký rytmus.",
+tip:"Táto poloha je skôr o intimite a prepojení ako o intenzite. Synchronizujte dýchanie.",
+pr:"Two adult figures, tantric lotus seated position, woman sitting in man's lap facing him, arms wrapped around each other, deep spiritual intimate connection, warm candlelight, tasteful artistic illustration"},
+
+{id:27,n:"Obrátená tantrika",c:"Sediace",d:1,
+desc:"On sedí, ona sedí v jeho lone chrbtom k nemu. On môže objímať jej hrudník, bozkávať krk, šepkať do ucha. Ona má voľné ruky a plný pohyb.",
+tip:"On môže pomáhať pohybom bokov zdola alebo rukami aktívne stimulovať jej telo.",
+pr:"Two adult figures, reverse tantric seated position, woman sitting on man's lap facing away, man tenderly embracing her from behind, warm intimate pose, tasteful artistic illustration"},
+
+{id:28,n:"Stolička",c:"Sediace",d:1,
+desc:"On sedí na stoličke alebo okraji postele, ona si sadá naňho tvárou k nemu. Slobodná poloha — ona môže vstávať, sadať, meniť rytmus. On má ruky voľné na celé jej telo.",
+tip:"Výška sedadla je dôležitá — kreslo, okraj postele alebo stupačka — každé funguje inak.",
+pr:"Two adult figures, intimate chair position, man seated on chair, woman seated in his lap facing him lovingly, tasteful artistic illustration, warm lighting"},
+
+{id:29,n:"Kolíska",c:"Sediace",d:2,
+desc:"Obaja sedia oproti sebe, ona v jeho lone, hojdajú sa spolu dopredu a dozadu. Extrémne intímna a pomalá poloha. Vyžaduje trochu koordinácie, ale je to výnimočný zážitok.",
+tip:"Opierajte sa o ruky za sebou pre stabilitu. Pohyb je viac klzavý ako hore-dole.",
+pr:"Two adult figures, rocking intimate seated position, both seated facing each other, woman in man's lap, rocking gently together, tasteful artistic illustration, warm atmosphere"},
+
+{id:30,n:"Kvet",c:"Sediace",d:2,
+desc:"On sedí, ona sedí mu čelom na ňom, obe nohy sú vedľa jeho bokov. Pohyb je skôr dopredu-dozadu ako hore-dole. Pomalý, hlboký, s veľkým kontaktom tela.",
+tip:"Pokývajte sa synchrónne — vytvára to príjemný a hlboký rytmus.",
+pr:"Two adult figures, flower seated intimate position, woman facing man in his lap, both seated, gentle synchronized rocking, tasteful elegant illustration"},
+
+// STOJACIE
+{id:31,n:"Stena (tvárou)",c:"Stojacie",d:2,
+desc:"Ona stojí opretá o stenu, tvárou k nemu, on pred ňou. Spontánna a vzrušujúca poloha. Výška musí sedieť — ona si môže stúpnuť na prsty alebo on trochu pokrčiť kolená.",
+tip:"Ona môže zdvihnúť jednu nohu a položiť ju na jeho bok pre hlbší prieník a lepší uhol.",
+pr:"Two adult figures, intimate standing face-to-face against wall, woman leaning against wall, man before her, passionate standing embrace, tasteful artistic illustration"},
+
+{id:32,n:"Stena (zozadu)",c:"Stojacie",d:2,
+desc:"Ona stojí opretá o stenu alebo dvere chrbtom, on za ňou. Vzrušujúca a spontánna poloha — perfektné pre momenty mimo spálne. Ona sa opiera rukami alebo čelom o stenu.",
+tip:"Perfektné pri dverách — je to spontánne, vzrušujúce a intenzívne.",
+pr:"Two adult figures, standing from behind against wall, woman braced against wall, man passionately behind her, intimate stance, tasteful artistic illustration"},
+
+{id:33,n:"Stôl",c:"Stojacie",d:1,
+desc:"Ona sedí alebo leží na stole, pulte alebo práčke — on stojí pred ňou. Ideálna výška eliminuje potrebu pokrčených kolien. Jej nohy okolo jeho pása, veľa intímneho kontaktu.",
+tip:"Kuchynský pult, práčka v cykle, stôl v jedálni — všetko funguje. Výška je kľúčová.",
+pr:"Two adult figures, intimate table position, woman seated on counter or table, man standing confidently before her, warm artistic illustration, tasteful and playful"},
+
+{id:34,n:"Zdvihnutá",c:"Stojacie",d:3,
+desc:"On zdvihne jej telo, ona opletie nohy okolo jeho pása. Veľmi vzrušujúca a intenzívna poloha — ale vyžaduje fyzickú silu od neho. Skôr kratší intenzívny moment ako dlhá poloha.",
+tip:"Stena za ňou nesie časť váhy. Nezdvíhajte len od pása — použite celé telo a nohy.",
+pr:"Two adult figures, lifted intimate standing position, man holding woman, her legs wrapped around his waist, passionate lifted embrace, tasteful artistic illustration"},
+
+{id:35,n:"Západ slnka",c:"Stojacie",d:2,
+desc:"Ona stojí, predkloní sa a drží sa stoličky, nočného stolíka alebo čela postele. On za ňou stojí. Výborný uhol, sloboda pohybu, vzrušujúca a spontánna pozícia.",
+tip:"Výška predmetu, ktorého sa drží, určuje uhol — nízka stolička vs. pult = veľký rozdiel.",
+pr:"Two adult figures, standing bent-forward intimate position, woman holding chair leaning forward, man standing behind, tasteful artistic illustration, warm lighting"},
+
+// ŠPECIÁLNE
+{id:36,n:"Lotus",c:"Špeciálne",d:2,
+desc:"On sedí po turecky, ona sedí v jeho lone, jej nohy sú skrížené za jeho chrbtom. Hlboká intimita, veľa kontaktu tela. Pomalý rytmus, skôr o prepojení a pocite ako o intenzite.",
+tip:"Použite vankúše pod jeho kolenami. Sústreďte sa na dýchanie a pohyb — je to tantricka poloha.",
+pr:"Two adult figures, lotus intimate position, man cross-legged, woman in his lap with legs around his waist, deep spiritual sensual embrace, warm candlelight, tasteful artistic illustration"},
+
+{id:37,n:"X poloha",c:"Špeciálne",d:2,
+desc:"Obaja ležia na chrbte v opačných smeroch, spojení v strede — ich telá tvoria tvar X. Netradičné a experimentálne. Ona kontroluje pohyb, on relaxuje. Úplne iný pocit.",
+tip:"Začnite z jazdkyne a postupne rotujte do X polohy — je to plynulý prechod.",
+pr:"Two adult figures, X intimate position, both lying with bodies perpendicular forming X shape, unique intimate connection, tasteful artistic illustration, warm lighting"},
+
+{id:38,n:"Polmesiac",c:"Špeciálne",d:1,
+desc:"Ona leží na boku, on leží kolmo na ňu — ich telá tvoria tvar L alebo T. Neobvyklý uhol prieniku s výbornou stimuláciou. Trochu treba nájsť správnu polohu, ale výsledok stojí za to.",
+tip:"Ona môže meniť sklon nôh pre ešte presnejšiu stimuláciu — jemné zmeny, veľký efekt.",
+pr:"Two adult figures, crescent moon intimate position, woman on side, man perpendicular forming L-shape, unique stimulating angle, tasteful artistic illustration"},
+
+{id:39,n:"Záchranár",c:"Špeciálne",d:1,
+desc:"On leží na boku, ona leží na chrbte kolmo na neho — jej spodná časť tela je cez jeho telo. Pohodlné pre oboch, netradičné, ale ona môže byť úplne uvoľnená.",
+tip:"Vankúš pod jej bokmi pomôže s výškou a uhlom.",
+pr:"Two adult figures, perpendicular intimate position, woman lying on back across man's body, comfortable unique angle, tasteful artistic illustration"},
+
+{id:40,n:"Sedadlo",c:"Špeciálne",d:1,
+desc:"On leží, ona sedí na ňom bokom — ako by sedela na stoličke na jeho tele. Úplne iný uhol prieniku, ona sa môže otáčať. Neobvyklé, trochu hravé, ale príjemné.",
+tip:"Ona sa môže pomaly otáčať smerom od jazdkyne k bočnej polohe a späť.",
+pr:"Two adult figures, sideways saddle intimate position, woman sitting sideways on reclining man, unique lateral angle, playful tasteful artistic illustration"},
+
+{id:41,n:"Drak",c:"Špeciálne",d:1,
+desc:"Ona leží na bruchu, on leží na nej zozadu ale vzpriamene na rukách — ako pri kľukoch. Povrchnejší prieník, ale veľa kontaktu tela. Vizuálne dominantná poloha.",
+tip:"On môže stiahnuť jej ramená k sebe pre zmenu intenzity pocitu.",
+pr:"Two adult figures, dragon intimate position, woman lying face down, man above her in hover prone position, intimate dominating pose, tasteful artistic illustration"},
+
+{id:42,n:"Bumerang",c:"Špeciálne",d:2,
+desc:"Ona leží na chrbte, kolená k hrudníku, on kľačí pred ňou a ona mu prehodí nohy cez ramená. Hlboký prieník a výborná stimulácia. Trochu akrobatické ale reálne a príjemné.",
+tip:"Ona si môže pridŕžať kolená rukami pre lepšiu kontrolu polohy a komfort.",
+pr:"Two adult figures, boomerang intimate position, woman on back with knees raised, man kneeling with her legs over his shoulders, deep intimate connection, tasteful artistic illustration"},
+
+{id:43,n:"Sedací oblúk",c:"Špeciálne",d:2,
+desc:"Ona sedí naňho (jazdkyňa), ale potom sa zakloní a oprie sa rukami o jeho nohy alebo posteľ za sebou. Hlboký prieník, výborná stimulácia z tohto uhla pre oboch.",
+tip:"On môže dvíhať jej boky pre pomoc s pohybom — je to skvelá spolupráca.",
+pr:"Two adult figures, seated arch intimate position, woman on top leaning back in elegant backbend supported on hands, man beneath, tasteful artistic illustration"},
+
+{id:44,n:"Koala",c:"Špeciálne",d:2,
+desc:"On stojí alebo kľačí, ona ho objíma — nohy okolo jeho pása, ruky okolo krku. On drží jej zadok. Intenzívna a veľmi intímna poloha. Vyžaduje silu od neho.",
+tip:"Oprite sa o stenu pre lepšiu stabilitu — takto vydržíte oveľa dlhšie.",
+pr:"Two adult figures, koala intimate position, woman wrapping legs around standing man's waist, arms around his neck, man supporting her lovingly, tasteful artistic illustration"},
+
+{id:45,n:"Previsnutá",c:"Špeciálne",d:3,
+desc:"Ona leží na okraji postele, horná časť tela visí dolu — hlava pri podlahe. On kľačí pred ňou. Prúd krvi do hlavy zintenzívni pocity. Krátka poloha — max 2-3 minúty!",
+tip:"Vstávajte po tejto polohe pomaly — závraty sú normálne. Kratšie intervaly, silný efekt.",
+pr:"Two adult figures, inverted intimate edge-of-bed position, woman with upper body hanging down, man kneeling, unique head-rush position, tasteful artistic illustration"},
+
+{id:46,n:"Hrkálka",c:"Špeciálne",d:2,
+desc:"On leží s pokrčenými kolenami, ona sedí naňho s nohami pred sebou, opiera sa o jeho zdvihnuté kolená. Hojdacia poloha s dobrou kontrolou pohybu pre ňu.",
+tip:"On môže pohybovať kolenami pre rytmickú pomoc a meniť uhol.",
+pr:"Two adult figures, rocking hammock intimate position, woman forward-seated on man with bent knees providing support, rhythmic movement, tasteful artistic illustration"},
+
+{id:47,n:"Džokej",c:"Špeciálne",d:1,
+desc:"On leží na bruchu, ona na ňom vzadu — sadne si na jeho zadok. Neobvyklé a hravé. Obmedzená penetrácia ale výborné pre masáž, hru a iné druhy stimulácie.",
+tip:"Táto poloha je skôr na rozohriatie a hru — výborné ako preludium.",
+pr:"Two adult figures, jockey playful intimate position, man lying face down, woman playfully sitting on his back, sensual massage mood, tasteful artistic illustration"},
+
+{id:48,n:"Dvojitý západ",c:"Špeciálne",d:2,
+desc:"Obaja kľačia, ona je pred ním — obaja sú na kolenách. On ju objíma zozadu. Veľa pohybu, hlboký prieník, on môže objímať celé jej telo. Pohodlná poloha na kolenách.",
+tip:"Perfektná kombinácia intimity zozadu a hlbokého prieniku bez potreby stáť.",
+pr:"Two adult figures, both kneeling together, woman in front of kneeling man, intimate embrace from behind, tasteful artistic illustration"},
+
+{id:49,n:"Liehadlo",c:"Špeciálne",d:1,
+desc:"Obaja ležia na bruchu vedľa seba. On sa otočí k nej, ona zdvihne jedno koleno — prieník z boku pri ležaní na bruchu. Netradičné, ale prekvapivo príjemné a pohodlné.",
+tip:"Vankúš pod jej brucho môže pomôcť s uhlom a pohodlnosťou.",
+pr:"Two adult figures, side-prone intimate position, both lying face down side by side, lateral intimate connection, relaxed pose, tasteful artistic illustration"},
+
+{id:50,n:"Perla",c:"Špeciálne",d:2,
+desc:"On leží, ona sedí na ňom (jazdkyňa) ale drží jeho zdvihnuté nohy. Nezvyčajný uhol prieniku, iná stimulácia pre oboch. Trochu experimentálne — pre dobrodružných.",
+tip:"Komunikujte — táto poloha je o objavovaní nových pocitov a uhlov.",
+pr:"Two adult figures, pearl intimate position, woman on top holding man's raised legs, unique reverse angle, tasteful artistic illustration"},
+
+{id:51,n:"Ranný bozk",c:"Bok po boku",d:1,
+desc:"Obaja ležia na boku tvárou k sebe, nohy prepletené, pohyby pomalé a jemné. Najromantickejšia a najintímnejšia poloha — ideálna na dlhé ranné momenty. Veľa bozkávania.",
+tip:"Táto poloha si vyžaduje trpezlivosť na nájdenie uhla, ale intimita stojí za každú sekundu.",
+pr:"Two adult figures, morning kiss intimate position, lying face to face on sides, legs tenderly intertwined, gentle morning lovemaking, soft golden sunrise light, tasteful artistic illustration"},
+
+{id:52,n:"Misionár s objatím",c:"Klasické",d:1,
+desc:"Misionár, ale ona pevne objíma jeho telo celým telom — nohy okolo jeho stehien, ruky okolo chrbta. Maximálny kontakt, minimálna vzdialenosť. Pocit úplného splynutia.",
+tip:"Ona môže meniť tesnotu objatia — väčšia tesnosť = intenzívnejší pocit pre oboch.",
+pr:"Two adult figures, full-body embrace missionary position, woman wrapping arms and legs around man completely, maximum body contact, deeply tender, tasteful artistic illustration"},
+
+{id:53,n:"Stoličkové lyžičky",c:"Sediace",d:1,
+desc:"On sedí na stoličke, ona si sadne naňho chrbtom (ako obrátená tantrika), ale ona sa môže opreť nohami o zem. Ona má plnú kontrolu pohybu, veľmi slobodná poloha.",
+tip:"Ona sa môže opreť rukami o jeho kolená alebo o stôl pred sebou pre lepší pohyb.",
+pr:"Two adult figures, reverse chair seated intimate position, man seated on chair, woman seated backward on his lap feet on floor, tasteful artistic illustration"},
+
+{id:54,n:"Západ (kľačiaci)",c:"Klasické",d:1,
+desc:"Ona leží, on kľačí pred ňou a drží jej stehná zdvihnuté. Variácia motýľa s väčšou kontrolou uhla. Výborná poloha keď chce on kontrolovať rytmus a hĺbku.",
+tip:"On môže jemne meniť smer — trochu vpravo, vľavo — pre stimuláciu rôznych miest.",
+pr:"Two adult figures, kneeling intimate position, man kneeling before woman lying with raised hips, intimate control and connection, tasteful artistic illustration"},
+
+{id:55,n:"Bok a stena",c:"Stojacie",d:2,
+desc:"Ona stojí bokom k stene a opiera sa o ňu. On stojí za ňou trochu bokom. Netradičný uhol státia — ona vidí ho z profilu. Intenzívna stimulácia z tohto uhla.",
+tip:"Ona si môže jednou rukou pomáhať pri stimulácii citlivých miest.",
+pr:"Two adult figures, side-wall standing intimate position, woman sideways against wall, man behind and beside her at angle, tasteful artistic illustration"},
+
+{id:56,n:"Priehľad",c:"Ona navrchu",d:1,
+desc:"Ona sedí naňho (jazdkyňa), ale otočí sa do 90 stupňov — sediaca bokom. Neobvyklý uhol prieniku, ona vidí ho z profilu. Trochu experimentálne ale pohodlné.",
+tip:"Ona sa môže opreť jednou rukou o posteľ na každej strane pre stabilitu.",
+pr:"Two adult figures, sideways cowgirl intimate position, woman on top turned sideways at 90 degrees, unique lateral angle, tasteful artistic illustration"},
+
+{id:57,n:"Hojdačka (stojacie)",c:"Stojacie",d:3,
+desc:"On stojí, ona skočí a obetí nohami okolo jeho pása a rukami okolo krku. On ju drží a pohybuje. Veľmi vzrušujúca, ale fyzicky náročná poloha — krátky intenzívny moment.",
+tip:"Stena za ňou výrazne pomáha. Kombinujte s iným pohybom — nie je to dlhodobá poloha.",
+pr:"Two adult figures, standing lifted intimate position, woman's legs around man's waist arms around neck, man supporting her against wall, intense passionate stance, tasteful artistic illustration"},
+
+{id:58,n:"Predbehnutá",c:"Špeciálne",d:2,
+desc:"Misionár ale on je za hlavou postele — ona leží opačne, ich telá sú otočené o 180 stupňov. Úplne iný uhol, netradičná stimulácia. Pre tých ktorí chcú vyskúšať niečo nezvyčajné.",
+tip:"Komunikujte o uhle — pohyb je rôzny ako v klasickej polohe.",
+pr:"Two adult figures, reversed missionary position, bodies oriented 180 degrees opposite to each other, unique intimate angle, experimental tasteful artistic illustration"}
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let favs=JSON.parse(localStorage.getItem('id_favs')||'[]');
+let cur=null, filtered=[], favMode=false;
+const $=id=>document.getElementById(id);
+const DL=['','Ľahká','Stredná','Náročná'];
+const DC=['','e','m','h'];
+const saveFavs=()=>localStorage.setItem('id_favs',JSON.stringify(favs));
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+function getList(){
+  const q=$('srch').value.toLowerCase();
+  const cat=$('fCat').value, diff=$('fDiff').value, srt=$('fSort').value;
+  let list=[...P];
+  if(favMode) list=list.filter(p=>favs.includes(p.id));
+  if(q) list=list.filter(p=>p.n.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q));
+  if(cat) list=list.filter(p=>p.c===cat);
+  if(diff) list=list.filter(p=>p.d===+diff);
+  if(srt==='az') list.sort((a,b)=>a.n.localeCompare(b.n,'sk'));
+  else if(srt==='da') list.sort((a,b)=>a.d-b.d);
+  else if(srt==='dd') list.sort((a,b)=>b.d-a.d);
+  else if(srt==='fav') list.sort((a,b)=>favs.includes(b.id)-favs.includes(a.id));
+  else list.sort((a,b)=>a.id-b.id);
+  return list;
+}
+function dots3(d,cls){
+  return [1,2,3].map(i=>`<div class="dot ${i<=d?cls:''}"></div>`).join('');
+}
+function render(){
+  const list=getList();
+  filtered=list.map(p=>p.id);
+  // stats
+  const cc={};list.forEach(p=>cc[p.c]=(cc[p.c]||0)+1);
+  $('stats').innerHTML=`<span>📋 Polôh: <strong>${list.length}</strong></span>`+
+    Object.entries(cc).map(([k,v])=>`<span>${k}: ${v}</span>`).join('')+
+    `<span>❤️ Obľúbené: ${favs.length}</span>`;
+  // cards
+  if(!list.length){$('grid').innerHTML=`<div class="empty">🔍 Žiadne polohy nenájdené.<br><small>Zmeňte filter alebo hľadaný výraz.</small></div>`;return;}
+  $('grid').innerHTML=list.map(p=>`
+    <div class="card" onclick="openM(${p.id})">
+      <div class="card-top">
+        <div class="card-name">${p.n}</div>
+        <button class="fav-btn ${favs.includes(p.id)?'on':''}" onclick="event.stopPropagation();togFav(${p.id})">${favs.includes(p.id)?'❤️':'🤍'}</button>
+      </div>
+      <div class="card-cat">${p.c}</div>
+      <div class="card-desc">${p.desc}</div>
+      <div class="card-foot">
+        <div class="dots">${dots3(p.d,DC[p.d])}</div>
+        <span class="diff-lbl">${DL[p.d]}</span>
+      </div>
+    </div>`).join('');
+}
+function togFav(id){
+  favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];
+  saveFavs();render();if(cur===id)updMFav();
+}
+function togFavMode(){
+  favMode=!favMode;
+  $('btnFav').textContent=favMode?'📋 Všetky':'❤️ Obľúbené';
+  $('btnFav').style.borderColor=favMode?'var(--gold)':'';
+  render();
+}
+function rnd(){const list=getList();if(!list.length)return;openM(list[Math.floor(Math.random()*list.length)].id);}
+
+// ─── MODAL ───────────────────────────────────────────────────────────────────
+function openM(id){
+  const p=P.find(x=>x.id===id);if(!p)return;
+  cur=id;
+  $('mcat').textContent=p.c;
+  $('mname').textContent=p.n;
+  $('mdots').innerHTML=[1,2,3].map(i=>`<div class="mdot ${i<=p.d?DC[p.d]:''}"></div>`).join('');
+  $('mdlbl').textContent=`${DL[p.d]} (${p.d}/3)`;
+  $('mdesc').textContent=p.desc;
+  $('mtip').textContent=p.tip;
+  $('mprompt').textContent=p.pr;
+  updMFav();
+  $('mbg').classList.remove('hidden');
+  document.body.style.overflow='hidden';
+}
+function updMFav(){
+  const b=$('mfavbtn');
+  const on=favs.includes(cur);
+  b.textContent=on?'❤️ Obľúbená':'🤍 Pridať';
+  b.className='mfav'+(on?' on':'');
+}
+function closeM(){$('mbg').classList.add('hidden');document.body.style.overflow='';cur=null;}
+function bgClick(e){if(e.target===$('mbg'))closeM();}
+function nav(d){
+  if(!cur||!filtered.length)return;
+  const i=filtered.indexOf(cur);
+  openM(filtered[(i+d+filtered.length)%filtered.length]);
+}
+function togMFav(){togFav(cur);}
+function cpyPrompt(){
+  navigator.clipboard.writeText($('mprompt').textContent).then(()=>{
+    const b=document.querySelector('.bcopy');
+    b.textContent='✅ Skopírované!';
+    setTimeout(()=>b.textContent='📋 Skopírovať prompt',2000);
+  });
+}
+document.addEventListener('keydown',e=>{
+  if(!cur)return;
+  if(e.key==='Escape')closeM();
+  if(e.key==='ArrowRight')nav(1);
+  if(e.key==='ArrowLeft')nav(-1);
+});
+render();
+</script>
+</body>
+</html>

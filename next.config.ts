@@ -4,6 +4,7 @@ const SUP = ["en","sk","cs","pl","hu","fr","de","uk","ru","es"]
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  outputFileTracingIncludes: { '/intimne-dobrodruzstvo/[[...file]]': ['./modules/intimne-dobrodruzstvo/dist/**/*'] },
   images: {
     remotePatterns: [
       {

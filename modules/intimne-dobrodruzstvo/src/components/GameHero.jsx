@@ -1,0 +1,5 @@
+import { Link } from 'react-router-dom';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+export default function GameHero({emoji,title,subtitle,features=[],onStart,backTo='/'}){
+return <div className="game-intro"><Link to={backTo} className="quiet-link"><ArrowLeft size={17}/> Všetky zážitky</Link><div className="intro-layout"><div><p className="eyebrow">DEEPTALKS / INTÍMNE DOBRODRUŽSTVO</p><h1>{title}</h1><p className="intro-description">{subtitle}</p><div className="intro-features">{features.map((f,i)=><span key={f}><small>{String(i+1).padStart(2,'0')}</small>{f}</span>)}</div><button className="primary-action" onClick={onStart}>Začať zážitok <ArrowUpRight size={20}/></button><p className="intro-footnote">Vlastné tempo. Spoločný čas.</p></div><div className="intro-art" aria-hidden="true"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><span>{emoji}</span><small>LEN VÁŠ OKAMIH</small></div></div></div>;
+}

@@ -1,0 +1,63 @@
+{
+  "name": "Task",
+  "type": "object",
+  "properties": {
+    "action_type": {
+      "type": "string",
+      "title": "Typ akcie"
+    },
+    "description": {
+      "type": "string",
+      "title": "Popis"
+    },
+    "prep_time": {
+      "type": "number",
+      "title": "\u010cas pr\u00edpravy (s)",
+      "default": 15
+    },
+    "task_time": {
+      "type": "number",
+      "title": "\u010cas \u00falohy (s)"
+    },
+    "level": {
+      "type": "number",
+      "title": "\u00darove\u0148",
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "status": {
+      "type": "string",
+      "title": "Status",
+      "enum": [
+        "",
+        "Ob\u013e\u00faben\u00e9",
+        "Nevhodn\u00e1"
+      ],
+      "default": ""
+    },
+    "shown": {
+      "type": "boolean",
+      "title": "Zobrazen\u00e9",
+      "default": false
+    },
+    "tags": {
+      "type": "array",
+      "title": "Tagy",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "required": [
+    "action_type",
+    "description",
+    "level"
+  ]
+}

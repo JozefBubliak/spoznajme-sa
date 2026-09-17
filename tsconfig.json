@@ -28,7 +28,7 @@
     "strict": true,
     "target": "ES2017"
   },
-  "exclude": [
+  "exclude": ["modules/intimne-dobrodruzstvo",
     "node_modules",
     "**/supabase/functions",
     "spoznajme-sa"

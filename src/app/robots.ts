@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
       // neverejné pracovné vetvy
-      disallow: ['/dotaznik', '/*/dotaznik'],
+      disallow: ['/dotaznik', '/*/dotaznik', '/intimne-dobrodruzstvo', '/api/intimne-dobrodruzstvo', '/*/apps/intimne-dobrodruzstvo'],
     },
     sitemap: 'https://deeptalks.eu/sitemap.xml',
   }

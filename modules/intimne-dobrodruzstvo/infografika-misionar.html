@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Misionárska poloha — Infografika</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f0ebf7;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 8px 48px rgba(100, 50, 160, 0.14);
+    width: 100%;
+    max-width: 1100px;
+    overflow: hidden;
+  }
+
+  /* ── TOP BAND ── */
+  .top-band {
+    background: linear-gradient(135deg, #6b3fa0 0%, #9b5fd4 100%);
+    padding: 28px 36px 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .top-band h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .top-band h1 .heart { font-size: 1.4rem; }
+  .top-band .subtitle {
+    color: rgba(255,255,255,0.78);
+    font-size: 0.92rem;
+    margin-top: 4px;
+    max-width: 360px;
+    line-height: 1.5;
+  }
+  .badge {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: #fff;
+    border-radius: 30px;
+    padding: 5px 16px;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  /* ── BODY ── */
+  .body {
+    display: grid;
+    grid-template-columns: 160px 1fr 260px;
+    gap: 0;
+    min-height: 380px;
+  }
+
+  /* ── LEFT META ── */
+  .meta {
+    background: #faf7fd;
+    border-right: 1px solid #ede5f7;
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .meta-block {}
+  .meta-label {
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9b7ec8;
+    margin-bottom: 7px;
+  }
+  .meta-value {
+    font-size: 0.85rem;
+    color: #3a2460;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .dots-row { display: flex; gap: 5px; margin-bottom: 4px; }
+  .dot {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: #ddd;
+  }
+  .dot.active { background: #7c44cc; }
+  .tag {
+    display: inline-block;
+    background: rgba(124, 68, 204, 0.1);
+    color: #6b3fa0;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  .focus-list { display: flex; flex-direction: column; gap: 4px; }
+  .focus-item {
+    font-size: 0.8rem;
+    color: #5a3a90;
+    padding: 3px 0;
+    border-bottom: 1px solid #ede5f7;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .focus-item::before { content: '•'; color: #9b7ec8; font-size: 1.1rem; line-height: 0; }
+
+  /* ── ILLUSTRATION ── */
+  .illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #fdfbff;
+    border-right: 1px solid #ede5f7;
+    position: relative;
+  }
+  .illustration svg {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+  }
+  .illus-placeholder {
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    font-size: 0.65rem;
+    color: #c0a8e0;
+    font-style: italic;
+  }
+
+  /* ── RIGHT STEPS ── */
+  .steps-col {
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .steps-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #3a2460;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .step {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .step-num {
+    width: 26px; height: 26px;
+    min-width: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c44cc, #a870e0);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .step-text {
+    font-size: 0.83rem;
+    color: #4a3070;
+    line-height: 1.55;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #ede5f7;
+    margin: 10px 0 14px;
+  }
+
+  .tips-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #3a2460;
+    margin-bottom: 10px;
+  }
+  .tips-title .icon { font-size: 1rem; }
+  .tip-item {
+    font-size: 0.8rem;
+    color: #5a3a90;
+    line-height: 1.55;
+    margin-bottom: 7px;
+    padding-left: 14px;
+    position: relative;
+  }
+  .tip-item::before {
+    content: '·';
+    position: absolute;
+    left: 2px;
+    color: #9b7ec8;
+    font-size: 1.4rem;
+    line-height: 0.7;
+  }
+
+  /* ── BOTTOM ── */
+  .bottom {
+    border-top: 1px solid #ede5f7;
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 0;
+    background: #faf7fd;
+  }
+
+  .variants {
+    padding: 20px 28px;
+    border-right: 1px solid #ede5f7;
+  }
+  .variants-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9b7ec8;
+    margin-bottom: 14px;
+  }
+  .variants-row {
+    display: flex;
+    gap: 18px;
+  }
+  .variant {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+  .variant-img {
+    width: 100%;
+    max-width: 160px;
+    aspect-ratio: 3/2;
+    background: #ede5f7;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .variant-img svg { width: 100%; height: 100%; }
+  .variant-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #3a2460;
+    text-align: center;
+  }
+  .variant-desc {
+    font-size: 0.72rem;
+    color: #7a5aaa;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  .focus-icons {
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .focus-icons-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9b7ec8;
+    margin-bottom: 4px;
+  }
+  .focus-icons-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .focus-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .focus-icon .circle {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+  .focus-icon .circle.pink { background: rgba(232, 150, 200, 0.18); }
+  .focus-icon .circle.peach { background: rgba(232, 180, 130, 0.18); }
+  .focus-icon .circle.purple { background: rgba(150, 100, 220, 0.15); }
+  .focus-icon .label {
+    font-size: 0.68rem;
+    color: #7a5aaa;
+    text-align: center;
+    line-height: 1.3;
+    max-width: 60px;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- TOP BAND -->
+  <div class="top-band">
+    <div>
+      <h1>Misionárska poloha <span class="heart">💜</span></h1>
+      <p class="subtitle">Klasická, intímna a ideálna pre spojenie pohľadov, bozky a hlbokú blízkosť.</p>
+    </div>
+    <span class="badge">Klasické polohy</span>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- LEFT META -->
+    <div class="meta">
+      <div class="meta-block">
+        <div class="meta-label">Úroveň</div>
+        <div class="dots-row">
+          <div class="dot active"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <div class="meta-value">Jednoduchá</div>
+      </div>
+
+      <div class="meta-block">
+        <div class="meta-label">Kategória</div>
+        <span class="tag">Klasické polohy</span>
+      </div>
+
+      <div class="meta-block">
+        <div class="meta-label">Zameranie</div>
+        <div class="focus-list">
+          <div class="focus-item">Intimita</div>
+          <div class="focus-item">Spojenie</div>
+          <div class="focus-item">Očný kontakt</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ILLUSTRATION -->
+    <div class="illustration">
+      <!-- SVG diagram — štylizovaná silueta, misionárska poloha -->
+      <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#f5f0ff;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#ede0fa;stop-opacity:1"/>
+          </linearGradient>
+          <linearGradient id="skinF" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#f5c5a3;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#e8a882;stop-opacity:1"/>
+          </linearGradient>
+          <linearGradient id="skinM" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#c8956a;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#b07850;stop-opacity:1"/>
+          </linearGradient>
+          <linearGradient id="fabricF" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#d4a8d0;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#b880b0;stop-opacity:1"/>
+          </linearGradient>
+          <linearGradient id="fabricM" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#3a2a5a;stop-opacity:1"/>
+            <stop offset="100%" style="stop-color:#2a1a40;stop-opacity:1"/>
+          </linearGradient>
+          <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(100,50,160,0.15)"/>
+          </filter>
+        </defs>
+
+        <!-- background -->
+        <rect width="480" height="320" fill="url(#bgGrad)" rx="12"/>
+
+        <!-- BED / PILLOW -->
+        <!-- Mattress -->
+        <rect x="40" y="200" width="400" height="70" rx="12" fill="#e8e0f0" filter="url(#softShadow)"/>
+        <rect x="40" y="200" width="400" height="18" rx="8" fill="#d0c0e8"/>
+        <!-- Pillow -->
+        <ellipse cx="130" cy="200" rx="75" ry="22" fill="#f5f0ff" stroke="#d8c8f0" stroke-width="1.5"/>
+        <ellipse cx="130" cy="200" rx="62" ry="15" fill="none" stroke="#e0d0f8" stroke-width="1" stroke-dasharray="3,3"/>
+
+        <!-- ── WOMAN (lying on back) ── -->
+        <!-- Torso / body lying -->
+        <ellipse cx="200" cy="198" rx="70" ry="22" fill="url(#skinF)" opacity="0.95"/>
+        <!-- Underwear / covering -->
+        <path d="M155 198 Q175 210 220 210 Q240 205 235 198 Q215 195 175 195 Z" fill="url(#fabricF)" opacity="0.9"/>
+        <!-- Legs (spread slightly, bent up) -->
+        <!-- Left leg bent up + out -->
+        <path d="M235 200 Q250 175 270 150 Q280 138 295 140 Q285 155 275 165 Q268 180 252 205 Z" fill="url(#skinF)"/>
+        <!-- Right leg bent -->
+        <path d="M225 202 Q238 180 255 165 Q268 155 278 158 Q265 170 255 185 Q244 200 230 208 Z" fill="url(#skinF)"/>
+        <!-- Feet -->
+        <ellipse cx="292" cy="142" rx="10" ry="6" fill="url(#skinF)" transform="rotate(-30, 292, 142)"/>
+        <ellipse cx="278" cy="156" rx="9" ry="6" fill="url(#skinF)" transform="rotate(-20, 278, 156)"/>
+        <!-- Neck + Head (tilted back slightly) -->
+        <ellipse cx="138" cy="193" rx="10" ry="13" fill="url(#skinF)"/>
+        <circle cx="128" cy="180" r="22" fill="url(#skinF)"/>
+        <!-- Hair (long, spread on pillow) -->
+        <ellipse cx="118" cy="176" rx="28" ry="20" fill="#5a2a10" opacity="0.9"/>
+        <path d="M95 168 Q85 180 90 195 Q95 200 105 195 Q98 185 102 172 Z" fill="#5a2a10" opacity="0.85"/>
+        <path d="M145 170 Q155 178 150 190 Q143 186 140 175 Z" fill="#5a2a10" opacity="0.7"/>
+        <!-- Face details -->
+        <ellipse cx="124" cy="179" rx="4" ry="2.5" fill="#3a1a08" opacity="0.5"/>
+        <ellipse cx="133" cy="179" rx="4" ry="2.5" fill="#3a1a08" opacity="0.5"/>
+        <path d="M125 184 Q129 187 133 184" stroke="#c07060" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- Arms by sides + one reaching up -->
+        <path d="M175 205 Q165 215 155 218 Q148 220 145 216 Q150 212 158 210 Q168 207 175 200 Z" fill="url(#skinF)"/>
+        <!-- Bra straps area -->
+        <path d="M165 190 Q180 183 200 183 Q215 183 225 190 Q210 194 195 194 Q178 193 165 190 Z" fill="url(#fabricF)" opacity="0.6"/>
+
+        <!-- ── MAN (on top, propped on arms) ── -->
+        <!-- Arms propping up -->
+        <path d="M165 175 Q158 190 155 205 Q158 208 165 205 Q170 192 175 178 Z" fill="url(#skinM)"/>
+        <path d="M235 170 Q245 185 248 202 Q244 206 237 202 Q233 188 228 172 Z" fill="url(#skinM)"/>
+        <!-- Hands on mattress -->
+        <ellipse cx="154" cy="208" rx="9" ry="6" fill="url(#skinM)" transform="rotate(10,154,208)"/>
+        <ellipse cx="249" cy="205" rx="9" ry="6" fill="url(#skinM)" transform="rotate(-10,249,205)"/>
+        <!-- Torso -->
+        <path d="M168 140 Q200 130 232 135 L238 178 Q215 185 200 185 Q183 184 162 178 Z" fill="url(#skinM)"/>
+        <!-- Shorts/underwear -->
+        <path d="M162 175 Q183 183 200 183 Q218 183 238 175 L238 195 Q215 200 200 200 Q182 200 162 195 Z" fill="url(#fabricM)"/>
+        <!-- Chest musculature hint -->
+        <path d="M183 148 Q200 143 215 148 Q209 158 200 160 Q190 158 183 148 Z" fill="rgba(0,0,0,0.07)"/>
+        <!-- Neck -->
+        <rect x="193" y="125" width="14" height="18" rx="6" fill="url(#skinM)"/>
+        <!-- Head -->
+        <circle cx="200" cy="110" r="24" fill="url(#skinM)"/>
+        <!-- Hair -->
+        <path d="M176 103 Q180 85 200 83 Q220 85 224 103 Q215 95 200 93 Q185 95 176 103 Z" fill="#2a1a08"/>
+        <!-- Face details -->
+        <ellipse cx="193" cy="108" rx="3.5" ry="2.5" fill="#2a1408" opacity="0.6"/>
+        <ellipse cx="207" cy="108" rx="3.5" ry="2.5" fill="#2a1408" opacity="0.6"/>
+        <path d="M194 116 Q200 120 206 116" stroke="#a06050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- Slight lean toward woman showing connection -->
+        <!-- Gaze line (subtle) -->
+        <line x1="200" y1="120" x2="128" y2="175" stroke="rgba(180,120,220,0.2)" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+        <!-- HEART ACCENT -->
+        <text x="330" y="130" font-size="22" fill="rgba(180,100,220,0.3)" font-family="serif">♥</text>
+        <text x="80" y="240" font-size="14" fill="rgba(180,100,220,0.2)" font-family="serif">♥</text>
+      </svg>
+      <span class="illus-placeholder">ilustrácia · SVG</span>
+    </div>
+
+    <!-- RIGHT STEPS + TIPS -->
+    <div class="steps-col">
+      <div class="steps-title">Ako na to</div>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">On leží na nej čelom k nej, opretý o ruky.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Ona má nohy mierne rozkročené alebo obopnuté okolo jeho pása.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Udržujte očný kontakt, bozkávajte sa a komunikujte.</div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="tips-title"><span class="icon">💡</span> Tipy</div>
+      <div class="tip-item">Vankúš pod bedrá jej môže zvýšiť pohodlie a stimuláciu.</div>
+      <div class="tip-item">Pomalé pohyby a blízkosť podporia hlbšie spojenie.</div>
+      <div class="tip-item">Skúste rôzne uhly náklonu pre nové pocity.</div>
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- BOTTOM -->
+  <div class="bottom">
+
+    <!-- VARIANTS -->
+    <div class="variants">
+      <div class="variants-title">Zmena uhla</div>
+      <div class="variants-row">
+
+        <!-- Variant 1: Vankúš pod bedrá -->
+        <div class="variant">
+          <div class="variant-img">
+            <svg viewBox="0 0 160 105" xmlns="http://www.w3.org/2000/svg">
+              <rect width="160" height="105" fill="#ede5f7" rx="8"/>
+              <!-- Pillow/wedge under hips -->
+              <ellipse cx="80" cy="80" rx="50" ry="10" fill="#d0c0e8" opacity="0.7"/>
+              <ellipse cx="80" cy="75" rx="30" ry="8" fill="#e0d0f8"/>
+              <!-- Woman body elevated -->
+              <ellipse cx="80" cy="68" rx="38" ry="14" fill="#e8a882" opacity="0.85"/>
+              <path d="M58 68 Q70 76 100 76 Q112 72 110 68 Q95 65 65 65 Z" fill="#d4a8d0" opacity="0.8"/>
+              <!-- Legs raised -->
+              <path d="M108 70 Q118 58 130 48 Q135 48 132 55 Q122 63 115 75 Z" fill="#e8a882" opacity="0.85"/>
+              <path d="M104 72 Q112 62 122 54 Q128 55 124 61 Q115 69 108 78 Z" fill="#e8a882" opacity="0.85"/>
+              <!-- Head -->
+              <circle cx="42" cy="62" r="12" fill="#e8a882"/>
+              <ellipse cx="37" cy="60" rx="14" ry="10" fill="#5a2a10" opacity="0.85"/>
+              <!-- Man on top -->
+              <path d="M62 48 Q80 42 98 45 L100 68 Q80 72 62 68 Z" fill="#c8956a" opacity="0.9"/>
+              <circle cx="80" cy="36" r="12" fill="#c8956a"/>
+              <path d="M68 32 Q80 27 92 32 Q88 38 80 38 Q72 38 68 32 Z" fill="#2a1a08"/>
+            </svg>
+          </div>
+          <div class="variant-name">Vankúš pod bedrá</div>
+          <div class="variant-desc">Pre hlbší uhol a väčšie pohodlie.</div>
+        </div>
+
+        <!-- Variant 2: Hlbší náklon -->
+        <div class="variant">
+          <div class="variant-img">
+            <svg viewBox="0 0 160 105" xmlns="http://www.w3.org/2000/svg">
+              <rect width="160" height="105" fill="#ede5f7" rx="8"/>
+              <ellipse cx="80" cy="82" rx="55" ry="12" fill="#e8e0f0" opacity="0.7"/>
+              <!-- Woman -->
+              <ellipse cx="75" cy="72" rx="38" ry="14" fill="#e8a882" opacity="0.85"/>
+              <path d="M55 72 Q68 80 98 80 Q108 76 105 72 Q88 68 62 68 Z" fill="#d4a8d0" opacity="0.8"/>
+              <path d="M104 72 Q115 56 128 44 Q133 44 130 52 Q118 62 112 76 Z" fill="#e8a882" opacity="0.85"/>
+              <!-- Head woman -->
+              <circle cx="38" cy="65" r="12" fill="#e8a882"/>
+              <ellipse cx="33" cy="63" rx="15" ry="11" fill="#5a2a10" opacity="0.85"/>
+              <!-- Man leaning more forward -->
+              <path d="M58 44 Q78 35 100 40 L104 68 Q80 74 58 68 Z" fill="#c8956a" opacity="0.9"/>
+              <circle cx="80" cy="30" r="13" fill="#c8956a"/>
+              <path d="M67 25 Q80 20 93 25 Q89 32 80 33 Q71 32 67 25 Z" fill="#2a1a08"/>
+              <!-- Arms forward (deeper lean) -->
+              <path d="M58 55 Q48 65 44 78 Q48 80 54 76 Q56 65 62 56 Z" fill="#c8956a" opacity="0.85"/>
+            </svg>
+          </div>
+          <div class="variant-name">Hlbší náklon</div>
+          <div class="variant-desc">Väčšia hĺbka a intenzívnejší pocit.</div>
+        </div>
+
+        <!-- Variant 3: Obopnutie nôh -->
+        <div class="variant">
+          <div class="variant-img">
+            <svg viewBox="0 0 160 105" xmlns="http://www.w3.org/2000/svg">
+              <rect width="160" height="105" fill="#ede5f7" rx="8"/>
+              <ellipse cx="80" cy="84" rx="55" ry="12" fill="#e8e0f0" opacity="0.7"/>
+              <!-- Woman -->
+              <ellipse cx="78" cy="74" rx="38" ry="14" fill="#e8a882" opacity="0.85"/>
+              <path d="M56 74 Q70 82 104 82 Q114 78 110 74 Q92 70 63 70 Z" fill="#d4a8d0" opacity="0.8"/>
+              <!-- Legs wrapped around man's waist -->
+              <path d="M108 73 Q120 72 128 68 Q132 70 128 76 Q118 80 108 80 Z" fill="#e8a882" opacity="0.85"/>
+              <path d="M110 76 Q122 78 128 76 Q130 82 124 84 Q114 84 108 80 Z" fill="#e8a882" opacity="0.75"/>
+              <!-- Head woman -->
+              <circle cx="40" cy="67" r="12" fill="#e8a882"/>
+              <ellipse cx="35" cy="65" rx="15" ry="11" fill="#5a2a10" opacity="0.85"/>
+              <!-- Man -->
+              <path d="M60 48 Q80 40 102 44 L106 72 Q80 78 60 72 Z" fill="#c8956a" opacity="0.9"/>
+              <circle cx="82" cy="34" r="13" fill="#c8956a"/>
+              <path d="M69 29 Q82 24 95 29 Q91 36 82 37 Q73 36 69 29 Z" fill="#2a1a08"/>
+            </svg>
+          </div>
+          <div class="variant-name">Obopnutie nôh</div>
+          <div class="variant-desc">Zvýši blízkosť a stimuláciu.</div>
+        </div>
+
+      </div><!-- /variants-row -->
+    </div><!-- /variants -->
+
+    <!-- FOCUS ICONS -->
+    <div class="focus-icons">
+      <div class="focus-icons-title">Zamerané na</div>
+      <div class="focus-icons-row">
+        <div class="focus-icon">
+          <div class="circle pink">❤️</div>
+          <div class="label">Emocionálne spojenie</div>
+        </div>
+        <div class="focus-icon">
+          <div class="circle peach">👁️</div>
+          <div class="label">Očný kontakt</div>
+        </div>
+        <div class="focus-icon">
+          <div class="circle purple">💜</div>
+          <div class="label">Intimita a blízkosť</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /bottom -->
+
+</div><!-- /card -->
+
+</body>
+</html>

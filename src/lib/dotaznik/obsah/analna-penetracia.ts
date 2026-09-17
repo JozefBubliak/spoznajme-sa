@@ -3,7 +3,7 @@ import type { TemaObsah, Blok, Moznost, Podmienka } from './typ'
 // ─────────────────────────────────────────────────────────────────────────────
 // Anál a stimulácia zadku — modul D2 „Análna penetrácia".
 // Zdroj: „17_Anal_a_stimulacia_zadku" (proper vetviaci dotazník — 4× opakovaný;
-// zjednotené, každá odlišná otázka zachovaná). Pokrýva celú análnu doménu:
+// zjednotené; úplnosť sa ešte audituje, pozri CONTENT-001 v progress dokumente). Oblasti:
 // externá stimulácia, anilingus, prstovanie (rola + prostata), hračky,
 // penetračný anál, DP, kombinácie, bezpečnosť a aftercare.
 // z / m verzia zrkadlová (rovnaké id + hodnoty). Prostata → len pohlavie 'm'.
@@ -43,6 +43,7 @@ const ESTE_NIE: Blok = {
       druh: 'otazka', id: 'en_fantazia', typ: 'jeden',
       text: 'Objavuje sa análna oblasť v tvojich fantáziách?',
       moznosti: [
+        { v: 'ziadna', label: 'Nie, táto predstava sa v mojich fantáziách neobjavuje' },
         { v: 'silna', label: 'Je to moja silná / opakujúca sa fantázia' },
         { v: 'obcasna', label: 'Je to občasná predstava' },
         { v: 'zvedavy', label: g('Som zvedavý, ale nie je to súčasť mojich fantázií', 'Som zvedavá, ale nie je to súčasť mojich fantázií') },
@@ -167,6 +168,20 @@ const PRST_PRIJIMAM: Blok = {
   id: 'prst_prijimam',
   nadpis: 'Prstovanie zadočku — prijímam',
   bloky: [
+    {
+      druh: 'otazka', id: 'prst_prijimam_minula_skusenost', typ: 'jeden',
+      text: 'Ako hodnotíš svoju doterajšiu skúsenosť s prijímaním tejto stimulácie?',
+      napoveda: 'Pýta sa na minulosť. To, čo chceš dnes, môže byť iné — aj príjemnú skúsenosť nemusíš chcieť opakovať.',
+      podmienka: { ot: 'skusenost', obsahuje: 'prst_prijimam' },
+      moznosti: [
+        { v: 'velmi_prijemna', label: 'Veľmi príjemná' },
+        { v: 'prijemna', label: 'Príjemná' },
+        { v: 'bez_vyrazneho_pocitu', label: 'Ani príjemná, ani nepríjemná' },
+        { v: 'zmiesana', label: 'Rôzne skúsenosti alebo zmiešané pocity' },
+        { v: 'neprijemna', label: 'Nepríjemná' },
+        { v: 'neviem', label: 'Neviem to zatiaľ zhodnotiť' },
+      ],
+    },
     postojOt('prst_prijimam_postoj', 'Cítiť prsty v zadočku počas predohry alebo sexu — prijímam'),
     {
       druh: 'otazka', id: 'prst_rozsah', typ: 'jeden',

@@ -32,6 +32,12 @@ const PRIPRAVA: Blok = {
   druh: 'skupina', id: 'priprava', nadpis: 'Fyzická príprava a starostlivosť o telo',
   bloky: [
     {
+  "druh": "text",
+  "id": "pri_vzhlad_info",
+  "nadpis": "Príprava a pocit zo seba",
+  "telo": "Starostlivosť o telo, oblečenie, vlasy a drobné detaily môžu podporiť pohodlie a sebavedomie. Rozlíš, čo vyhovuje tebe a čo ťa priťahuje na druhom; nemusia to byť rovnaké veci."
+},
+    {
       druh: 'otazka', id: 'pri_telo', typ: 'viac',
       text: 'Starostlivosť o telo pred intímnymi chvíľami — čo je pre mňa dôležité',
       moznosti: [
@@ -52,15 +58,55 @@ const PRIPRAVA: Blok = {
       ],
     },
     {
-      druh: 'otazka', id: 'pri_oblecenie', typ: 'viac', inePovolene: true,
-      text: 'Aké oblečenie ma pri intímnych chvíľach najviac láka (nosiť aj vidieť na partnerovi)',
-      moznosti: [
-        { v: 'bielizen', label: 'Erotická spodná bielizeň' },
-        { v: 'kostym', label: 'Kostýmy pre roleplay' },
-        { v: 'pohodlne', label: 'Pohodlné domáce oblečenie' },
-        { v: 'nahota', label: 'Nahota s dôrazom na prirodzenosť' },
-      ],
+  "druh": "otazka",
+  "id": "pri_oblecenie_ja",
+  "typ": "viac",
+  "text": "Čo chcem mať pri intímnych chvíľach na sebe?",
+  "moznosti": [
+    {
+      "v": "bielizen",
+      "label": "Erotická spodná bielizeň"
     },
+    {
+      "v": "kostym",
+      "label": "Kostýmy pre roleplay a hravosť"
+    },
+    {
+      "v": "pohodlne",
+      "label": "Pohodlné oblečenie a prirodzenosť"
+    },
+    {
+      "v": "nahota",
+      "label": "Nahota s dôrazom na prirodzenosť"
+    }
+  ],
+  "inePovolene": true
+},
+    {
+  "druh": "otazka",
+  "id": "pri_oblecenie_partner",
+  "typ": "viac",
+  "text": "Čo ma láka vidieť na partnerovi alebo partnerke?",
+  "moznosti": [
+    {
+      "v": "bielizen",
+      "label": "Erotická spodná bielizeň"
+    },
+    {
+      "v": "kostym",
+      "label": "Kostýmy pre roleplay a hravosť"
+    },
+    {
+      "v": "pohodlne",
+      "label": "Pohodlné oblečenie a prirodzenosť"
+    },
+    {
+      "v": "nahota",
+      "label": "Nahota s dôrazom na prirodzenosť"
+    }
+  ],
+  "inePovolene": true
+},
     p('pri_sebavedomie', 'Oblečenie / vlasy / detaily, ktoré mi dodávajú sebavedomie, sú pre mňa dôležité'),
     {
       druh: 'otazka', id: 'pri_doplnky', typ: 'viac',
@@ -112,14 +158,34 @@ const SIGNALY: Blok = {
   druh: 'skupina', id: 'signaly', nadpis: 'Signály pripravenosti a očný kontakt',
   bloky: [
     {
+  "druh": "text",
+  "id": "sig_info",
+  "telo": "Dotyky, pohľady a gestá môžu vyjadrovať túžbu bez slov. Očný kontakt môže byť tichým dialógom počas blízkosti, no každému vyhovuje inak. Nepriamy signál nie je istota súhlasu; pri nejasnosti sa opýtaj."
+},
+    {
       druh: 'otazka', id: 'sig_nepriame', typ: 'viac',
       text: 'Nepriame prejavy túžby, ktoré sú mi najpríjemnejšie',
       moznosti: [
         { v: 'dotyky', label: 'Nenápadné dotyky počas bežných aktivít' },
         { v: 'pohlady', label: 'Láskyplné pohľady a úsmevy' },
         { v: 'bozky', label: 'Bozky na ústa alebo iné časti tela' },
+      ], inePovolene: true},
+    {
+      druh: 'otazka', id: 'sig_reakcia', typ: 'jeden',
+      text: 'Ako na teba pôsobia nepriame prejavy túžby, napríklad pohľady, dotyky alebo bozky?',
+      napoveda: 'Príjemné gesto nemusí byť pozvaním pokračovať k sexu.',
+      moznosti: [
+        { v: 'prijemne', label: 'Sú mi príjemné a prinášajú do vzťahu iskru' },
+        { v: 'podla_nalady', label: 'Záleží na nálade a situácii' },
+        { v: 'nepreferujem', label: 'Tieto prejavy nepreferujem' },
       ],
     },
+    {
+  "druh": "otazka",
+  "id": "sig_reakcia_ine",
+  "typ": "text",
+  "text": "Moja reakcia na nepriame gestá — vlastná odpoveď alebo doplnenie (voliteľné):"
+},
     { druh: 'otazka', id: 'sig_frekvencia', typ: 'jeden', text: 'Ako často by som chcel(a) takéto gestá zažívať',
       moznosti: [
         { v: 'denne', label: 'Denne, ako súčasť každodenného života' },
@@ -127,6 +193,12 @@ const SIGNALY: Blok = {
         { v: 'zriedka', label: 'Zriedka — uprednostňujem iné formy náklonnosti' },
       ],
     },
+    {
+  "druh": "otazka",
+  "id": "sig_frekvencia_ine",
+  "typ": "text",
+  "text": "Želaná frekvencia gest — vlastná odpoveď alebo doplnenie (voliteľné):"
+},
     {
       druh: 'otazka', id: 'sig_ocny_kontakt', typ: 'jeden',
       text: 'Význam očného kontaktu počas intímnych chvíľ',
@@ -136,6 +208,37 @@ const SIGNALY: Blok = {
         { v: 'nie', label: 'Nie, radšej mám oči zatvorené' },
       ],
     },
+    {
+  "druh": "otazka",
+  "id": "sig_ocny_kontakt_ine",
+  "typ": "text",
+  "text": "Očný kontakt — vlastná odpoveď alebo doplnenie (voliteľné):"
+},
+    {
+  "druh": "otazka",
+  "id": "sig_pozvanie_formy",
+  "typ": "viac",
+  "text": "Aké spôsoby pozvania k intimite mi vyhovujú?",
+  "moznosti": [
+    {
+      "v": "telesne",
+      "label": "Telesné náznaky — pohľady, dotyky, priblíženie"
+    },
+    {
+      "v": "verbalne",
+      "label": "Slovné náznaky"
+    },
+    {
+      "v": "priame",
+      "label": "Priame pozvanie"
+    },
+    {
+      "v": "hrave",
+      "label": "Hravé pozvanie"
+    }
+  ],
+  "inePovolene": true
+},
     {
       druh: 'otazka', id: 'sig_prechod_penetracia', typ: 'jeden',
       text: 'Ako chcem, aby sme sa dohodli na chvíli prechodu z maznania/predohry k penetrácii',
@@ -156,8 +259,7 @@ const SEXTING: Blok = {
     {
       druh: 'text', id: 'sexting_intro',
       telo:
-        'Erotická komunikácia počas dňa je most medzi fantáziou a realitou — hravá správa, krátka hlasovka, ' +
-        'nenápadný dotyk na verejnosti. Očakávanie sa stáva súčasťou predohry ešte predtým, než sa dotknete.',
+        "Komunikácia počas dňa môže prepájať fantáziu s blízkosťou: hravá správa o spoločných predstavách, krátka hlasovka, nenápadný pohľad či jemný dotyk môžu budovať očakávanie pred stretnutím. Večer na ne môžete nadviazať, ak obaja chcete. Správa, flirt ani fotografia nezaväzujú k ďalšej intimite.",
     },
     {
       druh: 'otazka', id: 'sex_zaujem', typ: 'jeden',
@@ -169,6 +271,12 @@ const SEXTING: Blok = {
       ],
     },
     {
+  "druh": "otazka",
+  "id": "sex_zaujem_ine",
+  "typ": "text",
+  "text": "Môj záujem o správy — vlastná odpoveď alebo doplnenie (voliteľné):"
+},
+    {
       druh: 'otazka', id: 'sex_intenzita', typ: 'jeden',
       text: 'Preferovaná intenzita správ',
       moznosti: [
@@ -177,16 +285,40 @@ const SEXTING: Blok = {
       ],
     },
     {
+  "druh": "otazka",
+  "id": "sex_intenzita_ine",
+  "typ": "text",
+  "text": "Intenzita správ — vlastná odpoveď alebo doplnenie (voliteľné):"
+},
+    {
       druh: 'otazka', id: 'sex_formy', typ: 'viac',
-      text: 'Iné formy erotickej komunikácie okrem textu',
+      text: "Aké formy intímnej komunikácie okrem textových správ už používam?",
       moznosti: [
-        { v: 'hlasovka', label: 'Hlasové správy so zvodným tónom' },
-        { v: 'video', label: 'Videohovory na zdieľanie fantázií' },
-        { v: 'foto', label: 'Erotická fotografia' },
-        { v: 'listocek', label: 'Skrytý odkaz / lístoček' },
-        { v: 'len_text', label: 'Nie, len text' },
-      ],
-    },
+  {
+    "v": "hlasovka",
+    "label": "Hlasové správy so zvodným tónom"
+  },
+  {
+    "v": "video",
+    "label": "Videohovory na zdieľanie fantázií"
+  },
+  {
+    "v": "foto",
+    "label": "Erotická fotografia"
+  },
+  {
+    "v": "listocek",
+    "label": "Skrytý odkaz / lístoček v taške"
+  },
+  {
+    "v": "len_text",
+    "label": "Nie, preferujem iba textovú formu"
+  },
+  {
+    "v": "ziadne",
+    "label": "Žiadnu z týchto foriem zatiaľ nepoužívam"
+  }
+], inePovolene: true, napoveda: "Tu sa pýtame na súčasnú skúsenosť, nie na súhlas skúsiť niečo nové."},
   ],
 }
 
@@ -194,6 +326,11 @@ const SEXTING: Blok = {
 const INICIACIA: Blok = {
   druh: 'skupina', id: 'iniciacia', nadpis: 'Vedome dohodnutá iniciácia',
   bloky: [
+    {
+  "druh": "text",
+  "id": "ini_dohoda_info",
+  "telo": "Môžete sa dohodnúť, kto začína, striedať vedenie alebo si vytvoriť spoločné znamenie, vetu či gesto. Dohoda o iniciovaní a dohoda o dominantnej či prijímajúcej role sú dve odlišné veci; obe možno kedykoľvek zmeniť."
+},
     {
       druh: 'otazka', id: 'ini_dohoda', typ: 'viac',
       text: 'Formy vedome dohodnutej iniciácie, ktoré ma lákajú',
@@ -204,16 +341,20 @@ const INICIACIA: Blok = {
       ],
     },
     {
+  "druh": "text",
+  "id": "ini_mimo_info",
+  "telo": "Miesto mimo spálne, hračky alebo podporné pomôcky môžu priniesť nové podoby blízkosti. Vyber si zvlášť miesto a zvlášť pomôcky; experimentovanie nie je povinnosť."
+},
+    {
       druh: 'otazka', id: 'ini_polohy_mimo', typ: 'viac',
-      text: 'Polohy mimo spálne, ktoré by som chcel(a) vyskúšať',
+      text: "Ktoré miesta mimo spálne chcem vyskúšať?",
       moznosti: [
         { v: 'gauc', label: 'Na gauči' },
         { v: 'sprcha', label: 'V sprche alebo vani' },
         { v: 'auto', label: 'V aute' },
         { v: 'vonku', label: 'Vonku (diskrétne)' },
         { v: 'nie', label: 'Nie, radšej zostávam v spálni' },
-      ],
-    },
+      ], inePovolene: true},
     {
       druh: 'otazka', id: 'ini_pomocky_polohy', typ: 'viac',
       text: 'Pomôcky pri polohách mimo spálne',
@@ -222,8 +363,7 @@ const INICIACIA: Blok = {
         { v: 'bondage', label: 'Bondage pomôcky' },
         { v: 'vankuse', label: 'Polohovacie vankúše' },
         { v: 'nie', label: 'Nie, radšej bez pomôcok' },
-      ],
-    },
+      ], inePovolene: true},
   ],
 }
 

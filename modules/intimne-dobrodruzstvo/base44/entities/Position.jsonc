@@ -1,0 +1,65 @@
+{
+  "name": "Position",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Názov"
+    },
+    "category": {
+      "type": "string",
+      "title": "Kategória",
+      "enum": [
+        "Klasické",
+        "Ona navrchu",
+        "Zozadu",
+        "Bok po boku",
+        "Sediace",
+        "Stojacie",
+        "Špeciálne"
+      ]
+    },
+    "difficulty": {
+      "type": "number",
+      "title": "Náročnosť",
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "default": 1
+    },
+    "description": {
+      "type": "string",
+      "title": "Popis"
+    },
+    "partner_position": {
+      "type": "string",
+      "title": "Pozícia partnerov"
+    },
+    "tips": {
+      "type": "string",
+      "title": "Tipy"
+    },
+    "tags": {
+      "type": "array",
+      "title": "Tagy",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "is_favorite": {
+      "type": "boolean",
+      "title": "Obľúbené",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "description"
+  ]
+}

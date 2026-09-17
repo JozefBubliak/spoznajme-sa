@@ -1,0 +1,1 @@
+export default function FloatingHearts(){return <div className="ambient-light" aria-hidden="true"/>;}
