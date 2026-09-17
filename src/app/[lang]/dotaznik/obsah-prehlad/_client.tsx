@@ -117,7 +117,7 @@ function ChipsStatic({ moznosti, viac }: { moznosti: { v: string; label: string 
       {moznosti.map((m) => (
         <div
           key={m.v}
-          className={`rounded-xl border border-border/70 px-3.5 py-2 text-left text-xs font-medium text-muted-foreground ${viac ? '' : 'w-full'}`}
+          className={`rounded-xl border border-border bg-card/40 px-3.5 py-2 text-left text-sm font-medium text-foreground ${viac ? '' : 'w-full'}`}
         >
           {m.label}
         </div>
