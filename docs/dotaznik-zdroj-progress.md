@@ -179,7 +179,7 @@ Mapa sekcií (riadky v `zdroj_v2.txt`, 67 590 riadkov spolu):
 | 62578-64127 | 19_Tempo_intenzita_a_orgazmus | ✅ `tempo-intenzita.ts` |
 | 64128-64732 | 12_Masturbacia_a_solo_aktivity | ✅ `masturbacia.ts` |
 | 64733-65576 | 10_Bozky_dotyky_a_maznanie | ✅ `bozky-dotyky.ts` |
-| 65577-66101 | 13_Nepenetrativne_aktivity | ❌ **žiadna rich téma zatiaľ** (modul B7 má len holé L4 seedy) |
+| 65577-66101 | 13_Nepenetrativne_aktivity | ✅ **OPRAVENÉ** (bolo pôvodne označené ako medzera, no `nepenetrativne-trenie.ts` už existuje a je registrovaný v `strom.ts`/`obsah/index.ts` — táto poznámka bola len zastaraná). Overené celo-dedup-čítaním zdroja (282 unikátnych riadkov z 541): frottage, interkrurálny sex, tribbing/scissoring (vrátane voyeur prvku pre muža), titjob — všetko pokryté. Petting samotný je zámerne neduplikovaný — jeho konkrétne prvky (hladenie, masáž šije/ramien, stimulácia erotogénnych zón, trenie nahých tiel) sú rozpustené v `bozky-dotyky.ts`, `predohra-naladenie.ts` (TELO_NA_TELO, MASAZ) a `zmyslova-hra.ts`. |
 | 66102-66541 | 20_Roleplay_a_scenare | ✅ `roleplay.ts` |
 | 66542-66817 | 29_Miesta_a_prostredie | ✅ `miesta-prostredie.ts` |
 | 66818-67127 | 15_Vaginalna_penetracia | ✅ `vaginalna-penetracia.ts` |
