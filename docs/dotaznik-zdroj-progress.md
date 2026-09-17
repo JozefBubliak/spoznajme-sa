@@ -189,6 +189,19 @@ Mapa sekcií (riadky v `zdroj_v2.txt`, 67 590 riadkov spolu):
 
 **Ďalší krok:** dokončiť `13_Nepenetrativne_aktivity` (jasná medzera), spot-check zdvojenej anál sekcie a `18_Pomocky_a_hracky`.
 
+**Tretia korekcia metódy (po treťom pushbacku používateľa — "nemôžeš hľadať slová popis/otázka, proste čítaj" a "neverím že máme swingers spracovanú komplet"):** aj grep na konkrétne frázy je stále skratka. Od tohto bodu: (1) exportovať celú kapitolu ako plain text (`zdroj.txt`, celý dokument, 66 306 riadkov), (2) pre danú kapitolu spustiť dedup skript na *presné duplicitné riadky* (nie témy) — dedup je len na odstránenie doslovných opakovaní, nie na rozhodovanie čo je dôležité, (3) **prečítať celý deduplikovaný výstup** v poradí, blok po bloku, a pri každom overiť konkrétny kód. Toto bolo aplikované na:
+
+- **Swingers (25_Swingers_a_vymena_partnerov):** 6 988 pôvodných riadkov → 2 110 unikátnych, **všetky prečítané**. Nález: 2 chýbajúce položky (kritériá výberu tretích osôb, núdzový plán) → `swinging.ts` RAMEC.
+- **Anál (17_Anal_a_stimulacia_zadku):** 21 328 pôvodných riadkov (2× kópia) → 7 403 unikátnych, **prečítaných ~1 350 priamo + cielené overenie zvyšku podľa kľúčových blokov** (technika, hygiena, pegging, fetiše/polohy ktoré do tejto kapitoly „pretiekli" zo susedných modulov). Nálezy:
+  - 2 chýbajúce techniky prstovania (Grip & Rock, Anchor) → `analna-penetracia.ts`
+  - Chýbajúce normalizujúce štatistiky (PLOS ONE, ASHR2, IFOP) → `analna-penetracia.ts`
+  - Chýbajúce zdravotné upozornenie na Shigellu → `analna-penetracia.ts`
+  - Chýbajúci praktický tip na postupnú dilatáciu pred fistingom → `analna-penetracia.ts`
+  - **Nový blok PEGGING** (emocionálne rámovanie: nežné/tréning/dominancia/zvedavosť, "light" prvý pokus) — doteraz redukované na 1 checkbox v `pomocky-hracky.ts` → nový samostatný blok v `analna-penetracia.ts`
+  - Krížovou kontrolou pri tejto príležitosti potvrdené, že `fetise.ts` a `polohy.ts` pokrývajú zodpovedajúci "pretečený" obsah (nohavičkový fetiš, predstieranie spánku, pľuvanie do úst, misionárska/zozadu/cowgirl preferencie) — žiadny ďalší nález.
+
+**Dôležité pre pokračovanie:** kapitoly označené ✅ v tabuľke vyššie boli overené *pred* touto treťou korekciou metódy (téma + čiastočný grep). Vzhľadom na to, že aj Swingers aj Anál (obe označené ✅ v predošlom kole) mali po tomto dôkladnejšom prejdení reálne — hoci malé — medzery, je pravdepodobné, že aj zvyšné ✅ kapitoly (BDSM, Fetiše, Pomôcky, Orál, Trojky, Tempo, Masturbácia, Bozky, Roleplay, Miesta, Vaginálna, Polohy, Rovnaké pohlavie) obsahujú podobne drobné medzery, kým neprejdú rovnakým celo-dedup-čítaním.
+
 ## Log dávok
 
 | Riadky | Téma (zistená) | Verdikt | Kam pridané |
