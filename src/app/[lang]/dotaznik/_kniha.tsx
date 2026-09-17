@@ -310,7 +310,7 @@ export default function Kniha({
     window.clearTimeout(timers.current[polozka])
     setUkladam(true)
     timers.current[polozka] = window.setTimeout(async () => {
-      await ulozOdpoved(par, { modul, okruh, polozka, typ, rola, hodnota })
+      await ulozOdpoved(par, { modul, tema, okruh, polozka, typ, rola, hodnota })
       setUkladam(false)
     }, 500)
   }

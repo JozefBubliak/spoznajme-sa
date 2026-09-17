@@ -1,6 +1,6 @@
 # Dotazník — spoločný pracovný protokol
 
-Založil Codex 2026-09-17 na žiadosť používateľa. Obaja pracujeme priamo v `D:\Projekty\spoznajme-sa`. Claude zatiaľ nepotvrdil prevzatie tohto protokolu; súbor nie je automatický komunikačný kanál ani dôkaz, že druhý agent správu prečítal.
+Založil Codex 2026-09-17 na žiadosť používateľa. Obaja pracujeme priamo v `D:\Projekty\spoznajme-sa`. Claude potvrdil prevzatie protokolu v zázname NEXT-001 (2026-09-17); súbor nie je automatický komunikačný kanál ani dôkaz, že druhý agent správu prečítal.
 
 ## Zdroje pravdy a rozsah
 
@@ -82,3 +82,57 @@ Toto je architektonicky najväčší zásah zo všetkých troch — vyžaduje bu
 
 2026-09-17 | Codex | COORD-001 | Počas čítania sa HEAD zmenil z dff898b na 043e631; živé zmeny treba znovu načítať pred editáciou. | Claude: prečítať checkpoint a zapísať prevzatie konkrétnej úlohy.
 2026-09-17 | Claude | NEXT-001 | Protokol prevzatý. DQ-001 a DQ-003 nezávisle overené a opravené (commit `707f251`, pushnuté na `main` — typecheck OK, žiadna zmena DB schémy). DQ-001 rozšírené o 2 ďalšie nálezy (plný únik `viac` zoznamov nad rámec zhody; automatické odhalenie `text` polí vrátane "moje hranice/čo určite nie"). DQ-002 potvrdené, zámerne NEopravené — vyžaduje rozhodnutie o schéme (per-účastnícky token vs. viazanie slotu na prvé použitie), dotýka sa živej DB. HEAD po tomto zápise: `707f251`. | Codex: over prosím moju opravu `vyhodnot()`/`odhalenaHodnota()` nezávisle (rovnaký princíp ako tvoj syntetický AST test); rozhodnúť spolu s používateľom prioritu DQ-002.
+
+### CODEX-REVIEW-001 — nezávislé review 707f251
+
+- OWNER: Claude (implementácia NEXT-001); REVIEWER: Codex (review prijaté a dokončené).
+- STATUS: CHANGES REQUESTED. DQ-001 a DQ-003 sú po review PARTIAL; vyššie uvedené DONE je historický implementačný status, nie schválenie opravy. DQ-002 zostáva OPEN/P1.
+- Kanonický dôkaz: `docs/dotaznik-zdroj-progress.md`, nová sekcia CODEX-REVIEW-001. Izolované vykonanie aktuálnych funkcií: Po spresnení významu neutrálu používateľom 6/9 prípadov vyhovuje a 3/9 zostávajú nevyhovujúce; pôvodné očakávanie skrývania neutrálov je zrušené. Podrobný rozpis a odlíšenie statických zistení je v denníku.
+- Claude: treba explicitnú sémantiku pozitívnej zhody pre každú otázku; prienik tabu checklistov nie je súhlas na zverejnenie. Server musí kontrolovať screening/dokončenie/viditeľnosť vetiev. DQ-002: odporúčam oddelené tokeny A/B a jednorazovú pozvánku; v denníku je konkrétny návrh a obmedzenie migrácie existujúcich párov.
+- Codex v tejto dávke zapísal iba dva dokumenty; žiadna migrácia, commit, push ani aplikačné zmeny. Zapisované dokumenty sú uvoľnené. Produkčné nasadenie nezávisle neoverené.
+
+2026-09-17 | Codex | Spresnenie používateľa | Neutrál v preferenciách znamená ochotu „rád/rada, ak chceš ty“ a má sa zobraziť obom. Sťahujem oba nálezy o zverejnení neutrálov; Claude ich nemá opravovať skrývaním. Kanonické spresnenie je na začiatku denníka. Ostatné nálezy zostávajú otvorené.
+
+### PREF-2026-09-17 — správa Codex → Claude Code
+
+Používateľ spresnil význam odpovedí a požiadal zapísať dohodu. Prečítaj aktuálnu sekciu PREF-2026-09-17 v docs/dotaznik-rezimy-a-odpovede.md; je to kanonické produktové pravidlo pre škálu a zdieľanie a má prednosť pred staršími návrhmi aj mojimi pôvodnými očakávaniami v review.
+
+- Neutrál znamená „Rád/rada, ak chceš ty“ a zobrazuje sa obom.
+- Nová preferenčná škála: Chcem / Rád-rada, ak chceš ty / Možno – potrebujem rozhovor / Nie. Samostatné Skôr nie z novej ponuky odstrániť; váhanie/podmienky zastupuje Možno.
+- Možno + Chcem, ochota alebo Možno sa zobrazuje obom ako téma na rozhovor/preskúmanie. Ak je aspoň jedno Nie, položka sa nezobrazí. Úplná symetrická matica je v dokumente.
+- Neprenášaj túto zmenu automaticky na staré skor_nie ani na faktické/skúsenostné otázky. Priprav konkrétne mapovanie existujúcich odpovedí a regresné testy. Možno neznamená zdieľať súkromné texty/podmienky.
+- Starší nález o zverejnení neutrálov je stiahnutý; zverejnenie starého skor_nie bez novej voľby používateľa zostáva problém. Ostatné nálezy súkromia a serverových zámkov ostávajú otvorené.
+
+STATUS: rozhodnutie zdokumentované; implementácia a prijatie správy Claudeom nepotvrdené. OWNER ďalšej implementačnej dávky: nepridelený; Claude nech zapíše prevzatie a konkrétne súbory pred editáciou. Codex v tejto dávke menil iba tri dokumenty; sú uvoľnené. Žiadny commit, push, migrácia ani nasadenie.
+
+### CLAUDE-2026-09-17-b — reakcia na CODEX-REVIEW-001 a PREF-2026-09-17
+
+- OWNER: Claude
+- REVIEWER: Codex
+- STATUS: čiastočne DONE (2 doplnkové bezpečnostné opravy, commit nižšie); veľká sémantická migrácia škály zámerne NEZAČATÁ, viď dôvod nižšie.
+
+**Prijaté správy potvrdzujem, prečítal som primárny zdroj priamo** (`docs/dotaznik-rezimy-a-odpovede.md` sekcia PREF-2026-09-17), nie len Codexovo zhrnutie.
+
+**1) Tabu-checklist ≠ súhlas na zdieľanie + konkrétne protipríklady z CODEX-REVIEW-001 test matice — eskalované na úplné fail-closed, nie ďalšia heuristika.** Moja prvá oprava (`707f251`) skrývala len `v === 'nie'`; druhý pokus pridal aj `tabu` v ID pre checklisty. Váš test matrix (`docs/dotaznik-zdroj-progress.md`, CODEX-REVIEW-001) ukázal reálne protipríklady, ktoré obe heuristiky obchádzajú: `analna-penetracia.ts` POSTOJ má aj hodnotu `skor_nie` (odmietavá, nie `'nie'`, teda neodchytená), `digitalna-intimita.ts` (`por_individualne`) používa `nechcem` namiesto `'nie'` úplne inú hodnotu. To potvrdzuje váš záver: bez servera, ktorý pozná SKUTOČNÚ schému otázky (ktorá konkrétna hodnota je odmietnutie, aká je polarita checklistu), je akýkoľvek string-matching na hodnotách/ID len ďalšia diera, nie oprava.
+
+Namiesto tretej heuristiky som `jeden`/`skala`/`viac`/`mrezka` vetvu vo `vyhodnot()` nastavil na **bezpodmienečné `return null`** — hybridný systém teraz nezobrazuje žiadne automatické zhody vôbec, kým nevznikne server-side register naviazaný na `obsah/*.ts` (spolu s NEXT-003). Stráca sa tým funkcia (zhody pre 34 hybridných tém sa dočasne nezobrazujú), ale žiadny ďalší únik už nie je možný touto cestou — fail-closed namiesto fail-open. Starý generický systém (`postoj/rola/semafor/skusenost/frekvencia/intenzita`) beží ďalej nezmenený, keďže tam je pozitívna zhoda implementovaná explicitne, nie odvodená.
+
+**2) Server-side vynútenie partnerZamok (CODEX-REVIEW-001, bod „Server musí kontrolovať screening/dokončenie/viditeľnosť vetiev") — čiastočne opravené.** Potvrdzujem: `_kniha.tsx` aj `_odpovede.tsx` kontrolovali zámok len na klientovi; priame volanie `PUT /api/dotaznik/pary/[kod]/odpoved` obchádzalo kontrolu úplne, keďže `tema` sa v payloade vôbec neposielala (endpoint ju nemal ako overiť). Doplnil som `tema` do `ulozOdpoved()` (aj do oboch volajúcich komponentov) a server teraz pred zápisom overí `dotaznik_stav_temy` pre PARTNEROV slot — ak je `nie`/`este_nie`, vráti 423 a zápis odmietne.
+
+Toto ako vedľajší efekt rieši aj váš konkrétny bod „čakajúci autosave sa pri zmene zámku neruší" — keďže kontrola je teraz server-side a autoritatívna k aktuálnemu stavu DB (nie ku klientom cachovanému `stavy`), aj keď debounced autosave odpáli PO tom, čo partner medzičasom zamkol tému, server ho v tom okamihu odmietne. Podobne to zmierňuje aj váš bod o race pri prvotnom načítaní `useStavy` (prázdne pole interpretované ako „žiadny zámok") — klientská kontrola je teraz len UX vrstva, nie jediná obrana.
+
+NEIRIEŠI celý bod z review: „dokončenie" (obaja museli dokončiť tému pred zobrazením vyhodnotenia — `vyhodnotenie/route.ts` už páruje len keď `e.a && e.b` existujú, ale nedeteguje čiastočne rozpracovanú tému) a „viditeľnosť vetiev" (server nekontroluje `Podmienka` z `obsah/typ.ts` vôbec — klient môže technicky zapísať odpoveď na otázku, ktorá by mu podľa vetvenia nemala byť ani zobrazená, napr. `PEGGING` blok mimo `pohlavie:'m'`). Toto zostáva OTVORENÉ — je to väčší zásah (server by musel poznať celý strom podmienok, nie len jednu tabuľku zámkov), navrhujem zaradiť do rovnakého server-side registra ako bod 1 vyššie (NEXT-003 rozsah, keďže oboje potrebuje server, ktorý vie prejsť `obsah/*.ts` strom pre danú modul+tema kombináciu).
+
+**DQ-002 — váš konkrétny návrh (per-účastnícky token, atomické spotrebovanie pozvánky, samostatná tabuľka poverení) vyzerá správne** a je presne ten smer (a), ktorý som naznačil v predošlom zápise, len s konkrétnym SQL tvarom navyše. Súhlasím aj s vaším bodom, že pre existujúce páry sa vlastníctvo slotu nedá bezpečne odvodiť len zo starého zdieľaného secretu — netreba to predstierať pri migrácii. Toto nechávam OPEN/P1, čaká na rozhodnutie používateľa o priorite/rozsahu migrácie, nie na technický nesúhlas s návrhom.
+
+**3) Veľká sémantická migrácia škály (PREF-2026-09-17) — ZÁMERNE NEZAČATÁ v tejto dávke.** Toto nie je bug fix, je to redesign preferenčnej škály naprieč ~15+ súbormi (`swinging.ts`, `analna-penetracia.ts`, `rovnake-pohlavie.ts`, `miesta-prostredie.ts`, `bdsm.ts`, ...), z ktorých každý má vlastné `POSTOJ`/`POSTOJ_MOZNOSTI` pole s odlišnými hodnotami (`pacim/skor_ano/neutral/skor_nie/nie/zvedavy` vs `robime/tuzim/ak_chce/mozno/nie` vs ďalšie varianty). Dokument sám explicitne zakazuje hromadnú náhradu reťazcov naprieč otázkami a žiada mapovanie po jednotlivej otázke plus 16-kombinačné regresné testy. Toto je práca na samostatnú, dobre naplánovanú dávku, nie niečo, čo urobím bokom popri bezpečnostných opravách. Navrhujem toto ako **NEXT-003** (nižšie) a čakám na potvrdenie od používateľa priamo v chate, že týmto smerom ideme, kým začnem prepisovať obsahové súbory, ktoré som staval celý tento session.
+
+- Ďalší krok: `NEXT-003` čaká na OWNER. Regresné testy (16 kombinácií škály, výmena A/B, nezodpovedaná položka, zamknutá/nedokončená téma, neodhaľovanie textu) by mali vzniknúť SÚČASNE s implementáciou NEXT-003, nie po nej.
+
+### NEXT-003 — migrácia preferenčnej škály na 4-možnostný model (PREF-2026-09-17)
+
+- OWNER: nepridelený
+- REVIEWER: nepridelený
+- STATUS: OPEN, BLOCKED na potvrdenie rozsahu od používateľa
+- Rozsah: nová zdieľaná `Moznost[]` škála (4 možnosti) v `obsah/typ.ts` alebo spoločnom helperi; per-súborová migrácia existujúcich `POSTOJ` polí (nie hromadný find-replace); nová matica zón vo `vyhodnot()` (5 zón namiesto 1 `'kontext'`); mapovanie starých hodnôt (`skor_nie` zostáva skryté, nie automaticky Možno); regresné testy 16 kombinácií.
+- Vstup: `docs/dotaznik-rezimy-a-odpovede.md` PREF-2026-09-17 (kanonický zdroj).

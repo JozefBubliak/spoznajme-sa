@@ -276,7 +276,7 @@ export default function SekciaOtazky({
     window.clearTimeout(timers.current[key])
     setUkladam(true)
     timers.current[key] = window.setTimeout(async () => {
-      await ulozOdpoved(par, { modul, okruh, polozka, typ, rola: rola || undefined, hodnota })
+      await ulozOdpoved(par, { modul, tema, okruh, polozka, typ, rola: rola || undefined, hodnota })
       setUkladam(false)
     }, 500)
   }

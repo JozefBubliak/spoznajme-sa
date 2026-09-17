@@ -1,3 +1,74 @@
+## PREF-2026-09-17 — zjednotenie škály a zobrazenie Možno
+
+Kanonická produktová dohoda je teraz v **docs/dotaznik-rezimy-a-odpovede.md**, sekcia PREF-2026-09-17, vrátane úplnej matice 4 × 4. Nová preferenčná škála: Chcem / Rád-rada, ak chceš ty / Možno – potrebujem rozhovor / Nie. Neutrál znamená ochotu a zobrazuje sa; Možno sa tiež zobrazuje, pokiaľ druhý neodpovedal Nie, ako téma na rozhovor. Samostatné Skôr nie sa z novej ponuky vypúšťa.
+
+Rozhodnutie o novom formulári nemení spätne význam uloženého skor_nie. Bez novej voľby používateľa ho nemožno automaticky odhaliť ako Možno. Preto pôvodný test skor_nie / chcem zostáva dokladom problému pre staré dáta; testy neutrálov sú naďalej stiahnuté. Tento zápis nie je nové vykonanie testov ani potvrdenie opravy DQ-001.
+
+Do docs/AI-COLLAB.md bola zapísaná správa pre Claude Code. Aktualizovaná dokumentácia; aplikácia, uložené odpovede a DB bez zmien. Konkrétne mapovanie starých hodnôt a percentuálny vzorec ešte nie sú rozhodnuté. Nálezy identity slotov, zámkov a súkromných textov zostávajú otvorené.
+
+---
+## Spresnenie používateľa — význam neutrálnej odpovede (2026-09-17)
+
+Používateľ výslovne určil: neutrál v preferenčnej škále znamená „rád/rada to urobím, ak chceš aj ty“ a má sa zobraziť obom. Ide o ochotu, nie odmietnutie. Toto rozhodnutie má prednosť pred starším pravidlom skrývania neutrálov v dokumentácii a pred pôvodným očakávaním v CODEX-REVIEW-001.
+
+Codex sťahuje oba nálezy „neutral / neutral sa zverejní“ ako chybu: pre preferenčnú škálu aj jej mriežkovú reprezentáciu je zobrazenie žiadané. Pôvodné vykonanie funkcií sa nemení, opravuje sa očakávaný výsledok: zo skúšaných 9 prípadov teraz 6 vyhovuje a 3 zostávajú nevyhovujúce. Nie je to nové spustenie testov.
+
+Pre párovú preferenciu: ochota + záujem sa zobrazí obom; ochota + ochota sa tiež môže zobraziť obom. Neutrál sa nemá vydávať za aktívnu túžbu. Táto zmena neautorizuje zverejnenie odmietnutia druhého partnera. Rovnaký reťazec neutral v otázke spokojnosti či inom kontexte sa nesmie automaticky interpretovať ako ochota k aktivite. Odporúčanie pre budúce znenie preferenčnej možnosti: „Rád/rada, ak chceš ty“ namiesto nejednoznačného „Neutrálne“.
+
+Ostatné nálezy review (odmietnutia, tabu checklisty, súkromné prídavné polia, serverové zámky a identita slotov) týmto spresnením nie sú uzavreté. V tejto dávke sa mení iba auditná dokumentácia, nie správanie aplikácie.
+
+---
+## CODEX-REVIEW-001 — review opravy 707f251 (2026-09-17)
+
+OWNER/REVIEWER tejto dávky: Codex. STATUS: REVIEW dokončené; opravy DQ-001 a DQ-003 sú PARTIAL, nie DONE. Kontrolovaný HEAD `5b27561`. Produkčné nasadenie nie je týmto lokálnym review overené.
+
+### DQ-001 — výsledok nezávislého vykonania funkcií
+
+Z aktuálneho `vyhodnotenie/route.ts` boli cez TypeScript AST vybrané a izolovane spustené obe funkcie `vyhodnot` a `odhalenaHodnota`; bez siete alebo reálnych dát. Pôvodne štyri z deviatich kontrol prešli a päť neprešlo; po spresnení používateľa o neutráli je správne 6 vyhovujúcich a 3 nevyhovujúce prípady (pozri opravu vyššie):
+
+| Prípad | Výsledok |
+|---|---|
+| skala: nie / chcem | PASS: skryté |
+| text: dva súkromné texty | PASS: skryté |
+| viac: [x, privateA] / [x, privateB], navyše ine | PASS: iba [x], bez ine |
+| mrezka: jedna pozitívna zhoda a jeden nesúlad | PASS: iba zhodná bunka |
+| skala: skor_nie / chcem | FAIL: obe hodnoty zverejnené |
+| skala: neutral / neutral | PASS podľa spresnenia používateľa: ochota zobrazená |
+| jeden: nechcem / ano | FAIL: obe hodnoty zverejnené |
+| mrezka: neutral / neutral | PASS pre preferenčnú mriežku podľa spresnenia používateľa |
+| skala: chcem + ine=súkromná poznámka / chcem | FAIL: fallback vracia celý objekt aj s ine |
+
+Testovacie hodnoty sú syntetické; nie každý pár hodnôt predstavuje existujúcu otázku. Reálne obsahové dôkazy: `analna-penetracia.ts:14` POSTOJ obsahuje `pacim`, `skor_ano`, `neutral`, `skor_nie`, `nie`, `zvedavy`; `digitalna-intimita.ts`, otázka `por_individualne`, obsahuje `nechcem` oproti `v_pohode`/`transparentnost`. Aktuálny filter skryje iba presné `nie`, takže vyššie uvedená chyba nie je len hypotetická.
+
+Ďalší konkrétny problém: `swinging.ts`, `ss_muz_tabu` (typ viac) zaznamenáva ZÁKAZY, nie pozitívne želania. Prienik napr. `[bozk]` / `[bozk]` sa podľa nového filtra zverejní. Produktové pravidlo v `dotaznik-rezimy-a-odpovede.md` §0 bod 3 však vyžaduje spoločné Nie úplne skryť. Samotný typ viac neurčuje význam odpovede. Ani rozšírený blacklist hodnôt to nevyrieši.
+
+GET stále neoveruje dokončenie témy, screening ani aktuálne viditeľné vetvy. Staré odpovede v neskôr skrytej vetve sa môžu vyhodnotiť. Ide o pôvodne otvorenú časť DQ-001, ktorú commit nerieši.
+
+Odporúčanie: serverový register pravidiel zdieľania viazaný na jednoznačnú otázku (modul/téma/skupina/id/rola), explicitné pozitívne hodnoty a účel otázky; tabu, text, meta a neznáme otázky implicitne skryť. Odhalený objekt konštruovať len z povolených polí. Neodvodzovať povolenie z toho, že hodnota nie je `nie`. Typ a možnosti overiť podľa serverového registra, nie podľa klientom uloženého `typ`. Pokiaľ sémantika otázky nie je overená, nezdieľať ju. Toto je návrh, zatiaľ bez implementácie.
+
+### DQ-003 — čo je opravené a čo zostáva
+
+Potvrdzujem: `_kniha.tsx` teraz obsahuje `partnerZamok` a po načítaní zamknutého stavu zobrazí zámok. Ale:
+
+- Berie iba `stavy` z `useStavy`; nečaká na načítanie screeningu. Loading guard čaká len na odpovede. Pri pomalom alebo neúspešnom načítaní stavov je počiatočné prázdne pole interpretované ako žiadny zámok. Samotné použitie existujúceho `nacitane` tiež nestačí: hook ho nastavuje aj po chybe; treba rozlíšiť úspešné načítanie od chyby.
+- `odpoved/route.ts` PUT screening vôbec nekontroluje. Zámok v UI nebráni priamemu zápisu. Ani vyhodnotenie nekontroluje stav témy.
+- Čakajúci autosave sa pri zmene zámku neruší; server preto musí stav kontrolovať pri zápise, ideálne atómovo so zápisom.
+
+Tieto tri body sú statický audit toku, nie vykonaný end-to-end test.
+
+### DQ-002 — priorita a konkrétny návrh
+
+Priorita P1, pred ďalším rozširovaním obsahu. Kontrola vyhodnotenia sama o sebe nevyrieši priamy prístup do cudzieho slotu. Potvrdené aj v `stav/route.ts` (klientom deklarovaný slot umožňuje zmeniť screening) a `join/route.ts` (body.slot=a sa akceptuje so spoločným secretom).
+
+Odporúčaný smer: samostatný náhodný token pre A a B, v DB iba hash a väzba na pár/slot; samostatná jednorazová pozvánka pre pripojenie B. Slot odvodí server z tokenu. A token vzniká pri vytvorení páru, B token pri atómovom spotrebovaní pozvánky, aby súbežné join požiadavky nevydali prístup dvom účastníkom. Pozvánka nikdy nesmie čítať odpovede ani nahradiť token A. Overiť všetky účastnícke endpointy, nielen odpoved GET/PUT.
+
+Možná aditívna migrácia je samostatná tabuľka poverení účastníkov (par_id, slot, token_hash, unique par_id+slot) a stav jednorazovej pozvánky; tabuľku odpovedí netreba kvôli samotnej identite nutne meniť. RLS zachovať bez verejného prístupu. Presné SQL a rollout ešte nie sú pripravené.
+
+Pre existujúce páry nemožno bezpečne dokázať vlastníctvo slotu len zo starého spoločného secretu a localStorage.slot. Nevydávať token A/B pri prvom prihlásení tomu, kto tento slot iba deklaruje. Návrh migrácie musí riešiť nové spárovanie alebo nezávislé overenie; nesmie ako fallback sprístupniť staré súkromné odpovede. Existujúce dáta automaticky nemažeme.
+
+Najbližšie: pripraviť implementáciu a regresné testy mimo živého nasadenia; potom samostatne posúdiť migráciu existujúcich párov a rollout. Toto review nemení DB, aplikačný kód ani produkciu.
+
+---
 ## CODEX-2026-09-17 — aktuálny checkpoint spolupráce
 
 Táto sekcia spresňuje staršie checkpointy nižšie; historický log ostáva zachovaný. Pracovný protokol: `docs/AI-COLLAB.md`. Codex má odteraz priamy lokálny prístup; starší postup posielania TS súborov cez chat už nie je potrebný.

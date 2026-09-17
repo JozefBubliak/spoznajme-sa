@@ -2,9 +2,48 @@
 
 > Nadväzuje na `dotaznik-strom-navrh.md` (strom tém). Tu je **ako to dvaja ľudia vypĺňajú**,
 > aké sú **režimy**, ako sa to **vyhodnocuje vedľa seba** a aké **typy odpovedí** potrebujeme.
-> Stav: **rozhodnuté (2026-09-08)**, viď §8. Nasadené na produkcii, len pre admina (`/[lang]/dotaznik`).
+> Stav: základný návrh 2026-09-08; preferenčná škála aktualizovaná rozhodnutím PREF-2026-09-17. Dokument opisuje aj cieľové správanie, nie potvrdený stav nasadenia.
 
-## 0. Rozhodnutia (zapracované)
+## PREF-2026-09-17 — dohodnutá škála postoja a zobrazenie výsledkov
+
+**Produktové rozhodnutie po rozhovore s používateľom 2026-09-17; implementácia ešte nie je potvrdená.** Táto sekcia nahrádza staršie pravidlá skrývania neutrálnej odpovede a Možno. Platí pre postoj ku konkrétnej aktivite v režime B; nemení screening celej témy ani faktické, frekvenčné a skúsenostné otázky.
+
+### Štyri možnosti pre novú preferenčnú škálu
+
+| Možnosť | Čo vyjadruje |
+|---|---|
+| **Chcem to / páči sa mi to** | Vlastný záujem o aktivitu. |
+| **Rád/rada, ak chceš ty** | Ochotne sa zapojím, aj keď to nie je moja vlastná silná túžba. Toto používateľ myslí slovom neutrál. |
+| **Možno — potrebujem sa o tom najprv porozprávať** | Váhanie, neistota alebo podmienky; priestor na rozhovor, zatiaľ nie ochota aktivitu uskutočniť. |
+| **Nie — toto nechcem** | Odmietnutie, ktoré sa rešpektuje bez presviedčania. |
+
+Samostatné „Skôr nie“ a „Možno, za určitých podmienok“ používateľ vníma ako mätúci prekryv. Pre novú škálu ich zjednotiť do jednej možnosti Možno. „Neutrálne“ nahradiť zrozumiteľným názvom Rád/rada, ak chceš ty; ochota sa nesmie prezentovať ako aktívna túžba.
+
+V bežnom rozhovore môže „skôr nie“ znamenať aktuálne odmietnutie bez definitívneho nikdy. Zrušenie tejto možnosti vo formulári preto neoprávňuje premeniť už uložené odmietnutia na ochotu. Každý môže svoj postoj neskôr sám zmeniť. Ani zobrazená zhoda, ani Možno nenahrádza aktuálnu dohodu oboch o aktivite.
+
+### Úplná matica zobrazenia obom partnerom
+
+Vyhodnocovať až po dokončení témy oboma, pri splnenom screeningu a relevantnej vetve. Matica je symetrická. Chýbajúca odpoveď nie je Možno ani neutrál a nezobrazí sa ako výsledok.
+
+| Odpoveď A / odpoveď B | Chcem | Rád/rada, ak chceš ty | Možno | Nie |
+|---|---|---|---|---|
+| **Chcem** | Spoločný záujem | Záujem + ochota | Téma na rozhovor | Skryté |
+| **Rád/rada, ak chceš ty** | Ochota + záujem | Vzájomná ochota | Téma na rozhovor | Skryté |
+| **Možno** | Téma na rozhovor | Téma na rozhovor | Téma na spoločné preskúmanie | Skryté |
+| **Nie** | Skryté | Skryté | Skryté | Skryté |
+
+Viditeľné výsledky zobrazia obom ich odlišné postoje; nezlievať Chcem a Možno do jednej kladnej odpovede. Výsledky s Možno označiť ako rozhovor/preskúmanie, nie ako súhlas s uskutočnením. Zhodné Nie ani tabu checklisty nevytvárajú zoznam spoločných hraníc. Povolenie zobrazovať Možno neznamená automatické zdieľanie súkromnej poznámky alebo voľne napísaných podmienok.
+
+### Dopad na implementáciu a existujúce odpovede
+
+- Aplikovať významy konzistentne v generickom dotazníku aj hybridnej knihe a v preferenčných mriežkach. Typ otázky sám neurčuje súhlas na zdieľanie; napr. checklist zakázaných aktivít má opačný význam ako zoznam želaní.
+- Staré hodnoty a formulácie najprv zmapovať podľa konkrétnej otázky. Nevykonať hromadnú náhradu všetkých reťazcov neutral, jedno, skor_nie či mozno naprieč rôznymi otázkami.
+- Existujúce skor_nie automaticky nepreklasifikovať na zdieľateľné Možno. Návrh migračného pravidla: ponechať ich skryté do novej voľby používateľa; samotná migrácia ešte nie je vykonaná ani schválená týmto zápisom.
+- Staré „Neskúšal(a), zaujíma ma“ kombinuje skúsenosť a záujem. Pri prechode na štyri možnosti zachovať túto informáciu; konkrétne mapovanie a oddelenie skúsenosti treba pripraviť, nie automaticky vymazať.
+- Výpočet percent zhody pre novú škálu nie je dohodnutý. Možno nemá byť potichu započítané ako kladný súhlas. Zatiaľ je záväzná matica zobrazenia, nie nový percentuálny vzorec.
+- Regresné overenie má pokryť všetkých 16 kombinácií, výmenu A/B, nezodpovedanú položku, zamknutú/nedokončenú tému a neodhaľovanie textových poznámok. Existujúce bezpečnostné nálezy DQ-002/DQ-003 týmto produktovým rozhodnutím nezanikajú.
+
+## 0. Základné rozhodnutia (historický základ; aktuálna škála je vyššie)
 
 1. **Bez registrácie. Maximálne anonymne.** Žiadny e-mail, žiadny účet. Len prezývka + kód páru. Dáta ephemerálne, auto-mazanie, tlačidlo „zmazať všetko".
 2. **Režim = jeden pre celý pár** a celý dotazník (pokrýva všetky moduly). Nie prepínateľný per modul.
@@ -44,11 +83,8 @@
   | `Ešte nie` | — | Téma sa **dočasne zamkne obom**. B vidí „⏳ Partner ešte váha". |
   | `Áno` | `Nie` | Téma sa zamkne. **A sa nedozvie**, že B odmietol (vidí len „zamknuté partnerom"). **B sa nedozvie**, že A chcel. |
   | `Áno` | `Áno` | Obaja vyplnia položky. |
-- **Vyhodnotenie položiek** (až keď obaja dokončia tému):
-  - Zobrazí sa **len** to, kde sú **obaja pozitívni** (`Toto chcem` / `Skôr áno` / `Zaujíma ma`).
-  - **Nesúlad** (jeden chce, druhý nie) → položka sa **vôbec nezobrazí**. Nikto sa nedozvie ani o túžbe, ani o odmietnutí.
-  - Zhodné `Neutrál` alebo zhodné `Nie` → nezobrazí sa (voliteľne „zhodné hranice" ako samostatný, diskrétny zoznam).
-- **Výstup:** *Mapa spoločnej rozkoše* — len zhody, zoradené 💚 obaja chcú → 🌱 obaja zvedaví → … + odporúčaný ďalší krok.
+- **Vyhodnotenie položiek** (až keď obaja dokončia tému): podľa matice PREF-2026-09-17 vyššie. Chcem a ochota vytvárajú spoločný záujem/ochotu, Možno sa zobrazuje ako téma na rozhovor. Ak je aspoň jedna odpoveď Nie, položka sa nezobrazí.
+- **Výstup:** Mapa spoločnej rozkoše rozlišuje spoločný záujem, ochotu a témy na rozhovor; odlišné postoje partnerov zachováva.
 - Anonymná štatistika pre projekt OK; v rámci páru skryté.
 
 ### Režim C — „Otvorená karta" (jednosmerné zdieľanie) — *ďalšia iterácia (nie v1)*
@@ -103,7 +139,7 @@ dotaznik_zdielania
 
 | # | Typ | Kedy | Hodnoty |
 |---|---|---|---|
-| 1 | **Postoj / chuť** (hlavný, na L4) | „páči sa mi to?" | `Toto chcem` · `Skôr áno` · `Je mi to jedno` · `Skôr nie` · `Nechcem (hranica)` · `Neskúšal(a), zaujíma ma` |
+| 1 | **Postoj / chuť** (hlavný, na L4) | „páči sa mi to?" | **Chcem to / páči sa mi to** · **Rád/rada, ak chceš ty** · **Možno — potrebujem sa o tom najprv porozprávať** · **Nie — toto nechcem** (PREF-2026-09-17; staré odpovede vyžadujú mapovanie) |
 | 2 | **Semafor hraníc** | sekcia „Hranice" | 🟢 áno · 🟡 za podmienok *(+ pole „podmienka")* · 🔴 tvrdá hranica |
 | 3 | **Frekvencia** | „ako často?" | často · podľa nálady · občas ako bonus · raz vyskúšať · nikdy |
 | 4 | **Rola (zrkadlová dvojica)** | ⇄ moduly | dve nezávislé škály typu 1: „keď **prijímam**" a „keď **poskytujem**" |
@@ -126,14 +162,13 @@ Inšpirácia na konkrétne možnosti = prekonvertované `.md` z `dotazník/` (ma
 
 ## 5. Vyhodnotenie vedľa seba (Režim B)
 
-- Na spoločne otvorenú tému: tabuľka **JA | PARTNER** po okruhoch — ale len riadky so **zhodou**.
-- **% zhody** na tému = podiel položiek, kde sú obaja ≥ `Skôr áno`.
-- Zóny: 💚 **zhoda** = obaja `chcem`/`skôr áno` **alebo obaja `neskúšal, zaujíma ma`** (počíta sa ako zhoda) · 😐 obaja neutrál · *(nesúlad skrytý)*.
-- Odporúčania: 💚 (skúsenosť) → naplánujte konkrétne · 💚 (obaja zvedaví) → skúste scenár S0/S1 · 😐 → netlačte.
-- Prepojenie ďalej: na 💚/🌱 ponúknuť kartičku / rozhovor / „session card".
+- Tabuľka JA | PARTNER obsahuje iba položky povolené maticou PREF-2026-09-17.
+- Rozlišovať spoločný záujem, ochotu a témy na rozhovor; Možno nie je súhlas s uskutočnením aktivity.
+- Ak jeden alebo obaja odpovedia Nie, položku úplne skryť. Zhodná ochota sa zobrazuje.
+- Percentuálny vzorec pre novú škálu zostáva otvorený; staré pravidlo „obaja aspoň Skôr áno“ už nie je aktuálnou definíciou zobrazovania.
+- Ďalší krok má zodpovedať výsledku: pri Možno najprv rozhovor, pri záujme/ochote možnosť spoločného plánovania.
 
 ---
-
 ## 6. Čo postaviť ďalej (poradie) — stav
 
 1. ✅ **Anonymná párovacia infra** (§3): tabuľky `dotaznik_*`, RLS bez policies, kód+secret v `#k=`,
@@ -174,7 +209,7 @@ Inšpirácia na konkrétne možnosti = prekonvertované `.md` z `dotazník/` (ma
 | **YNM / „Yes No Maybe" apps** | anonymné prihlásenie by default — **žiadny e-mail ani údaje** | „tvoje možno zostane tvoje, tvoje nie zostane tvoje, žiadny zoznam odmietnutí neexistuje" | anonymná identita bez PII; 100+ otázok od mierneho po odvážne; každý na svojom telefóne, svojím tempom |
 | **Kindu** (app) | pár cez kód/pozvánku | swipe „áno/nie/možno", zobrazí sa len match | swipe UX; ideas feed |
 
-**Náš model:** ako MojoUpgrade/YNM (žiadny účet, len kód + prezývka, zobrazí sa len zhoda),
+**Náš model:** anonymný pár s kódom a prezývkami; pravidlá zobrazovania sú vlastné podľa PREF-2026-09-17 (vrátane Možno),
 + navyše **auto-mazanie po 30 dňoch** a tlačidlo „Zmazať všetko", + **secret v URL fragmente**
 (`#k=…`, nechodí na server) namiesto verejne uhádnuteľného odkazu → opravená slabina MojoUpgrade.
 
@@ -185,5 +220,5 @@ Zdroje: [MojoUpgrade – čo to je](https://emira.io/articles/what-is-mojo-upgra
 
 ## 8. Stav rozhodnutí
 
-Všetkých 6 otázok zodpovedaných — viď **§0**. Ďalší krok: implementovať §6 body 1–3
+Historický stav z 2026-09-08 (nové rozhodnutie o škále a otvorené mapovanie starých odpovedí sú v PREF-2026-09-17): všetkých 6 pôvodných otázok zodpovedaných — viď **§0**. Vtedajší ďalší krok: implementovať §6 body 1–3
 (anonymná párovacia infra + režim + prvé komponenty odpovedí).

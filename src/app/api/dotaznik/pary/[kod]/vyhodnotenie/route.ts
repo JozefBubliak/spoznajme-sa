@@ -20,11 +20,10 @@ const POS_POSTOJ = new Set(['chcem', 'skor_ano', 'zvedavy'])
 
 // Double-Blind: zobrazí sa len zhoda. Nesúlad sa nikde neobjaví.
 //
-// Pozor: `typ` tu prichádza z dvoch nezávislých systémov s rôznym slovníkom hodnôt —
-// starší generický „section walker" (otazky.ts: postoj/rola/semafor/skusenost/frekvencia/
-// intenzita/multi/text) a novší „kniha + dotazník" hybrid (obsah/typ.ts: jeden/viac/skala/
-// text/mrezka). Bez explicitnej vetvy pre hybridné typy by spadli do defaultu a ukázali by sa
-// VŽDY, aj keď niekto zvolil explicitné „Nie — hranica" — presne to, čo Double-Blind sľubuje skryť.
+// `typ` tu prichádza z dvoch nezávislých systémov s rôznym slovníkom hodnôt — starší generický
+// „section walker" (otazky.ts: postoj/rola/semafor/skusenost/frekvencia/intenzita/multi/text)
+// a novší „kniha + dotazník" hybrid (obsah/typ.ts: jeden/viac/skala/text/mrezka). Len prvý má
+// nižšie implementovanú skutočnú pozitívnu zhodu — druhý je zámerne fail-closed, viď nižšie.
 function vyhodnot(typ: string, a: Record<string, unknown>, b: Record<string, unknown>): string | null {
   if (typ === 'postoj' || typ === 'rola') {
     const av = a.v as string
@@ -44,49 +43,29 @@ function vyhodnot(typ: string, a: Record<string, unknown>, b: Record<string, unk
   }
   if (typ === 'frekvencia' || typ === 'intenzita') return 'kontext'
 
-  // Hybridný „kniha + dotazník" systém (OtazkaTyp z obsah/typ.ts).
-  if (typ === 'jeden' || typ === 'skala') {
-    const av = a.v as string | undefined
-    const bv = b.v as string | undefined
-    if (av == null || bv == null) return null
-    // Konvencia naprieč obsah/*.ts: hodnota 'nie' = explicitná hranica/odmietnutie.
-    if (av === 'nie' || bv === 'nie') return null
-    return 'kontext'
-  }
-  if (typ === 'viac') {
-    const aArr = Array.isArray(a.v) ? (a.v as string[]) : []
-    const bArr = Array.isArray(b.v) ? (b.v as string[]) : []
-    return aArr.some((x) => bArr.includes(x)) ? 'kontext' : null
-  }
-  if (typ === 'mrezka') {
-    const aM = (a.v ?? {}) as Record<string, string>
-    const bM = (b.v ?? {}) as Record<string, string>
-    return Object.keys(aM).some((k) => aM[k] != null && aM[k] === bM[k] && aM[k] !== 'nie')
-      ? 'kontext'
-      : null
-  }
+  // Hybridný „kniha + dotazník" systém (OtazkaTyp z obsah/typ.ts: jeden/skala/viac/mrezka/text).
+  //
+  // POZOR — dočasne úplne vypnuté (fail-closed), NIE implementované cez heuristiku:
+  // prvý pokus (kontrola `v === 'nie'` + `tabu` v ID) sa pri review ukázal ako nedostatočný —
+  // `analna-penetracia.ts` má v tej istej škále aj hodnotu `skor_nie` (tiež odmietavá, nezachytená),
+  // `digitalna-intimita.ts` (`por_individualne`) používa `nechcem` namiesto `nie` úplne inú hodnotu.
+  // Bez toho, aby server poznal SKUTOČNÚ schému otázky (moznosti + ktorá hodnota je odmietnutie +
+  // polarita checklistu), nemožno túto vetvu robiť bezpečne len string-matchingom na hodnoty/ID.
+  // Kým nevznikne server-side register naviazaný na `obsah/*.ts` (NEXT-003, spolu s migráciou
+  // preferenčnej škály PREF-2026-09-17), radšej nezobrazovať nič než riskovať ďalší únik.
+  if (typ === 'jeden' || typ === 'skala' || typ === 'viac' || typ === 'mrezka') return null
+
   // 'text' (voľný text) a čokoľvek neznáme: nedá sa bezpečne automaticky vyhodnotiť ako
   // „zhoda" — nikdy neodhaľovať partnerovi bez explicitného zdieľania.
   return null
 }
 
-/** Čo presne sa z dvojice hodnôt smie odhaliť — pre 'viac'/'mrezka' NIKDY plné súkromné zoznamy, len prienik. */
-function odhalenaHodnota(typ: string, a: Record<string, unknown>, b: Record<string, unknown>) {
-  if (typ === 'viac') {
-    const aArr = Array.isArray(a.v) ? (a.v as string[]) : []
-    const bArr = Array.isArray(b.v) ? (b.v as string[]) : []
-    const prienik = aArr.filter((x) => bArr.includes(x))
-    return { a: { v: prienik }, b: { v: prienik } }
-  }
-  if (typ === 'mrezka') {
-    const aM = (a.v ?? {}) as Record<string, string>
-    const bM = (b.v ?? {}) as Record<string, string>
-    const prienik: Record<string, string> = {}
-    for (const k of Object.keys(aM)) {
-      if (aM[k] != null && aM[k] === bM[k] && aM[k] !== 'nie') prienik[k] = aM[k]
-    }
-    return { a: { v: prienik }, b: { v: prienik } }
-  }
+/**
+ * Čo presne sa z dvojice hodnôt smie odhaliť. `vyhodnot()` teraz vracia zónu len pre typy
+ * starého generického systému (postoj/rola/semafor/skusenost/frekvencia/intenzita) — tie
+ * odhaľujú priamo `hodnota`, čo je v poriadku (žiadny checklist/free-text tam nehrozí).
+ */
+function odhalenaHodnota(_typ: string, a: Record<string, unknown>, b: Record<string, unknown>) {
   return { a, b }
 }
 
@@ -124,9 +103,9 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ kod: string
   const mapa = new Map<string, Map<string, unknown[]>>()
   for (const [key, e] of parovane) {
     if (!e.a || !e.b) continue
+    const [modul, okruh, polozka] = key.split('|')
     const zona = vyhodnot(e.a.typ, e.a.hodnota, e.b.hodnota)
     if (!zona) continue
-    const [modul, okruh, polozka] = key.split('|')
     if (!mapa.has(modul)) mapa.set(modul, new Map())
     const okr = mapa.get(modul)!
     if (!okr.has(okruh)) okr.set(okruh, [])

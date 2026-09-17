@@ -29,13 +29,14 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ kod: string
 }
 
 // PUT /api/dotaznik/pary/[kod]/odpoved
-//  { secret, slot, modul, okruh, polozka, typ, rola?, hodnota, poznamka? }
+//  { secret, slot, modul, tema?, okruh, polozka, typ, rola?, hodnota, poznamka? }
 export async function PUT(req: NextRequest, ctx: { params: Promise<{ kod: string }> }) {
   const { kod } = await ctx.params
   let b: {
     secret?: string
     slot?: string
     modul?: string
+    tema?: string
     okruh?: string
     polozka?: string
     typ?: string
@@ -61,6 +62,25 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ kod: string
     b.hodnota === undefined
   ) {
     return NextResponse.json({ error: 'bad-input' }, { status: 400 })
+  }
+
+  // Server-side partnerZamok: doteraz sa to kontrolovalo len na klientovi (_stav.ts),
+  // takže priame volanie API obišlo zámok aj bez UI. `tema` je nepovinná (staršie volania
+  // ju neposielajú) — bez nej zámok neoveríme, čo je horšie ako nič, preto to zapisujeme
+  // do denníka ako známu medzeru pre volania, ktoré `tema` zatiaľ neposielajú.
+  if (b.tema) {
+    const partnerSlot = b.slot === 'a' ? 'b' : 'a'
+    const { data: partnerStav } = await db()
+      .from('dotaznik_stav_temy')
+      .select('stav')
+      .eq('par_id', par.id)
+      .eq('slot', partnerSlot)
+      .eq('modul', b.modul)
+      .eq('tema', b.tema)
+      .maybeSingle()
+    if (partnerStav?.stav === 'nie' || partnerStav?.stav === 'este_nie') {
+      return NextResponse.json({ error: 'locked-by-partner' }, { status: 423 })
+    }
   }
 
   const rola = b.rola === 'prijimam' || b.rola === 'poskytujem' ? b.rola : ''

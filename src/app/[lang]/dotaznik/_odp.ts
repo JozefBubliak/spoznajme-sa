@@ -59,6 +59,8 @@ export async function ulozOdpoved(
   par: ParLocal,
   a: {
     modul: string
+    /** Nepretrváva v `dotaznik_odpovede` — posiela sa len na server-side kontrolu partnerZamok. */
+    tema?: string
     okruh: string
     polozka: string
     typ: string
