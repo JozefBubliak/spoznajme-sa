@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Blok, OtazkaBlok, Podmienka, Pohlavie, TemaObsah } from '@/lib/dotaznik/obsah/typ'
 import { gtext } from '@/lib/dotaznik/obsah/typ'
 import { usePar } from './_par'
+import { useStavy, partnerZamok } from './_stav'
 import { useMojeOdpovede, ulozOdpoved } from './_odp'
 import { Krok, Volba } from './_ui'
 
@@ -282,6 +283,7 @@ export default function Kniha({
   dalejHref: string
 }) {
   const { par, ready } = usePar()
+  const { stavy } = useStavy(par)
   const { mapa, nacitane } = useMojeOdpovede(par, modul)
   const [override, setOverride] = useState<Hodnoty>({})
   const [ukladam, setUkladam] = useState(false)
@@ -324,6 +326,16 @@ export default function Kniha({
       >
         <Volba href={p('/dotaznik/par')} nazov="Prejsť na párovanie" ton="ano" />
       </Krok>
+    )
+
+  if (partnerZamok(stavy, par, modul, tema))
+    return (
+      <Krok
+        krok="Zamknuté partnerom"
+        nadpis="Túto tému partner/ka zamkol/la."
+        lead="Odpovede tu už nemôžeš vypĺňať."
+        spat={{ href: p('/dotaznik/moduly'), label: 'Moduly' }}
+      />
     )
 
   const G = (t: Parameters<typeof gtext>[0]) => gtext(t, pohlavie ?? 'z')

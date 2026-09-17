@@ -19,7 +19,13 @@ type Row = {
 const POS_POSTOJ = new Set(['chcem', 'skor_ano', 'zvedavy'])
 
 // Double-Blind: zobrazí sa len zhoda. Nesúlad sa nikde neobjaví.
-function vyhodnot(typ: string, a: Record<string, unknown>, b: Record<string, unknown>) {
+//
+// Pozor: `typ` tu prichádza z dvoch nezávislých systémov s rôznym slovníkom hodnôt —
+// starší generický „section walker" (otazky.ts: postoj/rola/semafor/skusenost/frekvencia/
+// intenzita/multi/text) a novší „kniha + dotazník" hybrid (obsah/typ.ts: jeden/viac/skala/
+// text/mrezka). Bez explicitnej vetvy pre hybridné typy by spadli do defaultu a ukázali by sa
+// VŽDY, aj keď niekto zvolil explicitné „Nie — hranica" — presne to, čo Double-Blind sľubuje skryť.
+function vyhodnot(typ: string, a: Record<string, unknown>, b: Record<string, unknown>): string | null {
   if (typ === 'postoj' || typ === 'rola') {
     const av = a.v as string
     const bv = b.v as string
@@ -36,8 +42,52 @@ function vyhodnot(typ: string, a: Record<string, unknown>, b: Record<string, unk
     if (ok.has(a.v as string) && ok.has(b.v as string)) return 'kontext'
     return null
   }
-  // frekvencia / intenzita / multi / text — nie sú „odmietnutie"; ukáž ak obaja odpovedali
-  return 'kontext'
+  if (typ === 'frekvencia' || typ === 'intenzita') return 'kontext'
+
+  // Hybridný „kniha + dotazník" systém (OtazkaTyp z obsah/typ.ts).
+  if (typ === 'jeden' || typ === 'skala') {
+    const av = a.v as string | undefined
+    const bv = b.v as string | undefined
+    if (av == null || bv == null) return null
+    // Konvencia naprieč obsah/*.ts: hodnota 'nie' = explicitná hranica/odmietnutie.
+    if (av === 'nie' || bv === 'nie') return null
+    return 'kontext'
+  }
+  if (typ === 'viac') {
+    const aArr = Array.isArray(a.v) ? (a.v as string[]) : []
+    const bArr = Array.isArray(b.v) ? (b.v as string[]) : []
+    return aArr.some((x) => bArr.includes(x)) ? 'kontext' : null
+  }
+  if (typ === 'mrezka') {
+    const aM = (a.v ?? {}) as Record<string, string>
+    const bM = (b.v ?? {}) as Record<string, string>
+    return Object.keys(aM).some((k) => aM[k] != null && aM[k] === bM[k] && aM[k] !== 'nie')
+      ? 'kontext'
+      : null
+  }
+  // 'text' (voľný text) a čokoľvek neznáme: nedá sa bezpečne automaticky vyhodnotiť ako
+  // „zhoda" — nikdy neodhaľovať partnerovi bez explicitného zdieľania.
+  return null
+}
+
+/** Čo presne sa z dvojice hodnôt smie odhaliť — pre 'viac'/'mrezka' NIKDY plné súkromné zoznamy, len prienik. */
+function odhalenaHodnota(typ: string, a: Record<string, unknown>, b: Record<string, unknown>) {
+  if (typ === 'viac') {
+    const aArr = Array.isArray(a.v) ? (a.v as string[]) : []
+    const bArr = Array.isArray(b.v) ? (b.v as string[]) : []
+    const prienik = aArr.filter((x) => bArr.includes(x))
+    return { a: { v: prienik }, b: { v: prienik } }
+  }
+  if (typ === 'mrezka') {
+    const aM = (a.v ?? {}) as Record<string, string>
+    const bM = (b.v ?? {}) as Record<string, string>
+    const prienik: Record<string, string> = {}
+    for (const k of Object.keys(aM)) {
+      if (aM[k] != null && aM[k] === bM[k] && aM[k] !== 'nie') prienik[k] = aM[k]
+    }
+    return { a: { v: prienik }, b: { v: prienik } }
+  }
+  return { a, b }
 }
 
 function textOtazky(modul: string, okruh: string, polozka: string): string {
@@ -80,14 +130,15 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ kod: string
     if (!mapa.has(modul)) mapa.set(modul, new Map())
     const okr = mapa.get(modul)!
     if (!okr.has(okruh)) okr.set(okruh, [])
+    const { a: odhalenaA, b: odhalenaB } = odhalenaHodnota(e.a.typ, e.a.hodnota, e.b.hodnota)
     okr.get(okruh)!.push({
       polozka,
       text: textOtazky(modul, okruh, polozka),
       typ: e.a.typ,
       rola: e.a.rola || null,
       zona,
-      a: e.a.hodnota,
-      b: e.b.hodnota,
+      a: odhalenaA,
+      b: odhalenaB,
     })
   }
 
