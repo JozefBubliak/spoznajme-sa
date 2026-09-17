@@ -28,50 +28,54 @@ const DOMACE: Blok = {
   druh: 'skupina', id: 'domace', nadpis: 'Domáce priestory',
   bloky: [
     {
-      druh: 'otazka', id: 'dom_spalna', typ: 'viac',
+      druh: 'otazka',
+      id: 'dom_spalna',
+      typ: 'viac',
       text: 'Spálňa — čo ma láka',
       moznosti: [
-  {
-    "v": "postel",
-    "label": "Posteľ, klasicky"
-  },
-  {
-    "v": "podlaha",
-    "label": "Podlaha / koberec s podložkou"
-  },
-  {
-    "v": "zrkadlo",
-    "label": "Zrkadlo pri posteli"
-  },
-  {
-    "v": "doplnky",
-    "label": "Vankúše, prikrývky, svetelné reťaze"
-  }
-], inePovolene: true},
+        { v: 'postel', label: 'Posteľ, klasicky' },
+        { v: 'podlaha', label: 'Podlaha / koberec s podložkou' },
+        { v: 'zrkadlo', label: 'Zrkadlo pri posteli' },
+        { v: 'doplnky', label: 'Vankúše, prikrývky, svetelné reťaze' },
+      ],
+      inePovolene: true,
+    },
     {
-      druh: 'otazka', id: 'dom_kupelna', typ: 'viac',
+      druh: 'otazka',
+      id: 'dom_kupelna',
+      typ: 'viac',
       text: 'Kúpeľňa',
       moznosti: [
         { v: 'sprcha', label: 'Sprcha (stojace polohy, tečúca voda)' },
         { v: 'vana', label: 'Spoločná vaňa (oleje, kúpeľové bomby)' },
         { v: 'umyvadlo', label: 'Umývadlo / pult' },
-      ], inePovolene: true},
+      ],
+      inePovolene: true,
+    },
     p('dom_bezpecnost_sprcha', 'V sprche/vani mi záleží na protišmykovej opore — bez nej sa neuvoľním'),
     {
-      druh: 'otazka', id: 'dom_kuchyna', typ: 'viac',
+      druh: 'otazka',
+      id: 'dom_kuchyna',
+      typ: 'viac',
       text: 'Kuchyňa',
       moznosti: [
         { v: 'stol_pult', label: 'Stôl / kuchynský pult ako opora' },
         { v: 'jedlo', label: 'Food-play (čokoláda, šľahačka, ovocie)' },
-      ], inePovolene: true},
+      ],
+      inePovolene: true,
+    },
     {
-      druh: 'otazka', id: 'dom_obyvacka', typ: 'viac',
+      druh: 'otazka',
+      id: 'dom_obyvacka',
+      typ: 'viac',
       text: 'Obývačka',
       moznosti: [
         { v: 'gauc', label: 'Gauč' },
         { v: 'podlaha_krb', label: 'Podlaha pri krbe' },
         { v: 'prikryvky', label: 'Prikrývky a vankúše na komfort' },
-      ], inePovolene: true},
+      ],
+      inePovolene: true,
+    },
   ],
 }
 
@@ -80,84 +84,48 @@ const EXTERIER: Blok = {
   druh: 'skupina', id: 'exterier', nadpis: 'Exteriér a verejné prostredia (diskrétne)',
   bloky: [
     {
-  "druh": "otazka",
-  "id": "ext_skusenost_spokojnost",
-  "typ": "jeden",
-  "text": "Akú mám skúsenosť s intimitou mimo spálne?",
-  "moznosti": [
-    {
-      "v": "spokojnost",
-      "label": "Už ju zažívam a som s tým spokojný/á"
+      druh: 'otazka',
+      id: 'ext_skusenost_spokojnost',
+      typ: 'jeden',
+      text: 'Akú mám skúsenosť s intimitou mimo spálne?',
+      moznosti: [
+        { v: 'spokojnost', label: 'Už ju zažívam a som s tým spokojný/á' },
+        { v: 'zmiesana', label: 'Mám skúsenosť, ale spokojnosť je zmiešaná alebo chcem niečo zmeniť' },
+        { v: 'ziadna', label: 'Zatiaľ nemám skúsenosť' },
+      ],
     },
     {
-      "v": "zmiesana",
-      "label": "Mám skúsenosť, ale spokojnosť je zmiešaná alebo chcem niečo zmeniť"
+      druh: 'otazka',
+      id: 'ext_ochota',
+      typ: 'jeden',
+      text: 'Chcem preskúmať intimitu mimo spálne?',
+      moznosti: [
+        { v: 'chcem', label: 'Chcem — láka ma to vyskúšať alebo zopakovať' },
+        { v: 'ak_chces', label: 'Rád/rada, ak chceš aj ty' },
+        { v: 'mozno', label: 'Možno — potrebujem rozhovor o podmienkach' },
+        { v: 'nie', label: 'Nie — teraz sa na to necítim' },
+      ],
     },
     {
-      "v": "ziadna",
-      "label": "Zatiaľ nemám skúsenosť"
-    }
-  ]
-},
-    {
-  "druh": "otazka",
-  "id": "ext_ochota",
-  "typ": "jeden",
-  "text": "Chcem preskúmať intimitu mimo spálne?",
-  "moznosti": [
-    {
-      "v": "chcem",
-      "label": "Chcem — láka ma to vyskúšať alebo zopakovať"
+      druh: 'otazka',
+      id: 'ext_ochota_ine',
+      typ: 'text',
+      text: 'Intimita mimo spálne — vlastná odpoveď, podmienky alebo doplnenie (voliteľné):',
     },
     {
-      "v": "ak_chces",
-      "label": "Rád/rada, ak chceš aj ty"
+      druh: 'otazka',
+      id: 'ext_miesta_prehlad',
+      typ: 'viac',
+      text: 'Ktoré miesta mimo spálne ma lákajú?',
+      moznosti: [
+        { v: 'kupelna', label: 'Kúpeľňa' },
+        { v: 'priroda', label: 'Príroda' },
+        { v: 'auto', label: 'Auto' },
+        { v: 'swingers_klub', label: 'Swingers klub' },
+        { v: 'ziadne', label: 'Žiadne' },
+      ],
+      inePovolene: true,
     },
-    {
-      "v": "mozno",
-      "label": "Možno — potrebujem rozhovor o podmienkach"
-    },
-    {
-      "v": "nie",
-      "label": "Nie — teraz sa na to necítim"
-    }
-  ]
-},
-    {
-  "druh": "otazka",
-  "id": "ext_ochota_ine",
-  "typ": "text",
-  "text": "Intimita mimo spálne — vlastná odpoveď, podmienky alebo doplnenie (voliteľné):"
-},
-    {
-  "druh": "otazka",
-  "id": "ext_miesta_prehlad",
-  "typ": "viac",
-  "text": "Ktoré miesta mimo spálne ma lákajú?",
-  "moznosti": [
-    {
-      "v": "kupelna",
-      "label": "Kúpeľňa"
-    },
-    {
-      "v": "priroda",
-      "label": "Príroda"
-    },
-    {
-      "v": "auto",
-      "label": "Auto"
-    },
-    {
-      "v": "swingers_klub",
-      "label": "Swingers klub"
-    },
-    {
-      "v": "ziadne",
-      "label": "Žiadne"
-    }
-  ],
-  "inePovolene": true
-},
     {
       druh: 'text', id: 'ext_info', ton: 'info',
       telo:
@@ -299,11 +267,11 @@ const OSVETLENIE: Blok = {
   druh: 'skupina', id: 'osvetlenie', nadpis: 'Osvetlenie a úprava priestoru',
   bloky: [
     {
-  "druh": "text",
-  "id": "osv_info",
-  "nadpis": "Svetlo a priestor",
-  "telo": "Tlmené lampy alebo sviečky môžu podporiť pokoj a romantiku, farebné svetlá hravosť; niekomu vyhovuje tma a inému denné či priame svetlo. Sprcha, kuchynský pult alebo súkromné miesto v prírode ponúkajú odlišnú atmosféru. Spoločné objavovanie priestoru a rytmu môže priniesť nové zážitky a dôveru, ak obaja rešpektujete svoje hranice."
-},
+      druh: 'text',
+      id: 'osv_info',
+      nadpis: 'Svetlo a priestor',
+      telo: 'Tlmené lampy alebo sviečky môžu podporiť pokoj a romantiku, farebné svetlá hravosť; niekomu vyhovuje tma a inému denné či priame svetlo. Sprcha, kuchynský pult alebo súkromné miesto v prírode ponúkajú odlišnú atmosféru. Spoločné objavovanie priestoru a rytmu môže priniesť nové zážitky a dôveru, ak obaja rešpektujete svoje hranice.',
+    },
     {
       druh: 'otazka', id: 'osv_typ', typ: 'jeden',
       text: 'Preferované osvetlenie pri intímnych chvíľach',
@@ -315,11 +283,11 @@ const OSVETLENIE: Blok = {
       ],
     },
     {
-  "druh": "otazka",
-  "id": "osv_typ_ine",
-  "typ": "text",
-  "text": "Osvetlenie — vlastná odpoveď alebo doplnenie (voliteľné):"
-},
+      druh: 'otazka',
+      id: 'osv_typ_ine',
+      typ: 'text',
+      text: 'Osvetlenie — vlastná odpoveď alebo doplnenie (voliteľné):',
+    },
     {
       druh: 'otazka', id: 'osv_intenzita', typ: 'jeden',
       text: 'Intenzita svetla',
@@ -329,103 +297,73 @@ const OSVETLENIE: Blok = {
       ],
     },
     {
-  "druh": "otazka",
-  "id": "osv_intenzita_ine",
-  "typ": "text",
-  "text": "Intenzita svetla — vlastná odpoveď alebo doplnenie (voliteľné):"
-},
-    {
-  "druh": "otazka",
-  "id": "osv_poriadok_dolezitost",
-  "typ": "jeden",
-  "text": "Ako dôležitá je pre mňa upravenosť miestnosti?",
-  "moznosti": [
-    {
-      "v": "velmi",
-      "label": "Veľmi dôležitá"
+      druh: 'otazka',
+      id: 'osv_intenzita_ine',
+      typ: 'text',
+      text: 'Intenzita svetla — vlastná odpoveď alebo doplnenie (voliteľné):',
     },
     {
-      "v": "trochu",
-      "label": "Záleží mi na nej, ale nie je podmienkou"
+      druh: 'otazka',
+      id: 'osv_poriadok_dolezitost',
+      typ: 'jeden',
+      text: 'Ako dôležitá je pre mňa upravenosť miestnosti?',
+      moznosti: [
+        { v: 'velmi', label: 'Veľmi dôležitá' },
+        { v: 'trochu', label: 'Záleží mi na nej, ale nie je podmienkou' },
+        { v: 'nezalezi', label: 'Nezáleží mi na nej' },
+      ],
     },
     {
-      "v": "nezalezi",
-      "label": "Nezáleží mi na nej"
-    }
-  ]
-},
-    {
-  "druh": "otazka",
-  "id": "osv_poriadok_dolezitost_ine",
-  "typ": "text",
-  "text": "Upravenosť miestnosti — vlastná odpoveď (voliteľné):"
-},
-    {
-  "druh": "otazka",
-  "id": "osv_priprava_detaily",
-  "typ": "viac",
-  "text": "Ktoré úpravy priestoru mi pomáhajú cítiť sa dobre?",
-  "moznosti": [
-    {
-      "v": "poriadok",
-      "label": "Uprataná posteľ a čisté prostredie"
+      druh: 'otazka',
+      id: 'osv_poriadok_dolezitost_ine',
+      typ: 'text',
+      text: 'Upravenosť miestnosti — vlastná odpoveď (voliteľné):',
     },
     {
-      "v": "dekoracie",
-      "label": "Dekorácie — kvety a svetelné reťaze"
-    }
-  ],
-  "inePovolene": true
-},
-    {
-  "druh": "otazka",
-  "id": "osv_pohodlie",
-  "typ": "viac",
-  "text": "Aké materiály a detaily mi prinášajú pohodlie?",
-  "moznosti": [
-    {
-      "v": "materialy",
-      "label": "Mäkké materiály — napríklad hodváb alebo satén"
+      druh: 'otazka',
+      id: 'osv_priprava_detaily',
+      typ: 'viac',
+      text: 'Ktoré úpravy priestoru mi pomáhajú cítiť sa dobre?',
+      moznosti: [
+        { v: 'poriadok', label: 'Uprataná posteľ a čisté prostredie' },
+        { v: 'dekoracie', label: 'Dekorácie — kvety a svetelné reťaze' },
+      ],
+      inePovolene: true,
     },
     {
-      "v": "teplota",
-      "label": "Príjemná teplota — ani teplo, ani chlad"
-    }
-  ],
-  "inePovolene": true
-},
-    {
-  "druh": "text",
-  "id": "osv_detaily_info",
-  "telo": "Pohodlie môžu tvoriť mäkké materiály, upravená posteľ, kvety či svetelné reťaze. Myslite aj na pripravené pomôcky, teplotu a klimatizáciu; fotografie a obrazy môžu atmosféru doplniť, ak vám vyhovujú."
-},
-    {
-  "druh": "otazka",
-  "id": "osv_vizualne_podnety",
-  "typ": "viac",
-  "text": "Aké vizuálne podnety mi v priestore vyhovujú?",
-  "moznosti": [
-    {
-      "v": "fotografie",
-      "label": "Fotografie"
+      druh: 'otazka',
+      id: 'osv_pohodlie',
+      typ: 'viac',
+      text: 'Aké materiály a detaily mi prinášajú pohodlie?',
+      moznosti: [
+        { v: 'materialy', label: 'Mäkké materiály — napríklad hodváb alebo satén' },
+        { v: 'teplota', label: 'Príjemná teplota — ani teplo, ani chlad' },
+      ],
+      inePovolene: true,
     },
     {
-      "v": "obrazy",
-      "label": "Obrazy"
+      druh: 'text',
+      id: 'osv_detaily_info',
+      telo: 'Pohodlie môžu tvoriť mäkké materiály, upravená posteľ, kvety či svetelné reťaze. Myslite aj na pripravené pomôcky, teplotu a klimatizáciu; fotografie a obrazy môžu atmosféru doplniť, ak vám vyhovujú.',
     },
     {
-      "v": "ziadne",
-      "label": "Radšej bez vizuálnych podnetov"
-    }
-  ],
-  "inePovolene": true
-},
+      druh: 'otazka',
+      id: 'osv_vizualne_podnety',
+      typ: 'viac',
+      text: 'Aké vizuálne podnety mi v priestore vyhovujú?',
+      moznosti: [
+        { v: 'fotografie', label: 'Fotografie' },
+        { v: 'obrazy', label: 'Obrazy' },
+        { v: 'ziadne', label: 'Radšej bez vizuálnych podnetov' },
+      ],
+      inePovolene: true,
+    },
     {
-  "druh": "otazka",
-  "id": "osv_teplota",
-  "typ": "text",
-  "text": "Aká teplota a nastavenie klimatizácie mi vyhovujú? (voliteľné)"
-},
+      druh: 'otazka',
+      id: 'osv_teplota',
+      typ: 'text',
+      text: 'Aká teplota a nastavenie klimatizácie mi vyhovujú? (voliteľné)',
+    },
     { druh: 'otazka', id: 'osv_materialy', typ: 'text', text: 'Materiály a detaily, ktoré mi prinášajú pohodlie (mäkké látky, optimálna teplota):' },
   ],
 }

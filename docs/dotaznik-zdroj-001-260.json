@@ -1,0 +1,3553 @@
+{
+  "range": [
+    1,
+    260
+  ],
+  "sourceDocxSha256": "F9B5B3B747E2D439D50A56BA7ED3C6E34F5E6AFE6C305134EE1918C915BE5AA8",
+  "numbering": "1-based w:body//w:p vrátane prázdnych; nejde o tematické hranice",
+  "paragraphs": [
+    {
+      "p": 1,
+      "source": "09_Predohra_a_naladenie",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:priprava",
+        "predohra-naladenie:pri_vzhlad_info"
+      ],
+      "decision": "Nadpisy a tematické označenia spracované v nadpise skupiny; číslovanie sa neprenáša ako otázka.",
+      "options": []
+    },
+    {
+      "p": 2,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 3,
+      "source": "🟢 3️⃣ FYZICKÁ PRÍPRAVA A STAROSTLIVOSŤ",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:priprava",
+        "predohra-naladenie:pri_vzhlad_info"
+      ],
+      "decision": "Nadpisy a tematické označenia spracované v nadpise skupiny; číslovanie sa neprenáša ako otázka.",
+      "options": []
+    },
+    {
+      "p": 4,
+      "source": "3.1 Starostlivosť o telo",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:priprava",
+        "predohra-naladenie:pri_vzhlad_info"
+      ],
+      "decision": "Nadpisy a tematické označenia spracované v nadpise skupiny; číslovanie sa neprenáša ako otázka.",
+      "options": []
+    },
+    {
+      "p": 5,
+      "source": "Kúpeľ alebo sprcha",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_telo"
+      ],
+      "decision": "Štyri položky starostlivosti zodpovedajú kupel/parfum/vlasy/intimne.",
+      "options": []
+    },
+    {
+      "p": 6,
+      "source": "Používanie parfumov, olejov, krémov",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_telo"
+      ],
+      "decision": "Štyri položky starostlivosti zodpovedajú kupel/parfum/vlasy/intimne.",
+      "options": []
+    },
+    {
+      "p": 7,
+      "source": "Úprava vlasov, brady, pokožky",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_telo"
+      ],
+      "decision": "Štyri položky starostlivosti zodpovedajú kupel/parfum/vlasy/intimne.",
+      "options": []
+    },
+    {
+      "p": 8,
+      "source": "Úprava intímnych partií (holenie, strihanie)",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_telo"
+      ],
+      "decision": "Štyri položky starostlivosti zodpovedajú kupel/parfum/vlasy/intimne.",
+      "options": []
+    },
+    {
+      "p": 9,
+      "source": "3.2 Výber oblečenia",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rovnaké kategórie bielizen/kostym/pohodlne/nahota; odlíšené vlastné nosenie a videnie na druhom.",
+      "options": []
+    },
+    {
+      "p": 10,
+      "source": "Erotická bielizeň",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rovnaké kategórie bielizen/kostym/pohodlne/nahota; odlíšené vlastné nosenie a videnie na druhom.",
+      "options": []
+    },
+    {
+      "p": 11,
+      "source": "Kostýmy pre roleplay",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rovnaké kategórie bielizen/kostym/pohodlne/nahota; odlíšené vlastné nosenie a videnie na druhom.",
+      "options": []
+    },
+    {
+      "p": 12,
+      "source": "Pohodlné domáce oblečenie",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rovnaké kategórie bielizen/kostym/pohodlne/nahota; odlíšené vlastné nosenie a videnie na druhom.",
+      "options": []
+    },
+    {
+      "p": 13,
+      "source": "Nahota s akcentom prirodzenosti",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rovnaké kategórie bielizen/kostym/pohodlne/nahota; odlíšené vlastné nosenie a videnie na druhom.",
+      "options": []
+    },
+    {
+      "p": 14,
+      "source": "Starostlivosť o vzhľad",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_vzhlad_info",
+        "predohra-naladenie:pri_sebavedomie"
+      ],
+      "decision": "Sebavedomie a vzhľad: vysvetľujúci text aj otázka.",
+      "options": []
+    },
+    {
+      "p": 15,
+      "source": "\nOblečenie, vlasy a detaily, ktoré dodávajú sebavedomie",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_vzhlad_info",
+        "predohra-naladenie:pri_sebavedomie"
+      ],
+      "decision": "Sebavedomie a vzhľad: vysvetľujúci text aj otázka.",
+      "options": []
+    },
+    {
+      "p": 16,
+      "source": "Otázka:\nAký typ oblečenia ťa pri intímnych chvíľach najviac láka?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rodové návrhy nie sú zrkadlové: žena opisuje vlastné oblečenie, muž partnerkino. Oba smery dostupné obom; žiadna interpretácia starej spoločnej odpovede.",
+      "options": []
+    },
+    {
+      "p": 17,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rodové návrhy nie sú zrkadlové: žena opisuje vlastné oblečenie, muž partnerkino. Oba smery dostupné obom; žiadna interpretácia starej spoločnej odpovede.",
+      "options": []
+    },
+    {
+      "p": 18,
+      "source": "🔘 Erotická spodná bielizeň, ktorá podčiarkne moju zmyselnosť.\n🔘 Kostýmy na roleplay a hravosť.\n🔘 Komfortné oblečenie, v ktorom sa cítim prirodzene.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rodové návrhy nie sú zrkadlové: žena opisuje vlastné oblečenie, muž partnerkino. Oba smery dostupné obom; žiadna interpretácia starej spoločnej odpovede.",
+      "options": [
+        {
+          "source": "Erotická spodná bielizeň, ktorá podčiarkne moju zmyselnosť.",
+          "target": "predohra-naladenie:pri_oblecenie_ja#bielizen"
+        },
+        {
+          "source": "Kostýmy na roleplay a hravosť.",
+          "target": "predohra-naladenie:pri_oblecenie_ja#kostym"
+        },
+        {
+          "source": "Komfortné oblečenie, v ktorom sa cítim prirodzene.",
+          "target": "predohra-naladenie:pri_oblecenie_ja#pohodlne"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:pri_oblecenie_ja@ine"
+    },
+    {
+      "p": 19,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rodové návrhy nie sú zrkadlové: žena opisuje vlastné oblečenie, muž partnerkino. Oba smery dostupné obom; žiadna interpretácia starej spoločnej odpovede.",
+      "options": []
+    },
+    {
+      "p": 20,
+      "source": "🔘 Erotická spodná bielizeň partnerky.\n🔘 Kostýmy a hravé roleplay prvky.\n🔘 Komfortné oblečenie a prirodzenosť.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:pri_oblecenie_ja",
+        "predohra-naladenie:pri_oblecenie_partner"
+      ],
+      "decision": "Rodové návrhy nie sú zrkadlové: žena opisuje vlastné oblečenie, muž partnerkino. Oba smery dostupné obom; žiadna interpretácia starej spoločnej odpovede.",
+      "options": [
+        {
+          "source": "Erotická spodná bielizeň partnerky.",
+          "target": "predohra-naladenie:pri_oblecenie_partner#bielizen"
+        },
+        {
+          "source": "Kostýmy a hravé roleplay prvky.",
+          "target": "predohra-naladenie:pri_oblecenie_partner#kostym"
+        },
+        {
+          "source": "Komfortné oblečenie a prirodzenosť.",
+          "target": "predohra-naladenie:pri_oblecenie_partner#pohodlne"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:pri_oblecenie_partner@ine"
+    },
+    {
+      "p": 21,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 22,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 23,
+      "source": "🟣 4️⃣ INICIÁCIA A SIGNALIZÁCIA TÚŽBY",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_uvod"
+      ],
+      "decision": "Nadpis, úvod a rodové označenia; význam vedenia/prijímania je v úvode, rodové nadpisy nie sú samostatné otázky.",
+      "options": []
+    },
+    {
+      "p": 24,
+      "source": "Sexuálna iniciatíva",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_uvod"
+      ],
+      "decision": "Nadpis, úvod a rodové označenia; význam vedenia/prijímania je v úvode, rodové nadpisy nie sú samostatné otázky.",
+      "options": []
+    },
+    {
+      "p": 25,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 26,
+      "source": "Sexuálna iniciatíva – Kto vedie, kto sa odovzdáva?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_uvod"
+      ],
+      "decision": "Nadpis, úvod a rodové označenia; význam vedenia/prijímania je v úvode, rodové nadpisy nie sú samostatné otázky.",
+      "options": []
+    },
+    {
+      "p": 27,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 28,
+      "source": "✨ Úvod",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_uvod"
+      ],
+      "decision": "Nadpis, úvod a rodové označenia; význam vedenia/prijímania je v úvode, rodové nadpisy nie sú samostatné otázky.",
+      "options": []
+    },
+    {
+      "p": 29,
+      "source": "Sexuálna iniciatíva môže byť jemná, spontánna, intenzívna alebo hravá. Niektorí partneri radi preberajú vedenie, iní preferujú prijímanie pozornosti. Táto sekcia vám pomôže objasniť, čo vás najviac láka a ako chcete energiu iniciatívy vo vzťahu rozdeľovať.",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_uvod"
+      ],
+      "decision": "Nadpis, úvod a rodové označenia; význam vedenia/prijímania je v úvode, rodové nadpisy nie sú samostatné otázky.",
+      "options": []
+    },
+    {
+      "p": 30,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 31,
+      "source": "💠 Otázky pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_uvod"
+      ],
+      "decision": "Nadpis, úvod a rodové označenia; význam vedenia/prijímania je v úvode, rodové nadpisy nie sú samostatné otázky.",
+      "options": []
+    },
+    {
+      "p": 32,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 33,
+      "source": "1️⃣ Aké formy iniciatívy chceš prijímať od partnera?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_prijimam"
+      ],
+      "decision": "Prijímanie: päť kategórií, všetky príklady z oboch verzií zlúčené.",
+      "options": []
+    },
+    {
+      "p": 34,
+      "source": "🔘 Jemnú a zmyselnú (romantické gestá, pomalé dotyky, očný kontakt).\n🔘 Spontánnu a prekvapivú (nečakané objatie, vášnivý bozk).\n🔘 Intenzívnu a dravú (silnejšie gestá, naliehavosť, rýchle rozopnutie oblečenia).\n🔘 Hravú a zvodnú (flirtovanie, tance, zvodné pohyby).\n🔘 Kreatívnu (tematické role, prekvapenia, nové prostredie).\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_prijimam"
+      ],
+      "decision": "Prijímanie: päť kategórií, všetky príklady z oboch verzií zlúčené.",
+      "options": [
+        {
+          "source": "Jemnú a zmyselnú (romantické gestá, pomalé dotyky, očný kontakt).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#jemna"
+        },
+        {
+          "source": "Spontánnu a prekvapivú (nečakané objatie, vášnivý bozk).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#spontanna"
+        },
+        {
+          "source": "Intenzívnu a dravú (silnejšie gestá, naliehavosť, rýchle rozopnutie oblečenia).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#intenzivna"
+        },
+        {
+          "source": "Hravú a zvodnú (flirtovanie, tance, zvodné pohyby).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#hrava"
+        },
+        {
+          "source": "Kreatívnu (tematické role, prekvapenia, nové prostredie).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#kreativna"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:ini_formy_prijimam@ine"
+    },
+    {
+      "p": 35,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 36,
+      "source": "2️⃣ Aké formy iniciatívy chceš poskytovať?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_poskytujem"
+      ],
+      "decision": "Poskytovanie: štyri formy a kombinácia podľa nálady; výraz naliehanie adaptovaný na vedenie po dohode bez nátlaku.",
+      "options": []
+    },
+    {
+      "p": 37,
+      "source": "🔘 Jemné a zmyselné (hladenie, masáž, nežné bozky).\n🔘 Spontánne a vášnivé (nečakané útoky bozkov, rýchle dotyky).\n🔘 Intenzívne a dominantné (silné uchopenie, naliehanie).\n🔘 Hravé (provokujúce pohľady, erotické tance).\n🔘 Kombinácia podľa nálady.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_poskytujem"
+      ],
+      "decision": "Poskytovanie: štyri formy a kombinácia podľa nálady; výraz naliehanie adaptovaný na vedenie po dohode bez nátlaku.",
+      "options": [
+        {
+          "source": "Jemné a zmyselné (hladenie, masáž, nežné bozky).",
+          "target": "dlhodoba-intimita:ini_formy_poskytujem#jemna"
+        },
+        {
+          "source": "Spontánne a vášnivé (nečakané útoky bozkov, rýchle dotyky).",
+          "target": "dlhodoba-intimita:ini_formy_poskytujem#spontanna"
+        },
+        {
+          "source": "Intenzívne a dominantné (silné uchopenie, naliehanie).",
+          "target": "dlhodoba-intimita:ini_formy_poskytujem#intenzivna"
+        },
+        {
+          "source": "Hravé (provokujúce pohľady, erotické tance).",
+          "target": "dlhodoba-intimita:ini_formy_poskytujem#hrava"
+        },
+        {
+          "source": "Kombinácia podľa nálady.",
+          "target": "dlhodoba-intimita:ini_formy_poskytujem#podla_nalady"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:ini_formy_poskytujem@ine"
+    },
+    {
+      "p": 38,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 39,
+      "source": "3️⃣ Ako vnímaš spontánny sex?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Postoj k spontánnosti, vrátane vlastnej odpovede.",
+      "options": []
+    },
+    {
+      "p": 40,
+      "source": "🔘 Milujem ho – nečakané momenty sú najvzrušujúcejšie.\n🔘 Občas si ho užijem, ale radšej plánujem.\n🔘 Necítim sa komfortne, preferujem predvídateľnosť.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Postoj k spontánnosti, vrátane vlastnej odpovede.",
+      "options": [
+        {
+          "source": "Milujem ho – nečakané momenty sú najvzrušujúcejšie.",
+          "target": "dlhodoba-intimita:spo_pocit#milujem"
+        },
+        {
+          "source": "Občas si ho užijem, ale radšej plánujem.",
+          "target": "dlhodoba-intimita:spo_pocit#obcas"
+        },
+        {
+          "source": "Necítim sa komfortne, preferujem predvídateľnosť.",
+          "target": "dlhodoba-intimita:spo_pocit#nie"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:spo_pocit_ine"
+    },
+    {
+      "p": 41,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 42,
+      "source": "4️⃣ Kedy je pre teba ideálne začať iniciatívu?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_kedy",
+        "dlhodoba-intimita:ini_kedy_ine"
+      ],
+      "decision": "Štyri časové/situačné možnosti a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 43,
+      "source": "🔘 Večer, keď je pokojná atmosféra.\n🔘 Ráno, hneď po prebudení.\n🔘 Kedykoľvek počas dňa – podľa nálady.\n🔘 V špeciálnych situáciách (oslavy, výlety).\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_kedy",
+        "dlhodoba-intimita:ini_kedy_ine"
+      ],
+      "decision": "Štyri časové/situačné možnosti a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Večer, keď je pokojná atmosféra.",
+          "target": "dlhodoba-intimita:ini_kedy#vecer"
+        },
+        {
+          "source": "Ráno, hneď po prebudení.",
+          "target": "dlhodoba-intimita:ini_kedy#rano"
+        },
+        {
+          "source": "Kedykoľvek počas dňa – podľa nálady.",
+          "target": "dlhodoba-intimita:ini_kedy#kedykolvek"
+        },
+        {
+          "source": "V špeciálnych situáciách (oslavy, výlety).",
+          "target": "dlhodoba-intimita:ini_kedy#specialne"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:ini_kedy_ine"
+    },
+    {
+      "p": 44,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 45,
+      "source": "💠 Otázky pre muža",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_prijimam"
+      ],
+      "decision": "Mužská verzia prijímania zlúčená s P33–34, masáž a jasné signály zachované.",
+      "options": []
+    },
+    {
+      "p": 46,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 47,
+      "source": "1️⃣ Aké formy iniciatívy chceš prijímať od partnerky?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_prijimam"
+      ],
+      "decision": "Mužská verzia prijímania zlúčená s P33–34, masáž a jasné signály zachované.",
+      "options": []
+    },
+    {
+      "p": 48,
+      "source": "🔘 Jemné a zmyselné (nežné dotyky, masáž).\n🔘 Spontánne a prekvapivé (náhle bozky, dotyky).\n🔘 Intenzívne a dominantné (silné uchopenie, jasné signály).\n🔘 Hravé (flirtovanie, erotické hry).\n🔘 Kreatívne (tematické scenáre, prekvapenia).\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_prijimam"
+      ],
+      "decision": "Mužská verzia prijímania zlúčená s P33–34, masáž a jasné signály zachované.",
+      "options": [
+        {
+          "source": "Jemné a zmyselné (nežné dotyky, masáž).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#jemna"
+        },
+        {
+          "source": "Spontánne a prekvapivé (náhle bozky, dotyky).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#spontanna"
+        },
+        {
+          "source": "Intenzívne a dominantné (silné uchopenie, jasné signály).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#intenzivna"
+        },
+        {
+          "source": "Hravé (flirtovanie, erotické hry).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#hrava"
+        },
+        {
+          "source": "Kreatívne (tematické scenáre, prekvapenia).",
+          "target": "dlhodoba-intimita:ini_formy_prijimam#kreativna"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:ini_formy_prijimam@ine"
+    },
+    {
+      "p": 49,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 50,
+      "source": "2️⃣ Aké formy iniciatívy chceš poskytovať?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_poskytujem"
+      ],
+      "decision": "Mužská verzia poskytovania: budovanie atmosféry, vedenie, nové nápady a návrhy zachované.",
+      "options": []
+    },
+    {
+      "p": 51,
+      "source": "🔘 Jemné a pozorné (budovanie atmosféry).\n🔘 Rýchle a spontánne (prekvapivé momenty vášne).\n🔘 Dravé a dominantné (jasná kontrola, naliehavosť).\n🔘 Hravé a zvedavé (nové nápady, vzrušujúce návrhy).\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_poskytujem"
+      ],
+      "decision": "Mužská verzia poskytovania: budovanie atmosféry, vedenie, nové nápady a návrhy zachované.",
+      "options": [
+        {
+          "source": "Jemné a pozorné (budovanie atmosféry).",
+          "target": "dlhodoba-intimita:ini_formy_poskytujem#jemna"
+        },
+        {
+          "source": "Rýchle a spontánne (prekvapivé momenty vášne).",
+          "target": "dlhodoba-intimita:ini_formy_poskytujem#spontanna"
+        },
+        {
+          "source": "Dravé a dominantné (jasná kontrola, naliehavosť).",
+          "target": "dlhodoba-intimita:ini_formy_poskytujem#intenzivna"
+        },
+        {
+          "source": "Hravé a zvedavé (nové nápady, vzrušujúce návrhy).",
+          "target": "dlhodoba-intimita:ini_formy_poskytujem#hrava"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:ini_formy_poskytujem@ine"
+    },
+    {
+      "p": 52,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 53,
+      "source": "3️⃣ Ako vnímaš spontánny sex?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Samostatne zachované podľa nálady aj preferujem plánovanie; nie sú zlúčené s neistotou/nepohodlím.",
+      "options": []
+    },
+    {
+      "p": 54,
+      "source": "🔘 Milujem ho – prináša vzrušenie a autenticitu.\n🔘 Občas si ho užívam, závisí od nálady.\n🔘 Nie som mu naklonený, dávam prednosť plánovaniu.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Samostatne zachované podľa nálady aj preferujem plánovanie; nie sú zlúčené s neistotou/nepohodlím.",
+      "options": [
+        {
+          "source": "Milujem ho – prináša vzrušenie a autenticitu.",
+          "target": "dlhodoba-intimita:spo_pocit#milujem"
+        },
+        {
+          "source": "Občas si ho užívam, závisí od nálady.",
+          "target": "dlhodoba-intimita:spo_pocit#podla_nalady"
+        },
+        {
+          "source": "Nie som mu naklonený, dávam prednosť plánovaniu.",
+          "target": "dlhodoba-intimita:spo_pocit#planujem"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:spo_pocit_ine"
+    },
+    {
+      "p": 55,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 56,
+      "source": "4️⃣ Kedy rád preberáš iniciatívu?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_faza",
+        "dlhodoba-intimita:ini_faza_ine"
+      ],
+      "decision": "Fáza zbližovania oddelená od času dňa; doplnená aj možnosť iniciatívu nepreberať.",
+      "options": []
+    },
+    {
+      "p": 57,
+      "source": "🔘 Na začiatku – milujem udávať tón.\n🔘 V priebehu – keď cítim rastúcu túžbu.\n🔘 Vždy, podľa okamihu.\n🔘 Radšej čakám na signály partnerky.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_faza",
+        "dlhodoba-intimita:ini_faza_ine"
+      ],
+      "decision": "Fáza zbližovania oddelená od času dňa; doplnená aj možnosť iniciatívu nepreberať.",
+      "options": [
+        {
+          "source": "Na začiatku – milujem udávať tón.",
+          "target": "dlhodoba-intimita:ini_faza#zaciatok"
+        },
+        {
+          "source": "V priebehu – keď cítim rastúcu túžbu.",
+          "target": "dlhodoba-intimita:ini_faza#priebeh"
+        },
+        {
+          "source": "Vždy, podľa okamihu.",
+          "target": "dlhodoba-intimita:ini_faza#podla_chvile"
+        },
+        {
+          "source": "Radšej čakám na signály partnerky.",
+          "target": "dlhodoba-intimita:ini_faza#cakam_signal"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:ini_faza_ine"
+    },
+    {
+      "p": 58,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 59,
+      "source": "💡 Tipy na experimentovanie",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_tipy"
+      ],
+      "decision": "Tri experimenty zachované v samostatných odsekoch; doplnené dobrovoľné pozvanie a zmeniteľnosť dohody.",
+      "options": []
+    },
+    {
+      "p": 60,
+      "source": "✅ Scenár spontánnosti:\nNaplánujte si deň, počas ktorého si dáte za cieľ spontánne iniciovať sex – napríklad ráno v kuchyni alebo večer pri sledovaní filmu.",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_tipy"
+      ],
+      "decision": "Tri experimenty zachované v samostatných odsekoch; doplnené dobrovoľné pozvanie a zmeniteľnosť dohody.",
+      "options": []
+    },
+    {
+      "p": 61,
+      "source": "✅ Scenár jemnej iniciatívy:\nSkúste začať večer nežnou masážou a pomaly zvyšujte intenzitu dotykov, kým sa zmení na vášnivé objatia.",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_tipy"
+      ],
+      "decision": "Tri experimenty zachované v samostatných odsekoch; doplnené dobrovoľné pozvanie a zmeniteľnosť dohody.",
+      "options": []
+    },
+    {
+      "p": 62,
+      "source": "✅ Scenár intenzívnej iniciatívy:\nDohodnite si večer, kedy sa jeden z vás stane dominantným zvodcom a druhý bude len prijímať – vrátane jasných pokynov, kam sa dotýkať alebo čo povedať.",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_tipy"
+      ],
+      "decision": "Tri experimenty zachované v samostatných odsekoch; doplnené dobrovoľné pozvanie a zmeniteľnosť dohody.",
+      "options": []
+    },
+    {
+      "p": 63,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 64,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 65,
+      "source": "💠 Dynamika iniciatívy",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_dynamika_popis",
+        "dlhodoba-intimita:ini_dynamika"
+      ],
+      "decision": "Popis a štyri dynamiky; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 66,
+      "source": "Popis:\nKaždý má svoj spôsob, ako prejavuje a očakáva sexuálnu iniciatívu. Niektorí radi vedú, iní sa odovzdajú, niekto preferuje rovnováhu.",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_dynamika_popis",
+        "dlhodoba-intimita:ini_dynamika"
+      ],
+      "decision": "Popis a štyri dynamiky; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 67,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 68,
+      "source": "1️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_dynamika_popis",
+        "dlhodoba-intimita:ini_dynamika"
+      ],
+      "decision": "Popis a štyri dynamiky; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 69,
+      "source": "Ako vnímaš dynamiku iniciatívy?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_dynamika_popis",
+        "dlhodoba-intimita:ini_dynamika"
+      ],
+      "decision": "Popis a štyri dynamiky; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 70,
+      "source": "🔘 👑 Rada iniciujem – baví ma viesť\n🔘 🌸 Radšej, keď iniciatívu preberie partner – rada sa nechám zvádzať\n🔘 ⚖️ Mám rada rovnováhu – striedame sa\n🔘 🔄 Záleží na nálade – otvorená všetkým možnostiam",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_dynamika_popis",
+        "dlhodoba-intimita:ini_dynamika"
+      ],
+      "decision": "Popis a štyri dynamiky; rodové opakovania zlúčené.",
+      "options": [
+        {
+          "source": "👑 Rada iniciujem – baví ma viesť",
+          "target": "dlhodoba-intimita:ini_dynamika#iniciujem"
+        },
+        {
+          "source": "🌸 Radšej, keď iniciatívu preberie partner – rada sa nechám zvádzať",
+          "target": "dlhodoba-intimita:ini_dynamika#od_partnera"
+        },
+        {
+          "source": "⚖️ Mám rada rovnováhu – striedame sa",
+          "target": "dlhodoba-intimita:ini_dynamika#rovnovaha"
+        },
+        {
+          "source": "🔄 Záleží na nálade – otvorená všetkým možnostiam",
+          "target": "dlhodoba-intimita:ini_dynamika#obom"
+        }
+      ]
+    },
+    {
+      "p": 71,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 72,
+      "source": "1️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_dynamika_popis",
+        "dlhodoba-intimita:ini_dynamika"
+      ],
+      "decision": "Popis a štyri dynamiky; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 73,
+      "source": "Ako vnímaš dynamiku iniciatívy?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_dynamika_popis",
+        "dlhodoba-intimita:ini_dynamika"
+      ],
+      "decision": "Popis a štyri dynamiky; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 74,
+      "source": "🔘 👑 Rád iniciujem – baví ma viesť\n🔘 🌸 Radšej, keď iniciatívu preberie partnerka – rád sa nechám zvádzať\n🔘 ⚖️ Mám rád rovnováhu – striedame sa\n🔘 🔄 Záleží na nálade – otvorený všetkým možnostiam",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_dynamika_popis",
+        "dlhodoba-intimita:ini_dynamika"
+      ],
+      "decision": "Popis a štyri dynamiky; rodové opakovania zlúčené.",
+      "options": [
+        {
+          "source": "👑 Rád iniciujem – baví ma viesť",
+          "target": "dlhodoba-intimita:ini_dynamika#iniciujem"
+        },
+        {
+          "source": "🌸 Radšej, keď iniciatívu preberie partnerka – rád sa nechám zvádzať",
+          "target": "dlhodoba-intimita:ini_dynamika#od_partnera"
+        },
+        {
+          "source": "⚖️ Mám rád rovnováhu – striedame sa",
+          "target": "dlhodoba-intimita:ini_dynamika#rovnovaha"
+        },
+        {
+          "source": "🔄 Záleží na nálade – otvorený všetkým možnostiam",
+          "target": "dlhodoba-intimita:ini_dynamika#obom"
+        }
+      ]
+    },
+    {
+      "p": 75,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 76,
+      "source": "2️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_aktivita"
+      ],
+      "decision": "Tri úrovne aktivity; mužské aj ženské znenie.",
+      "options": []
+    },
+    {
+      "p": 77,
+      "source": "Akú úroveň aktivity preferuješ?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_aktivita"
+      ],
+      "decision": "Tri úrovne aktivity; mužské aj ženské znenie.",
+      "options": []
+    },
+    {
+      "p": 78,
+      "source": "🔘 🌟 Jemná a pasívna rola – čakám, kým partner začne\n🔘 🚀 Aktívna rola – rada signalizujem túžbu a vediem\n🔘 🎭 Dynamická rovnováha – mením rolu podľa situácie",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_aktivita"
+      ],
+      "decision": "Tri úrovne aktivity; mužské aj ženské znenie.",
+      "options": [
+        {
+          "source": "🌟 Jemná a pasívna rola – čakám, kým partner začne",
+          "target": "dlhodoba-intimita:ini_aktivita#pasivna"
+        },
+        {
+          "source": "🚀 Aktívna rola – rada signalizujem túžbu a vediem",
+          "target": "dlhodoba-intimita:ini_aktivita#aktivna"
+        },
+        {
+          "source": "🎭 Dynamická rovnováha – mením rolu podľa situácie",
+          "target": "dlhodoba-intimita:ini_aktivita#dynamicka"
+        }
+      ]
+    },
+    {
+      "p": 79,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 80,
+      "source": "2️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_aktivita"
+      ],
+      "decision": "Tri úrovne aktivity; mužské aj ženské znenie.",
+      "options": []
+    },
+    {
+      "p": 81,
+      "source": "Akú úroveň aktivity preferuješ?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_aktivita"
+      ],
+      "decision": "Tri úrovne aktivity; mužské aj ženské znenie.",
+      "options": []
+    },
+    {
+      "p": 82,
+      "source": "🔘 🌟 Jemná a pasívna rola – čakám, kým partnerka začne\n🔘 🚀 Aktívna rola – rád signalizujem túžbu a vediem\n🔘 🎭 Dynamická rovnováha – mením rolu podľa situácie",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_aktivita"
+      ],
+      "decision": "Tri úrovne aktivity; mužské aj ženské znenie.",
+      "options": [
+        {
+          "source": "🌟 Jemná a pasívna rola – čakám, kým partnerka začne",
+          "target": "dlhodoba-intimita:ini_aktivita#pasivna"
+        },
+        {
+          "source": "🚀 Aktívna rola – rád signalizujem túžbu a vediem",
+          "target": "dlhodoba-intimita:ini_aktivita#aktivna"
+        },
+        {
+          "source": "🎭 Dynamická rovnováha – mením rolu podľa situácie",
+          "target": "dlhodoba-intimita:ini_aktivita#dynamicka"
+        }
+      ]
+    },
+    {
+      "p": 83,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 84,
+      "source": "💠 Situácie, ktoré podporujú sexuálnu iniciatívu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_situacie"
+      ],
+      "decision": "Tri scenáre zachované ako voľby bozk_bez_varovania/pevne_objatie/dotyky_pri_cinnosti.",
+      "options": []
+    },
+    {
+      "p": 85,
+      "source": "Scenáre:\n1️⃣ Partner vás vášnivo pobozká bez varovania.\n2️⃣ Partner vás pevne objíme a vezme vás do náručia.\n3️⃣ Partner začne jemné dotyky počas bežných aktivít (varenie, upratovanie, sledovanie filmu).",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_situacie"
+      ],
+      "decision": "Tri scenáre zachované ako voľby bozk_bez_varovania/pevne_objatie/dotyky_pri_cinnosti.",
+      "options": []
+    },
+    {
+      "p": 86,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 87,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 88,
+      "source": "💠 Formy sexuálnej iniciatívy",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_popis",
+        "dlhodoba-intimita:ini_formy"
+      ],
+      "decision": "Všeobecné formy vzrušujúcej iniciatívy sú odlišné od otázok prijímam/poskytujem. Rovnaké rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 89,
+      "source": "Popis:\nIniciatíva môže mať mnoho podôb – od romantických gest cez hravé flirtovanie až po intenzívne prejavy túžby. Každý partner má svoje preferencie, ktoré dokážu podnietiť vášeň a blízkosť.",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_popis",
+        "dlhodoba-intimita:ini_formy"
+      ],
+      "decision": "Všeobecné formy vzrušujúcej iniciatívy sú odlišné od otázok prijímam/poskytujem. Rovnaké rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 90,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 91,
+      "source": "1️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_popis",
+        "dlhodoba-intimita:ini_formy"
+      ],
+      "decision": "Všeobecné formy vzrušujúcej iniciatívy sú odlišné od otázok prijímam/poskytujem. Rovnaké rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 92,
+      "source": "Aké formy iniciatívy ťa najviac vzrušujú?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_popis",
+        "dlhodoba-intimita:ini_formy"
+      ],
+      "decision": "Všeobecné formy vzrušujúcej iniciatívy sú odlišné od otázok prijímam/poskytujem. Rovnaké rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 93,
+      "source": "🔘 💋 Spontánna iniciatíva (nečakané momenty vášne a túžby)\n🔘 🕊️ Jemná a zmyselná iniciatíva (romantické gestá, hlboké dotyky)\n🔘 🔥 Intenzívna iniciatíva (silné gestá, naliehavosť, vášnivé bozky)\n🔘 🎭 Hravá iniciatíva (flirtovanie, zvodné pohyby, tance)\n🔘 💡 Kreatívna iniciatíva (prekvapenia, nové prostredie, tematické role)",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_popis",
+        "dlhodoba-intimita:ini_formy"
+      ],
+      "decision": "Všeobecné formy vzrušujúcej iniciatívy sú odlišné od otázok prijímam/poskytujem. Rovnaké rodové opakovania zlúčené.",
+      "options": [
+        {
+          "source": "💋 Spontánna iniciatíva (nečakané momenty vášne a túžby)",
+          "target": "dlhodoba-intimita:ini_formy#spontanna"
+        },
+        {
+          "source": "🕊️ Jemná a zmyselná iniciatíva (romantické gestá, hlboké dotyky)",
+          "target": "dlhodoba-intimita:ini_formy#jemna"
+        },
+        {
+          "source": "🔥 Intenzívna iniciatíva (silné gestá, naliehavosť, vášnivé bozky)",
+          "target": "dlhodoba-intimita:ini_formy#intenzivna"
+        },
+        {
+          "source": "🎭 Hravá iniciatíva (flirtovanie, zvodné pohyby, tance)",
+          "target": "dlhodoba-intimita:ini_formy#hrava"
+        },
+        {
+          "source": "💡 Kreatívna iniciatíva (prekvapenia, nové prostredie, tematické role)",
+          "target": "dlhodoba-intimita:ini_formy#kreativna"
+        }
+      ]
+    },
+    {
+      "p": 94,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 95,
+      "source": "1️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_popis",
+        "dlhodoba-intimita:ini_formy"
+      ],
+      "decision": "Všeobecné formy vzrušujúcej iniciatívy sú odlišné od otázok prijímam/poskytujem. Rovnaké rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 96,
+      "source": "Aké formy iniciatívy ťa najviac vzrušujú?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_popis",
+        "dlhodoba-intimita:ini_formy"
+      ],
+      "decision": "Všeobecné formy vzrušujúcej iniciatívy sú odlišné od otázok prijímam/poskytujem. Rovnaké rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 97,
+      "source": "🔘 💋 Spontánna iniciatíva (nečakané momenty vášne a túžby)\n🔘 🕊️ Jemná a zmyselná iniciatíva (romantické gestá, hlboké dotyky)\n🔘 🔥 Intenzívna iniciatíva (silné gestá, naliehavosť, vášnivé bozky)\n🔘 🎭 Hravá iniciatíva (flirtovanie, zvodné pohyby, tance)\n🔘 💡 Kreatívna iniciatíva (prekvapenia, nové prostredie, tematické role)",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_formy_popis",
+        "dlhodoba-intimita:ini_formy"
+      ],
+      "decision": "Všeobecné formy vzrušujúcej iniciatívy sú odlišné od otázok prijímam/poskytujem. Rovnaké rodové opakovania zlúčené.",
+      "options": [
+        {
+          "source": "💋 Spontánna iniciatíva (nečakané momenty vášne a túžby)",
+          "target": "dlhodoba-intimita:ini_formy#spontanna"
+        },
+        {
+          "source": "🕊️ Jemná a zmyselná iniciatíva (romantické gestá, hlboké dotyky)",
+          "target": "dlhodoba-intimita:ini_formy#jemna"
+        },
+        {
+          "source": "🔥 Intenzívna iniciatíva (silné gestá, naliehavosť, vášnivé bozky)",
+          "target": "dlhodoba-intimita:ini_formy#intenzivna"
+        },
+        {
+          "source": "🎭 Hravá iniciatíva (flirtovanie, zvodné pohyby, tance)",
+          "target": "dlhodoba-intimita:ini_formy#hrava"
+        },
+        {
+          "source": "💡 Kreatívna iniciatíva (prekvapenia, nové prostredie, tematické role)",
+          "target": "dlhodoba-intimita:ini_formy#kreativna"
+        }
+      ]
+    },
+    {
+      "p": 98,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 99,
+      "source": "2️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_gesta"
+      ],
+      "decision": "Päť gest vrátane príkladov; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 100,
+      "source": "Aké gestá preferuješ pri iniciatíve?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_gesta"
+      ],
+      "decision": "Päť gest vrátane príkladov; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 101,
+      "source": "🔘 👐 Jemné dotyky a masáž na začiatku predohry\n🔘 💋 Zmyselné a dlhé bozky\n🔘 🕯️ Prekvapenie romantickou atmosférou (sviečky, hudba, kvety)\n🔘 💪 Drsnejšie gestá (pevné objatie, ťahanie za vlasy, uchopenie)\n🔘 🗨️ Priamy rozhovor alebo komplimenty so sexuálnym podtónom",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_gesta"
+      ],
+      "decision": "Päť gest vrátane príkladov; rodové opakovania zlúčené.",
+      "options": [
+        {
+          "source": "👐 Jemné dotyky a masáž na začiatku predohry",
+          "target": "dlhodoba-intimita:ini_gesta#dotyky"
+        },
+        {
+          "source": "💋 Zmyselné a dlhé bozky",
+          "target": "dlhodoba-intimita:ini_gesta#bozky"
+        },
+        {
+          "source": "🕯️ Prekvapenie romantickou atmosférou (sviečky, hudba, kvety)",
+          "target": "dlhodoba-intimita:ini_gesta#atmosfera"
+        },
+        {
+          "source": "💪 Drsnejšie gestá (pevné objatie, ťahanie za vlasy, uchopenie)",
+          "target": "dlhodoba-intimita:ini_gesta#drsnejsie"
+        },
+        {
+          "source": "🗨️ Priamy rozhovor alebo komplimenty so sexuálnym podtónom",
+          "target": "dlhodoba-intimita:ini_gesta#rozhovor"
+        }
+      ]
+    },
+    {
+      "p": 102,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 103,
+      "source": "2️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_gesta"
+      ],
+      "decision": "Päť gest vrátane príkladov; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 104,
+      "source": "Aké gestá preferuješ pri iniciatíve?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_gesta"
+      ],
+      "decision": "Päť gest vrátane príkladov; rodové opakovania zlúčené.",
+      "options": []
+    },
+    {
+      "p": 105,
+      "source": "🔘 👐 Jemné dotyky a masáž na začiatku predohry\n🔘 💋 Zmyselné a dlhé bozky\n🔘 🕯️ Prekvapenie romantickou atmosférou (sviečky, hudba, kvety)\n🔘 💪 Drsnejšie gestá (pevné objatie, ťahanie za vlasy, uchopenie)\n🔘 🗨️ Priamy rozhovor alebo komplimenty so sexuálnym podtónom",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:ini_gesta"
+      ],
+      "decision": "Päť gest vrátane príkladov; rodové opakovania zlúčené.",
+      "options": [
+        {
+          "source": "👐 Jemné dotyky a masáž na začiatku predohry",
+          "target": "dlhodoba-intimita:ini_gesta#dotyky"
+        },
+        {
+          "source": "💋 Zmyselné a dlhé bozky",
+          "target": "dlhodoba-intimita:ini_gesta#bozky"
+        },
+        {
+          "source": "🕯️ Prekvapenie romantickou atmosférou (sviečky, hudba, kvety)",
+          "target": "dlhodoba-intimita:ini_gesta#atmosfera"
+        },
+        {
+          "source": "💪 Drsnejšie gestá (pevné objatie, ťahanie za vlasy, uchopenie)",
+          "target": "dlhodoba-intimita:ini_gesta#drsnejsie"
+        },
+        {
+          "source": "🗨️ Priamy rozhovor alebo komplimenty so sexuálnym podtónom",
+          "target": "dlhodoba-intimita:ini_gesta#rozhovor"
+        }
+      ]
+    },
+    {
+      "p": 106,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 107,
+      "source": "💠 Spontánny sex",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_info",
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Text o novosti, rutine a slobode redakčne bez zaručeného účinku. Otázka/opcie opakujú P39–40, nie nový formulár.",
+      "options": []
+    },
+    {
+      "p": 108,
+      "source": "Popis:\nSpontánne momenty sú jedinečné svojou nečakanosťou. Rozbíjajú rutinu a prinášajú do vzťahu vzrušenie a slobodu.",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_info",
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Text o novosti, rutine a slobode redakčne bez zaručeného účinku. Otázka/opcie opakujú P39–40, nie nový formulár.",
+      "options": []
+    },
+    {
+      "p": 109,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 110,
+      "source": "1️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_info",
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Text o novosti, rutine a slobode redakčne bez zaručeného účinku. Otázka/opcie opakujú P39–40, nie nový formulár.",
+      "options": []
+    },
+    {
+      "p": 111,
+      "source": "Ako sa cítiš pri spontánnom sexe?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_info",
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Text o novosti, rutine a slobode redakčne bez zaručeného účinku. Otázka/opcie opakujú P39–40, nie nový formulár.",
+      "options": []
+    },
+    {
+      "p": 112,
+      "source": "🔘 🎉 Milujem ho – nečakané momenty sú veľmi vzrušujúce\n🔘 😊 Občas si ho užijem, ale radšej plánujem\n🔘 ❌ Necítim sa pri tom komfortne – mám rada, keď sú veci predvídateľné",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_info",
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Text o novosti, rutine a slobode redakčne bez zaručeného účinku. Otázka/opcie opakujú P39–40, nie nový formulár.",
+      "options": [
+        {
+          "source": "🎉 Milujem ho – nečakané momenty sú veľmi vzrušujúce",
+          "target": "dlhodoba-intimita:spo_pocit#milujem"
+        },
+        {
+          "source": "😊 Občas si ho užijem, ale radšej plánujem",
+          "target": "dlhodoba-intimita:spo_pocit#obcas"
+        },
+        {
+          "source": "❌ Necítim sa pri tom komfortne – mám rada, keď sú veci predvídateľné",
+          "target": "dlhodoba-intimita:spo_pocit#nie"
+        }
+      ]
+    },
+    {
+      "p": 113,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 114,
+      "source": "1️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_info",
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Text o novosti, rutine a slobode redakčne bez zaručeného účinku. Otázka/opcie opakujú P39–40, nie nový formulár.",
+      "options": []
+    },
+    {
+      "p": 115,
+      "source": "Ako sa cítiš pri spontánnom sexe?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_info",
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Text o novosti, rutine a slobode redakčne bez zaručeného účinku. Otázka/opcie opakujú P39–40, nie nový formulár.",
+      "options": []
+    },
+    {
+      "p": 116,
+      "source": "🔘 🎉 Milujem ho – nečakané momenty sú veľmi vzrušujúce\n🔘 😊 Občas si ho užijem, ale radšej plánujem\n🔘 ❌ Necítim sa pri tom komfortne – mám rád, keď sú veci predvídateľné",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_info",
+        "dlhodoba-intimita:spo_pocit",
+        "dlhodoba-intimita:spo_pocit_ine"
+      ],
+      "decision": "Text o novosti, rutine a slobode redakčne bez zaručeného účinku. Otázka/opcie opakujú P39–40, nie nový formulár.",
+      "options": [
+        {
+          "source": "🎉 Milujem ho – nečakané momenty sú veľmi vzrušujúce",
+          "target": "dlhodoba-intimita:spo_pocit#milujem"
+        },
+        {
+          "source": "😊 Občas si ho užijem, ale radšej plánujem",
+          "target": "dlhodoba-intimita:spo_pocit#obcas"
+        },
+        {
+          "source": "❌ Necítim sa pri tom komfortne – mám rád, keď sú veci predvídateľné",
+          "target": "dlhodoba-intimita:spo_pocit#nie"
+        }
+      ]
+    },
+    {
+      "p": 117,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 118,
+      "source": "2️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_situacie"
+      ],
+      "decision": "Štyri kontexty, vrátane príkladov; pridané vysvetlenie súhlasu po prebudení a súkromia.",
+      "options": []
+    },
+    {
+      "p": 119,
+      "source": "Ktoré situácie spontánneho sexu ťa vzrušujú?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_situacie"
+      ],
+      "decision": "Štyri kontexty, vrátane príkladov; pridané vysvetlenie súhlasu po prebudení a súkromia.",
+      "options": []
+    },
+    {
+      "p": 120,
+      "source": "🔘 🌙 V noci po zobudení\n🔘 🚿 Mimo spálne (sprcha, gauč, podlaha)\n🔘 🌳 Na verejných miestach (les, pláž, auto)\n🔘 🍳 Počas bežných aktivít (varenie, upratovanie)",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_situacie"
+      ],
+      "decision": "Štyri kontexty, vrátane príkladov; pridané vysvetlenie súhlasu po prebudení a súkromia.",
+      "options": [
+        {
+          "source": "🌙 V noci po zobudení",
+          "target": "dlhodoba-intimita:spo_situacie#noc"
+        },
+        {
+          "source": "🚿 Mimo spálne (sprcha, gauč, podlaha)",
+          "target": "dlhodoba-intimita:spo_situacie#mimo_spalne"
+        },
+        {
+          "source": "🌳 Na verejných miestach (les, pláž, auto)",
+          "target": "dlhodoba-intimita:spo_situacie#verejne"
+        },
+        {
+          "source": "🍳 Počas bežných aktivít (varenie, upratovanie)",
+          "target": "dlhodoba-intimita:spo_situacie#bezne_aktivity"
+        }
+      ]
+    },
+    {
+      "p": 121,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 122,
+      "source": "2️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_situacie"
+      ],
+      "decision": "Štyri kontexty, vrátane príkladov; pridané vysvetlenie súhlasu po prebudení a súkromia.",
+      "options": []
+    },
+    {
+      "p": 123,
+      "source": "Ktoré situácie spontánneho sexu ťa vzrušujú?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_situacie"
+      ],
+      "decision": "Štyri kontexty, vrátane príkladov; pridané vysvetlenie súhlasu po prebudení a súkromia.",
+      "options": []
+    },
+    {
+      "p": 124,
+      "source": "🔘 🌙 V noci po zobudení\n🔘 🚿 Mimo spálne (sprcha, gauč, podlaha)\n🔘 🌳 Na verejných miestach (les, pláž, auto)\n🔘 🍳 Počas bežných aktivít (varenie, upratovanie)",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:spo_situacie"
+      ],
+      "decision": "Štyri kontexty, vrátane príkladov; pridané vysvetlenie súhlasu po prebudení a súkromia.",
+      "options": [
+        {
+          "source": "🌙 V noci po zobudení",
+          "target": "dlhodoba-intimita:spo_situacie#noc"
+        },
+        {
+          "source": "🚿 Mimo spálne (sprcha, gauč, podlaha)",
+          "target": "dlhodoba-intimita:spo_situacie#mimo_spalne"
+        },
+        {
+          "source": "🌳 Na verejných miestach (les, pláž, auto)",
+          "target": "dlhodoba-intimita:spo_situacie#verejne"
+        },
+        {
+          "source": "🍳 Počas bežných aktivít (varenie, upratovanie)",
+          "target": "dlhodoba-intimita:spo_situacie#bezne_aktivity"
+        }
+      ]
+    },
+    {
+      "p": 125,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 126,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 127,
+      "source": "4.1 Signály pripravenosti",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_nepriame"
+      ],
+      "decision": "Text, tri formy a vlastná odpoveď; signál neinterpretujeme ako automatický súhlas.",
+      "options": []
+    },
+    {
+      "p": 128,
+      "source": "Nepriame prejavy túžby",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_nepriame"
+      ],
+      "decision": "Text, tri formy a vlastná odpoveď; signál neinterpretujeme ako automatický súhlas.",
+      "options": []
+    },
+    {
+      "p": 129,
+      "source": "\nDotyky, pohľady a gestá, ktoré hovoria za všetko",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_nepriame"
+      ],
+      "decision": "Text, tri formy a vlastná odpoveď; signál neinterpretujeme ako automatický súhlas.",
+      "options": []
+    },
+    {
+      "p": 130,
+      "source": "Otázka:\nAké nepriame prejavy túžby sú ti najpríjemnejšie?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_nepriame"
+      ],
+      "decision": "Text, tri formy a vlastná odpoveď; signál neinterpretujeme ako automatický súhlas.",
+      "options": []
+    },
+    {
+      "p": 131,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_nepriame"
+      ],
+      "decision": "Text, tri formy a vlastná odpoveď; signál neinterpretujeme ako automatický súhlas.",
+      "options": []
+    },
+    {
+      "p": 132,
+      "source": "🔘 Nenápadné dotyky počas bežných aktivít.\n🔘 Láskyplné pohľady a úsmevy.\n🔘 Bozky na ústa alebo iné časti tela.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_nepriame"
+      ],
+      "decision": "Text, tri formy a vlastná odpoveď; signál neinterpretujeme ako automatický súhlas.",
+      "options": [
+        {
+          "source": "Nenápadné dotyky počas bežných aktivít.",
+          "target": "predohra-naladenie:sig_nepriame#dotyky"
+        },
+        {
+          "source": "Láskyplné pohľady a úsmevy.",
+          "target": "predohra-naladenie:sig_nepriame#pohlady"
+        },
+        {
+          "source": "Bozky na ústa alebo iné časti tela.",
+          "target": "predohra-naladenie:sig_nepriame#bozky"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sig_nepriame@ine"
+    },
+    {
+      "p": 133,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_nepriame"
+      ],
+      "decision": "Text, tri formy a vlastná odpoveď; signál neinterpretujeme ako automatický súhlas.",
+      "options": []
+    },
+    {
+      "p": 134,
+      "source": "🔘 Nenápadné dotyky počas bežných aktivít.\n🔘 Láskyplné pohľady a úsmevy.\n🔘 Bozky na ústa alebo iné časti tela.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_nepriame"
+      ],
+      "decision": "Text, tri formy a vlastná odpoveď; signál neinterpretujeme ako automatický súhlas.",
+      "options": [
+        {
+          "source": "Nenápadné dotyky počas bežných aktivít.",
+          "target": "predohra-naladenie:sig_nepriame#dotyky"
+        },
+        {
+          "source": "Láskyplné pohľady a úsmevy.",
+          "target": "predohra-naladenie:sig_nepriame#pohlady"
+        },
+        {
+          "source": "Bozky na ústa alebo iné časti tela.",
+          "target": "predohra-naladenie:sig_nepriame#bozky"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sig_nepriame@ine"
+    },
+    {
+      "p": 135,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 136,
+      "source": "Otázka:\nAko reaguješ na takéto momenty?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_reakcia",
+        "predohra-naladenie:sig_reakcia_ine"
+      ],
+      "decision": "Tri reakcie a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 137,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_reakcia",
+        "predohra-naladenie:sig_reakcia_ine"
+      ],
+      "decision": "Tri reakcie a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 138,
+      "source": "🔘 Milujem ich, dodávajú vzťahu iskru.\n🔘 Občas, záleží na nálade.\n🔘 Nepreferujem ich.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_reakcia",
+        "predohra-naladenie:sig_reakcia_ine"
+      ],
+      "decision": "Tri reakcie a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Milujem ich, dodávajú vzťahu iskru.",
+          "target": "predohra-naladenie:sig_reakcia#milujem"
+        },
+        {
+          "source": "Občas, záleží na nálade.",
+          "target": "predohra-naladenie:sig_reakcia#podla_nalady"
+        },
+        {
+          "source": "Nepreferujem ich.",
+          "target": "predohra-naladenie:sig_reakcia#nepreferujem"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sig_reakcia_ine"
+    },
+    {
+      "p": 139,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_reakcia",
+        "predohra-naladenie:sig_reakcia_ine"
+      ],
+      "decision": "Tri reakcie a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 140,
+      "source": "🔘 Milujem ich, dodávajú vzťahu iskru.\n🔘 Občas, záleží na nálade.\n🔘 Nepreferujem ich.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_reakcia",
+        "predohra-naladenie:sig_reakcia_ine"
+      ],
+      "decision": "Tri reakcie a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Milujem ich, dodávajú vzťahu iskru.",
+          "target": "predohra-naladenie:sig_reakcia#milujem"
+        },
+        {
+          "source": "Občas, záleží na nálade.",
+          "target": "predohra-naladenie:sig_reakcia#podla_nalady"
+        },
+        {
+          "source": "Nepreferujem ich.",
+          "target": "predohra-naladenie:sig_reakcia#nepreferujem"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sig_reakcia_ine"
+    },
+    {
+      "p": 141,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 142,
+      "source": "Otázka:\nAko často by si chcel/a zažívať takéto gestá?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_frekvencia",
+        "predohra-naladenie:sig_frekvencia_ine"
+      ],
+      "decision": "Tri frekvencie a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 143,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_frekvencia",
+        "predohra-naladenie:sig_frekvencia_ine"
+      ],
+      "decision": "Tri frekvencie a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 144,
+      "source": "🔘 Denne, ako súčasť každodenného života.\n🔘 Občas, podľa situácie.\n🔘 Zriedka, uprednostňujem iné formy náklonnosti.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_frekvencia",
+        "predohra-naladenie:sig_frekvencia_ine"
+      ],
+      "decision": "Tri frekvencie a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Denne, ako súčasť každodenného života.",
+          "target": "predohra-naladenie:sig_frekvencia#denne"
+        },
+        {
+          "source": "Občas, podľa situácie.",
+          "target": "predohra-naladenie:sig_frekvencia#obcas"
+        },
+        {
+          "source": "Zriedka, uprednostňujem iné formy náklonnosti.",
+          "target": "predohra-naladenie:sig_frekvencia#zriedka"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sig_frekvencia_ine"
+    },
+    {
+      "p": 145,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_frekvencia",
+        "predohra-naladenie:sig_frekvencia_ine"
+      ],
+      "decision": "Tri frekvencie a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 146,
+      "source": "🔘 Denne, ako súčasť každodenného života.\n🔘 Občas, podľa situácie.\n🔘 Zriedka, uprednostňujem iné formy náklonnosti.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_frekvencia",
+        "predohra-naladenie:sig_frekvencia_ine"
+      ],
+      "decision": "Tri frekvencie a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Denne, ako súčasť každodenného života.",
+          "target": "predohra-naladenie:sig_frekvencia#denne"
+        },
+        {
+          "source": "Občas, podľa situácie.",
+          "target": "predohra-naladenie:sig_frekvencia#obcas"
+        },
+        {
+          "source": "Zriedka, uprednostňujem iné formy náklonnosti.",
+          "target": "predohra-naladenie:sig_frekvencia#zriedka"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sig_frekvencia_ine"
+    },
+    {
+      "p": 147,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 148,
+      "source": "Očný kontakt",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_ocny_kontakt",
+        "predohra-naladenie:sig_ocny_kontakt_ine"
+      ],
+      "decision": "Tichý dialóg spracovaný v texte; tri postoje a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 149,
+      "source": "\nTichý dialóg počas blízkosti",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_ocny_kontakt",
+        "predohra-naladenie:sig_ocny_kontakt_ine"
+      ],
+      "decision": "Tichý dialóg spracovaný v texte; tri postoje a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 150,
+      "source": "Otázka:\nAký význam prikladáš očnému kontaktu počas intímnych chvíľ?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_ocny_kontakt",
+        "predohra-naladenie:sig_ocny_kontakt_ine"
+      ],
+      "decision": "Tichý dialóg spracovaný v texte; tri postoje a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 151,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_ocny_kontakt",
+        "predohra-naladenie:sig_ocny_kontakt_ine"
+      ],
+      "decision": "Tichý dialóg spracovaný v texte; tri postoje a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 152,
+      "source": "🔘 Veľmi dôležitý – rada sa pozerám do očí.\n🔘 Občas, záleží na situácii.\n🔘 Nie, radšej mám oči zatvorené.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_ocny_kontakt",
+        "predohra-naladenie:sig_ocny_kontakt_ine"
+      ],
+      "decision": "Tichý dialóg spracovaný v texte; tri postoje a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Veľmi dôležitý – rada sa pozerám do očí.",
+          "target": "predohra-naladenie:sig_ocny_kontakt#velmi"
+        },
+        {
+          "source": "Občas, záleží na situácii.",
+          "target": "predohra-naladenie:sig_ocny_kontakt#obcas"
+        },
+        {
+          "source": "Nie, radšej mám oči zatvorené.",
+          "target": "predohra-naladenie:sig_ocny_kontakt#nie"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sig_ocny_kontakt_ine"
+    },
+    {
+      "p": 153,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_ocny_kontakt",
+        "predohra-naladenie:sig_ocny_kontakt_ine"
+      ],
+      "decision": "Tichý dialóg spracovaný v texte; tri postoje a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 154,
+      "source": "🔘 Veľmi dôležitý – rád sa pozerám do očí.\n🔘 Občas, záleží na situácii.\n🔘 Nie, radšej mám oči zatvorené.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_info",
+        "predohra-naladenie:sig_ocny_kontakt",
+        "predohra-naladenie:sig_ocny_kontakt_ine"
+      ],
+      "decision": "Tichý dialóg spracovaný v texte; tri postoje a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Veľmi dôležitý – rád sa pozerám do očí.",
+          "target": "predohra-naladenie:sig_ocny_kontakt#velmi"
+        },
+        {
+          "source": "Občas, záleží na situácii.",
+          "target": "predohra-naladenie:sig_ocny_kontakt#obcas"
+        },
+        {
+          "source": "Nie, radšej mám oči zatvorené.",
+          "target": "predohra-naladenie:sig_ocny_kontakt#nie"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sig_ocny_kontakt_ine"
+    },
+    {
+      "p": 155,
+      "source": "Telesné náznaky (pohľady, dotyky)",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_pozvanie_formy"
+      ],
+      "decision": "Štyri stručné podnety rozvinuté do telesné/slovné/priame/hravé pozvanie.",
+      "options": []
+    },
+    {
+      "p": 156,
+      "source": "Verbálne náznaky",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_pozvanie_formy"
+      ],
+      "decision": "Štyri stručné podnety rozvinuté do telesné/slovné/priame/hravé pozvanie.",
+      "options": []
+    },
+    {
+      "p": 157,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 158,
+      "source": "Priame pozvanie",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_pozvanie_formy"
+      ],
+      "decision": "Štyri stručné podnety rozvinuté do telesné/slovné/priame/hravé pozvanie.",
+      "options": []
+    },
+    {
+      "p": 159,
+      "source": "Hravé spôsoby pozvania",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sig_pozvanie_formy"
+      ],
+      "decision": "Štyri stručné podnety rozvinuté do telesné/slovné/priame/hravé pozvanie.",
+      "options": []
+    },
+    {
+      "p": 160,
+      "source": "Sexting, neverbálne prejavy a verbálna intimita",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sexting_intro"
+      ],
+      "decision": "Komunikácia, hlas, správa, pohľad a dotyk, očakávanie aj nadviazanie pri stretnutí; záruka realizácie nahradená dobrovoľnosťou.",
+      "options": []
+    },
+    {
+      "p": 161,
+      "source": "Erotická komunikácia počas dňa dokáže byť mostom medzi fantáziou a realitou. Predstav si hravé správy, v ktorých jemne opisujete, čo by ste spolu robili – alebo krátky hlas, ktorý znie v uchu ako sľub zakázaného. Tichý náznak, jemný dotyk na verejnosti či nenápadný pohľad dokáže v tele rozprúdiť túžbu ešte predtým, než sa dotknete. Očakávanie sa stáva predohrou. A keď sa večer stretnete, všetky tie slová, gestá a pohľady sa premenia na realitu, ktorá spája zmysly aj srdcia.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sexting_intro"
+      ],
+      "decision": "Komunikácia, hlas, správa, pohľad a dotyk, očakávanie aj nadviazanie pri stretnutí; záruka realizácie nahradená dobrovoľnosťou.",
+      "options": []
+    },
+    {
+      "p": 162,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 163,
+      "source": "Slová, ktoré tvoria napätie a očakávanie",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sexting_intro"
+      ],
+      "decision": "Komunikácia, hlas, správa, pohľad a dotyk, očakávanie aj nadviazanie pri stretnutí; záruka realizácie nahradená dobrovoľnosťou.",
+      "options": []
+    },
+    {
+      "p": 164,
+      "source": "Otázka:\nMáš záujem o výmenu erotických správ?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_zaujem",
+        "predohra-naladenie:sex_zaujem_ine"
+      ],
+      "decision": "Tri postoje a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 165,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_zaujem",
+        "predohra-naladenie:sex_zaujem_ine"
+      ],
+      "decision": "Tri postoje a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 166,
+      "source": "🔘 Áno, rada flirtujem a budujem vzrušenie cez texty.\n🔘 Možno, ak je správny kontext a nálada.\n🔘 Nie, preferujem osobný kontakt.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_zaujem",
+        "predohra-naladenie:sex_zaujem_ine"
+      ],
+      "decision": "Tri postoje a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Áno, rada flirtujem a budujem vzrušenie cez texty.",
+          "target": "predohra-naladenie:sex_zaujem#ano"
+        },
+        {
+          "source": "Možno, ak je správny kontext a nálada.",
+          "target": "predohra-naladenie:sex_zaujem#mozno"
+        },
+        {
+          "source": "Nie, preferujem osobný kontakt.",
+          "target": "predohra-naladenie:sex_zaujem#nie"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sex_zaujem_ine"
+    },
+    {
+      "p": 167,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_zaujem",
+        "predohra-naladenie:sex_zaujem_ine"
+      ],
+      "decision": "Tri postoje a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 168,
+      "source": "🔘 Áno, rád flirtujem a budujem vzrušenie cez texty.\n🔘 Možno, ak je správny kontext a nálada.\n🔘 Nie, preferujem osobný kontakt.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_zaujem",
+        "predohra-naladenie:sex_zaujem_ine"
+      ],
+      "decision": "Tri postoje a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Áno, rád flirtujem a budujem vzrušenie cez texty.",
+          "target": "predohra-naladenie:sex_zaujem#ano"
+        },
+        {
+          "source": "Možno, ak je správny kontext a nálada.",
+          "target": "predohra-naladenie:sex_zaujem#mozno"
+        },
+        {
+          "source": "Nie, preferujem osobný kontakt.",
+          "target": "predohra-naladenie:sex_zaujem#nie"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sex_zaujem_ine"
+    },
+    {
+      "p": 169,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 170,
+      "source": "Otázka:\nAkú intenzitu správ preferuješ?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_intenzita",
+        "predohra-naladenie:sex_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 171,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_intenzita",
+        "predohra-naladenie:sex_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 172,
+      "source": "🔘 Náznaky a jemné flirtovanie.\n🔘 Priame a detailné popisy fantázií.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_intenzita",
+        "predohra-naladenie:sex_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Náznaky a jemné flirtovanie.",
+          "target": "predohra-naladenie:sex_intenzita#naznaky"
+        },
+        {
+          "source": "Priame a detailné popisy fantázií.",
+          "target": "predohra-naladenie:sex_intenzita#priame"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sex_intenzita_ine"
+    },
+    {
+      "p": 173,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_intenzita",
+        "predohra-naladenie:sex_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 174,
+      "source": "🔘 Náznaky a jemné flirtovanie.\n🔘 Priame a detailné popisy fantázií.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_intenzita",
+        "predohra-naladenie:sex_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Náznaky a jemné flirtovanie.",
+          "target": "predohra-naladenie:sex_intenzita#naznaky"
+        },
+        {
+          "source": "Priame a detailné popisy fantázií.",
+          "target": "predohra-naladenie:sex_intenzita#priame"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sex_intenzita_ine"
+    },
+    {
+      "p": 175,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 176,
+      "source": "Otázka:\nZapojuješ do komunikácie aj iné formy ako texty?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_formy_pouzivam"
+      ],
+      "decision": "Otázka explicitne na terajšie používanie kanálov; hlas/video/iba text a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 177,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_formy_pouzivam"
+      ],
+      "decision": "Otázka explicitne na terajšie používanie kanálov; hlas/video/iba text a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 178,
+      "source": "🔘 Hlasové správy so zvodným tónom.\n🔘 Videohovory na zdieľanie fantázií.\n🔘 Nie, preferujem iba textovú formu.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_formy_pouzivam"
+      ],
+      "decision": "Otázka explicitne na terajšie používanie kanálov; hlas/video/iba text a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Hlasové správy so zvodným tónom.",
+          "target": "predohra-naladenie:sex_formy_pouzivam#hlasovka"
+        },
+        {
+          "source": "Videohovory na zdieľanie fantázií.",
+          "target": "predohra-naladenie:sex_formy_pouzivam#video"
+        },
+        {
+          "source": "Nie, preferujem iba textovú formu.",
+          "target": "predohra-naladenie:sex_formy_pouzivam#len_text"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sex_formy_pouzivam@ine"
+    },
+    {
+      "p": 179,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_formy_pouzivam"
+      ],
+      "decision": "Otázka explicitne na terajšie používanie kanálov; hlas/video/iba text a vlastná odpoveď.",
+      "options": []
+    },
+    {
+      "p": 180,
+      "source": "🔘 Hlasové správy so zvodným tónom.\n🔘 Videohovory na zdieľanie fantázií.\n🔘 Nie, preferujem iba textovú formu.\n✍️ Vlastná odpoveď: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_formy_pouzivam"
+      ],
+      "decision": "Otázka explicitne na terajšie používanie kanálov; hlas/video/iba text a vlastná odpoveď.",
+      "options": [
+        {
+          "source": "Hlasové správy so zvodným tónom.",
+          "target": "predohra-naladenie:sex_formy_pouzivam#hlasovka"
+        },
+        {
+          "source": "Videohovory na zdieľanie fantázií.",
+          "target": "predohra-naladenie:sex_formy_pouzivam#video"
+        },
+        {
+          "source": "Nie, preferujem iba textovú formu.",
+          "target": "predohra-naladenie:sex_formy_pouzivam#len_text"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:sex_formy_pouzivam@ine"
+    },
+    {
+      "p": 181,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 182,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 183,
+      "source": "Zaslanie správy počas dňa",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_zaujem",
+        "predohra-naladenie:sex_formy_pouzivam"
+      ],
+      "decision": "Správa cez deň, fotografia a lístoček v taške explicitne zachované.",
+      "options": []
+    },
+    {
+      "p": 184,
+      "source": "Erotická fotografia",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_zaujem",
+        "predohra-naladenie:sex_formy_pouzivam"
+      ],
+      "decision": "Správa cez deň, fotografia a lístoček v taške explicitne zachované.",
+      "options": []
+    },
+    {
+      "p": 185,
+      "source": "Skrytý odkaz (lístoček v taške)",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:sex_zaujem",
+        "predohra-naladenie:sex_formy_pouzivam"
+      ],
+      "decision": "Správa cez deň, fotografia a lístoček v taške explicitne zachované.",
+      "options": []
+    },
+    {
+      "p": 186,
+      "source": "4.3 Vedome dohodnutá iniciácia",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_dohoda",
+        "predohra-naladenie:ini_dohoda_info"
+      ],
+      "decision": "Tri dohodnuté formy; doplnené odlíšenie iniciátora od dominantnej roly.",
+      "options": []
+    },
+    {
+      "p": 187,
+      "source": "Vzájomná dohoda, kto začína",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_dohoda",
+        "predohra-naladenie:ini_dohoda_info"
+      ],
+      "decision": "Tri dohodnuté formy; doplnené odlíšenie iniciátora od dominantnej roly.",
+      "options": []
+    },
+    {
+      "p": 188,
+      "source": "Striedanie rolí (dominantný/submisívny)",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_dohoda",
+        "predohra-naladenie:ini_dohoda_info"
+      ],
+      "decision": "Tri dohodnuté formy; doplnené odlíšenie iniciátora od dominantnej roly.",
+      "options": []
+    },
+    {
+      "p": 189,
+      "source": "Spoločné rituály začiatku",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_dohoda",
+        "predohra-naladenie:ini_dohoda_info"
+      ],
+      "decision": "Tri dohodnuté formy; doplnené odlíšenie iniciátora od dominantnej roly.",
+      "options": []
+    },
+    {
+      "p": 190,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 191,
+      "source": "🟢 5️⃣ PROSTREDIE A ATMOSFÉRA",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_mimo_info",
+        "miesta-prostredie:osv_info"
+      ],
+      "decision": "Nadpis a vysvetlenie možností miesta, hračiek a podporných pomôcok.",
+      "options": []
+    },
+    {
+      "p": 192,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 193,
+      "source": "🌟 Experimentovanie s miestom a pomôckami",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_mimo_info",
+        "miesta-prostredie:osv_info"
+      ],
+      "decision": "Nadpis a vysvetlenie možností miesta, hračiek a podporných pomôcok.",
+      "options": []
+    },
+    {
+      "p": 194,
+      "source": "🛋️ Polohy mimo spálne, hračky a podporné pomôcky pridávajú do intímnych hier dobrodružstvo.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_mimo_info",
+        "miesta-prostredie:osv_info"
+      ],
+      "decision": "Nadpis a vysvetlenie možností miesta, hračiek a podporných pomôcok.",
+      "options": []
+    },
+    {
+      "p": 195,
+      "source": "Otázka: Chcel/a by si vyskúšať polohy mimo spálne?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_polohy_mimo"
+      ],
+      "decision": "Päť možností a Iné; slovo polohy opravené na miesta podľa skutočných odpovedí.",
+      "options": []
+    },
+    {
+      "p": 196,
+      "source": "💗 Odpoveď ženy\n🔘 Na gauči.\n🔘 V sprche alebo vani.\n🔘 V aute.\n🔘 Vonku (diskrétne).\n🔘 Nie, radšej zostávam v spálni.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_polohy_mimo"
+      ],
+      "decision": "Päť možností a Iné; slovo polohy opravené na miesta podľa skutočných odpovedí.",
+      "options": [
+        {
+          "source": "Na gauči.",
+          "target": "predohra-naladenie:ini_polohy_mimo#gauc"
+        },
+        {
+          "source": "V sprche alebo vani.",
+          "target": "predohra-naladenie:ini_polohy_mimo#sprcha"
+        },
+        {
+          "source": "V aute.",
+          "target": "predohra-naladenie:ini_polohy_mimo#auto"
+        },
+        {
+          "source": "Vonku (diskrétne).",
+          "target": "predohra-naladenie:ini_polohy_mimo#vonku"
+        },
+        {
+          "source": "Nie, radšej zostávam v spálni.",
+          "target": "predohra-naladenie:ini_polohy_mimo#nie"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:ini_polohy_mimo@ine"
+    },
+    {
+      "p": 197,
+      "source": "💙 Odpoveď muža\n🔘 Na gauči.\n🔘 V sprche alebo vani.\n🔘 V aute.\n🔘 Vonku (diskrétne).\n🔘 Nie, radšej zostávam v spálni.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_polohy_mimo"
+      ],
+      "decision": "Päť možností a Iné; slovo polohy opravené na miesta podľa skutočných odpovedí.",
+      "options": [
+        {
+          "source": "Na gauči.",
+          "target": "predohra-naladenie:ini_polohy_mimo#gauc"
+        },
+        {
+          "source": "V sprche alebo vani.",
+          "target": "predohra-naladenie:ini_polohy_mimo#sprcha"
+        },
+        {
+          "source": "V aute.",
+          "target": "predohra-naladenie:ini_polohy_mimo#auto"
+        },
+        {
+          "source": "Vonku (diskrétne).",
+          "target": "predohra-naladenie:ini_polohy_mimo#vonku"
+        },
+        {
+          "source": "Nie, radšej zostávam v spálni.",
+          "target": "predohra-naladenie:ini_polohy_mimo#nie"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:ini_polohy_mimo@ine"
+    },
+    {
+      "p": 198,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 199,
+      "source": "Otázka: Chcel/a by si skúsiť pomôcky pri polohách?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_pomocky_polohy"
+      ],
+      "decision": "Tri typy pomôcok, odmietnutie a Iné.",
+      "options": []
+    },
+    {
+      "p": 200,
+      "source": "💗 Odpoveď ženy\n🔘 Vibrátory na klitoris alebo G-bod.\n🔘 Bondage pomôcky.\n🔘 Polohovacie vankúše.\n🔘 Nie, radšej bez pomôcok.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_pomocky_polohy"
+      ],
+      "decision": "Tri typy pomôcok, odmietnutie a Iné.",
+      "options": [
+        {
+          "source": "Vibrátory na klitoris alebo G-bod.",
+          "target": "predohra-naladenie:ini_pomocky_polohy#vibrator"
+        },
+        {
+          "source": "Bondage pomôcky.",
+          "target": "predohra-naladenie:ini_pomocky_polohy#bondage"
+        },
+        {
+          "source": "Polohovacie vankúše.",
+          "target": "predohra-naladenie:ini_pomocky_polohy#vankuse"
+        },
+        {
+          "source": "Nie, radšej bez pomôcok.",
+          "target": "predohra-naladenie:ini_pomocky_polohy#nie"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:ini_pomocky_polohy@ine"
+    },
+    {
+      "p": 201,
+      "source": "💙 Odpoveď muža\n🔘 Vibrátory na klitoris alebo G-bod.\n🔘 Bondage pomôcky.\n🔘 Polohovacie vankúše.\n🔘 Nie, radšej bez pomôcok.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:ini_pomocky_polohy"
+      ],
+      "decision": "Tri typy pomôcok, odmietnutie a Iné.",
+      "options": [
+        {
+          "source": "Vibrátory na klitoris alebo G-bod.",
+          "target": "predohra-naladenie:ini_pomocky_polohy#vibrator"
+        },
+        {
+          "source": "Bondage pomôcky.",
+          "target": "predohra-naladenie:ini_pomocky_polohy#bondage"
+        },
+        {
+          "source": "Polohovacie vankúše.",
+          "target": "predohra-naladenie:ini_pomocky_polohy#vankuse"
+        },
+        {
+          "source": "Nie, radšej bez pomôcok.",
+          "target": "predohra-naladenie:ini_pomocky_polohy#nie"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:ini_pomocky_polohy@ine"
+    },
+    {
+      "p": 202,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 203,
+      "source": "5.1 Domáce prostredie",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_info"
+      ],
+      "decision": "Celý význam vysvetlenia svetla a prostredia spracovaný; tvrdenie prehlbuje dôveru zmenené na môže pri rešpektovaní hraníc.",
+      "options": []
+    },
+    {
+      "p": 204,
+      "source": "Osvetlenie, prostredie a intímne dobrodružstvá mimo spálne",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_info"
+      ],
+      "decision": "Celý význam vysvetlenia svetla a prostredia spracovaný; tvrdenie prehlbuje dôveru zmenené na môže pri rešpektovaní hraníc.",
+      "options": []
+    },
+    {
+      "p": 205,
+      "source": "Osvetlenie dokáže zmeniť bežný moment na výnimočný zážitok – jemné svetlo sviečok dodá atmosféru pokoja a túžby, zatiaľ čo farebné odtiene podnietia hravosť a experimentovanie. Každé miesto, kde sa spolu milujete, nesie vlastnú energiu – sprcha, kuchynský pult, či tichý les pod hviezdami. Spoločné objavovanie nových prostredí a techník prehlbuje dôveru a prináša zážitky, na ktoré nezabudnete. Intimita nemusí patriť len spálni – niekedy stačí zmeniť priestor, atmosféru alebo rytmus, aby ste objavili nový rozmer vzrušenia a blízkosti.",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_info"
+      ],
+      "decision": "Celý význam vysvetlenia svetla a prostredia spracovaný; tvrdenie prehlbuje dôveru zmenené na môže pri rešpektovaní hraníc.",
+      "options": []
+    },
+    {
+      "p": 206,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 207,
+      "source": "Osvetlenie: Svetlo, ktoré prebúdza zmysly",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_info"
+      ],
+      "decision": "Celý význam vysvetlenia svetla a prostredia spracovaný; tvrdenie prehlbuje dôveru zmenené na môže pri rešpektovaní hraníc.",
+      "options": []
+    },
+    {
+      "p": 208,
+      "source": "\nVaše preferencie atmosféry",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_info"
+      ],
+      "decision": "Celý význam vysvetlenia svetla a prostredia spracovaný; tvrdenie prehlbuje dôveru zmenené na môže pri rešpektovaní hraníc.",
+      "options": []
+    },
+    {
+      "p": 209,
+      "source": "Otázka:\nAké osvetlenie preferuješ pri intímnych chvíľach?",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_typ",
+        "miesta-prostredie:osv_typ_ine"
+      ],
+      "decision": "Štyri typy osvetlenia a Iné.",
+      "options": []
+    },
+    {
+      "p": 210,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_typ",
+        "miesta-prostredie:osv_typ_ine"
+      ],
+      "decision": "Štyri typy osvetlenia a Iné.",
+      "options": []
+    },
+    {
+      "p": 211,
+      "source": "🔘 Tlmené svetlo: Jemné lampy alebo sviečky.\n🔘 Farebné svetlo: LED odtiene červenej či modrej.\n🔘 Úplná tma: Tajomná a zmyselná atmosféra.\n🔘 Prirodzené denné svetlo.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_typ",
+        "miesta-prostredie:osv_typ_ine"
+      ],
+      "decision": "Štyri typy osvetlenia a Iné.",
+      "options": [
+        {
+          "source": "Tlmené svetlo: Jemné lampy alebo sviečky.",
+          "target": "miesta-prostredie:osv_typ#tlmene"
+        },
+        {
+          "source": "Farebné svetlo: LED odtiene červenej či modrej.",
+          "target": "miesta-prostredie:osv_typ#farebne"
+        },
+        {
+          "source": "Úplná tma: Tajomná a zmyselná atmosféra.",
+          "target": "miesta-prostredie:osv_typ#tma"
+        },
+        {
+          "source": "Prirodzené denné svetlo.",
+          "target": "miesta-prostredie:osv_typ#denne"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:osv_typ_ine"
+    },
+    {
+      "p": 212,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_typ",
+        "miesta-prostredie:osv_typ_ine"
+      ],
+      "decision": "Štyri typy osvetlenia a Iné.",
+      "options": []
+    },
+    {
+      "p": 213,
+      "source": "🔘 Tlmené svetlo: Jemné lampy alebo sviečky.\n🔘 Farebné svetlo: LED odtiene červenej či modrej.\n🔘 Úplná tma: Tajomná a zmyselná atmosféra.\n🔘 Prirodzené denné svetlo.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_typ",
+        "miesta-prostredie:osv_typ_ine"
+      ],
+      "decision": "Štyri typy osvetlenia a Iné.",
+      "options": [
+        {
+          "source": "Tlmené svetlo: Jemné lampy alebo sviečky.",
+          "target": "miesta-prostredie:osv_typ#tlmene"
+        },
+        {
+          "source": "Farebné svetlo: LED odtiene červenej či modrej.",
+          "target": "miesta-prostredie:osv_typ#farebne"
+        },
+        {
+          "source": "Úplná tma: Tajomná a zmyselná atmosféra.",
+          "target": "miesta-prostredie:osv_typ#tma"
+        },
+        {
+          "source": "Prirodzené denné svetlo.",
+          "target": "miesta-prostredie:osv_typ#denne"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:osv_typ_ine"
+    },
+    {
+      "p": 214,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 215,
+      "source": "Otázka:\nAká intenzita svetla ti vyhovuje?",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_intenzita",
+        "miesta-prostredie:osv_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a Iné.",
+      "options": []
+    },
+    {
+      "p": 216,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_intenzita",
+        "miesta-prostredie:osv_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a Iné.",
+      "options": []
+    },
+    {
+      "p": 217,
+      "source": "🔘 Jemné a romantické osvetlenie.\n🔘 Priame svetlo na zvýraznenie detailov tiel.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_intenzita",
+        "miesta-prostredie:osv_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a Iné.",
+      "options": [
+        {
+          "source": "Jemné a romantické osvetlenie.",
+          "target": "miesta-prostredie:osv_intenzita#jemne"
+        },
+        {
+          "source": "Priame svetlo na zvýraznenie detailov tiel.",
+          "target": "miesta-prostredie:osv_intenzita#priame"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:osv_intenzita_ine"
+    },
+    {
+      "p": 218,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_intenzita",
+        "miesta-prostredie:osv_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a Iné.",
+      "options": []
+    },
+    {
+      "p": 219,
+      "source": "🔘 Jemné a romantické osvetlenie.\n🔘 Priame svetlo na zvýraznenie detailov tiel.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_intenzita",
+        "miesta-prostredie:osv_intenzita_ine"
+      ],
+      "decision": "Dve intenzity a Iné.",
+      "options": [
+        {
+          "source": "Jemné a romantické osvetlenie.",
+          "target": "miesta-prostredie:osv_intenzita#jemne"
+        },
+        {
+          "source": "Priame svetlo na zvýraznenie detailov tiel.",
+          "target": "miesta-prostredie:osv_intenzita#priame"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:osv_intenzita_ine"
+    },
+    {
+      "p": 220,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 221,
+      "source": "Miesta pre intímne chvíle v domácnosti",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:dom_kupelna",
+        "miesta-prostredie:dom_kuchyna",
+        "miesta-prostredie:dom_obyvacka",
+        "miesta-prostredie:dom_spalna"
+      ],
+      "decision": "Štyri miestnosti a všetky príklady rozdelené do štyroch otázok; každá umožňuje Iné.",
+      "options": []
+    },
+    {
+      "p": 222,
+      "source": "\nOd kúpeľne po kuchyňu",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:dom_kupelna",
+        "miesta-prostredie:dom_kuchyna",
+        "miesta-prostredie:dom_obyvacka",
+        "miesta-prostredie:dom_spalna"
+      ],
+      "decision": "Štyri miestnosti a všetky príklady rozdelené do štyroch otázok; každá umožňuje Iné.",
+      "options": []
+    },
+    {
+      "p": 223,
+      "source": "Otázka:\nKtoré miesta v domácnosti by si rád/a preskúmal/a počas intimity?",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:dom_kupelna",
+        "miesta-prostredie:dom_kuchyna",
+        "miesta-prostredie:dom_obyvacka",
+        "miesta-prostredie:dom_spalna"
+      ],
+      "decision": "Štyri miestnosti a všetky príklady rozdelené do štyroch otázok; každá umožňuje Iné.",
+      "options": []
+    },
+    {
+      "p": 224,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:dom_kupelna",
+        "miesta-prostredie:dom_kuchyna",
+        "miesta-prostredie:dom_obyvacka",
+        "miesta-prostredie:dom_spalna"
+      ],
+      "decision": "Štyri miestnosti a všetky príklady rozdelené do štyroch otázok; každá umožňuje Iné.",
+      "options": []
+    },
+    {
+      "p": 225,
+      "source": "🔘 Kúpeľňa – sprcha, vaňa, umývadlo.\n🔘 Kuchyňa – stôl, pult, experimentovanie s jedlom.\n🔘 Obývačka – gauč, podlaha pri krbe.\n🔘 Spálňa – posteľ so zrkadlom alebo podlaha s podložkou.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:dom_kupelna",
+        "miesta-prostredie:dom_kuchyna",
+        "miesta-prostredie:dom_obyvacka",
+        "miesta-prostredie:dom_spalna"
+      ],
+      "decision": "Štyri miestnosti a všetky príklady rozdelené do štyroch otázok; každá umožňuje Iné.",
+      "options": [
+        {
+          "source": "Kúpeľňa – sprcha, vaňa, umývadlo.",
+          "target": "miesta-prostredie:dom_kupelna"
+        },
+        {
+          "source": "Kuchyňa – stôl, pult, experimentovanie s jedlom.",
+          "target": "miesta-prostredie:dom_kuchyna"
+        },
+        {
+          "source": "Obývačka – gauč, podlaha pri krbe.",
+          "target": "miesta-prostredie:dom_obyvacka"
+        },
+        {
+          "source": "Spálňa – posteľ so zrkadlom alebo podlaha s podložkou.",
+          "target": "miesta-prostredie:dom_spalna"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:dom_spalna@ine"
+    },
+    {
+      "p": 226,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:dom_kupelna",
+        "miesta-prostredie:dom_kuchyna",
+        "miesta-prostredie:dom_obyvacka",
+        "miesta-prostredie:dom_spalna"
+      ],
+      "decision": "Štyri miestnosti a všetky príklady rozdelené do štyroch otázok; každá umožňuje Iné.",
+      "options": []
+    },
+    {
+      "p": 227,
+      "source": "🔘 Kúpeľňa – sprcha, vaňa, umývadlo.\n🔘 Kuchyňa – stôl, pult, experimentovanie s jedlom.\n🔘 Obývačka – gauč, podlaha pri krbe.\n🔘 Spálňa – posteľ so zrkadlom alebo podlaha s podložkou.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:dom_kupelna",
+        "miesta-prostredie:dom_kuchyna",
+        "miesta-prostredie:dom_obyvacka",
+        "miesta-prostredie:dom_spalna"
+      ],
+      "decision": "Štyri miestnosti a všetky príklady rozdelené do štyroch otázok; každá umožňuje Iné.",
+      "options": [
+        {
+          "source": "Kúpeľňa – sprcha, vaňa, umývadlo.",
+          "target": "miesta-prostredie:dom_kupelna"
+        },
+        {
+          "source": "Kuchyňa – stôl, pult, experimentovanie s jedlom.",
+          "target": "miesta-prostredie:dom_kuchyna"
+        },
+        {
+          "source": "Obývačka – gauč, podlaha pri krbe.",
+          "target": "miesta-prostredie:dom_obyvacka"
+        },
+        {
+          "source": "Spálňa – posteľ so zrkadlom alebo podlaha s podložkou.",
+          "target": "miesta-prostredie:dom_spalna"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:dom_spalna@ine"
+    },
+    {
+      "p": 228,
+      "source": "Úprava postele a priestoru",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_poriadok_dolezitost",
+        "miesta-prostredie:osv_poriadok_dolezitost_ine",
+        "miesta-prostredie:osv_priprava_detaily",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Opravený nesúlad zdrojovej otázky a možností: dôležitosť zvlášť, čistota a dekorácie samostatne kombinovateľné. Iné na oboch osiach.",
+      "options": []
+    },
+    {
+      "p": 229,
+      "source": "Príprava prostredia",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_poriadok_dolezitost",
+        "miesta-prostredie:osv_poriadok_dolezitost_ine",
+        "miesta-prostredie:osv_priprava_detaily",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Opravený nesúlad zdrojovej otázky a možností: dôležitosť zvlášť, čistota a dekorácie samostatne kombinovateľné. Iné na oboch osiach.",
+      "options": []
+    },
+    {
+      "p": 230,
+      "source": "\nDetaily, ktoré menia atmosféru",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_poriadok_dolezitost",
+        "miesta-prostredie:osv_poriadok_dolezitost_ine",
+        "miesta-prostredie:osv_priprava_detaily",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Opravený nesúlad zdrojovej otázky a možností: dôležitosť zvlášť, čistota a dekorácie samostatne kombinovateľné. Iné na oboch osiach.",
+      "options": []
+    },
+    {
+      "p": 231,
+      "source": "Otázka:\nAko dôležitá je pre teba upravenosť miestnosti pri intímnych chvíľach?",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_poriadok_dolezitost",
+        "miesta-prostredie:osv_poriadok_dolezitost_ine",
+        "miesta-prostredie:osv_priprava_detaily",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Opravený nesúlad zdrojovej otázky a možností: dôležitosť zvlášť, čistota a dekorácie samostatne kombinovateľné. Iné na oboch osiach.",
+      "options": []
+    },
+    {
+      "p": 232,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_poriadok_dolezitost",
+        "miesta-prostredie:osv_poriadok_dolezitost_ine",
+        "miesta-prostredie:osv_priprava_detaily",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Opravený nesúlad zdrojovej otázky a možností: dôležitosť zvlášť, čistota a dekorácie samostatne kombinovateľné. Iné na oboch osiach.",
+      "options": []
+    },
+    {
+      "p": 233,
+      "source": "🔘 Uprataná posteľ a čisté prostredie.\n🔘 Dekorácie (kvety, svetelné reťaze).\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_poriadok_dolezitost",
+        "miesta-prostredie:osv_poriadok_dolezitost_ine",
+        "miesta-prostredie:osv_priprava_detaily",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Opravený nesúlad zdrojovej otázky a možností: dôležitosť zvlášť, čistota a dekorácie samostatne kombinovateľné. Iné na oboch osiach.",
+      "options": [
+        {
+          "source": "Uprataná posteľ a čisté prostredie.",
+          "target": "miesta-prostredie:osv_priprava_detaily#poriadok"
+        },
+        {
+          "source": "Dekorácie (kvety, svetelné reťaze).",
+          "target": "miesta-prostredie:osv_priprava_detaily#dekoracie"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:osv_priprava_detaily@ine"
+    },
+    {
+      "p": 234,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_poriadok_dolezitost",
+        "miesta-prostredie:osv_poriadok_dolezitost_ine",
+        "miesta-prostredie:osv_priprava_detaily",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Opravený nesúlad zdrojovej otázky a možností: dôležitosť zvlášť, čistota a dekorácie samostatne kombinovateľné. Iné na oboch osiach.",
+      "options": []
+    },
+    {
+      "p": 235,
+      "source": "🔘 Uprataná posteľ a čisté prostredie.\n🔘 Dekorácie (kvety, svetelné reťaze).\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_poriadok_dolezitost",
+        "miesta-prostredie:osv_poriadok_dolezitost_ine",
+        "miesta-prostredie:osv_priprava_detaily",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Opravený nesúlad zdrojovej otázky a možností: dôležitosť zvlášť, čistota a dekorácie samostatne kombinovateľné. Iné na oboch osiach.",
+      "options": [
+        {
+          "source": "Uprataná posteľ a čisté prostredie.",
+          "target": "miesta-prostredie:osv_priprava_detaily#poriadok"
+        },
+        {
+          "source": "Dekorácie (kvety, svetelné reťaze).",
+          "target": "miesta-prostredie:osv_priprava_detaily#dekoracie"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:osv_priprava_detaily@ine"
+    },
+    {
+      "p": 236,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 237,
+      "source": "Otázka:\nAké materiály a detaily ti prinášajú pohodlie?",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_pohodlie",
+        "miesta-prostredie:osv_materialy"
+      ],
+      "decision": "Mäkké materiály vrátane hodvábu/saténu a optimálna teplota ako voľby; Iné aj pôvodný voľný text zostávajú.",
+      "options": []
+    },
+    {
+      "p": 238,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_pohodlie",
+        "miesta-prostredie:osv_materialy"
+      ],
+      "decision": "Mäkké materiály vrátane hodvábu/saténu a optimálna teplota ako voľby; Iné aj pôvodný voľný text zostávajú.",
+      "options": []
+    },
+    {
+      "p": 239,
+      "source": "🔘 Mäkké materiály (hodváb, satén).\n🔘 Optimálna teplota (ani teplo, ani chlad).\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_pohodlie",
+        "miesta-prostredie:osv_materialy"
+      ],
+      "decision": "Mäkké materiály vrátane hodvábu/saténu a optimálna teplota ako voľby; Iné aj pôvodný voľný text zostávajú.",
+      "options": [
+        {
+          "source": "Mäkké materiály (hodváb, satén).",
+          "target": "miesta-prostredie:osv_pohodlie#materialy"
+        },
+        {
+          "source": "Optimálna teplota (ani teplo, ani chlad).",
+          "target": "miesta-prostredie:osv_pohodlie#teplota"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:osv_pohodlie@ine"
+    },
+    {
+      "p": 240,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_pohodlie",
+        "miesta-prostredie:osv_materialy"
+      ],
+      "decision": "Mäkké materiály vrátane hodvábu/saténu a optimálna teplota ako voľby; Iné aj pôvodný voľný text zostávajú.",
+      "options": []
+    },
+    {
+      "p": 241,
+      "source": "🔘 Mäkké materiály (hodváb, satén).\n🔘 Optimálna teplota (ani teplo, ani chlad).\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_pohodlie",
+        "miesta-prostredie:osv_materialy"
+      ],
+      "decision": "Mäkké materiály vrátane hodvábu/saténu a optimálna teplota ako voľby; Iné aj pôvodný voľný text zostávajú.",
+      "options": [
+        {
+          "source": "Mäkké materiály (hodváb, satén).",
+          "target": "miesta-prostredie:osv_pohodlie#materialy"
+        },
+        {
+          "source": "Optimálna teplota (ani teplo, ani chlad).",
+          "target": "miesta-prostredie:osv_pohodlie#teplota"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:osv_pohodlie@ine"
+    },
+    {
+      "p": 242,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 243,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 244,
+      "source": "Pripravené pomôcky a hračky",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:pri_na_dosah",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Pripravené pomôcky a hračky sú v pri_na_dosah (lubrikant/ochrana/uterak/voda/hracky).",
+      "options": []
+    },
+    {
+      "p": 245,
+      "source": "Klimatizácia, teplota miestnosti",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_teplota",
+        "miesta-prostredie:osv_pohodlie",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Teplota a klimatizácia explicitne v otázke aj texte.",
+      "options": []
+    },
+    {
+      "p": 246,
+      "source": "Vizuálne podnety (fotografie, obrazy)",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:osv_vizualne_podnety",
+        "miesta-prostredie:osv_detaily_info"
+      ],
+      "decision": "Fotografie a obrazy sú explicitné možnosti.",
+      "options": []
+    },
+    {
+      "p": 247,
+      "source": "5.2 Externé prostredie",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_info",
+        "miesta-prostredie:ext_skusenost_spokojnost",
+        "miesta-prostredie:ext_ochota",
+        "miesta-prostredie:ext_ochota_ine"
+      ],
+      "decision": "Päť významov pôvodnej zmiešanej škály rozdelených na skúsenosť/spokojnosť a aktuálnu ochotu; Iné zachované. Nová ochota používa štyri používateľom určené možnosti bez migrácie starých dát.",
+      "options": []
+    },
+    {
+      "p": 248,
+      "source": "Intimita mimo spálne",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_info",
+        "miesta-prostredie:ext_skusenost_spokojnost",
+        "miesta-prostredie:ext_ochota",
+        "miesta-prostredie:ext_ochota_ine"
+      ],
+      "decision": "Päť významov pôvodnej zmiešanej škály rozdelených na skúsenosť/spokojnosť a aktuálnu ochotu; Iné zachované. Nová ochota používa štyri používateľom určené možnosti bez migrácie starých dát.",
+      "options": []
+    },
+    {
+      "p": 249,
+      "source": "\nDobrodružstvo a vzrušenie",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_info",
+        "miesta-prostredie:ext_skusenost_spokojnost",
+        "miesta-prostredie:ext_ochota",
+        "miesta-prostredie:ext_ochota_ine"
+      ],
+      "decision": "Päť významov pôvodnej zmiešanej škály rozdelených na skúsenosť/spokojnosť a aktuálnu ochotu; Iné zachované. Nová ochota používa štyri používateľom určené možnosti bez migrácie starých dát.",
+      "options": []
+    },
+    {
+      "p": 250,
+      "source": "Otázka:\nChcel/a by si preskúmať intímne chvíle mimo spálne?",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_info",
+        "miesta-prostredie:ext_skusenost_spokojnost",
+        "miesta-prostredie:ext_ochota",
+        "miesta-prostredie:ext_ochota_ine"
+      ],
+      "decision": "Päť významov pôvodnej zmiešanej škály rozdelených na skúsenosť/spokojnosť a aktuálnu ochotu; Iné zachované. Nová ochota používa štyri používateľom určené možnosti bez migrácie starých dát.",
+      "options": []
+    },
+    {
+      "p": 251,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_info",
+        "miesta-prostredie:ext_skusenost_spokojnost",
+        "miesta-prostredie:ext_ochota",
+        "miesta-prostredie:ext_ochota_ine"
+      ],
+      "decision": "Päť významov pôvodnej zmiešanej škály rozdelených na skúsenosť/spokojnosť a aktuálnu ochotu; Iné zachované. Nová ochota používa štyri používateľom určené možnosti bez migrácie starých dát.",
+      "options": []
+    },
+    {
+      "p": 252,
+      "source": "🔘 Už to robíme a som spokojná.\n🔘 Túžim to vyskúšať.\n🔘 Rada to spravím, ak po tom partner túži.\n🔘 Možno, za istých okolností.\n🔘 Nie, necítim sa na to pripravená.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_info",
+        "miesta-prostredie:ext_skusenost_spokojnost",
+        "miesta-prostredie:ext_ochota",
+        "miesta-prostredie:ext_ochota_ine"
+      ],
+      "decision": "Päť významov pôvodnej zmiešanej škály rozdelených na skúsenosť/spokojnosť a aktuálnu ochotu; Iné zachované. Nová ochota používa štyri používateľom určené možnosti bez migrácie starých dát.",
+      "options": [
+        {
+          "source": "Už to robíme a som spokojná.",
+          "target": "miesta-prostredie:ext_skusenost_spokojnost#spokojnost"
+        },
+        {
+          "source": "Túžim to vyskúšať.",
+          "target": "miesta-prostredie:ext_ochota#chcem"
+        },
+        {
+          "source": "Rada to spravím, ak po tom partner túži.",
+          "target": "miesta-prostredie:ext_ochota#ak_chces"
+        },
+        {
+          "source": "Možno, za istých okolností.",
+          "target": "miesta-prostredie:ext_ochota#mozno"
+        },
+        {
+          "source": "Nie, necítim sa na to pripravená.",
+          "target": "miesta-prostredie:ext_ochota#nie"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:ext_ochota_ine"
+    },
+    {
+      "p": 253,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_info",
+        "miesta-prostredie:ext_skusenost_spokojnost",
+        "miesta-prostredie:ext_ochota",
+        "miesta-prostredie:ext_ochota_ine"
+      ],
+      "decision": "Päť významov pôvodnej zmiešanej škály rozdelených na skúsenosť/spokojnosť a aktuálnu ochotu; Iné zachované. Nová ochota používa štyri používateľom určené možnosti bez migrácie starých dát.",
+      "options": []
+    },
+    {
+      "p": 254,
+      "source": "🔘 Už to robíme a som spokojný.\n🔘 Túžim to vyskúšať.\n🔘 Rád to spravím, ak po tom partnerka túži.\n🔘 Možno, za istých okolností.\n🔘 Nie, necítim sa na to pripravený.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_info",
+        "miesta-prostredie:ext_skusenost_spokojnost",
+        "miesta-prostredie:ext_ochota",
+        "miesta-prostredie:ext_ochota_ine"
+      ],
+      "decision": "Päť významov pôvodnej zmiešanej škály rozdelených na skúsenosť/spokojnosť a aktuálnu ochotu; Iné zachované. Nová ochota používa štyri používateľom určené možnosti bez migrácie starých dát.",
+      "options": [
+        {
+          "source": "Už to robíme a som spokojný.",
+          "target": "miesta-prostredie:ext_skusenost_spokojnost#spokojnost"
+        },
+        {
+          "source": "Túžim to vyskúšať.",
+          "target": "miesta-prostredie:ext_ochota#chcem"
+        },
+        {
+          "source": "Rád to spravím, ak po tom partnerka túži.",
+          "target": "miesta-prostredie:ext_ochota#ak_chces"
+        },
+        {
+          "source": "Možno, za istých okolností.",
+          "target": "miesta-prostredie:ext_ochota#mozno"
+        },
+        {
+          "source": "Nie, necítim sa na to pripravený.",
+          "target": "miesta-prostredie:ext_ochota#nie"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:ext_ochota_ine"
+    },
+    {
+      "p": 255,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek; bez obsahu na prenos.",
+      "options": []
+    },
+    {
+      "p": 256,
+      "source": "Otázka:\nAké miesta mimo spálne ťa lákajú?",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_miesta_prehlad"
+      ],
+      "decision": "Kúpeľňa/príroda/auto/swingers klub a Iné v jednom prehľade; podrobnosti existujú v ďalších blokoch.",
+      "options": []
+    },
+    {
+      "p": 257,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_miesta_prehlad"
+      ],
+      "decision": "Kúpeľňa/príroda/auto/swingers klub a Iné v jednom prehľade; podrobnosti existujú v ďalších blokoch.",
+      "options": []
+    },
+    {
+      "p": 258,
+      "source": "🔘 Kúpeľňa.\n🔘 Príroda.\n🔘 Auto.\n🔘 Swingers klub.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_miesta_prehlad"
+      ],
+      "decision": "Kúpeľňa/príroda/auto/swingers klub a Iné v jednom prehľade; podrobnosti existujú v ďalších blokoch.",
+      "options": [
+        {
+          "source": "Kúpeľňa.",
+          "target": "miesta-prostredie:ext_miesta_prehlad#kupelna"
+        },
+        {
+          "source": "Príroda.",
+          "target": "miesta-prostredie:ext_miesta_prehlad#priroda"
+        },
+        {
+          "source": "Auto.",
+          "target": "miesta-prostredie:ext_miesta_prehlad#auto"
+        },
+        {
+          "source": "Swingers klub.",
+          "target": "miesta-prostredie:ext_miesta_prehlad#swingers_klub"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:ext_miesta_prehlad@ine"
+    },
+    {
+      "p": 259,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_miesta_prehlad"
+      ],
+      "decision": "Kúpeľňa/príroda/auto/swingers klub a Iné v jednom prehľade; podrobnosti existujú v ďalších blokoch.",
+      "options": []
+    },
+    {
+      "p": 260,
+      "source": "🔘 Kúpeľňa.\n🔘 Príroda.\n🔘 Auto.\n🔘 Swingers klub.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "miesta-prostredie:ext_miesta_prehlad"
+      ],
+      "decision": "Kúpeľňa/príroda/auto/swingers klub a Iné v jednom prehľade; podrobnosti existujú v ďalších blokoch.",
+      "options": [
+        {
+          "source": "Kúpeľňa.",
+          "target": "miesta-prostredie:ext_miesta_prehlad#kupelna"
+        },
+        {
+          "source": "Príroda.",
+          "target": "miesta-prostredie:ext_miesta_prehlad#priroda"
+        },
+        {
+          "source": "Auto.",
+          "target": "miesta-prostredie:ext_miesta_prehlad#auto"
+        },
+        {
+          "source": "Swingers klub.",
+          "target": "miesta-prostredie:ext_miesta_prehlad#swingers_klub"
+        }
+      ],
+      "ownAnswer": "miesta-prostredie:ext_miesta_prehlad@ine"
+    }
+  ]
+}

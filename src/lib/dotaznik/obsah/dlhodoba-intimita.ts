@@ -229,11 +229,11 @@ const INICIATIVA: Blok = {
   druh: 'skupina', id: 'iniciativa', nadpis: 'Sexuálna iniciatíva',
   bloky: [
     {
-  "druh": "text",
-  "id": "ini_uvod",
-  "nadpis": "Kto začína a akým spôsobom",
-  "telo": "Iniciatíva môže byť jemná, spontánna, intenzívna alebo hravá. Niekto rád vedie, iný rád prijíma pozornosť a niekto roly strieda. Rozlíš, čo chceš prijímať, čo chceš sám ponúkať a ako si chcete iniciatívu rozdeliť."
-},
+      druh: 'text',
+      id: 'ini_uvod',
+      nadpis: 'Kto začína a akým spôsobom',
+      telo: 'Iniciatíva môže byť jemná, spontánna, intenzívna alebo hravá. Niekto rád vedie, iný rád prijíma pozornosť a niekto roly strieda. Rozlíš, čo chceš prijímať, čo chceš sám ponúkať a ako si chcete iniciatívu rozdeliť.',
+    },
     {
       druh: 'text', id: 'ini_formy_popis',
       telo: 'Iniciatíva môže mať mnoho podôb — od romantických gest cez hravé flirtovanie až po intenzívne prejavy túžby. Každý partner má svoje preferencie, ktoré dokážu podnietiť vášeň a blízkosť.',
@@ -243,70 +243,40 @@ const INICIATIVA: Blok = {
       text: 'Aké formy iniciatívy ma najviac vzrušujú',
       moznosti: [
         { v: 'spontanna', label: 'Spontánna (nečakané momenty vášne)' },
-        { v: 'jemna', label: 'Jemná a zmyselná (romantické gestá, pomalé dotyky)' },
+        { v: 'jemna', label: 'Jemná a zmyselná (romantické gestá, pomalé a hlboké dotyky)' },
         { v: 'intenzivna', label: 'Intenzívna (silné gestá, naliehavosť, vášnivé bozky)' },
         { v: 'hrava', label: 'Hravá (flirtovanie, zvodné pohyby, tance)' },
         { v: 'kreativna', label: 'Kreatívna (prekvapenia, nové prostredie, tematické role)' },
       ],
     },
     {
-  "druh": "otazka",
-  "id": "ini_formy_prijimam",
-  "typ": "viac",
-  "text": "Aké formy iniciatívy chcem prijímať od druhého?",
-  "moznosti": [
-    {
-      "v": "jemna",
-      "label": "Jemná a zmyselná — romantické gestá, pomalé či nežné dotyky, masáž a očný kontakt"
+      druh: 'otazka',
+      id: 'ini_formy_prijimam',
+      typ: 'viac',
+      text: 'Aké formy iniciatívy chcem prijímať od druhého?',
+      moznosti: [
+        { v: 'jemna', label: 'Jemná a zmyselná — romantické gestá, pomalé či nežné dotyky, masáž a očný kontakt' },
+        { v: 'spontanna', label: 'Spontánna a prekvapivá — nečakané objatie, náhle dotyky a vášnivý bozk' },
+        { v: 'intenzivna', label: 'Intenzívna — pevnejšie uchopenie, jasné signály, naliehavosť alebo rýchle rozopnutie oblečenia po vzájomnej dohode' },
+        { v: 'hrava', label: 'Hravá a zvodná — flirtovanie, tance, pohyby a hry' },
+        { v: 'kreativna', label: 'Kreatívna — tematické role, scenáre, prekvapenia a nové prostredie' },
+      ],
+      inePovolene: true,
     },
     {
-      "v": "spontanna",
-      "label": "Spontánna a prekvapivá — nečakané objatie, náhle dotyky a vášnivý bozk"
+      druh: 'otazka',
+      id: 'ini_formy_poskytujem',
+      typ: 'viac',
+      text: 'Aké formy iniciatívy chcem poskytovať?',
+      moznosti: [
+        { v: 'jemna', label: 'Jemná a pozorná — hladenie, masáž, nežné bozky a budovanie atmosféry' },
+        { v: 'spontanna', label: 'Rýchla a spontánna — nečakané bozky, dotyky a momenty vášne' },
+        { v: 'intenzivna', label: 'Intenzívna a dominantná — pevné uchopenie a výrazné vedenie po dohode; bez nátlaku' },
+        { v: 'hrava', label: 'Hravá a zvedavá — provokujúce pohľady, tance, nové nápady a návrhy' },
+        { v: 'podla_nalady', label: 'Kombinácia podľa nálady' },
+      ],
+      inePovolene: true,
     },
-    {
-      "v": "intenzivna",
-      "label": "Intenzívna — pevnejšie uchopenie, jasné signály, naliehavosť alebo rýchle rozopnutie oblečenia po vzájomnej dohode"
-    },
-    {
-      "v": "hrava",
-      "label": "Hravá a zvodná — flirtovanie, tance, pohyby a hry"
-    },
-    {
-      "v": "kreativna",
-      "label": "Kreatívna — tematické role, scenáre, prekvapenia a nové prostredie"
-    }
-  ],
-  "inePovolene": true
-},
-    {
-  "druh": "otazka",
-  "id": "ini_formy_poskytujem",
-  "typ": "viac",
-  "text": "Aké formy iniciatívy chcem poskytovať?",
-  "moznosti": [
-    {
-      "v": "jemna",
-      "label": "Jemná a pozorná — hladenie, masáž, nežné bozky a budovanie atmosféry"
-    },
-    {
-      "v": "spontanna",
-      "label": "Rýchla a spontánna — nečakané bozky, dotyky a momenty vášne"
-    },
-    {
-      "v": "intenzivna",
-      "label": "Intenzívna a dominantná — pevné uchopenie a výrazné vedenie po dohode; bez nátlaku"
-    },
-    {
-      "v": "hrava",
-      "label": "Hravá a zvedavá — provokujúce pohľady, tance, nové nápady a návrhy"
-    },
-    {
-      "v": "podla_nalady",
-      "label": "Kombinácia podľa nálady"
-    }
-  ],
-  "inePovolene": true
-},
     {
       druh: 'otazka', id: 'ini_kedy', typ: 'jeden',
       text: 'Kedy je pre mňa ideálne začať iniciatívu',
@@ -318,11 +288,11 @@ const INICIATIVA: Blok = {
       ],
     },
     {
-  "druh": "otazka",
-  "id": "ini_kedy_ine",
-  "typ": "text",
-  "text": "Čas iniciatívy — vlastná odpoveď alebo doplnenie (voliteľné):"
-},
+      druh: 'otazka',
+      id: 'ini_kedy_ine',
+      typ: 'text',
+      text: 'Čas iniciatívy — vlastná odpoveď alebo doplnenie (voliteľné):',
+    },
     {
       druh: 'otazka', id: 'ini_faza', typ: 'jeden',
       text: 'V ktorej chvíli zbližovania najradšej preberám iniciatívu?',
@@ -336,11 +306,11 @@ const INICIATIVA: Blok = {
       ],
     },
     {
-  "druh": "otazka",
-  "id": "ini_faza_ine",
-  "typ": "text",
-  "text": "Chvíľa preberania iniciatívy — vlastná odpoveď alebo doplnenie (voliteľné):"
-},
+      druh: 'otazka',
+      id: 'ini_faza_ine',
+      typ: 'text',
+      text: 'Chvíľa preberania iniciatívy — vlastná odpoveď alebo doplnenie (voliteľné):',
+    },
     {
       druh: 'otazka', id: 'ini_situacie', typ: 'viac',
       text: 'Ktoré situácie ma najviac naladia na iniciatívu (inšpirácia, môžeš vybrať viac)',
@@ -385,9 +355,11 @@ const INICIATIVA: Blok = {
       ],
     },
     {
-      druh: 'text', id: 'ini_tipy', nadpis: 'Tipy na vyskúšanie', ton: 'info',
-      telo:
-        "Deň spontánnosti: dohodnite si deň otvorený nečakanému pozvaniu, napríklad ráno v kuchyni alebo večer pri filme. Nie je to povinnosť mať sex.\n\nJemný večer: začnite nežnou masážou a podľa spoločnej chuti prejdite k intenzívnejším dotykom a objatiam.\n\nVedený večer: vopred sa dohodnite, že jeden bude viesť a druhý prijímať pozornosť, napríklad s jasnými pokynmi k dotykom alebo slovám. Dohodnutá rola nevylučuje odmietnutie ani zmenu názoru.",
+      druh: 'text',
+      id: 'ini_tipy',
+      nadpis: 'Tipy na vyskúšanie',
+      ton: 'info',
+      telo: 'Deň spontánnosti: dohodnite si deň otvorený nečakanému pozvaniu, napríklad ráno v kuchyni alebo večer pri filme. Nie je to povinnosť mať sex.\n\nJemný večer: začnite nežnou masážou a podľa spoločnej chuti prejdite k intenzívnejším dotykom a objatiam.\n\nVedený večer: vopred sa dohodnite, že jeden bude viesť a druhý prijímať pozornosť, napríklad s jasnými pokynmi k dotykom alebo slovám. Dohodnutá rola nevylučuje odmietnutie ani zmenu názoru.',
     },
   ],
 }
@@ -397,50 +369,42 @@ const SPONTANNY: Blok = {
   druh: 'skupina', id: 'spontanny', nadpis: 'Spontánny sex',
   bloky: [
     {
-      druh: 'text', id: 'spo_info',
-      telo: "Spontánne chvíle vznikajú z okamihu a môžu priniesť novosť, pocit slobody a osvieženie rutiny. Niekomu vyhovujú, iný potrebuje plánovanie alebo predvídateľnosť. Ani prekvapenie nenahrádza vzájomnú ochotu.",
+      druh: 'text',
+      id: 'spo_info',
+      telo: 'Spontánne chvíle vznikajú z okamihu a môžu priniesť novosť, pocit slobody a osvieženie rutiny. Niekomu vyhovujú, iný potrebuje plánovanie alebo predvídateľnosť. Ani prekvapenie nenahrádza vzájomnú ochotu.',
     },
     {
-      druh: 'otazka', id: 'spo_pocit', typ: 'jeden',
+      druh: 'otazka',
+      id: 'spo_pocit',
+      typ: 'jeden',
       text: 'Ako sa cítim pri spontánnom sexe',
       moznosti: [
-  {
-    "v": "milujem",
-    "label": "Milujem ho — nečakané momenty mi prinášajú vzrušenie a autenticitu"
-  },
-  {
-    "v": "obcas",
-    "label": "Občas si ho užijem, ale radšej plánujem"
-  },
-  {
-    "v": "podla_nalady",
-    "label": "Občas si ho užijem, záleží na nálade"
-  },
-  {
-    "v": "nie",
-    "label": "Necítim sa pri tom komfortne — preferujem predvídateľnosť"
-  },
-  {
-    "v": "planujem",
-    "label": "Spontánnosti nie som naklonený/á, dávam prednosť plánovaniu"
-  }
-],
+        { v: 'milujem', label: 'Milujem ho — nečakané momenty mi prinášajú vzrušenie a autenticitu' },
+        { v: 'obcas', label: 'Občas si ho užijem, ale radšej plánujem' },
+        { v: 'podla_nalady', label: 'Občas si ho užijem, záleží na nálade' },
+        { v: 'nie', label: 'Necítim sa pri tom komfortne — preferujem predvídateľnosť' },
+        { v: 'planujem', label: 'Spontánnosti nie som naklonený/á, dávam prednosť plánovaniu' },
+      ],
     },
     {
-  "druh": "otazka",
-  "id": "spo_pocit_ine",
-  "typ": "text",
-  "text": "Môj postoj k spontánnosti — vlastná odpoveď alebo doplnenie (voliteľné):"
-},
+      druh: 'otazka',
+      id: 'spo_pocit_ine',
+      typ: 'text',
+      text: 'Môj postoj k spontánnosti — vlastná odpoveď alebo doplnenie (voliteľné):',
+    },
     {
-      druh: 'otazka', id: 'spo_situacie', typ: 'viac',
+      druh: 'otazka',
+      id: 'spo_situacie',
+      typ: 'viac',
       text: 'Ktoré situácie spontánneho sexu ma vzrušujú',
       moznosti: [
         { v: 'noc', label: 'V noci po zobudení' },
         { v: 'mimo_spalne', label: 'Mimo spálne (sprcha, gauč, podlaha)' },
         { v: 'verejne', label: 'Na verejných miestach (les, pláž, auto) — diskrétne' },
-        { v: 'bezne_aktivity', label: 'Počas bežných aktivít (varenie, umývanie riadu)' },
-      ], napoveda: "V noci až po prebudení a so súhlasom oboch. Mimo domova iba v súkromí, bez zapájania nechcených svedkov."},
+        { v: 'bezne_aktivity', label: 'Počas bežných aktivít (varenie, upratovanie, umývanie riadu)' },
+      ],
+      napoveda: 'V noci až po prebudení a so súhlasom oboch. Mimo domova iba v súkromí, bez zapájania nechcených svedkov.',
+    },
   ],
 }
 

@@ -1,3 +1,24 @@
+## GLOBAL-001-COMPLETE — P1–P260 obsahovo spracované do kódu
+
+OWNER Codex; 2026-09-17. STATUS: IMPLEMENTED / pripravené na review tejto dávky. P261+ sa v tejto práci nečítalo. Tento zápis nahrádza staršie PARTIAL a pokyny pokračovať pred dokončením dávky. Neuzatvára celé témy ani bezpečnostné TODO.
+
+Výsledok: tri obsahové súbory priamo upravené; všetkých 260 odsekov má pôvodný text, rozhodnutie a konkrétne ciele v docs/dotaznik-zdroj-001-260.json. Čitateľná mapa, spracovanie opakovaní, redakčné rozhodnutia a externé podklady sú v docs/dotaznik-zdroj-001-260.md. Priradených je 191 explicitných odpovedí a 42 možností vlastnej odpovede (vrátane opakovaných rodových verzií). Prázdne odseky a nadpisy sú evidované; nie sú vydávané za nové otázky.
+
+GLOBAL-F01 až F07: v rozsahu P1–P260 zapracované. Oddelené vlastné/partnerovo oblečenie, prijímanie/poskytovanie iniciatívy, čas/fáza iniciatívy, reakcia/frekvencia gest, poriadok/dekorácie, skúsenosť/ochota mimo spálne; doplnené vlastné odpovede, príklady, materiály, klimatizácia, vizuálne podnety a vysvetľujúce texty. Naliehanie upravené na dohodnuté vedenie bez nátlaku. Pri nahradených významovo nejednoznačných otázkach nové ID, historické odpovede bez migrácie. Pôvodná miernejšia sig_reakcia/prijemne zostáva, zdrojové Milujem má vlastnú hodnotu milujem.
+
+Overenie:
+- PASS: node scripts/verify-dotaznik-001-260.cjs — súvislých 260/260, všetkých 191 explicitných volieb a 42 vlastných odpovedí, existujúce bloky a hodnoty, jedinečné ID, textové pole pre Iné.
+- PASS: izolovaný strict TypeScript program nad tromi obsahovými súbormi a ich schémou; kontroluje ich skutočné typy, nielen syntax.
+- PASS: git diff --check a ručná kontrola úprav. Významové priradenie vykonané čítaním; test mapy sám nie je dôkazom sémantickej správnosti.
+- Celoprojektový npm run typecheck -- --incremental false bol po úpravách opakovane blokovaný syntaktickými chybami v generovaných .next/dev/types/routes.d.ts (od 357) a validator.ts (1147/1467). Prvý beh pred týmto súbežným poškodením prešiel; finálny stav celého projektu NIE JE PASS. Generované súbory sa v tejto obsahovej dávke neopravovali; UI v prehliadači sa neoverovalo.
+
+Súbežná práca zmenila HEAD z 7e97978 na d15fac4afc55de839da5c0b26ebee02d36a19ece a zahrnula časť rozpracovaných obsahových zmien do commitu. Codex sám nespúšťal commit/push/deploy; stav nasadenia neoverený. Žiadny reset ani prepis cudzej práce.
+
+Finálne SHA256: predohra-naladenie.ts 8C2DD133D8D1E37EA3896DA955FA41CB22E8D1DA11297A139F3DDE134088CE59; dlhodoba-intimita.ts E4CFEEC6B82BC464EDE1E782F25B45097682B60B07453DBCD6E02A0109D2FE59; miesta-prostredie.ts BFD7A45236BA8152C6FEF77D88DC81672433BC9A27282C0585A60DCE7E1C8E45.
+
+Nasledujúca obsahová dávka môže nadviazať P261 až po tomto obsahovom uzavretí. Ďalšie výskyty môžu spresniť už spracované témy, preto ich naďalej neoznačujeme globálne hotové.
+
+---
 ## GLOBAL-001 — prvá súvislá dávka po oprave metódy
 
 OWNER Codex; 2026-09-17; stav REVIEW, žiadna téma uzavretá. HEAD 7e97978e7f63b3fb9ded4a86ca3bc3aa3012ce21. Zdroj rovnaký DOCX a číslovanie P ako v METHOD-RESET/CONTENT-001; bez deduplikácie. V tejto dávke prečítané P36–P260, spolu s predchádzajúcimi P1–P35 tvorí globálne prečítaný rozsah P1–P260. Ďalší odsek P261. Rozsah porovnania: prvé lokálne mapovanie P1–P260 k nižšie uvedeným blokom; krížové overenie všetkých možných tém ešte nie je dokončené. Nijaké tvrdenie o globálne chýbajúcej otázke.

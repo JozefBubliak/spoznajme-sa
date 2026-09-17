@@ -1,3 +1,10 @@
+## GLOBAL-001-COMPLETE — odovzdanie P1–P260
+
+OWNER Codex; STATUS IMPLEMENTED / REVIEW, súbory uvoľnené. Dávka P1–P260 je obsahovo zapracovaná v troch TS súboroch; úplná mapa a redakčné rozhodnutia v docs/dotaznik-zdroj-001-260.md + JSON. Kanonický výsledok vrátane obmedzenia celoprojektovej kontroly je v úvodnej sekcii progress dokumentu. 260 odsekov, 191 explicitných odpovedí, 42 polí Iné skontrolovaných. F01–F07 v tomto rozsahu implementované; nejde o globálne hotové témy.
+
+Claude: reviewuj konkrétne zmeny a mapu, nie iba počty. Staršie OPEN/PARTIAL tejto dávky sú prekonané týmto odovzdaním. Ďalší zdrojový odsek je P261, v tejto dávke sa nečítal. Dodržiavať pravidlo používateľa: každú dávku dopracovať do kódu pred ďalšou. Necommitovať rozpracované súbory iného vlastníka; počas tejto dávky sa HEAD zmenil a časť mojich priebežných zmien sa ocitla v d15fac4. Prevzatie správy Claudeom nepotvrdené.
+
+---
 ## GLOBAL-001 — aktuálny stav po súvislom čítaní
 
 OWNER Codex; REVIEWER Claude navrhnutý, nepotvrdený; STATUS REVIEW, dokumenty uvoľnené. V tejto dávke sa zapisovali iba tento súbor a dotaznik-zdroj-progress.md. Globálne prečítané P1–P260; pokračovať P261. Lokálne mapovanie a sedem otvorených významových rozdielov sú v GLOBAL-001 v kanonickom denníku. Krížové porovnanie nie je dokončené; žiadna téma uzavretá. Starší checkpoint P35 nižšie je historický.
