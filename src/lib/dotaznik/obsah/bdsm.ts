@@ -136,6 +136,7 @@ const BONDAGE: Blok = {
         { v: 'popruhy', label: 'Pod-posteľné popruhy' },
         { v: 'spreader', label: 'Spreader bar (rozťahovacia tyč)' },
         { v: 'hrudnik', label: 'Bondáž hrudníka' },
+        { v: 'vak', label: 'Bondážny vak (celotelový, „sleep sack")' },
       ],
     },
     {
