@@ -63,6 +63,12 @@ export default async function DotaznikLayout({
             >
               Mapa modulov
             </Link>
+            <Link
+              href={`/${lang}/dotaznik/obsah-prehlad`}
+              className="text-xs text-muted-foreground transition hover:text-foreground"
+            >
+              Obsah
+            </Link>
           </div>
         </div>
       </header>

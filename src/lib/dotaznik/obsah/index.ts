@@ -81,4 +81,9 @@ export function maObsah(modul: string, tema: string): boolean {
   return `${modul}/${tema}` in REGISTER
 }
 
+/** Všetky registrované témy (pre admin prehľad obsahu). */
+export function vsetkyObsahy(): TemaObsah[] {
+  return Object.values(REGISTER)
+}
+
 export type { TemaObsah }
