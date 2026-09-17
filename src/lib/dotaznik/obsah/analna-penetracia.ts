@@ -506,6 +506,35 @@ const PENETRACNY: Blok = {
   ],
 }
 
+// ── Pegging (rolová dynamika strap-onu) ──────────────────────────────
+const PEGGING: Blok = {
+  druh: 'skupina',
+  id: 'pegging',
+  nadpis: 'Pegging — keď ona penetruje jeho',
+  podmienka: { pohlavie: 'm' },
+  bloky: [
+    {
+      druh: 'text', id: 'peg_info',
+      telo:
+        'Pegging nie je o dokazovaní niečoho o identite — je o tom, čo sa stane, keď sa na chvíľu premiešajú role: kto vedie, ' +
+        'kto prijíma, kto sa učí načúvať telu toho druhého. Tá istá praktika môže mať úplne inú emóciu podľa toho, ako si ju rámujete.',
+    },
+    postojOt('peg_postoj', 'Pegging (partnerka ma penetruje strap-onom) ma zaujíma'),
+    {
+      druh: 'otazka', id: 'peg_ramovanie', typ: 'jeden',
+      text: 'Aké rámovanie by mi sedelo najviac',
+      moznosti: [
+        { v: 'nezna', label: 'Nežné, romantické — spoločné objavovanie' },
+        { v: 'trening', label: '„Tréning" — postupné, trpezlivé zvykanie si' },
+        { v: 'dominancia', label: 'Dominantná scéna — partnerka vedie s príkazmi' },
+        { v: 'zvedavost', label: 'Čistá zvedavosť, bez veľkého rámca' },
+      ],
+    },
+    postojOt('peg_prva_noc_light', 'Prvý pokus chcem ako krátku „light" session — pomaly, s pauzami, bez tlaku na výsledok'),
+    { druh: 'otazka', id: 'peg_hranice', typ: 'text', text: 'Pegging — moje podmienky / čo určite nie:' },
+  ],
+}
+
 // ── Kombinácie & scenáre ─────────────────────────────────────────────
 const KOMBINACIE: Blok = {
   druh: 'skupina',
@@ -752,6 +781,7 @@ export const ANALNA_PENETRACIA: TemaObsah = {
     PROSTATA_POSKYTUJEM,
     HRACKY,
     PENETRACNY,
+    PEGGING,
     KOMBINACIE,
     SEMAFOR,
     KOMUNIKACIA,
