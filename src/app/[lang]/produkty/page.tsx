@@ -4,8 +4,42 @@ import { Button } from '@/components/ui/button'
 import { Container } from '@/components/Container'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { type Locale, SUPPORTED_LOCALES } from '@/i18n/config'
+import { getSession } from '@/app/api/games/_session'
+import { isAdminEmail } from '@/lib/access'
+import { adventureAccess } from '@/lib/adventure-access'
 
 type P = { params: Promise<{ lang: string }> }
+
+// Session-gated karta nižšie → nemôže byť staticky prerenderovaná pre všetkých.
+export const dynamic = 'force-dynamic'
+
+// Záložný zoznam adminov (ak nie je nastavený ADMIN_EMAILS env na produkcii).
+const FALLBACK_ADMINS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
+
+async function checkIsAdmin() {
+  const session = await getSession()
+  const email = session?.user?.email?.toLowerCase()
+  return !!email && (isAdminEmail(email) || FALLBACK_ADMINS.includes(email))
+}
+
+type ProductItem = {
+  badge: string
+  name: string
+  description: string
+  price: string
+  href?: string
+  action?: string
+  /** Skryté zo zoznamu, pokiaľ návštevník nie je admin (getSession + isAdminEmail). */
+  adminOnly?: boolean
+}
+
+type ProductSection = {
+  id: string
+  eyebrow: string
+  title: string
+  description: string
+  items: ProductItem[]
+}
 
 const stats = [
   { value: '5', label: 'produktových vetiev na jednej mape' },
@@ -14,7 +48,7 @@ const stats = [
   { value: 'B2B', label: 'workshopy, školy a firemné balíčky' },
 ]
 
-const sections = [
+const sections: ProductSection[] = [
   {
     id: 'digital',
     eyebrow: 'Digitálne produkty',
@@ -50,6 +84,7 @@ const sections = [
         price: 'Zadarmo pre páry',
         href: '/apps/kocky',
         action: 'Hrať teraz →',
+        adminOnly: true,
       },
       {
         badge: 'Zadarmo',
@@ -237,6 +272,9 @@ export default async function ProduktyPage({ params }: P) {
   const lang = normalizeUrlLocale(raw)
   if (!SUPPORTED_LOCALES.includes(lang as Locale)) notFound()
 
+  const isAdmin = await checkIsAdmin()
+  const showAdventure = (await adventureAccess()) === 'owner'
+
   return (
     <div className="min-h-screen bg-background">
       <section className="border-b border-border/60 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.14),transparent_58%)]">
@@ -264,9 +302,11 @@ export default async function ProduktyPage({ params }: P) {
               <Button asChild variant="outline" size="lg">
                 <Link href={`/${lang}/b2b`}>Pozrieť B2B ponuku</Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/intimne-dobrodruzstvo/index.html">Spustiť Intímne dobrodružstvo</Link>
-              </Button>
+              {showAdventure && (
+                <Button asChild variant="outline" size="lg">
+                  <Link href={`/${lang}/apps/intimne-dobrodruzstvo`}>Spustiť Intímne dobrodružstvo</Link>
+                </Button>
+              )}
             </div>
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
               {stats.map((stat) => (
@@ -292,7 +332,9 @@ export default async function ProduktyPage({ params }: P) {
                 <p className="text-base leading-relaxed text-muted-foreground">{section.description}</p>
               </div>
               <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {section.items.map((item) => {
+                {section.items
+                  .filter((item) => !('adminOnly' in item && item.adminOnly) || isAdmin)
+                  .map((item) => {
                   const content = (
                     <div className="group flex h-full flex-col rounded-3xl border border-border/60 bg-card/80 p-6 transition-all hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5">
                       <div className="mb-4 flex items-start justify-between gap-3">
