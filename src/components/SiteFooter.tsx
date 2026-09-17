@@ -9,6 +9,7 @@ const HIDE = [
   /^\/[a-z]{2}\/karticky(\/|$)/,
   /^\/[a-z]{2}\/dotaznik(\/|$)/,
   /^\/[a-z]{2}\/play\//,
+  /^\/[a-z]{2}\/apps\/kocky(\/|$)/,
 ]
 
 // Spoločná pätička pre /[lang] stránky (montuje sa v [lang]/layout.tsx).

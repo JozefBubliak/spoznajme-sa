@@ -62,25 +62,18 @@ function resolveAssignment(result: DiceRollResult, p1: Partner, p2: Partner): As
   const scope = result.actor_scope;
   const target = result.receiver_target;
 
-  let receiver: Partner;
-  let actor: Partner;
-
-  if (target === 'female') {
-    receiver = p1.gender === 'female' ? p1 : p2;
-    actor = receiver === p1 ? p2 : p1;
-  } else if (target === 'male') {
-    receiver = p1.gender === 'male' ? p1 : p2;
-    actor = receiver === p1 ? p2 : p1;
-  } else {
-    // 'all' — random
-    receiver = pick([p1, p2]);
-    actor = receiver === p1 ? p2 : p1;
-  }
-
-  // mutual / self overrides
   if (scope === 'mutual') {
     return { actor: p1, receiver: p2, scope };
   }
+
+  // Pick the receiver among partners matching the target gender. When both
+  // partners share that gender (same-sex couple) or neither does, choose
+  // randomly instead of always defaulting to p1 — otherwise one partner
+  // would receive every single roll and never act.
+  const matching = target === 'all' ? [p1, p2] : [p1, p2].filter((p) => p.gender === target);
+  const receiver = matching.length > 0 ? pick(matching) : pick([p1, p2]);
+  const actor = receiver === p1 ? p2 : p1;
+
   if (scope === 'receiver_self') {
     return { actor: receiver, receiver, scope };
   }
@@ -214,6 +207,13 @@ export default function KockyPage() {
     setDiceRot((r) => r + 360 + Math.floor(Math.random() * 360));
 
     try {
+      // Only request a receiver_target that one of the two partners actually
+      // has — otherwise a same-sex couple can get served anatomy that belongs
+      // to neither of them (e.g. 'male' zones like penis/shaft_underside for
+      // two female partners), which then gets assigned to a random partner.
+      const availableTargets: Array<Gender | 'all'> =
+        p1.gender === p2.gender ? [p1.gender, 'all'] : ['female', 'male', 'all'];
+
       const res = await fetch('/api/kocky/roll', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -221,7 +221,7 @@ export default function KockyPage() {
           play_mode: settings.play_mode,
           max_intensity: settings.max_intensity,
           exclude_genital: settings.exclude_genital,
-          receiver_target: pick(['female', 'male', 'all']),
+          receiver_target: pick(availableTargets),
         }),
       });
       const data: RollResponse = await res.json();
@@ -319,7 +319,7 @@ export default function KockyPage() {
           {error && (
             <div className="bg-red-900/40 border border-red-700 rounded-2xl px-4 py-3 text-red-300 text-sm">
               {error === 'no_candidates'
-                ? 'Pre tieto nastavenia nie sú dostupné kombinácie. Zníž intenzitu alebo vyber iný mód.'
+                ? 'Pre tieto nastavenia nie sú dostupné kombinácie. Skús inú intenzitu alebo vyber iný mód.'
                 : error}
             </div>
           )}

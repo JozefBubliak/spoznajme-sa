@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase/admin';
+import { relServer } from '@/lib/supabase/rel-server';
 
 export type DiceRollResult = {
   zone_slug: string;
@@ -32,24 +32,34 @@ export async function POST(req: NextRequest) {
   const exclude_genital: boolean = body.exclude_genital ?? false;
   const receiver_target: string = body.receiver_target ?? 'all';
 
-  const supabase = supabaseAdmin();
+  const supabase = relServer();
 
   const { data, error } = await supabase
-    .schema('rel')
     .from('v_intimate_generator_candidates')
     .select(
       'zone_slug,zone_label_sk,region,is_genital,technique_slug,technique_label_sk,' +
       'technique_family,play_mode_label_sk,receiver_target,actor_scope,' +
-      'min_intensity,max_intensity,suggested_seconds_min,suggested_seconds_max,' +
+      'min_intensity,max_intensity,' +
       'requires_warmup,requires_tool,requires_lube,requires_aftercare,' +
       'tool_tags,prompt_sk,caution_sk,random_policy'
     )
     .eq('play_mode_slug', play_mode)
     .lte('max_intensity', max_intensity)
-    .in('random_policy', ['always_ok', 'preference_required', 'mode_required'])
-    .eq('is_spontaneous_candidate', true)
     .in('receiver_target', ['all', receiver_target])
-    .not('prompt_sk', 'is', null);
+    .not('prompt_sk', 'is', null)
+    // Filter on the underlying safety columns directly instead of the view's
+    // precomputed is_spontaneous_candidate, which hardcodes max_intensity <= 3
+    // regardless of the user's own slider. Every 'intense' rule in the DB has
+    // max_intensity = 4, so relying on that flag made the whole Intenzívne mode
+    // permanently return zero candidates; same root cause as the BDSM mode
+    // being stuck on 0 before the mode_required rows were included here. The
+    // user's max_intensity slider (already applied above) is the real ceiling —
+    // is_internal / penetration_related / requires_aftercare stay hard filters
+    // since those mark content that needs a planned flow, not a random dice roll.
+    .in('random_policy', ['always_ok', 'preference_required', 'mode_required'])
+    .eq('is_internal', false)
+    .eq('penetration_related', false)
+    .eq('requires_aftercare', false);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -67,11 +77,25 @@ export async function POST(req: NextRequest) {
 
   const pick = pool[Math.floor(Math.random() * pool.length)];
 
-  const duration =
-    pick.suggested_seconds_min +
-    Math.floor(
-      Math.random() * (pick.suggested_seconds_max - pick.suggested_seconds_min + 1)
-    );
+  // v_intimate_generator_candidates doesn't expose suggested_seconds_min/max
+  // (omitted from the view definition) — read them from the base rules table,
+  // which is granted select for anon, by the row's own composite key.
+  const { data: durationRow } = await supabase
+    .from('intimate_zone_stimulation_rules')
+    .select('suggested_seconds_min,suggested_seconds_max')
+    .eq('zone_slug', pick.zone_slug)
+    .eq('technique_slug', pick.technique_slug)
+    .eq('receiver_target', pick.receiver_target)
+    .eq('actor_scope', pick.actor_scope)
+    .eq('play_mode_slug', play_mode)
+    .single();
+
+  const secondsMin = durationRow?.suggested_seconds_min ?? 10;
+  const secondsMax = durationRow?.suggested_seconds_max ?? Math.max(secondsMin, 30);
+  pick.suggested_seconds_min = secondsMin;
+  pick.suggested_seconds_max = secondsMax;
+
+  const duration = secondsMin + Math.floor(Math.random() * (secondsMax - secondsMin + 1));
 
   return NextResponse.json({ result: pick, duration_seconds: duration });
 }

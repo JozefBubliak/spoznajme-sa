@@ -10,6 +10,7 @@ import { Menu, X } from "lucide-react"
 const HUB_PATTERNS = [
   /^\/[a-z]{2}\/herd-vote(\/|$)/,
   /^\/[a-z]{2}\/karticky(\/|$)/,
+  /^\/[a-z]{2}\/apps\/kocky(\/|$)/,
 ]
 
 export default function SiteHeader({ lang: propLang }: { lang?: string }) {
