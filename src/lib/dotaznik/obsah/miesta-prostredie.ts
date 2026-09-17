@@ -72,6 +72,12 @@ const EXTERIER: Blok = {
   druh: 'skupina', id: 'exterier', nadpis: 'Exteriér a verejné prostredia (diskrétne)',
   bloky: [
     {
+      druh: 'text', id: 'ext_info', ton: 'info',
+      telo:
+        'Intímny život sa nemusí odohrávať len v spálni. Auto pod nočnou oblohou, les, opustená pláž — ' +
+        'zmena prostredia dokáže priniesť pocit dobrodružstva, aký doma nezažijete. Stačí trocha odvahy a kreativity.',
+    },
+    {
       druh: 'otazka', id: 'ext_auto', typ: 'jeden',
       text: 'Auto',
       moznosti: [
@@ -79,6 +85,10 @@ const EXTERIER: Blok = {
         { v: 'mozno', label: 'Možno, za jasných podmienok' },
         { v: 'nie', label: 'Nie' },
       ],
+    },
+    {
+      druh: 'text', id: 'ext_auto_tip', ton: 'info',
+      telo: 'Prakticky: predné aj zadné sedadlá majú svoje polohy — a prikrývka cez okná rieši súkromie aj na osvetlenej ulici.',
     },
     p('ext_priroda', 'Príroda (les, pláž) — pocit slobody a kontakt s prírodou ma láka'),
     {
@@ -94,6 +104,15 @@ const EXTERIER: Blok = {
     {
       druh: 'text', id: 'ext_pravidla', ton: 'vystraha',
       telo: 'Vždy bez svedkov, bez rizika priestupku a s jasným plánom rýchleho ukončenia. Diskrétnosť má prednosť pred vzrušením z rizika.',
+    },
+    {
+      druh: 'otazka', id: 'ext_techniky', typ: 'viac', inePovolene: true,
+      text: 'Ktoré techniky by som chcel(a) vyskúšať mimo spálne',
+      moznosti: [
+        { v: 'rychlovka', label: 'Rýchlovka — keď čas hrá proti nám (výťah, zaparkované auto)' },
+        { v: 'spontanne_prekvapenie', label: 'Spontánne prekvapenie počas bežného dňa (dotyk, šepot, bozk)' },
+        { v: 'zmysly_vonku', label: 'Hranie so zmyslami vonku — vietor, slnko, vône namiesto štandardnej predohry' },
+      ],
     },
     { druh: 'otazka', id: 'ext_hranica', typ: 'text', text: 'Kde je moja hranica diskrétnosti — čo je pre mňa ešte OK a čo už nie:' },
     {

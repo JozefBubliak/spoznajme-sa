@@ -133,6 +133,12 @@ const HRANICE: Blok = {
     { druh: 'otazka', id: 'hr_ano', typ: 'text', text: 'ÁNO — čo chcem:' },
     { druh: 'otazka', id: 'hr_mozno', typ: 'text', text: 'MOŽNO — za akých podmienok:' },
     { druh: 'otazka', id: 'hr_nikdy', typ: 'text', text: 'NIKDY — tvrdé limity:' },
+    {
+      druh: 'text', id: 'hr_zakazane_info', ton: 'info',
+      telo:
+        'Časť príťažlivosti býva presne v tom, že je to „zakázané" — iný rytmus vzrušenia než to, čo je bežne dovolené. ' +
+        'To je úplne normálne. Funguje to najlepšie, keď je aj toto rámované jasnou komunikáciou a dôverou, nie tichým prekračovaním hraníc.',
+    },
   ],
 }
 
