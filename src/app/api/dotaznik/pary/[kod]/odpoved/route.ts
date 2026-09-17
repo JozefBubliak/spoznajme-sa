@@ -56,6 +56,7 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ kod: string
   if (
     (b.slot !== 'a' && b.slot !== 'b') ||
     !b.modul ||
+    !b.tema ||
     !b.okruh ||
     !b.polozka ||
     !b.typ ||
@@ -64,23 +65,24 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ kod: string
     return NextResponse.json({ error: 'bad-input' }, { status: 400 })
   }
 
-  // Server-side partnerZamok: doteraz sa to kontrolovalo len na klientovi (_stav.ts),
-  // takže priame volanie API obišlo zámok aj bez UI. `tema` je nepovinná (staršie volania
-  // ju neposielajú) — bez nej zámok neoveríme, čo je horšie ako nič, preto to zapisujeme
-  // do denníka ako známu medzeru pre volania, ktoré `tema` zatiaľ neposielajú.
-  if (b.tema) {
-    const partnerSlot = b.slot === 'a' ? 'b' : 'a'
-    const { data: partnerStav } = await db()
-      .from('dotaznik_stav_temy')
-      .select('stav')
-      .eq('par_id', par.id)
-      .eq('slot', partnerSlot)
-      .eq('modul', b.modul)
-      .eq('tema', b.tema)
-      .maybeSingle()
-    if (partnerStav?.stav === 'nie' || partnerStav?.stav === 'este_nie') {
-      return NextResponse.json({ error: 'locked-by-partner' }, { status: 423 })
-    }
+  // Server-side partnerZamok: doteraz sa to kontrolovalo len na klientovi (_stav.ts), takže
+  // priame volanie API obišlo zámok aj bez UI. `tema` je teraz povinná (vynechanie predtým
+  // zámok ticho obišlo). POZOR: toto je len čiastočná obrana — server tu stále dôveruje
+  // klientom deklarovanej hodnote `tema` (nie je overená proti tomu, že `modul/okruh/polozka`
+  // skutočne k tejto téme patria), takže klient, ktorý zámerne pošle INÚ (nesprávnu) tému,
+  // kontrolu obíde. Skutočná oprava vyžaduje server-side odvodenie témy zo schémy, nie z toho,
+  // čo si klient sám nahlási — pozri docs/AI-COLLAB.md, NEXT-003.
+  const partnerSlot = b.slot === 'a' ? 'b' : 'a'
+  const { data: partnerStav } = await db()
+    .from('dotaznik_stav_temy')
+    .select('stav')
+    .eq('par_id', par.id)
+    .eq('slot', partnerSlot)
+    .eq('modul', b.modul)
+    .eq('tema', b.tema)
+    .maybeSingle()
+  if (partnerStav?.stav === 'nie' || partnerStav?.stav === 'este_nie') {
+    return NextResponse.json({ error: 'locked-by-partner' }, { status: 423 })
   }
 
   const rola = b.rola === 'prijimam' || b.rola === 'poskytujem' ? b.rola : ''

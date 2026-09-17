@@ -22,6 +22,7 @@ type Zhoda = {
 }
 type Vysledok = {
   pripravene: boolean
+  docasne_nedostupne?: boolean
   pocet: { a: number; b: number }
   moduly: { modul: string; nazov: string; ikona: string; sekcie: { okruh: string; zhody: Zhoda[] }[] }[]
 }
@@ -90,6 +91,16 @@ export function Vyhodnotenie({ lang }: { lang: string }) {
     )
   if (stav === 'err' || !d) return <Krok nadpis="Nepodarilo sa načítať vyhodnotenie." />
 
+  if (d.docasne_nedostupne)
+    return (
+      <Krok
+        krok="Vyhodnotenie"
+        nadpis="Dočasne nedostupné"
+        lead="Táto funkcia je dočasne vypnutá kvôli bezpečnostnému auditu (nie preto, že by ste sa nezhodli) — vaše odpovede sú v poriadku, len sa zatiaľ nevyhodnocujú."
+        spat={{ href: p('/dotaznik/moduly'), label: 'Moduly' }}
+      />
+    )
+
   return (
     <Krok
       krok="Vyhodnotenie"
@@ -130,6 +141,16 @@ export function Mapa({ lang }: { lang: string }) {
       </Krok>
     )
   if (stav === 'err' || !d) return <Krok nadpis="Nepodarilo sa načítať mapu." />
+
+  if (d.docasne_nedostupne)
+    return (
+      <Krok
+        krok="Výstup"
+        nadpis="Dočasne nedostupné"
+        lead="Mapa je dočasne vypnutá kvôli bezpečnostnému auditu — vráti sa, len čo bude vyhodnotenie znova bezpečné."
+        spat={{ href: p('/dotaznik/vyhodnotenie'), label: 'Vyhodnotenie' }}
+      />
+    )
 
   const prazdna = d.moduly.length === 0
 

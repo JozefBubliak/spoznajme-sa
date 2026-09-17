@@ -1,3 +1,45 @@
+## CODEX-REVIEW-002 — overenie a520c38 (2026-09-17)
+
+STATUS: CHANGES REQUESTED; DQ-001 a DQ-003 zostávajú PARTIAL. OWNER review: Codex. Kontrolovaný lokálny HEAD a520c38; produkčné nasadenie a skutočné použitie reálnymi pármi sa nezisťovali.
+
+### Metóda
+
+Aktuálne celé route.ts pre odpovede a vyhodnotenie boli preložené lokálnym TypeScriptom a vykonané cez Node VM. NextResponse, overPar a databáza boli nahradené syntetickými objektmi; volali sa skutočné exportované PUT/GET handlery. Žiadna sieť, živá DB ani používateľské odpovede. Ide o izolované handler testy, nie end-to-end overenie produkcie.
+
+### DQ-003 — zámok sa dá stále obísť
+
+| Syntetický vstup/stav | Výsledok aktuálneho PUT |
+|---|---|
+| Správna tema, partnerov stav nie | 423, žiadny upsert — opravená bežná cesta |
+| Rovnaký payload bez tema | 200, upsert vykonaný — kontrola úplne preskočená |
+| Rovnaká otázka, ale iná/nezodpovedajúca tema | 200, upsert vykonaný — server neviaže otázku na tému |
+| Chyba načítania zámku, data=null | 200, upsert vykonaný — chyba DB sa ignoruje |
+
+Dôkaz: odpoved/route.ts používa if (b.tema), berie tému od klienta a z výsledku čítania deštrukturuje iba data. Nestačí pridať povinné pole: server musí overiť aj väzbu modul/téma/otázka/okruh/rola a pri chybe kontroly zápis odmietnuť. Zvážiť aj modulový zámok, vlastný screening a oprávnenie účastníka; DQ-002 stále platí.
+
+Tvrdenie o úplnom vyriešení autosave race je príliš silné. Kontrola stavu a upsert sú dve oddelené databázové operácie; zámok sa môže zmeniť medzi nimi. Na to treba atómovú kontrolu so zápisom a koordináciu s operáciou zamknutia. Test v mocku s výsledkom ano pri čítaní potvrdil následný upsert; skutočný súbeh databázových transakcií nebol vykonaný. Ide o staticky doložené časové okno, nie o produkčnú reprodukciu súbehu.
+
+### DQ-001 — dočasné vypnutie je užitočné, ale nedôveryhodný typ ho obchádza
+
+- Kontrolný test: oba riadky so správnym hybridným typom skala, chcem / nie → GET vráti prázdne moduly. Toto dočasné opatrenie funguje pre riadky správne označené typom.
+- Protipríklad: A má typ frekvencia a v=casto, B má pre rovnaký kľúč typ text a syntetický súkromný text. GET vyhodnotí iba e.a.typ a vráti celý text B. PUT prijíma ľubovoľný neprázdny typ bez väzby na schému, preto nie je garantované, že hybridné otázky zostanú označené hybridným typom. Zhoda typov A/B sama nestačí, pretože klient môže podvrhnúť aj oba typy.
+- Generický semafor: obe hodnoty zlta s poľom podmienka → GET vráti aj oba voľné texty podmienok. Komentár, že pri starých typoch nehrozí voľný text, je nesprávny: _odpovede.tsx toto pole normálne ukladá. PREF-2026-09-17 neautorizuje automatické zdieľanie súkromne napísaných podmienok.
+- Generická frekvencia: nikdy / casto → GET vráti oba údaje ako kontext. Tvrdenie, že všetky ponechané generické typy majú pozitívnu zhodu, teda neplatí; táto vetva vracia kontext bez kontroly hodnôt.
+
+Syntetické hodnoty a identifikátory nepochádzali zo živých používateľov. Test podvrhnutého typu ukazuje únik cez endpoint vyhodnotenia; nezávisle od toho zostáva otvorený priamy prístup ku druhému slotu (DQ-002).
+
+Náprava: server musí určiť typ a pravidlo zdieľania z dôveryhodného registra konkrétnej otázky, overiť uložené aj nové odpovede a vytvoriť výstup iba z povolených polí. Neznáma/neoverená otázka sa nesmie zdieľať. Dočasnú ochranu možno oddeliť od obsahovej migrácie škály; nesmie závisieť iba od uloženého typ, ktorý klient ovláda. Hodnotenie potrebuje tiež screening, dokončenie a platnosť vetiev podľa predchádzajúceho review.
+
+### PREF a rozsah ďalšej práce
+
+Používateľ v tomto rozhovore priamo určil význam neutrálu, vnímal Skôr nie/Možno ako prekryv, chcel zobrazovať Možno a potom požiadal zapísať celú dohodu aj správu pre Claude Code. PREF-2026-09-17 preto nie je iba nepodložená interpretácia od iného AI. Zaznamenáva dohodnutý cieľ novej škály. Samotná posledná požiadavka bola na dokumentáciu; tento zápis nevydáva nové oprávnenie na produkčné nasadenie či prevod starých odpovedí.
+
+Netreba znovu zisťovať význam už dohodnutých možností. Pripraviť možno konkrétne mapovanie otázok, návrh zmien a regresné testy; stav migrácie starých odpovedí a nasadenia treba odlíšiť od produktového rozhodnutia. Staré skor_nie neprepisovať automaticky na zdieľateľné Možno. DQ-002 ostáva P1; návrh oddelených účastníckych tokenov je stále platný.
+
+V tejto dávke Codex zmenil iba auditný denník a komunikačný protokol, bez zásahu do aplikácie, DB, commitu alebo pushu. Dokumenty po zápise uvoľnené.
+
+---
+
 ## PREF-2026-09-17 — zjednotenie škály a zobrazenie Možno
 
 Kanonická produktová dohoda je teraz v **docs/dotaznik-rezimy-a-odpovede.md**, sekcia PREF-2026-09-17, vrátane úplnej matice 4 × 4. Nová preferenčná škála: Chcem / Rád-rada, ak chceš ty / Možno – potrebujem rozhovor / Nie. Neutrál znamená ochotu a zobrazuje sa; Možno sa tiež zobrazuje, pokiaľ druhý neodpovedal Nie, ako téma na rozhovor. Samostatné Skôr nie sa z novej ponuky vypúšťa.
