@@ -3,7 +3,8 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // ─────────────────────────────────────────────────────────────────────────────
 // Zmyslová hra — modul B4 „Zmyslová hra".
 // Zdroj: „11_Senzoricke_hranenie.docx" bol prázdny (len názov, žiadny
-// obsah) — táto téma je preto napísaná od základu podľa existujúceho L4
+// obsah); ďalšie podklady sú v zdroj.docx P344–540 (GLOBAL-002/003).
+// Autorský základ vychádza z existujúceho L4
 // seedu modulu (zrak, sluch, čuch, chuť, hmat/teplota/textúra, layering
 // a deprivácia). z/m verzia zrkadlová.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -33,7 +34,10 @@ const ZRAK: Blok = {
         'zaviazané oči nechajú vidieť len jedného z dvoch; úplná tma odoberie zrak obom naraz a preloží pozornosť na dotyk, dych a vôňu.',
     },
     {
-      druh: 'otazka', id: 'zra_co', typ: 'viac', inePovolene: true,
+      druh: 'otazka',
+      id: 'zra_co',
+      typ: 'viac',
+      inePovolene: true,
       text: 'Čo ma na tejto zmyslovej rovine láka',
       moznosti: [
         { v: 'zaviazane_oci', label: 'Zaviazané oči — jeden z nás nevidí, druhý áno (napätie z neistoty, čo príde)' },
@@ -41,7 +45,7 @@ const ZRAK: Blok = {
         { v: 'striptiz', label: 'Striptíz / pomalé vyzliekanie' },
         { v: 'zrkadlo', label: 'Sledovanie seba/partnera v zrkadle (nový uhol na to, čo sa práve deje)' },
         { v: 'vizualne_podnety', label: 'Vizuálne podnety (tlmené svetlo, farebné LED, sviečky)' },
-        { v: 'oblecenie', label: 'Erotické oblečenie/kostým ako vizuálny prvok predohry' },
+        { v: 'oblecenie', label: 'Oblečenie, ktoré odhaľuje alebo zahaľuje — erotický odev či kostým' },
         { v: 'maska', label: 'Maska (anonymita/estetika — iné než zaviazané oči, vidím ja, nevidí sa moja tvár)' },
         { v: 'ocny_kontakt', label: '„Pozeraj sa mi do očí" počas intimity' },
         { v: 'zatvorene_oci', label: 'Radšej zatvorené oči — sústredím sa na pocity, nie na pohľad' },
@@ -68,25 +72,91 @@ const SLUCH: Blok = {
     },
     p('slu_zvuky', 'Vlastné zvuky (dych, vzdychy) počas intimity si chcem vedome dovoliť, nepotláčať'),
     {
-      druh: 'otazka', id: 'slu_hudobny_zaner', typ: 'jeden',
+      druh: 'text',
+      id: 'slu_hudba_info',
+      telo: 'Hudba môže dotvoriť atmosféru a rytmus blízkosti: niekomu sedí jazz, inému klavír, rytmické skladby alebo ambientné zvuky. Rovnako platná je voľba ticha.',
+    },
+    {
+      druh: 'otazka',
+      id: 'slu_hudobny_zaner',
+      typ: 'jeden',
       text: 'Hudobný žáner, ktorý mi počas intimity najviac sedí',
       moznosti: [
         { v: 'rnb_jazz', label: 'Zmyselné R&B alebo jazz' },
         { v: 'klavir', label: 'Jemné klavírne skladby' },
         { v: 'dynamicke', label: 'Dynamické, rytmické melódie' },
-        { v: 'ambient', label: 'Ambientná hudba' },
+        { v: 'ambient', label: 'Ambientná hudba a relaxačné zvuky' },
         { v: 'ziadna', label: 'Nepreferujem hudbu počas intimity' },
       ],
     },
     {
-      druh: 'otazka', id: 'slu_verbalne_prikazy', typ: 'jeden',
+      druh: 'otazka',
+      id: 'slu_hudobny_zaner_ine',
+      typ: 'text',
+      text: 'Hudobný podklad — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'slu_hlas_info',
+      telo: 'Šepkanie, príkazy či dohodnuté zákazy môžu byť súčasťou hry s vedením. Niekomu vyhovuje autoritatívny tón, inému jemné vedenie alebo žiadne príkazy. Dohodnite si slová a hranice vopred; príkaz v hre neobmedzuje možnosť povedať nie.',
+    },
+    {
+      druh: 'otazka',
+      id: 'slu_verbalne_prikazy',
+      typ: 'jeden',
       text: 'Verbálne príkazy počas aktu (tón autority)',
       moznosti: [
         { v: 'tvrde', label: 'Milujem tvrdé, autoritatívne príkazy' },
-        { v: 'jemne', label: 'Mám rád(a) jemné vedenie' },
+        {
+          v: 'jemne',
+          label: { m: 'Mám rád jemné vedenie', z: 'Mám rada jemné vedenie' },
+        },
         { v: 'mozno', label: 'Možno, ak to nebude príliš tvrdé' },
         { v: 'nie', label: 'Nie, necítim sa pri tom dobre' },
       ],
+    },
+    {
+      druh: 'otazka',
+      id: 'slu_verbalne_prikazy_ine',
+      typ: 'text',
+      text: 'Verbálne príkazy — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'slu_povzbudenie',
+      typ: 'jeden',
+      text: 'Chcem počas intimity počúvať povzbudenie a vzrušujúce frázy?',
+      moznosti: [
+        { v: 'ano', label: 'Áno, veľmi ma to vzrušuje' },
+        { v: 'mozno', label: 'Možno, ak to bude prirodzené' },
+        { v: 'nie', label: 'Nie, preferujem ticho' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'slu_povzbudenie_ine',
+      typ: 'text',
+      text: 'Povzbudenie — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'slu_pouzivat_slova',
+      typ: 'jeden',
+      text: 'Chcem počas intimity používať konkrétne slová, príkazy alebo oslovenia?',
+      moznosti: [
+        { v: 'ano', label: 'Áno, vzrušuje ma dirty talk a dominantné príkazy' },
+        {
+          v: 'mozno',
+          label: { m: 'Možno, rád by som to skúšal', z: 'Možno, rada by som to skúšala' },
+        },
+        { v: 'nie', label: 'Nie, necítim sa pri tom dobre' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'slu_pouzivat_slova_ine',
+      typ: 'text',
+      text: 'Slová, príkazy alebo oslovenia — vlastná odpoveď (voliteľné):',
     },
     {
       druh: 'otazka', id: 'slu_druhy_prejavov', typ: 'viac', inePovolene: true,
@@ -118,14 +188,37 @@ const CUCH: Blok = {
   druh: 'skupina', id: 'cuch', nadpis: 'Čuch — vône',
   bloky: [
     {
-      druh: 'text', id: 'cuc_info',
-      telo:
-        'Vôňa je jeden z najsilnejších spúšťačov túžby, lebo ide priamo na emócie a pamäť. Ylang-ylang podporuje uvoľnenie, jazmín prebúdza vášeň, ' +
-        'vanilka a santalové drevo dávajú pocit hrejivého pokoja — a prírodný olej na pulzných bodoch (zápästia, krk, dekolt) zvýrazní vlastnú telesnú vôňu, ' +
-        'namiesto toho, aby ju prebil. Tip na rituál: naviaž jednu konkrétnu vôňu len na spoločné noci — po čase sa vám v hlave prepojí s túžbou.',
+      druh: 'text',
+      id: 'cuc_info',
+      telo: 'Vôňa pokožky, dychu či vlasov môže byť osobným podnetom blízkosti a autenticity. Niekto ju miluje, inému vyhovuje parfum a niekomu záleží na situácii. Vône ako jazmín, ylang-ylang, vanilka alebo santalové drevo vnímajte ako osobné preferencie, nie ako zaručené afrodiziaká. Môžete si zvoliť vôňu pre spoločné chvíle, ak je príjemná obom.',
     },
     {
-      druh: 'otazka', id: 'cuc_co', typ: 'viac', inePovolene: true,
+      druh: 'otazka',
+      id: 'cuc_prirodzena_postoj',
+      typ: 'jeden',
+      text: 'Ako vnímam prirodzenú vôňu partnera alebo partnerky?',
+      moznosti: [
+        { v: 'milujem', label: 'Milujem ju — je súčasťou našej intimity' },
+        { v: 'vzrusuje', label: 'Je pre mňa vzrušujúca, vnímam ju ako afrodiziakum' },
+        {
+          v: 'parfum',
+          label: { m: 'Mám ju rád, ale preferujem parfum', z: 'Mám ju rada, ale preferujem parfum' },
+        },
+        { v: 'situacia', label: 'Nie vždy mi je príjemná — záleží na situácii' },
+        { v: 'nevsimam', label: 'Nevenujem tomu veľa pozornosti' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_prirodzena_postoj_ine',
+      typ: 'text',
+      text: 'Prirodzená vôňa — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_co',
+      typ: 'viac',
+      inePovolene: true,
       text: 'Čo ma na tejto zmyslovej rovine láka',
       moznosti: [
         { v: 'prirodzena_vona', label: 'Prirodzená vôňa tela a pohlavia' },
@@ -133,11 +226,180 @@ const CUCH: Blok = {
         { v: 'feromony', label: 'Predstava feromónov a prirodzeného „chemického" priťahovania' },
         { v: 'vona_po_sexe', label: '„Vôňa po sexe" — nesprchovať sa hneď' },
         { v: 'aromaterapia', label: 'Aromaterapia (sviečky, esenciálne oleje) ako súčasť atmosféry' },
-        { v: 'masaz_s_olejom', label: 'Masáž s vonným olejom (teplo rúk + vôňa spolu uvoľňujú telo aj myseľ)' },
+        { v: 'masaz_s_olejom', label: 'Masáž s vonným olejom — spojenie tepla rúk a vône' },
       ],
     },
     p('cuc_vedome_privoniavanie', 'Vedomé privoniavanie ku krku, zápästiam alebo vlasom partnera počas predohry (ako rituál) ma láka'),
     { druh: 'otazka', id: 'cuc_preferovane_vone', typ: 'text', text: 'Konkrétne vône, ktoré ma najviac vzrušujú alebo upokojujú (napr. santalové drevo, ylang-ylang, vanilka, kokos, pačuli):' },
+    {
+      druh: 'text',
+      id: 'cuc_ritual_info',
+      telo: 'Vedomé vnímanie vône krku, zápästí či vlasov môže byť súčasťou spoločného rituálu. Záleží na tom, či je príjemné obom. Minulá skúsenosť neznamená súhlas teraz.',
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_ritual_skusenost',
+      typ: 'jeden',
+      text: 'Aká je moja skúsenosť a postoj k vedomému zapojeniu vône tela do intimity?',
+      moznosti: [
+        { v: 'ritual', label: 'Áno, je to súčasť nášho rituálu.' },
+        { v: 'obcas', label: 'Občas sme to vyskúšali a bolo to vzrušujúce.' },
+        {
+          v: 'chcem',
+          label: { m: 'Ešte nie, ale chcel by som.', z: 'Ešte nie, ale chcela by som.' },
+        },
+        {
+          v: 'neistota',
+          label: { m: 'Nie som si istý, ako by som to vnímal.', z: 'Nie som si istá, ako by som to vnímala.' },
+        },
+        { v: 'nezaujem', label: 'Nezaujíma ma to.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_ritual_skusenost_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď k otázke „Aká je moja skúsenosť a postoj k vedomému zapojeniu vône tela do intimity?“ (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'cuc_oleje_info',
+      telo: 'Kokos, santal alebo pačuli sú príklady vôní či zložiek telových prípravkov. To, či prirodzenú vôňu doplnia alebo prekryjú, je osobné vnímanie. Esenciálny olej nie je to isté ako hotový telový olej; pri použití na kožu sa používa zriedený prípravok podľa jeho určenia. Parfumované prípravky nepatria na genitálie. Olejové prípravky nepoužívajte s latexovými kondómami.',
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_oleje_pouzivanie',
+      typ: 'jeden',
+      text: 'Používam na tele prírodné oleje na doplnenie prirodzenej vône?',
+      moznosti: [
+        { v: 'pravidelne', label: 'Áno, pravidelne.' },
+        { v: 'obcas', label: 'Občas to skúšam.' },
+        {
+          v: 'hladam',
+          label: { m: 'Chcel by som, ale nenašiel som správnu vôňu.', z: 'Chcela by som, ale nenašla som správnu vôňu.' },
+        },
+        {
+          v: 'neistota',
+          label: { m: 'Nie som si istý, či by to malo efekt.', z: 'Nie som si istá, či by to malo efekt.' },
+        },
+        { v: 'parfum', label: 'Nie, dávam prednosť parfumom.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_oleje_pouzivanie_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď k otázke „Používam na tele prírodné oleje na doplnenie prirodzenej vône?“ (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'cuc_aroma_info',
+      telo: 'Aromaterapia môže pre niekoho znamenať príjemné prostredie. Ylang-ylang, jazmín či vanilka však nie sú zaručeným prostriedkom na uvoľnenie alebo zvýšenie túžby. Vôňu možno vnímať sladko, exoticky, kvetinovo či drevito; význam a emócie sa líšia medzi ľuďmi.',
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_aroma_skusenost',
+      typ: 'jeden',
+      text: 'Akú mám skúsenosť a postoj k aromaterapii počas intimity?',
+      moznosti: [
+        { v: 'pravidelne', label: 'Áno, používame pravidelne.' },
+        { v: 'obcas', label: 'Občas to skúšame.' },
+        {
+          v: 'chcem',
+          label: { m: 'Rád by som to vyskúšal.', z: 'Rada by som to vyskúšala.' },
+        },
+        {
+          v: 'neistota',
+          label: { m: 'Nie som si istý, či by to malo efekt.', z: 'Nie som si istá, či by to malo efekt.' },
+        },
+        { v: 'nedolezite', label: 'Nie, nevnímam to ako dôležité.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_aroma_skusenost_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď k otázke „Akú mám skúsenosť a postoj k aromaterapii počas intimity?“ (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_vone_vyber',
+      typ: 'viac',
+      text: 'Ktoré vône sú mi počas intimity príjemné?',
+      moznosti: [
+        { v: 'vanilka', label: 'Vanilka — sladká vôňa' },
+        { v: 'ylang', label: 'Ylang-ylang — exotická vôňa' },
+        { v: 'jazmin', label: 'Jazmín — kvetinová vôňa' },
+        { v: 'santal', label: 'Santalové drevo — drevitá vôňa' },
+        { v: 'ziadna', label: 'Nemám obľúbenú vôňu.' },
+      ],
+      inePovolene: true,
+      napoveda: 'Vyber vône, ktoré ti osobne vyhovujú, alebo iba možnosť „Nemám obľúbenú vôňu“. Prívlastky upokojujúca, afrodiziakálna, ženská či tajomná sú osobné asociácie, nie zaručené účinky ani určenie podľa pohlavia.',
+    },
+    {
+      druh: 'text',
+      id: 'cuc_masaz_info',
+      telo: 'Masáž s vonným olejom prepája teplo rúk, dotyk a čuch. Príjemnosť každej z týchto zložiek je individuálna; olej ani vôňa nie sú podmienkou masáže.',
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_masaz_skusenost',
+      typ: 'jeden',
+      text: 'Aká je moja skúsenosť a postoj k intímnej masáži s aromatickými olejmi?',
+      moznosti: [
+        { v: 'milujem', label: 'Áno, milujem to.' },
+        { v: 'obcas', label: 'Občas to skúšame.' },
+        {
+          v: 'chcem',
+          label: { m: 'Chcel by som, ale ešte sme to neskúsili.', z: 'Chcela by som, ale ešte sme to neskúsili.' },
+        },
+        {
+          v: 'neistota',
+          label: { m: 'Nie som si istý, či by sa mi to páčilo.', z: 'Nie som si istá, či by sa mi to páčilo.' },
+        },
+        { v: 'nezaujem', label: 'Nie, nemám záujem.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_masaz_skusenost_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď k otázke „Aká je moja skúsenosť a postoj k intímnej masáži s aromatickými olejmi?“ (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'cuc_prostredie_info',
+      telo: 'Vonné sviečky, jemné svetlo, hudba a upravený priestor môžu tvoriť spoločný rituál. Vyberte len prvky príjemné obom; bez vône či bez hudby je rovnako platná možnosť.',
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_prostredie_prvky',
+      typ: 'viac',
+      text: 'Ktoré prvky chcem zahrnúť do spoločného zmyslového prostredia?',
+      moznosti: [
+        { v: 'svetlo', label: 'Tlmené svetlo alebo sviečky.' },
+        { v: 'hudba', label: 'Jemná hudba alebo ambientné zvuky.' },
+        { v: 'dekoracie', label: 'Upravený priestor s dekoráciami.' },
+      ],
+      inePovolene: true,
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_prostredie_frekvencia',
+      typ: 'jeden',
+      text: 'Ako často chcem vytvárať takéto spoločné prostredie?',
+      moznosti: [
+        { v: 'pravidelne', label: 'Pravidelne – ako súčasť každodenného života.' },
+        { v: 'obcas', label: 'Občas – pri špeciálnych príležitostiach.' },
+        { v: 'zriedka', label: 'Zriedka – len keď je výnimočná nálada.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'cuc_prostredie_frekvencia_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď k otázke „Ako často chcem vytvárať takéto spoločné prostredie?“ (voliteľné):',
+    },
   ],
 }
 
@@ -145,6 +407,120 @@ const CUCH: Blok = {
 const CHUT: Blok = {
   druh: 'skupina', id: 'chut', nadpis: 'Chuť — ochutnávanie',
   bloky: [
+    {
+      druh: 'text',
+      id: 'chu_jedlo_info',
+      telo: 'Ovocie, šľahačka a čokoládová poleva na tele, vzájomné kŕmenie či ochutnávanie môžu byť osobnou preferenciou. Ide o preferenciu, nie o povinnú súčasť predohry. Táto otázka nie je návod na nanášanie potravín do genitálií.',
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_jedlo_postoj',
+      typ: 'jeden',
+      text: 'Ako vnímam hranie s jedlom počas intimity?',
+      moznosti: [
+        { v: 'milujem', label: 'Milujem – je to vzrušujúce a zábavné.' },
+        { v: 'obcas', label: 'Občas, podľa nálady.' },
+        { v: 'nie', label: 'Nepreferujem jedlo v posteli.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_jedlo_postoj_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď k otázke „Ako vnímam hranie s jedlom počas intimity?“ (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'chu_prenos_info',
+      telo: 'Prenášanie nápoja alebo telesných tekutín pri bozkávaní sú rôzne preferencie. Záujem o nápoj neznamená záujem o telesné tekutiny. O konkrétnej variante sa treba dohodnúť; odmietnutie nevypovedá o dôvere vo vzťahu.',
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_prenos_skusenost',
+      typ: 'jeden',
+      text: 'Aká je moja doterajšia skúsenosť s prenášaním tekutín z úst do úst?',
+      moznosti: [
+        {
+          v: 'spokojnost',
+          label: { m: 'Už to robíme a som spokojný', z: 'Už to robíme a som spokojná' },
+        },
+        { v: 'ina', label: 'Mám inú skúsenosť' },
+        { v: 'ziadna', label: 'Zatiaľ žiadna' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_prenos_ochota',
+      typ: 'jeden',
+      text: 'Chcem zapojiť prenášanie tekutín z úst do úst do našej intimity?',
+      moznosti: [
+        { v: 'chcem', label: 'Chcem to zapojiť' },
+        {
+          v: 'ak_chces',
+          label: { m: 'Rád to vyskúšam, ak chceš aj ty', z: 'Rada to vyskúšam, ak chceš aj ty' },
+        },
+        { v: 'mozno', label: 'Možno, podľa okolností — potrebujem rozhovor' },
+        { v: 'nie', label: 'Nie, necítim sa komfortne' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_prenos_ine',
+      typ: 'text',
+      text: 'Prenášanie tekutín — vlastná odpoveď a konkrétna varianta (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'chu_kombinacia_info',
+      telo: 'Ďalšia otázka sa týka predstavy kombinovať telesné tekutiny (semeno alebo vaginálny sekrét) s inou chuťou, napríklad medom, šľahačkou či sirupom. Zachytáva osobný postoj, nie odporúčanie na realizáciu. Pri orálnom sexuálnom kontakte sa môžu prenášať sexuálne prenosné infekcie aj bez príznakov; kondóm alebo orálna bariéra môže riziko znížiť.',
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_kombinacia_postoj',
+      typ: 'jeden',
+      text: 'Ako sa staviam ku kombinácii telesných tekutín s inými chuťami?',
+      moznosti: [
+        { v: 'laka', label: 'Znie to veľmi vzrušujúco.' },
+        { v: 'mozno', label: 'Možno, záleží na nálade.' },
+        { v: 'nie', label: 'Nie, necítim sa na to.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_kombinacia_postoj_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď k otázke „Ako sa staviam ku kombinácii telesných tekutín s inými chuťami?“ (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'chu_napoj_info',
+      telo: 'Samostatne možno hovoriť o prenose chuti nápoja pri bozku, napríklad džúsu alebo vína. Nejde automaticky o rovnakú preferenciu ako pri telesných tekutinách.',
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_napoj_postoj',
+      typ: 'jeden',
+      text: 'Ako vnímam prenášanie nápojov bozkami?',
+      moznosti: [
+        { v: 'laka', label: 'Veľmi vzrušujúce.' },
+        {
+          v: 'mozno',
+          label: { m: 'Možno, ak budem pripravený.', z: 'Možno, ak budem pripravená.' },
+        },
+        { v: 'nie', label: 'Nie, radšej nie.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_napoj_postoj_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď k otázke „Ako vnímam prenášanie nápojov bozkami?“ (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'chu_alkohol_info',
+      telo: 'Víno, šampanské či likér sú príkladmi chutí; alkohol nie je podmienkou intimity. Možno zvoliť nealkoholický nápoj. Alkohol nesmie byť prostriedkom na presviedčanie; pri neschopnosti slobodne a jasne súhlasiť nepokračujte.',
+    },
     {
       druh: 'otazka', id: 'chu_co', typ: 'viac', inePovolene: true,
       text: 'Čo ma na tejto zmyslovej rovine láka',
@@ -165,6 +541,12 @@ const CHUT: Blok = {
         { v: 'mozno_jemne', label: 'Možno, ak to bude jemné a bezpečné' },
         { v: 'nie', label: 'Nie, nechcem miešať alkohol a intimitu' },
       ],
+    },
+    {
+      druh: 'otazka',
+      id: 'chu_alkohol_ine',
+      typ: 'text',
+      text: 'Alkohol a intimita — vlastná odpoveď (voliteľné):',
     },
   ],
 }

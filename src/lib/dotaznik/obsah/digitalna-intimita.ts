@@ -3,7 +3,8 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // ─────────────────────────────────────────────────────────────────────────────
 // Digitálna a diaľková intimita — modul H8.
 // Zdroje: „28_Sexting_fotky_a_videa.docx" a „27_Digitalna_intimita_a_porno.docx"
-// boli prázdne (len názov, žiadny obsah). Obsah napísaný autorsky podľa
+// boli prázdne; ďalší obsah nájdený v zdroj.docx P361–403 (GLOBAL-002).
+// Pôvodné autorské bloky doplnené podľa súvislého zdroja a podľa
 // existujúcich L4 seedov modulu — spolu presne pokrývajú oba pôvodné
 // názvy: sexting/fotky/videá, ukladanie a riziko, porno spolu, kamera/VR/
 // hračky na diaľku. z/m verzia zrkadlová.
@@ -91,8 +92,9 @@ const PORNO: Blok = {
   druh: 'skupina', id: 'porno', nadpis: 'Porno spolu',
   bloky: [
     {
-      druh: 'text', id: 'por_info',
-      telo: 'Erotický obsah môže byť skvelým spôsobom, ako prebudiť zmysly, inšpirovať sa a otvoriť medzi partnermi diskusiu o túžbach — nie náhrada za intimitu, ale jej doplnok.',
+      druh: 'text',
+      id: 'por_info',
+      telo: 'Spoločné sledovanie erotického obsahu môže byť podnetom na rozhovor o fantáziách, zvedavé spestrenie alebo súčasť blízkosti. Môžete si pripraviť príjemné svetlo, vôňu a pohodlie; pritom môžete len sedieť spolu, držať sa za ruky alebo sa objať. Nie je potrebné pokračovať k sexu. Vyberajte pomaly podľa komfortu oboch, hovorte o hraniciach a kedykoľvek prestaňte. Film nie je návod ani meradlo toho, ako má vyzerať vaše telo či intimita.',
     },
     {
       druh: 'otazka', id: 'por_spolocne', typ: 'jeden',
@@ -105,7 +107,32 @@ const PORNO: Blok = {
       ],
     },
     {
-      druh: 'otazka', id: 'por_typ', typ: 'viac',
+      druh: 'otazka',
+      id: 'por_pocit_predstava',
+      typ: 'jeden',
+      text: 'Ako sa cítim pri predstave spoločného sledovania erotického filmu?',
+      moznosti: [
+        {
+          v: 'laka',
+          label: { m: 'Znie to vzrušujúco, rád by som to vyskúšal', z: 'Znie to vzrušujúco, rada by som to vyskúšala' },
+        },
+        { v: 'zalezi_film', label: 'Môže to byť zaujímavé, záleží na konkrétnom filme' },
+        {
+          v: 'neistota',
+          label: { m: 'Nie som si istý, necítim sa pri tom komfortne', z: 'Nie som si istá, necítim sa pri tom komfortne' },
+        },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'por_pocit_predstava_ine',
+      typ: 'text',
+      text: 'Pocity pri predstave sledovania — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'por_typ',
+      typ: 'viac',
       text: 'Aký typ erotického obsahu by ma najviac lákal',
       moznosti: [
         { v: 'jemna_zmyselna', label: 'Jemná erotika so zmyselnou atmosférou' },
@@ -113,8 +140,9 @@ const PORNO: Blok = {
         { v: 'pribeh', label: 'So silným príbehom a estetikou' },
         { v: 'amaterske', label: 'Prirodzené, amatérske' },
         { v: 'odvaznejsie', label: 'Odvážnejšie (špecifické fantázie/fetiše)' },
-        { v: 'nelaka', label: 'Nič z toho ma nelákajú' },
+        { v: 'nelaka', label: 'Erotické filmy ma nelákajú' },
       ],
+      inePovolene: true,
     },
     {
       druh: 'otazka', id: 'por_ocakavanie', typ: 'jeden',
@@ -127,14 +155,58 @@ const PORNO: Blok = {
       ],
     },
     {
-      druh: 'otazka', id: 'por_priebeh', typ: 'viac',
+      druh: 'otazka',
+      id: 'por_ocakavanie_ine',
+      typ: 'text',
+      text: 'Očakávania od spoločného sledovania — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'por_hranice_jasnost',
+      typ: 'jeden',
+      text: 'Mám pri výbere erotického obsahu jasné hranice a preferencie?',
+      moznosti: [
+        { v: 'viem', label: 'Áno, viem, čo ma láka a čo nie' },
+        {
+          v: 'rozhovor',
+          label: { m: 'Nie som si istý, potrebujem sa o tom porozprávať', z: 'Nie som si istá, potrebujem sa o tom porozprávať' },
+        },
+        { v: 'nezaujem', label: 'Nemám záujem sledovať erotické filmy' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'por_hranice_jasnost_ine',
+      typ: 'text',
+      text: 'Moje hranice pri obsahu — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'por_priebeh',
+      typ: 'viac',
       text: 'Ako by malo spoločné sledovanie prebiehať',
       moznosti: [
         { v: 'obcasne', label: 'Občasné, na spestrenie' },
         { v: 'cielene', label: 'S cieľom objavovať nové fantázie' },
-        { v: 'atmosfera', label: 'V príjemnej atmosfére (sviečky, víno)' },
+        { v: 'atmosfera', label: 'V príjemnej atmosfére — sviečky, pohodlie, prípadne pohár vína' },
         { v: 'ako_predohra', label: 'Ako súčasť predohry — vzájomné dráždenie' },
         { v: 'masturbacia_pocas', label: 'Masturbácia počas sledovania (sólo alebo vzájomne)' },
+      ],
+      inePovolene: true,
+      napoveda: 'Atmosféra ani nápoj nie sú podmienkou. Dohoda musí zostať slobodná a jasná.',
+    },
+    {
+      druh: 'otazka',
+      id: 'por_priebeh_postoj',
+      typ: 'jeden',
+      text: 'Ako sa staviam k vyskúšaniu takéhoto priebehu?',
+      moznosti: [
+        { v: 'viem', label: 'Viem si vybrať, čo mi vyhovuje' },
+        {
+          v: 'otvoreny',
+          label: { m: 'Neviem ešte ako, ale som otvorený skúšaniu', z: 'Neviem ešte ako, ale som otvorená skúšaniu' },
+        },
+        { v: 'nepaci', label: 'Nepáči sa mi táto predstava' },
       ],
     },
     { druh: 'otazka', id: 'por_vyber', typ: 'text', text: 'Kto by mal vyberať, čo pozeráme, a podľa čoho:' },

@@ -161,13 +161,50 @@ const EXTERIER: Blok = {
       telo: 'Vždy bez svedkov, bez rizika priestupku a s jasným plánom rýchleho ukončenia. Diskrétnosť má prednosť pred vzrušením z rizika.',
     },
     {
-      druh: 'otazka', id: 'ext_techniky', typ: 'viac', inePovolene: true,
-      text: 'Ktoré techniky by som chcel(a) vyskúšať mimo spálne',
+      druh: 'otazka',
+      id: 'ext_techniky',
+      typ: 'viac',
+      inePovolene: true,
+      text: 'Aké podoby intimity chcem skúsiť mimo spálne?',
       moznosti: [
-        { v: 'rychlovka', label: 'Rýchlovka — keď čas hrá proti nám (výťah, zaparkované auto)' },
+        { v: 'rychlovka', label: 'Rýchlovky — krátke spontánne chvíle blízkosti v súkromí' },
         { v: 'spontanne_prekvapenie', label: 'Spontánne prekvapenie počas bežného dňa (dotyk, šepot, bozk)' },
-        { v: 'zmysly_vonku', label: 'Hranie so zmyslami vonku — vietor, slnko, vône namiesto štandardnej predohry' },
+        { v: 'zmysly_vonku', label: 'Hranie so zmyslami — vietor, vône, teplota a slnko' },
       ],
+    },
+    {
+      druh: 'text',
+      id: 'ext_novost_info',
+      telo: 'Nové prostredie môže znamenať malú zmenu doma, pobyt v hoteli alebo súkromné miesto v prírode. Rozlišuj, čo si vieš predstaviť a čo chceš naozaj skúsiť. Výber miesta nie je súhlasom s konkrétnou aktivitou.',
+    },
+    {
+      druh: 'otazka',
+      id: 'ext_nove_miesta',
+      typ: 'viac',
+      text: 'S ktorými novými miestami chcem experimentovať?',
+      moznosti: [
+        { v: 'priroda', label: 'Príroda — les alebo pláž' },
+        { v: 'hotel_apartman', label: 'Hotel alebo prenajatý apartmán' },
+        { v: 'kupelna', label: 'Kúpeľňa alebo sprcha' },
+      ],
+      inePovolene: true,
+    },
+    {
+      druh: 'otazka',
+      id: 'ext_prostredie_najviac',
+      typ: 'jeden',
+      text: 'Aké prostredie ma najviac láka?',
+      moznosti: [
+        { v: 'priroda', label: 'Príroda — les, pláž alebo hory' },
+        { v: 'hotel', label: 'Romantický pobyt v hoteli' },
+        { v: 'doma', label: 'Jednoduché zmeny doma — sviečky, nové obliečky' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'ext_prostredie_najviac_ine',
+      typ: 'text',
+      text: 'Prostredie, ktoré ma najviac láka — vlastná odpoveď (voliteľné):',
     },
     { druh: 'otazka', id: 'ext_hranica', typ: 'text', text: 'Kde je moja hranica diskrétnosti — čo je pre mňa ešte OK a čo už nie:' },
     {
@@ -180,6 +217,12 @@ const EXTERIER: Blok = {
       ],
     },
     {
+      druh: 'otazka',
+      id: 'ext_frekvencia_ine',
+      typ: 'text',
+      text: 'Frekvencia experimentovania s prostredím — vlastná odpoveď (voliteľné):',
+    },
+    {
       druh: 'otazka', id: 'ext_dobrodruzstvo_dolezitost', typ: 'jeden',
       text: 'Ako dôležitý je pre mňa pocit dobrodružstva v intímnych chvíľach',
       moznosti: [
@@ -188,6 +231,60 @@ const EXTERIER: Blok = {
         { v: 'zaujimave', label: 'Zaujímavé, ale nie kľúčové' },
         { v: 'nie', label: 'Nie je to pre mňa dôležité' },
       ],
+    },
+    {
+      druh: 'otazka',
+      id: 'ext_dobrodruzstvo_dolezitost_ine',
+      typ: 'text',
+      text: 'Význam dobrodružstva — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'ext_pomocky_info',
+      telo: 'Diskrétne pomôcky môžu byť menšie, tiché a prenosné. Skúsenosť s nimi a ochota použiť ich nabudúce sú odlišné otázky. Ani nenápadnosť nenahrádza súkromie a dohodu.',
+    },
+    {
+      druh: 'otazka',
+      id: 'ext_pomocky_skusenost',
+      typ: 'jeden',
+      text: 'Akú mám skúsenosť s diskrétnymi pomôckami mimo spálne?',
+      moznosti: [
+        {
+          v: 'spokojnost',
+          label: { m: 'Už ich používame a som spokojný', z: 'Už ich používame a som spokojná' },
+        },
+        { v: 'ina', label: 'Mám skúsenosť, ale chcem ju opísať inak' },
+        { v: 'ziadna', label: 'Zatiaľ žiadnu' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'ext_pomocky_ochota',
+      typ: 'jeden',
+      text: 'Chcem diskrétne pomôcky mimo spálne použiť?',
+      moznosti: [
+        { v: 'chcem', label: 'Chcem — láka ma začať alebo pokračovať' },
+        {
+          v: 'ak_chces',
+          label: { m: 'Rád, ak chceš aj ty', z: 'Rada, ak chceš aj ty' },
+        },
+        { v: 'mozno', label: 'Možno — potrebujem rozhovor o podmienkach' },
+        {
+          v: 'nie',
+          label: { m: 'Nie — necítim sa na to pripravený', z: 'Nie — necítim sa na to pripravená' },
+        },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'ext_pomocky_ine',
+      typ: 'text',
+      text: 'Diskrétne pomôcky — skúsenosť, podmienky alebo vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'ext_dovera_info',
+      telo: 'Dobrodružstvo môže pre niekoho znamenať spoločnú dôveru a zmenu rutiny; pre iného nie je dôležité. Nie je skúškou kvality vzťahu ani povinnosťou prekračovať hranice.',
     },
     p('ext_diskretne_pomocky', 'Diskrétne erotické pomôcky mimo spálne (menšie, tiché, prenosné) ma lákajú'),
   ],
@@ -207,6 +304,18 @@ const HOTELY: Blok = {
         { v: 'pomocky', label: 'Pomôcky a lubrikant' },
         { v: 'tematicka_izba', label: 'Tematická izba (ak je k dispozícii)' },
       ],
+    },
+    {
+      druh: 'otazka',
+      id: 'hot_typ_priestoru',
+      typ: 'viac',
+      text: 'Aký prenajatý alebo dovolenkový priestor ma láka?',
+      moznosti: [
+        { v: 'hotel', label: 'Hotel' },
+        { v: 'apartman', label: 'Prenajatý apartmán' },
+        { v: 'chata', label: 'Chata' },
+      ],
+      inePovolene: true,
     },
     { druh: 'otazka', id: 'hot_frekvencia', typ: 'jeden', text: 'Ako často by som chcel(a) takýto „date out" night',
       moznosti: [
@@ -232,6 +341,26 @@ const NETRADICNE: Blok = {
         { v: 'kancelaria', label: 'Kancelária mimo pracovnej doby' },
         { v: 'sauna', label: 'Verejná sauna/wellness (diskrétne, mimo špičky)' },
       ],
+    },
+    {
+      druh: 'otazka',
+      id: 'net_scenare_zdroj',
+      typ: 'viac',
+      text: 'Ktoré netradičné prostredia ma lákajú ako predstava alebo dohodnutý scenár?',
+      moznosti: [
+        { v: 'kino', label: 'Kino — predstava diskrétnych dotykov a predohry' },
+        { v: 'park', label: 'Park — predstava skrytého miesta a napätia z verejnosti' },
+        { v: 'hotel', label: 'Tematická hotelová izba — jacuzzi, krb, dekorácie' },
+        { v: 'party', label: 'Erotická alebo maskovaná párty, swingers klub' },
+        { v: 'vytah_strecha', label: 'Výťah alebo strecha s výhľadom' },
+        { v: 'kancelaria', label: 'Kancelária — roleplay a experimentovanie' },
+      ],
+      inePovolene: true,
+    },
+    {
+      druh: 'text',
+      id: 'net_predstava_ramec',
+      telo: 'Predstava verejného miesta nemusí byť plánom na jej uskutočnenie. Pri realizácii treba súkromie, súhlas zúčastnených a dovolený prístup; nezapájajte nič netušiacich ľudí. Atmosféru si možno vytvoriť aj v súkromnom roleplay.',
     },
   ],
 }
@@ -426,7 +555,9 @@ const PRED_RITUAL: Blok = {
   druh: 'skupina', id: 'pred_ritual', nadpis: 'Pred-rituál a príprava',
   bloky: [
     {
-      druh: 'otazka', id: 'pri_na_dosah', typ: 'viac',
+      druh: 'otazka',
+      id: 'pri_na_dosah',
+      typ: 'viac',
       text: 'Čo musí byť pripravené na dosah, aby som sa cítil(a) uvoľnene',
       moznosti: [
         { v: 'lubrikant', label: 'Lubrikant' },
@@ -434,7 +565,21 @@ const PRED_RITUAL: Blok = {
         { v: 'uterak', label: 'Uterák' },
         { v: 'voda', label: 'Voda na pitie' },
         { v: 'hracky', label: 'Hračky' },
+        { v: 'obcerstvenie', label: 'Občerstvenie' },
       ],
+    },
+    {
+      druh: 'otazka',
+      id: 'pri_rusive_prvky',
+      typ: 'viac',
+      text: 'Čo chcem pred intimitou odložiť alebo stíšiť?',
+      moznosti: [
+        { v: 'telefon', label: 'Telefóny a oznámenia' },
+        { v: 'hluk', label: 'Rušivý hluk' },
+        { v: 'povinnosti', label: 'Pracovné podnety a rozptyľujúce povinnosti' },
+        { v: 'nic', label: 'Nič konkrétne' },
+      ],
+      inePovolene: true,
     },
     {
       druh: 'otazka', id: 'pri_priprava_vzrusujuca', typ: 'jeden',

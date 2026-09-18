@@ -1,3 +1,22 @@
+## RELEASE — obsah P261–540, 2026-09-18
+
+Používateľ výslovne požiadal commit a nasadenie na produkciu. Codex: všetky tri obsahové validátory a aktuálny typecheck PASS, diff bez chýb. Publikujú sa iba obsahové dávky a ich mapy/koordinácia; technický redesign zostáva TODO. Admin prehľad /sk/dotaznik/obsah-prehlad používa rovnaký register tém ako web, s prepínačom pohlavia a hľadaním. Nasadenie bude overené cez Vercel po pushi; samotný tento zápis ešte nepotvrdzuje úspech deployu.
+
+---
+## GLOBAL-003 — odovzdanie P441–P540, 2026-09-18
+
+OWNER Codex; STATUS IMPLEMENTED / REVIEW; súbory uvoľnené. Dávka zapracovaná do zmyslova-hra.ts. Mapa: docs/dotaznik-zdroj-441-540.md + JSON. 100 odsekov, 96 zdrojových možností, 24 polí Iné (vrátane rodových opakovaní); všetko má cieľ v kóde. Doplnené skúsenosti s vôňami/olejmi/masážou, výber a frekvencia prostredia, postoje k jedlu/nápojom/tekutinám, vysvetľujúce texty a overený zdravotný kontext.
+
+Checkpoint implementácie P541. P541–580 už prečítané ako kontext, ešte NEspracované; začať znovu od P541. Žiadna téma nie je globálne uzavretá. Claude: skontroluj významové priradenia a oddelenie skúsenosti od ochoty, nie iba počty; existujúce škály nemigrované, technické TODO odložené. Kontroly všetkých troch máp a celoprojektový typecheck PASS, diff bez chýb; bez browser QA. Prevzatie Claudeom nepotvrdené. Bez commitu, pushu či deployu.
+
+---
+## GLOBAL-002 — odovzdanie P261–P440, 2026-09-18
+
+OWNER Codex; STATUS IMPLEMENTED / REVIEW; súbory uvoľnené. Kompletná dávka zapracovaná v miesta-prostredie.ts, digitalna-intimita.ts, zmyslova-hra.ts. Mapa a externé podklady: docs/dotaznik-zdroj-261-440.md a JSON. Výsledok v úvodnej sekcii progress dokumentu. 180 odsekov, 164 explicitných volieb, 40 vlastných odpovedí; kontrola oboch rodových znení, regresia 1–260 aj celoprojektový typecheck PASS.
+
+Aktuálny checkpoint P441. Žiadna téma nie je globálne uzavretá. Ďalšiu dávku opäť čítať súvisle a celú dopracovať do kódu pred pokračovaním. Claude review zatiaľ nepotvrdené. Bez commitu/pushu/deployu od Codexu. Technické TODO sa touto dávkou nemení.
+
+---
 ## GLOBAL-001-COMPLETE — odovzdanie P1–P260
 
 OWNER Codex; STATUS IMPLEMENTED / REVIEW, súbory uvoľnené. Dávka P1–P260 je obsahovo zapracovaná v troch TS súboroch; úplná mapa a redakčné rozhodnutia v docs/dotaznik-zdroj-001-260.md + JSON. Kanonický výsledok vrátane obmedzenia celoprojektovej kontroly je v úvodnej sekcii progress dokumentu. 260 odsekov, 191 explicitných odpovedí, 42 polí Iné skontrolovaných. F01–F07 v tomto rozsahu implementované; nejde o globálne hotové témy.
@@ -218,3 +237,5 @@ Priame poverenie používateľa upravovať obsah, nie iba poznámky. Zapisované
 OWNER Codex; STATUS REVIEW. F03/F04/F05 sú priamo upravené v dlhodoba-intimita.ts a predohra-naladenie.ts; presný rozsah a redakčné doplnenia v denníku GLOBAL-001-EDIT. Súbory uvoľnené. Ďalšie čítanie P261. Používateľ výslovne chce priebežne upravovať obsah v repo, nielen viesť poznámky; otvorené rozdiely ďalej overovať a zapracovať. Žiadna téma sa tým neuzatvára.
 ### GLOBAL-001-COMPLETE — CLAIMED Codex
 Používateľ požaduje úplné spracovanie P1–P260 pred akýmkoľvek pokračovaním. Zápis: tri obsahové súbory predohra-naladenie.ts, dlhodoba-intimita.ts, miesta-prostredie.ts; docs/dotaznik-zdroj-001-260.md a JSON mapa; oba koordinačné dokumenty; skript overenia tejto dávky. Žiadne čítanie P261+. Rozsah zahŕňa texty, všetky varianty odpovedí a vlastné odpovede. Staršie pokyny pokračovať P261 sú do dokončenia tejto dávky pozastavené.
+## GLOBAL-002 — CLAIMED Codex, 2026-09-18
+Rozsah P261–P440 prečítaný súvisle; žiadne P441+. Zdroj DOCX SHA256 nezmenený F9B5B3B747E2D439D50A56BA7ED3C6E34F5E6AFE6C305134EE1918C915BE5AA8. HEAD da9c2c93db9f0d22c805c5697f1eae60aeb94de6, vstupný working tree čistý. OWNER Codex, REVIEWER Claude navrhnutý/nepotvrdený. Zápis: miesta-prostredie.ts, digitalna-intimita.ts, zmyslova-hra.ts, mapa docs/dotaznik-zdroj-261-440.json a .md, kontrolný skript, AI-COLLAB a progress. Bez prechodu na ďalšiu dávku pred zapracovaním tejto. Mužské aj ženské varianty, všetky odpovede a vysvetlenia; externé doplnenia osobitne doložiť.

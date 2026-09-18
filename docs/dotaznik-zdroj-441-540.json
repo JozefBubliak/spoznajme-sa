@@ -1,0 +1,1611 @@
+{
+  "range": [
+    441,
+    540
+  ],
+  "sourceDocxSha256": "F9B5B3B747E2D439D50A56BA7ED3C6E34F5E6AFE6C305134EE1918C915BE5AA8",
+  "paragraphs": [
+    {
+      "p": 441,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 442,
+      "source": "Vedome zapojená vôňa pri intímnych hrách",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_ritual_info",
+        "zmyslova-hra:cuc_ritual_skusenost",
+        "zmyslova-hra:cuc_ritual_skusenost_ine",
+        "zmyslova-hra:cuc_vedome_privoniavanie"
+      ],
+      "decision": "Vôňa krku/zápästí/vlasov, rituál a päť skúseností/postojov. Doplnená skúsenosť odlišná od pôvodnej všeobecnej škály záujmu.",
+      "options": []
+    },
+    {
+      "p": 443,
+      "source": "\n💡 Skúste si vedome privoniavať ku krku, zápästiam alebo vlasom partnera počas predohry – môže to vytvoriť silný pocit spojenia.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_ritual_info",
+        "zmyslova-hra:cuc_ritual_skusenost",
+        "zmyslova-hra:cuc_ritual_skusenost_ine",
+        "zmyslova-hra:cuc_vedome_privoniavanie"
+      ],
+      "decision": "Vôňa krku/zápästí/vlasov, rituál a päť skúseností/postojov. Doplnená skúsenosť odlišná od pôvodnej všeobecnej škály záujmu.",
+      "options": []
+    },
+    {
+      "p": 444,
+      "source": "Otázka:\nSkúšali ste niekedy vedome zapojiť vôňu tela do intímnych hier?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_ritual_info",
+        "zmyslova-hra:cuc_ritual_skusenost",
+        "zmyslova-hra:cuc_ritual_skusenost_ine",
+        "zmyslova-hra:cuc_vedome_privoniavanie"
+      ],
+      "decision": "Vôňa krku/zápästí/vlasov, rituál a päť skúseností/postojov. Doplnená skúsenosť odlišná od pôvodnej všeobecnej škály záujmu.",
+      "options": []
+    },
+    {
+      "p": 445,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_ritual_info",
+        "zmyslova-hra:cuc_ritual_skusenost",
+        "zmyslova-hra:cuc_ritual_skusenost_ine",
+        "zmyslova-hra:cuc_vedome_privoniavanie"
+      ],
+      "decision": "Vôňa krku/zápästí/vlasov, rituál a päť skúseností/postojov. Doplnená skúsenosť odlišná od pôvodnej všeobecnej škály záujmu.",
+      "options": []
+    },
+    {
+      "p": 446,
+      "source": "🔘 Áno, je to súčasť nášho rituálu.\n🔘 Občas sme to vyskúšali a bolo to vzrušujúce.\n🔘 Ešte nie, ale chcela by som.\n🔘 Nie som si istá, ako by som to vnímala.\n🔘 Nezaujíma ma to.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_ritual_info",
+        "zmyslova-hra:cuc_ritual_skusenost",
+        "zmyslova-hra:cuc_ritual_skusenost_ine",
+        "zmyslova-hra:cuc_vedome_privoniavanie"
+      ],
+      "decision": "Vôňa krku/zápästí/vlasov, rituál a päť skúseností/postojov. Doplnená skúsenosť odlišná od pôvodnej všeobecnej škály záujmu.",
+      "options": [
+        {
+          "source": "Áno, je to súčasť nášho rituálu.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#ritual"
+        },
+        {
+          "source": "Občas sme to vyskúšali a bolo to vzrušujúce.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#obcas"
+        },
+        {
+          "source": "Ešte nie, ale chcela by som.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#chcem"
+        },
+        {
+          "source": "Nie som si istá, ako by som to vnímala.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#neistota"
+        },
+        {
+          "source": "Nezaujíma ma to.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#nezaujem"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_ritual_skusenost_ine"
+    },
+    {
+      "p": 447,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_ritual_info",
+        "zmyslova-hra:cuc_ritual_skusenost",
+        "zmyslova-hra:cuc_ritual_skusenost_ine",
+        "zmyslova-hra:cuc_vedome_privoniavanie"
+      ],
+      "decision": "Vôňa krku/zápästí/vlasov, rituál a päť skúseností/postojov. Doplnená skúsenosť odlišná od pôvodnej všeobecnej škály záujmu.",
+      "options": []
+    },
+    {
+      "p": 448,
+      "source": "🔘 Áno, je to súčasť nášho rituálu.\n🔘 Občas sme to vyskúšali a bolo to vzrušujúce.\n🔘 Ešte nie, ale chcel by som.\n🔘 Nie som si istý, ako by som to vnímal.\n🔘 Nezaujíma ma to.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_ritual_info",
+        "zmyslova-hra:cuc_ritual_skusenost",
+        "zmyslova-hra:cuc_ritual_skusenost_ine",
+        "zmyslova-hra:cuc_vedome_privoniavanie"
+      ],
+      "decision": "Vôňa krku/zápästí/vlasov, rituál a päť skúseností/postojov. Doplnená skúsenosť odlišná od pôvodnej všeobecnej škály záujmu.",
+      "options": [
+        {
+          "source": "Áno, je to súčasť nášho rituálu.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#ritual"
+        },
+        {
+          "source": "Občas sme to vyskúšali a bolo to vzrušujúce.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#obcas"
+        },
+        {
+          "source": "Ešte nie, ale chcel by som.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#chcem"
+        },
+        {
+          "source": "Nie som si istý, ako by som to vnímal.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#neistota"
+        },
+        {
+          "source": "Nezaujíma ma to.",
+          "target": "zmyslova-hra:cuc_ritual_skusenost#nezaujem"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_ritual_skusenost_ine"
+    },
+    {
+      "p": 449,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 450,
+      "source": "Zosilnenie prirodzenej vône prírodnými olejmi",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_oleje_info",
+        "zmyslova-hra:cuc_oleje_pouzivanie",
+        "zmyslova-hra:cuc_oleje_pouzivanie_ine"
+      ],
+      "decision": "Kokos/santal/pačuli; zachovaných päť odpovedí. Tvrdenie, že oleje určite zvýraznia a neprehlušia vôňu, nahradené osobným vnímaním. Zdravotný kontext je výskumný doplnok.",
+      "options": []
+    },
+    {
+      "p": 451,
+      "source": "\n🌿 Použitie jemných olejov (kokos, santal, pačuli) zvýrazní prirodzenú vôňu bez toho, aby ju prehlušili.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_oleje_info",
+        "zmyslova-hra:cuc_oleje_pouzivanie",
+        "zmyslova-hra:cuc_oleje_pouzivanie_ine"
+      ],
+      "decision": "Kokos/santal/pačuli; zachovaných päť odpovedí. Tvrdenie, že oleje určite zvýraznia a neprehlušia vôňu, nahradené osobným vnímaním. Zdravotný kontext je výskumný doplnok.",
+      "options": []
+    },
+    {
+      "p": 452,
+      "source": "Otázka:\nPoužívaš na tele prírodné oleje na zvýraznenie prirodzenej vône?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_oleje_info",
+        "zmyslova-hra:cuc_oleje_pouzivanie",
+        "zmyslova-hra:cuc_oleje_pouzivanie_ine"
+      ],
+      "decision": "Kokos/santal/pačuli; zachovaných päť odpovedí. Tvrdenie, že oleje určite zvýraznia a neprehlušia vôňu, nahradené osobným vnímaním. Zdravotný kontext je výskumný doplnok.",
+      "options": []
+    },
+    {
+      "p": 453,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_oleje_info",
+        "zmyslova-hra:cuc_oleje_pouzivanie",
+        "zmyslova-hra:cuc_oleje_pouzivanie_ine"
+      ],
+      "decision": "Kokos/santal/pačuli; zachovaných päť odpovedí. Tvrdenie, že oleje určite zvýraznia a neprehlušia vôňu, nahradené osobným vnímaním. Zdravotný kontext je výskumný doplnok.",
+      "options": []
+    },
+    {
+      "p": 454,
+      "source": "🔘 Áno, pravidelne.\n🔘 Občas to skúšam.\n🔘 Chcela by som, ale nenašla som správnu vôňu.\n🔘 Nie som si istá, či by to malo efekt.\n🔘 Nie, dávam prednosť parfumom.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_oleje_info",
+        "zmyslova-hra:cuc_oleje_pouzivanie",
+        "zmyslova-hra:cuc_oleje_pouzivanie_ine"
+      ],
+      "decision": "Kokos/santal/pačuli; zachovaných päť odpovedí. Tvrdenie, že oleje určite zvýraznia a neprehlušia vôňu, nahradené osobným vnímaním. Zdravotný kontext je výskumný doplnok.",
+      "options": [
+        {
+          "source": "Áno, pravidelne.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#pravidelne"
+        },
+        {
+          "source": "Občas to skúšam.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#obcas"
+        },
+        {
+          "source": "Chcela by som, ale nenašla som správnu vôňu.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#hladam"
+        },
+        {
+          "source": "Nie som si istá, či by to malo efekt.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#neistota"
+        },
+        {
+          "source": "Nie, dávam prednosť parfumom.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#parfum"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_oleje_pouzivanie_ine"
+    },
+    {
+      "p": 455,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_oleje_info",
+        "zmyslova-hra:cuc_oleje_pouzivanie",
+        "zmyslova-hra:cuc_oleje_pouzivanie_ine"
+      ],
+      "decision": "Kokos/santal/pačuli; zachovaných päť odpovedí. Tvrdenie, že oleje určite zvýraznia a neprehlušia vôňu, nahradené osobným vnímaním. Zdravotný kontext je výskumný doplnok.",
+      "options": []
+    },
+    {
+      "p": 456,
+      "source": "🔘 Áno, pravidelne.\n🔘 Občas to skúšam.\n🔘 Chcel by som, ale nenašiel som správnu vôňu.\n🔘 Nie som si istý, či by to malo efekt.\n🔘 Nie, dávam prednosť parfumom.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_oleje_info",
+        "zmyslova-hra:cuc_oleje_pouzivanie",
+        "zmyslova-hra:cuc_oleje_pouzivanie_ine"
+      ],
+      "decision": "Kokos/santal/pačuli; zachovaných päť odpovedí. Tvrdenie, že oleje určite zvýraznia a neprehlušia vôňu, nahradené osobným vnímaním. Zdravotný kontext je výskumný doplnok.",
+      "options": [
+        {
+          "source": "Áno, pravidelne.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#pravidelne"
+        },
+        {
+          "source": "Občas to skúšam.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#obcas"
+        },
+        {
+          "source": "Chcel by som, ale nenašiel som správnu vôňu.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#hladam"
+        },
+        {
+          "source": "Nie som si istý, či by to malo efekt.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#neistota"
+        },
+        {
+          "source": "Nie, dávam prednosť parfumom.",
+          "target": "zmyslova-hra:cuc_oleje_pouzivanie#parfum"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_oleje_pouzivanie_ine"
+    },
+    {
+      "p": 457,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 458,
+      "source": "Parfumy a aromatické oleje",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_aroma_skusenost",
+        "zmyslova-hra:cuc_aroma_skusenost_ine"
+      ],
+      "decision": "Aromaterapia: päť odpovedí vrátane neistoty o účinku a nedôležitosti. Žiadna záruka relaxácie či túžby.",
+      "options": []
+    },
+    {
+      "p": 459,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 460,
+      "source": "Aromaterapia – Vône ako afrodiziakum",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_aroma_skusenost",
+        "zmyslova-hra:cuc_aroma_skusenost_ine"
+      ],
+      "decision": "Aromaterapia: päť odpovedí vrátane neistoty o účinku a nedôležitosti. Žiadna záruka relaxácie či túžby.",
+      "options": []
+    },
+    {
+      "p": 461,
+      "source": "\n🕯️ Ylang-ylang, jazmín alebo vanilka dokážu navodiť relax a prehĺbiť túžbu.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_aroma_skusenost",
+        "zmyslova-hra:cuc_aroma_skusenost_ine"
+      ],
+      "decision": "Aromaterapia: päť odpovedí vrátane neistoty o účinku a nedôležitosti. Žiadna záruka relaxácie či túžby.",
+      "options": []
+    },
+    {
+      "p": 462,
+      "source": "Otázka:\nMáte skúsenosti s používaním aromaterapie počas intímnych chvíľ?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_aroma_skusenost",
+        "zmyslova-hra:cuc_aroma_skusenost_ine"
+      ],
+      "decision": "Aromaterapia: päť odpovedí vrátane neistoty o účinku a nedôležitosti. Žiadna záruka relaxácie či túžby.",
+      "options": []
+    },
+    {
+      "p": 463,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_aroma_skusenost",
+        "zmyslova-hra:cuc_aroma_skusenost_ine"
+      ],
+      "decision": "Aromaterapia: päť odpovedí vrátane neistoty o účinku a nedôležitosti. Žiadna záruka relaxácie či túžby.",
+      "options": []
+    },
+    {
+      "p": 464,
+      "source": "🔘 Áno, používame pravidelne.\n🔘 Občas to skúšame.\n🔘 Rada by som to vyskúšala.\n🔘 Nie som si istá, či by to malo efekt.\n🔘 Nie, nevnímam to ako dôležité.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_aroma_skusenost",
+        "zmyslova-hra:cuc_aroma_skusenost_ine"
+      ],
+      "decision": "Aromaterapia: päť odpovedí vrátane neistoty o účinku a nedôležitosti. Žiadna záruka relaxácie či túžby.",
+      "options": [
+        {
+          "source": "Áno, používame pravidelne.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#pravidelne"
+        },
+        {
+          "source": "Občas to skúšame.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#obcas"
+        },
+        {
+          "source": "Rada by som to vyskúšala.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#chcem"
+        },
+        {
+          "source": "Nie som si istá, či by to malo efekt.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#neistota"
+        },
+        {
+          "source": "Nie, nevnímam to ako dôležité.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#nedolezite"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_aroma_skusenost_ine"
+    },
+    {
+      "p": 465,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_aroma_skusenost",
+        "zmyslova-hra:cuc_aroma_skusenost_ine"
+      ],
+      "decision": "Aromaterapia: päť odpovedí vrátane neistoty o účinku a nedôležitosti. Žiadna záruka relaxácie či túžby.",
+      "options": []
+    },
+    {
+      "p": 466,
+      "source": "🔘 Áno, používame pravidelne.\n🔘 Občas to skúšame.\n🔘 Rád by som to vyskúšal.\n🔘 Nie som si istý, či by to malo efekt.\n🔘 Nie, nevnímam to ako dôležité.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_aroma_skusenost",
+        "zmyslova-hra:cuc_aroma_skusenost_ine"
+      ],
+      "decision": "Aromaterapia: päť odpovedí vrátane neistoty o účinku a nedôležitosti. Žiadna záruka relaxácie či túžby.",
+      "options": [
+        {
+          "source": "Áno, používame pravidelne.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#pravidelne"
+        },
+        {
+          "source": "Občas to skúšame.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#obcas"
+        },
+        {
+          "source": "Rád by som to vyskúšal.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#chcem"
+        },
+        {
+          "source": "Nie som si istý, či by to malo efekt.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#neistota"
+        },
+        {
+          "source": "Nie, nevnímam to ako dôležité.",
+          "target": "zmyslova-hra:cuc_aroma_skusenost#nedolezite"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_aroma_skusenost_ine"
+    },
+    {
+      "p": 467,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 468,
+      "source": "Preferované vône",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_vone_vyber",
+        "zmyslova-hra:cuc_preferovane_vone"
+      ],
+      "decision": "Všetky štyri vône a žiadna obľúbená + Iné. Prívlastky zo zdroja zachované v nápovede ako subjektívne asociácie; odstránené stereotypné priraďovanie jazmínu ženám. Multi umožňuje viac vôní; žiadna sa má voliť samostatne. Pôvodná textová otázka zachovaná, dáta sa nemenia.",
+      "options": []
+    },
+    {
+      "p": 469,
+      "source": "\n🌸 Rôzne vône vyvolávajú rôzne emócie – od vzrušenia po uvoľnenie.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_vone_vyber",
+        "zmyslova-hra:cuc_preferovane_vone"
+      ],
+      "decision": "Všetky štyri vône a žiadna obľúbená + Iné. Prívlastky zo zdroja zachované v nápovede ako subjektívne asociácie; odstránené stereotypné priraďovanie jazmínu ženám. Multi umožňuje viac vôní; žiadna sa má voliť samostatne. Pôvodná textová otázka zachovaná, dáta sa nemenia.",
+      "options": []
+    },
+    {
+      "p": 470,
+      "source": "Otázka:\nKtoré vône ťa najviac vzrušujú alebo upokojujú?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_vone_vyber",
+        "zmyslova-hra:cuc_preferovane_vone"
+      ],
+      "decision": "Všetky štyri vône a žiadna obľúbená + Iné. Prívlastky zo zdroja zachované v nápovede ako subjektívne asociácie; odstránené stereotypné priraďovanie jazmínu ženám. Multi umožňuje viac vôní; žiadna sa má voliť samostatne. Pôvodná textová otázka zachovaná, dáta sa nemenia.",
+      "options": []
+    },
+    {
+      "p": 471,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_vone_vyber",
+        "zmyslova-hra:cuc_preferovane_vone"
+      ],
+      "decision": "Všetky štyri vône a žiadna obľúbená + Iné. Prívlastky zo zdroja zachované v nápovede ako subjektívne asociácie; odstránené stereotypné priraďovanie jazmínu ženám. Multi umožňuje viac vôní; žiadna sa má voliť samostatne. Pôvodná textová otázka zachovaná, dáta sa nemenia.",
+      "options": []
+    },
+    {
+      "p": 472,
+      "source": "🔘 Vanilka – sladká a upokojujúca.\n🔘 Ylang-ylang – exotická a afrodiziakálna.\n🔘 Jazmín – kvetinová a ženská.\n🔘 Santalové drevo – drevitá, tajomná.\n🔘 Nemám obľúbenú vôňu.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_vone_vyber",
+        "zmyslova-hra:cuc_preferovane_vone"
+      ],
+      "decision": "Všetky štyri vône a žiadna obľúbená + Iné. Prívlastky zo zdroja zachované v nápovede ako subjektívne asociácie; odstránené stereotypné priraďovanie jazmínu ženám. Multi umožňuje viac vôní; žiadna sa má voliť samostatne. Pôvodná textová otázka zachovaná, dáta sa nemenia.",
+      "options": [
+        {
+          "source": "Vanilka – sladká a upokojujúca.",
+          "target": "zmyslova-hra:cuc_vone_vyber#vanilka"
+        },
+        {
+          "source": "Ylang-ylang – exotická a afrodiziakálna.",
+          "target": "zmyslova-hra:cuc_vone_vyber#ylang"
+        },
+        {
+          "source": "Jazmín – kvetinová a ženská.",
+          "target": "zmyslova-hra:cuc_vone_vyber#jazmin"
+        },
+        {
+          "source": "Santalové drevo – drevitá, tajomná.",
+          "target": "zmyslova-hra:cuc_vone_vyber#santal"
+        },
+        {
+          "source": "Nemám obľúbenú vôňu.",
+          "target": "zmyslova-hra:cuc_vone_vyber#ziadna"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_vone_vyber@ine"
+    },
+    {
+      "p": 473,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_vone_vyber",
+        "zmyslova-hra:cuc_preferovane_vone"
+      ],
+      "decision": "Všetky štyri vône a žiadna obľúbená + Iné. Prívlastky zo zdroja zachované v nápovede ako subjektívne asociácie; odstránené stereotypné priraďovanie jazmínu ženám. Multi umožňuje viac vôní; žiadna sa má voliť samostatne. Pôvodná textová otázka zachovaná, dáta sa nemenia.",
+      "options": []
+    },
+    {
+      "p": 474,
+      "source": "🔘 Vanilka – sladká a upokojujúca.\n🔘 Ylang-ylang – exotická a afrodiziakálna.\n🔘 Jazmín – kvetinová a ženská.\n🔘 Santalové drevo – drevitá, tajomná.\n🔘 Nemám obľúbenú vôňu.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_aroma_info",
+        "zmyslova-hra:cuc_vone_vyber",
+        "zmyslova-hra:cuc_preferovane_vone"
+      ],
+      "decision": "Všetky štyri vône a žiadna obľúbená + Iné. Prívlastky zo zdroja zachované v nápovede ako subjektívne asociácie; odstránené stereotypné priraďovanie jazmínu ženám. Multi umožňuje viac vôní; žiadna sa má voliť samostatne. Pôvodná textová otázka zachovaná, dáta sa nemenia.",
+      "options": [
+        {
+          "source": "Vanilka – sladká a upokojujúca.",
+          "target": "zmyslova-hra:cuc_vone_vyber#vanilka"
+        },
+        {
+          "source": "Ylang-ylang – exotická a afrodiziakálna.",
+          "target": "zmyslova-hra:cuc_vone_vyber#ylang"
+        },
+        {
+          "source": "Jazmín – kvetinová a ženská.",
+          "target": "zmyslova-hra:cuc_vone_vyber#jazmin"
+        },
+        {
+          "source": "Santalové drevo – drevitá, tajomná.",
+          "target": "zmyslova-hra:cuc_vone_vyber#santal"
+        },
+        {
+          "source": "Nemám obľúbenú vôňu.",
+          "target": "zmyslova-hra:cuc_vone_vyber#ziadna"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_vone_vyber@ine"
+    },
+    {
+      "p": 475,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 476,
+      "source": "Erotická masáž s vôňami",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_masaz_info",
+        "zmyslova-hra:cuc_masaz_skusenost",
+        "zmyslova-hra:cuc_masaz_skusenost_ine"
+      ],
+      "decision": "Spojenie tepla rúk, dotyku a vône; päť konkrétnych skúseností/postojov a vlastná odpoveď, nie iba záujem o masáž.",
+      "options": []
+    },
+    {
+      "p": 477,
+      "source": "\n💆 Teplo rúk v kombinácii s vôňou olejov prepojí dotyk a čuch do jedného zážitku.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_masaz_info",
+        "zmyslova-hra:cuc_masaz_skusenost",
+        "zmyslova-hra:cuc_masaz_skusenost_ine"
+      ],
+      "decision": "Spojenie tepla rúk, dotyku a vône; päť konkrétnych skúseností/postojov a vlastná odpoveď, nie iba záujem o masáž.",
+      "options": []
+    },
+    {
+      "p": 478,
+      "source": "Otázka:\nSkúšali ste už erotickú masáž s aromatickými olejmi?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_masaz_info",
+        "zmyslova-hra:cuc_masaz_skusenost",
+        "zmyslova-hra:cuc_masaz_skusenost_ine"
+      ],
+      "decision": "Spojenie tepla rúk, dotyku a vône; päť konkrétnych skúseností/postojov a vlastná odpoveď, nie iba záujem o masáž.",
+      "options": []
+    },
+    {
+      "p": 479,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_masaz_info",
+        "zmyslova-hra:cuc_masaz_skusenost",
+        "zmyslova-hra:cuc_masaz_skusenost_ine"
+      ],
+      "decision": "Spojenie tepla rúk, dotyku a vône; päť konkrétnych skúseností/postojov a vlastná odpoveď, nie iba záujem o masáž.",
+      "options": []
+    },
+    {
+      "p": 480,
+      "source": "🔘 Áno, milujem to.\n🔘 Občas to skúšame.\n🔘 Chcela by som, ale ešte sme to neskúsili.\n🔘 Nie som si istá, či by sa mi to páčilo.\n🔘 Nie, nemám záujem.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_masaz_info",
+        "zmyslova-hra:cuc_masaz_skusenost",
+        "zmyslova-hra:cuc_masaz_skusenost_ine"
+      ],
+      "decision": "Spojenie tepla rúk, dotyku a vône; päť konkrétnych skúseností/postojov a vlastná odpoveď, nie iba záujem o masáž.",
+      "options": [
+        {
+          "source": "Áno, milujem to.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#milujem"
+        },
+        {
+          "source": "Občas to skúšame.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#obcas"
+        },
+        {
+          "source": "Chcela by som, ale ešte sme to neskúsili.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#chcem"
+        },
+        {
+          "source": "Nie som si istá, či by sa mi to páčilo.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#neistota"
+        },
+        {
+          "source": "Nie, nemám záujem.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#nezaujem"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_masaz_skusenost_ine"
+    },
+    {
+      "p": 481,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_masaz_info",
+        "zmyslova-hra:cuc_masaz_skusenost",
+        "zmyslova-hra:cuc_masaz_skusenost_ine"
+      ],
+      "decision": "Spojenie tepla rúk, dotyku a vône; päť konkrétnych skúseností/postojov a vlastná odpoveď, nie iba záujem o masáž.",
+      "options": []
+    },
+    {
+      "p": 482,
+      "source": "🔘 Áno, milujem to.\n🔘 Občas to skúšame.\n🔘 Chcel by som, ale ešte sme to neskúsili.\n🔘 Nie som si istý, či by sa mi to páčilo.\n🔘 Nie, nemám záujem.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_masaz_info",
+        "zmyslova-hra:cuc_masaz_skusenost",
+        "zmyslova-hra:cuc_masaz_skusenost_ine"
+      ],
+      "decision": "Spojenie tepla rúk, dotyku a vône; päť konkrétnych skúseností/postojov a vlastná odpoveď, nie iba záujem o masáž.",
+      "options": [
+        {
+          "source": "Áno, milujem to.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#milujem"
+        },
+        {
+          "source": "Občas to skúšame.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#obcas"
+        },
+        {
+          "source": "Chcel by som, ale ešte sme to neskúsili.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#chcem"
+        },
+        {
+          "source": "Nie som si istý, či by sa mi to páčilo.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#neistota"
+        },
+        {
+          "source": "Nie, nemám záujem.",
+          "target": "zmyslova-hra:cuc_masaz_skusenost#nezaujem"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_masaz_skusenost_ine"
+    },
+    {
+      "p": 483,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 484,
+      "source": "Aromaterapia a prostredie",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_info",
+        "zmyslova-hra:cuc_prostredie_prvky"
+      ],
+      "decision": "Tri prvky spoločného zmyslového prostredia a Iné; súvisí s osv_typ/osv_priprava_detaily v miesta-prostredie, ale tu zdroj zisťuje spoločný výber vrátane hudby, nie iba úpravu či význam poriadku.",
+      "options": []
+    },
+    {
+      "p": 485,
+      "source": "\n🌌 Vonné sviečky, jemné svetlo a upravený priestor dokážu premeniť bežný večer na zmyselný rituál.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_info",
+        "zmyslova-hra:cuc_prostredie_prvky"
+      ],
+      "decision": "Tri prvky spoločného zmyslového prostredia a Iné; súvisí s osv_typ/osv_priprava_detaily v miesta-prostredie, ale tu zdroj zisťuje spoločný výber vrátane hudby, nie iba úpravu či význam poriadku.",
+      "options": []
+    },
+    {
+      "p": 486,
+      "source": "Otázka:\nAké prvky by si chcel/a zahrnúť do svojho intímneho prostredia? (môžeš vybrať viac)",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_info",
+        "zmyslova-hra:cuc_prostredie_prvky"
+      ],
+      "decision": "Tri prvky spoločného zmyslového prostredia a Iné; súvisí s osv_typ/osv_priprava_detaily v miesta-prostredie, ale tu zdroj zisťuje spoločný výber vrátane hudby, nie iba úpravu či význam poriadku.",
+      "options": []
+    },
+    {
+      "p": 487,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_info",
+        "zmyslova-hra:cuc_prostredie_prvky"
+      ],
+      "decision": "Tri prvky spoločného zmyslového prostredia a Iné; súvisí s osv_typ/osv_priprava_detaily v miesta-prostredie, ale tu zdroj zisťuje spoločný výber vrátane hudby, nie iba úpravu či význam poriadku.",
+      "options": []
+    },
+    {
+      "p": 488,
+      "source": "🔘 Tlmené svetlo alebo sviečky.\n🔘 Jemná hudba alebo ambientné zvuky.\n🔘 Upravený priestor s dekoráciami.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_info",
+        "zmyslova-hra:cuc_prostredie_prvky"
+      ],
+      "decision": "Tri prvky spoločného zmyslového prostredia a Iné; súvisí s osv_typ/osv_priprava_detaily v miesta-prostredie, ale tu zdroj zisťuje spoločný výber vrátane hudby, nie iba úpravu či význam poriadku.",
+      "options": [
+        {
+          "source": "Tlmené svetlo alebo sviečky.",
+          "target": "zmyslova-hra:cuc_prostredie_prvky#svetlo"
+        },
+        {
+          "source": "Jemná hudba alebo ambientné zvuky.",
+          "target": "zmyslova-hra:cuc_prostredie_prvky#hudba"
+        },
+        {
+          "source": "Upravený priestor s dekoráciami.",
+          "target": "zmyslova-hra:cuc_prostredie_prvky#dekoracie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_prostredie_prvky@ine"
+    },
+    {
+      "p": 489,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_info",
+        "zmyslova-hra:cuc_prostredie_prvky"
+      ],
+      "decision": "Tri prvky spoločného zmyslového prostredia a Iné; súvisí s osv_typ/osv_priprava_detaily v miesta-prostredie, ale tu zdroj zisťuje spoločný výber vrátane hudby, nie iba úpravu či význam poriadku.",
+      "options": []
+    },
+    {
+      "p": 490,
+      "source": "🔘 Tlmené svetlo alebo sviečky.\n🔘 Jemná hudba alebo ambientné zvuky.\n🔘 Upravený priestor s dekoráciami.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_info",
+        "zmyslova-hra:cuc_prostredie_prvky"
+      ],
+      "decision": "Tri prvky spoločného zmyslového prostredia a Iné; súvisí s osv_typ/osv_priprava_detaily v miesta-prostredie, ale tu zdroj zisťuje spoločný výber vrátane hudby, nie iba úpravu či význam poriadku.",
+      "options": [
+        {
+          "source": "Tlmené svetlo alebo sviečky.",
+          "target": "zmyslova-hra:cuc_prostredie_prvky#svetlo"
+        },
+        {
+          "source": "Jemná hudba alebo ambientné zvuky.",
+          "target": "zmyslova-hra:cuc_prostredie_prvky#hudba"
+        },
+        {
+          "source": "Upravený priestor s dekoráciami.",
+          "target": "zmyslova-hra:cuc_prostredie_prvky#dekoracie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_prostredie_prvky@ine"
+    },
+    {
+      "p": 491,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 492,
+      "source": "Otázka:\nAko často by si chcel/a vytvárať takéto prostredie?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_frekvencia",
+        "zmyslova-hra:cuc_prostredie_frekvencia_ine"
+      ],
+      "decision": "Denná pravidelnosť / špeciálne príležitosti / výnimočná nálada. Nie ekvivalent frekvencie nových miest alebo hotelových večerov.",
+      "options": []
+    },
+    {
+      "p": 493,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_frekvencia",
+        "zmyslova-hra:cuc_prostredie_frekvencia_ine"
+      ],
+      "decision": "Denná pravidelnosť / špeciálne príležitosti / výnimočná nálada. Nie ekvivalent frekvencie nových miest alebo hotelových večerov.",
+      "options": []
+    },
+    {
+      "p": 494,
+      "source": "🔘 Pravidelne – ako súčasť každodenného života.\n🔘 Občas – pri špeciálnych príležitostiach.\n🔘 Zriedka – len keď je výnimočná nálada.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_frekvencia",
+        "zmyslova-hra:cuc_prostredie_frekvencia_ine"
+      ],
+      "decision": "Denná pravidelnosť / špeciálne príležitosti / výnimočná nálada. Nie ekvivalent frekvencie nových miest alebo hotelových večerov.",
+      "options": [
+        {
+          "source": "Pravidelne – ako súčasť každodenného života.",
+          "target": "zmyslova-hra:cuc_prostredie_frekvencia#pravidelne"
+        },
+        {
+          "source": "Občas – pri špeciálnych príležitostiach.",
+          "target": "zmyslova-hra:cuc_prostredie_frekvencia#obcas"
+        },
+        {
+          "source": "Zriedka – len keď je výnimočná nálada.",
+          "target": "zmyslova-hra:cuc_prostredie_frekvencia#zriedka"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_prostredie_frekvencia_ine"
+    },
+    {
+      "p": 495,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_frekvencia",
+        "zmyslova-hra:cuc_prostredie_frekvencia_ine"
+      ],
+      "decision": "Denná pravidelnosť / špeciálne príležitosti / výnimočná nálada. Nie ekvivalent frekvencie nových miest alebo hotelových večerov.",
+      "options": []
+    },
+    {
+      "p": 496,
+      "source": "🔘 Pravidelne – ako súčasť každodenného života.\n🔘 Občas – pri špeciálnych príležitostiach.\n🔘 Zriedka – len keď je výnimočná nálada.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:cuc_prostredie_frekvencia",
+        "zmyslova-hra:cuc_prostredie_frekvencia_ine"
+      ],
+      "decision": "Denná pravidelnosť / špeciálne príležitosti / výnimočná nálada. Nie ekvivalent frekvencie nových miest alebo hotelových večerov.",
+      "options": [
+        {
+          "source": "Pravidelne – ako súčasť každodenného života.",
+          "target": "zmyslova-hra:cuc_prostredie_frekvencia#pravidelne"
+        },
+        {
+          "source": "Občas – pri špeciálnych príležitostiach.",
+          "target": "zmyslova-hra:cuc_prostredie_frekvencia#obcas"
+        },
+        {
+          "source": "Zriedka – len keď je výnimočná nálada.",
+          "target": "zmyslova-hra:cuc_prostredie_frekvencia#zriedka"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:cuc_prostredie_frekvencia_ine"
+    },
+    {
+      "p": 497,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 498,
+      "source": "6.4 Chuť",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chut",
+        "zmyslova-hra:chu_jedlo_info",
+        "zmyslova-hra:chu_jedlo_postoj",
+        "zmyslova-hra:chu_jedlo_postoj_ine",
+        "zmyslova-hra:chu_co"
+      ],
+      "decision": "Ovocie, šľahačka, čokoláda, kŕmenie/ochutnávanie na tele; neutralizované hodnotenie dokonalé spestrenie. Tri postoje a Iné.",
+      "options": []
+    },
+    {
+      "p": 499,
+      "source": "Ovocie, šľahačka, víno",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chut",
+        "zmyslova-hra:chu_jedlo_info",
+        "zmyslova-hra:chu_jedlo_postoj",
+        "zmyslova-hra:chu_jedlo_postoj_ine",
+        "zmyslova-hra:chu_co"
+      ],
+      "decision": "Ovocie, šľahačka, čokoláda, kŕmenie/ochutnávanie na tele; neutralizované hodnotenie dokonalé spestrenie. Tri postoje a Iné.",
+      "options": []
+    },
+    {
+      "p": 500,
+      "source": "Hranie s jedlom – Sladké pokušenie",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chut",
+        "zmyslova-hra:chu_jedlo_info",
+        "zmyslova-hra:chu_jedlo_postoj",
+        "zmyslova-hra:chu_jedlo_postoj_ine",
+        "zmyslova-hra:chu_co"
+      ],
+      "decision": "Ovocie, šľahačka, čokoláda, kŕmenie/ochutnávanie na tele; neutralizované hodnotenie dokonalé spestrenie. Tri postoje a Iné.",
+      "options": []
+    },
+    {
+      "p": 501,
+      "source": "\n🍓 Čokoládová poleva, šľahačka alebo ovocie na tele partnera sú dokonalým spestrením predohry. Rozotieranie jedla, olizovanie a vzájomné kŕmenie vytvárajú hravú a zmyselnú atmosféru.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chut",
+        "zmyslova-hra:chu_jedlo_info",
+        "zmyslova-hra:chu_jedlo_postoj",
+        "zmyslova-hra:chu_jedlo_postoj_ine",
+        "zmyslova-hra:chu_co"
+      ],
+      "decision": "Ovocie, šľahačka, čokoláda, kŕmenie/ochutnávanie na tele; neutralizované hodnotenie dokonalé spestrenie. Tri postoje a Iné.",
+      "options": []
+    },
+    {
+      "p": 502,
+      "source": "Otázka:\nAko vnímaš hranie s jedlom počas intimity?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chut",
+        "zmyslova-hra:chu_jedlo_info",
+        "zmyslova-hra:chu_jedlo_postoj",
+        "zmyslova-hra:chu_jedlo_postoj_ine",
+        "zmyslova-hra:chu_co"
+      ],
+      "decision": "Ovocie, šľahačka, čokoláda, kŕmenie/ochutnávanie na tele; neutralizované hodnotenie dokonalé spestrenie. Tri postoje a Iné.",
+      "options": []
+    },
+    {
+      "p": 503,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chut",
+        "zmyslova-hra:chu_jedlo_info",
+        "zmyslova-hra:chu_jedlo_postoj",
+        "zmyslova-hra:chu_jedlo_postoj_ine",
+        "zmyslova-hra:chu_co"
+      ],
+      "decision": "Ovocie, šľahačka, čokoláda, kŕmenie/ochutnávanie na tele; neutralizované hodnotenie dokonalé spestrenie. Tri postoje a Iné.",
+      "options": []
+    },
+    {
+      "p": 504,
+      "source": "🔘 Milujem – je to vzrušujúce a zábavné.\n🔘 Občas, podľa nálady.\n🔘 Nepreferujem jedlo v posteli.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chut",
+        "zmyslova-hra:chu_jedlo_info",
+        "zmyslova-hra:chu_jedlo_postoj",
+        "zmyslova-hra:chu_jedlo_postoj_ine",
+        "zmyslova-hra:chu_co"
+      ],
+      "decision": "Ovocie, šľahačka, čokoláda, kŕmenie/ochutnávanie na tele; neutralizované hodnotenie dokonalé spestrenie. Tri postoje a Iné.",
+      "options": [
+        {
+          "source": "Milujem – je to vzrušujúce a zábavné.",
+          "target": "zmyslova-hra:chu_jedlo_postoj#milujem"
+        },
+        {
+          "source": "Občas, podľa nálady.",
+          "target": "zmyslova-hra:chu_jedlo_postoj#obcas"
+        },
+        {
+          "source": "Nepreferujem jedlo v posteli.",
+          "target": "zmyslova-hra:chu_jedlo_postoj#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_jedlo_postoj_ine"
+    },
+    {
+      "p": 505,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chut",
+        "zmyslova-hra:chu_jedlo_info",
+        "zmyslova-hra:chu_jedlo_postoj",
+        "zmyslova-hra:chu_jedlo_postoj_ine",
+        "zmyslova-hra:chu_co"
+      ],
+      "decision": "Ovocie, šľahačka, čokoláda, kŕmenie/ochutnávanie na tele; neutralizované hodnotenie dokonalé spestrenie. Tri postoje a Iné.",
+      "options": []
+    },
+    {
+      "p": 506,
+      "source": "🔘 Milujem – je to vzrušujúce a zábavné.\n🔘 Občas, podľa nálady.\n🔘 Nepreferujem jedlo v posteli.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chut",
+        "zmyslova-hra:chu_jedlo_info",
+        "zmyslova-hra:chu_jedlo_postoj",
+        "zmyslova-hra:chu_jedlo_postoj_ine",
+        "zmyslova-hra:chu_co"
+      ],
+      "decision": "Ovocie, šľahačka, čokoláda, kŕmenie/ochutnávanie na tele; neutralizované hodnotenie dokonalé spestrenie. Tri postoje a Iné.",
+      "options": [
+        {
+          "source": "Milujem – je to vzrušujúce a zábavné.",
+          "target": "zmyslova-hra:chu_jedlo_postoj#milujem"
+        },
+        {
+          "source": "Občas, podľa nálady.",
+          "target": "zmyslova-hra:chu_jedlo_postoj#obcas"
+        },
+        {
+          "source": "Nepreferujem jedlo v posteli.",
+          "target": "zmyslova-hra:chu_jedlo_postoj#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_jedlo_postoj_ine"
+    },
+    {
+      "p": 507,
+      "source": "Prenášanie tekutín z úst do úst – Zmyselná blízkosť",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_prenos_info",
+        "zmyslova-hra:chu_prenos_skusenost",
+        "zmyslova-hra:chu_prenos_ochota",
+        "zmyslova-hra:chu_prenos_ine"
+      ],
+      "decision": "Päť pôvodných možností rozdelených na skúsenosť a štvoricu aktuálnej ochoty. Rád/rada ak chceš aj ty zachované, možno nie je súhlas. Iná/žiadna skúsenosť sú redakčné doplnenia.",
+      "options": []
+    },
+    {
+      "p": 508,
+      "source": "\n🍷 Predávanie vína, sladkých štiav alebo telesných tekutín bozkávaním je spojením hravosti, blízkosti a dôvery.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_prenos_info",
+        "zmyslova-hra:chu_prenos_skusenost",
+        "zmyslova-hra:chu_prenos_ochota",
+        "zmyslova-hra:chu_prenos_ine"
+      ],
+      "decision": "Päť pôvodných možností rozdelených na skúsenosť a štvoricu aktuálnej ochoty. Rád/rada ak chceš aj ty zachované, možno nie je súhlas. Iná/žiadna skúsenosť sú redakčné doplnenia.",
+      "options": []
+    },
+    {
+      "p": 509,
+      "source": "Otázka:\nChcel/a by si si s partnerom predávať tekutiny z úst do úst?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_prenos_info",
+        "zmyslova-hra:chu_prenos_skusenost",
+        "zmyslova-hra:chu_prenos_ochota",
+        "zmyslova-hra:chu_prenos_ine"
+      ],
+      "decision": "Päť pôvodných možností rozdelených na skúsenosť a štvoricu aktuálnej ochoty. Rád/rada ak chceš aj ty zachované, možno nie je súhlas. Iná/žiadna skúsenosť sú redakčné doplnenia.",
+      "options": []
+    },
+    {
+      "p": 510,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_prenos_info",
+        "zmyslova-hra:chu_prenos_skusenost",
+        "zmyslova-hra:chu_prenos_ochota",
+        "zmyslova-hra:chu_prenos_ine"
+      ],
+      "decision": "Päť pôvodných možností rozdelených na skúsenosť a štvoricu aktuálnej ochoty. Rád/rada ak chceš aj ty zachované, možno nie je súhlas. Iná/žiadna skúsenosť sú redakčné doplnenia.",
+      "options": []
+    },
+    {
+      "p": 511,
+      "source": "🔘 Už to robíme a som spokojná.\n🔘 Túžim to zapojiť do našich hier.\n🔘 Rada to vyskúšam, ak po tom túžiš.\n🔘 Možno, podľa okolností.\n🔘 Nie, necítim sa komfortne.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_prenos_info",
+        "zmyslova-hra:chu_prenos_skusenost",
+        "zmyslova-hra:chu_prenos_ochota",
+        "zmyslova-hra:chu_prenos_ine"
+      ],
+      "decision": "Päť pôvodných možností rozdelených na skúsenosť a štvoricu aktuálnej ochoty. Rád/rada ak chceš aj ty zachované, možno nie je súhlas. Iná/žiadna skúsenosť sú redakčné doplnenia.",
+      "options": [
+        {
+          "source": "Už to robíme a som spokojná.",
+          "target": "zmyslova-hra:chu_prenos_skusenost#spokojnost"
+        },
+        {
+          "source": "Túžim to zapojiť do našich hier.",
+          "target": "zmyslova-hra:chu_prenos_ochota#chcem"
+        },
+        {
+          "source": "Rada to vyskúšam, ak po tom túžiš.",
+          "target": "zmyslova-hra:chu_prenos_ochota#ak_chces"
+        },
+        {
+          "source": "Možno, podľa okolností.",
+          "target": "zmyslova-hra:chu_prenos_ochota#mozno"
+        },
+        {
+          "source": "Nie, necítim sa komfortne.",
+          "target": "zmyslova-hra:chu_prenos_ochota#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_prenos_ine"
+    },
+    {
+      "p": 512,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_prenos_info",
+        "zmyslova-hra:chu_prenos_skusenost",
+        "zmyslova-hra:chu_prenos_ochota",
+        "zmyslova-hra:chu_prenos_ine"
+      ],
+      "decision": "Päť pôvodných možností rozdelených na skúsenosť a štvoricu aktuálnej ochoty. Rád/rada ak chceš aj ty zachované, možno nie je súhlas. Iná/žiadna skúsenosť sú redakčné doplnenia.",
+      "options": []
+    },
+    {
+      "p": 513,
+      "source": "🔘 Už to robíme a som spokojný.\n🔘 Túžim to zapojiť do našich hier.\n🔘 Rád to vyskúšam, ak po tom túžiš.\n🔘 Možno, podľa okolností.\n🔘 Nie, necítim sa komfortne.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_prenos_info",
+        "zmyslova-hra:chu_prenos_skusenost",
+        "zmyslova-hra:chu_prenos_ochota",
+        "zmyslova-hra:chu_prenos_ine"
+      ],
+      "decision": "Päť pôvodných možností rozdelených na skúsenosť a štvoricu aktuálnej ochoty. Rád/rada ak chceš aj ty zachované, možno nie je súhlas. Iná/žiadna skúsenosť sú redakčné doplnenia.",
+      "options": [
+        {
+          "source": "Už to robíme a som spokojný.",
+          "target": "zmyslova-hra:chu_prenos_skusenost#spokojnost"
+        },
+        {
+          "source": "Túžim to zapojiť do našich hier.",
+          "target": "zmyslova-hra:chu_prenos_ochota#chcem"
+        },
+        {
+          "source": "Rád to vyskúšam, ak po tom túžiš.",
+          "target": "zmyslova-hra:chu_prenos_ochota#ak_chces"
+        },
+        {
+          "source": "Možno, podľa okolností.",
+          "target": "zmyslova-hra:chu_prenos_ochota#mozno"
+        },
+        {
+          "source": "Nie, necítim sa komfortne.",
+          "target": "zmyslova-hra:chu_prenos_ochota#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_prenos_ine"
+    },
+    {
+      "p": 514,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 515,
+      "source": "Kombinácia tekutín s inými chuťami – Kreatívna hra",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_kombinacia_info",
+        "zmyslova-hra:chu_kombinacia_postoj",
+        "zmyslova-hra:chu_kombinacia_postoj_ine",
+        "zmyslova-hra:chu_kombinacia_tekutin"
+      ],
+      "decision": "Zachované telesné tekutiny a všetky príklady chutí; neutrálne vysvetlenie a zdravotný doplnok. Tri zdrojové odpovede oddelené od starej šesťbodovej škály, ktorá ostáva bez migrácie uložených dát.",
+      "options": []
+    },
+    {
+      "p": 516,
+      "source": "\n🌟 Spojenie semena alebo vlhkosti s medom, šľahačkou alebo sladkým sirupom môže priniesť nové vnemy.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_kombinacia_info",
+        "zmyslova-hra:chu_kombinacia_postoj",
+        "zmyslova-hra:chu_kombinacia_postoj_ine",
+        "zmyslova-hra:chu_kombinacia_tekutin"
+      ],
+      "decision": "Zachované telesné tekutiny a všetky príklady chutí; neutrálne vysvetlenie a zdravotný doplnok. Tri zdrojové odpovede oddelené od starej šesťbodovej škály, ktorá ostáva bez migrácie uložených dát.",
+      "options": []
+    },
+    {
+      "p": 517,
+      "source": "Otázka:\nAko sa staviaš ku kombinácii telesných tekutín s inými chuťami?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_kombinacia_info",
+        "zmyslova-hra:chu_kombinacia_postoj",
+        "zmyslova-hra:chu_kombinacia_postoj_ine",
+        "zmyslova-hra:chu_kombinacia_tekutin"
+      ],
+      "decision": "Zachované telesné tekutiny a všetky príklady chutí; neutrálne vysvetlenie a zdravotný doplnok. Tri zdrojové odpovede oddelené od starej šesťbodovej škály, ktorá ostáva bez migrácie uložených dát.",
+      "options": []
+    },
+    {
+      "p": 518,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_kombinacia_info",
+        "zmyslova-hra:chu_kombinacia_postoj",
+        "zmyslova-hra:chu_kombinacia_postoj_ine",
+        "zmyslova-hra:chu_kombinacia_tekutin"
+      ],
+      "decision": "Zachované telesné tekutiny a všetky príklady chutí; neutrálne vysvetlenie a zdravotný doplnok. Tri zdrojové odpovede oddelené od starej šesťbodovej škály, ktorá ostáva bez migrácie uložených dát.",
+      "options": []
+    },
+    {
+      "p": 519,
+      "source": "🔘 Znie to veľmi vzrušujúco.\n🔘 Možno, záleží na nálade.\n🔘 Nie, necítim sa na to.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_kombinacia_info",
+        "zmyslova-hra:chu_kombinacia_postoj",
+        "zmyslova-hra:chu_kombinacia_postoj_ine",
+        "zmyslova-hra:chu_kombinacia_tekutin"
+      ],
+      "decision": "Zachované telesné tekutiny a všetky príklady chutí; neutrálne vysvetlenie a zdravotný doplnok. Tri zdrojové odpovede oddelené od starej šesťbodovej škály, ktorá ostáva bez migrácie uložených dát.",
+      "options": [
+        {
+          "source": "Znie to veľmi vzrušujúco.",
+          "target": "zmyslova-hra:chu_kombinacia_postoj#laka"
+        },
+        {
+          "source": "Možno, záleží na nálade.",
+          "target": "zmyslova-hra:chu_kombinacia_postoj#mozno"
+        },
+        {
+          "source": "Nie, necítim sa na to.",
+          "target": "zmyslova-hra:chu_kombinacia_postoj#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_kombinacia_postoj_ine"
+    },
+    {
+      "p": 520,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_kombinacia_info",
+        "zmyslova-hra:chu_kombinacia_postoj",
+        "zmyslova-hra:chu_kombinacia_postoj_ine",
+        "zmyslova-hra:chu_kombinacia_tekutin"
+      ],
+      "decision": "Zachované telesné tekutiny a všetky príklady chutí; neutrálne vysvetlenie a zdravotný doplnok. Tri zdrojové odpovede oddelené od starej šesťbodovej škály, ktorá ostáva bez migrácie uložených dát.",
+      "options": []
+    },
+    {
+      "p": 521,
+      "source": "🔘 Znie to veľmi vzrušujúco.\n🔘 Možno, záleží na nálade.\n🔘 Nie, necítim sa na to.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_kombinacia_info",
+        "zmyslova-hra:chu_kombinacia_postoj",
+        "zmyslova-hra:chu_kombinacia_postoj_ine",
+        "zmyslova-hra:chu_kombinacia_tekutin"
+      ],
+      "decision": "Zachované telesné tekutiny a všetky príklady chutí; neutrálne vysvetlenie a zdravotný doplnok. Tri zdrojové odpovede oddelené od starej šesťbodovej škály, ktorá ostáva bez migrácie uložených dát.",
+      "options": [
+        {
+          "source": "Znie to veľmi vzrušujúco.",
+          "target": "zmyslova-hra:chu_kombinacia_postoj#laka"
+        },
+        {
+          "source": "Možno, záleží na nálade.",
+          "target": "zmyslova-hra:chu_kombinacia_postoj#mozno"
+        },
+        {
+          "source": "Nie, necítim sa na to.",
+          "target": "zmyslova-hra:chu_kombinacia_postoj#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_kombinacia_postoj_ine"
+    },
+    {
+      "p": 522,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 523,
+      "source": "Ochutnávanie počas bozkov – Prenos chute",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_napoj_info",
+        "zmyslova-hra:chu_napoj_postoj",
+        "zmyslova-hra:chu_napoj_postoj_ine"
+      ],
+      "decision": "Nápoj pri bozku: víno/džús, tri postoje vrátane pripravenosti m/z a Iné; nezlúčené s otázkou o telesných tekutinách.",
+      "options": []
+    },
+    {
+      "p": 524,
+      "source": "\n💋 Jemné prenášanie vína alebo džúsu z úst do úst môže byť elegantné a hravé zároveň.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_napoj_info",
+        "zmyslova-hra:chu_napoj_postoj",
+        "zmyslova-hra:chu_napoj_postoj_ine"
+      ],
+      "decision": "Nápoj pri bozku: víno/džús, tri postoje vrátane pripravenosti m/z a Iné; nezlúčené s otázkou o telesných tekutinách.",
+      "options": []
+    },
+    {
+      "p": 525,
+      "source": "Otázka:\nAko vnímaš prenášanie nápojov bozkami?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_napoj_info",
+        "zmyslova-hra:chu_napoj_postoj",
+        "zmyslova-hra:chu_napoj_postoj_ine"
+      ],
+      "decision": "Nápoj pri bozku: víno/džús, tri postoje vrátane pripravenosti m/z a Iné; nezlúčené s otázkou o telesných tekutinách.",
+      "options": []
+    },
+    {
+      "p": 526,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_napoj_info",
+        "zmyslova-hra:chu_napoj_postoj",
+        "zmyslova-hra:chu_napoj_postoj_ine"
+      ],
+      "decision": "Nápoj pri bozku: víno/džús, tri postoje vrátane pripravenosti m/z a Iné; nezlúčené s otázkou o telesných tekutinách.",
+      "options": []
+    },
+    {
+      "p": 527,
+      "source": "🔘 Veľmi vzrušujúce.\n🔘 Možno, ak budem pripravená.\n🔘 Nie, radšej nie.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_napoj_info",
+        "zmyslova-hra:chu_napoj_postoj",
+        "zmyslova-hra:chu_napoj_postoj_ine"
+      ],
+      "decision": "Nápoj pri bozku: víno/džús, tri postoje vrátane pripravenosti m/z a Iné; nezlúčené s otázkou o telesných tekutinách.",
+      "options": [
+        {
+          "source": "Veľmi vzrušujúce.",
+          "target": "zmyslova-hra:chu_napoj_postoj#laka"
+        },
+        {
+          "source": "Možno, ak budem pripravená.",
+          "target": "zmyslova-hra:chu_napoj_postoj#mozno"
+        },
+        {
+          "source": "Nie, radšej nie.",
+          "target": "zmyslova-hra:chu_napoj_postoj#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_napoj_postoj_ine"
+    },
+    {
+      "p": 528,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_napoj_info",
+        "zmyslova-hra:chu_napoj_postoj",
+        "zmyslova-hra:chu_napoj_postoj_ine"
+      ],
+      "decision": "Nápoj pri bozku: víno/džús, tri postoje vrátane pripravenosti m/z a Iné; nezlúčené s otázkou o telesných tekutinách.",
+      "options": []
+    },
+    {
+      "p": 529,
+      "source": "🔘 Veľmi vzrušujúce.\n🔘 Možno, ak budem pripravený.\n🔘 Nie, radšej nie.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_napoj_info",
+        "zmyslova-hra:chu_napoj_postoj",
+        "zmyslova-hra:chu_napoj_postoj_ine"
+      ],
+      "decision": "Nápoj pri bozku: víno/džús, tri postoje vrátane pripravenosti m/z a Iné; nezlúčené s otázkou o telesných tekutinách.",
+      "options": [
+        {
+          "source": "Veľmi vzrušujúce.",
+          "target": "zmyslova-hra:chu_napoj_postoj#laka"
+        },
+        {
+          "source": "Možno, ak budem pripravený.",
+          "target": "zmyslova-hra:chu_napoj_postoj#mozno"
+        },
+        {
+          "source": "Nie, radšej nie.",
+          "target": "zmyslova-hra:chu_napoj_postoj#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_napoj_postoj_ine"
+    },
+    {
+      "p": 530,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 531,
+      "source": "Alkohol a chuťové experimenty",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_alkohol_info",
+        "zmyslova-hra:chu_alkohol",
+        "zmyslova-hra:chu_alkohol_ine"
+      ],
+      "decision": "Existujúca otázka už pokrýva tri významy; pridané Iné a likéry do vysvetlenia. Hodnoty zachované. Alkohol nie je podmienka ani nástroj presviedčania.",
+      "options": []
+    },
+    {
+      "p": 532,
+      "source": "\n🍾 Víno, šampanské či likéry dodávajú momentom eleganciu a jemný kontrast chutí.",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_alkohol_info",
+        "zmyslova-hra:chu_alkohol",
+        "zmyslova-hra:chu_alkohol_ine"
+      ],
+      "decision": "Existujúca otázka už pokrýva tri významy; pridané Iné a likéry do vysvetlenia. Hodnoty zachované. Alkohol nie je podmienka ani nástroj presviedčania.",
+      "options": []
+    },
+    {
+      "p": 533,
+      "source": "Otázka:\nChcel/a by si zapojiť alkohol do erotických hier?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_alkohol_info",
+        "zmyslova-hra:chu_alkohol",
+        "zmyslova-hra:chu_alkohol_ine"
+      ],
+      "decision": "Existujúca otázka už pokrýva tri významy; pridané Iné a likéry do vysvetlenia. Hodnoty zachované. Alkohol nie je podmienka ani nástroj presviedčania.",
+      "options": []
+    },
+    {
+      "p": 534,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_alkohol_info",
+        "zmyslova-hra:chu_alkohol",
+        "zmyslova-hra:chu_alkohol_ine"
+      ],
+      "decision": "Existujúca otázka už pokrýva tri významy; pridané Iné a likéry do vysvetlenia. Hodnoty zachované. Alkohol nie je podmienka ani nástroj presviedčania.",
+      "options": []
+    },
+    {
+      "p": 535,
+      "source": "🔘 Áno, znie to veľmi vzrušujúco.\n🔘 Možno, ak to bude jemné a bezpečné.\n🔘 Nie, nechcem miešať alkohol a intimitu.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_alkohol_info",
+        "zmyslova-hra:chu_alkohol",
+        "zmyslova-hra:chu_alkohol_ine"
+      ],
+      "decision": "Existujúca otázka už pokrýva tri významy; pridané Iné a likéry do vysvetlenia. Hodnoty zachované. Alkohol nie je podmienka ani nástroj presviedčania.",
+      "options": [
+        {
+          "source": "Áno, znie to veľmi vzrušujúco.",
+          "target": "zmyslova-hra:chu_alkohol#ano"
+        },
+        {
+          "source": "Možno, ak to bude jemné a bezpečné.",
+          "target": "zmyslova-hra:chu_alkohol#mozno_jemne"
+        },
+        {
+          "source": "Nie, nechcem miešať alkohol a intimitu.",
+          "target": "zmyslova-hra:chu_alkohol#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_alkohol_ine"
+    },
+    {
+      "p": 536,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_alkohol_info",
+        "zmyslova-hra:chu_alkohol",
+        "zmyslova-hra:chu_alkohol_ine"
+      ],
+      "decision": "Existujúca otázka už pokrýva tri významy; pridané Iné a likéry do vysvetlenia. Hodnoty zachované. Alkohol nie je podmienka ani nástroj presviedčania.",
+      "options": []
+    },
+    {
+      "p": 537,
+      "source": "🔘 Áno, znie to veľmi vzrušujúco.\n🔘 Možno, ak to bude jemné a bezpečné.\n🔘 Nie, nechcem miešať alkohol a intimitu.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_alkohol_info",
+        "zmyslova-hra:chu_alkohol",
+        "zmyslova-hra:chu_alkohol_ine"
+      ],
+      "decision": "Existujúca otázka už pokrýva tri významy; pridané Iné a likéry do vysvetlenia. Hodnoty zachované. Alkohol nie je podmienka ani nástroj presviedčania.",
+      "options": [
+        {
+          "source": "Áno, znie to veľmi vzrušujúco.",
+          "target": "zmyslova-hra:chu_alkohol#ano"
+        },
+        {
+          "source": "Možno, ak to bude jemné a bezpečné.",
+          "target": "zmyslova-hra:chu_alkohol#mozno_jemne"
+        },
+        {
+          "source": "Nie, nechcem miešať alkohol a intimitu.",
+          "target": "zmyslova-hra:chu_alkohol#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:chu_alkohol_ine"
+    },
+    {
+      "p": 538,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 539,
+      "source": "Bozkávanie s ochutnávaním pokožky",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:chu_co",
+        "zmyslova-hra:chu_kde"
+      ],
+      "decision": "Samostatný nadpis ochutnávania pokožky pokrytý existujúcou voľbou bozky_ochutnavanie a otázkou na miesta tela. Žiadna ďalšia otázka alebo opis v týchto odsekoch nie je.",
+      "options": []
+    },
+    {
+      "p": 540,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    }
+  ]
+}

@@ -1,3 +1,32 @@
+## GLOBAL-003 — odovzdanie P441–P540, 2026-09-18
+
+OWNER Codex; STATUS IMPLEMENTED / REVIEW; súbory uvoľnené. Dávka zapracovaná do zmyslova-hra.ts. Mapa: docs/dotaznik-zdroj-441-540.md + JSON. 100 odsekov, 96 zdrojových možností, 24 polí Iné (vrátane rodových opakovaní); všetko má cieľ v kóde. Doplnené skúsenosti s vôňami/olejmi/masážou, výber a frekvencia prostredia, postoje k jedlu/nápojom/tekutinám, vysvetľujúce texty a overený zdravotný kontext.
+
+Checkpoint implementácie P541. P541–580 už prečítané ako kontext, ešte NEspracované; začať znovu od P541. Žiadna téma nie je globálne uzavretá. Claude: skontroluj významové priradenia a oddelenie skúsenosti od ochoty, nie iba počty; existujúce škály nemigrované, technické TODO odložené. Kontroly všetkých troch máp a celoprojektový typecheck PASS, diff bez chýb; bez browser QA. Prevzatie Claudeom nepotvrdené. Bez commitu, pushu či deployu.
+
+---
+Zdroj DOCX SHA256 opätovne nezmenený. HEAD da9c2c93db9f0d22c805c5697f1eae60aeb94de6 nezmenený. Počty sú zdrojové výskyty, nie počet nových otázok. Súvisle implementované dávky P1–540; mapy sú dôkaz priradenia, nie automatický dôkaz významovej bezchybnosti. Výskumné doplnky a redakčné úpravy sú oddelené v mape dávky.
+
+## GLOBAL-002 — P261–P440 obsahovo dokončené, 2026-09-18
+
+OWNER Codex; STATUS IMPLEMENTED / pripravené na review. Táto sekcia je aktuálny checkpoint: súvisle spracované P1–P440, ďalší odsek P441. P441+ sa nečítalo. Dávka nie je uzavretie tém naprieč celým nesúrodým zdrojom.
+
+Priamo upravené: miesta-prostredie.ts, digitalna-intimita.ts, zmyslova-hra.ts. Podrobná mapa každého odseku, každej možnosti a vlastnej odpovede: docs/dotaznik-zdroj-261-440.json. Čitateľné rozhodnutia, opakovania, redakčné odchýlky a zdroje: docs/dotaznik-zdroj-261-440.md.
+
+Obsah: experimentovanie s miestami vs najlákavejšie prostredie; skúsenosť a ochota pri diskrétnych pomôckach; všetky špecifické miesta vrátane hotelových detailov a chaty; rušivé podnety a občerstvenie; hudobné podklady; komfort, obsah, očakávania, hranice a priebeh spoločného sledovania; prijímané povzbudenie vs vlastné používanie slov; päť postojov k prirodzenej vôni. Všetky explicitné odpovede aj Iné zapracované, zhodné opakovania smerujú na tie isté bloky. Rodové varianty buď neutrálne spoločné, alebo explicitné m/z; ich možnosti majú rovnaké hodnoty. Neodvodzujeme preferenciu z pohlavia.
+
+Výskumné doplnenia: miestny súhrn komunikácie použitý iba ako navigácia, nie dôkaz jeho percent; Planned Parenthood pre rozlíšenie filmu a reálnej intimity, RAINN pre dobrovoľnú dohodu, NCCIH pre opatrnosť pri tvrdeniach o účinkoch aróm. Konkrétne odkazy a obmedzenia načítania sú v mape. Nepodložené tvrdenia pôvodného cuc_info o zaručených účinkoch vôní preformulované na individuálne preferencie. Subjektívna možnosť vnímam ako afrodiziakum zachovaná.
+
+Overenie:
+- PASS node scripts/verify-dotaznik-261-440.cjs: 180 súvislých odsekov, 164 explicitných volieb a 40 polí Iné vrátane opakovaní; platné ciele, možnosti, jedinečné ID, dostupné texty pre obe pohlavia.
+- PASS regresia node scripts/verify-dotaznik-001-260.cjs.
+- PASS npm run typecheck -- --incremental false (celý aktuálny projekt).
+- PASS git diff --check; diff ručne prečítaný. UI v prehliadači netestované. Kontrola mapy dokazuje referencie/počty, významy posúdené samostatným čítaním.
+
+HEAD po dávke nezmenený da9c2c93db9f0d22c805c5697f1eae60aeb94de6. Bez commitu, pushu, DB zmeny alebo deployu od Codexu. Súbory uvoľnené na review.
+Finálne SHA256: miesta-prostredie.ts 634D9D582DDB54094C561777E400025CD6C3CEBCE79143184EB9C929E3B5998F; digitalna-intimita.ts C5E07B83BBC363CDF04A12C9FB4E384AC060CB7B7F823EB9AF68E4A895578E6B; zmyslova-hra.ts 683B8FAA4691211A42F44513D79E0D8AFE757BC7E3194E28290CA7065C96A6D9.
+
+---
 ## GLOBAL-001-COMPLETE — P1–P260 obsahovo spracované do kódu
 
 OWNER Codex; 2026-09-17. STATUS: IMPLEMENTED / pripravené na review tejto dávky. P261+ sa v tejto práci nečítalo. Tento zápis nahrádza staršie PARTIAL a pokyny pokračovať pred dokončením dávky. Neuzatvára celé témy ani bezpečnostné TODO.
