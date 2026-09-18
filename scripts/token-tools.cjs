@@ -1,0 +1,11 @@
+const {spawnSync}=require('node:child_process');
+const path=require('node:path');
+const [tool,...args]=process.argv.slice(2);
+if(!['rtk','qmd'].includes(tool))throw Error('Usage: node scripts/token-tools.cjs rtk|qmd ...');
+const base=path.join(process.env.USERPROFILE,'Documents','Codex','tools');
+const env={...process.env,CLAUDE_CONFIG_DIR:path.join(process.env.USERPROFILE,'.claude'),XDG_CACHE_HOME:path.join(base,'cache'),XDG_CONFIG_HOME:path.join(base,'config')};
+const exe=tool==='rtk'?path.join(base,'rtk','rtk.exe'):process.execPath;
+const argv=tool==='rtk'?args:[path.join(base,'qmd','node_modules','@tobilu','qmd','dist','cli','qmd.js'),...args];
+const result=spawnSync(exe,argv,{env,stdio:'inherit',shell:false});
+if(result.error)throw result.error;
+process.exit(result.status??1);

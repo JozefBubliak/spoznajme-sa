@@ -350,29 +350,57 @@ const DLZKA_TEMPO: Blok = {
     p('dt_tease_denial', 'Vedomé spomalenie — tease & denial, odkladanie penetrácie'),
     p('dt_synchronizacia', 'Sústredenie na dych a synchronizáciu s partnerom'),
     {
-      druh: 'otazka', id: 'dt_pauzy_vnimanie', typ: 'jeden',
-      text: 'Ako vnímam pauzy počas predohry (na bozky, hladenie, pohľad do očí)',
+      druh: 'text',
+      id: 'dt_pauzy_info',
+      telo: 'Pauzy pri predohre alebo počas ďalšej intimity môžu pre niekoho prinášať očakávanie a romantiku, iného rušia alebo frustrujú. Môžu byť chvíľou na bozky, hladenie či pohľad do očí. Účinok nie je zaručený a pauza ani jej ukončenie nemajú byť vynucované.',
+    },
+    {
+      druh: 'otazka',
+      id: 'dt_pauzy_vnimanie',
+      typ: 'jeden',
+      text: 'Ako vnímam pauzy počas intímnych chvíľ (na bozky, hladenie, pohľad do očí)?',
       moznosti: [
         { v: 'milujem', label: 'Milujem ich — pridávajú romantiku a očakávanie' },
-        { v: 'zalezi', label: 'Záleží na situácii' },
-        { v: 'nemam_rad', label: 'Nemám ich rád(a), preferujem plynulé tempo' },
+        { v: 'zalezi', label: 'Záleží na nálade a situácii — občas sú príjemné' },
+        {
+          v: 'nemam_rad',
+          label: { m: 'Nemám ich rád — preferujem plynulé tempo', z: 'Nemám ich rada — preferujem plynulé tempo' },
+        },
       ],
     },
     {
-      druh: 'otazka', id: 'dt_formy_drazdenia', typ: 'viac',
+      druh: 'otazka',
+      id: 'dt_zdrzovanie_zaujem',
+      typ: 'jeden',
+      text: 'Chcem skúsiť techniky dráždenia a zdržovania?',
+      moznosti: [
+        { v: 'ano', label: 'Áno — veľmi ma to láka' },
+        {
+          v: 'mozno',
+          label: { m: 'Možno — rád by som to preskúmal', z: 'Možno — rada by som to preskúmala' },
+        },
+        { v: 'nie', label: 'Nie — takéto hry ma nelákajú' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'dt_formy_drazdenia',
+      typ: 'viac',
       text: 'Formy dráždenia a zdržovania, ktoré mi vyhovujú',
       moznosti: [
         { v: 'bez_priamej_stimulacie', label: 'Jemné dráždenie bez priamej stimulácie (okolo intímnych miest)' },
         { v: 'kratke_pauzy', label: 'Krátke pauzy počas aktu' },
         { v: 'verbalne_drazdenie', label: 'Verbálne dráždenie — opisovanie, čo príde ďalej' },
+        { v: 'kombinacia', label: 'Kombinácia viacerých techník' },
       ],
+      inePovolene: true,
     },
     {
-      druh: 'text', id: 'dt_tipy_zdrzovanie', nadpis: 'Tipy na vyskúšanie', ton: 'info',
-      telo:
-        '„Jemné zdržovanie" — jeden z vás strieda dotyky s náhlymi pauzami, kedy len dýcha na citlivé miesta bez dotyku. ' +
-        '„Spontánne objatie" — počas bežného večera začnite bozkávať krk, odtiahnite sa s úsmevom a nechajte partnera v napätí. ' +
-        '„Kombinovaná predohra" — začnite spoločným kúpeľom, pokračujte masážou a zakončite zdržovaním počas hladenia.',
+      druh: 'text',
+      id: 'dt_tipy_zdrzovanie',
+      nadpis: 'Tipy na vyskúšanie',
+      ton: 'info',
+      telo: 'Po vzájomnej dohode môže mať zdržovanie viac podôb. Jemné zdržovanie: striedanie dotykov a krátkych prestávok, prípadne vnímanie dychu na pokožke bez dotyku. Spontánna blízkosť: bozk na krk počas bežného večera a krátke odtiahnutie s úsmevom, ak je táto hra vítaná. Kombinovaná predohra: spoločný kúpeľ, masáž a prestávky pri hladení.\n\nĎalšou podobou sú bozky a hladenie mimo citlivých miest, krátke zastavenie počas aktu alebo slovné opisovanie možného pokračovania. Osobitnou preferenciou je prerušenie stimulácie tesne pred orgazmom (edging); nemusí vyhovovať tomu, kto má rád bežné pauzy. Podrobnejšie ho nájdeš v téme Tempo, intenzita a orgazmus. Každý môže požiadať o zmenu či ukončenie, bez povinnosti nasledovať scenár.',
     },
     {
       druh: 'otazka', id: 'dt_poradie', typ: 'jeden',
@@ -404,6 +432,37 @@ const MAPA_PREDOHRY: Blok = {
   druh: 'skupina', id: 'mapa_predohry', nadpis: 'Mapa predohry',
   bloky: [
     { druh: 'otazka', id: 'map_co_sa_pocita', typ: 'text', text: 'Čo pre mňa reálne znamená „predohra" (čo sa tam ráta a čo je už „hlavná časť"):' },
+    {
+      druh: 'text',
+      id: 'map_fyzicka_info',
+      telo: 'Predohra zahŕňa atmosféru, prejavy nehy aj telesný kontakt. Bozky na krk, uši, pery či ďalšie časti tela, jemná relaxačná alebo intímna masáž a dotyky na citlivých miestach môžu podporiť očakávanie a emocionálnu blízkosť. Nie sú zárukou túžby ani pripravenosti pokračovať. Rozlíš, čo chceš prijímať a čo poskytovať; nemusí to byť rovnaké.',
+    },
+    {
+      druh: 'otazka',
+      id: 'map_dotyky_prijimam',
+      typ: 'viac',
+      text: 'Aké dotyky alebo techniky najradšej prijímam počas predohry?',
+      moznosti: [
+        { v: 'bozky', label: 'Bozkávanie krku, uší a pier' },
+        { v: 'masaz', label: 'Jemná masáž šije, chrbta alebo stehien' },
+        { v: 'citlive_miesta', label: 'Dotyky na citlivých miestach, napríklad bradavkách alebo vnútorných stehnách' },
+        { v: 'skrabkanie', label: 'Jemné škrabkanie nechtami alebo ľahký dotyk pierkom' },
+      ],
+      inePovolene: true,
+    },
+    {
+      druh: 'otazka',
+      id: 'map_dotyky_poskytujem',
+      typ: 'viac',
+      text: 'Aké dotyky alebo techniky najradšej poskytujem počas predohry?',
+      moznosti: [
+        { v: 'bozky', label: 'Bozkávanie tela druhého' },
+        { v: 'masaz_hladenie', label: 'Masírovanie a jemné hladenie' },
+        { v: 'citlive_miesta', label: 'Dráždenie citlivých miest rukami' },
+        { v: 'kombinacia', label: 'Kombinácia jemnosti a intenzívnejších dotykov' },
+      ],
+      inePovolene: true,
+    },
     {
       druh: 'otazka', id: 'map_dlzka', typ: 'jeden',
       text: 'Ideálna dĺžka predohry',

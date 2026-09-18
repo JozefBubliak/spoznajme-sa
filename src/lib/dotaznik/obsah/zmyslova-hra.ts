@@ -556,13 +556,63 @@ const HMAT: Blok = {
   druh: 'skupina', id: 'hmat', nadpis: 'Hmat, teplota a textúra',
   bloky: [
     {
-      druh: 'otazka', id: 'hma_teplota', typ: 'viac',
+      druh: 'text',
+      id: 'hma_dotyky_info',
+      telo: 'Dotyk môže byť spôsobom blízkosti, no jeho príjemnosť závisí od miesta, intenzity a aktuálnej nálady. Jemné hladenie, tlak, stisk či škrabkanie sú odlišné podnety. To, čo vyhovuje jednému, nemusí vyhovovať druhému; dohodnite sa a reagujte na spätnú väzbu.',
+    },
+    {
+      druh: 'otazka',
+      id: 'hma_dotyky_preferencia',
+      typ: 'jeden',
+      text: 'Aké typy dotykov preferujem?',
+      moznosti: [
+        { v: 'jemne', label: 'Jemné hladkanie prstami alebo pierkom' },
+        { v: 'intenzivne', label: 'Intenzívnejšie stláčanie, napríklad stehien alebo ramien' },
+        { v: 'kombinacia', label: 'Kombinácia jemných a intenzívnych dotykov' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'hma_dotyky_preferencia_ine',
+      typ: 'text',
+      text: 'Preferované dotyky — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'hma_nove_dotyky',
+      typ: 'jeden',
+      text: 'Chcem skúšať nové druhy dotykov a objavovať citlivé miesta druhého?',
+      moznosti: [
+        {
+          v: 'ano',
+          label: { m: 'Áno, rád by som objavoval citlivé miesta druhého', z: 'Áno, rada by som objavovala citlivé miesta druhého' },
+        },
+        { v: 'mozno', label: 'Možno, chcem sa s tým najprv oboznámiť' },
+        { v: 'nie', label: 'Nie, preferujem to, čo už poznám' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'hma_nove_dotyky_ine',
+      typ: 'text',
+      text: 'Nové druhy dotykov — vlastná odpoveď (voliteľné):',
+    },
+    {
+      druh: 'text',
+      id: 'hma_obklady_info',
+      telo: 'Teplý obklad je ďalšou možnosťou vnímania teploty. Má byť príjemne teplý, nie horúci; medzi tepelný zdroj a kožu vložte ochrannú vrstvu a pravidelne kontrolujte pokožku. Pri zníženej citlivosti teplo nepoužívajte. Nejde o odporúčanie liečiť bolesť či poranenie.',
+    },
+    {
+      druh: 'otazka',
+      id: 'hma_teplota',
+      typ: 'viac',
       text: 'Teplotné hry',
       moznosti: [
         { v: 'lad', label: 'Ľad' },
         { v: 'teply_olej', label: 'Teplý olej' },
         { v: 'chladeny_kov', label: 'Chladené kovové predmety (iný pocit než ľad — pomalšie sa zohrievajú)' },
         { v: 'striedanie', label: 'Striedanie teplého a studeného' },
+        { v: 'teply_obklad', label: 'Príjemne teplý obklad s ochrannou vrstvou' },
       ],
     },
     {

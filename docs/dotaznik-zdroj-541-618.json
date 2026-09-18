@@ -1,0 +1,988 @@
+{
+  "range": [
+    541,
+    618
+  ],
+  "sourceDocxSha256": "F9B5B3B747E2D439D50A56BA7ED3C6E34F5E6AFE6C305134EE1918C915BE5AA8",
+  "paragraphs": [
+    {
+      "p": 541,
+      "source": "6.5 Hmat",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hmat",
+        "zmyslova-hra:hma_dotyky_info",
+        "zmyslova-hra:hma_dotyky_preferencia",
+        "zmyslova-hra:hma_dotyky_preferencia_ine"
+      ],
+      "decision": "Tri preferencie: hladenie prstami/pierkom, stláčanie stehien/ramien, kombinácia a Iné. Existujúce dot_jemne/dot_tlak nezisťujú túto celkovú preferenciu; nová otázka.",
+      "options": []
+    },
+    {
+      "p": 542,
+      "source": "Typy dotykov a ich účinok",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hmat",
+        "zmyslova-hra:hma_dotyky_info",
+        "zmyslova-hra:hma_dotyky_preferencia",
+        "zmyslova-hra:hma_dotyky_preferencia_ine"
+      ],
+      "decision": "Tri preferencie: hladenie prstami/pierkom, stláčanie stehien/ramien, kombinácia a Iné. Existujúce dot_jemne/dot_tlak nezisťujú túto celkovú preferenciu; nová otázka.",
+      "options": []
+    },
+    {
+      "p": 543,
+      "source": "\nCez dotyk k hlbšiemu spojeniu",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hmat",
+        "zmyslova-hra:hma_dotyky_info",
+        "zmyslova-hra:hma_dotyky_preferencia",
+        "zmyslova-hra:hma_dotyky_preferencia_ine"
+      ],
+      "decision": "Tri preferencie: hladenie prstami/pierkom, stláčanie stehien/ramien, kombinácia a Iné. Existujúce dot_jemne/dot_tlak nezisťujú túto celkovú preferenciu; nová otázka.",
+      "options": []
+    },
+    {
+      "p": 544,
+      "source": "Otázka:\nAké typy dotykov preferuješ?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hmat",
+        "zmyslova-hra:hma_dotyky_info",
+        "zmyslova-hra:hma_dotyky_preferencia",
+        "zmyslova-hra:hma_dotyky_preferencia_ine"
+      ],
+      "decision": "Tri preferencie: hladenie prstami/pierkom, stláčanie stehien/ramien, kombinácia a Iné. Existujúce dot_jemne/dot_tlak nezisťujú túto celkovú preferenciu; nová otázka.",
+      "options": []
+    },
+    {
+      "p": 545,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hmat",
+        "zmyslova-hra:hma_dotyky_info",
+        "zmyslova-hra:hma_dotyky_preferencia",
+        "zmyslova-hra:hma_dotyky_preferencia_ine"
+      ],
+      "decision": "Tri preferencie: hladenie prstami/pierkom, stláčanie stehien/ramien, kombinácia a Iné. Existujúce dot_jemne/dot_tlak nezisťujú túto celkovú preferenciu; nová otázka.",
+      "options": []
+    },
+    {
+      "p": 546,
+      "source": "🔘 Jemné hladkanie (prstami, pierkami).\n🔘 Intenzívne stláčanie (stehná, ramená).\n🔘 Kombinácia jemných a intenzívnych dotykov.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hmat",
+        "zmyslova-hra:hma_dotyky_info",
+        "zmyslova-hra:hma_dotyky_preferencia",
+        "zmyslova-hra:hma_dotyky_preferencia_ine"
+      ],
+      "decision": "Tri preferencie: hladenie prstami/pierkom, stláčanie stehien/ramien, kombinácia a Iné. Existujúce dot_jemne/dot_tlak nezisťujú túto celkovú preferenciu; nová otázka.",
+      "options": [
+        {
+          "source": "Jemné hladkanie (prstami, pierkami).",
+          "target": "zmyslova-hra:hma_dotyky_preferencia#jemne"
+        },
+        {
+          "source": "Intenzívne stláčanie (stehná, ramená).",
+          "target": "zmyslova-hra:hma_dotyky_preferencia#intenzivne"
+        },
+        {
+          "source": "Kombinácia jemných a intenzívnych dotykov.",
+          "target": "zmyslova-hra:hma_dotyky_preferencia#kombinacia"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:hma_dotyky_preferencia_ine"
+    },
+    {
+      "p": 547,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hmat",
+        "zmyslova-hra:hma_dotyky_info",
+        "zmyslova-hra:hma_dotyky_preferencia",
+        "zmyslova-hra:hma_dotyky_preferencia_ine"
+      ],
+      "decision": "Tri preferencie: hladenie prstami/pierkom, stláčanie stehien/ramien, kombinácia a Iné. Existujúce dot_jemne/dot_tlak nezisťujú túto celkovú preferenciu; nová otázka.",
+      "options": []
+    },
+    {
+      "p": 548,
+      "source": "🔘 Jemné hladkanie (prstami, pierkami).\n🔘 Intenzívne stláčanie (stehná, ramená).\n🔘 Kombinácia jemných a intenzívnych dotykov.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hmat",
+        "zmyslova-hra:hma_dotyky_info",
+        "zmyslova-hra:hma_dotyky_preferencia",
+        "zmyslova-hra:hma_dotyky_preferencia_ine"
+      ],
+      "decision": "Tri preferencie: hladenie prstami/pierkom, stláčanie stehien/ramien, kombinácia a Iné. Existujúce dot_jemne/dot_tlak nezisťujú túto celkovú preferenciu; nová otázka.",
+      "options": [
+        {
+          "source": "Jemné hladkanie (prstami, pierkami).",
+          "target": "zmyslova-hra:hma_dotyky_preferencia#jemne"
+        },
+        {
+          "source": "Intenzívne stláčanie (stehná, ramená).",
+          "target": "zmyslova-hra:hma_dotyky_preferencia#intenzivne"
+        },
+        {
+          "source": "Kombinácia jemných a intenzívnych dotykov.",
+          "target": "zmyslova-hra:hma_dotyky_preferencia#kombinacia"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:hma_dotyky_preferencia_ine"
+    },
+    {
+      "p": 549,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 550,
+      "source": "Otázka:\nChcel/a by si skúšať nové druhy dotykov?",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hma_nove_dotyky",
+        "zmyslova-hra:hma_nove_dotyky_ine"
+      ],
+      "decision": "Záujem objavovať citlivé miesta druhého, oboznámiť sa, alebo zostať pri známom. Mužská/ženská formulácia bez predpokladu pohlavia druhého; všetky tri odpovede a Iné.",
+      "options": []
+    },
+    {
+      "p": 551,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hma_nove_dotyky",
+        "zmyslova-hra:hma_nove_dotyky_ine"
+      ],
+      "decision": "Záujem objavovať citlivé miesta druhého, oboznámiť sa, alebo zostať pri známom. Mužská/ženská formulácia bez predpokladu pohlavia druhého; všetky tri odpovede a Iné.",
+      "options": []
+    },
+    {
+      "p": 552,
+      "source": "🔘 Áno, rada by som objavila citlivé miesta partnera.\n🔘 Možno, chcem sa s tým oboznámiť.\n🔘 Nie, preferujem to, čo už poznám.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hma_nove_dotyky",
+        "zmyslova-hra:hma_nove_dotyky_ine"
+      ],
+      "decision": "Záujem objavovať citlivé miesta druhého, oboznámiť sa, alebo zostať pri známom. Mužská/ženská formulácia bez predpokladu pohlavia druhého; všetky tri odpovede a Iné.",
+      "options": [
+        {
+          "source": "Áno, rada by som objavila citlivé miesta partnera.",
+          "target": "zmyslova-hra:hma_nove_dotyky#ano"
+        },
+        {
+          "source": "Možno, chcem sa s tým oboznámiť.",
+          "target": "zmyslova-hra:hma_nove_dotyky#mozno"
+        },
+        {
+          "source": "Nie, preferujem to, čo už poznám.",
+          "target": "zmyslova-hra:hma_nove_dotyky#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:hma_nove_dotyky_ine"
+    },
+    {
+      "p": 553,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hma_nove_dotyky",
+        "zmyslova-hra:hma_nove_dotyky_ine"
+      ],
+      "decision": "Záujem objavovať citlivé miesta druhého, oboznámiť sa, alebo zostať pri známom. Mužská/ženská formulácia bez predpokladu pohlavia druhého; všetky tri odpovede a Iné.",
+      "options": []
+    },
+    {
+      "p": 554,
+      "source": "🔘 Áno, rád by som objavil citlivé miesta partnerky.\n🔘 Možno, chcem sa s tým oboznámiť.\n🔘 Nie, preferujem to, čo už poznám.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hma_nove_dotyky",
+        "zmyslova-hra:hma_nove_dotyky_ine"
+      ],
+      "decision": "Záujem objavovať citlivé miesta druhého, oboznámiť sa, alebo zostať pri známom. Mužská/ženská formulácia bez predpokladu pohlavia druhého; všetky tri odpovede a Iné.",
+      "options": [
+        {
+          "source": "Áno, rád by som objavil citlivé miesta partnerky.",
+          "target": "zmyslova-hra:hma_nove_dotyky#ano"
+        },
+        {
+          "source": "Možno, chcem sa s tým oboznámiť.",
+          "target": "zmyslova-hra:hma_nove_dotyky#mozno"
+        },
+        {
+          "source": "Nie, preferujem to, čo už poznám.",
+          "target": "zmyslova-hra:hma_nove_dotyky#nie"
+        }
+      ],
+      "ownAnswer": "zmyslova-hra:hma_nove_dotyky_ine"
+    },
+    {
+      "p": 555,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 556,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 557,
+      "source": "Jemné hladenie",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hma_dotyky_info",
+        "bozky-dotyky:dot_jemne",
+        "bozky-dotyky:dot_tlak"
+      ],
+      "decision": "Krátke položky hladenie/tlak/stisk/škrabanie: existujúci konkrétny obsah pokrýva dot_jemne a dot_tlak; vysvetlenie v hma_dotyky_info. Nevytvárať ďalšiu zhodnú otázku.",
+      "options": []
+    },
+    {
+      "p": 558,
+      "source": "Tlak, stisk, škrabanie",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hma_dotyky_info",
+        "bozky-dotyky:dot_jemne",
+        "bozky-dotyky:dot_tlak"
+      ],
+      "decision": "Krátke položky hladenie/tlak/stisk/škrabanie: existujúci konkrétny obsah pokrýva dot_jemne a dot_tlak; vysvetlenie v hma_dotyky_info. Nevytvárať ďalšiu zhodnú otázku.",
+      "options": []
+    },
+    {
+      "p": 559,
+      "source": "Teplé/kryté obklady",
+      "status": "spracovane",
+      "targets": [
+        "zmyslova-hra:hma_teplota",
+        "zmyslova-hra:hma_obklady_info"
+      ],
+      "decision": "Doslovné Teplé/kryté obklady je nejasná pracovná poznámka. Zachovaný výslovný teplý obklad a krytie ochrannou vrstvou; bez domýšľania, že kryté znamená studené. Ochranná vrstva a limity tepla sú externé bezpečnostné doplnenie, nie rozlúštenie autorovho úmyslu.",
+      "options": []
+    },
+    {
+      "p": 560,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 561,
+      "source": "💠 Fyzická predohra",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_fyzicka_info",
+        "predohra-naladenie:map_dotyky_prijimam",
+        "predohra-naladenie:map_dotyky_poskytujem"
+      ],
+      "decision": "Atmosféra, telesná aj emocionálna blízkosť; bozky krku/uší/tela, relaxačná/intímna masáž, bradavky/vnútorné stehná. Poetické záruky nahradené možným individuálnym účinkom.",
+      "options": []
+    },
+    {
+      "p": 562,
+      "source": "Popis:\nPredohra je nielen o dotykoch, ale o budovaní atmosféry. Jemné dotyky, masáže a bozkávanie pomáhajú prehĺbiť emocionálne spojenie.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_fyzicka_info",
+        "predohra-naladenie:map_dotyky_prijimam",
+        "predohra-naladenie:map_dotyky_poskytujem"
+      ],
+      "decision": "Atmosféra, telesná aj emocionálna blízkosť; bozky krku/uší/tela, relaxačná/intímna masáž, bradavky/vnútorné stehná. Poetické záruky nahradené možným individuálnym účinkom.",
+      "options": []
+    },
+    {
+      "p": 563,
+      "source": "Najčastejšie techniky:\n• Bozkávanie krku, uší a tela\n• Jemné masáže (relaxačné alebo erotické)\n• Dotyky na citlivých miestach – bradavky, vnútorné stehná",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_fyzicka_info",
+        "predohra-naladenie:map_dotyky_prijimam",
+        "predohra-naladenie:map_dotyky_poskytujem"
+      ],
+      "decision": "Atmosféra, telesná aj emocionálna blízkosť; bozky krku/uší/tela, relaxačná/intímna masáž, bradavky/vnútorné stehná. Poetické záruky nahradené možným individuálnym účinkom.",
+      "options": []
+    },
+    {
+      "p": 564,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 565,
+      "source": "💠 Predohra a emocionálne prepojenie: Budovanie túžby a vášne",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_fyzicka_info",
+        "predohra-naladenie:map_dotyky_prijimam",
+        "predohra-naladenie:map_dotyky_poskytujem"
+      ],
+      "decision": "Atmosféra, telesná aj emocionálna blízkosť; bozky krku/uší/tela, relaxačná/intímna masáž, bradavky/vnútorné stehná. Poetické záruky nahradené možným individuálnym účinkom.",
+      "options": []
+    },
+    {
+      "p": 566,
+      "source": "Úvod:\nPredohra nie je len o fyzickom kontakte – je to cesta, ktorá vedie k intenzívnemu emocionálnemu prepojeniu. Každý dotyk a gesto je mostom k hlbšiemu prežívaniu vášne.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_fyzicka_info",
+        "predohra-naladenie:map_dotyky_prijimam",
+        "predohra-naladenie:map_dotyky_poskytujem"
+      ],
+      "decision": "Atmosféra, telesná aj emocionálna blízkosť; bozky krku/uší/tela, relaxačná/intímna masáž, bradavky/vnútorné stehná. Poetické záruky nahradené možným individuálnym účinkom.",
+      "options": []
+    },
+    {
+      "p": 567,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 568,
+      "source": "Spoločné aktivity ako predohra",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Päť aktivít vrátane tanca v spálni a prechádzky už existovalo v akt_ktore. Použité rovnaké ID/voľby a Iné, doplnené detaily listov a tanca, text o naladení aj bez pokračovania k sexu. Žiadna nová duplicitná otázka.",
+      "options": []
+    },
+    {
+      "p": 569,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 570,
+      "source": "✨ Úvod",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Päť aktivít vrátane tanca v spálni a prechádzky už existovalo v akt_ktore. Použité rovnaké ID/voľby a Iné, doplnené detaily listov a tanca, text o naladení aj bez pokračovania k sexu. Žiadna nová duplicitná otázka.",
+      "options": []
+    },
+    {
+      "p": 571,
+      "source": "Spoločné chvíle mimo spálne dokážu vytvoriť atmosféru intimity a emocionálne prepojenie, ktoré vás prirodzene naladia na vášnivé chvíle. Môžu byť jemné, hravé alebo aj zmyselne provokatívne.",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Päť aktivít vrátane tanca v spálni a prechádzky už existovalo v akt_ktore. Použité rovnaké ID/voľby a Iné, doplnené detaily listov a tanca, text o naladení aj bez pokračovania k sexu. Žiadna nová duplicitná otázka.",
+      "options": []
+    },
+    {
+      "p": 572,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 573,
+      "source": "💠 Otázky pre oboch",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Päť aktivít vrátane tanca v spálni a prechádzky už existovalo v akt_ktore. Použité rovnaké ID/voľby a Iné, doplnené detaily listov a tanca, text o naladení aj bez pokračovania k sexu. Žiadna nová duplicitná otázka.",
+      "options": []
+    },
+    {
+      "p": 574,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 575,
+      "source": "1️⃣ Ktoré spoločné aktivity ťa najviac vzrušujú ako súčasť predohry?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Päť aktivít vrátane tanca v spálni a prechádzky už existovalo v akt_ktore. Použité rovnaké ID/voľby a Iné, doplnené detaily listov a tanca, text o naladení aj bez pokračovania k sexu. Žiadna nová duplicitná otázka.",
+      "options": []
+    },
+    {
+      "p": 576,
+      "source": "(môžeš vybrať viac možností)",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Päť aktivít vrátane tanca v spálni a prechádzky už existovalo v akt_ktore. Použité rovnaké ID/voľby a Iné, doplnené detaily listov a tanca, text o naladení aj bez pokračovania k sexu. Žiadna nová duplicitná otázka.",
+      "options": []
+    },
+    {
+      "p": 577,
+      "source": "🔘 🍳 Spoločná príprava večere (s hravým a flirtujúcim podtónom).\n🔘 🛁 Kúpeľ s bublinkami, aromatickými olejmi a sviečkami.\n🔘 ✍️ Písanie erotických listov alebo lístočkov.\n🔘 🎶 Spoločný tanec (napr. pomalý tanec v spálni).\n🔘 🌿 Prechádzka spojená s dotykmi a bozky na verejnosti.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Päť aktivít vrátane tanca v spálni a prechádzky už existovalo v akt_ktore. Použité rovnaké ID/voľby a Iné, doplnené detaily listov a tanca, text o naladení aj bez pokračovania k sexu. Žiadna nová duplicitná otázka.",
+      "options": [
+        {
+          "source": "🍳 Spoločná príprava večere (s hravým a flirtujúcim podtónom).",
+          "target": "dlhodoba-intimita:akt_ktore#varenie_flirt"
+        },
+        {
+          "source": "🛁 Kúpeľ s bublinkami, aromatickými olejmi a sviečkami.",
+          "target": "dlhodoba-intimita:akt_ktore#kupel_sviecky"
+        },
+        {
+          "source": "✍️ Písanie erotických listov alebo lístočkov.",
+          "target": "dlhodoba-intimita:akt_ktore#eroticke_listy"
+        },
+        {
+          "source": "🎶 Spoločný tanec (napr. pomalý tanec v spálni).",
+          "target": "dlhodoba-intimita:akt_ktore#tanec"
+        },
+        {
+          "source": "🌿 Prechádzka spojená s dotykmi a bozky na verejnosti.",
+          "target": "dlhodoba-intimita:akt_ktore#prechadzka_dotyky"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:akt_ktore@ine"
+    },
+    {
+      "p": 578,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 579,
+      "source": "2️⃣ Chceš, aby tieto aktivity boli súčasťou pravidelného programu?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_pravidelny_program",
+        "dlhodoba-intimita:akt_pravidelny_program_ine"
+      ],
+      "decision": "Pravidelne/občas/neláka a Iné. Pôvodné akt_frekvencia nemá odmietnutie a p akt_zaviest mieša skúsenosť so záujmom; nová presná otázka bez migrácie starých hodnôt.",
+      "options": []
+    },
+    {
+      "p": 580,
+      "source": "🔘 🌟 Áno – rád/rada by som ich zažíval/a pravidelne.\n🔘 🔄 Občas – podľa nálady alebo príležitosti.\n🔘 ❌ Nie – tieto aktivity ma nelákajú.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_pravidelny_program",
+        "dlhodoba-intimita:akt_pravidelny_program_ine"
+      ],
+      "decision": "Pravidelne/občas/neláka a Iné. Pôvodné akt_frekvencia nemá odmietnutie a p akt_zaviest mieša skúsenosť so záujmom; nová presná otázka bez migrácie starých hodnôt.",
+      "options": [
+        {
+          "source": "🌟 Áno – rád/rada by som ich zažíval/a pravidelne.",
+          "target": "dlhodoba-intimita:akt_pravidelny_program#pravidelne"
+        },
+        {
+          "source": "🔄 Občas – podľa nálady alebo príležitosti.",
+          "target": "dlhodoba-intimita:akt_pravidelny_program#obcas"
+        },
+        {
+          "source": "❌ Nie – tieto aktivity ma nelákajú.",
+          "target": "dlhodoba-intimita:akt_pravidelny_program#nie"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:akt_pravidelny_program_ine"
+    },
+    {
+      "p": 581,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 582,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 583,
+      "source": "🌿 Spoločné aktivity ako predohra",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Rodové opakovanie prvých troch aktivít z P577; rovnaké existujúce voľby. List/poznámka pre druhého zachováva obe formulácie bez heterosexuálneho predpokladu. Tu nie je explicitné Iné, existujúce pole však zostáva dostupné.",
+      "options": []
+    },
+    {
+      "p": 584,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 585,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 586,
+      "source": "Spoločné chvíle, ktoré podporujú emocionálne aj fyzické spojenie",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Rodové opakovanie prvých troch aktivít z P577; rovnaké existujúce voľby. List/poznámka pre druhého zachováva obe formulácie bez heterosexuálneho predpokladu. Tu nie je explicitné Iné, existujúce pole však zostáva dostupné.",
+      "options": []
+    },
+    {
+      "p": 587,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 588,
+      "source": "1️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Rodové opakovanie prvých troch aktivít z P577; rovnaké existujúce voľby. List/poznámka pre druhého zachováva obe formulácie bez heterosexuálneho predpokladu. Tu nie je explicitné Iné, existujúce pole však zostáva dostupné.",
+      "options": []
+    },
+    {
+      "p": 589,
+      "source": "Ktoré spoločné aktivity mimo spálne ťa najviac vzrušujú? (môžeš vybrať viac možností)",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Rodové opakovanie prvých troch aktivít z P577; rovnaké existujúce voľby. List/poznámka pre druhého zachováva obe formulácie bez heterosexuálneho predpokladu. Tu nie je explicitné Iné, existujúce pole však zostáva dostupné.",
+      "options": []
+    },
+    {
+      "p": 590,
+      "source": "🔘 🍳 Spoločná príprava večere s hravým, flirtujúcim podtónom\n🔘 🛁 Kúpeľ s bublinkami, aromatickými olejmi alebo sviečkami\n🔘 ✍️ Písanie erotických listov alebo poznámok pre partnera",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Rodové opakovanie prvých troch aktivít z P577; rovnaké existujúce voľby. List/poznámka pre druhého zachováva obe formulácie bez heterosexuálneho predpokladu. Tu nie je explicitné Iné, existujúce pole však zostáva dostupné.",
+      "options": [
+        {
+          "source": "🍳 Spoločná príprava večere s hravým, flirtujúcim podtónom",
+          "target": "dlhodoba-intimita:akt_ktore#varenie_flirt"
+        },
+        {
+          "source": "🛁 Kúpeľ s bublinkami, aromatickými olejmi alebo sviečkami",
+          "target": "dlhodoba-intimita:akt_ktore#kupel_sviecky"
+        },
+        {
+          "source": "✍️ Písanie erotických listov alebo poznámok pre partnera",
+          "target": "dlhodoba-intimita:akt_ktore#eroticke_listy"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:akt_ktore@ine"
+    },
+    {
+      "p": 591,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 592,
+      "source": "1️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Rodové opakovanie prvých troch aktivít z P577; rovnaké existujúce voľby. List/poznámka pre druhého zachováva obe formulácie bez heterosexuálneho predpokladu. Tu nie je explicitné Iné, existujúce pole však zostáva dostupné.",
+      "options": []
+    },
+    {
+      "p": 593,
+      "source": "Ktoré spoločné aktivity mimo spálne ťa najviac vzrušujú? (môžeš vybrať viac možností)",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Rodové opakovanie prvých troch aktivít z P577; rovnaké existujúce voľby. List/poznámka pre druhého zachováva obe formulácie bez heterosexuálneho predpokladu. Tu nie je explicitné Iné, existujúce pole však zostáva dostupné.",
+      "options": []
+    },
+    {
+      "p": 594,
+      "source": "🔘 🍳 Spoločná príprava večere s hravým, flirtujúcim podtónom\n🔘 🛁 Kúpeľ s bublinkami, aromatickými olejmi alebo sviečkami\n🔘 ✍️ Písanie erotických listov alebo poznámok pre partnerku",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_info",
+        "dlhodoba-intimita:akt_ktore"
+      ],
+      "decision": "Rodové opakovanie prvých troch aktivít z P577; rovnaké existujúce voľby. List/poznámka pre druhého zachováva obe formulácie bez heterosexuálneho predpokladu. Tu nie je explicitné Iné, existujúce pole však zostáva dostupné.",
+      "options": [
+        {
+          "source": "🍳 Spoločná príprava večere s hravým, flirtujúcim podtónom",
+          "target": "dlhodoba-intimita:akt_ktore#varenie_flirt"
+        },
+        {
+          "source": "🛁 Kúpeľ s bublinkami, aromatickými olejmi alebo sviečkami",
+          "target": "dlhodoba-intimita:akt_ktore#kupel_sviecky"
+        },
+        {
+          "source": "✍️ Písanie erotických listov alebo poznámok pre partnerku",
+          "target": "dlhodoba-intimita:akt_ktore#eroticke_listy"
+        }
+      ],
+      "ownAnswer": "dlhodoba-intimita:akt_ktore@ine"
+    },
+    {
+      "p": 595,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 596,
+      "source": "2️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_pravidelny_program",
+        "dlhodoba-intimita:akt_pravidelny_program_ine"
+      ],
+      "decision": "Rodové opakovanie otázky na pravidelný program, tie isté tri možnosti. Nové otázky nevznikajú.",
+      "options": []
+    },
+    {
+      "p": 597,
+      "source": "Chcela by si, aby tieto aktivity boli súčasťou pravidelného programu?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_pravidelny_program",
+        "dlhodoba-intimita:akt_pravidelny_program_ine"
+      ],
+      "decision": "Rodové opakovanie otázky na pravidelný program, tie isté tri možnosti. Nové otázky nevznikajú.",
+      "options": []
+    },
+    {
+      "p": 598,
+      "source": "🔘 🌟 Áno – chcela by som ich zažívať pravidelne\n🔘 🔄 Občas, podľa nálady\n🔘 ❌ Nie, takéto aktivity ma nelákajú",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_pravidelny_program",
+        "dlhodoba-intimita:akt_pravidelny_program_ine"
+      ],
+      "decision": "Rodové opakovanie otázky na pravidelný program, tie isté tri možnosti. Nové otázky nevznikajú.",
+      "options": [
+        {
+          "source": "🌟 Áno – chcela by som ich zažívať pravidelne",
+          "target": "dlhodoba-intimita:akt_pravidelny_program#pravidelne"
+        },
+        {
+          "source": "🔄 Občas, podľa nálady",
+          "target": "dlhodoba-intimita:akt_pravidelny_program#obcas"
+        },
+        {
+          "source": "❌ Nie, takéto aktivity ma nelákajú",
+          "target": "dlhodoba-intimita:akt_pravidelny_program#nie"
+        }
+      ]
+    },
+    {
+      "p": 599,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 600,
+      "source": "2️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_pravidelny_program",
+        "dlhodoba-intimita:akt_pravidelny_program_ine"
+      ],
+      "decision": "Rodové opakovanie otázky na pravidelný program, tie isté tri možnosti. Nové otázky nevznikajú.",
+      "options": []
+    },
+    {
+      "p": 601,
+      "source": "Chcel by si, aby tieto aktivity boli súčasťou pravidelného programu?",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_pravidelny_program",
+        "dlhodoba-intimita:akt_pravidelny_program_ine"
+      ],
+      "decision": "Rodové opakovanie otázky na pravidelný program, tie isté tri možnosti. Nové otázky nevznikajú.",
+      "options": []
+    },
+    {
+      "p": 602,
+      "source": "🔘 🌟 Áno – chcel by som ich zažívať pravidelne\n🔘 🔄 Občas, podľa nálady\n🔘 ❌ Nie, takéto aktivity ma nelákajú",
+      "status": "spracovane",
+      "targets": [
+        "dlhodoba-intimita:akt_pravidelny_program",
+        "dlhodoba-intimita:akt_pravidelny_program_ine"
+      ],
+      "decision": "Rodové opakovanie otázky na pravidelný program, tie isté tri možnosti. Nové otázky nevznikajú.",
+      "options": [
+        {
+          "source": "🌟 Áno – chcel by som ich zažívať pravidelne",
+          "target": "dlhodoba-intimita:akt_pravidelny_program#pravidelne"
+        },
+        {
+          "source": "🔄 Občas, podľa nálady",
+          "target": "dlhodoba-intimita:akt_pravidelny_program#obcas"
+        },
+        {
+          "source": "❌ Nie, takéto aktivity ma nelákajú",
+          "target": "dlhodoba-intimita:akt_pravidelny_program#nie"
+        }
+      ]
+    },
+    {
+      "p": 603,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 604,
+      "source": "Fyzická predohra a prejavy nehy",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_fyzicka_info"
+      ],
+      "decision": "Fyzická predohra/neha, postupné očakávanie a blízkosť. Text vysvetľuje možnosť, nie povinné vzrušenie/pripravenosť tela.",
+      "options": []
+    },
+    {
+      "p": 605,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 606,
+      "source": "✨ Úvod",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_fyzicka_info"
+      ],
+      "decision": "Fyzická predohra/neha, postupné očakávanie a blízkosť. Text vysvetľuje možnosť, nie povinné vzrušenie/pripravenosť tela.",
+      "options": []
+    },
+    {
+      "p": 607,
+      "source": "Fyzická predohra je cesta k postupnému budovaniu túžby. Jemné dotyky a bozkávanie dokážu zintenzívniť očakávanie a pripraviť telo na hlbšie zážitky.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_fyzicka_info"
+      ],
+      "decision": "Fyzická predohra/neha, postupné očakávanie a blízkosť. Text vysvetľuje možnosť, nie povinné vzrušenie/pripravenosť tela.",
+      "options": []
+    },
+    {
+      "p": 608,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 609,
+      "source": "💠 Otázky pre oboch",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_fyzicka_info"
+      ],
+      "decision": "Fyzická predohra/neha, postupné očakávanie a blízkosť. Text vysvetľuje možnosť, nie povinné vzrušenie/pripravenosť tela.",
+      "options": []
+    },
+    {
+      "p": 610,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 611,
+      "source": "1️⃣ Aké dotyky alebo techniky najradšej prijímaš počas predohry?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_dotyky_prijimam"
+      ],
+      "decision": "Prijímanie: bozky krku/uší/pier; masáž šije/chrbta/stehien; bradavky/vnútorné stehná; nechty/pierko, Iné. Pierko redakčne označené ľahký dotyk, nie škrabanie.",
+      "options": []
+    },
+    {
+      "p": 612,
+      "source": "(môžeš vybrať viac možností)",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_dotyky_prijimam"
+      ],
+      "decision": "Prijímanie: bozky krku/uší/pier; masáž šije/chrbta/stehien; bradavky/vnútorné stehná; nechty/pierko, Iné. Pierko redakčne označené ľahký dotyk, nie škrabanie.",
+      "options": []
+    },
+    {
+      "p": 613,
+      "source": "🔘 💋 Bozkávanie krku, uší a pier.\n🔘 💆 Jemná masáž šije, chrbta alebo stehien.\n🔘 🖐️ Dotyky na citlivých miestach (bradavky, vnútorné stehná).\n🔘 🪶 Jemné škrabkanie nechtami alebo pierkom.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_dotyky_prijimam"
+      ],
+      "decision": "Prijímanie: bozky krku/uší/pier; masáž šije/chrbta/stehien; bradavky/vnútorné stehná; nechty/pierko, Iné. Pierko redakčne označené ľahký dotyk, nie škrabanie.",
+      "options": [
+        {
+          "source": "💋 Bozkávanie krku, uší a pier.",
+          "target": "predohra-naladenie:map_dotyky_prijimam#bozky"
+        },
+        {
+          "source": "💆 Jemná masáž šije, chrbta alebo stehien.",
+          "target": "predohra-naladenie:map_dotyky_prijimam#masaz"
+        },
+        {
+          "source": "🖐️ Dotyky na citlivých miestach (bradavky, vnútorné stehná).",
+          "target": "predohra-naladenie:map_dotyky_prijimam#citlive_miesta"
+        },
+        {
+          "source": "🪶 Jemné škrabkanie nechtami alebo pierkom.",
+          "target": "predohra-naladenie:map_dotyky_prijimam#skrabkanie"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:map_dotyky_prijimam@ine"
+    },
+    {
+      "p": 614,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 615,
+      "source": "2️⃣ Aké dotyky alebo techniky najradšej poskytuješ počas predohry?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_dotyky_poskytujem"
+      ],
+      "decision": "Poskytovanie: bozkávanie tela, masáž/hladenie, citlivé miesta rukami, kombinácia intenzít, Iné. Nezlúčené s prijímaním, iniciatívou alebo všeobecnou obľubou masáže.",
+      "options": []
+    },
+    {
+      "p": 616,
+      "source": "🔘 💋 Bozkávanie tela partnera.\n🔘 💆 Masírovanie a jemné hladenie.\n🔘 🖐️ Dráždenie citlivých miest rukami.\n🔘 🔥 Kombinácia jemnosti a intenzívnejších dotykov.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:map_dotyky_poskytujem"
+      ],
+      "decision": "Poskytovanie: bozkávanie tela, masáž/hladenie, citlivé miesta rukami, kombinácia intenzít, Iné. Nezlúčené s prijímaním, iniciatívou alebo všeobecnou obľubou masáže.",
+      "options": [
+        {
+          "source": "💋 Bozkávanie tela partnera.",
+          "target": "predohra-naladenie:map_dotyky_poskytujem#bozky"
+        },
+        {
+          "source": "💆 Masírovanie a jemné hladenie.",
+          "target": "predohra-naladenie:map_dotyky_poskytujem#masaz_hladenie"
+        },
+        {
+          "source": "🖐️ Dráždenie citlivých miest rukami.",
+          "target": "predohra-naladenie:map_dotyky_poskytujem#citlive_miesta"
+        },
+        {
+          "source": "🔥 Kombinácia jemnosti a intenzívnejších dotykov.",
+          "target": "predohra-naladenie:map_dotyky_poskytujem#kombinacia"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:map_dotyky_poskytujem@ine"
+    },
+    {
+      "p": 617,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 618,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    }
+  ]
+}

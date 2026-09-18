@@ -1,0 +1,758 @@
+{
+  "range": [
+    619,
+    680
+  ],
+  "sourceDocxSha256": "F9B5B3B747E2D439D50A56BA7ED3C6E34F5E6AFE6C305134EE1918C915BE5AA8",
+  "paragraphs": [
+    {
+      "p": 619,
+      "source": "Budovanie napätia a zdržovanie",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Text o pauzách a tri postoje. Existujúca otázka rozšírená z predohry na intímne chvíle podľa zdroja, hodnoty ostávajú; žiadne tvrdenie o garantovanom účinku.",
+      "options": []
+    },
+    {
+      "p": 620,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 621,
+      "source": "✨ Úvod",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Text o pauzách a tri postoje. Existujúca otázka rozšírená z predohry na intímne chvíle podľa zdroja, hodnoty ostávajú; žiadne tvrdenie o garantovanom účinku.",
+      "options": []
+    },
+    {
+      "p": 622,
+      "source": "Zdržovanie a pauzy počas predohry či aktu sú silným nástrojom na prehĺbenie túžby a predĺženie rozkoše. Niektoré páry tieto techniky milujú, iné dávajú prednosť plynulej dynamike.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Text o pauzách a tri postoje. Existujúca otázka rozšírená z predohry na intímne chvíle podľa zdroja, hodnoty ostávajú; žiadne tvrdenie o garantovanom účinku.",
+      "options": []
+    },
+    {
+      "p": 623,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 624,
+      "source": "💠 Otázky pre oboch",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Text o pauzách a tri postoje. Existujúca otázka rozšírená z predohry na intímne chvíle podľa zdroja, hodnoty ostávajú; žiadne tvrdenie o garantovanom účinku.",
+      "options": []
+    },
+    {
+      "p": 625,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 626,
+      "source": "1️⃣ Ako vnímaš pauzy počas intímnych chvíľ (na bozky, hladenie, pohľad do očí)?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Text o pauzách a tri postoje. Existujúca otázka rozšírená z predohry na intímne chvíle podľa zdroja, hodnoty ostávajú; žiadne tvrdenie o garantovanom účinku.",
+      "options": []
+    },
+    {
+      "p": 627,
+      "source": "🔘 💞 Milujem ich – pridávajú romantiku a očakávanie.\n🔘 🤔 Záleží na situácii – občas sú príjemné.\n🔘 ⏩ Nemám ich rád/a – preferujem plynulé tempo.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Text o pauzách a tri postoje. Existujúca otázka rozšírená z predohry na intímne chvíle podľa zdroja, hodnoty ostávajú; žiadne tvrdenie o garantovanom účinku.",
+      "options": [
+        {
+          "source": "💞 Milujem ich – pridávajú romantiku a očakávanie.",
+          "target": "predohra-naladenie:dt_pauzy_vnimanie#milujem"
+        },
+        {
+          "source": "🤔 Záleží na situácii – občas sú príjemné.",
+          "target": "predohra-naladenie:dt_pauzy_vnimanie#zalezi"
+        },
+        {
+          "source": "⏩ Nemám ich rád/a – preferujem plynulé tempo.",
+          "target": "predohra-naladenie:dt_pauzy_vnimanie#nemam_rad"
+        }
+      ]
+    },
+    {
+      "p": 628,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 629,
+      "source": "2️⃣ Chcel/a by si skúsiť techniky dráždenia a zdržovania?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_zdrzovanie_zaujem"
+      ],
+      "decision": "Áno/možno/nie pre záujem skúsiť techniky; nie ekvivalent pôvodnej škály dt_tease_denial, ktorá navyše spomína odkladanie penetrácie.",
+      "options": []
+    },
+    {
+      "p": 630,
+      "source": "🔘 ✔️ Áno – veľmi ma to láka.\n🔘 ❓ Možno – chcem to preskúmať.\n🔘 ❌ Nie – takéto hry ma nelákajú.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_zdrzovanie_zaujem"
+      ],
+      "decision": "Áno/možno/nie pre záujem skúsiť techniky; nie ekvivalent pôvodnej škály dt_tease_denial, ktorá navyše spomína odkladanie penetrácie.",
+      "options": [
+        {
+          "source": "✔️ Áno – veľmi ma to láka.",
+          "target": "predohra-naladenie:dt_zdrzovanie_zaujem#ano"
+        },
+        {
+          "source": "❓ Možno – chcem to preskúmať.",
+          "target": "predohra-naladenie:dt_zdrzovanie_zaujem#mozno"
+        },
+        {
+          "source": "❌ Nie – takéto hry ma nelákajú.",
+          "target": "predohra-naladenie:dt_zdrzovanie_zaujem#nie"
+        }
+      ]
+    },
+    {
+      "p": 631,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 632,
+      "source": "3️⃣ Aké formy dráždenia a zdržovania ti najviac vyhovujú?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_formy_drazdenia"
+      ],
+      "decision": "Tri pôvodné formy zachované; doplnená kombinácia a Iné.",
+      "options": []
+    },
+    {
+      "p": 633,
+      "source": "(môžeš vybrať viac možností)",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_formy_drazdenia"
+      ],
+      "decision": "Tri pôvodné formy zachované; doplnená kombinácia a Iné.",
+      "options": []
+    },
+    {
+      "p": 634,
+      "source": "🔘 🐢 Jemné dráždenie bez priamej stimulácie (napr. dotyky okolo intímnych miest).\n🔘 ⏸️ Krátke pauzy počas aktu.\n🔘 🔥 Verbálne dráždenie (popisovanie, čo príde ďalej).\n🔘 🌿 Kombinácia viacerých techník.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_formy_drazdenia"
+      ],
+      "decision": "Tri pôvodné formy zachované; doplnená kombinácia a Iné.",
+      "options": [
+        {
+          "source": "🐢 Jemné dráždenie bez priamej stimulácie (napr. dotyky okolo intímnych miest).",
+          "target": "predohra-naladenie:dt_formy_drazdenia#bez_priamej_stimulacie"
+        },
+        {
+          "source": "⏸️ Krátke pauzy počas aktu.",
+          "target": "predohra-naladenie:dt_formy_drazdenia#kratke_pauzy"
+        },
+        {
+          "source": "🔥 Verbálne dráždenie (popisovanie, čo príde ďalej).",
+          "target": "predohra-naladenie:dt_formy_drazdenia#verbalne_drazdenie"
+        },
+        {
+          "source": "🌿 Kombinácia viacerých techník.",
+          "target": "predohra-naladenie:dt_formy_drazdenia#kombinacia"
+        }
+      ],
+      "ownAnswer": "predohra-naladenie:dt_formy_drazdenia@ine"
+    },
+    {
+      "p": 635,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 636,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 637,
+      "source": "💡 Tipy na experimentovanie",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_tipy_zdrzovanie"
+      ],
+      "decision": "Všetky tri scenáre už boli v kóde. Preformulované na dobrovoľné možnosti bez povinného postupu; dych bez dotyku, odtiahnutie s úsmevom a kúpeľ/masáž/pauzy zachované.",
+      "options": []
+    },
+    {
+      "p": 638,
+      "source": "✅ Scenár jemného zdržovania:\nPartnerka/partner bude počas predohry striedať jemné dotyky a náhle pauzy, pri ktorých len dýcha na citlivé miesta bez dotyku.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_tipy_zdrzovanie"
+      ],
+      "decision": "Všetky tri scenáre už boli v kóde. Preformulované na dobrovoľné možnosti bez povinného postupu; dych bez dotyku, odtiahnutie s úsmevom a kúpeľ/masáž/pauzy zachované.",
+      "options": []
+    },
+    {
+      "p": 639,
+      "source": "✅ Scenár spontánneho objatia:\nPočas bežného večera partner začne bozkávať krk, odtiahne sa, jemne sa usmeje a nechá druhého v napätí.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_tipy_zdrzovanie"
+      ],
+      "decision": "Všetky tri scenáre už boli v kóde. Preformulované na dobrovoľné možnosti bez povinného postupu; dych bez dotyku, odtiahnutie s úsmevom a kúpeľ/masáž/pauzy zachované.",
+      "options": []
+    },
+    {
+      "p": 640,
+      "source": "✅ Scenár kombinovanej predohry:\nZačnite spoločným kúpeľom, pokračujte masážou a zakončite zdržovaním počas hladenia.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_tipy_zdrzovanie"
+      ],
+      "decision": "Všetky tri scenáre už boli v kóde. Preformulované na dobrovoľné možnosti bez povinného postupu; dych bez dotyku, odtiahnutie s úsmevom a kúpeľ/masáž/pauzy zachované.",
+      "options": []
+    },
+    {
+      "p": 641,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 642,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 643,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 644,
+      "source": "💠 Pauzy a zdržovanie",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_tipy_zdrzovanie",
+        "predohra-naladenie:dt_formy_drazdenia"
+      ],
+      "decision": "Opakované vysvetlenia a scenáre; doplnené bozky/hladenie mimo citlivých miest a výslovné prerušenie tesne pred orgazmom. Edging rozlíšený od bežnej pauzy, odkaz na existujúcu tému.",
+      "options": []
+    },
+    {
+      "p": 645,
+      "source": "Popis:\nPauzy počas aktu môžu vytvoriť napätie a prehĺbiť vzrušenie.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_tipy_zdrzovanie",
+        "predohra-naladenie:dt_formy_drazdenia"
+      ],
+      "decision": "Opakované vysvetlenia a scenáre; doplnené bozky/hladenie mimo citlivých miest a výslovné prerušenie tesne pred orgazmom. Edging rozlíšený od bežnej pauzy, odkaz na existujúcu tému.",
+      "options": []
+    },
+    {
+      "p": 646,
+      "source": "Scenáre:\n1️⃣ Jemné bozkávanie a hladenie bez priamej stimulácie citlivých miest\n2️⃣ Krátke zastavenie počas aktu na zvýšenie očakávania",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_tipy_zdrzovanie",
+        "predohra-naladenie:dt_formy_drazdenia"
+      ],
+      "decision": "Opakované vysvetlenia a scenáre; doplnené bozky/hladenie mimo citlivých miest a výslovné prerušenie tesne pred orgazmom. Edging rozlíšený od bežnej pauzy, odkaz na existujúcu tému.",
+      "options": []
+    },
+    {
+      "p": 647,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 648,
+      "source": "Krátke prerušenia na zvýšenie túžby",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_tipy_zdrzovanie",
+        "predohra-naladenie:dt_formy_drazdenia"
+      ],
+      "decision": "Opakované vysvetlenia a scenáre; doplnené bozky/hladenie mimo citlivých miest a výslovné prerušenie tesne pred orgazmom. Edging rozlíšený od bežnej pauzy, odkaz na existujúcu tému.",
+      "options": []
+    },
+    {
+      "p": 649,
+      "source": "Popis:\nKrátke prerušenie aktu môže byť prekvapivé a mimoriadne vzrušujúce.",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_tipy_zdrzovanie",
+        "predohra-naladenie:dt_formy_drazdenia"
+      ],
+      "decision": "Opakované vysvetlenia a scenáre; doplnené bozky/hladenie mimo citlivých miest a výslovné prerušenie tesne pred orgazmom. Edging rozlíšený od bežnej pauzy, odkaz na existujúcu tému.",
+      "options": []
+    },
+    {
+      "p": 650,
+      "source": "Scenáre:\n1️⃣ Partner dráždi druhého a odtiahne sa tesne pred vyvrcholením\n2️⃣ Verbálne dráždenie na zvýšenie túžby",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_info",
+        "predohra-naladenie:dt_tipy_zdrzovanie",
+        "predohra-naladenie:dt_formy_drazdenia"
+      ],
+      "decision": "Opakované vysvetlenia a scenáre; doplnené bozky/hladenie mimo citlivých miest a výslovné prerušenie tesne pred orgazmom. Edging rozlíšený od bežnej pauzy, odkaz na existujúcu tému.",
+      "options": []
+    },
+    {
+      "p": 651,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 652,
+      "source": "💠 Otázky k budovaniu napätia",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Rodové opakovanie P626–627; doplnená nálada aj situácia a mužský/ženský tvar odmietnutia. Bez novej duplicitnej otázky.",
+      "options": []
+    },
+    {
+      "p": 653,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 654,
+      "source": "1️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Rodové opakovanie P626–627; doplnená nálada aj situácia a mužský/ženský tvar odmietnutia. Bez novej duplicitnej otázky.",
+      "options": []
+    },
+    {
+      "p": 655,
+      "source": "Ako vnímaš pauzy počas intímnych chvíľ?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Rodové opakovanie P626–627; doplnená nálada aj situácia a mužský/ženský tvar odmietnutia. Bez novej duplicitnej otázky.",
+      "options": []
+    },
+    {
+      "p": 656,
+      "source": "🔘 💞 Milujem ich – pridávajú romantiku a očakávanie\n🔘 🤔 Záleží na nálade\n🔘 ⏩ Nemám ich rada – radšej udržujem plynulú dynamiku",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Rodové opakovanie P626–627; doplnená nálada aj situácia a mužský/ženský tvar odmietnutia. Bez novej duplicitnej otázky.",
+      "options": [
+        {
+          "source": "💞 Milujem ich – pridávajú romantiku a očakávanie",
+          "target": "predohra-naladenie:dt_pauzy_vnimanie#milujem"
+        },
+        {
+          "source": "🤔 Záleží na nálade",
+          "target": "predohra-naladenie:dt_pauzy_vnimanie#zalezi"
+        },
+        {
+          "source": "⏩ Nemám ich rada – radšej udržujem plynulú dynamiku",
+          "target": "predohra-naladenie:dt_pauzy_vnimanie#nemam_rad"
+        }
+      ]
+    },
+    {
+      "p": 657,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 658,
+      "source": "1️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Rodové opakovanie P626–627; doplnená nálada aj situácia a mužský/ženský tvar odmietnutia. Bez novej duplicitnej otázky.",
+      "options": []
+    },
+    {
+      "p": 659,
+      "source": "Ako vnímaš pauzy počas intímnych chvíľ?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Rodové opakovanie P626–627; doplnená nálada aj situácia a mužský/ženský tvar odmietnutia. Bez novej duplicitnej otázky.",
+      "options": []
+    },
+    {
+      "p": 660,
+      "source": "🔘 💞 Milujem ich – pridávajú romantiku a očakávanie\n🔘 🤔 Záleží na nálade\n🔘 ⏩ Nemám ich rád – radšej udržujem plynulú dynamiku",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_pauzy_vnimanie"
+      ],
+      "decision": "Rodové opakovanie P626–627; doplnená nálada aj situácia a mužský/ženský tvar odmietnutia. Bez novej duplicitnej otázky.",
+      "options": [
+        {
+          "source": "💞 Milujem ich – pridávajú romantiku a očakávanie",
+          "target": "predohra-naladenie:dt_pauzy_vnimanie#milujem"
+        },
+        {
+          "source": "🤔 Záleží na nálade",
+          "target": "predohra-naladenie:dt_pauzy_vnimanie#zalezi"
+        },
+        {
+          "source": "⏩ Nemám ich rád – radšej udržujem plynulú dynamiku",
+          "target": "predohra-naladenie:dt_pauzy_vnimanie#nemam_rad"
+        }
+      ]
+    },
+    {
+      "p": 661,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 662,
+      "source": "2️⃣ Otázka pre ženu",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_zdrzovanie_zaujem"
+      ],
+      "decision": "Rodové opakovanie P629–630, tie isté tri hodnoty, mužská aj ženská verzia.",
+      "options": []
+    },
+    {
+      "p": 663,
+      "source": "Chcela by si skúsiť techniky dráždenia a zdržovania?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_zdrzovanie_zaujem"
+      ],
+      "decision": "Rodové opakovanie P629–630, tie isté tri hodnoty, mužská aj ženská verzia.",
+      "options": []
+    },
+    {
+      "p": 664,
+      "source": "🔘 ✔️ Áno – veľmi ma to láka\n🔘 ❓ Možno – chcela by som to preskúmať\n🔘 ❌ Nie – takéto hry ma nelákajú",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_zdrzovanie_zaujem"
+      ],
+      "decision": "Rodové opakovanie P629–630, tie isté tri hodnoty, mužská aj ženská verzia.",
+      "options": [
+        {
+          "source": "✔️ Áno – veľmi ma to láka",
+          "target": "predohra-naladenie:dt_zdrzovanie_zaujem#ano"
+        },
+        {
+          "source": "❓ Možno – chcela by som to preskúmať",
+          "target": "predohra-naladenie:dt_zdrzovanie_zaujem#mozno"
+        },
+        {
+          "source": "❌ Nie – takéto hry ma nelákajú",
+          "target": "predohra-naladenie:dt_zdrzovanie_zaujem#nie"
+        }
+      ]
+    },
+    {
+      "p": 665,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 666,
+      "source": "2️⃣ Otázka pre muža",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_zdrzovanie_zaujem"
+      ],
+      "decision": "Rodové opakovanie P629–630, tie isté tri hodnoty, mužská aj ženská verzia.",
+      "options": []
+    },
+    {
+      "p": 667,
+      "source": "Chcel by si skúsiť techniky dráždenia a zdržovania?",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_zdrzovanie_zaujem"
+      ],
+      "decision": "Rodové opakovanie P629–630, tie isté tri hodnoty, mužská aj ženská verzia.",
+      "options": []
+    },
+    {
+      "p": 668,
+      "source": "🔘 ✔️ Áno – veľmi ma to láka\n🔘 ❓ Možno – rád by som to preskúmal\n🔘 ❌ Nie – takéto hry ma nelákajú",
+      "status": "spracovane",
+      "targets": [
+        "predohra-naladenie:dt_zdrzovanie_zaujem"
+      ],
+      "decision": "Rodové opakovanie P629–630, tie isté tri hodnoty, mužská aj ženská verzia.",
+      "options": [
+        {
+          "source": "✔️ Áno – veľmi ma to láka",
+          "target": "predohra-naladenie:dt_zdrzovanie_zaujem#ano"
+        },
+        {
+          "source": "❓ Možno – rád by som to preskúmal",
+          "target": "predohra-naladenie:dt_zdrzovanie_zaujem#mozno"
+        },
+        {
+          "source": "❌ Nie – takéto hry ma nelákajú",
+          "target": "predohra-naladenie:dt_zdrzovanie_zaujem#nie"
+        }
+      ]
+    },
+    {
+      "p": 669,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 670,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 671,
+      "source": "Kreatívne spôsoby hrania – Fantázia a zmysly",
+      "status": "spracovane",
+      "targets": [
+        "roleplay:rit_kreativne_info",
+        "roleplay:rit_kreativne_vyber",
+        "roleplay:rit_treasure_hunt",
+        "roleplay:rit_eroticky_dennik"
+      ],
+      "decision": "Masky/pásky, zmyslové hľadanie, denník, jednoduchšie formy a Iné. Staré škály zachované; nový prehľad umožňuje zvoliť hry aj odmietnuť celú ponuku. Vysvetlenie zahŕňa svetlá, tematickú hudbu a hranie rolí, bez povinnosti plniť túžby.",
+      "options": []
+    },
+    {
+      "p": 672,
+      "source": "\n🎨 Masky, špeciálne svetlá, tematická hudba alebo úlohové hry pridávajú originalitu a hravosť.",
+      "status": "spracovane",
+      "targets": [
+        "roleplay:rit_kreativne_info",
+        "roleplay:rit_kreativne_vyber",
+        "roleplay:rit_treasure_hunt",
+        "roleplay:rit_eroticky_dennik"
+      ],
+      "decision": "Masky/pásky, zmyslové hľadanie, denník, jednoduchšie formy a Iné. Staré škály zachované; nový prehľad umožňuje zvoliť hry aj odmietnuť celú ponuku. Vysvetlenie zahŕňa svetlá, tematickú hudbu a hranie rolí, bez povinnosti plniť túžby.",
+      "options": []
+    },
+    {
+      "p": 673,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 674,
+      "source": "Otázka:\nChcel/a by si vyskúšať niektoré kreatívne erotické hry?",
+      "status": "spracovane",
+      "targets": [
+        "roleplay:rit_kreativne_info",
+        "roleplay:rit_kreativne_vyber",
+        "roleplay:rit_treasure_hunt",
+        "roleplay:rit_eroticky_dennik"
+      ],
+      "decision": "Masky/pásky, zmyslové hľadanie, denník, jednoduchšie formy a Iné. Staré škály zachované; nový prehľad umožňuje zvoliť hry aj odmietnuť celú ponuku. Vysvetlenie zahŕňa svetlá, tematickú hudbu a hranie rolí, bez povinnosti plniť túžby.",
+      "options": []
+    },
+    {
+      "p": 675,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "roleplay:rit_kreativne_info",
+        "roleplay:rit_kreativne_vyber",
+        "roleplay:rit_treasure_hunt",
+        "roleplay:rit_eroticky_dennik"
+      ],
+      "decision": "Masky/pásky, zmyslové hľadanie, denník, jednoduchšie formy a Iné. Staré škály zachované; nový prehľad umožňuje zvoliť hry aj odmietnuť celú ponuku. Vysvetlenie zahŕňa svetlá, tematickú hudbu a hranie rolí, bez povinnosti plniť túžby.",
+      "options": []
+    },
+    {
+      "p": 676,
+      "source": "🔘 Masky a pásky na oči.\n🔘 Love Treasure Hunt – zmyslové hľadanie.\n🔘 Erotický denník – plnenie túžob.\n🔘 Nie, radšej jednoduchšie formy intimity.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "roleplay:rit_kreativne_info",
+        "roleplay:rit_kreativne_vyber",
+        "roleplay:rit_treasure_hunt",
+        "roleplay:rit_eroticky_dennik"
+      ],
+      "decision": "Masky/pásky, zmyslové hľadanie, denník, jednoduchšie formy a Iné. Staré škály zachované; nový prehľad umožňuje zvoliť hry aj odmietnuť celú ponuku. Vysvetlenie zahŕňa svetlá, tematickú hudbu a hranie rolí, bez povinnosti plniť túžby.",
+      "options": [
+        {
+          "source": "Masky a pásky na oči.",
+          "target": "roleplay:rit_kreativne_vyber#masky_pasky"
+        },
+        {
+          "source": "Love Treasure Hunt – zmyslové hľadanie.",
+          "target": "roleplay:rit_kreativne_vyber#treasure_hunt"
+        },
+        {
+          "source": "Erotický denník – plnenie túžob.",
+          "target": "roleplay:rit_kreativne_vyber#dennik"
+        },
+        {
+          "source": "Nie, radšej jednoduchšie formy intimity.",
+          "target": "roleplay:rit_kreativne_vyber#jednoduchsie"
+        }
+      ],
+      "ownAnswer": "roleplay:rit_kreativne_vyber@ine"
+    },
+    {
+      "p": 677,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "roleplay:rit_kreativne_info",
+        "roleplay:rit_kreativne_vyber",
+        "roleplay:rit_treasure_hunt",
+        "roleplay:rit_eroticky_dennik"
+      ],
+      "decision": "Masky/pásky, zmyslové hľadanie, denník, jednoduchšie formy a Iné. Staré škály zachované; nový prehľad umožňuje zvoliť hry aj odmietnuť celú ponuku. Vysvetlenie zahŕňa svetlá, tematickú hudbu a hranie rolí, bez povinnosti plniť túžby.",
+      "options": []
+    },
+    {
+      "p": 678,
+      "source": "🔘 Masky a pásky na oči.\n🔘 Love Treasure Hunt – zmyslové hľadanie.\n🔘 Erotický denník – plnenie túžob.\n🔘 Nie, radšej jednoduchšie formy intimity.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "roleplay:rit_kreativne_info",
+        "roleplay:rit_kreativne_vyber",
+        "roleplay:rit_treasure_hunt",
+        "roleplay:rit_eroticky_dennik"
+      ],
+      "decision": "Masky/pásky, zmyslové hľadanie, denník, jednoduchšie formy a Iné. Staré škály zachované; nový prehľad umožňuje zvoliť hry aj odmietnuť celú ponuku. Vysvetlenie zahŕňa svetlá, tematickú hudbu a hranie rolí, bez povinnosti plniť túžby.",
+      "options": [
+        {
+          "source": "Masky a pásky na oči.",
+          "target": "roleplay:rit_kreativne_vyber#masky_pasky"
+        },
+        {
+          "source": "Love Treasure Hunt – zmyslové hľadanie.",
+          "target": "roleplay:rit_kreativne_vyber#treasure_hunt"
+        },
+        {
+          "source": "Erotický denník – plnenie túžob.",
+          "target": "roleplay:rit_kreativne_vyber#dennik"
+        },
+        {
+          "source": "Nie, radšej jednoduchšie formy intimity.",
+          "target": "roleplay:rit_kreativne_vyber#jednoduchsie"
+        }
+      ],
+      "ownAnswer": "roleplay:rit_kreativne_vyber@ine"
+    },
+    {
+      "p": 679,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 680,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    }
+  ]
+}

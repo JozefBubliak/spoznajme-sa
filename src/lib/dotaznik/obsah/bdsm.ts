@@ -34,12 +34,86 @@ const ROLA: Blok = {
   druh: 'skupina', id: 'rola', nadpis: 'Rola a základná dynamika',
   bloky: [
     {
-      druh: 'otazka', id: 'rola_ktora', typ: 'jeden',
+      druh: 'text',
+      id: 'rola_dynamika_info',
+      telo: 'Hra s mocou môže zahŕňať jemné či hravé vedenie aj priame, autoritatívne pokyny. Kontrast vedenia a odovzdania môže byť pre niekoho psychologicky intenzívny; inému vyhovuje rovnováha. Príkazy, disciplína a očakávania patria len do vopred dohodnutého rámca. Dôvera vyžaduje komunikáciu, hranice a slovo alebo gesto na zastavenie; ani dohodnuté odovzdanie kontroly neznamená stratu práva zmeniť názor.',
+    },
+    {
+      druh: 'otazka',
+      id: 'rola_dynamika_postoj',
+      typ: 'jeden',
+      text: 'Ako vnímam hranie s dynamikou moci počas našich hier?',
+      moznosti: [
+        { v: 'intenzivne', label: 'Milujem intenzívnu dynamiku — v rámci dohodnutých hraníc' },
+        {
+          v: 'mierne',
+          label: { m: 'Mám rád miernu dominanciu a submisiu.', z: 'Mám rada miernu dominanciu a submisiu.' },
+        },
+        { v: 'mozno', label: 'Možno, záleží na situácii.' },
+        { v: 'rovnovaha', label: 'Nie, radšej mám rovnováhu.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'rola_dynamika_postoj_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď — Ako vnímam hranie s dynamikou moci počas našich hier? (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'rola_autoritativne_vedenie',
+      typ: 'jeden',
+      text: 'Chcem počas hier zažiť priame, autoritatívne príkazy a vedenie?',
+      moznosti: [
+        { v: 'ano', label: 'Áno, veľmi ma to vzrušuje – príkazy, pokyny, kontrola.' },
+        { v: 'mozno', label: 'Možno, len mierne a s rešpektom.' },
+        { v: 'nie', label: 'Nie, nechcem to.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'rola_autoritativne_vedenie_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď — Chcem počas hier zažiť priame, autoritatívne príkazy a vedenie? (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'rola_intenzivna_disciplina',
+      typ: 'jeden',
+      text: 'Mám záujem o intenzívnejšie scény a disciplínu, napríklad výprask, dohodnuté tresty v hre alebo znehybnenie?',
+      moznosti: [
+        { v: 'ano', label: 'Áno, láka ma tvrdšia dynamika a disciplína.' },
+        {
+          v: 'mozno',
+          label: { m: 'Možno, rád by som to skúšal opatrne.', z: 'Možno, rada by som to skúšala opatrne.' },
+        },
+        { v: 'nie', label: 'Nie, necítim sa na to.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'rola_intenzivna_disciplina_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď — Mám záujem o intenzívnejšie scény a disciplínu, napríklad výprask, dohodnuté tresty v hre alebo znehybnenie? (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'rola_ktora',
+      typ: 'jeden',
       text: 'Akú rolu uprednostňuješ počas intímnych chvíľ?',
       moznosti: [
-        { v: 'dom', label: 'Dominantnú — rada vediem a určujem tempo' },
-        { v: 'sub', label: 'Submisívnu — rada sa odovzdávam a prijímam' },
-        { v: 'switch', label: 'Switching — rada skúšam oboje' },
+        {
+          v: 'dom',
+          label: { m: 'Dominantnú — rád vediem a určujem tempo', z: 'Dominantnú — rada vediem a určujem tempo' },
+        },
+        {
+          v: 'sub',
+          label: { m: 'Submisívnu — rád sa odovzdávam a prijímam', z: 'Submisívnu — rada sa odovzdávam a prijímam' },
+        },
+        {
+          v: 'switch',
+          label: { m: 'Switching — rád skúšam oboje', z: 'Switching — rada skúšam oboje' },
+        },
         { v: 'neviem', label: 'Zatiaľ neviem' },
       ],
     },
@@ -115,6 +189,73 @@ const BONDAGE: Blok = {
   bloky: [
     p('bond_prijimam', 'Byť zviazaný/á — pocit odovzdania a bezmocnosti'),
     p('bond_poskytujem', 'Zväzovať partnera — jemne alebo pevne'),
+    {
+      druh: 'text',
+      id: 'bond_vyznam_info',
+      telo: 'Pohyb možno v hre obmedziť viazaním, držaním alebo dohodnutou polohou. Niekoho láka pocit odovzdania, iného vedenie a disciplína; niekomu takéto obmedzenie nevyhovuje. Pocit istoty ani zvýšená citlivosť na dotyky či slová nie sú zaručené. Dohoda musí zahŕňať hranice a spôsob okamžitého ukončenia; vedenie nedáva právo ignorovať nesúhlas.',
+    },
+    {
+      druh: 'otazka',
+      id: 'bond_obmedzenie_zaujem',
+      typ: 'jeden',
+      text: 'Chcem skúsiť obmedzenie pohybu počas našich hier?',
+      moznosti: [
+        { v: 'ano', label: 'Áno, veľmi ma to láka.' },
+        {
+          v: 'mozno',
+          label: { m: 'Možno, rád by som sa o tom viac dozvedel.', z: 'Možno, rada by som sa o tom viac dozvedela.' },
+        },
+        { v: 'nie', label: 'Nie, necítim sa pri tom komfortne.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'bond_obmedzenie_zaujem_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď — Chcem skúsiť obmedzenie pohybu počas našich hier? (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'bond_viazanie_postoj',
+      typ: 'jeden',
+      text: 'Ako vnímam viazanie ako súčasť našich hier?',
+      moznosti: [
+        { v: 'milujem', label: 'Milujem ho – pridáva intenzitu a vzrušenie.' },
+        {
+          v: 'jemne',
+          label: { m: 'Mám rád jemné obmedzenia (šatky, ľahké putá).', z: 'Mám rada jemné obmedzenia (šatky, ľahké putá).' },
+        },
+        { v: 'pevnejsie', label: 'Lákajú ma aj pevnejšie spôsoby fixácie — v dohodnutých hraniciach a s možnosťou okamžite prestať' },
+        { v: 'nie', label: 'Nie, nevyhľadávam také aktivity.' },
+      ],
+    },
+    {
+      druh: 'otazka',
+      id: 'bond_viazanie_postoj_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď — Ako vnímam viazanie ako súčasť našich hier? (voliteľné):',
+    },
+    {
+      druh: 'otazka',
+      id: 'bond_kombinacia_zaujem',
+      typ: 'jeden',
+      text: 'Mám záujem kombinovať viazanie s inými aktivitami, napríklad orálnym sexom, hračkami alebo výpraskom?',
+      moznosti: [
+        { v: 'ano', label: 'Áno, to ma veľmi láka.' },
+        {
+          v: 'mozno',
+          label: { m: 'Možno, rád by som najskôr vedel viac.', z: 'Možno, rada by som najskôr vedela viac.' },
+        },
+        { v: 'nie', label: 'Nie, preferujem slobodnejší pohyb.' },
+      ],
+      napoveda: 'Záujem o kombinovanie nie je súhlasom so všetkými uvedenými aktivitami; konkrétnu kombináciu si treba dohodnúť.',
+    },
+    {
+      druh: 'otazka',
+      id: 'bond_kombinacia_zaujem_ine',
+      typ: 'text',
+      text: 'Vlastná odpoveď — Mám záujem kombinovať viazanie s inými aktivitami, napríklad orálnym sexom, hračkami alebo výpraskom? (voliteľné):',
+    },
     {
       druh: 'otazka', id: 'bond_intenzita', typ: 'jeden',
       text: 'Intenzita obmedzenia',

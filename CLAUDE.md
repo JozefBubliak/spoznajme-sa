@@ -155,3 +155,6 @@ Všetko v `src/app/globals.css` (543 r.) — **dark-first**, `:root` == `.dark`.
 - `podporna dokumentacia/STATUS.md` — mapa „ktorý HTML mockup → ktorý súbor“
 - `podporna dokumentacia/spracovane/*.html` — pôvodné mockupy a sitemapy
 - Auto-memory: `deploy-setup`, `herd-vote-state`
+
+## Úspora tokenov (žiadosť používateľa)
+Používaj scripts/token-tools.cjs: RTK na diagnostické výstupy, QMD search/get na konkrétne časti poznámok; návod docs/token-tools.md. Zdrojový DOCX audit naďalej čítať úplne a postupne, nikdy neskracovať cez RTK ani nahradiť vyhľadávaním. Neopakovať celé súbory/logy v kontexte.

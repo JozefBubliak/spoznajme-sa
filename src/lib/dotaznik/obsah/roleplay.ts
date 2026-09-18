@@ -320,6 +320,24 @@ const RITUALY: Blok = {
     p('rit_treasure_hunt', '„Love treasure hunt" — zmyslové hľadanie/lúštenie so sexuálnou odmenou'),
     p('rit_eroticky_dennik', 'Erotický denník — striedavo si zapisovať a plniť si túžby druhého'),
     {
+      druh: 'text',
+      id: 'rit_kreativne_info',
+      telo: 'Kreatívnu atmosféru môžu tvoriť masky, špeciálne svetlá, tematická hudba alebo hranie rolí. Love Treasure Hunt je hra so zmyslovým hľadaním či lúštením; intímny denník je spôsob zaznamenania túžob, o ktorých sa môžete porozprávať a niektoré po dohode skúsiť. Zápis túžby ani dokončenie hry nevytvára povinnosť splniť ju. Jednoduchšie formy intimity sú rovnako platnou voľbou.',
+    },
+    {
+      druh: 'otazka',
+      id: 'rit_kreativne_vyber',
+      typ: 'viac',
+      text: 'Ktoré kreatívne intímne hry ma lákajú?',
+      moznosti: [
+        { v: 'masky_pasky', label: 'Masky a pásky na oči' },
+        { v: 'treasure_hunt', label: 'Love Treasure Hunt — zmyslové hľadanie' },
+        { v: 'dennik', label: 'Intímny denník — zapisovanie a dobrovoľné uskutočňovanie túžob' },
+        { v: 'jednoduchsie', label: 'Žiadne z uvedených — radšej jednoduchšie formy intimity' },
+      ],
+      inePovolene: true,
+    },
+    {
       druh: 'otazka', id: 'rit_dennik_temy', typ: 'viac', inePovolene: true,
       text: 'Ak by sme viedli spoločný intímny denník, čo by som doň chcel(a) zahrnúť',
       moznosti: [

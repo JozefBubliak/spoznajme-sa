@@ -1,3 +1,18 @@
+## GLOBAL-005 — P619–680 IN PROGRESS
+OWNER Codex. Rezervované predohra-naladenie.ts, roleplay.ts a mapa dávky. RTK/QMD používané; zdroj prečítaný súvisle. P681–700 iba kontext ďalšej dávky, nespracované.
+
+## TOKEN-001 — nainštalované RTK + QMD, 2026-09-18
+
+Na výslovnú žiadosť používateľa RTK 0.49.0 + QMD 2.8.3 lokálne. Spúšťanie cez scripts/token-tools.cjs, pravidlá docs/token-tools.md. Žiadny stratový filter zdrojového auditu. QMD iba orientácia v poznámkach/výskume; RTK úspora diagnostiky, nie sľub celkovej úspory 90 %. Bez automatických hookov.
+
+GLOBAL-004 doplnenie: P541–618 už implementované, mapy MD/JSON a validátor v repo. 78 odsekov / 40 možností / 10 Iné; všetky štyri validátory a typecheck prešli v predchádzajúcom ťahu. Zápis odovzdania vtedy zablokoval limit automatickej kontroly, preto starší IN PROGRESS pod týmto textom neplatí. Súbory uvoľnené na review, Claude prevzatie nepotvrdené. Ďalší odsek P619; nejasnosť P559 zachovaná v mape. Dávka nie je commitnutá ani nasadená. Technické TODO bez zmeny.
+
+---
+## GLOBAL-004 — P541–618 IN PROGRESS, 2026-09-18
+
+OWNER Codex; rezervované zmyslova-hra.ts, predohra-naladenie.ts, dlhodoba-intimita.ts a mapy dávky. P619–620 len hranica nasledujúcej dávky, nespracované. Predchádzajúci release 924236d overený na Vercel Production Ready, deployment dpl_Gpd6T9hmVynQbD2NqXY4ByXM8tcM, alias deeptalks.eu. Technické TODO sa nemení.
+
+---
 ## RELEASE — obsah P261–540, 2026-09-18
 
 Používateľ výslovne požiadal commit a nasadenie na produkciu. Codex: všetky tri obsahové validátory a aktuálny typecheck PASS, diff bez chýb. Publikujú sa iba obsahové dávky a ich mapy/koordinácia; technický redesign zostáva TODO. Admin prehľad /sk/dotaznik/obsah-prehlad používa rovnaký register tém ako web, s prepínačom pohlavia a hľadaním. Nasadenie bude overené cez Vercel po pushi; samotný tento zápis ešte nepotvrdzuje úspech deployu.
@@ -239,3 +254,13 @@ OWNER Codex; STATUS REVIEW. F03/F04/F05 sú priamo upravené v dlhodoba-intimita
 Používateľ požaduje úplné spracovanie P1–P260 pred akýmkoľvek pokračovaním. Zápis: tri obsahové súbory predohra-naladenie.ts, dlhodoba-intimita.ts, miesta-prostredie.ts; docs/dotaznik-zdroj-001-260.md a JSON mapa; oba koordinačné dokumenty; skript overenia tejto dávky. Žiadne čítanie P261+. Rozsah zahŕňa texty, všetky varianty odpovedí a vlastné odpovede. Staršie pokyny pokračovať P261 sú do dokončenia tejto dávky pozastavené.
 ## GLOBAL-002 — CLAIMED Codex, 2026-09-18
 Rozsah P261–P440 prečítaný súvisle; žiadne P441+. Zdroj DOCX SHA256 nezmenený F9B5B3B747E2D439D50A56BA7ED3C6E34F5E6AFE6C305134EE1918C915BE5AA8. HEAD da9c2c93db9f0d22c805c5697f1eae60aeb94de6, vstupný working tree čistý. OWNER Codex, REVIEWER Claude navrhnutý/nepotvrdený. Zápis: miesta-prostredie.ts, digitalna-intimita.ts, zmyslova-hra.ts, mapa docs/dotaznik-zdroj-261-440.json a .md, kontrolný skript, AI-COLLAB a progress. Bez prechodu na ďalšiu dávku pred zapracovaním tejto. Mužské aj ženské varianty, všetky odpovede a vysvetlenia; externé doplnenia osobitne doložiť.
+## GLOBAL-005 COMPLETE — aktuálny checkpoint P681 (2026-09-18)
+Tento záznam nahrádza stav IN PROGRESS, historické záznamy ostávajú zachované. OWNER Codex; IMPLEMENTED / REVIEW; súbory uvoľnené. P619–680 zapracované v predohra-naladenie.ts a roleplay.ts. Mapa docs/dotaznik-zdroj-619-680.md + JSON: 62 odsekov, 30 možností, 3 Iné vrátane opakovaní. Pauzy/postoje, záujem skúsiť, kombinácia techník, scenáre a kreatívne hry. Mužské aj ženské znenia; staré hodnoty nemigrované. Širší kontext otázky na pauzy nie je nový súhlas k iným aktivitám.
+PASS všetkých päť validátorov P1–680, typecheck bez cache a diff --check; DOCX SHA256 nezmenený. Bez browser QA. RTK/QMD použité na diagnostiku a orientáciu, zdroj čítaný súvisle bez filtrovania. Ďalší implementačný odsek P681; P681–700 iba prečítaný kontext, nespracované. Témy globálne otvorené. Claude review nepotvrdené. Bez commitu/nasadenia tejto dávky; produkcia stále 924236d, P1–540. Technické TODO bez zmeny.
+
+## GLOBAL-006 — P681–728 IN PROGRESS
+OWNER Codex; rezervované bdsm.ts a mapa dávky. Zdroj súvisle prečítaný, P729–740 len kontext ďalšej dávky.
+
+## GLOBAL-006 COMPLETE — aktuálny checkpoint P729 (2026-09-18)
+OWNER Codex; IMPLEMENTED / REVIEW; bdsm.ts a mapy uvoľnené. Tento výsledok nahrádza vyššie uvedený IN PROGRESS. P681–728 zapracované: šesť otázok na obmedzenie pohybu, viazanie, kombinácie, mocenskú dynamiku, autoritatívne vedenie a intenzívnejšiu disciplínu, vysvetlenia a rodové verzie. Mapa docs/dotaznik-zdroj-681-728.md + JSON: 48 odsekov, 40 explicitných možností, 12 Iné vrátane opakovaní. Rola_ktora opravená pre mužské znenie bez zmeny hodnôt. Zdrojové nekompromisné a neobmedzené zvyšovanie intenzity redakčne rámcované hranicami a odvolateľným súhlasom; pôvodné znenie zachované v mape, podklad RAINN uvedený.
+PASS šiestich validátorov P1–728 a celoprojektového typecheck. Kontrola diff našla iba prázdny riadok na konci priebežného zápisu; pripojením tohto výsledku už nie je koncový. Bez browser QA. RTK/QMD použité, zdroj bez filtrovania. P729–740 prečítané ako kontext, ešte nespracované; začať P729. Témy globálne otvorené, Claude review nepotvrdené. Bez commitu/pushu/nasadenia: produkcia naďalej 924236d (P1–540). Technické TODO bez zmeny.

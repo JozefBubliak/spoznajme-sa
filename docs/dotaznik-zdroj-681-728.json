@@ -1,0 +1,688 @@
+{
+  "range": [
+    681,
+    728
+  ],
+  "sourceDocxSha256": "F9B5B3B747E2D439D50A56BA7ED3C6E34F5E6AFE6C305134EE1918C915BE5AA8",
+  "paragraphs": [
+    {
+      "p": 681,
+      "source": "Dynamika kontroly a experimentovanie s mocou – Od jemných dotykov po úplné odovzdanie",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_info",
+        "bdsm:bond_vyznam_info"
+      ],
+      "decision": "Vedenie/odovzdanie od jemného po autoritatívne; viazanie/držanie/polohy, disciplína, vnímanie dotykov a slov, dôvera a súhlas. Nezaručujeme istotu ani zvýšenú citlivosť.",
+      "options": []
+    },
+    {
+      "p": 682,
+      "source": "\n🎭 Hranie s mocou vám umožní zažiť vzrušujúci kontrast medzi vedením a odovzdaním. Môže byť jemné, hravé alebo naopak veľmi priame, autoritatívne a intenzívne.",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_info",
+        "bdsm:bond_vyznam_info"
+      ],
+      "decision": "Vedenie/odovzdanie od jemného po autoritatívne; viazanie/držanie/polohy, disciplína, vnímanie dotykov a slov, dôvera a súhlas. Nezaručujeme istotu ani zvýšenú citlivosť.",
+      "options": []
+    },
+    {
+      "p": 683,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 684,
+      "source": "Kontrola pohybu partnera – Moc a odovzdanie",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_info",
+        "bdsm:bond_vyznam_info"
+      ],
+      "decision": "Vedenie/odovzdanie od jemného po autoritatívne; viazanie/držanie/polohy, disciplína, vnímanie dotykov a slov, dôvera a súhlas. Nezaručujeme istotu ani zvýšenú citlivosť.",
+      "options": []
+    },
+    {
+      "p": 685,
+      "source": "\n🪢 Obmedzenie pohybu pomocou viazania, držania alebo polôh podporuje pocity podriadenosti aj istoty. Umožňuje submisívnemu partnerovi uvoľniť kontrolu a dominantnému zažiť pocit vedenia.",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_info",
+        "bdsm:bond_vyznam_info"
+      ],
+      "decision": "Vedenie/odovzdanie od jemného po autoritatívne; viazanie/držanie/polohy, disciplína, vnímanie dotykov a slov, dôvera a súhlas. Nezaručujeme istotu ani zvýšenú citlivosť.",
+      "options": []
+    },
+    {
+      "p": 686,
+      "source": "Čo je na tom vzrušujúce?\n• 🎭 Moc a disciplína: Dominantný partner jasne rozhoduje o priebehu.\n• 🔥 Zmyslové preťaženie: Obmedzenie pohybu zvyšuje citlivosť na dotyky a slová.\n• 💞 Dôvera a oddanie: Vyžaduje úprimnú komunikáciu a súhlas.",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_info",
+        "bdsm:bond_vyznam_info"
+      ],
+      "decision": "Vedenie/odovzdanie od jemného po autoritatívne; viazanie/držanie/polohy, disciplína, vnímanie dotykov a slov, dôvera a súhlas. Nezaručujeme istotu ani zvýšenú citlivosť.",
+      "options": []
+    },
+    {
+      "p": 687,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 688,
+      "source": "Otázka:\nChcel/a by si skúsiť obmedzenie pohybu počas našich hier?",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_obmedzenie_zaujem",
+        "bdsm:bond_obmedzenie_zaujem_ine"
+      ],
+      "decision": "Tri postoje k vyskúšaniu obmedzenia pohybu a Iné; nie iba už existujúci postoj k prijímaniu či poskytovaniu viazania.",
+      "options": []
+    },
+    {
+      "p": 689,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_obmedzenie_zaujem",
+        "bdsm:bond_obmedzenie_zaujem_ine"
+      ],
+      "decision": "Tri postoje k vyskúšaniu obmedzenia pohybu a Iné; nie iba už existujúci postoj k prijímaniu či poskytovaniu viazania.",
+      "options": []
+    },
+    {
+      "p": 690,
+      "source": "🔘 Áno, veľmi ma to láka.\n🔘 Možno, rada by som sa o tom viac dozvedela.\n🔘 Nie, necítim sa pri tom komfortne.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_obmedzenie_zaujem",
+        "bdsm:bond_obmedzenie_zaujem_ine"
+      ],
+      "decision": "Tri postoje k vyskúšaniu obmedzenia pohybu a Iné; nie iba už existujúci postoj k prijímaniu či poskytovaniu viazania.",
+      "options": [
+        {
+          "source": "Áno, veľmi ma to láka.",
+          "target": "bdsm:bond_obmedzenie_zaujem#ano"
+        },
+        {
+          "source": "Možno, rada by som sa o tom viac dozvedela.",
+          "target": "bdsm:bond_obmedzenie_zaujem#mozno"
+        },
+        {
+          "source": "Nie, necítim sa pri tom komfortne.",
+          "target": "bdsm:bond_obmedzenie_zaujem#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:bond_obmedzenie_zaujem_ine"
+    },
+    {
+      "p": 691,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_obmedzenie_zaujem",
+        "bdsm:bond_obmedzenie_zaujem_ine"
+      ],
+      "decision": "Tri postoje k vyskúšaniu obmedzenia pohybu a Iné; nie iba už existujúci postoj k prijímaniu či poskytovaniu viazania.",
+      "options": []
+    },
+    {
+      "p": 692,
+      "source": "🔘 Áno, veľmi ma to láka.\n🔘 Možno, rád by som sa o tom viac dozvedel.\n🔘 Nie, necítim sa pri tom komfortne.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_obmedzenie_zaujem",
+        "bdsm:bond_obmedzenie_zaujem_ine"
+      ],
+      "decision": "Tri postoje k vyskúšaniu obmedzenia pohybu a Iné; nie iba už existujúci postoj k prijímaniu či poskytovaniu viazania.",
+      "options": [
+        {
+          "source": "Áno, veľmi ma to láka.",
+          "target": "bdsm:bond_obmedzenie_zaujem#ano"
+        },
+        {
+          "source": "Možno, rád by som sa o tom viac dozvedel.",
+          "target": "bdsm:bond_obmedzenie_zaujem#mozno"
+        },
+        {
+          "source": "Nie, necítim sa pri tom komfortne.",
+          "target": "bdsm:bond_obmedzenie_zaujem#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:bond_obmedzenie_zaujem_ine"
+    },
+    {
+      "p": 693,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 694,
+      "source": "Otázka:\nAko vnímaš viazanie ako súčasť našich hier?",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_viazanie_postoj",
+        "bdsm:bond_viazanie_postoj_ine"
+      ],
+      "decision": "Štyri významy milujem/jemné/pevnejšie/nie, vrátane šatiek a ľahkých pút, Iné. Zdrojové nekompromisné redakčne neznamená neodvolateľnosť súhlasu. Pôvodná bond_intenzita nemá postoj milujem ani odmietnutie; jej hodnoty nemigrované.",
+      "options": []
+    },
+    {
+      "p": 695,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_viazanie_postoj",
+        "bdsm:bond_viazanie_postoj_ine"
+      ],
+      "decision": "Štyri významy milujem/jemné/pevnejšie/nie, vrátane šatiek a ľahkých pút, Iné. Zdrojové nekompromisné redakčne neznamená neodvolateľnosť súhlasu. Pôvodná bond_intenzita nemá postoj milujem ani odmietnutie; jej hodnoty nemigrované.",
+      "options": []
+    },
+    {
+      "p": 696,
+      "source": "🔘 Milujem ho – pridáva intenzitu a vzrušenie.\n🔘 Mám rada jemné obmedzenia (šatky, ľahké putá).\n🔘 Lákajú ma aj pevnejšie, nekompromisné spôsoby fixácie.\n🔘 Nie, nevyhľadávam také aktivity.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_viazanie_postoj",
+        "bdsm:bond_viazanie_postoj_ine"
+      ],
+      "decision": "Štyri významy milujem/jemné/pevnejšie/nie, vrátane šatiek a ľahkých pút, Iné. Zdrojové nekompromisné redakčne neznamená neodvolateľnosť súhlasu. Pôvodná bond_intenzita nemá postoj milujem ani odmietnutie; jej hodnoty nemigrované.",
+      "options": [
+        {
+          "source": "Milujem ho – pridáva intenzitu a vzrušenie.",
+          "target": "bdsm:bond_viazanie_postoj#milujem"
+        },
+        {
+          "source": "Mám rada jemné obmedzenia (šatky, ľahké putá).",
+          "target": "bdsm:bond_viazanie_postoj#jemne"
+        },
+        {
+          "source": "Lákajú ma aj pevnejšie, nekompromisné spôsoby fixácie.",
+          "target": "bdsm:bond_viazanie_postoj#pevnejsie"
+        },
+        {
+          "source": "Nie, nevyhľadávam také aktivity.",
+          "target": "bdsm:bond_viazanie_postoj#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:bond_viazanie_postoj_ine"
+    },
+    {
+      "p": 697,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_viazanie_postoj",
+        "bdsm:bond_viazanie_postoj_ine"
+      ],
+      "decision": "Štyri významy milujem/jemné/pevnejšie/nie, vrátane šatiek a ľahkých pút, Iné. Zdrojové nekompromisné redakčne neznamená neodvolateľnosť súhlasu. Pôvodná bond_intenzita nemá postoj milujem ani odmietnutie; jej hodnoty nemigrované.",
+      "options": []
+    },
+    {
+      "p": 698,
+      "source": "🔘 Milujem ho – pridáva intenzitu a vzrušenie.\n🔘 Mám rád jemné obmedzenia (šatky, ľahké putá).\n🔘 Lákajú ma aj pevnejšie, nekompromisné spôsoby fixácie.\n🔘 Nie, nevyhľadávam také aktivity.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_viazanie_postoj",
+        "bdsm:bond_viazanie_postoj_ine"
+      ],
+      "decision": "Štyri významy milujem/jemné/pevnejšie/nie, vrátane šatiek a ľahkých pút, Iné. Zdrojové nekompromisné redakčne neznamená neodvolateľnosť súhlasu. Pôvodná bond_intenzita nemá postoj milujem ani odmietnutie; jej hodnoty nemigrované.",
+      "options": [
+        {
+          "source": "Milujem ho – pridáva intenzitu a vzrušenie.",
+          "target": "bdsm:bond_viazanie_postoj#milujem"
+        },
+        {
+          "source": "Mám rád jemné obmedzenia (šatky, ľahké putá).",
+          "target": "bdsm:bond_viazanie_postoj#jemne"
+        },
+        {
+          "source": "Lákajú ma aj pevnejšie, nekompromisné spôsoby fixácie.",
+          "target": "bdsm:bond_viazanie_postoj#pevnejsie"
+        },
+        {
+          "source": "Nie, nevyhľadávam také aktivity.",
+          "target": "bdsm:bond_viazanie_postoj#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:bond_viazanie_postoj_ine"
+    },
+    {
+      "p": 699,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 700,
+      "source": "Otázka:\nMáš záujem o kombináciu viazania a iných stimulácií (orálny sex, hračky, výprask)?",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_kombinacia_zaujem",
+        "bdsm:bond_kombinacia_zaujem_ine"
+      ],
+      "decision": "Tri postoje ku kombinácii viazania s orálnym sexom, hračkami či výpraskom; zachované odmietnutie s preferenciou slobodnejšieho pohybu, Iné. Všeobecný záujem neznamená súhlas so všetkými príkladmi.",
+      "options": []
+    },
+    {
+      "p": 701,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_kombinacia_zaujem",
+        "bdsm:bond_kombinacia_zaujem_ine"
+      ],
+      "decision": "Tri postoje ku kombinácii viazania s orálnym sexom, hračkami či výpraskom; zachované odmietnutie s preferenciou slobodnejšieho pohybu, Iné. Všeobecný záujem neznamená súhlas so všetkými príkladmi.",
+      "options": []
+    },
+    {
+      "p": 702,
+      "source": "🔘 Áno, to ma veľmi láka.\n🔘 Možno, rada by som najskôr vedela viac.\n🔘 Nie, preferujem slobodnejší pohyb.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_kombinacia_zaujem",
+        "bdsm:bond_kombinacia_zaujem_ine"
+      ],
+      "decision": "Tri postoje ku kombinácii viazania s orálnym sexom, hračkami či výpraskom; zachované odmietnutie s preferenciou slobodnejšieho pohybu, Iné. Všeobecný záujem neznamená súhlas so všetkými príkladmi.",
+      "options": [
+        {
+          "source": "Áno, to ma veľmi láka.",
+          "target": "bdsm:bond_kombinacia_zaujem#ano"
+        },
+        {
+          "source": "Možno, rada by som najskôr vedela viac.",
+          "target": "bdsm:bond_kombinacia_zaujem#mozno"
+        },
+        {
+          "source": "Nie, preferujem slobodnejší pohyb.",
+          "target": "bdsm:bond_kombinacia_zaujem#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:bond_kombinacia_zaujem_ine"
+    },
+    {
+      "p": 703,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_kombinacia_zaujem",
+        "bdsm:bond_kombinacia_zaujem_ine"
+      ],
+      "decision": "Tri postoje ku kombinácii viazania s orálnym sexom, hračkami či výpraskom; zachované odmietnutie s preferenciou slobodnejšieho pohybu, Iné. Všeobecný záujem neznamená súhlas so všetkými príkladmi.",
+      "options": []
+    },
+    {
+      "p": 704,
+      "source": "🔘 Áno, to ma veľmi láka.\n🔘 Možno, rád by som najskôr vedel viac.\n🔘 Nie, preferujem slobodnejší pohyb.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:bond_kombinacia_zaujem",
+        "bdsm:bond_kombinacia_zaujem_ine"
+      ],
+      "decision": "Tri postoje ku kombinácii viazania s orálnym sexom, hračkami či výpraskom; zachované odmietnutie s preferenciou slobodnejšieho pohybu, Iné. Všeobecný záujem neznamená súhlas so všetkými príkladmi.",
+      "options": [
+        {
+          "source": "Áno, to ma veľmi láka.",
+          "target": "bdsm:bond_kombinacia_zaujem#ano"
+        },
+        {
+          "source": "Možno, rád by som najskôr vedel viac.",
+          "target": "bdsm:bond_kombinacia_zaujem#mozno"
+        },
+        {
+          "source": "Nie, preferujem slobodnejší pohyb.",
+          "target": "bdsm:bond_kombinacia_zaujem#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:bond_kombinacia_zaujem_ine"
+    },
+    {
+      "p": 705,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 706,
+      "source": "Hranie s dynamikou moci – Dominancia a submisia od jemnosti po tvrdosť",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_info"
+      ],
+      "decision": "Jemné vedenie aj priama autorita, psychologická intenzita, príkazy/očakávania, komunikácia, hranice a bezpečné slová. Bez návodu či tvrdenia, že intenzívnejšia hra automaticky vytvára dôveru.",
+      "options": []
+    },
+    {
+      "p": 707,
+      "source": "\n👑 Dominancia a submisia nemusia byť len o jemnom vedení. Niektorých partnerov vzrušuje otvorené a priame preberanie kontroly s dôrazom na disciplínu a autoritu.",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_info"
+      ],
+      "decision": "Jemné vedenie aj priama autorita, psychologická intenzita, príkazy/očakávania, komunikácia, hranice a bezpečné slová. Bez návodu či tvrdenia, že intenzívnejšia hra automaticky vytvára dôveru.",
+      "options": []
+    },
+    {
+      "p": 708,
+      "source": "Čo je na tom vzrušujúce?\n• 🎭 Psychologická intenzita – pocit úplného podriadenia alebo vedenia.\n• 🔥 Priame príkazy a disciplína – jasné pokyny a očakávania.\n• 💪 Budovanie dôvery – otvorené dohodnutie hraníc a bezpečných slov.",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_info"
+      ],
+      "decision": "Jemné vedenie aj priama autorita, psychologická intenzita, príkazy/očakávania, komunikácia, hranice a bezpečné slová. Bez návodu či tvrdenia, že intenzívnejšia hra automaticky vytvára dôveru.",
+      "options": []
+    },
+    {
+      "p": 709,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 710,
+      "source": "Otázka:\nAko vnímaš hranie s dynamikou moci počas našich hier?",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_postoj",
+        "bdsm:rola_dynamika_postoj_ine"
+      ],
+      "decision": "Štyri postoje intenzívne/mierne/situácia/rovnováha a Iné. Čím intenzívnejšie tým lepšie upravené na obľubu intenzity v hraniciach, bez neobmedzeného stupňovania.",
+      "options": []
+    },
+    {
+      "p": 711,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_postoj",
+        "bdsm:rola_dynamika_postoj_ine"
+      ],
+      "decision": "Štyri postoje intenzívne/mierne/situácia/rovnováha a Iné. Čím intenzívnejšie tým lepšie upravené na obľubu intenzity v hraniciach, bez neobmedzeného stupňovania.",
+      "options": []
+    },
+    {
+      "p": 712,
+      "source": "🔘 Milujem to – čím intenzívnejšie, tým lepšie.\n🔘 Mám rada miernu dominanciu a submisiu.\n🔘 Možno, záleží na situácii.\n🔘 Nie, radšej mám rovnováhu.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_postoj",
+        "bdsm:rola_dynamika_postoj_ine"
+      ],
+      "decision": "Štyri postoje intenzívne/mierne/situácia/rovnováha a Iné. Čím intenzívnejšie tým lepšie upravené na obľubu intenzity v hraniciach, bez neobmedzeného stupňovania.",
+      "options": [
+        {
+          "source": "Milujem to – čím intenzívnejšie, tým lepšie.",
+          "target": "bdsm:rola_dynamika_postoj#intenzivne"
+        },
+        {
+          "source": "Mám rada miernu dominanciu a submisiu.",
+          "target": "bdsm:rola_dynamika_postoj#mierne"
+        },
+        {
+          "source": "Možno, záleží na situácii.",
+          "target": "bdsm:rola_dynamika_postoj#mozno"
+        },
+        {
+          "source": "Nie, radšej mám rovnováhu.",
+          "target": "bdsm:rola_dynamika_postoj#rovnovaha"
+        }
+      ],
+      "ownAnswer": "bdsm:rola_dynamika_postoj_ine"
+    },
+    {
+      "p": 713,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_postoj",
+        "bdsm:rola_dynamika_postoj_ine"
+      ],
+      "decision": "Štyri postoje intenzívne/mierne/situácia/rovnováha a Iné. Čím intenzívnejšie tým lepšie upravené na obľubu intenzity v hraniciach, bez neobmedzeného stupňovania.",
+      "options": []
+    },
+    {
+      "p": 714,
+      "source": "🔘 Milujem to – čím intenzívnejšie, tým lepšie.\n🔘 Mám rád miernu dominanciu a submisiu.\n🔘 Možno, záleží na situácii.\n🔘 Nie, radšej mám rovnováhu.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_dynamika_postoj",
+        "bdsm:rola_dynamika_postoj_ine"
+      ],
+      "decision": "Štyri postoje intenzívne/mierne/situácia/rovnováha a Iné. Čím intenzívnejšie tým lepšie upravené na obľubu intenzity v hraniciach, bez neobmedzeného stupňovania.",
+      "options": [
+        {
+          "source": "Milujem to – čím intenzívnejšie, tým lepšie.",
+          "target": "bdsm:rola_dynamika_postoj#intenzivne"
+        },
+        {
+          "source": "Mám rád miernu dominanciu a submisiu.",
+          "target": "bdsm:rola_dynamika_postoj#mierne"
+        },
+        {
+          "source": "Možno, záleží na situácii.",
+          "target": "bdsm:rola_dynamika_postoj#mozno"
+        },
+        {
+          "source": "Nie, radšej mám rovnováhu.",
+          "target": "bdsm:rola_dynamika_postoj#rovnovaha"
+        }
+      ],
+      "ownAnswer": "bdsm:rola_dynamika_postoj_ine"
+    },
+    {
+      "p": 715,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 716,
+      "source": "Otázka:\nChcel/a by si počas hier zažiť priame, autoritatívne príkazy a vedenie?",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_autoritativne_vedenie",
+        "bdsm:rola_autoritativne_vedenie_ine"
+      ],
+      "decision": "Prijímanie priamych autoritatívnych príkazov: áno/mierne s rešpektom/nie a Iné. Nie to isté ako všeobecná rola alebo škála verb_prikazy.",
+      "options": []
+    },
+    {
+      "p": 717,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_autoritativne_vedenie",
+        "bdsm:rola_autoritativne_vedenie_ine"
+      ],
+      "decision": "Prijímanie priamych autoritatívnych príkazov: áno/mierne s rešpektom/nie a Iné. Nie to isté ako všeobecná rola alebo škála verb_prikazy.",
+      "options": []
+    },
+    {
+      "p": 718,
+      "source": "🔘 Áno, veľmi ma to vzrušuje – príkazy, pokyny, kontrola.\n🔘 Možno, len mierne a s rešpektom.\n🔘 Nie, nechcem to.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_autoritativne_vedenie",
+        "bdsm:rola_autoritativne_vedenie_ine"
+      ],
+      "decision": "Prijímanie priamych autoritatívnych príkazov: áno/mierne s rešpektom/nie a Iné. Nie to isté ako všeobecná rola alebo škála verb_prikazy.",
+      "options": [
+        {
+          "source": "Áno, veľmi ma to vzrušuje – príkazy, pokyny, kontrola.",
+          "target": "bdsm:rola_autoritativne_vedenie#ano"
+        },
+        {
+          "source": "Možno, len mierne a s rešpektom.",
+          "target": "bdsm:rola_autoritativne_vedenie#mozno"
+        },
+        {
+          "source": "Nie, nechcem to.",
+          "target": "bdsm:rola_autoritativne_vedenie#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:rola_autoritativne_vedenie_ine"
+    },
+    {
+      "p": 719,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_autoritativne_vedenie",
+        "bdsm:rola_autoritativne_vedenie_ine"
+      ],
+      "decision": "Prijímanie priamych autoritatívnych príkazov: áno/mierne s rešpektom/nie a Iné. Nie to isté ako všeobecná rola alebo škála verb_prikazy.",
+      "options": []
+    },
+    {
+      "p": 720,
+      "source": "🔘 Áno, veľmi ma to vzrušuje – príkazy, pokyny, kontrola.\n🔘 Možno, len mierne a s rešpektom.\n🔘 Nie, nechcem to.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_autoritativne_vedenie",
+        "bdsm:rola_autoritativne_vedenie_ine"
+      ],
+      "decision": "Prijímanie priamych autoritatívnych príkazov: áno/mierne s rešpektom/nie a Iné. Nie to isté ako všeobecná rola alebo škála verb_prikazy.",
+      "options": [
+        {
+          "source": "Áno, veľmi ma to vzrušuje – príkazy, pokyny, kontrola.",
+          "target": "bdsm:rola_autoritativne_vedenie#ano"
+        },
+        {
+          "source": "Možno, len mierne a s rešpektom.",
+          "target": "bdsm:rola_autoritativne_vedenie#mozno"
+        },
+        {
+          "source": "Nie, nechcem to.",
+          "target": "bdsm:rola_autoritativne_vedenie#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:rola_autoritativne_vedenie_ine"
+    },
+    {
+      "p": 721,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 722,
+      "source": "Otázka:\nMáš záujem o hranie tvrdších scén a intenzívnejšiu disciplínu? (napr. výprasky, tresty, znehybnenie)",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_intenzivna_disciplina",
+        "bdsm:rola_intenzivna_disciplina_ine"
+      ],
+      "decision": "Intenzívne scény: výprasky, tresty v dohodnutej hre, znehybnenie; tri postoje a Iné. Nie iba intenzita samotného výprasku.",
+      "options": []
+    },
+    {
+      "p": 723,
+      "source": "💗 Odpoveď ženy",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_intenzivna_disciplina",
+        "bdsm:rola_intenzivna_disciplina_ine"
+      ],
+      "decision": "Intenzívne scény: výprasky, tresty v dohodnutej hre, znehybnenie; tri postoje a Iné. Nie iba intenzita samotného výprasku.",
+      "options": []
+    },
+    {
+      "p": 724,
+      "source": "🔘 Áno, láka ma tvrdšia dynamika a disciplína.\n🔘 Možno, rada by som to skúšala opatrne.\n🔘 Nie, necítim sa na to.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_intenzivna_disciplina",
+        "bdsm:rola_intenzivna_disciplina_ine"
+      ],
+      "decision": "Intenzívne scény: výprasky, tresty v dohodnutej hre, znehybnenie; tri postoje a Iné. Nie iba intenzita samotného výprasku.",
+      "options": [
+        {
+          "source": "Áno, láka ma tvrdšia dynamika a disciplína.",
+          "target": "bdsm:rola_intenzivna_disciplina#ano"
+        },
+        {
+          "source": "Možno, rada by som to skúšala opatrne.",
+          "target": "bdsm:rola_intenzivna_disciplina#mozno"
+        },
+        {
+          "source": "Nie, necítim sa na to.",
+          "target": "bdsm:rola_intenzivna_disciplina#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:rola_intenzivna_disciplina_ine"
+    },
+    {
+      "p": 725,
+      "source": "💙 Odpoveď muža",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_intenzivna_disciplina",
+        "bdsm:rola_intenzivna_disciplina_ine"
+      ],
+      "decision": "Intenzívne scény: výprasky, tresty v dohodnutej hre, znehybnenie; tri postoje a Iné. Nie iba intenzita samotného výprasku.",
+      "options": []
+    },
+    {
+      "p": 726,
+      "source": "🔘 Áno, láka ma tvrdšia dynamika a disciplína.\n🔘 Možno, rád by som to skúšal opatrne.\n🔘 Nie, necítim sa na to.\n✍️ Iné: [________________________]",
+      "status": "spracovane",
+      "targets": [
+        "bdsm:rola_intenzivna_disciplina",
+        "bdsm:rola_intenzivna_disciplina_ine"
+      ],
+      "decision": "Intenzívne scény: výprasky, tresty v dohodnutej hre, znehybnenie; tri postoje a Iné. Nie iba intenzita samotného výprasku.",
+      "options": [
+        {
+          "source": "Áno, láka ma tvrdšia dynamika a disciplína.",
+          "target": "bdsm:rola_intenzivna_disciplina#ano"
+        },
+        {
+          "source": "Možno, rád by som to skúšal opatrne.",
+          "target": "bdsm:rola_intenzivna_disciplina#mozno"
+        },
+        {
+          "source": "Nie, necítim sa na to.",
+          "target": "bdsm:rola_intenzivna_disciplina#nie"
+        }
+      ],
+      "ownAnswer": "bdsm:rola_intenzivna_disciplina_ine"
+    },
+    {
+      "p": 727,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    },
+    {
+      "p": 728,
+      "source": "",
+      "status": "prazdny_odsek",
+      "targets": [],
+      "decision": "Prázdny odsek bez obsahu.",
+      "options": []
+    }
+  ]
+}
