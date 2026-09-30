@@ -18,7 +18,7 @@ const MIERA_MOZNOSTI = [
   ) },
   { v: 'neutral', label: 'Neutrálne – je to v poriadku, ale nie je to moja priorita' },
   { v: 'nesedelo', label: 'Skôr mi to nesedelo, ale môže sa to zlepšiť – ak upravíme tempo / techniku / komunikáciu' },
-  { v: 'neprijemne', label: 'Bolo mi to nepríjemné / mimo mojich hraníc – nechcem to opakovať' },
+  { v: 'neprijemne', label: 'Bolo mi to nepríjemné – nechcem to opakovať' },
 ]
 
 const FREKVENCIA_MOZNOSTI = [
@@ -50,6 +50,7 @@ const TEMPO_MOZNOSTI = [
   { v: 'pomale', label: 'Pomalé a zmyselné' },
   { v: 'striedave', label: 'Striedavé (vlny)' },
   { v: 'rychle', label: 'Rýchle a vášnivé' },
+  { v: 'navaly', label: 'Návaly intenzity s krátkymi pauzami' },
 ]
 const KONTROLA_MOZNOSTI = [
   { v: 'vediem', label: g('Rád vediem', 'Rada vediem') },
@@ -57,16 +58,15 @@ const KONTROLA_MOZNOSTI = [
   { v: 'striedame', label: 'Striedame sa' },
 ]
 
-// ── Rozmer tlaku a dychu (rovnaký úvodný text pre DOLE aj HORE) ──────────────
+// ── Rozmer tlaku a dychu ─────────────────────────────────────────────────────
 const SMOTHER_UVOD: Blok = {
   druh: 'text',
   id: 'smother_uvod',
   nadpis: 'Rozmer tlaku a dychu – „Smother / breath" dimenzia',
-  ton: 'vystraha',
+  ton: 'info',
   telo:
-    'Táto časť je určená len pre páry, ktoré spoločne a dobrovoľne zaujíma fantázia obmedzenia dychu. ' +
-    'Ide o rizikovú praktiku, ktorá vyžaduje maximálnu dôveru, jasnú komunikáciu a vopred dohodnuté pravidlá. ' +
-    'Ak ťa táto téma neláka, pokojne ju preskoč.',
+    'Pocit váhy, tesnej blízkosti a pohltenia môže byť erotický aj bez záujmu o obmedzenie dychu. ' +
+    'Pre niekoho je jadrom iba symbolika dominancie, iného priťahuje intenzívnejšia fantázia. Pomenuj, ktorá vrstva je pre teba skutočne vzrušujúca.',
 }
 
 // ── Techniky a polohy ────────────────────────────────────────────────
@@ -177,7 +177,7 @@ const TECHNIKY: Blok = {
         'Mýtus: „Som na to príliš ťažká / udusím ho." — Realita: ten hore má váhu na kolenách a riadi, koľko jej pustí. Väčšina ľudí dole hlási, že chce viac, nie menej.\n\n' +
         'Mýtus: „Pre toho dole je to ponižujúce." — Realita: veľa ľudí to opisuje ako najintímnejšiu formu uctievania partnera. Či je to jemné alebo dominantné, rozhodujete vy.\n\n' +
         'Mýtus: „Vôňa a chuť sú niečo, za čo sa treba hanbiť." — Realita: pre mnohých je vôňa a vlhkosť partnera najsilnejší afrodiziak. Sliny, vlhkosť, neporiadok na tvári k tomu patria.\n\n' +
-        'Tipy: vankúš pod hlavu toho dole, opora rúk o čelo postele, pri análnej verzii sprcha pred tým. Dohodnite si jednoduchý signál rukou na stehno — potom sa obaja uvoľníte.',
+        'Tip: vyskúšajte rozdiel medzi kľačaním s takmer žiadnou váhou, mäkkým dosadnutím a rytmickým pohybom panvy. Rovnaká poloha môže pôsobiť ako nežné uctievanie, hravé jazdenie aj intenzívna mocenská scéna.',
     },
   ],
 }
@@ -188,8 +188,8 @@ const DOLE: Blok = {
   id: 'dole',
   nadpis: 'Poskytujúca rola („Dole")',
   uvod: g(
-    'Táto časť je pre teba ako partnera, ktorý poskytuje orálnu stimuláciu. Pomôže ti pomenovať pocity, hranice a potreby v tejto pozícii.',
-    'Táto časť je pre teba ako partnerku, ktorá poskytuje orálnu stimuláciu. Pomôže ti pomenovať pocity, hranice a potreby v tejto pozícii.',
+    'Táto časť je pre teba ako partnera, ktorý poskytuje orálnu stimuláciu. Pomôže ti pomenovať pocity, lákadlá a potreby v tejto pozícii.',
+    'Táto časť je pre teba ako partnerku, ktorá poskytuje orálnu stimuláciu. Pomôže ti pomenovať pocity, lákadlá a potreby v tejto pozícii.',
   ),
   podmienka: { ot: 'skusenost', obsahujeNiektoru: ['dole', 'oboje'] },
   bloky: [
@@ -246,6 +246,7 @@ const DOLE: Blok = {
         { v: 'zvuky', label: g('Partnerkine zvuky a vzdychy', 'Partnerove zvuky a vzdychy') },
         { v: 'pohyby', label: g('Pohyby partnerkinho tela a panvy', 'Pohyby partnerovho tela a panvy') },
         { v: 'slova', label: 'Slovné potvrdenie alebo príkazy' },
+        { v: 'tlak', label: 'Zmena tlaku alebo rytmu panvy' },
       ],
     },
     {
@@ -256,7 +257,9 @@ const DOLE: Blok = {
       napoveda: 'Môžeš označiť viacero možností.',
       moznosti: [
         { v: 'vzduch', label: 'Obava o dostatok vzduchu' },
+        { v: 'vykon', label: 'Tlak na výkon alebo obava, či to robím dobre' },
         { v: 'hanba', label: 'Hanba alebo neistota' },
+        { v: 'trapnost', label: 'Pocit trápnosti v nezvyčajnej polohe' },
         { v: 'vona', label: 'Nepríjemné pocity z vône alebo chuti' },
         { v: 'nepohodlie', label: 'Fyzické nepohodlie (krk, čeľusť)' },
       ],
@@ -270,7 +273,7 @@ const DOLE: Blok = {
         { v: 'pauzy', label: 'Viac pauz a pomalšie tempo' },
         { v: 'instrukcie', label: g('Jasnejšie inštrukcie od partnerky', 'Jasnejšie inštrukcie od partnera') },
         { v: 'menej_tlaku', label: 'Menej tlaku na výkon' },
-        { v: 'stop', label: 'Vedomie, že môžem kedykoľvek prestať' },
+        { v: 'stop', label: 'Možnosť sám/sama určovať dĺžku jednotlivých vĺn' },
       ],
     },
     {
@@ -314,7 +317,21 @@ const DOLE: Blok = {
         { v: 'uziva', label: g('Keď vidím, že si to partnerka užíva', 'Keď vidím, že si to partner užíva') },
       ],
     },
-    { druh: 'otazka', id: 'dole_hranice', typ: 'text', text: 'Aké sú tvoje hranice? Čo by ťa odradilo?' },
+    { druh: 'otazka', id: 'dole_hranice', typ: 'text', text: 'Ktoré prvky ma v tejto roli eroticky vypínajú alebo rušia?' },
+    {
+      druh: 'otazka', id: 'dole_rola', typ: 'jeden',
+      text: 'Akú rolu chcem mať ako ten/tá dole',
+      moznosti: [
+        { v: 'pasivna', label: 'Pasívnu — nechám partnera/partnerku viesť pohyb' },
+        { v: 'aktivna', label: 'Aktívnu — jazykom, rukami a rytmom vediem zážitok ja' },
+        { v: 'striedat', label: 'Striedať aktívnu a pasívnu rolu' },
+      ],
+    },
+    { druh: 'otazka', id: 'dole_pocut', typ: 'text', text: 'Čo by som počas tejto polohy najradšej počul(a) od partnera/partnerky?' },
+    { druh: 'otazka', id: 'dole_nevyslovene', typ: 'text', text: 'O ktorom lákavom prvku sa mi hovorí najťažšie, hoci ma zaujíma?' },
+    { druh: 'otazka', id: 'dole_prvykrat', typ: 'text', text: 'Ako by vyzerala moja ideálna prvá alebo nová verzia tejto polohy?' },
+    { druh: 'otazka', id: 'dole_fungovalo', typ: 'text', text: 'Čo pri doterajšej skúsenosti fungovalo a čo by som nabudúce zmenil(a)?' },
+    { druh: 'otazka', id: 'dole_zhrnutie', typ: 'text', text: 'Jednou vetou: najviac ma na tom berie, keď…' },
 
     { druh: 'text', id: 'dole_konkretne_nadpis', nadpis: 'Konkrétne preferencie – intenzita a kontrola', telo: '' },
     { druh: 'otazka', id: 'dole_tlak', typ: 'jeden', text: 'Tlak', moznosti: TLAK_MOZNOSTI },
@@ -349,7 +366,7 @@ const DOLE: Blok = {
           text: 'Čo ťa na tejto fantázii priťahuje?',
           moznosti: [
             { v: 'bezmocnost', label: 'Pocit úplnej bezmocnosti a odovzdanosti' },
-            { v: 'adrenalin', label: 'Adrenalín a vzrušenie z rizika' },
+            { v: 'adrenalin', label: 'Adrenalín z intenzity a mocenského napätia' },
             { v: 'blizkost', label: 'Intenzívny pocit blízkosti a pohltenia' },
             { v: 'subspace', label: 'Zmenený stav vedomia (subspace)' },
           ],
@@ -359,9 +376,11 @@ const DOLE: Blok = {
           id: 'dole_smother_signal',
           typ: 'viac',
           inePovolene: true,
-          text: 'Aký je tvoj bezpečnostný signál, ktorý znamená OKAMŽITÉ ZASTAVENIE?',
+          text: 'Ako chcem, aby sa počas tejto fantázie menila váha a intenzita?',
           moznosti: [
-            { v: 'gesto', label: g('Dohodnuté gesto (napr. opakované poklepanie po tele partnerky)', 'Dohodnuté gesto (napr. opakované poklepanie po tele partnera)') },
+            { v: 'gesto', label: 'Podľa pohybu mojich rúk alebo bokov' },
+            { v: 'vlny', label: 'V krátkych vlnách: priblíženie, tlak, uvoľnenie' },
+            { v: 'stabilne', label: 'Stabilná váha bez častých zmien' },
           ],
         },
       ],
@@ -410,8 +429,9 @@ const HORE: Blok = {
         { v: 'uctievany', label: g('Pocit, že si uctievaný', 'Pocit, že si uctievaná') },
         { v: 'pouzivam', label: g('Pocit, že partnerku používam pre vlastné potešenie', 'Pocit, že partnera používam pre vlastné potešenie') },
         { v: 'pasivita', label: 'Pohodlie a pasivita' },
-        { v: 'prosim', label: g('Keď partnerku prosím, keď poslúcha', 'Keď partnera prosím, keď poslúcha') },
-        { v: 'sebavedomy', label: g('Keď som sebavedomý a aktívny', 'Keď som sebavedomá a aktívna') },
+        { v: 'prosim', label: g('Keď ma partnerka prosí, aby som pokračoval', 'Keď ma partner prosí, aby som pokračovala') },
+        { v: 'poslucha', label: g('Keď partnerka poslúcha moje vedenie', 'Keď partner poslúcha moje vedenie') },
+        { v: 'sebavedomy', label: g('Keď je partnerka dole sebavedomá a aktívna', 'Keď je partner dole sebavedomý a aktívny') },
       ],
     },
     { druh: 'otazka', id: 'hore_atmosfera', typ: 'jeden', text: 'Akú atmosféru preferuješ?', moznosti: ATMOSFERA_MOZNOSTI },
@@ -440,15 +460,42 @@ const HORE: Blok = {
         { v: 'uziva', label: 'Keď vidím, že si to užívaš' },
       ],
     },
-    { druh: 'otazka', id: 'hore_hranice', typ: 'text', text: 'Aké sú tvoje hranice? Čo by ťa odradilo?' },
+    { druh: 'otazka', id: 'hore_hranice', typ: 'text', text: 'Ktoré prvky ma v tejto roli eroticky vypínajú alebo rušia?' },
+    { druh: 'otazka', id: 'hore_plus_dva', typ: 'text', text: 'Čo by zvýšilo moju chuť na túto polohu približne o dva body z desiatich?' },
+    {
+      druh: 'otazka', id: 'hore_pocity', typ: 'viac', inePovolene: true,
+      text: 'Ktoré tri vnemy chcem cítiť najvýraznejšie', napoveda: 'Vyber najviac tri hlavné vnemy.',
+      moznosti: [
+        { v: 'tlak', label: 'Tlak' },
+        { v: 'pohyb', label: 'Pohyb panvy' },
+        { v: 'jazyk', label: 'Jazyk' },
+        { v: 'ruky', label: 'Ruky na bokoch, zadku alebo stehnách' },
+        { v: 'rytmus', label: 'Stály rytmus' },
+        { v: 'pauzy', label: 'Pauzy a návraty' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'hore_vedenie', typ: 'jeden', text: 'Kto má viesť tempo a tlak',
+      moznosti: [
+        { v: 'ja', label: 'Ja ako osoba hore' },
+        { v: 'partner', label: 'Partner/ka dole svojím jazykom a rukami' },
+        { v: 'striedame', label: 'Striedame sa počas jednej scény' },
+      ],
+    },
+    { druh: 'otazka', id: 'hore_frazy', typ: 'text', text: 'Ktoré slová alebo frázy ma v tejto polohe okamžite naladia?' },
+    { druh: 'otazka', id: 'hore_tabu', typ: 'text', text: 'Čo je pre mňa na tejto polohe najviac tabu — a práve preto vzrušujúce?' },
+    { druh: 'otazka', id: 'hore_fungovalo', typ: 'text', text: 'Čo pri doterajšej skúsenosti fungovalo a čo by som nabudúce zmenil(a)?' },
+    { druh: 'otazka', id: 'hore_zhrnutie', typ: 'text', text: 'Jednou vetou: najviac ma na tom vzrušuje…' },
 
     {
       druh: 'skupina',
       id: 'hore_smother',
       nadpis: 'Pre rolu „Hore" (kontrolujúci tlak)',
-      uvod: '(opakovaná sekcia pre symetriu modulu – logika zachovaná)',
       bloky: [
-        SMOTHER_UVOD,
+        {
+          druh: 'text', id: 'hore_smother_uvod', ton: 'info',
+          telo: 'V role hore môže byť vzrušujúca samotná symbolika moci, vedomé dávkovanie váhy alebo pocit, že partner/ka zostáva úplne sústredený/á na tvoje potešenie.',
+        },
         {
           druh: 'otazka',
           id: 'hore_smother_priahuje',
@@ -461,9 +508,9 @@ const HORE: Blok = {
           ],
         },
         { druh: 'otazka', id: 'hore_smother_fungovalo', typ: 'text', text: 'Čo fungovalo / čomu sa chceš vyhnúť:' },
-        { druh: 'otazka', id: 'hore_smother_podmienky', typ: 'text', text: 'Moje podmienky:' },
-        { druh: 'otazka', id: 'hore_smother_hranice', typ: 'text', text: 'Moje jasné hranice:' },
-        { druh: 'otazka', id: 'hore_smother_cervena', typ: 'text', text: 'Červená vlajka (stop / pauza):' },
+        { druh: 'otazka', id: 'hore_smother_podmienky', typ: 'text', text: 'Scenár a atmosféra, v ktorých ma táto mocenská vrstva láka:' },
+        { druh: 'otazka', id: 'hore_smother_hranice', typ: 'text', text: 'Chcem skôr symbolickú dominanciu, jemný tlak alebo výraznú váhu — prečo?' },
+        { druh: 'otazka', id: 'hore_smother_cervena', typ: 'text', text: 'Čo by túto fantáziu pre mňa pokazilo alebo zmenilo na neerotickú?' },
       ],
     },
   ],
@@ -493,8 +540,8 @@ function fantaziaPostoj(rola: 'hore' | 'dole'): Blok {
         id: `en_${rola}_pozn`,
         ton: 'info',
         telo: g(
-          'Už samotný fakt, že si zvolil preskúmať túto tému, znamená zvedavosť. Tu neriešime odpoveď „nezaujíma ma to". • Fantázia ≠ súhlas • Zvedavosť ≠ záväzok',
-          'Už samotný fakt, že si zvolila preskúmať túto tému, znamená zvedavosť. Tu neriešime odpoveď „nezaujíma ma to". • Fantázia ≠ súhlas • Zvedavosť ≠ záväzok',
+          'Fantázia o polohe hore alebo dole môže byť príjemná práve pre svoju intenzitu, tabu alebo mocenskú symboliku. Nemusí presne kopírovať to, čo človeka láka v realite.',
+          'Fantázia o polohe hore alebo dole môže byť príjemná práve pre svoju intenzitu, tabu alebo mocenskú symboliku. Nemusí presne kopírovať to, čo človeka láka v realite.',
         ),
       },
       {
@@ -513,8 +560,8 @@ function fantaziaPostoj(rola: 'hore' | 'dole'): Blok {
       {
         druh: 'text',
         id: `en_${rola}_pozn2`,
-        ton: 'vystraha',
-        telo: '⚠️ Tu sa nič nehodnotí. Aj „nepríjemné, ale vracia sa" je dôležitá informácia.',
+        ton: 'info',
+        telo: 'Mýtus: opakujúca sa predstava automaticky prezrádza skrytú potrebu. Realita: fantázia môže spracúvať moc, hanbu, zvedavosť alebo telesnú intenzitu bez toho, aby bola plánom.',
       },
     ],
   }
@@ -560,7 +607,7 @@ function ochota(rola: 'hore' | 'dole'): Blok {
                 { v: 'dych', label: 'Obava z dychu (len pocitová)' },
                 { v: 'kontrola', label: 'Pocit straty kontroly' },
                 { v: 'hanba', label: 'Hanba / trápnosť' },
-                { v: 'hygiena', label: 'Hygiena / vôňa' },
+                { v: 'hygiena', label: 'Rozpaky z prirodzenej vône alebo chuti' },
                 { v: 'odsudenie', label: 'Strach z odsúdenia' },
                 { v: 'nic', label: g('Nič – som otvorený všetkému', 'Nič – som otvorená všetkému') },
               ]
@@ -629,8 +676,8 @@ const ESTE_NIE: Blok = {
       id: 'en_logika',
       ton: 'info',
       telo:
-        '👉 Ak zvolíš „Chcem, aby to ostalo len moja fantázia" alebo „Necítim sa komfortne" u oboch pozícií, modul sa tu ukončí. ' +
-        'Partner dostane jasnú hranicu bez odmietnutia teba ako osoby. Ak len u jednej pozície, aktívna zostane tá druhá.',
+        'Odpovede môžu ukázať, že jedna rola láka výrazne viac než druhá, alebo že predstava funguje lepšie než reálny zážitok. ' +
+        'Aj takýto rozdiel je užitočný: odhaľuje, či je jadrom uctievanie, poskytovanie potešenia, kontrola, váha, vôňa alebo samotné tabu.',
     },
   ],
 }
@@ -638,13 +685,41 @@ const ESTE_NIE: Blok = {
 // ── Spoločné bloky (bez ohľadu na skúsenosť) ──────────────────────────────
 const SPOLOCNE: Blok[] = [
   {
+    druh: 'skupina', id: 'fantazia_spolocna', nadpis: 'Fantázia — bez ohľadu na skúsenosť',
+    bloky: [
+      {
+        druh: 'otazka', id: 'fant_frekvencia', typ: 'jeden', text: 'Ako často sa face sitting objavuje v mojich fantáziách',
+        moznosti: [
+          { v: 'takmer_vzdy', label: 'Takmer vždy, keď fantazírujem' },
+          { v: 'casto', label: 'Často' },
+          { v: 'niekedy', label: 'Niekedy' },
+          { v: 'zriedka', label: 'Zriedka' },
+          { v: 'nikdy', label: 'Nikdy' },
+        ],
+      },
+      {
+        druh: 'otazka', id: 'fant_vzrusenie', typ: 'jeden', text: 'Ako ma vzrušuje samotná predstava',
+        moznosti: [
+          { v: 'velmi', label: 'Veľmi' },
+          { v: 'skor', label: 'Skôr áno' },
+          { v: 'neutral', label: 'Neutrálne' },
+          { v: 'skor_nie', label: 'Skôr nie' },
+        ],
+      },
+      {
+        druh: 'text', id: 'fant_normalizacia', nadpis: 'Fantázia nemusí vyzerať ako realita', ton: 'info',
+        telo: 'Niekto sníva o úplnej dominancii, hoci v realite ho láka iba jemné kľačanie nad tvárou. Iného vzrušuje vôňa, váha alebo uctievanie bez mocenskej hry. Rozdiel medzi predstavou a praxou je bežný a nič nevypovedá o kvalite túžby.',
+      },
+    ],
+  },
+  {
     druh: 'skupina',
     id: 'nastavenie',
     nadpis: 'Moje nastavenie',
     bloky: [
-      { druh: 'otazka', id: 'nastavenie_podmienky', typ: 'text', text: 'Moje podmienky, aby to bolo príjemné:' },
-      { druh: 'otazka', id: 'nastavenie_hranice', typ: 'text', text: 'Moje jasné hranice (čo určite nie):' },
-      { druh: 'otazka', id: 'nastavenie_cervena', typ: 'text', text: 'Čo je pre mňa „červená vlajka" (kedy chcem stop / pauzu):' },
+      { druh: 'otazka', id: 'nastavenie_podmienky', typ: 'text', text: 'Atmosféra a naladenie, v ktorých mi táto poloha znie najlepšie:' },
+      { druh: 'otazka', id: 'nastavenie_hranice', typ: 'text', text: 'Čo ma pri nej eroticky vypína alebo vytrhne z nálady:' },
+      { druh: 'otazka', id: 'nastavenie_cervena', typ: 'text', text: 'Ktorý detail by som chcel(a) zmeniť oproti svojim doterajším predstavám alebo skúsenostiam:' },
     ],
   },
   {
@@ -658,10 +733,11 @@ const SPOLOCNE: Blok[] = [
         id: 'poznamky_bojim',
         typ: 'text',
         text: g(
-          'Čoho sa bojím / čo nechcem (čo by ma úplne odradilo, aj keby to partnerka chcela):',
-          'Čoho sa bojím / čo nechcem (čo by ma úplne odradilo, aj keby to partner chcel):',
+          'Čo mi komplikuje uvoľnenie a čo by mi od partnerky pomohlo:',
+          'Čo mi komplikuje uvoľnenie a čo by mi od partnera pomohlo:',
         ),
       },
+      { druh: 'otazka', id: 'poznamky_zaciatok', typ: 'text', text: 'Ako má partner/ka začať — jedna konkrétna veta alebo gesto:' },
     ],
   },
   {
@@ -679,9 +755,12 @@ const SPOLOCNE: Blok[] = [
         inePovolene: true,
         text: '„Worship / service" – detail. Ktoré z týchto vecí ťa lákajú?',
         moznosti: [
+          { v: 'urob_dobre', label: 'Tón „urob mi dobre"' },
+          { v: 'pochvala', label: 'Pochvala a ocenenie' },
           { v: 'prosby', label: 'Prosby' },
           { v: 'prikazy', label: 'Príkazy' },
-          { v: 'ponizovanie', label: 'Ponižovanie' },
+          { v: 'ponizovanie', label: 'Jemné ponižovanie' },
+          { v: 'ziadne', label: 'Žiadne slovné prvky' },
         ],
       },
     ],
@@ -701,6 +780,7 @@ const SPOLOCNE: Blok[] = [
           { v: 'zvuky', label: 'Zvuky a dych' },
           { v: 'slovne', label: 'Slovné pokyny' },
           { v: 'pochvaly', label: 'Pochvaly a povzbudenie' },
+          { v: 'dirty_talk', label: 'Dirty talk' },
         ],
       },
       {
@@ -717,7 +797,109 @@ const SPOLOCNE: Blok[] = [
           { v: 'signaly', label: 'Dohodneme si signály' },
         ],
       },
+      { druh: 'otazka', id: 'spol_rec_turnoff', typ: 'text', text: 'Ktoré slová alebo tón hlasu ma počas tejto polohy eroticky vypínajú?' },
     ],
+  },
+  {
+    druh: 'skupina', id: 'dych_rozmer', nadpis: 'Váha, pohltenie a fantázia dychu',
+    uvod: 'Táto vrstva nie je automatickou súčasťou face sittingu. Niekto miluje iba blízkosť a váhu, iného priťahuje symbolika úplného pohltenia alebo mocenská fantázia.',
+    bloky: [
+      {
+        druh: 'otazka', id: 'dych_zaujem', typ: 'jeden', text: 'Čo ma na tejto vrstve láka',
+        moznosti: [
+          { v: 'vaha', label: 'Iba pocit váhy, tepla a tesnej blízkosti' },
+          { v: 'fantazia', label: 'Aj fantázia obmedzenia dychu a pohltenia' },
+          { v: 'symbolika', label: 'Najmä symbolika dominancie bez telesnej intenzity' },
+          { v: 'nic', label: 'Táto vrstva ma neláka' },
+        ],
+      },
+      {
+        druh: 'otazka', id: 'dych_podoba', typ: 'jeden', text: 'V akej podobe si ju viem predstaviť',
+        moznosti: [
+          { v: 'hlava', label: 'Iba ako fantáziu v hlave alebo dirty talk' },
+          { v: 'symbolicky', label: 'Symbolická dominancia a jemný tlak' },
+          { v: 'intenzivne', label: 'Intenzívnejšia váha a pocit pohltenia' },
+          { v: 'nie', label: 'Nechcem túto vrstvu' },
+        ],
+      },
+      { druh: 'otazka', id: 'dych_vzrusenie', typ: 'text', text: 'Čo presne je na predstave váhy, pohltenia alebo dychu pre mňa erotické?' },
+      {
+        druh: 'otazka', id: 'dych_hore_forma', typ: 'jeden', text: 'Keď som hore, moja ideálna mocenská vrstva je',
+        moznosti: [
+          { v: 'symbolika', label: 'Iba symbolika dominancie' },
+          { v: 'jemny_tlak', label: 'Jemný tlak a vedomé dávkovanie váhy' },
+          { v: 'pohyb', label: 'Výrazný pohyb panvy a pocit vedenia' },
+          { v: 'neviem', label: 'Zatiaľ neviem' },
+        ],
+      },
+      { druh: 'otazka', id: 'dych_hore_preco', typ: 'text', text: 'Čo ma na mocenskej role hore priťahuje najviac?' },
+    ],
+  },
+  {
+    druh: 'skupina', id: 'spol_vona', nadpis: 'Vôňa, chuť a prirodzenosť',
+    bloky: [
+      {
+        druh: 'otazka', id: 'spol_vona_postoj', typ: 'jeden', text: 'Prirodzená vôňa a chuť partnera/partnerky je pre mňa',
+        moznosti: [
+          { v: 'spinac', label: 'Silný erotický spínač' },
+          { v: 'prijemna', label: 'Príjemná súčasť blízkosti' },
+          { v: 'neutral', label: 'Neutrálna' },
+          { v: 'blok', label: 'Skôr mentálny blok' },
+        ],
+      },
+      { druh: 'otazka', id: 'spol_vona_uvolnenie', typ: 'text', text: 'Čo by mi pomohlo menej riešiť vlastnú alebo partnerovu vôňu a viac vnímať zážitok?' },
+      {
+        druh: 'text', id: 'spol_vona_mytus', nadpis: 'Mýtus o prirodzenosti', ton: 'info',
+        telo: 'Mýtus: pri orále musí telo voňať ako kozmetika. Realita: veľa ľudí priťahuje práve prirodzená vôňa, chuť a vlhkosť partnera. Rozpaky sú bežné, no nie sú dôkazom, že je s telom niečo zlé.',
+      },
+    ],
+  },
+  {
+    druh: 'skupina', id: 'spol_diskusia', nadpis: 'Body pre spoločný rozhovor',
+    bloky: [
+      {
+        druh: 'otazka', id: 'disk_ciel', typ: 'viac', inePovolene: true, text: 'Čo ma na spoločnom skúšaní láka ako hlavný cieľ',
+        moznosti: [
+          { v: 'orgazmus', label: 'Orgazmus' },
+          { v: 'moc', label: 'Hra moci' },
+          { v: 'zmysly', label: 'Zmyslovosť a blízkosť' },
+          { v: 'objavovanie', label: 'Objavovanie novej polohy bez cieľa' },
+          { v: 'uctievanie', label: 'Rituál uctievania alebo služby' },
+        ],
+      },
+      { druh: 'otazka', id: 'disk_uspech', typ: 'text', text: 'Čo by som považoval(a) za vydarený zážitok, aj keby trval iba krátko?' },
+      {
+        druh: 'otazka', id: 'disk_detail', typ: 'viac', text: 'Ktoré detaily sú pre mňa kľúčové',
+        moznosti: [
+          { v: 'slova', label: 'Slová' }, { v: 'tlak', label: 'Tlak' }, { v: 'pohlad', label: 'Pohľad' },
+          { v: 'vona', label: 'Vôňa' }, { v: 'kontrola', label: 'Kontrola' }, { v: 'tabu', label: 'Tabu prvok' },
+        ],
+      },
+      { druh: 'otazka', id: 'disk_pochopit', typ: 'text', text: 'Čo chcem, aby partner/ka pochopil(a) o mojej fantázii?' },
+      { druh: 'otazka', id: 'disk_obava', typ: 'text', text: 'Aká je moja najväčšia obava a čo by mi pomohlo uvoľniť sa?' },
+      {
+        druh: 'otazka', id: 'disk_verzia', typ: 'jeden', text: 'Ktorá verzia ma láka najviac',
+        moznosti: [
+          { v: 'jemna', label: 'Jemná a zmyselná' },
+          { v: 'stredna', label: 'Stredná — váha, pohyb a výrazný rytmus' },
+          { v: 'dominantna', label: 'Dominantná a intenzívna' },
+        ],
+      },
+      { druh: 'otazka', id: 'disk_rola_preco', typ: 'text', text: 'Túžim viac byť hore alebo dole — a čo ma na tej roli priťahuje?' },
+      { druh: 'otazka', id: 'disk_tajny_ritual', typ: 'text', text: 'Ktorý detail by mohol byť iba naším tajným rituálom?' },
+      { druh: 'otazka', id: 'disk_veta', typ: 'text', text: 'Jedna veta pre partnera/partnerku: najviac ma vzruší, keď ty…' },
+    ],
+  },
+  {
+    druh: 'text', id: 'rebrik_experimentov', nadpis: 'Spoločný rebrík experimentovania', ton: 'info',
+    telo:
+      '1. Rozhovor: každý opíše jednu fantáziu a jednu vec, ktorá ho na nej priťahuje.\n\n' +
+      '2. Poloha bez orálu: na pár sekúnd si vyskúšajte iba geometriu tiel, blízkosť a pohľad.\n\n' +
+      '3. Jemná verzia: kľačanie nad tvárou, ľahký dotyk jazyka a časté zmeny medzi priblížením a oddialením.\n\n' +
+      '4. Zmyslový upgrade: pridajte hudbu, tlmené svetlo, vôňu, bielizeň alebo zrkadlo.\n\n' +
+      '5. Roly: skúste raz uctievanie a službu, inokedy sebavedomé vedenie osoby hore.\n\n' +
+      '6. Intenzita: porovnajte pomalý stabilný rytmus s vlnami tlaku, pohybu a pauzy.\n\n' +
+      '7. Fantasy vrstva: pridajte prosbu, pochvalu, príkaz, jemné poníženie alebo tajný rituál podľa toho, čo vás eroticky oslovuje.',
   },
 ]
 
@@ -733,7 +915,7 @@ export const FACE_SITTING: TemaObsah = {
       telo:
         'Face sitting (tiež známe ako „queening" pre ženy alebo „kinging" pre mužov) je intímna poloha, pri ktorej si jeden ' +
         'z partnerov sadne alebo kľakne nad tvár druhého, pričom dochádza k orálnej stimulácii genitálií alebo análnej oblasti. ' +
-        'Táto praktika môže mať mnoho podôb – od jemnej a zmyselnej až po dominantnú a intenzívnu, v závislosti od dohody a preferencií oboch partnerov.',
+        'Táto praktika môže mať mnoho podôb – od jemnej a zmyselnej až po dominantnú a intenzívnu, podľa rolí, nálady a preferencií.',
     },
     {
       druh: 'text',
@@ -754,7 +936,7 @@ export const FACE_SITTING: TemaObsah = {
       id: 'master_dokument',
       ton: 'info',
       telo:
-        '→ Master dokument: „Facesitting – Sprievodca pre páry" — hĺbkový sprievodca psychológiou, technickými variáciami a bezpečnosťou. Otvor si ho, ak chcete vedieť viac.',
+        '→ Master dokument: „Facesitting – Sprievodca pre páry" — hĺbkový sprievodca psychológiou, technickými variáciami a mocenskou dynamikou. Otvor si ho, ak chcete vedieť viac.',
     },
   ],
   telo: [
@@ -783,8 +965,8 @@ export const FACE_SITTING: TemaObsah = {
       id: 'ukoncenie',
       nadpis: 'Ukončenie modulu',
       telo:
-        'Výsledkom je informácia pre partnera: či máš k tejto téme fantázie a či ju chceš preniesť do reality. ' +
-        'Už samotný fakt, že si tému otvoril/a, znamená zvedavosť — preto tu chýba odpoveď „nie", čo je logické.',
+        'Face sitting môže byť jemný orálny variant, hra váhy a rytmu, rituál uctievania aj výrazná mocenská fantázia. ' +
+        'Rozdielne odpovede neznamenajú pokazenú zhodu: často iba ukazujú, že jedného priťahuje poloha, druhého konkrétna rola, vôňa, slová alebo predstava bez potreby realizácie.',
     },
     {
       druh: 'text',

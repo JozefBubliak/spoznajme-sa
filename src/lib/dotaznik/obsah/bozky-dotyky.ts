@@ -15,7 +15,7 @@ const POSTOJ: Moznost[] = [
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
-  { v: 'nie', label: 'Nie — hranica' },
+  { v: 'nie', label: 'Nie, neláka ma to' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
 const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
@@ -266,6 +266,12 @@ const MVN: Blok = {
   druh: 'skupina', id: 'mvn', nadpis: 'Manuálna stimulácia — vulva a vagína',
   bloky: [
     {
+      druh: 'text', id: 'mvn_info', nadpis: 'Ruka vie meniť smer, tlak aj vrstvu stimulácie', ton: 'info',
+      telo:
+        'Manuálna stimulácia nemusí byť iba jeden pohyb na klitorise alebo vo vagíne. Vonkajší dotyk, tlak dlane na panvu a vnútorný pohyb sa dajú vrstviť alebo striedať. ' +
+        'Najväčší rozdiel často neurobí nová technika, ale uhol prstov, stabilný rytmus a to, či sa pohyb tesne pred vrcholom nemení.',
+    },
+    {
       druh: 'otazka', id: 'mvn_klitoris', typ: 'viac', inePovolene: true,
       text: 'Klitoris (externé) — techniky',
       moznosti: [
@@ -301,6 +307,45 @@ const MVN: Blok = {
         { v: 'a_bod', label: 'A-bod — hlboko na prednej stene pred krčkom' },
         { v: 'u_bod', label: 'U-bod — okolo ústia močovej trubice nad vstupom' },
         { v: 'fornix', label: 'Zadná klenba (posterior fornix) — hlboko vzadu za krčkom' },
+      ],
+    },
+    {
+      druh: 'text', id: 'mvn_gbod_info', nadpis: 'G-bod: uhol a opora', ton: 'info',
+      telo:
+        'Pri pohybe „hook" sa zahnuté prsty opierajú o prednú stenu vagíny smerom k pupku. Jedna ruka môže pracovať zvnútra a druhá stabilizovať podbruško alebo stimulovať klitoris. ' +
+        'Niekto uprednostňuje malé pulzy na jednom mieste, iný dlhšie priťahovanie prstov, súvislý tlak alebo prestávky. Pocit nutkania na močenie môže byť súčasťou tejto stimulácie a nie je dôvodom na hanbu.',
+    },
+    {
+      druh: 'otazka', id: 'mvn_gbod_uhol', typ: 'viac', inePovolene: true,
+      text: 'Aký smer a pohyb na prednej stene ma láka',
+      moznosti: [
+        { v: 'hook', label: 'Zahnuté prsty smerom k pupku' },
+        { v: 'pulzy', label: 'Krátke pulzy na jednom bode' },
+        { v: 'pritahovanie', label: 'Rytmické priťahovanie „poď sem"' },
+        { v: 'kruhy', label: 'Malé krúžky' },
+        { v: 'zametanie', label: 'Pomalé prechádzanie po širšej ploche' },
+        { v: 'drzanie', label: 'Súvislý tlak bez pohybu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mvn_gbod_tlak', typ: 'jeden',
+      text: 'Aký tlak mi pri vnútornej stimulácii najčastejšie vyhovuje',
+      moznosti: [
+        { v: 'jemny', label: 'Jemný a postupný' },
+        { v: 'stredny', label: 'Stredný a stabilný' },
+        { v: 'silny', label: 'Pevný a dôrazný' },
+        { v: 'stupnovanie', label: 'Postupné zvyšovanie tlaku' },
+        { v: 'striedanie', label: 'Striedanie tlaku a uvoľnenia' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mvn_gbod_rytmus', typ: 'jeden',
+      text: 'Čo mi pri stimulácii G-bodu vyhovuje viac',
+      moznosti: [
+        { v: 'staly', label: 'Stály rytmus bez prerušovania' },
+        { v: 'pauzy', label: 'Krátke pauzy a návraty' },
+        { v: 'vlny', label: 'Vlny od jemného po intenzívne' },
+        { v: 'spatna_vazba', label: 'Priebežné prispôsobovanie podľa mojich reakcií' },
       ],
     },
     { druh: 'otazka', id: 'mvn_vlhkost', typ: 'jeden', text: '„Vlhkosť"', moznosti: VLHKOST },
@@ -346,6 +391,24 @@ const RUKY_RITUALY: Blok = {
     p('rr_verejne', 'Diskrétne pod dekou v kine, v aute, pod stolom'),
     p('rr_do_konca', 'Manuálna stimulácia až do orgazmu ako hlavný akt'),
     {
+      druh: 'otazka', id: 'rr_tlakove_body', typ: 'viac', inePovolene: true,
+      text: 'Ktoré oporné a tlakové body chcem zapojiť dlaňou alebo prstami',
+      moznosti: [
+        { v: 'panvove_hrebene', label: 'Panvové hrebene — pevný úchop alebo tlak palcov' },
+        { v: 'bedra', label: 'Bedrá a boky — hnetenie a pritiahnutie' },
+        { v: 'krize', label: 'Kríže a spodný chrbát — tlak dlaňou' },
+        { v: 'stehna', label: 'Vnútorné stehná — dlhé ťahy a stisk' },
+        { v: 'podbrusko', label: 'Podbruško — opora dlane pri vnútornej stimulácii' },
+        { v: 'zadok', label: 'Zadok — stisk, hnetenie alebo roztiahnutie' },
+      ],
+    },
+    {
+      druh: 'text', id: 'rr_tlakove_body_info', nadpis: 'Ruky mimo genitálií', ton: 'info',
+      telo:
+        'Dlaň na krížoch, palce na panvových hrebeňoch alebo pevný úchop bokov môžu meniť držanie tela aj pocit vedenia. ' +
+        'Takýto tlak môže byť jemnou oporou, súčasťou masáže alebo intenzívnym kontrastom k presnej stimulácii prstami.',
+    },
+    {
       druh: 'text', id: 'rr_myty', nadpis: 'Mýty', ton: 'info',
       telo:
         'Mýtus: „Ruky sú len náhrada, keď sa nedá sex." — Realita: pre väčšinu žien je ruka na klitorise najspoľahlivejšia cesta k orgazmu. ' +
@@ -359,6 +422,12 @@ const RUKY_RITUALY: Blok = {
 const MNP: Blok = {
   druh: 'skupina', id: 'mnp', nadpis: 'Manuálna stimulácia — penis a skrotum (handjob)',
   bloky: [
+    {
+      druh: 'text', id: 'mnp_info', nadpis: 'Handjob je samostatná technika, nie iba doplnok k orálu', ton: 'info',
+      telo:
+        'Úchop určuje plochu kontaktu, tlak určuje intenzitu a vlhkosť mení trenie. Pohyb môže viesť celou dlaňou po hriadeli, sústrediť sa na korunu žaluďa a uzdičku alebo spojiť dve ruky do rotácie. ' +
+        'Sliny pôsobia inak než lubrikant: rýchlejšie vysychajú a vytvárajú premenlivejšie trenie, zatiaľ čo lubrikant podporuje dlhé plynulé ťahy. Handjob môže byť predohra, edging aj celý hlavný akt.',
+    },
     {
       druh: 'otazka', id: 'mnp_uchopy', typ: 'viac', inePovolene: true,
       text: 'Úchopy',
@@ -389,6 +458,21 @@ const MNP: Blok = {
         { v: 'osmicky', label: '8-čka po dĺžke' },
         { v: 'squeeze_glide', label: '„Squeeze & glide"' },
         { v: 'edging', label: 'Stop-start (edging)' },
+        { v: 'palec_frenulum', label: 'Palec po uzdičke pri každom ťahu' },
+        { v: 'koruna_rotacia', label: 'Rotácia dlane cez korunu žaluďa' },
+        { v: 'dve_ruky_opacne', label: 'Dve ruky rotujúce opačným smerom' },
+        { v: 'kratke_spodok', label: 'Krátke ťahy len na spodnej strane hriadeľa' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mnp_tlak', typ: 'jeden',
+      text: 'Aký tlak pri handjobe mi vyhovuje',
+      moznosti: [
+        { v: 'lahky', label: 'Ľahký úchop a veľa kĺzania' },
+        { v: 'stredny', label: 'Stredne pevný a rovnomerný' },
+        { v: 'pevny', label: 'Pevný stisk' },
+        { v: 'pulzy', label: 'Pulzujúce stláčanie a uvoľňovanie' },
+        { v: 'striedanie', label: 'Striedanie tlaku podľa časti penisu' },
       ],
     },
     {
@@ -399,6 +483,23 @@ const MNP: Blok = {
         { v: 'valcovanie', label: 'Jemné valcovanie semenníkov' },
         { v: 'tah_mieska', label: 'Ľahký ťah mieška' },
         { v: 'perineum', label: 'Perineum — kolmý tlak alebo krúženie palcom' },
+      ],
+    },
+    {
+      druh: 'text', id: 'mnp_perineum_info', nadpis: 'Hrádza ako most k prostate', ton: 'info',
+      telo:
+        'Hrádza medzi mieškom a análnym otvorom sa dá stimulovať bez penetrácie. Pomalé krúženie, tlak palcom, krátke pulzy alebo pevné podržanie môžu nepriamo pôsobiť na oblasť prostaty a vrstviť sa s pohybom ruky na penise.',
+    },
+    {
+      druh: 'otazka', id: 'mnp_perineum_techniky', typ: 'viac', inePovolene: true,
+      text: 'Aké techniky na hrádzi ma lákajú',
+      moznosti: [
+        { v: 'kruhy', label: 'Malé krúžky končekom prsta alebo palcom' },
+        { v: 'tlak', label: 'Pevný kolmý tlak' },
+        { v: 'pulzy', label: 'Krátke rytmické pulzy' },
+        { v: 'drzanie', label: 'Tlak a podržanie bez pohybu' },
+        { v: 's_handjobom', label: 'Súčasne s handjobom' },
+        { v: 's_oralom', label: 'Súčasne s orálom' },
       ],
     },
     {
@@ -442,6 +543,74 @@ const MNP: Blok = {
   ],
 }
 
+// ── Stehná — teasing, tlak a kontrast ───────────────────────────────
+const STEHNA: Blok = {
+  druh: 'skupina', id: 'stehna', nadpis: 'Stehná — blízkosť, ktorá zvyšuje túžbu',
+  uvod:
+    'Vnútorné stehná sú silnou teasing zónou: dotyk sa môže približovať k intímnym miestam bez toho, aby na ne hneď prešiel. ' +
+    'Bozky, dlaň, nechty, sanie aj hryzenie menia jemné očakávanie na intenzívnu energiu.',
+  bloky: [
+    {
+      druh: 'text', id: 'steh_predstav',
+      telo: g(
+        'Predstav si pomalé bozky na vnútornej strane stehien, ktoré sa približujú a znovu vzďaľujú. Potom príde pevný tlak dlaní alebo krátke hryzenie.',
+        'Predstav si pomalé bozky na vnútornej strane stehien, ktoré sa približujú a znovu vzďaľujú. Potom príde pevný tlak dlaní alebo krátke hryzenie.',
+      ),
+    },
+    {
+      druh: 'otazka', id: 'steh_techniky', typ: 'viac', inePovolene: true,
+      text: g('Ako mám rád stimuláciu stehien?', 'Ako preferujem stimuláciu stehien?'),
+      moznosti: [
+        { v: 'hladenie', label: 'Pomalé hladenie dlaňou alebo končekmi prstov' },
+        { v: 'bozky', label: 'Jemné bozky smerujúce k vnútornej strane stehien' },
+        { v: 'sanie', label: 'Sanie pokožky a mokré bozky' },
+        { v: 'hryzenie', label: 'Intenzívnejšie hryzenie' },
+        { v: 'tlak', label: 'Pevný tlak a stláčanie dlaňami' },
+        { v: 'skrabanie', label: 'Jemné až výrazné škrabanie nechtami' },
+        { v: 'masaz', label: 'Hnetenie svalov a dlhé masážne ťahy' },
+        { v: 'teplota', label: 'Teplý dych, olej alebo chladný kontrast' },
+      ],
+    },
+    { druh: 'otazka', id: 'steh_techniky_ine', typ: 'text', text: 'Stimulácia stehien — vlastná odpoveď (voliteľné):' },
+    {
+      druh: 'otazka', id: 'steh_intenzita', typ: 'jeden',
+      text: 'Akú intenzitu na stehnách preferujem',
+      moznosti: [
+        { v: 'jemna', label: 'Jemnú — bozky a ľahké hladenie' },
+        { v: 'stredna', label: 'Strednú — masáž, sanie a pevnejší tlak' },
+        { v: 'silna', label: 'Silnú — stisk, hryzenie a výrazné škrabanie' },
+        { v: 'striedanie', label: 'Striedanie jemnej a intenzívnej energie' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'steh_kombinovanie', typ: 'jeden',
+      text: 'Chcem na stehnách kombinovať viac techník',
+      moznosti: [
+        { v: 'ano', label: 'Áno — bozky, masáž, nechty aj tlak v jednej hre' },
+        { v: 'podla_nalady', label: 'Možno, podľa nálady a intenzity' },
+        { v: 'jedna', label: 'Radšej jednu techniku a stabilný rytmus' },
+      ],
+    },
+    { druh: 'otazka', id: 'steh_kombinovanie_ine', typ: 'text', text: 'Moja ideálna kombinácia na stehnách (voliteľné):' },
+    {
+      druh: 'otazka', id: 'steh_teasing', typ: 'jeden',
+      text: 'Ako dlho ma baví dráždenie stehien pred dotykom genitálií',
+      moznosti: [
+        { v: 'kratko', label: 'Krátko — pár bozkov a pokračovať' },
+        { v: 'dlhsie', label: 'Dlhšie — chcem budovať očakávanie' },
+        { v: 'navraty', label: 'Vracať sa k stehnám vo vlnách počas celého zážitku' },
+        { v: 'samostatne', label: 'Stehná môžu byť samostatným centrom hry' },
+      ],
+    },
+    {
+      druh: 'text', id: 'steh_tipy_myty', nadpis: 'Tip a mýtus', ton: 'info',
+      telo:
+        'Tip: skús kontrast medzi sotva cítiacim dotykom nechtov, mokrým bozkom a pevným stiskom tesne nad kolenom; potom postupuj vyššie a znovu sa vráť. ' +
+        'Mýtus: stehná sú iba cesta ku genitáliám. Realita: pre mnohých sú samostatnou erotogénnou zónou a dlhé dráždenie stehien je vzrušujúcejšie než rýchly presun k „hlavnej" stimulácii.',
+    },
+  ],
+}
+
 // ── Spoločné zóny ─────────────────────────────────────────────
 const SPOL_ZONY: Blok = {
   druh: 'skupina', id: 'spol_zony', nadpis: 'Spoločné zóny (bradavky, zadok, stehná, chodidlá)',
@@ -450,13 +619,50 @@ const SPOL_ZONY: Blok = {
       druh: 'otazka', id: 'sz_bradavky', typ: 'viac',
       text: 'Bradavky',
       moznosti: [
+        { v: 'hladenie', label: 'Hladenie a krúženie končekmi prstov' },
         { v: 'lick', label: 'Lízanie' },
         { v: 'flick', label: 'Šľahanie jazykom / prstom' },
+        { v: 'sanie', label: 'Sanie perami' },
         { v: 'roll', label: 'Rolovanie medzi prstami' },
         { v: 'pinch', label: 'Štípanie (nastaviteľný tlak / čas)' },
+        { v: 'tapkanie', label: 'Jemné alebo rytmické ťapkanie' },
+        { v: 'twist_pull', label: 'Jemné pootočenie a potiahnutie' },
+        { v: 'hryzenie', label: 'Hryzenie — jemné až intenzívne' },
+        { v: 'vibracia', label: 'Vibrácia alebo pulzujúca pomôcka' },
         { v: 'teplota', label: 'Párovanie s teplotou (ľad / teplý olej)' },
         { v: 'textury', label: 'Textúry látok' },
+        { v: 'striedanie', label: 'Striedanie jazyka, pier, prstov a teploty' },
+        { v: 'nie', label: 'Stimulácia tejto oblasti ma neláka' },
       ],
+    },
+    { druh: 'otazka', id: 'sz_bradavky_ine', typ: 'text', text: 'Stimulácia pŕs alebo bradaviek — vlastná odpoveď (voliteľné):' },
+    {
+      druh: 'otazka', id: 'sz_bradavky_citlivost', typ: 'jeden',
+      text: 'Akú citlivosť bradaviek u seba vnímam',
+      moznosti: [
+        { v: 'velmi_citlive', label: 'Veľmi citlivé — najviac mi sedí jemnosť' },
+        { v: 'stredne', label: 'Stredne citlivé — baví ma široké rozpätie' },
+        { v: 'silny_tlak', label: 'Potrebujem silnejší tlak alebo intenzitu' },
+        { v: 'rozdielne', label: 'Každá strana reaguje inak' },
+        { v: 'neutralne', label: 'Skôr neutrálna zóna' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'sz_bradavky_nastroj', typ: 'jeden',
+      text: 'Čo mi pri stimulácii bradaviek vyhovuje najviac',
+      moznosti: [
+        { v: 'jazyk_pery', label: 'Jazyk a pery' },
+        { v: 'prsty', label: 'Prsty a dlaň' },
+        { v: 'pomocka', label: 'Vibrácia alebo iná pomôcka' },
+        { v: 'mix', label: 'Kombinácia a striedanie' },
+        { v: 'nelaka', label: 'Táto stimulácia ma neláka' },
+      ],
+    },
+    {
+      druh: 'text', id: 'sz_bradavky_tipy', nadpis: 'Bradavky: experiment a mýtus', ton: 'info',
+      telo:
+        'Skúste krátky experiment so zatvorenými očami: rovnaký pohyb najprv jazykom, potom prstami, raz pomaly a raz intenzívnejšie. Porovnajte aj ľavú a pravú stranu — citlivosť nemusí byť rovnaká. ' +
+        'Mýtus: bradavky sú erotickou zónou iba u žien. Realita: citlivosť je individuálna bez ohľadu na pohlavie a môže siahať od takmer neutrálnej až po veľmi intenzívnu.',
     },
     {
       druh: 'otazka', id: 'sz_zadok', typ: 'viac',
@@ -517,31 +723,31 @@ const CELOTELOVA_MAPA: Blok = {
   bloky: [
     {
       druh: 'text', id: 'map_info', ton: 'info',
-      telo: 'Rýchle zoradenie celého tela do štyroch košov: erotické, neutrálne (príjemné, ale nespúšťa to sex), citlivé (len niekedy/len jemne) a „nikdy".',
+      telo: 'Rýchla mapa tela rozlišuje erotické, neutrálne a premenlivo citlivé zóny. Pomáha odhaliť aj miesta mimo genitálií, ktoré bývajú prehliadané.',
     },
     { druh: 'otazka', id: 'map_eroticke', typ: 'text', text: '5 zón, ktoré sú pre mňa najviac erotické:' },
     { druh: 'otazka', id: 'map_neutralne', typ: 'text', text: '5 zón, ktoré sú príjemné ako blízkosť, ale sex nespúšťajú:' },
     { druh: 'otazka', id: 'map_citlive', typ: 'text', text: '5 zón, ktoré sú citlivé len niekedy (po športe, po sprche, pri únave, po orgazme) — a kedy presne:' },
-    { druh: 'otazka', id: 'map_nikdy', typ: 'text', text: '3 zóny, ktoré sú pre mňa tvrdé „nikdy", a jedna veta, ako to chcem, aby partner/ka rešpektoval(a):' },
+    { druh: 'otazka', id: 'map_nikdy', typ: 'text', text: '3 zóny, ktoré ma zvyčajne nechávajú chladným/chladnou:' },
     { druh: 'otazka', id: 'map_booster', typ: 'text', text: 'Top 3 miesta mimo genitálií, ktoré ma najrýchlejšie vzrušia:' },
     {
       druh: 'otazka', id: 'map_signaly_prilis', typ: 'viac',
-      text: 'Ako partner/ka pozná, že je tlak/intenzita už príliš',
+      text: 'Ako telo najčastejšie ukazuje, že chce zmenu rytmu alebo intenzity',
       moznosti: [
-        { v: 'dych', label: 'Zmena dychu' },
-        { v: 'napatie', label: 'Napätie v tele' },
-        { v: 'pohyb_panvy', label: 'Pohyb panvy preč' },
-        { v: 'stuhnutie', label: 'Stuhnutie' },
-        { v: 'odtahovanie', label: 'Odťahovanie sa' },
-        { v: 'radsej_slovo', label: 'Radšej chcem, aby som to len povedal(a)' },
+        { v: 'dych', label: 'Zmenou dychu' },
+        { v: 'napatie', label: 'Napätím alebo uvoľnením svalov' },
+        { v: 'pohyb_panvy', label: 'Pohybom panvy' },
+        { v: 'pritiahnutie', label: 'Pritiahnutím bližšie' },
+        { v: 'vedenie_ruky', label: 'Vedením partnerovej ruky' },
+        { v: 'radsej_slovo', label: 'Najradšej to poviem priamo' },
       ],
     },
   ],
 }
 
-// ── Senzorika + rámec ────────────────────────────────────────
+// ── Senzorické doplnky ───────────────────────────────────────
 const RAMEC: Blok = {
-  druh: 'skupina', id: 'ramec', nadpis: 'Senzorika, rámec a poznámky',
+  druh: 'skupina', id: 'ramec', nadpis: 'Senzorické doplnky',
   bloky: [
     {
       druh: 'otazka', id: 'sen_textury', typ: 'viac',
@@ -563,10 +769,10 @@ const RAMEC: Blok = {
       ],
     },
     { druh: 'otazka', id: 'sen_teplota_zony', typ: 'text', text: 'Teplotné hry — kde na tele áno / nie:' },
-    { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'GREEN (áno, chcem):' },
-    { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'YELLOW (možno, opatrne):' },
-    { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'RED (tvrdá hranica — nikdy):' },
-    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo chcem, aby partner/ka vedel(a) (1–3 vety):' },
+    { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'Senzorické kombinácie, ktoré ma lákajú najviac:' },
+    { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'Kombinácie, ktoré by som skúsil(a) podľa nálady:' },
+    { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'Textúry alebo teploty, ktoré ma skôr nechávajú chladným/chladnou:' },
+    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Môj vlastný ideálny senzorický mix (1–3 vety):' },
   ],
 }
 
@@ -582,11 +788,10 @@ export const BOZKY_DOTYKY: TemaObsah = {
         'od jemného „motýlieho" bozku po pevný úchop hlavy, od pierka po výrazný stisk.',
     },
     {
-      druh: 'text', id: 'ramec_ruk', nadpis: 'Rámec rúk a signály', ton: 'info',
+      druh: 'text', id: 'ramec_ruk', nadpis: 'Technika rúk', ton: 'info',
       telo:
-        'Krátke nechty, čisté ruky alebo rukavice, teplé dlane. „Vlhkosť" je parameter techniky — nasucho / sliny / lubrikant. ' +
-        'Stupnica dotyku (veľmi jemné → výrazné) + jednoduché „OK / pridaj / uber / stop". ' +
-        'Teplota (ľad / teplé ruky / oleje) — dohodnúť, kde na tele áno a kde nie. Uteráky a lubrikant poruke.',
+        'Vlhkosť mení charakter pohybu: nasucho vzniká viac trenia, sliny dávajú krátke kĺzanie a lubrikant podporuje dlhšie plynulé ťahy. ' +
+        'Teplé dlane, olej, ľad alebo textília pridávajú ďalšiu vrstvu kontrastu.',
     },
   ],
   telo: [
@@ -611,6 +816,7 @@ export const BOZKY_DOTYKY: TemaObsah = {
     MVN,
     MNP,
     RUKY_RITUALY,
+    STEHNA,
     SPOL_ZONY,
     CELOTELOVA_MAPA,
     TEMPO,
@@ -619,7 +825,7 @@ export const BOZKY_DOTYKY: TemaObsah = {
   zaver: [
     {
       druh: 'text', id: 'zaver',
-      telo: 'Výsledky zohľadnia len zhody medzi tebou a partnerom. Čo niekto označí ako RED, sa nikde nezobrazí.',
+      telo: 'Výsledky zvýraznia zhodné zóny, techniky a intenzitu dotyku, ktoré môžete ďalej preskúmať.',
     },
   ],
 }

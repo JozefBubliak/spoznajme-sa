@@ -15,7 +15,7 @@ const POSTOJ: Moznost[] = [
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
-  { v: 'nie', label: 'Nie — hranica' },
+  { v: 'nie', label: 'Nie, neláka ma to' },
 ]
 const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
   druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
@@ -140,6 +140,12 @@ const VIACNASOBNE: Blok = {
   druh: 'skupina', id: 'viacnasobne', nadpis: 'Viacnásobné vlny',
   bloky: [
     {
+      druh: 'text', id: 'via_info', ton: 'info',
+      telo:
+        'Viacnásobný zážitok nemusí znamenať sériu rovnakých vrcholov. Môže ísť o niekoľko menších vĺn, jeden orgazmus a druhý po pauze, zmenu zóny po prvom vrchole alebo pokračovanie v inom rytme. ' +
+        'Citlivosť po orgazme sa líši medzi ľuďmi aj medzi jednotlivými dňami.',
+    },
+    {
       druh: 'otazka', id: 'via_skusenost', typ: 'jeden',
       text: 'Viac orgazmov/vĺn za sebou',
       moznosti: [
@@ -165,6 +171,24 @@ const VIACNASOBNE: Blok = {
         { v: 'rovnako', label: 'Pokračovať rovnako' },
         { v: 'stop', label: 'Zastaviť úplne' },
       ],
+    },
+    {
+      druh: 'otazka', id: 'via_cesta', typ: 'viac', inePovolene: true,
+      text: 'Čo mi pri skúmaní ďalšej vlny dáva najväčší zmysel',
+      moznosti: [
+        { v: 'jemnejsie', label: 'Po prvom vrchole výrazne zjemniť' },
+        { v: 'ina_zona', label: 'Presunúť sa na inú erotogénnu zónu' },
+        { v: 'pauza', label: 'Dať si krátku pauzu a vrátiť sa' },
+        { v: 'staly_rytmus', label: 'Pokračovať v rovnakom rytme' },
+        { v: 'hracka', label: 'Pridať alebo vymeniť pomôcku' },
+        { v: 'partner_vedie', label: 'Nechať ďalšiu vlnu viesť partnera/ku' },
+      ],
+    },
+    {
+      druh: 'text', id: 'via_myty', nadpis: 'Mýtus verzus realita', ton: 'info',
+      telo:
+        'Mýtus: viac orgazmov je automaticky lepších než jeden. Realita: jeden hlboký vrchol, viac menších vĺn aj sex bez orgazmu môžu byť rovnako hodnotné. ' +
+        'Schopnosť pokračovať nie je skúška kondície ani ženskosti či mužnosti a nie je dôvodom na hanbu.',
     },
   ],
 }
@@ -224,7 +248,7 @@ export const ORGAZMUS_KONTROLA: TemaObsah = {
   zaver: [
     {
       druh: 'text', id: 'zaver',
-      telo: 'Výsledky zohľadnia len zhody medzi tebou a partnerom. Čo niekto označí ako hranicu, sa nikde nezobrazí.',
+      telo: 'Výsledky zvýraznia zhodné cesty k orgazmu, preferované poradie, formy kontroly a potreby po vrchole.',
     },
   ],
 }

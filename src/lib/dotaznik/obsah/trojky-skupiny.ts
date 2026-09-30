@@ -193,7 +193,7 @@ const SKUPINY: Blok = {
   druh: 'skupina',
   id: 'skupiny',
   nadpis: 'Skupinový sex (group play)',
-  uvod: 'Keď sa hranice rozplývajú a všetci sú súčasťou zážitku — viacero párov, rotujúca výmena, orgie „každý s každým".',
+  uvod: 'Skupinová hra môže znamenať viacero párov v jednej miestnosti, rotujúcu výmenu, spoločný orál, orgiu „každý s každým" aj scénu, v ktorej niekto iba sleduje. Každá verzia má inú choreografiu pozornosti.',
   bloky: [
     {
       druh: 'otazka',
@@ -226,6 +226,12 @@ const GANGBANG: Blok = {
     'Predstav si, že si stredobodom pozornosti. Každý dotyk, každý pohľad patrí tebe, zatiaľ čo partner ťa podporuje — či ako súčasť hry, alebo ako divák.',
   ),
   bloky: [
+    {
+      druh: 'text', id: 'gb_bk_rozdiel', nadpis: 'Gangbang a bukkake nie sú to isté', ton: 'info',
+      telo:
+        'Pri gangbangu je jadrom telesná a sexuálna pozornosť viacerých mužov venovaná jednej osobe; môže zahŕňať dotyky, orál aj penetráciu. ' +
+        'Bukkake je najmä vizuálne finále s viacerými ejakuláciami na telo alebo tvár a nemusí zahŕňať penetráciu. Jedného človeka môže lákať iba jeden z týchto scenárov.',
+    },
     postojOtazka('gb_postoj', g(
       'Chcel by si vidieť partnerku v dynamike gangbang, kde je stredobodom pozornosti viacerých mužov?',
       'Chcela by si zažiť gangbang, kde sa viacerí muži zamerajú na tvoje potešenie a ty budeš stredobodom pozornosti?',
@@ -250,12 +256,27 @@ const GANGBANG: Blok = {
       id: 'gb_aktivity',
       typ: 'viac',
       inePovolene: true,
-      text: 'Čo môže gangbang zahŕňať (v rámci mojich hraníc)?',
+      text: 'Ktoré aktivity ma v gangbang predstave lákajú?',
       moznosti: [
         { v: 'bozk', label: 'Bozkávanie' },
         { v: 'dotyky', label: 'Dotyky' },
         { v: 'oral', label: 'Orálny sex' },
         { v: 'penetracia', label: 'Penetrácia' },
+        { v: 'pomocky', label: 'Pomôcky a spoločné dráždenie' },
+        { v: 'dvojita', label: 'Dvojitá penetrácia alebo jej simulácia' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'gb_motivacia', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na gangbangu psychologicky priťahuje',
+      moznosti: [
+        { v: 'stredobod', label: 'Byť stredobodom obrovskej pozornosti' },
+        { v: 'rozmaznavanie', label: 'Pocit rozmaznávania viacerými ľuďmi' },
+        { v: 'intenzita', label: 'Fyzická intenzita a množstvo podnetov' },
+        { v: 'objektivizacia', label: 'Erotická objektivizácia a „použitie"' },
+        { v: 'voyeur', label: g('Sledovať partnerku a jej reakcie', 'Vnímať, že ma partner sleduje') },
+        { v: 'cuckold', label: 'Cuckold/hotwife alebo compersion dynamika' },
+        { v: 'tabu', label: 'Tabu, odvážnosť a prekročenie bežného scenára' },
       ],
     },
     postojOtazka('bk_postoj', g(
@@ -267,7 +288,7 @@ const GANGBANG: Blok = {
       id: 'bk_miesta',
       typ: 'viac',
       inePovolene: true,
-      text: 'Dohodnuté miesta pre ejakuláciu (čo je v poriadku)',
+      text: 'Ktoré miesta ma pri bukkake alebo skupinovom cumshote lákajú',
       moznosti: [
         { v: 'telo', label: 'Telo' },
         { v: 'prsia', label: 'Prsia' },
@@ -276,6 +297,34 @@ const GANGBANG: Blok = {
         { v: 'vlasy', label: 'Vlasy' },
         { v: 'nie_tvar', label: 'Kamkoľvek okrem tváre' },
       ],
+    },
+    {
+      druh: 'otazka', id: 'bk_vizual', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na bukkake priťahuje',
+      moznosti: [
+        { v: 'vizual', label: 'Vizuál semena na tele' },
+        { v: 'ocakavanie', label: 'Očakávanie spoločného finále' },
+        { v: 'moc', label: 'Moc, odovzdanie alebo submisivita' },
+        { v: 'exhibicia', label: 'Exhibicionizmus a byť sledovaný/á' },
+        { v: 'uctievanie', label: 'Pocit, že všetka túžba smeruje na jednu osobu' },
+        { v: 'messy', label: 'Messy estetika, vlhkosť a neporiadok' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'bk_zaznam', typ: 'jeden', text: 'Foto alebo video ako súčasť tejto fantázie',
+      moznosti: [
+        { v: 'nie', label: 'Neláka ma to' },
+        { v: 'fantazia', label: 'Láka ma to iba ako fantázia' },
+        { v: 'bez_tvare', label: 'Láka ma anonymný záber bez tváre' },
+        { v: 'cely', label: 'Láka ma záznam celej scény' },
+      ],
+    },
+    {
+      druh: 'text', id: 'gb_bk_myty', nadpis: 'Mýty a realita', ton: 'info',
+      telo:
+        'Mýtus: gangbang musí byť chaotický alebo ponižujúci. Realita: môže byť pomalý, pozorne choreografovaný a zameraný na rozmaznávanie jednej osoby. ' +
+        'Mýtus: bukkake automaticky znamená penetráciu. Realita: pre mnohých je to samostatná vizuálna fantázia alebo finále po orálnej a manuálnej hre. ' +
+        'Fantázia o viacerých ľuďoch nie je dôvodom na hanbu a nemusí znamenať nespokojnosť s partnerom.',
     },
   ],
 }
@@ -292,59 +341,59 @@ const POZOROVANIE: Blok = {
   ],
 }
 
-// ── Rámec, súhlas, bezpečnosť ─────────────────────────────────────────────
+// ── Scenár, tretia osoba a dozvuk ─────────────────────────────────────────
 const RAMEC: Blok = {
   druh: 'skupina',
   id: 'ramec',
-  nadpis: 'Rámec, súhlas a bezpečnosť',
-  uvod: 'Skôr než sa do čohokoľvek pustíte — dohody, ochrana, výber osoby, miesto, aftercare.',
+  nadpis: 'Scenár, tretia osoba a dozvuk',
+  uvod: 'Erotický charakter skupinovej skúsenosti neurčujú iba telá. Mení ho spôsob pozvania, známosť tretej osoby, miesto, rola partnera aj to, ako sa pár po zážitku znovu spojí.',
   bloky: [
     {
       druh: 'otazka',
       id: 'ramec_pravidla',
       typ: 'viac',
-      text: 'Čo si chceme dohodnúť pred začiatkom?',
+      text: 'Ktoré prvky chceme mať v scenári jasne pomenované?',
       moznosti: [
-        { v: 'ano_mozno_nikdy', label: 'Zoznam „čo áno / možno / nikdy"' },
-        { v: 'stop', label: 'Stop-slovo alebo gesto (semafor)' },
-        { v: 'len_pozorujem', label: '„Len pozorujem" je platná voľba' },
-        { v: 'komunikacia', label: 'Komunikácia a rešpekt počas celej scény' },
-        { v: 'exit', label: 'Exit signál — „končíme, ideme domov"' },
-        { v: 'aftercare', label: 'Aftercare ako pevná súčasť' },
+        { v: 'ano_mozno_nikdy', label: 'Kto je stredobodom a ako sa pozornosť strieda' },
+        { v: 'stop', label: 'Či sa roly počas scény menia alebo ostávajú stabilné' },
+        { v: 'len_pozorujem', label: 'Či niekto začína iba ako pozorovateľ' },
+        { v: 'komunikacia', label: 'Aké slová, príkazy alebo pochvaly patria do atmosféry' },
+        { v: 'exit', label: 'Ako sa scéna prirodzene uzavrie' },
+        { v: 'aftercare', label: 'Ako sa pár po zážitku znovu spojí' },
       ],
     },
     {
       druh: 'otazka',
       id: 'ramec_ochrana',
       typ: 'viac',
-      text: 'Ochrana zdravia — naše pravidlá',
+      text: 'Praktická choreografia večera',
       moznosti: [
-        { v: 'kondomy', label: 'Kondómy pre každého účastníka' },
-        { v: 'bariery', label: 'Bariéry (dental dam) pri oráli' },
-        { v: 'test', label: 'Test STI v dohodnutom limite pred stretnutím' },
-        { v: 'vymena', label: 'Výmena ochrany medzi partnermi a zónami' },
-        { v: 'prestavky', label: 'Hygienické prestávky' },
-        { v: 'poradie', label: 'Jasné poradie aktivít' },
+        { v: 'kondomy', label: 'Spoločný príchod a odchod páru' },
+        { v: 'bariery', label: 'Najprv rozhovor alebo drink, potom presun do intimity' },
+        { v: 'test', label: 'Vopred vybraná hudba, svetlo a atmosféra' },
+        { v: 'vymena', label: 'Striedanie stredobodu v jednotlivých kolách' },
+        { v: 'prestavky', label: 'Prestávky na rozhovor, pozorovanie alebo maznanie' },
+        { v: 'poradie', label: 'Vopred predstavený sled aktivít' },
       ],
     },
     {
       druh: 'otazka',
       id: 'ramec_latky',
       typ: 'jeden',
-      text: 'Alkohol a látky',
+      text: 'Ako plánovaná má byť táto skúsenosť',
       moznosti: [
-        { v: 'bez', label: 'Radšej úplne bez' },
-        { v: 'jeden', label: 'Maximálne jeden drink' },
-        { v: 'nezalezi', label: 'Nezáleží mi na tom' },
+        { v: 'bez', label: 'Detailne naplánovaná vrátane rolí a poradia' },
+        { v: 'jeden', label: 'Pár pevných bodov, zvyšok spontánne' },
+        { v: 'nezalezi', label: 'Čo najspontánnejšia podľa energie v miestnosti' },
       ],
     },
     {
       druh: 'otazka',
       id: 'ramec_aftercare',
       typ: 'viac',
-      text: 'Aftercare a debrief',
+      text: 'Dozvuk a spoločná reflexia',
       moznosti: [
-        { v: 'zaklad', label: 'Nápoj, prikrytie, objatie hneď po' },
+        { v: 'zaklad', label: 'Nápoj, objatie a chvíľa páru osamote' },
         { v: 'dva_dva', label: '„2+2" — dve veci super, dve na úpravu' },
         { v: 'checkin', label: 'Check-in po 24 hodinách (pocity, žiarlivosť, čo nabudúce)' },
         { v: 'samostatne', label: 'Debrief osamote len s partnerom' },
@@ -356,9 +405,9 @@ const RAMEC: Blok = {
       typ: 'jeden',
       text: 'Foto / video',
       moznosti: [
-        { v: 'nie', label: 'Striktne nie — žiadne záznamy' },
-        { v: 'bez_tvari', label: 'Len s výslovným súhlasom všetkých, bez tvárí' },
-        { v: 'ano_pravidla', label: 'Áno, s pravidlami (kto vlastní a maže)' },
+        { v: 'nie', label: 'Záznam ma eroticky neláka' },
+        { v: 'bez_tvari', label: 'Anonymný detail alebo záber bez tvárí' },
+        { v: 'ano_pravidla', label: 'Celá scéna ako súčasť exhibicionistickej fantázie' },
       ],
     },
     {
@@ -368,22 +417,23 @@ const RAMEC: Blok = {
       inePovolene: true,
       text: 'Výber tretej osoby — čo je pre nás dôležité',
       moznosti: [
-        { v: 'dovera', label: 'Dôveryhodnosť a rešpekt k hraniciam' },
-        { v: 'plus18', label: '18+' },
-        { v: 'pravidla', label: 'Kompatibilita s pravidlami páru' },
-        { v: 'hygiena', label: 'Bezpečnostné a hygienické návyky, testy' },
-        { v: 'znamy', label: 'Priateľ známy obom' },
-        { v: 'novy', label: 'Nový človek' },
-        { v: 'klub', label: 'Len cez overený klub' },
-        { v: 'pozorovanim', label: 'Začať pozorovaním' },
+        { v: 'dovera', label: 'Silná osobná chémia s oboma' },
+        { v: 'plus18', label: 'Sebavedomá a iniciatívna energia' },
+        { v: 'pravidla', label: 'Skôr jemná, vnímavá a nenápadná energia' },
+        { v: 'hygiena', label: 'Konkrétny vzhľad, štýl alebo telesný typ' },
+        { v: 'znamy', label: 'Človek, ktorého už obaja poznáme' },
+        { v: 'novy', label: 'Úplne nový človek bez ďalšieho príbehu' },
+        { v: 'klub', label: 'Niekto zo swinger/sex-positive prostredia' },
+        { v: 'pozorovanim', label: 'Najprv ho/ju iba sledovať v skupine' },
       ],
     },
+    { druh: 'otazka', id: 'ramec_preco_osoba', typ: 'text', text: 'Koho si predstavujem ako tretiu osobu — a čo konkrétne ma na nej priťahuje?' },
     {
       druh: 'otazka',
       id: 'ramec_miesto',
       typ: 'viac',
       inePovolene: true,
-      text: 'Kde by nám to bolo komfortné',
+      text: 'Ktoré miesto má pre nás správnu erotickú atmosféru',
       moznosti: [
         { v: 'doma', label: 'Doma' },
         { v: 'hotel', label: 'Hotel alebo prenajatý priestor' },
@@ -391,7 +441,7 @@ const RAMEC: Blok = {
         { v: 'diskretne', label: 'Diskrétne mimo domova' },
       ],
     },
-    { druh: 'otazka', id: 'ramec_nudzovy_plan', typ: 'text', text: 'Núdzový plán (prerušenie bez vysvetľovania, bezpečný odvoz, následná starostlivosť):' },
+    { druh: 'otazka', id: 'ramec_nudzovy_plan', typ: 'text', text: 'Ako chceme po skupinovej scéne prejsť späť do párovej intimity?' },
   ],
 }
 
@@ -402,8 +452,30 @@ const EMOCIE: Blok = {
   nadpis: 'Emócie, žiarlivosť, zdieľanie',
   bloky: [
     { druh: 'otazka', id: 'emo_ocakavanie', typ: 'text', text: 'Čo očakávam od svojich emócií (vzrušenie × zraniteľnosť, zmiešané pocity sú normálne):' },
-    { druh: 'otazka', id: 'emo_ziarlivost', typ: 'text', text: 'Čo u mňa spúšťa žiarlivosť a aké mám limity:' },
-    { druh: 'otazka', id: 'emo_hinty', typ: 'text', text: 'Naše dohodnuté „comfort-hinty" (ruka, pohľad, slovo):' },
+    { druh: 'otazka', id: 'emo_ziarlivost', typ: 'text', text: 'Čo u mňa spúšťa žiarlivosť a aký druh pozornosti by som vtedy chcel(a) od partnera/partnerky:' },
+    {
+      druh: 'otazka', id: 'emo_spustace', typ: 'viac', inePovolene: true,
+      text: 'Ktoré momenty by vo mne mohli miešať vzrušenie so žiarlivosťou',
+      moznosti: [
+        { v: 'bozk', label: 'Dlhé alebo romantické bozkávanie partnera s treťou osobou' },
+        { v: 'orgazmus', label: 'Orgazmus partnera spôsobený treťou osobou' },
+        { v: 'pozornost', label: 'Keď tretia osoba dostáva dlhšie viac pozornosti než ja' },
+        { v: 'pohlad', label: 'Intenzívny očný kontakt medzi partnerom a treťou osobou' },
+        { v: 'rovnake', label: 'Interakcia partnera s osobou rovnakého pohlavia' },
+        { v: 'po', label: 'Neha, maznanie alebo ďalší kontakt po sexe' },
+        { v: 'bokom', label: 'Pocit, že som sa ocitol/ocitla bokom' },
+      ],
+    },
+    { druh: 'otazka', id: 'emo_hinty', typ: 'text', text: 'Ktoré gesto, pohľad alebo dotyk ma počas scény znovu eroticky prepojí s partnerom/partnerkou?' },
+    {
+      druh: 'otazka', id: 'emo_compersion', typ: 'jeden', text: 'Ako na mňa pôsobí predstava partnerovej rozkoše s treťou osobou',
+      moznosti: [
+        { v: 'silno', label: 'Je to silný zdroj môjho vlastného vzrušenia' },
+        { v: 'mix', label: 'Vzrušuje ma a zároveň vo mne vyvoláva žiarlivosť' },
+        { v: 'neutral', label: 'Som skôr neutrálny/a a zvedavý/á' },
+        { v: 'blok', label: 'Skôr ma to eroticky blokuje' },
+      ],
+    },
     {
       druh: 'otazka',
       id: 'emo_zdielanie',
@@ -423,7 +495,7 @@ const EDGE: Blok = {
   druh: 'skupina',
   id: 'edge',
   nadpis: 'Dvojitá penetrácia (DP/DAP) — samostatná karta',
-  uvod: 'Rizikovejšia oblasť — najprv len ako screening fantázie, do reality len s jasnými podmienkami a bezpečnosťou.',
+  uvod: 'Skratky DP a DAP môžu znamenať rôzne fantázie: dve penetrácie naraz, kombináciu tela a pomôcky alebo iba vizuálnu simuláciu. Preto sa oplatí pomenovať konkrétnu predstavu.',
   bloky: [
     {
       druh: 'otazka',
@@ -432,8 +504,8 @@ const EDGE: Blok = {
       text: 'Dvojitá penetrácia — kde som?',
       moznosti: [
         { v: 'fantazia', label: 'Len fantázia' },
-        { v: 'mozno', label: 'Možno, s jasnými podmienkami a bezpečnosťou' },
-        { v: 'ano', label: 'Áno, s podmienkami' },
+        { v: 'mozno', label: 'Možno — najviac ma láka simulácia alebo jemnejšia verzia' },
+        { v: 'ano', label: 'Áno — chcem ju ako súčasť skupinovej scény' },
         { v: 'nie', label: 'Nie' },
       ],
     },
@@ -441,8 +513,24 @@ const EDGE: Blok = {
       druh: 'otazka',
       id: 'edge_dp_podmienky',
       typ: 'text',
-      text: 'Za akých podmienok (bezpečnosť, pomôcky namiesto druhej osoby, poradie):',
+      text: 'Aké zloženie osôb, pomôcok a polôh si pri tejto predstave predstavujem:',
       podmienka: { ot: 'edge_dp', jeNiektora: ['mozno', 'ano'] },
+    },
+    {
+      druh: 'otazka', id: 'edge_typy', typ: 'viac', inePovolene: true,
+      text: 'Ktoré varianty ma lákajú aspoň vo fantázii',
+      moznosti: [
+        { v: 'dp_va', label: 'Vaginálna a análna penetrácia súčasne (DP)' },
+        { v: 'dvp', label: 'Dvojitá vaginálna penetrácia (DVP)' },
+        { v: 'dap', label: 'Dvojitá análna penetrácia (DAP)' },
+        { v: 'pomocka', label: 'Jedna osoba a jedna pomôcka' },
+        { v: 'dve_pomocky', label: 'Simulácia s dvomi pomôckami' },
+        { v: 'oral_pen', label: 'Orálna stimulácia súčasne s penetráciou' },
+      ],
+    },
+    {
+      druh: 'text', id: 'edge_mytus', nadpis: 'Fantázia nemusí byť technický plán', ton: 'info',
+      telo: 'Dvojitá penetrácia vo fantázii často predstavuje najmä pocit plnosti, množstvo pozornosti alebo úplné odovzdanie. Rovnakú psychologickú vrstvu môže niesť kombinácia prstov, jazyka a pomôcky bez kopírovania pornografického obrazu.',
     },
   ],
 }
@@ -459,9 +547,9 @@ export const TROJKY_SKUPINY: TemaObsah = {
       telo:
         'Novosť a vzrušenie — zapojenie tretej osoby pridáva nový rozmer k známej dynamike.\n\n' +
         'Sústredenie pozornosti — byť stredobodom dvoch osôb posilňuje sebavedomie.\n\n' +
-        'Dôvera a komunikácia — príležitosť prehĺbiť dôveru, ak stojí na rešpekte a jasných hraniciach.\n\n' +
-        'Objavenie nových túžob — spoznať skryté túžby partnera aj seba.\n\n' +
-        'Spoločný zážitok — pre mnohé páry emocionálny zážitok, ktorý vzťah posilní.',
+        'Pozorovanie partnerovej rozkoše — voyeurizmus, compersion alebo príjemná dávka žiarlivosti.\n\n' +
+        'Objavenie nových túžob — roly, príťažlivosť k rovnakému pohlaviu, služba, dominancia alebo pasívne sledovanie.\n\n' +
+        'Trojka nie je test kvality vzťahu. Môže zostať fantáziou, jednorazovou skúsenosťou alebo obľúbenou formou spoločnej sexuality.',
     },
     {
       druh: 'text',
@@ -469,20 +557,31 @@ export const TROJKY_SKUPINY: TemaObsah = {
       nadpis: 'Možné dynamiky a konfigurácie',
       telo:
         'Trojka môže mať podobu MMF (dvaja muži + žena), FMF (dve ženy + muž), alebo homogénnych skupín (MMM / FFF). ' +
-        'Niekedy je stredobodom jedna osoba, inokedy sa vášeň delí rovnomerne. Dôležité je, aby ste si dynamiku a pravidlá určili spoločne vopred.',
+        'Niekedy je stredobodom jedna osoba, inokedy sa vášeň delí rovnomerne. Rovnaké zloženie môže pôsobiť úplne inak podľa toho, kto vedie, kto pozoruje a či sa osoby rovnakého pohlavia navzájom dotýkajú.',
     },
     {
       druh: 'text',
       id: 'ako_prijemne',
-      nadpis: 'Ako zabezpečiť, aby to bolo príjemné pre všetkých',
+      nadpis: 'Čo robí trojku eroticky živou',
       ton: 'info',
       telo:
-        'Otvorená komunikácia o hraniciach, očakávaniach a túžbach. Dohodnuté pravidlá (kto s kým, čo je a nie je prijateľné). ' +
-        'Výber osoby, ktorá rešpektuje hranice a je emocionálne stabilná. Ochrana a pravidelné testovanie. ' +
-        'Aftercare — čas na diskusiu, vyjadrenie pocitov a emocionálnu starostlivosť.',
+        'Najsilnejší zážitok často nevytvorí počet aktivít, ale choreografia pozornosti: dve osoby sa chvíľu venujú jednej, potom sa stredobod zmení; partneri sa počas scény vyhľadajú pohľadom; pozorovateľ sa neskôr stane aktívnym. ' +
+        'Tretia osoba môže priniesť inú energiu, telo, vôňu, techniku alebo rolu. Po zážitku môže páru vyhovovať maznanie, erotické rozprávanie detailov alebo pokojný návrat k intimite vo dvojici.',
     },
   ],
   telo: [
+    {
+      druh: 'otazka', id: 'troj_konfiguracie', typ: 'viac', inePovolene: true,
+      text: 'Ktoré zloženia ma priťahujú aspoň vo fantázii',
+      moznosti: [
+        { v: 'mmf', label: 'MMF — dvaja muži a žena' },
+        { v: 'fmf', label: 'FMF — dve ženy a muž' },
+        { v: 'mmm', label: 'MMM — traja muži' },
+        { v: 'fff', label: 'FFF — tri ženy' },
+        { v: 'stvorka', label: 'Štvorica alebo viac ľudí' },
+        { v: 'nezalezi', label: 'Zloženie nie je rozhodujúce, dôležitá je chémia' },
+      ],
+    },
     {
       druh: 'otazka',
       id: 'troj_dynamika',
@@ -517,10 +616,45 @@ export const TROJKY_SKUPINY: TemaObsah = {
       moznosti: ROLY_DYNAMIKA,
     },
     {
+      druh: 'skupina', id: 'matica_interakcii', nadpis: 'Matica interakcií — kto s kým a ako',
+      uvod: 'Trojka nemusí znamenať, že každý robí všetko s každým. Oddelené otázky ukážu, či ťa láka kontakt s treťou osobou, sledovanie partnera alebo spoločná aktivita všetkých troch.',
+      bloky: [
+        {
+          druh: 'otazka', id: 'mat_ja_tretia', typ: 'viac', inePovolene: true, text: 'Čo ma láka medzi mnou a treťou osobou',
+          moznosti: [
+            { v: 'pohlad', label: 'Pohľady a slovné dráždenie' }, { v: 'bozk', label: 'Bozkávanie' },
+            { v: 'dotyky', label: 'Dotyky a manuálna stimulácia' }, { v: 'oral', label: 'Orálna stimulácia' },
+            { v: 'penetracia', label: 'Penetrácia' }, { v: 'pomocky', label: 'Spoločná hra s pomôckou' },
+            { v: 'nic', label: 'Žiadny priamy kontakt — iba spoločná pozornosť partnerovi' },
+          ],
+        },
+        {
+          druh: 'otazka', id: 'mat_partner_tretia', typ: 'viac', inePovolene: true, text: 'Čo ma vzrušuje sledovať medzi partnerom/partnerkou a treťou osobou',
+          moznosti: [
+            { v: 'pohlad', label: 'Flirt a očný kontakt' }, { v: 'bozk', label: 'Bozkávanie' },
+            { v: 'dotyky', label: 'Dotyky a manuálna stimulácia' }, { v: 'oral', label: 'Orálna stimulácia' },
+            { v: 'penetracia', label: 'Penetrácia' }, { v: 'orgazmus', label: 'Orgazmus partnera/partnerky' },
+            { v: 'nic', label: 'Nechcem byť pri ich priamej interakcii' },
+          ],
+        },
+        {
+          druh: 'otazka', id: 'mat_vsetci', typ: 'viac', inePovolene: true, text: 'Ktoré spoločné aktivity všetkých troch ma lákajú',
+          moznosti: [
+            { v: 'bozky', label: 'Striedané bozky a dotyky v kruhu' },
+            { v: 'jedna_osoba', label: 'Dvaja sa súčasne venujú jednej osobe' },
+            { v: 'oral_manual', label: 'Kombinácia orálu a manuálnej stimulácie' },
+            { v: 'pomocka', label: 'Jedna pomôcka používaná viacerými rukami' },
+            { v: 'pozorovanie', label: 'Dvaja sa milujú a tretí sleduje alebo masturbuje' },
+            { v: 'striedanie', label: 'Postupné striedanie stredobodu' },
+          ],
+        },
+      ],
+    },
+    {
       druh: 'skupina',
       id: 'hranice',
-      nadpis: 'Hranice a komfort pri trojke',
-      uvod: 'Toto, čo tu nezvolíš, sa automaticky považuje za tabu. Nikto nechce nepríjemné prekvapenia.',
+      nadpis: 'Aktivity a turn-offy pri trojke',
+      uvod: 'Príťažlivosť ku konkrétnej aktivite a erotický odpor nie sú vždy presné protiklady. Preto sa tu osobitne pýtame, čo ťa láka a čo ťa pri predstave trojky vypína.',
       bloky: [
         {
           druh: 'otazka',
@@ -543,7 +677,7 @@ export const TROJKY_SKUPINY: TemaObsah = {
           id: 'hr_tabu',
           typ: 'viac',
           inePovolene: true,
-          text: 'Čo je pre teba tabu a v trojke to neprijmeš?',
+          text: 'Ktoré prvky ma pri predstave trojky eroticky vypínajú?',
           moznosti: [
             { v: 'bozk', label: 'Partner bozkáva tretiu osobu' },
             { v: 'oral_dava', label: 'Partner poskytuje orál tretej osobe' },
@@ -580,8 +714,8 @@ export const TROJKY_SKUPINY: TemaObsah = {
       id: 'zaver',
       nadpis: 'Záver sekcie — trojka ako cesta k novým zážitkom',
       telo:
-        'Výsledky zohľadnia len zhody medzi tebou a partnerom — dostanete iba možnosti, ktoré sú pre vás oboch prijateľné a vzrušujúce. ' +
-        'Žiadny nátlak, len rešpekt, komunikácia a spoločné objavovanie. Ak striktne niekto niečo odmietne, vo výsledku sa to nezobrazí.',
+        'Trojka môže odhaliť, že vás oboch priťahuje rovnaké zloženie, no odlišná rola — jeden chce byť stredobodom, druhý pozorovať alebo viesť. ' +
+        'Rovnako hodnotný výsledok je zistenie, že vás viac vzrušuje rozprávanie fantázie, spoločné sledovanie, hra s pomôckami alebo pozorovanie partnera než samotné zapojenie tretej osoby.',
     },
   ],
 }

@@ -20,7 +20,7 @@ const POSTOJ: Moznost[] = [
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
-  { v: 'nie', label: 'Nie — hranica' },
+  { v: 'nie', label: 'Nie, neláka ma to' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
 const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
@@ -50,7 +50,7 @@ const PRIPRAVA: Blok = {
     },
     {
       druh: 'otazka', id: 'pri_spolocny_kupel', typ: 'jeden',
-      text: 'Spoločný kúpeľ alebo sprcha ako rituál pred intimitou (nie hygiena zvlášť, ale spoločná chvíľa)',
+      text: 'Spoločný kúpeľ alebo sprcha ako rituál a spoločná chvíľa pred intimitou',
       moznosti: [
         { v: 'ano', label: 'Áno, je to pre mňa ideálny spôsob relaxu a prepojenia' },
         { v: 'mozno', label: 'Možno, záleží na nálade' },
@@ -136,7 +136,7 @@ const SIGNALY: Blok = {
     {
       druh: 'text',
       id: 'sig_info',
-      telo: 'Dotyky, pohľady a gestá môžu vyjadrovať túžbu bez slov. Očný kontakt môže byť tichým dialógom počas blízkosti, no každému vyhovuje inak. Nepriamy signál nie je istota súhlasu; pri nejasnosti sa opýtaj.',
+      telo: 'Dotyky, pohľady a gestá môžu vyjadrovať túžbu bez slov. Očný kontakt môže byť tichým dialógom počas blízkosti, no každému vyhovuje iná intenzita pohľadu, dychu a telesnej odozvy.',
     },
     {
       druh: 'otazka',
@@ -230,7 +230,7 @@ const SEXTING: Blok = {
     {
       druh: 'text',
       id: 'sexting_intro',
-      telo: 'Komunikácia počas dňa môže prepájať fantáziu s blízkosťou: hravá správa o spoločných predstavách, krátka hlasovka, nenápadný pohľad či jemný dotyk môžu budovať očakávanie pred stretnutím. Večer na ne môžete nadviazať, ak obaja chcete. Správa, flirt ani fotografia nezaväzujú k ďalšej intimite.',
+      telo: 'Komunikácia počas dňa môže prepájať fantáziu s blízkosťou: hravá správa o spoločných predstavách, krátka hlasovka, nenápadný pohľad či jemný dotyk môžu budovať očakávanie pred stretnutím. Večer sa dá nadviazať rovnakou vetou, vôňou, hudbou alebo gestom.',
     },
     {
       druh: 'otazka', id: 'sex_zaujem', typ: 'jeden',
@@ -275,7 +275,7 @@ const SEXTING: Blok = {
         { v: 'ziadne', label: 'Žiadnu z týchto foriem zatiaľ nepoužívam' },
       ],
       inePovolene: true,
-      napoveda: 'Tu sa pýtame na súčasnú skúsenosť, nie na súhlas skúsiť niečo nové.',
+      napoveda: 'Tu sa pýtame na súčasnú skúsenosť. Budúca chuť môže byť odlišná.',
     },
   ],
 }
@@ -352,7 +352,7 @@ const DLZKA_TEMPO: Blok = {
     {
       druh: 'text',
       id: 'dt_pauzy_info',
-      telo: 'Pauzy pri predohre alebo počas ďalšej intimity môžu pre niekoho prinášať očakávanie a romantiku, iného rušia alebo frustrujú. Môžu byť chvíľou na bozky, hladenie či pohľad do očí. Účinok nie je zaručený a pauza ani jej ukončenie nemajú byť vynucované.',
+      telo: 'Pauzy pri predohre alebo počas ďalšej intimity môžu prinášať očakávanie, romantiku či hravú frustráciu; iného naopak vyrušia. Môžu byť chvíľou na bozky, hladenie, očný kontakt alebo úplné stíšenie pred návratom k pohybu.',
     },
     {
       druh: 'otazka',
@@ -400,7 +400,7 @@ const DLZKA_TEMPO: Blok = {
       id: 'dt_tipy_zdrzovanie',
       nadpis: 'Tipy na vyskúšanie',
       ton: 'info',
-      telo: 'Po vzájomnej dohode môže mať zdržovanie viac podôb. Jemné zdržovanie: striedanie dotykov a krátkych prestávok, prípadne vnímanie dychu na pokožke bez dotyku. Spontánna blízkosť: bozk na krk počas bežného večera a krátke odtiahnutie s úsmevom, ak je táto hra vítaná. Kombinovaná predohra: spoločný kúpeľ, masáž a prestávky pri hladení.\n\nĎalšou podobou sú bozky a hladenie mimo citlivých miest, krátke zastavenie počas aktu alebo slovné opisovanie možného pokračovania. Osobitnou preferenciou je prerušenie stimulácie tesne pred orgazmom (edging); nemusí vyhovovať tomu, kto má rád bežné pauzy. Podrobnejšie ho nájdeš v téme Tempo, intenzita a orgazmus. Každý môže požiadať o zmenu či ukončenie, bez povinnosti nasledovať scenár.',
+      telo: 'Zdržovanie môže mať viac podôb. Jemné zdržovanie: striedanie dotykov a krátkych prestávok, prípadne vnímanie dychu na pokožke bez dotyku. Spontánna blízkosť: bozk na krk počas bežného večera a krátke odtiahnutie s úsmevom. Kombinovaná predohra: spoločný kúpeľ, masáž a prestávky pri hladení.\n\nĎalšou podobou sú bozky a hladenie mimo citlivých miest, krátke zastavenie počas aktu alebo slovné opisovanie možného pokračovania. Osobitnou preferenciou je prerušenie stimulácie tesne pred orgazmom (edging); nemusí vyhovovať tomu, kto má rád bežné pauzy. Podrobnejšie ho nájdeš v téme Tempo, intenzita a orgazmus.',
     },
     {
       druh: 'otazka', id: 'dt_poradie', typ: 'jeden',
@@ -435,7 +435,7 @@ const MAPA_PREDOHRY: Blok = {
     {
       druh: 'text',
       id: 'map_fyzicka_info',
-      telo: 'Predohra zahŕňa atmosféru, prejavy nehy aj telesný kontakt. Bozky na krk, uši, pery či ďalšie časti tela, jemná relaxačná alebo intímna masáž a dotyky na citlivých miestach môžu podporiť očakávanie a emocionálnu blízkosť. Nie sú zárukou túžby ani pripravenosti pokračovať. Rozlíš, čo chceš prijímať a čo poskytovať; nemusí to byť rovnaké.',
+      telo: 'Predohra zahŕňa atmosféru, prejavy nehy aj telesný kontakt. Bozky na krk, uši, pery či ďalšie časti tela, jemná relaxačná alebo intímna masáž a dotyky na citlivých miestach môžu podporiť očakávanie a emocionálnu blízkosť. Rozlíš, čo chceš prijímať a čo poskytovať; nemusí to byť rovnaké.',
     },
     {
       druh: 'otazka',
@@ -529,22 +529,58 @@ const MASAZ: Blok = {
   druh: 'skupina', id: 'masaz', nadpis: 'Masáž',
   bloky: [
     {
-      druh: 'otazka', id: 'mas_typ', typ: 'viac',
+      druh: 'text', id: 'mas_info', nadpis: 'Dotyková symfónia', ton: 'info',
+      telo:
+        'Masáž môže byť pokojný prechod z bežného dňa, zmyslová predohra aj intenzívny erotický zážitok. Dlhé ťahy uvoľňujú, presný tlak prebúdza citlivé body a zmena teploty či textúry dáva známemu dotyku nový charakter.',
+    },
+    {
+      druh: 'otazka', id: 'mas_postoj', typ: 'jeden',
+      text: 'Ako vnímam masáž ako súčasť predohry',
+      moznosti: [
+        { v: 'milujem', label: 'Milujem ju — je dôležitou súčasťou intimity' },
+        { v: 'obcas', label: 'Občas si ju užívam, ale nepotrebujem ju vždy' },
+        { v: 'samostatne', label: 'Mám ju rád(a) skôr ako samostatnú aktivitu' },
+        { v: 'nie', label: 'Masáž ma eroticky veľmi neláka' },
+      ],
+    },
+    { druh: 'otazka', id: 'mas_postoj_ine', typ: 'text', text: 'Masáž v predohre — vlastná odpoveď (voliteľné):' },
+    {
+      druh: 'otazka', id: 'mas_typ', typ: 'viac', inePovolene: true,
       text: 'Aké formy masáže by ma oslovili? (Vyber všetky.)',
       moznosti: [
         { v: 'klasicka', label: 'Klasická relaxačná masáž (chrbát, krk, ramená)' },
         { v: 'eroticka', label: 'Erotická masáž zameraná na intímne partie' },
         { v: 'cele_telo', label: 'Pomalá masáž celého tela bez konkrétneho cieľa' },
+        { v: 'zmyslova', label: 'Jemná zmyslová masáž s olejmi a textúrami' },
+        { v: 'intenzivna', label: 'Intenzívna masáž s pevným tlakom a hnetením' },
+        { v: 'pomocky', label: 'Masáž s vibrátorom alebo masážnou pomôckou' },
       ],
     },
     {
-      druh: 'otazka', id: 'mas_techniky', typ: 'viac',
+      druh: 'otazka', id: 'mas_techniky', typ: 'viac', inePovolene: true,
       text: 'Konkrétne masážne techniky, ktoré ma lákajú',
       moznosti: [
         { v: 'palm_glide', label: 'Plynulé hladenie celou dlaňou (dlhé ťahy)' },
         { v: 'miesenie', label: 'Miesenie a hnetenie (ramená, stehná)' },
         { v: 'macacie_pazuriky', label: '„Mačacie pazúriky" — jemné škrabkanie nechtami' },
         { v: 'skalp', label: 'Masáž vlasovej pokožky/hlavy' },
+        { v: 'palce', label: 'Bodový tlak palcami na kríže, bedrá a lopatky' },
+        { v: 'predlaktie', label: 'Pomalý tlak predlaktím alebo váhou tela' },
+        { v: 'striedanie', label: 'Striedanie jemných ťahov a intenzívneho stláčania' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mas_materialy', typ: 'viac', inePovolene: true,
+      text: 'Aké materiály pri masáži preferujem',
+      moznosti: [
+        { v: 'hole_ruky', label: 'Holé ruky a maximálny kontakt kože' },
+        { v: 'neutralny_olej', label: 'Neutrálny hladký olej' },
+        { v: 'aromaticky_olej', label: 'Aromatický olej' },
+        { v: 'teply_olej', label: 'Teplý olej' },
+        { v: 'pierko', label: 'Pierko alebo jemný štetec' },
+        { v: 'hodvab', label: 'Hodvábna šatka alebo jemná textília' },
+        { v: 'sviecka', label: 'Masážna sviečka a teplý vosk určený na masáž' },
+        { v: 'vibracia', label: 'Vibračná masážna pomôcka' },
       ],
     },
     {
@@ -566,6 +602,34 @@ const MASAZ: Blok = {
         { v: 'nie', label: 'Nie, preferujem masáž samostatne' },
       ],
     },
+    {
+      druh: 'otazka', id: 'mas_kombinacie_konkretne', typ: 'viac', inePovolene: true,
+      text: 'S čím chcem masáž kombinovať',
+      moznosti: [
+        { v: 'bozky', label: 'Jemné alebo intenzívne bozky' },
+        { v: 'teplota', label: 'Teplý olej, uterák alebo chladný kontrast' },
+        { v: 'skrabanie', label: 'Škrabanie nechtami' },
+        { v: 'oral', label: 'Orálna stimulácia' },
+        { v: 'manualna', label: 'Manuálna stimulácia genitálií' },
+        { v: 'bradavky', label: 'Stimulácia pŕs alebo bradaviek' },
+        { v: 'vibracia', label: 'Vibrátor alebo masážna pomôcka' },
+        { v: 'roleplay', label: 'Roleplay maséra/masérky a klienta/klientky' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mas_zony', typ: 'viac', inePovolene: true,
+      text: 'Ktoré časti tela chcem pri masáži preskúmať',
+      moznosti: [
+        { v: 'hlava_tvar', label: 'Hlava, tvár a vlasy' },
+        { v: 'krk_us', label: 'Krk a uši' },
+        { v: 'ramena_chrbat', label: 'Ramená, chrbát a kríže' },
+        { v: 'ruky', label: 'Ruky, dlane a prsty' },
+        { v: 'hrudnik', label: 'Hrudník, prsia a bradavky' },
+        { v: 'brucho_bedra', label: 'Brucho, boky a bedrá' },
+        { v: 'zadok_stehna', label: 'Zadok a stehná' },
+        { v: 'nohy', label: 'Lýtka, chodidlá a prsty na nohách' },
+      ],
+    },
     { druh: 'otazka', id: 'mas_kto', typ: 'jeden',
       text: 'Kto zvyčajne masíruje',
       moznosti: [
@@ -573,6 +637,18 @@ const MASAZ: Blok = {
         { v: 'ja_davam', label: 'Radšej dávam ja' },
         { v: 'ja_prijimam', label: 'Radšej prijímam ja' },
       ],
+    },
+    {
+      druh: 'text', id: 'mas_experiment', nadpis: 'Experiment: dotyková cesta', ton: 'info',
+      telo:
+        'Jeden leží so zatvorenými očami a druhý prejde po tele vopred zvoleným poradím: holá dlaň, olej, pierko alebo hodváb, jemný tlak a potom intenzívnejšie hnetenie. ' +
+        'Po každom úseku stačí pomenovať pocit ako príjemný, neutrálny alebo rušivý a na konci vybrať tri najvzrušujúcejšie kombinácie.',
+    },
+    {
+      druh: 'text', id: 'mas_myty', nadpis: 'Mýty o masáži', ton: 'info',
+      telo:
+        'Mýtus: erotická masáž musí vždy smerovať k penetrácii alebo orgazmu. Realita: môže zostať celotelovým zážitkom a byť hlavným aktom sama osebe. ' +
+        'Mýtus: masáž má byť iba jemná a relaxačná. Realita: niekoho vzrušuje pevný tlak, nechty, intenzívne hnetenie alebo prudké striedanie tepla a chladu.',
     },
   ],
 }
@@ -616,6 +692,37 @@ const HRAVE_HRY: Blok = {
 const KOMBINOVANA: Blok = {
   druh: 'skupina', id: 'kombinovana', nadpis: 'Kombinovaná stimulácia',
   bloky: [
+    {
+      druh: 'text', id: 'kom_info', ton: 'info',
+      telo:
+        'Kombinovaná stimulácia môže spájať dve ruky na rôznych miestach, ústa a ruku, trenie tiel s hladkaním alebo stabilný rytmus na jednej zóne s meniacim sa podnetom na druhej. ' +
+        'Niekomu vrstvenie urýchli vzrušenie, inému vyhovuje postupné pridávanie po jednej vrstve.',
+    },
+    {
+      druh: 'otazka', id: 'kom_konkretne_prijimam', typ: 'viac', inePovolene: true,
+      text: 'Ktoré kombinácie chcem prijímať',
+      moznosti: [
+        { v: 'dve_ruky', label: 'Dve ruky na rôznych miestach tela' },
+        { v: 'oral_bradavky', label: 'Orálna stimulácia + bradavky' },
+        { v: 'genital_hradza', label: 'Genitálie + hrádza' },
+        { v: 'trenie_hladenie', label: 'Trenie pohlavia alebo panvy + hladenie' },
+        { v: 'penetracia_klitoris', label: 'Penetrácia + klitoris' },
+        { v: 'oral_ruka', label: 'Orál + ruka' },
+        { v: 'teplota_dotyk', label: 'Teplota alebo textúra + dotyk' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'kom_konkretne_poskytujem', typ: 'viac', inePovolene: true,
+      text: 'Ktoré kombinácie chcem poskytovať',
+      moznosti: [
+        { v: 'dve_ruky', label: 'Každou rukou stimulovať inú zónu' },
+        { v: 'usta_ruka', label: 'Koordinovať ústa a ruku' },
+        { v: 'genital_bradavky', label: 'Genitálie + bradavky' },
+        { v: 'genital_hradza', label: 'Genitálie + hrádza' },
+        { v: 'trenie_hladenie', label: 'Trenie tiel + hladenie' },
+        { v: 'staly_plus_zmena', label: 'Na jednej zóne stály rytmus, na druhej meniť podnet' },
+      ],
+    },
     { druh: 'otazka', id: 'kom_top_prijimam', typ: 'text', text: 'Top kombinácie, ktoré chcem prijímať naraz (napr. genitál + bradavky, genitál + hrádza):' },
     { druh: 'otazka', id: 'kom_top_poskytujem', typ: 'text', text: 'Top kombinácie, ktoré rád(a) poskytujem naraz:' },
     {
@@ -624,6 +731,8 @@ const KOMBINOVANA: Blok = {
       moznosti: [
         { v: 'staly', label: 'Stabilný rytmus na oboch miestach' },
         { v: 'striedanie', label: 'Striedanie — jedna ruka drží rytmus, druhá mení' },
+        { v: 'synchron', label: 'Synchronizovať ruky, pery a pohyb tela do jedného rytmu' },
+        { v: 'vrstvenie', label: 'Začať jedným podnetom a postupne pridávať ďalšie' },
       ],
     },
     { druh: 'otazka', id: 'kom_too_much', typ: 'text', text: 'Kedy je to pre mňa „too much" (preťaženie, necitlivosť) a ako to má partner/ka spoznať:' },
@@ -660,6 +769,24 @@ const TEASING_DEN: Blok = {
 const SIGNALY_NALADY: Blok = {
   druh: 'skupina', id: 'signaly_nalady', nadpis: 'Signály nálady',
   bloky: [
+    {
+      druh: 'text', id: 'sig_neverbalne_info', ton: 'info',
+      telo:
+        'Pohľad, dych, zvuk a pohyb tela tvoria vlastný jazyk. Spomalený dych môže predĺžiť napätie, zrýchlený dych dodať rytmus a pritiahnutie panvy ukázať, aký smer alebo tlak telo práve vyhľadáva.',
+    },
+    {
+      druh: 'otazka', id: 'sig_neverbalne', typ: 'viac', inePovolene: true,
+      text: 'Ktoré neverbálne prejavy ma počas predohry najviac vzrušujú',
+      moznosti: [
+        { v: 'oci', label: 'Dlhý pohľad do očí' },
+        { v: 'pohlad_telo', label: 'Sledovanie partnerovho tela alebo pohlavia' },
+        { v: 'pomaly_dych', label: 'Spomalený spoločný dych' },
+        { v: 'vzdychy', label: 'Vzdychy, stonanie a zvuky vzrušenia' },
+        { v: 'pritiahnutie', label: 'Pritiahnutie tela bližšie' },
+        { v: 'pohyb_panvy', label: 'Pohyb panvy proti dotyku' },
+        { v: 'vedenie_ruky', label: 'Vedenie partnerovej ruky vlastným telom' },
+      ],
+    },
     { druh: 'otazka', id: 'sig_chcem_ta', typ: 'text', text: 'Môj najlepší signál „chcem ťa" (konkrétne slovo/dotyk/pohľad):' },
     { druh: 'otazka', id: 'sig_dnes_jemne', typ: 'text', text: 'Ako mám dať najavo „dnes jemne" (a čo to pre mňa znamená v praxi):' },
     { druh: 'otazka', id: 'sig_dnes_rychlo', typ: 'text', text: 'Ako mám dať najavo „dnes rýchlo" (a čo aj tak musí zostať — bozk, slová, aftercare):' },
@@ -689,6 +816,11 @@ const KONFLIKT: Blok = {
   druh: 'skupina', id: 'konflikt', nadpis: 'Naladenie po konflikte a špeciálne kontexty',
   bloky: [
     {
+      druh: 'text', id: 'kon_info', ton: 'info',
+      telo:
+        'Rovnaká predohra nemusí fungovať po konflikte, s novým partnerom, pri únave, zdravotnom obmedzení ani vo vzťahu s viacerými ľuďmi. Kontext mení tempo, mieru novosti aj to, či človek potrebuje najprv slová, ticho, humor, masáž alebo iba blízkosť.',
+    },
+    {
       druh: 'otazka', id: 'kon_zmierovaci', typ: 'jeden',
       text: '„Zmierovací" sex po hádke',
       moznosti: [
@@ -699,11 +831,27 @@ const KONFLIKT: Blok = {
     },
     p('kon_prepnutie', 'Vedomé prepnutie režimu — dohodnutý spôsob, ako z hádky prejsť späť k blízkosti'),
     {
+      druh: 'otazka', id: 'kon_po_konflikte', typ: 'viac', inePovolene: true,
+      text: 'Čo mi po konflikte pomáha prepnúť späť k blízkosti',
+      moznosti: [
+        { v: 'rozhovor', label: 'Najprv krátky rozhovor a pomenovanie napätia' },
+        { v: 'objatie', label: 'Dlhé objatie bez ďalšieho cieľa' },
+        { v: 'sprcha', label: 'Spoločná sprcha alebo kúpeľ ako zmena režimu' },
+        { v: 'masaz', label: 'Masáž chrbta, rúk alebo chodidiel' },
+        { v: 'humor', label: 'Humor a hravosť' },
+        { v: 'priamost', label: 'Priama, vášnivá energia' },
+        { v: 'odstup', label: 'Najprv čas a priestor pre seba' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'kon_zdravotne', typ: 'jeden',
       text: 'Predohra pri zdravotnom obmedzení / únave — čo pomáha',
       moznosti: [
         { v: 'jemnejsie', label: 'Jemnejšie techniky, nižšie tempo' },
         { v: 'ine_polohy', label: 'Prispôsobenie polôh' },
+        { v: 'opory', label: 'Vankúše, opora tela a menší rozsah pohybu' },
+        { v: 'kratko', label: 'Kratší, ale intenzívny zážitok' },
+        { v: 'bez_penetracie', label: 'Intimita bez penetrácie' },
         { v: 'nesexualne', label: 'Radšej nesexuálna blízkosť v takej chvíli' },
       ],
     },
@@ -712,13 +860,36 @@ const KONFLIKT: Blok = {
       text: 'Predohra v novom prostredí (hotel, roleplay)',
       moznosti: [
         { v: 'viac_experimentu', label: 'Chcem viac experimentu' },
-        { v: 'bezpecny_default', label: 'Radšej bezpečný, známy postup' },
+        { v: 'bezpecny_default', label: 'Radšej známy a predvídateľný postup' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'kon_novy_partner', typ: 'jeden',
+      text: 'S novým partnerom/partnerkou mi pri predohre najviac vyhovuje',
+      moznosti: [
+        { v: 'pomaly', label: 'Pomalé objavovanie po jednej technike' },
+        { v: 'priama_otvorenost', label: 'Priamo hovoriť a ukazovať, čo funguje' },
+        { v: 'hravost', label: 'Hravosť, smiech a experimentovanie' },
+        { v: 'znama_schema', label: 'Začať tým, čo už dobre poznám' },
+        { v: 'spontanne', label: 'Spontánnosť bez pevného scenára' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'kon_viac_partnerov', typ: 'viac', inePovolene: true,
+      text: 'Pri intimite s viacerými partnermi mi pomáha',
+      moznosti: [
+        { v: 'pozornost', label: 'Vedome deliť pozornosť medzi ľudí' },
+        { v: 'jeden_stred', label: 'Mať chvíľu jedného človeka v centre' },
+        { v: 'striedanie', label: 'Striedať dvojice a role' },
+        { v: 'spolocny_rytmus', label: 'Nájsť spoločný rytmus celej skupiny' },
+        { v: 'slova', label: 'Priebežne pomenúvať túžby a ďalší krok' },
+        { v: 'pozorovanie', label: 'Chvíľu iba pozorovať a potom sa zapojiť' },
       ],
     },
     { druh: 'otazka', id: 'kon_kratky_ritual', typ: 'text', text: 'Pri únave — môj ideálny krátky rituál (5–20 min), ktorý stále môže byť sexi:' },
     {
       druh: 'otazka', id: 'kon_reaktivny_start', typ: 'jeden',
-      text: 'Keď chuť hneď nie je — bezpečný štart',
+      text: 'Keď chuť hneď nie je — aký začiatok mi sedí',
       moznosti: [
         { v: 'skusme_uvidime', label: '„Skúsme 5 minút a uvidíme"' },
         { v: 'jasne_nie', label: 'Radšej jasné „dnes nie" bez skúšania' },

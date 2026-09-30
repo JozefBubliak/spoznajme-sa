@@ -5,7 +5,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // Zdroj: „12_Masturbacia_a_solo_aktivity". Sólo pre seba (zdieľanie),
 // sledovanie partnera (voyeur v páre), byť sledovaný (exhib v páre),
 // spoločná masturbácia, guided touch / pomáhanie, remote play, senzorika,
-// hračky, prechod, bezpečnosť a súkromie. z/m verzia zrkadlová.
+// hračky a prechod. z/m verzia zrkadlová.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -14,12 +14,14 @@ const g = (m: string, z: string) => ({ m, z })
 // spoločná, pomáhanie) + Iné, pomáhanie partnerke/partnerovi + formy,
 // situácie, hračky pri spoločnej, tipy. Doplnené: intenzívne varianty
 // (inštrukcie, zákaz dotyku, ejakulácia na telo), mýty.
+// + xlsm ≤P47090: oprava ženskej verzie sledovania, scenáre sledovania,
+// mapa vzrušenia pri predvádzaní a formy spoločnej masturbácie.
 const POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
-  { v: 'nie', label: 'Nie — hranica' },
+  { v: 'nie', label: 'Nie, neláka ma to' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
 const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
@@ -93,12 +95,12 @@ const VOYEUR: Blok = {
       druh: 'text', id: 'voy_predstav',
       telo: g(
         'Predstav si, ako ticho sedíš a sleduješ jej ruky na tele. Každý jej pohyb prezrádza, čo naozaj miluje. Jej dych sa zrýchľuje a pohľad, ktorým ťa sleduje, ťa vtiahne do hry.',
-        'Predstav si, ako ťa sleduje, zatiaľ čo sa dotýkaš. Každý tvoj pohyb mu prezrádza, čo naozaj miluješ.',
+        'Predstav si, ako ticho sedíš a sleduješ jeho ruky na tele. Každý jeho pohyb prezrádza, čo naozaj miluje. Jeho dych sa zrýchľuje a pohľad, ktorým ťa sleduje, ťa vtiahne do hry.',
       ),
     },
     {
       druh: 'otazka', id: 'voy_zaujem', typ: 'jeden',
-      text: g('Túžiš sledovať partnerku pri masturbácii?', 'Chcela by si, aby ťa partner sledoval pri masturbácii?'),
+      text: g('Túžiš sledovať partnerku pri masturbácii?', 'Túžiš sledovať partnera pri masturbácii?'),
       moznosti: [
         { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
         { v: 'tuzim', label: 'Túžim to skúsiť' },
@@ -118,6 +120,8 @@ const VOYEUR: Blok = {
         { v: 'ocny_kontakt', label: 'Očný kontakt' },
         { v: 'mapa_dotykov', label: 'Mapa dotykov — vidím, čo naozaj funguje' },
         { v: 'reakcie', label: 'Reakcie a vzdychy' },
+        { v: 'vie_o_mne', label: 'Vie, že sa pozerám, a vedome sa so mnou hrá' },
+        { v: 'pocit_kontroly', label: 'Pocit kontroly, keď vie, že ho/ju sledujem' },
       ],
     },
     {
@@ -127,6 +131,8 @@ const VOYEUR: Blok = {
         { v: 'spontanne', label: 'Spontánne' },
         { v: 'predohra', label: 'Ako súčasť predohry' },
         { v: 'provokovanie', label: 'Keď ma partner provokuje pohľadom' },
+        { v: 'rastuce_vzrusenie', label: 'Keď vidím, ako jeho/jej vzrušenie postupne rastie' },
+        { v: 'dych_vzdychy', label: 'Keď počujem dych a vzdychy bez prikrášľovania' },
       ],
     },
     {
@@ -136,6 +142,9 @@ const VOYEUR: Blok = {
         { v: 'zrkadlo', label: 'Pri zrkadle (reakcie z iného uhla)' },
         { v: 'gauc', label: 'Na gauči / posteli (zmena výšky a vzdialenosti)' },
         { v: 'bez_dotyku', label: '„Bez dotyku" večer — iba vizuál + slová' },
+        { v: 's_pomockami', label: 'Partnerova sólo hra s rukami aj pomôckami' },
+        { v: 'spontanna', label: 'Spontánna sólo aktivita ako predohra' },
+        { v: 'zaciatok_spolocnej', label: 'Masturbácia ako začiatok spoločnej aktivity' },
       ],
     },
   ],
@@ -162,6 +171,19 @@ const EXHIB: Blok = {
     },
     { druh: 'otazka', id: 'exh_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — byť sledovaný/á (voliteľné):' },
     p('exh_postoj', 'Keď ma partner sleduje pri sólo hre'),
+    {
+      druh: 'otazka', id: 'exh_co_vzrusuje', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na tom, že sa partner pozerá, najviac vzrušuje',
+      moznosti: [
+        { v: 'ocny_kontakt', label: 'Očný kontakt počas masturbácie' },
+        { v: 'partner_tiez', label: 'Partner/ka sa pri sledovaní venuje aj sebe' },
+        { v: 'postupne_sa_prida', label: 'Postupne sa pridá a začne ma dráždiť' },
+        { v: 'dych_slova', label: 'Jeho/jej dych, povzbudenie alebo explicitné komentáre' },
+        { v: 'zrkadlo', label: 'Zrkadlo alebo iný vizuálny uhol' },
+        { v: 'jeho_jej_vzrusenie', label: 'Vidieť, ako ho/ju vzrušuje pohľad na mňa' },
+        { v: 'prikazy', label: 'Intenzívne vedenie a príkazy, čo mám robiť' },
+      ],
+    },
     {
       druh: 'otazka', id: 'exh_komfort', typ: 'jeden',
       text: 'Čo mi je komfortnejšie',
@@ -236,7 +258,17 @@ const SPOLOCNA: Blok = {
       ],
     },
     { druh: 'otazka', id: 'spol_hracky_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — hračky (voliteľné):' },
-
+    {
+      druh: 'otazka', id: 'spol_formy', typ: 'viac', inePovolene: true,
+      text: 'Aké formy spoločnej masturbácie ma vzrušujú',
+      moznosti: [
+        { v: 'obaja_svoje_telo', label: 'Obaja sa dotýkame vlastného tela naraz' },
+        { v: 'striedanie', label: 'Striedame pozorovanie, vlastné dotyky a dotyky partnera' },
+        { v: 'napodobnovanie', label: 'Napodobňujeme pohyby a tempo toho druhého' },
+        { v: 'nove_pozicie', label: 'Skúšame nové pozície, uhly pohľadu a vzdialenosť' },
+        { v: 'sutaziva', label: 'Hravá alebo súťaživá verzia — kto vydrží dlhšie alebo príde prvý' },
+      ],
+    },
     {
       druh: 'otazka', id: 'spol_tempo', typ: 'jeden',
       text: 'Tempo',
@@ -261,7 +293,7 @@ const SPOLOCNA: Blok = {
       moznosti: [
         { v: 'vibr_bullet', label: 'Vibrátor / bullet' },
         { v: 'masturbator', label: 'Masturbátor / rukáv' },
-        { v: 'analne', label: 'Análne hračky (len ak obaja chcú)' },
+        { v: 'analne', label: 'Análne hračky' },
         { v: 'bez', label: 'Bez pomôcok' },
       ],
     },
@@ -314,7 +346,7 @@ const GUIDED: Blok = {
         { v: 'hracka', label: 'Partner/ka drží hračku, ja rukou' },
       ],
     },
-    p('guid_postoj', 'Vedená masturbácia — partner ma vedie slovami, rukami, tempom (bez tlaku na výkon)'),
+    p('guid_postoj', 'Vedená masturbácia — partner ma vedie slovami, rukami a tempom'),
     {
       druh: 'otazka', id: 'guid_rola', typ: 'jeden',
       text: 'Ktorá rola mi sedí',
@@ -334,7 +366,7 @@ const GUIDED: Blok = {
         { v: 'bozk', label: 'Bozk / dotyk ramena počas aktivity' },
       ],
     },
-    { druh: 'otazka', id: 'guid_kam_ejakulat', typ: 'text', text: '„Kam s ejakulátom" — preferencie a hygiena:' },
+    { druh: 'otazka', id: 'guid_kam_ejakulat', typ: 'text', text: '„Kam s ejakulátom" — moje preferencie:' },
   ],
 }
 
@@ -381,6 +413,11 @@ const SITUACIE: Blok = {
 const REMOTE: Blok = {
   druh: 'skupina', id: 'remote', nadpis: 'Remote play (diaľkovo ovládané hračky)',
   bloky: [
+    {
+      druh: 'text', id: 'rem_info', ton: 'info',
+      telo:
+        'Remote play môže znamenať videohovor, hlasové pokyny, správy počas sólo hry alebo diaľkové ovládanie hračky. Vzdialenosť mení pozornosť: obraz zvýrazní predvádzanie, hlas fantáziu a ovládanie hračky pocit vedenia.',
+    },
     p('rem_postoj', 'Diaľkovo ovládané hračky ako hra moci a odovzdania'),
     {
       druh: 'otazka', id: 'rem_kto', typ: 'jeden',
@@ -391,7 +428,30 @@ const REMOTE: Blok = {
         { v: 'striedavo', label: 'Striedavo' },
       ],
     },
-    { druh: 'otazka', id: 'rem_pravidla', typ: 'text', text: 'Pravidlá „kde / kedy" (len súkromne a legálne):' },
+    { druh: 'otazka', id: 'rem_pravidla', typ: 'text', text: 'Kde a kedy ma diaľková hra láka:' },
+    {
+      druh: 'otazka', id: 'rem_format', typ: 'viac', inePovolene: true,
+      text: 'Aké formy remote play ma lákajú',
+      moznosti: [
+        { v: 'video', label: 'Videohovor a vzájomné sledovanie' },
+        { v: 'hlas', label: 'Hlasový hovor a opisovanie dotykov' },
+        { v: 'spravy', label: 'Správy, fotografie alebo krátke úlohy' },
+        { v: 'dialkova_hracka', label: 'Diaľkovo ovládaná hračka' },
+        { v: 'partner_urcuje', label: 'Partner/ka určuje tempo a chvíľu vyvrcholenia' },
+        { v: 'striedanie', label: 'Striedanie ovládania a predvádzania' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'rem_miesto', typ: 'viac', inePovolene: true,
+      text: 'V akom prostredí si remote play viem predstaviť',
+      moznosti: [
+        { v: 'doma', label: 'Každý doma vo svojom priestore' },
+        { v: 'hotel', label: 'Hotel alebo pracovná cesta' },
+        { v: 'kupelna', label: 'Kúpeľňa alebo sprcha' },
+        { v: 'postel', label: 'Posteľ s pripravenou atmosférou' },
+        { v: 'diskretne', label: 'Diskrétna hra počas bežného dňa' },
+      ],
+    },
   ],
 }
 
@@ -478,28 +538,24 @@ const KONTEXT: Blok = {
       ],
     },
     p('ctx_zmyslovy_vecer', '„Zmyslový večer" — poradie krokov, koľko minút ktorému zmyslu'),
-  ],
-}
-
-// ── Bezpečnosť, hygiena, súkromie ────────────────────────
-const BEZPECIE: Blok = {
-  druh: 'skupina', id: 'bezpecie', nadpis: 'Hygiena a poznámky',
-  bloky: [
     {
-      druh: 'otazka', id: 'bez_hygiena', typ: 'viac',
-      text: 'Hygiena, na ktorej mi záleží',
+      druh: 'otazka', id: 'ctx_po_spolocnej', typ: 'jeden',
+      text: 'Ako sa najčastejšie cítim po spoločnej sólo hre',
       moznosti: [
-        { v: 'lub_uteraky', label: 'Lubrikant a uteráky na dosah' },
-        { v: 'cistenie', label: 'Čistenie pomôcok, sušenie po' },
-        { v: 'uskladnenie', label: 'Diskrétne uskladnenie (domácnosť, hotel)' },
-        { v: 'cross', label: 'Krížová čistota pri análnych prvkoch (anus → vagína nikdy bez výmeny)' },
+        { v: 'blizsie', label: 'Bližšie k partnerovi/ke a viac prepojený/á' },
+        { v: 'vzrusene', label: 'Stále vzrušený/á a pripravený/á pokračovať' },
+        { v: 'uvolnene', label: 'Uvoľnene a spokojne' },
+        { v: 'zranitelne', label: 'Odhalene alebo zraniteľne' },
+        { v: 'rozpacito', label: 'Trochu rozpačito, potrebujem si zvyknúť' },
+        { v: 'podla_situacie', label: 'Veľmi záleží na situácii' },
       ],
     },
-    { druh: 'otazka', id: 'after', typ: 'text', text: 'Ako sa cítim po spoločnej sólo hre a čo potrebujem (objatie, voda, „2+2"):' },
-    { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'GREEN (áno, chcem):' },
-    { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'YELLOW (možno, opatrne):' },
-    { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'RED (tvrdá hranica — nikdy):' },
-    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo chcem, aby partner/ka vedel(a) (1–3 vety):' },
+    { druh: 'otazka', id: 'ctx_po_spolocnej_ine', typ: 'text', text: 'Po spoločnej sólo hre — vlastná odpoveď (voliteľné):' },
+    {
+      druh: 'text', id: 'ctx_po_spolocnej_info', nadpis: 'Aj dozvuk je súčasť zážitku', ton: 'info',
+      telo:
+        'Spoločná sólo hra môže pôsobiť ako učenie, predstavenie, súťaž, veľmi osobné odhalenie alebo pokojná aktivita vedľa seba. Preto môže po nej prísť hrdosť, blízkosť, ďalšia túžba aj rozpaky. Žiadna z týchto reakcií neznamená, že je s človekom niečo zlé.',
+    },
   ],
 }
 
@@ -517,7 +573,7 @@ export const MASTURBACIA: TemaObsah = {
     },
     {
       druh: 'text', id: 'hranie_vo_dvojici', nadpis: 'Hranie sa s túžbou vo dvojici',
-      telo: 'Masturbácia v páre môže byť jemná predohra, spôsob sebapoznania alebo vzrušujúce divadlo pre oči partnera. Je to priestor na odhaľovanie najhlbších túžob a zdieľanie intimity bez nátlaku.',
+      telo: 'Masturbácia v páre môže byť jemná predohra, spôsob sebapoznania alebo vzrušujúce divadlo pre oči partnera. Je to priestor na odhaľovanie najhlbších túžob a zdieľanie intimity.',
     },
   ],
   telo: [
@@ -547,14 +603,13 @@ export const MASTURBACIA: TemaObsah = {
     SENZORIKA,
     HRACKY,
     KONTEXT,
-    BEZPECIE,
   ],
   zaver: [
     {
       druh: 'text', id: 'zaver',
       telo:
-        'Výsledky zohľadnia len zhody medzi tebou a partnerom. Čo niekto označí ako RED, sa nikde nezobrazí. ' +
-        'Sólo hry v páre sú o dôvere a zdieľaní — bez tlaku na výkon.',
+        'Výsledky zvýraznia formy sólo hry, pri ktorých sa vaše preferencie stretávajú. ' +
+        'Sólo hry v páre môžu byť o zdieľaní, učení sa, predvádzaní aj hravosti bez tlaku na výkon.',
     },
   ],
 }

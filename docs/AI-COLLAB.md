@@ -17,6 +17,36 @@
 **Otvorené:** (a) prejsť aj ~27 tém, ktorých sa xlsm kusy zatiaľ nedotkli, a doplniť tipy/mýty/opaky (používateľ o tom vie, neodsúhlasil poradie); (b) nová 4-stupňová škála (PREF-2026-09-17) stále nemigrovaná; (c) staré duplicitné ID blokov: face-sitting `smother_uvod`, swinging `prostredie`, oral-vulva-klitoris `ramec`.
 
 ---
+## XLSM-006 — Face sitting, 2026-09-30
+
+OWNER Codex. Príloha bola prečítaná celá a rozdelená na 100 logických bodov; mapa je v `docs/dotaznik-xlsm-reaudit-006.md`. `face-sitting.ts` bol spracovaný do hĺbky: fantázia pre každého, rozšírené psychologické otázky pre rolu hore aj dole, tlak/tempo/komunikácia, worship, vôňa a prirodzenosť, rozmer váhy a pohltenia, spoločné rozhovorové body a sedemstupňový experimentálny rebrík. Opravené nesprávne subjekty pri prosbách/poslúchaní, doplnené skúsenostné reflexie a odstránené alebo premenené všeobecné safety/hygienické vsuvky. Runtime duplicita `smother_uvod` odstránená bez straty pôvodného ID. Typecheck a všetkých 6 validátorov PASS; 117 statických ID je unikátnych. Presný P rozsah čaká na odomknutie XLSM. Bez commitu a pushu.
+
+---
+## XLSM-005 — sliny, stehná a masáž, 2026-09-30
+
+OWNER Codex. Nová príloha bola prečítaná celá a rozdelená na 80 logických bodov; presná mapa je v `docs/dotaznik-xlsm-reaudit-005.md`. `fetise.ts` má teraz päťfázovú tému slín s oddelením realita/fantázia/možno/nie, zrkadlenými rolami, motiváciami, množstvom, lokalitami, scenármi, mýtmi a rozhovorovými výstupmi. `bozky-dotyky.ts` dostal samostatnú bohatú skupinu stehien. `predohra-naladenie.ts` dostal rozšírenú masáž s postojom, typmi, technikami, materiálmi, kombináciami, zónami, experimentom a mýtmi. Každý sumarizačný a „gap“ bod manuálnych techník bol porovnaný na úrovni konkrétnych možností; duplicity nevznikli. Hygiena a safety body neprenesené. Typecheck a všetkých 6 validátorov PASS; unikátne ID: `fetise.ts` 58, `bozky-dotyky.ts` 98, `predohra-naladenie.ts` 114. Presný P rozsah čaká na odomknutie XLSM. Bez commitu a pushu.
+
+---
+## XLSM-REAUDIT-001 — dve dávky pod ≤P47090 REVIEW, 2026-09-30
+
+OWNER Codex. Na pokyn používateľa boli dávky XLSM-003 („Hranie s energiou…“) a XLSM-004 („Handjob… / 19_Tempo…“) znovu prečítané celé a spracované po jednotlivých logických bunkách. Presná mapa 69 + 44 bodov je v `docs/dotaznik-xlsm-reaudit-003-004.md`. Rozšírených je 6 tém: `tempo-intenzita.ts`, `bozky-dotyky.ts`, `polohy.ts`, `predohra-naladenie.ts`, `masturbacia.ts`, `orgazmus-kontrola.ts`. Nešlo iba o otázky: pribudli vysvetlenia, experimenty, tipy, mýty, psychológia, normalizácia a jemné/intenzívne opaky. Typy, 6 validátorov, unikátnosť ID v 6 súboroch aj diff-check PASS. Pôvodné krátke vyhodnotenie XLSM-003/004 nižšie je nahradené týmto reauditom. Presný P rozsah čaká na odomknutie XLSM. Bez commitu a pushu.
+
+---
+## XLSM-004 — ďalší kus pod ≤P47090 REVIEW, 2026-09-30
+
+SUPERSEDED pôvodné rýchle spracovanie; nahrádza ho `XLSM-REAUDIT-001` vyššie.
+
+---
+## XLSM-003 — ďalší kus pod ≤P47090 REVIEW, 2026-09-30
+
+SUPERSEDED pôvodné rýchle spracovanie; nahrádza ho `XLSM-REAUDIT-001` vyššie.
+
+---
+## XLSM-002 — ≤P47090 REVIEW, 2026-09-30
+
+OWNER Codex. Vstup: príloha `Vložený text.txt`, od „MASTURBÁCIU & SÓLO“ po začiatok „Úvod do dotazníka Preskúmajte“. Implementované v `masturbacia.ts` a `zmyslova-hra.ts`; detail v `dotaznik-xlsm-progress.md`. Opravené aj chybné zrkadlenie ženskej verzie sledovania. Typy bez cache a všetkých 6 validátorov PASS. Presná spodná hranica P zostáva na doplnenie, pretože XLSM aj XLSX boli počas celej dávky exkluzívne uzamknuté iným procesom; horná hranica je P47090. Bez commitu a pushu.
+
+---
 ## GLOBAL-005 — P619–680 IN PROGRESS
 OWNER Codex. Rezervované predohra-naladenie.ts, roleplay.ts a mapa dávky. RTK/QMD používané; zdroj prečítaný súvisle. P681–700 iba kontext ďalšej dávky, nespracované.
 

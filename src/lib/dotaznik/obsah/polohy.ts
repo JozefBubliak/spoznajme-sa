@@ -5,7 +5,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // Zdroj: „16_Polohy_a_ergonomia.docx". Klasické polohy, variácie pre hĺbku
 // a uhol, orálne/nepenetratívne polohy, poloha × anál/hrádza/prostata,
 // poloha × prístup pre ruky/ústa, poloha × hračky, poloha × prostredie,
-// variácie pre rozdiely tela a komfort, bezpečnosť/hygiena/luby.
+// variácie pre rozdiely tela a komfort, praktické pohodlie a lubrikáciu.
 // Konkrétne techniky (čo robia ruky/ústa/hračky) majú vlastné podrobné
 // témy — tu je dôraz na to, KTORÁ poloha čo umožňuje, nie na samotnú
 // techniku. z/m verzia zrkadlová.
@@ -18,7 +18,7 @@ const POSTOJ: Moznost[] = [
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
-  { v: 'nie', label: 'Nie — hranica' },
+  { v: 'nie', label: 'Nie, neláka ma to' },
 ]
 const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
   druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
@@ -75,6 +75,36 @@ const KLASICKE: Blok = {
       ],
     },
     { druh: 'otazka', id: 'kla_zmena_pocas_ine', typ: 'text', text: 'Vlastná odpoveď — zmena polôh počas aktu (voliteľné):' },
+    {
+      druh: 'otazka', id: 'kla_prehody', typ: 'viac', inePovolene: true,
+      text: 'Aké prechody medzi polohami ma lákajú',
+      moznosti: [
+        { v: 'plynule', label: 'Plynulé otočenie bez straty rytmu' },
+        { v: 'nahle', label: 'Náhla zmena ako výbuch energie' },
+        { v: 'partner_vedie', label: 'Partner/ka ma presunie a prevezme vedenie' },
+        { v: 'ja_vediem', label: 'Ja určím ďalšiu polohu a tempo' },
+        { v: 'striedanie_kontroly', label: 'S každou polohou sa zmení, kto vedie' },
+        { v: 'pauza', label: 'Medzi polohami krátka pauza na bozky a dotyky' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'kla_energia_poloh', typ: 'viac', inePovolene: true,
+      text: 'Akú energiu chcem cez polohy vytvárať',
+      moznosti: [
+        { v: 'ocny_kontakt', label: 'Jemnú intimitu a hlboký očný kontakt' },
+        { v: 'odovzdanie', label: 'Pocit odovzdania a vedenia druhou osobou' },
+        { v: 'dominancia', label: 'Dynamickú dominanciu a pevné držanie' },
+        { v: 'kontrola_hore', label: 'Kontrolu osoby, ktorá je hore' },
+        { v: 'hlbka', label: 'Hĺbku a silné pohyby' },
+        { v: 'hravost', label: 'Hravé skúšanie nábytku a nových uhlov' },
+      ],
+    },
+    {
+      druh: 'text', id: 'kla_dynamika_info', nadpis: 'Poloha mení viac než uhol', ton: 'info',
+      telo:
+        'Zozadu a v stoji sa ľahko vytvára dravá energia, pevný stisk bokov a väčší rozsah pohybu. Lyžičky či misionárska poloha podporujú pomalé tempo, dlhý dotyk a pohľad. ' +
+        'Poloha hore dáva jednej osobe kontrolu nad uhlom a rytmom; plynulý prechod môže túto kontrolu vymeniť bez toho, aby sa stratilo napätie.',
+    },
     {
       druh: 'otazka', id: 'kla_obluba', typ: 'jeden',
       text: 'Ktorá poloha je pre mňa „tá najlepšia" na orgazmus',
@@ -198,20 +228,20 @@ const VARIACIE: Blok = {
   ],
 }
 
-// ── Bezpečnosť, hygiena, luby ──────────────────────────────────────
+// ── Praktické pohodlie a dozvuk ──────────────────────────────────────
 const BEZPECNOST: Blok = {
-  druh: 'skupina', id: 'bezpecnost', nadpis: 'Bezpečnosť, hygiena, luby',
+  druh: 'skupina', id: 'bezpecnost', nadpis: 'Praktické pohodlie a dozvuk',
   bloky: [
-    { druh: 'otazka', id: 'bez_lub', typ: 'jeden', text: 'Lubrikant vždy poruke',
+    { druh: 'otazka', id: 'bez_lub', typ: 'jeden', text: 'Kedy mi lubrikant pri polohách zlepšuje zážitok',
       moznosti: [
-        { v: 'ano', label: 'Áno, vždy' },
-        { v: 'niektore', label: 'Pri niektorých polohách/aktivitách' },
+        { v: 'ano', label: 'Takmer vždy — chcem plynulejšie pohyby' },
+        { v: 'niektore', label: 'Pri niektorých polohách, tempe alebo dlhšom trvaní' },
         { v: 'nie', label: 'Zvyčajne nepotrebujem' },
       ],
     },
     {
       druh: 'otazka', id: 'bez_aftercare', typ: 'viac',
-      text: 'Aftercare po náročnejšej polohe/dlhšej scéne',
+      text: 'Čo mi sadne po fyzicky náročnejšej polohe alebo dlhšom tempe',
       moznosti: [
         { v: 'napoj', label: 'Nápoj' },
         { v: 'prikrytie', label: 'Prikrytie' },

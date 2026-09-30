@@ -14,7 +14,7 @@ const POSTOJ: Moznost[] = [
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
-  { v: 'nie', label: 'Nie — hranica' },
+  { v: 'nie', label: 'Nie, neláka ma to' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
 const p = (id: string, text: TemaObsah['nadpis'], podmienka?: Podmienka): Blok => ({
@@ -28,17 +28,142 @@ const VYZNAM: Moznost[] = [
   { v: 'estetika', label: 'Estetika, vôňa, vizuál' },
 ]
 
+const SLINY_YFMN: Moznost[] = [
+  { v: 'realita', label: 'Chcem to v realite' },
+  { v: 'fantazia', label: 'Láka ma to iba ako fantázia' },
+  { v: 'mozno', label: 'Možno v konkrétnom scenári' },
+  { v: 'nie', label: 'Nie, neláka ma to' },
+]
+const SLINY_OPEN: Podmienka = { ot: 'sliny_screening', jeNiektora: ['ano', 'mozno'] }
+
 // ── Telesné tekutiny ─────────────────────────────────────────────────────
 const SLINY: Blok = {
-  druh: 'skupina', id: 'sliny', nadpis: 'Sliny',
-  uvod: 'Od prirodzeného lubrikantu po symbol dominancie, submisivity a dôvery. Ich teplo a vlhkosť spájajú intimitu s erotikou.',
+  druh: 'skupina', id: 'sliny', nadpis: 'Sliny — moc, vlhkosť a intimita',
+  uvod:
+    'Sliny sú prirodzenou tekutinou tela. Môžu byť jemnou súčasťou bozku a vlhkého dotyku, ale aj surovým symbolom odovzdania, nadvlády alebo tabu. ' +
+    'Niekto v nich cíti maximálnu blízkosť, iný ich eroticky nevníma. Ani jedna reakcia nie je dôvodom na hanbu.',
   bloky: [
-    p('sliny_lubrikant', 'Sliny ako prirodzený lubrikant (partner nimi zvlhčí intímne miesta, pľuvne na prsty a stimuluje)'),
-    p('sliny_na_telo', 'Pľuvanie na telo (prsia, brucho, genitálie) a rozotieranie'),
-    p('sliny_do_ust', 'Pľuvanie do úst (chytenie za bradu, očný kontakt)'),
-    p('sliny_bozk', 'Intenzívne zdieľanie slín počas bozkávania'),
-    p('sliny_kombinacia', 'Kombinácia slín s inými tekutinami (semeno, vaginálna vlhkosť)'),
-    { druh: 'otazka', id: 'sliny_vyznam', typ: 'viac', text: 'Čo je pre mňa na slinách vzrušujúce', moznosti: VYZNAM },
+    {
+      druh: 'text', id: 'sliny_naladenie', nadpis: 'Bez hanby a bez jednej „správnej" reakcie', ton: 'info',
+      telo:
+        'Vlhký bozk, naslinenie prstov, pomalé stekanie po tele a pľuvnutie do úst môžu používať rovnakú tekutinu, no psychologicky pôsobia úplne odlišne. ' +
+        'Rozhoduje množstvo, miesto, rola, pohľad, slová aj to, či je pre človeka dôležitejšia neha, živočíšnosť, moc alebo prekročenie tabu.',
+    },
+    {
+      druh: 'otazka', id: 'sliny_screening', typ: 'jeden',
+      text: 'Chcem teraz otvoriť tému slín',
+      moznosti: [
+        { v: 'ano', label: 'Áno, chcem ju preskúmať' },
+        { v: 'mozno', label: 'Možno — prejdem si ju zo zvedavosti' },
+        { v: 'nie', label: 'Nie, túto tému teraz preskočím' },
+      ],
+    },
+    {
+      druh: 'text', id: 'sliny_role_info', nadpis: 'Rola môže zmeniť celú odpoveď', ton: 'info', podmienka: SLINY_OPEN,
+      telo:
+        'Človeka môže vzrušovať prijímať sliny, ale nie ich používať na druhom — alebo presne naopak. Preto sa každá hlavná forma pýta zvlášť na rolu prijímateľa a aktéra a oddeľuje reálnu túžbu od fantázie.',
+    },
+    {
+      druh: 'otazka', id: 'sliny_prij_lub', typ: 'jeden', podmienka: SLINY_OPEN,
+      text: 'Prijímam: partner/ka použije sliny ako vlhkosť pri predohre alebo manuálnej stimulácii', moznosti: SLINY_YFMN,
+    },
+    {
+      druh: 'otazka', id: 'sliny_prij_bozk', typ: 'jeden', podmienka: SLINY_OPEN,
+      text: 'Prijímam: intenzívny bozk so zdieľaním slín', moznosti: SLINY_YFMN,
+    },
+    {
+      druh: 'otazka', id: 'sliny_prij_usta_tvar', typ: 'jeden', podmienka: SLINY_OPEN,
+      text: 'Prijímam: sliny na tvár alebo do úst ako prvok moci', moznosti: SLINY_YFMN,
+    },
+    {
+      druh: 'otazka', id: 'sliny_akt_lub', typ: 'jeden', podmienka: SLINY_OPEN,
+      text: 'Som aktér/ka: používam sliny ako vlhkosť pri predohre alebo manuálnej stimulácii', moznosti: SLINY_YFMN,
+    },
+    {
+      druh: 'otazka', id: 'sliny_akt_telo', typ: 'jeden', podmienka: SLINY_OPEN,
+      text: 'Som aktér/ka: nechám sliny stekať alebo pľuvnem na partnerovo telo', moznosti: SLINY_YFMN,
+    },
+    {
+      druh: 'otazka', id: 'sliny_akt_moc', typ: 'jeden', podmienka: SLINY_OPEN,
+      text: 'Som aktér/ka: používam sliny ako prejav sily alebo nadvlády', moznosti: SLINY_YFMN,
+    },
+    p('sliny_lubrikant', 'Sliny ako prirodzená vlhkosť pri dotykoch na intímnych miestach', SLINY_OPEN),
+    p('sliny_na_telo', 'Pľuvanie alebo stekanie slín na telo (prsia, brucho, genitálie) a rozotieranie', SLINY_OPEN),
+    p('sliny_do_ust', 'Pľuvanie do úst s chytením za bradu a očným kontaktom', SLINY_OPEN),
+    p('sliny_bozk', 'Intenzívne zdieľanie slín počas bozkávania', SLINY_OPEN),
+    p('sliny_kombinacia', 'Kombinácia slín s inými tekutinami (semeno, vaginálna vlhkosť)', SLINY_OPEN),
+    {
+      druh: 'otazka', id: 'sliny_pohon', typ: 'viac', podmienka: SLINY_OPEN, inePovolene: true,
+      text: 'Čo ma na slinách vnútorne priťahuje',
+      napoveda: 'Vyber najviac tri hlavné motívy.',
+      moznosti: [
+        { v: 'zivocisnost', label: 'Živočíšnosť — surový, „špinavý" sex' },
+        { v: 'prepojenie', label: 'Prepojenie — zdieľanie tekutiny ako maximálna blízkosť' },
+        { v: 'moc', label: 'Moc — vládnutie, podriadenie alebo odovzdanie' },
+        { v: 'zmysly', label: 'Zmysly — teplo, vôňa, chuť a mokrý pocit' },
+        { v: 'tabu', label: 'Tabu — vzrušuje ma robiť niečo „zakázané"' },
+        { v: 'vizual', label: 'Vizuál — stekanie, lesk a mokrá pokožka' },
+        { v: 'spontannost', label: 'Spontánnosť — netreba nič pripravovať' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'sliny_mnozstvo', typ: 'jeden', podmienka: SLINY_OPEN,
+      text: 'Aké množstvo slín ma láka',
+      moznosti: [
+        { v: 'symbolicky', label: 'Symbolicky — navlhčenie pier alebo prstov' },
+        { v: 'par_kvapiek', label: 'Pár viditeľných kvapiek' },
+        { v: 'mokre', label: 'Výrazná vlhkosť a mokrý vzhľad' },
+        { v: 'vela', label: 'Veľa slín, stekanie a intenzívna messy hra' },
+        { v: 'podla_sceny', label: 'Podľa scény a nálady' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'sliny_miesta', typ: 'viac', podmienka: SLINY_OPEN, inePovolene: true,
+      text: 'Kde ma sliny lákajú',
+      moznosti: [
+        { v: 'genitalie', label: 'Genitálie a prsty pri manuálnej stimulácii' },
+        { v: 'prsia', label: 'Prsia a bradavky' },
+        { v: 'brucho', label: 'Brucho a boky' },
+        { v: 'zadok', label: 'Zadok a hrádza' },
+        { v: 'tvar', label: 'Tvár' },
+        { v: 'usta', label: 'Do úst alebo na jazyk' },
+        { v: 'cele_telo', label: 'Po tele ako súčasť messy hry' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'sliny_scenare', typ: 'viac', podmienka: SLINY_OPEN, inePovolene: true,
+      text: 'Ktoré scenáre so slinami ma lákajú',
+      moznosti: [
+        { v: 'naslinenie_prstov', label: 'Pomalé naslinenie prstov pred dotykom' },
+        { v: 'mokry_bozk', label: 'Dlhý mokrý bozk bez utierania pier' },
+        { v: 'stekanie', label: 'Nechať sliny pomaly stekať na vybrané miesto' },
+        { v: 'pluvnutie', label: 'Priame pľuvnutie ako prudký prvok dominancie' },
+        { v: 'otvor_usta', label: 'Príkaz otvoriť ústa a prijať sliny' },
+        { v: 'lizanie', label: 'Zlízať sliny späť z kože' },
+        { v: 'wet_look', label: 'Rozotrieť ich po tele pre mokrý vzhľad' },
+        { v: 'dirty_talk', label: 'Nechať scénu iba vo fantázii a opísať ju slovami' },
+      ],
+    },
+    { druh: 'otazka', id: 'sliny_vyznam', typ: 'viac', text: 'Čo je pre mňa na slinách vzrušujúce', moznosti: VYZNAM, podmienka: SLINY_OPEN },
+    {
+      druh: 'text', id: 'sliny_myty', nadpis: 'Mýty a realita', ton: 'info', podmienka: SLINY_OPEN,
+      telo:
+        'Mýtus: sliny pri sexe sú vždy ponižujúce. Realita: môžu znamenať dominanciu, ale aj nehu, spontánnosť, maximálnu blízkosť alebo jednoducho príjemný mokrý pocit. ' +
+        'Mýtus: ak ma niečo vzrušuje vo fantázii, musím to chcieť aj zažiť. Realita: fantázia môže zostať iba slovami a stále byť plnohodnotnou súčasťou sexuality. ' +
+        'Túžba po slinách nie je špinavá ani čudná; ide o pomerne bežné spojenie zmyslov, tekutín, tabu a moci.',
+    },
+    {
+      druh: 'text', id: 'sliny_rozhovor_zhoda', nadpis: 'Keď sa zhodnete na realite', ton: 'info', podmienka: SLINY_OPEN,
+      telo: 'Porozprávajte sa, v ktorej chvíli je tento prvok najvzrušujúcejší: ako pomalé naladenie, počas manuálnej alebo orálnej stimulácie, pri dominancii, alebo až ako intenzívne finále. Každý nech opíše jednu konkrétnu scénu.',
+    },
+    {
+      druh: 'text', id: 'sliny_rozhovor_mozno', nadpis: 'Keď odpoveď znie „možno"', ton: 'info', podmienka: SLINY_OPEN,
+      telo: 'Dokončite vetu: „Lákalo by ma to viac, keby…" Môže ísť o menšie množstvo, iné miesto, inú rolu, pomalšie tempo alebo iba sliny na tele namiesto úst.',
+    },
+    {
+      druh: 'text', id: 'sliny_rozhovor_fantazia', nadpis: 'Keď to má zostať fantáziou', ton: 'info', podmienka: SLINY_OPEN,
+      telo: 'Skúste scénu opísať slovami bez jej uskutočnenia: kto vedie, kde sliny dopadnú, čo pri tom zaznie a čo je na predstave najvzrušujúcejšie. Fantázia nemusí byť plán.',
+    },
   ],
 }
 
@@ -85,16 +210,16 @@ const VLHKOST: Blok = {
 
 const MOC: Blok = {
   druh: 'skupina', id: 'moc_tek', nadpis: 'Moč (watersports)',
-  uvod: 'Len pri vzájomnom súhlase. Rizikovejšia oblasť — hydratácia, hygiena, nie na rany/tvár bez dohody.',
+  uvod: 'Teplo, mokrý pocit, odovzdanie, dominancia a tabu môžu tvoriť jadro tejto fantázie alebo praktiky.',
   bloky: [
     {
       druh: 'otazka', id: 'moc_uroven', typ: 'jeden',
       text: 'Kde som s „watersports"?',
       moznosti: [
-        { v: 'fantazia', label: 'Len fantázia / „talk"' },
-        { v: 'mozno', label: 'Možno, za jasných podmienok' },
-        { v: 'ano', label: 'Áno, s podmienkami' },
-        { v: 'nie', label: 'Nie — hranica' },
+        { v: 'fantazia', label: 'Len fantázia alebo dirty talk' },
+        { v: 'mozno', label: 'Možno v konkrétnom scenári' },
+        { v: 'ano', label: 'Áno, chcem to v realite' },
+        { v: 'nie', label: 'Nie, neláka ma to' },
       ],
     },
     {
@@ -109,7 +234,7 @@ const MOC: Blok = {
         { v: 'usta', label: 'Do úst' },
       ],
     },
-    { druh: 'otazka', id: 'moc_podmienky', typ: 'text', text: 'Moje podmienky (hydratácia, hygiena, miesto):', podmienka: { ot: 'moc_uroven', jeNiektora: ['mozno', 'ano'] } },
+    { druh: 'otazka', id: 'moc_podmienky', typ: 'text', text: 'Scenár, miesto a forma, ktoré si viem predstaviť:', podmienka: { ot: 'moc_uroven', jeNiektora: ['mozno', 'ano'] } },
   ],
 }
 
@@ -221,13 +346,13 @@ const DIRTY_TALK: Blok = {
       text: 'Sexuálne urážky / ponižovanie',
       moznosti: [
         { v: 'ano', label: 'Áno, láka ma to' },
-        { v: 'za_podmienok', label: 'Len za jasných podmienok (presné slová dohodnúť)' },
-        { v: 'nie', label: 'Nie — tvrdá hranica' },
+        { v: 'za_podmienok', label: 'Len niektoré slová alebo konkrétny štýl' },
+        { v: 'nie', label: 'Nie, vypína ma to' },
       ],
     },
     p('dt_prosby', 'Prosby a pokorné reči'),
     p('dt_hlas', 'Fetiš na hlas — šepot, ASMR, pomalý hlas do ucha'),
-    { druh: 'otazka', id: 'dt_mimo', typ: 'text', text: 'Presné slová / oslovenia, ktoré sú absolútne mimo:' },
+    { druh: 'otazka', id: 'dt_mimo', typ: 'text', text: 'Presné slová alebo oslovenia, ktoré ma vypínajú:' },
   ],
 }
 
@@ -254,7 +379,7 @@ const ROLEPLAY: Blok = {
       text: 'Predstieranie spánku / jemné dotyky „spiaceho" tela',
       moznosti: [
         { v: 'laka', label: 'Láka ma to' },
-        { v: 'za_podmienok', label: 'Len za jasných podmienok' },
+        { v: 'za_podmienok', label: 'Len konkrétna verzia tejto scény' },
         { v: 'nie', label: 'Nie' },
       ],
     },
@@ -264,7 +389,7 @@ const ROLEPLAY: Blok = {
     p('rp_prezliekanie', 'Obliekanie si oblečenia bežne spájaného s opačným pohlavím (crossdressing) ako súčasť hry'),
     p('rp_smoking', 'Smoking fetish — partner fajčí počas aktu'),
     p('rp_tehotenstvo', 'Fetiš na tehotenstvo / laktáciu (bruško, dojčenie ako prvok)'),
-    p('rp_vek', 'Fetiš na vekový rozdiel — ako roleplay „mladší / starší" (len dospelí)'),
+    p('rp_vek', 'Fetiš na vekový rozdiel — roleplay „mladší / starší"'),
   ],
 }
 
@@ -278,15 +403,15 @@ const MESSY: Blok = {
   ],
 }
 
-// ── Rámec + poznámky ───────────────────────────────────────────────
+// ── Objavovanie a reflexia ─────────────────────────────────────────
 const RAMEC: Blok = {
-  druh: 'skupina', id: 'ramec', nadpis: 'Rámec, semafor a poznámky',
+  druh: 'skupina', id: 'ramec', nadpis: 'Objavovanie a reflexia',
   bloky: [
     {
       druh: 'otazka', id: 'ram_zacat', typ: 'viac',
       text: 'Ako chceme fetiše objavovať',
       moznosti: [
-        { v: 'diskusia', label: 'Najprv diskusia o preferenciách a hraniciach' },
+        { v: 'diskusia', label: 'Najprv si opísať, čo nás na téme priťahuje' },
         { v: 'mierne', label: 'Začať miernymi formami, postupne rozvíjať' },
         { v: 'filmy', label: 'Spolu si pozrieť obsah na tú tému a rozprávať sa' },
         { v: 'reflexia', label: 'Po každom experimente reflexia „2+2"' },
@@ -300,12 +425,12 @@ const RAMEC: Blok = {
         { v: 'neprijemne', label: 'Nie je mi to príjemné' },
       ],
     },
-    { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'GREEN (áno, chcem):' },
-    { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'YELLOW (možno, opatrne, za podmienok):' },
-    { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'RED (tvrdá hranica — nikdy):' },
-    { druh: 'otazka', id: 'sem_stopslovo', typ: 'text', text: 'Naše stop-slovo / gesto:' },
-    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo chcem, aby partner/ka vedel(a) (1–3 vety):' },
-    { druh: 'otazka', id: 'pozn_bojim', typ: 'text', text: 'Čoho sa bojím / čo ma úplne odradí:' },
+    { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'Fetiše a podnety, ktoré ma priťahujú najviac:' },
+    { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'Veci, ktoré ma lákajú iba vo fantázii alebo podľa nálady:' },
+    { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'Podnety, ktoré ma eroticky vôbec neoslovujú:' },
+    { druh: 'otazka', id: 'sem_stopslovo', typ: 'text', text: 'Ako najradšej dávam najavo „pridaj / uber / zmeň rytmus":' },
+    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo ma na mojich záujmoch najviac vzrušuje (1–3 vety):' },
+    { druh: 'otazka', id: 'pozn_bojim', typ: 'text', text: 'Čo ma pri tejto téme úplne odradí alebo vypne:' },
   ],
 }
 
@@ -324,8 +449,8 @@ export const FETISE: TemaObsah = {
     {
       druh: 'text', id: 'ako_zacat', nadpis: 'Ako začať', ton: 'info',
       telo:
-        'Diskusia o preferenciách a hraniciach. Začať miernymi formami a postupne rozvíjať. ' +
-        'Vzájomný súhlas a dôvera sú základ — hranice sa niekedy menia s rastúcou dôverou.',
+        'Najprv si pomenujte, čo je na konkrétnom podnete vzrušujúce: vzhľad, materiál, vôňa, moc, tabu alebo určitá rola. ' +
+        'Začať sa dá opisom fantázie, jemnou verziou, jedným prvkom alebo celým pripraveným scenárom.',
     },
   ],
   telo: [
@@ -367,7 +492,7 @@ export const FETISE: TemaObsah = {
     },
     {
       druh: 'text', id: 'zaver',
-      telo: 'Výsledky zohľadnia len zhody medzi tebou a partnerom. Čo niekto označí ako RED, sa nikde nezobrazí.',
+      telo: 'Výsledky zvýraznia podnety, tekutiny, materiály a scenáre, pri ktorých sa vaše preferencie stretávajú.',
     },
   ],
 }

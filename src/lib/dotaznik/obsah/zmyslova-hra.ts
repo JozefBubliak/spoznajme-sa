@@ -7,6 +7,8 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // Autorský základ vychádza z existujúceho L4
 // seedu modulu (zrak, sluch, čuch, chuť, hmat/teplota/textúra, layering
 // a deprivácia). z/m verzia zrkadlová.
+// + xlsm ≤P47090: zmyslová deprivácia; doplnený intenzívny variant
+// a mýtus verzus realita, všeobecný bezpečnostný rámec odstránený.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -98,7 +100,7 @@ const SLUCH: Blok = {
     {
       druh: 'text',
       id: 'slu_hlas_info',
-      telo: 'Šepkanie, príkazy či dohodnuté zákazy môžu byť súčasťou hry s vedením. Niekomu vyhovuje autoritatívny tón, inému jemné vedenie alebo žiadne príkazy. Dohodnite si slová a hranice vopred; príkaz v hre neobmedzuje možnosť povedať nie.',
+      telo: 'Šepkanie, príkazy či zákazy môžu byť súčasťou hry s vedením. Niekomu vyhovuje autoritatívny tón, inému jemné vedenie, vulgárne slová alebo úplné ticho.',
     },
     {
       druh: 'otazka',
@@ -234,7 +236,7 @@ const CUCH: Blok = {
     {
       druh: 'text',
       id: 'cuc_ritual_info',
-      telo: 'Vedomé vnímanie vône krku, zápästí či vlasov môže byť súčasťou spoločného rituálu. Záleží na tom, či je príjemné obom. Minulá skúsenosť neznamená súhlas teraz.',
+      telo: 'Vedomé vnímanie vône krku, zápästí či vlasov môže byť súčasťou spoločného rituálu a vytvoriť osobnú pachovú spomienku na partnera.',
     },
     {
       druh: 'otazka',
@@ -264,7 +266,7 @@ const CUCH: Blok = {
     {
       druh: 'text',
       id: 'cuc_oleje_info',
-      telo: 'Kokos, santal alebo pačuli sú príklady vôní či zložiek telových prípravkov. To, či prirodzenú vôňu doplnia alebo prekryjú, je osobné vnímanie. Esenciálny olej nie je to isté ako hotový telový olej; pri použití na kožu sa používa zriedený prípravok podľa jeho určenia. Parfumované prípravky nepatria na genitálie. Olejové prípravky nepoužívajte s latexovými kondómami.',
+      telo: 'Kokos, santal alebo pačuli sú príklady vôní či zložiek telových prípravkov. To, či prirodzenú vôňu doplnia alebo prekryjú, je osobné vnímanie.',
     },
     {
       druh: 'otazka',
@@ -472,7 +474,7 @@ const CHUT: Blok = {
     {
       druh: 'text',
       id: 'chu_kombinacia_info',
-      telo: 'Ďalšia otázka sa týka predstavy kombinovať telesné tekutiny (semeno alebo vaginálny sekrét) s inou chuťou, napríklad medom, šľahačkou či sirupom. Zachytáva osobný postoj, nie odporúčanie na realizáciu. Pri orálnom sexuálnom kontakte sa môžu prenášať sexuálne prenosné infekcie aj bez príznakov; kondóm alebo orálna bariéra môže riziko znížiť.',
+      telo: 'Ďalšia otázka sa týka predstavy kombinovať telesné tekutiny (semeno alebo vaginálny sekrét) s inou chuťou, napríklad medom, šľahačkou či sirupom. Zachytáva osobný postoj a konkrétnu chuťovú fantáziu.',
     },
     {
       druh: 'otazka',
@@ -519,7 +521,7 @@ const CHUT: Blok = {
     {
       druh: 'text',
       id: 'chu_alkohol_info',
-      telo: 'Víno, šampanské či likér sú príkladmi chutí; alkohol nie je podmienkou intimity. Možno zvoliť nealkoholický nápoj. Alkohol nesmie byť prostriedkom na presviedčanie; pri neschopnosti slobodne a jasne súhlasiť nepokračujte.',
+      telo: 'Víno, šampanské či likér sú príkladmi chutí; rovnako sa dá hrať s džúsom, tonikom alebo iným nealkoholickým nápojom.',
     },
     {
       druh: 'otazka', id: 'chu_co', typ: 'viac', inePovolene: true,
@@ -528,7 +530,7 @@ const CHUT: Blok = {
         { v: 'bozky_ochutnavanie', label: 'Bozky s vedomým „ochutnávaním"' },
         { v: 'jedlo', label: 'Jedlo na tele (ovocie, šľahačka, med, čokoláda)' },
         { v: 'napoj', label: 'Prenášanie dúšku nápoja bozkom' },
-        { v: 'telesne_tekutiny', label: 'Telesné tekutiny (opt-in, podľa preferencie)' },
+        { v: 'telesne_tekutiny', label: 'Telesné tekutiny a ich chuť' },
       ],
     },
     { druh: 'otazka', id: 'chu_kde', typ: 'text', text: 'Ktoré chute a na ktorých miestach tela sú pre mňa lákavé:' },
@@ -538,7 +540,7 @@ const CHUT: Blok = {
       text: 'Alkohol (víno, šampanské) ako súčasť erotických hier',
       moznosti: [
         { v: 'ano', label: 'Áno, znie to vzrušujúco' },
-        { v: 'mozno_jemne', label: 'Možno, ak to bude jemné a bezpečné' },
+        { v: 'mozno_jemne', label: 'Možno, len v jemnej verzii' },
         { v: 'nie', label: 'Nie, nechcem miešať alkohol a intimitu' },
       ],
     },
@@ -638,7 +640,7 @@ const LAYERING: Blok = {
       druh: 'text', id: 'layering_info',
       telo:
         'Kombinovanie zmyslov (napr. zaviazané oči + šepot + ľad) alebo postupné odoberanie jedného zmyslu ' +
-        'zosilňuje vnímanie ostatných. Ide o jemnú formu hry, nie o silovú kontrolu — vždy s možnosťou kedykoľvek prestať.',
+        'zosilňuje vnímanie ostatných. Môže to byť jemná meditatívna hra aj intenzívna scéna s neistotou, prekvapením a silnými podnetmi.',
     },
     {
       druh: 'text', id: 'layering_ritual_tip', ton: 'info',
@@ -654,25 +656,15 @@ const LAYERING: Blok = {
         { v: 'kombinacia', label: 'Kombinácia dvoch zmyslov naraz (napr. oči + dotyk)' },
         { v: 'postupne_odoberanie', label: 'Postupné odoberanie zmyslov v priebehu scény' },
         { v: 'jeden_zmysel', label: 'Radšej jeden zmysel naraz, bez kombinovania' },
+        { v: 'intenzivna', label: 'Intenzívna deprivácia viacerých zmyslov naraz — tma, slúchadlá a obmedzený pohyb' },
       ],
     },
-    p('lay_deprivacia_ok', 'Zmyslová deprivácia (páska, slúchadlá) mi je príjemná, pokiaľ viem, že môžem kedykoľvek prestať'),
-  ],
-}
-
-// ── Rámec a bezpečie ───────────────────────────────────────────────
-const RAMEC: Blok = {
-  druh: 'skupina', id: 'ramec', nadpis: 'Rámec a bezpečie',
-  bloky: [
-    { druh: 'otazka', id: 'ram_alergie', typ: 'text', text: 'Alergie alebo citlivosti na materiály/vône/oleje, ktoré treba zohľadniť:' },
+    p('lay_deprivacia_ok', 'Zmyslová deprivácia (páska, slúchadlá) mi zosilňuje dotyk, dych a očakávanie'),
     {
-      druh: 'otazka', id: 'ram_signal', typ: 'jeden',
-      text: 'Pri zmyslovom preťažení (príliš veľa naraz) preferujem',
-      moznosti: [
-        { v: 'slovo', label: 'Povedať to nahlas' },
-        { v: 'gesto', label: 'Dohodnuté gesto (keď mám napr. zaviazané oči)' },
-        { v: 'redukcia', label: 'Partner postupne uberá intenzitu bez toho, aby som musel(a) niečo hovoriť' },
-      ],
+      druh: 'text', id: 'lay_myty', nadpis: 'Mýtus verzus realita', ton: 'info',
+      telo:
+        'Mýtus: zmyslová deprivácia patrí iba k tvrdému BDSM. Realita: môže ísť o jemnú pásku na oči a pomalé bozky, ale aj o drsnú, intenzívnu hru s viacerými odobratými zmyslami. ' +
+        'Nejde o test odvahy ani o nič, za čo by sa bolo treba hanbiť; je to bežný spôsob, ako presunúť pozornosť zo sledovania vlastného tela na samotné vnemy.',
     },
   ],
 }
@@ -688,10 +680,6 @@ export const ZMYSLOVA_HRA: TemaObsah = {
         'Zrak, sluch, čuch, chuť a hmat — každý zmysel je samostatná cesta k vzrušeniu a každý sa dá zosilniť, ' +
         'stlmiť alebo dočasne odobrať. Táto téma mapuje, ktoré zmyslové vrstvy ma najviac oslovujú.',
     },
-    {
-      druh: 'text', id: 'ramec_info', nadpis: 'Rámec', ton: 'info',
-      telo: 'Akákoľvek forma dočasného odopretia zmyslu (páska, slúchadlá) je vždy opt-in a s možnosťou kedykoľvek prestať.',
-    },
   ],
   telo: [
     ZRAK,
@@ -700,7 +688,6 @@ export const ZMYSLOVA_HRA: TemaObsah = {
     CHUT,
     HMAT,
     LAYERING,
-    RAMEC,
   ],
   zaver: [
     {
