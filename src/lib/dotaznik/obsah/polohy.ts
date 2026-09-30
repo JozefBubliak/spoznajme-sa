@@ -11,6 +11,8 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // techniku. z/m verzia zrkadlová.
 // ─────────────────────────────────────────────────────────────────────────────
 
+const g = (m: string, z: string) => ({ m, z })
+
 const POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
@@ -52,10 +54,14 @@ const KLASICKE: Blok = {
       moznosti: [
         { v: 'misionar', label: 'Misionárska — intimita a očný kontakt' },
         { v: 'zozadu', label: 'Zozadu („na psíka") — hĺbka a dynamika' },
-        { v: 'cowgirl', label: 'Cowgirl / žena hore — kontrola a rytmus u nej' },
+        { v: 'cowgirl', label: g('Cowgirl / žena hore — kontrola u nej a vizuálny zážitok', 'Cowgirl / žena hore — kontrola a rytmus v mojich rukách') },
         { v: 'reverse_cowgirl', label: 'Reverse cowgirl — vizuálny uhol' },
         { v: 'bok', label: 'Na boku / „spooning" — pokojná, na dlhšie vlny' },
         { v: 'stoj', label: 'V stoji / na okraji postele-stola' },
+        { v: 'lotos', label: 'Lotosová — tvárou k sebe, hlboké spojenie' },
+        { v: 'zadna_sklon', label: g('Zadná so sklonom — intenzita a vzrušenie', 'Zadná so sklonom — maximálna penetrácia') },
+        { v: 'experimentalne', label: 'Experimentálne (akrobatické, nábytok)' },
+        { v: 'kombinacia', label: 'Kombinácia viacerých polôh' },
       ],
     },
     p('kla_variacie', 'Drobné variácie (vankúš pod panvou, zdvihnuté nohy, náklon) mi menia zážitok výrazne'),
@@ -66,6 +72,19 @@ const KLASICKE: Blok = {
         { v: 'casto', label: 'Často — dodáva to dynamiku' },
         { v: 'obcas', label: 'Občas, podľa nálady' },
         { v: 'zriedka', label: 'Zriedka — radšej ostávam pri jednej' },
+      ],
+    },
+    { druh: 'otazka', id: 'kla_zmena_pocas_ine', typ: 'text', text: 'Vlastná odpoveď — zmena polôh počas aktu (voliteľné):' },
+    {
+      druh: 'otazka', id: 'kla_obluba', typ: 'jeden',
+      text: 'Ktorá poloha je pre mňa „tá najlepšia" na orgazmus',
+      moznosti: [
+        { v: 'misionar', label: 'Misionárska' },
+        { v: 'zozadu', label: 'Zozadu' },
+        { v: 'zena_hore', label: 'Žena hore' },
+        { v: 'bok', label: 'Na boku' },
+        { v: 'ina', label: 'Iná / závisí' },
+        { v: 'nie_pri_penetracii', label: 'Orgazmus mám skôr mimo penetrácie' },
       ],
     },
   ],
@@ -82,6 +101,24 @@ const ORALNE: Blok = {
         { v: 'bok', label: 'Z boku' },
         { v: 'stoh', label: '„Stoh" — jeden na druhom' },
         { v: 'nie', label: 'Radšej nie — nerovnaká pozornosť je pre mňa lepšia' },
+      ],
+    },
+    {
+      druh: 'text', id: 'ora_69_info', nadpis: '69 — prečo a ako', ton: 'info',
+      telo:
+        'Výhoda: obaja dávate aj dostávate naraz, veľmi vizuálne a intímne. Nevýhoda: ťažko sa sústrediť na oboje — preto veľa párov 69 používa ako predohru a finále dokončí inak.\n\n' +
+        'Tipy: na boku (hlava na stehne partnera) šetrí krk; ten hore riadi hĺbku a tempo; striedajte sa — chvíľu len jeden dáva, druhý si užíva. ' +
+        'Pri väčšom rozdiele výšky vankúš pod hlavu toho dole.',
+    },
+    {
+      druh: 'otazka', id: 'ora_69_ako', typ: 'viac',
+      text: '69 — čo mi vyhovuje',
+      moznosti: [
+        { v: 'predohra', label: 'Ako predohra' },
+        { v: 'az_do_konca', label: 'Až do orgazmu' },
+        { v: 'striedanie', label: 'Striedanie: chvíľu dávam, chvíľu dostávam' },
+        { v: 's_prstami', label: 'S prstami / hračkou' },
+        { v: 'anal_pristup', label: 'S prístupom k zadku (anilingus, prst)' },
       ],
     },
     p('ora_facesitting_pristup', 'Pri face-sittingu chcem mať voľné ruky na doplnkovú stimuláciu'),
@@ -184,6 +221,112 @@ const BEZPECNOST: Blok = {
   ],
 }
 
+// ── Mýty a tipy ─────────────────────────────────────────────────────
+const MYTY: Blok = {
+  druh: 'text', id: 'myty', nadpis: 'Mýty a tipy', ton: 'info',
+  telo:
+    'Mýtus: „Dobrý sex = veľa polôh." — Realita: väčšina párov má 2–4 obľúbené a mení malé detaily (uhol, vankúš, nohy). To stačí.\n\n' +
+    'Mýtus: „Žena má mať orgazmus z penetrácie v každej polohe." — Realita: väčšina žien potrebuje pri penetrácii aj klitoris. Poloha, kde je voľná ruka alebo hračka, je často ta pravá.\n\n' +
+    'Tipy: vankúš pod panvu pri misionárskej zmení uhol na G-bod; pri „zozadu" nech žena zníži hrudník k posteli; pri žene hore nech sa skôr kĺže dopredu-dozadu než skáče. ' +
+    'Prechod medzi polohami nemusí prerušiť rytmus — otočte sa bez vytiahnutia (misionár → na boku → ona hore).',
+}
+
+// ── Žena hore — čo môže robiť ────────────────────────────────────────
+// Zdroj: xlsm nadpis „Možnosti sebarealizácie ženy (Čo môžeš robiť hore)" bez
+// obsahu — dotvorené.
+const ZENA_HORE: Blok = {
+  druh: 'skupina', id: 'zena_hore', nadpis: 'Žena hore — čo sa dá robiť',
+  uvod: 'Keď je žena hore, riadi uhol, hĺbku aj tempo — je to najjednoduchšia cesta, ako si vziať presne to, čo potrebuje.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'zh_pohyby', typ: 'viac', inePovolene: true,
+      text: g('Čo chcem, aby robila, keď je hore', 'Čo rada robím, keď som hore'),
+      moznosti: [
+        { v: 'grinding', label: 'Kĺzanie dopredu-dozadu (grinding) — klitoris o jeho telo' },
+        { v: 'skakanie', label: 'Skákanie hore-dole' },
+        { v: 'kruzenie', label: 'Krúženie panvou' },
+        { v: 'predklon', label: 'Predklon — prsia pri jeho tvári, bozky' },
+        { v: 'zaklon', label: 'Záklon — ruky opreté o jeho stehná' },
+        { v: 'drep', label: 'Drep na chodidlách — hlbšie a intenzívnejšie' },
+        { v: 'dotyk_seba', label: 'Dotýkanie sa klitorisu / pŕs počas jazdy' },
+        { v: 'teasing', label: 'Dráždenie — len špička dnu, pauzy, zastavenie tesne pred' },
+        { v: 'otocenie', label: 'Otočenie chrbtom (reverse) bez vytiahnutia' },
+        { v: 'drzat_ruky', label: 'Pridržať mu ruky nad hlavou' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zh_on', typ: 'viac',
+      text: g('Čo pri tom rád robím ja zdola', 'Čo chcem, aby pri tom robil zdola'),
+      moznosti: [
+        { v: 'boky', label: 'Držať za boky a udávať rytmus' },
+        { v: 'prsia', label: 'Hladkať a stláčať prsia' },
+        { v: 'klitoris', label: 'Palcom na klitoris' },
+        { v: 'zadok', label: 'Chytiť za zadok / plesknúť' },
+        { v: 'prirazat', label: 'Prirážať zdola' },
+        { v: 'nic', label: 'Nič — len sa pozerať a nechať ju' },
+      ],
+    },
+    p('zh_hanba', g('Partnerka sa hore niekedy hanbí za svoje telo alebo „výkon"', 'Hore sa niekedy hanbím za svoje telo alebo „výkon"')),
+    {
+      druh: 'text', id: 'zh_tipy', ton: 'info',
+      telo:
+        'Mýtus: „Hore musím divoko skákať ako v porne." — Realita: väčšine žien prinesie viac pomalé kĺzanie s tlakom klitorisu; skákanie unaví stehná za pár minút. ' +
+        'Mýtus: „Zdola vidí každý môj záhyb." — Realita: muži opisujú pohľad na ženu hore ako jeden z najvzrušujúcejších vôbec — nevidia „nedostatky", vidia ju. ' +
+        'Tip: ruky oprieť o jeho hruď alebo čelo postele, vankúš pod jeho zadok zmení uhol.',
+    },
+  ],
+}
+
+// ── Experimentovanie a náročnejšie polohy ────────────────────────────
+// Zdroj: xlsm P49389 („chýbajú otázky na experimentovanie s polohami alebo
+// náročnejšími praktikami"). Obsah dotvorený.
+const EXPERIMENT: Blok = {
+  druh: 'skupina', id: 'experiment', nadpis: 'Experimentovanie a náročnejšie polohy',
+  bloky: [
+    {
+      druh: 'otazka', id: 'exp_ochota', typ: 'jeden',
+      text: 'Ako sa staviam ku skúšaniu nových polôh',
+      moznosti: [
+        { v: 'milujem', label: 'Milujem to — čím viac nového, tým lepšie' },
+        { v: 'obcas', label: 'Občas niečo nové, inak osvedčené' },
+        { v: 'ked_partner', label: 'Ak to navrhne partner/ka, idem do toho' },
+        { v: 'osvedcene', label: 'Radšej ostávam pri osvedčených' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'exp_ktore', typ: 'viac', inePovolene: true,
+      text: 'Ktoré náročnejšie polohy ma lákajú',
+      moznosti: [
+        { v: 'lotos', label: 'Lotos — sedíme tvárou k sebe, prepletení' },
+        { v: 'zdvihnuta', label: 'Žena zdvihnutá v náručí / nohy okolo pása' },
+        { v: 'stoj_zozadu', label: 'V stoji zozadu, predklon' },
+        { v: 'noha_na_rameni', label: 'Noha na ramene / nohy vysoko' },
+        { v: 'kovadlina', label: 'Kolená k hrudi („zložená")' },
+        { v: 'okraj_nabytku', label: 'Cez okraj stola, pultu, operadla gauča' },
+        { v: 'schody', label: 'Na schodoch' },
+        { v: 'stolicka', label: 'Na stoličke / v kresle' },
+        { v: 'mostik', label: 'Mostík, záklon, akrobatické polohy' },
+        { v: 'kamasutra', label: 'Polohy z Kámasútry podľa obrázkov' },
+      ],
+    },
+    p('exp_pomocky', 'Pomôcky na polohy — klin/vankúš, hojdačka, popruhy na dvere'),
+    p('exp_zrkadlo', 'Polohy pred zrkadlom, aby sme sa videli'),
+    p('exp_vyzva', 'Hra typu „každý týždeň jedna nová poloha" / kocky / karty s polohami'),
+    p('exp_narocne', 'Fyzicky náročné polohy, pri ktorých sa zapotíme a ide o výkon'),
+    {
+      druh: 'otazka', id: 'exp_brzdy', typ: 'viac', inePovolene: true,
+      text: 'Čo ma pri nových polohách brzdí',
+      moznosti: [
+        { v: 'kondicia', label: 'Kondícia, sila, ohybnosť' },
+        { v: 'vyska', label: 'Rozdiel vo výške / váhe' },
+        { v: 'smiesnost', label: 'Pocit, že budem vyzerať smiešne' },
+        { v: 'strata_rytmu', label: 'Prerušenie rytmu a vzrušenia pri prechode' },
+        { v: 'nic', label: 'Nič' },
+      ],
+    },
+  ],
+}
+
 // ── Top 3 na najbližší mesiac ───────────────────────────────────────
 const TOP3: Blok = {
   druh: 'skupina', id: 'top3', nadpis: 'Top 3 polohy na najbližší mesiac',
@@ -206,11 +349,14 @@ export const POLOHY: TemaObsah = {
   ],
   telo: [
     RAMEC,
+    MYTY,
     KLASICKE,
+    ZENA_HORE,
     ORALNE,
     ANAL,
     PRISTUP_HRACKY,
     PROSTREDIE,
+    EXPERIMENT,
     VARIACIE,
     BEZPECNOST,
     TOP3,

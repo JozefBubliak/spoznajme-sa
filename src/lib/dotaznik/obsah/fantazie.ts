@@ -67,37 +67,10 @@ const AKO_FUNGUJE: Blok = {
 }
 
 // ── Hranie s tabu ────────────────────────────────────────────────────
-// Zdroj: „32_Sny_tuzby_a_fantazie_a_TABU.docx" — krátky, generický fragment
-// (prekonávanie zábran, adrenalín, psychologická stimulácia); zaradené sem
-// ako doplnkový blok namiesto samostatnej témy.
+// Presunuté do samostatnej témy tabu-mantinely.ts (modul I5); tu len odkaz.
 const TABU: Blok = {
-  druh: 'skupina', id: 'tabu', nadpis: 'Hranie s tabu',
-  bloky: [
-    {
-      druh: 'text', id: 'tabu_info',
-      telo:
-        'Prekonávanie zábran a skúmanie tabuizovaných tém môže byť cestou k novým dimenziám vzrušenia — ' +
-        'láka v tom adrenalín zo „zakázaného" a pocit odvahy, nie samotný akt. Vyžaduje jasnú komunikáciu a dôveru.',
-    },
-    {
-      druh: 'otazka', id: 'tabu_diskusia', typ: 'jeden',
-      text: 'Chcem diskutovať o svojich najtajnejších fantáziách s partnerom/kou',
-      moznosti: [
-        { v: 'ano', label: 'Áno, rád(a) sa podelím' },
-        { v: 'potrebujem_cas', label: 'Možno, potrebujem na to čas' },
-        { v: 'nie', label: 'Nie, necítim sa pri tom komfortne' },
-      ],
-    },
-    {
-      druh: 'otazka', id: 'tabu_skumanie', typ: 'jeden',
-      text: 'Ako vnímam skúmanie tabuizovaných praktík všeobecne',
-      moznosti: [
-        { v: 'laka', label: 'Láka ma to, rád(a) by som ich preskúmal(a)' },
-        { v: 'mozno_pripraveny', label: 'Možno, ak sa na to budem cítiť pripravený/á' },
-        { v: 'nie', label: 'Nie, nemám o to záujem' },
-      ],
-    },
-  ],
+  druh: 'text', id: 'tabu_odkaz', ton: 'info',
+  telo: 'Hranie s tabu a mapa toho, čo je pre teba nikdy / len fantázia / možno / áno, je v samostatnej téme „Tabu témy a mantinely".',
 }
 
 // ── Známa/slávna osoba ────────────────────────────────────────────

@@ -110,6 +110,45 @@ const NAVIGACIA: Blok = {
 }
 
 // ── Pomenovania a oslovovanie ──────────────────────────────────────
+// ── Ako začať hovoriť ────────────────────────────────────────────────
+// Zdroj: xlsm nadpis „Ako začať hovoriť (mikrokroky pre začiatočníkov)" bez
+// obsahu — dotvorené.
+const ZACIATOK: Blok = {
+  druh: 'skupina', id: 'zaciatok', nadpis: 'Ako začať hovoriť — mikrokroky',
+  bloky: [
+    {
+      druh: 'otazka', id: 'zac_kde_som', typ: 'jeden',
+      text: 'Kde som s rozprávaním počas sexu',
+      moznosti: [
+        { v: 'ticho', label: 'Som skôr ticho, hanbím sa' },
+        { v: 'zvuky', label: 'Vydávam zvuky, ale slová nie' },
+        { v: 'obcas', label: 'Občas niečo poviem' },
+        { v: 'hovorim', label: 'Hovorím rád/rada a veľa' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zac_kroky', typ: 'viac',
+      text: 'Ktoré mikrokroky by som vedel(a) skúsiť',
+      moznosti: [
+        { v: 'dych_zvuky', label: 'Nechať počuť dych a stony — nepotláčať ich' },
+        { v: 'meno', label: 'Vysloviť meno partnera/ky' },
+        { v: 'jedno_slovo', label: 'Jedno slovo: „áno", „ešte", „tam"' },
+        { v: 'pochvala', label: 'Krátka pochvala: „si nádherná/ý"' },
+        { v: 'sprava', label: 'Najprv písomne — správa cez deň' },
+        { v: 'sepot', label: 'Šepot do ucha, keď nevidí tvár' },
+        { v: 'popis', label: 'Opísať, čo práve robíme alebo čo urobím' },
+        { v: 'prosba', label: 'Povedať, čo chcem: „chcem ťa…"' },
+      ],
+    },
+    {
+      druh: 'text', id: 'zac_tipy', ton: 'info',
+      telo:
+        'Mýtus: „Dirty talk musí byť vulgárny." — Realita: aj „chýbala si mi celý deň" počas sexu je dirty talk. Úroveň si určujete vy. ' +
+        'Tip: začnite potme alebo so zavretými očami, šepotom. Prvé vety si pokojne napíšte vopred. Keď sa zasmejete, nič sa nedeje — smiech uvoľní a ďalšia veta príde ľahšie.',
+    },
+  ],
+}
+
 const OSLOVOVANIE: Blok = {
   druh: 'skupina', id: 'oslovovanie', nadpis: 'Pomenovania a oslovovanie v posteli',
   bloky: [
@@ -283,6 +322,7 @@ export const KOMUNIKACIA_POCAS_PO: TemaObsah = {
   telo: [
     TON,
     NAVIGACIA,
+    ZACIATOK,
     OSLOVOVANIE,
     POCHVALY,
     HUMOR,

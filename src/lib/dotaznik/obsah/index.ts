@@ -22,6 +22,8 @@ import { LIBIDO_CHUT } from './libido-chut'
 import { ZMYSLOVA_HRA } from './zmyslova-hra'
 import { TEMPO_INTENZITA } from './tempo-intenzita'
 import { FANTAZIE } from './fantazie'
+import { TABU_MANTINELY } from './tabu-mantinely'
+import { SUMAR, BEZ_SUMARU } from './sumar'
 import { MIESTA_PROSTREDIE } from './miesta-prostredie'
 import { POLOHY } from './polohy'
 import { VAGINALNA_PENETRACIA } from './vaginalna-penetracia'
@@ -71,6 +73,12 @@ const REGISTER: Record<string, TemaObsah> = {
   [ORGAZMUS_KONTROLA.slug]: ORGAZMUS_KONTROLA,
   [NEPENETRATIVNE_TRENIE.slug]: NEPENETRATIVNE_TRENIE,
   [CNM_ENM.slug]: CNM_ENM,
+  [TABU_MANTINELY.slug]: TABU_MANTINELY,
+}
+
+// Záverečný sumár („čo nové skúsime" + plán) na koniec každej praktickej témy.
+for (const [k, t] of Object.entries(REGISTER)) {
+  if (!BEZ_SUMARU.has(k)) REGISTER[k] = { ...t, zaver: [...(t.zaver ?? []), SUMAR] }
 }
 
 export function temaObsah(modul: string, tema: string): TemaObsah | undefined {

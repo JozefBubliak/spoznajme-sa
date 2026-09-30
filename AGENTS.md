@@ -1,3 +1,5 @@
+> **Codex: aktuálny handoff pre dotazník je na začiatku `docs/AI-COLLAB.md` (HANDOFF CLAUDE → CODEX 2026-09-30).**
+
 # DeepTalks / „Spoznajme sa“ — znalostný dokument
 
 > Jediný referenčný súbor pre prácu na tomto repozitári. Ak niečo z tohto prestane platiť, oprav to tu.

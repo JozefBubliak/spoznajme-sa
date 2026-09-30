@@ -69,6 +69,119 @@ const SMOTHER_UVOD: Blok = {
     'Ak ťa táto téma neláka, pokojne ju preskoč.',
 }
 
+// ── Techniky a polohy ────────────────────────────────────────────────
+// Zdroj: xlsm P49154–49200 (Face sitting — otázky pre ženu, muž ako
+// prijímateľ, poskytovanie, kombinácie). Doplnené: orál na penis pri
+// „kinging", semenníky/hrádza, sanie, vibrátor, masturbácia, reverse.
+const TECHNIKY: Blok = {
+  druh: 'skupina', id: 'techniky', nadpis: 'Techniky a polohy',
+  uvod: 'Face sitting sa dá použiť pri cunnilinguse, felácii aj anilinguse. Tu si pomenuj, čo presne chceš.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'tech_hore_pocit', typ: 'jeden',
+      text: 'Ako sa cítim pri prijímaní face sittingu (som hore)',
+      moznosti: [
+        { v: 'milujem', label: g('Milujem to', 'Milujem to — je to pre mňa veľmi vzrušujúce') },
+        { v: 'otvoreny', label: g('Som otvorený, ale nie som si istý komfortom', 'Som otvorená, ale potrebujem viac komfortu') },
+        { v: 'nie', label: 'Nie, táto praktika mi nevyhovuje' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tech_hore_z', typ: 'viac', inePovolene: true,
+      podmienka: { pohlavie: 'z' },
+      text: 'Aké techniky chcem, keď som hore',
+      moznosti: [
+        { v: 'lizanie_klitoris', label: 'Intenzívne lízanie klitorisu' },
+        { v: 'fukanie', label: 'Jemné fúkanie alebo dýchanie na citlivé miesta' },
+        { v: 'oral_prsty_gbod', label: 'Orál + prstovanie (klitoris + G-bod)' },
+        { v: 'sanie', label: 'Sanie klitorisu' },
+        { v: 'jazyk_dnu', label: 'Jazyk vo vagíne' },
+        { v: 'dlhe_tahy', label: 'Dlhé ťahy celým jazykom od vagíny ku klitorisu' },
+        { v: 'anilingus', label: 'Anilingus — sadnem si viac dozadu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tech_hore_m', typ: 'viac', inePovolene: true,
+      podmienka: { pohlavie: 'm' },
+      text: 'Aké techniky chcem, keď prijímam',
+      moznosti: [
+        { v: 'anilingus_jemny', label: 'Jemná stimulácia análnej oblasti jazykom' },
+        { v: 'oral_prostata', label: 'Orál kombinovaný s masážou prostaty' },
+        { v: 'striedanie_bozky', label: 'Striedanie orálnych techník s jemnými bozkami' },
+        { v: 'oral_penis', label: 'Orál na penis — kľačím nad jej tvárou' },
+        { v: 'semenniky', label: 'Lízanie semenníkov' },
+        { v: 'hradza', label: 'Hrádza — jazyk medzi semenníkmi a anusom' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tech_hore_poloha_z', typ: 'viac', inePovolene: true,
+      podmienka: { pohlavie: 'z' },
+      text: 'Ako chcem byť hore',
+      moznosti: [
+        { v: 'klacanie', label: 'Kľačanie nad tvárou partnera' },
+        { v: 'plny_sed', label: 'Sed na tvári — úplné uvoľnenie váhy' },
+        { v: 'striedanie', label: 'Striedanie kľačania a sedenia' },
+        { v: 'celo_postele', label: 'Držím sa čela postele / steny' },
+        { v: 'otocena', label: 'Otočená k jeho nohám — dosiahnem na penis' },
+        { v: 'jazdenie', label: 'Sama sa pohybujem, „jazdím" na jeho jazyku' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tech_hore_poloha_m', typ: 'viac', inePovolene: true,
+      podmienka: { pohlavie: 'm' },
+      text: 'Aká poloha mi vyhovuje',
+      moznosti: [
+        { v: 'ona_kontrola', label: 'Partnerka má úplnú kontrolu nad tempom a pohybom' },
+        { v: 'chrbat_nohy', label: 'Ležím na chrbte so zdvihnutými nohami' },
+        { v: 'kinging', label: 'Kľaknem si nad jej tvár (kinging)' },
+        { v: 'na_styroch', label: 'Na štyroch, ona zozadu' },
+        { v: 'striedanie', label: 'Striedam rôzne pozície' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tech_dole_pocit', typ: 'jeden',
+      text: 'Ako vnímam poskytovanie face sittingu (som dole)',
+      moznosti: [
+        { v: 'milujem', label: 'Milujem dávať túto formu potešenia' },
+        { v: 'otvoreny', label: g('Som otvorený, ale potrebujem viac skúseností', 'Som otvorená, ale potrebujem viac skúseností') },
+        { v: 'nekomfort', label: 'Necítim sa pri tom komfortne' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tech_dole', typ: 'viac', inePovolene: true,
+      text: 'Aké techniky používam, keď som dole',
+      moznosti: [
+        { v: 'kruzenie_anus', label: 'Jemné krúženie jazykom okolo análneho otvoru' },
+        { v: 'striedanie_tempa', label: 'Striedanie tempa — pomalé a intenzívne' },
+        { v: 'dotyky_boky', label: 'Orál + jemné dotyky bokov a stehien' },
+        { v: 'ruky_zadok', label: 'Držím za zadok a riadim pohyb' },
+        { v: 'prsty', label: 'Pridávam prsty' },
+        { v: 'nechat_sa', label: 'Nechám sa úplne viesť — len jazyk' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tech_kombinacie', typ: 'viac', inePovolene: true,
+      text: 'Kombinácia face sittingu s inými technikami',
+      moznosti: [
+        { v: 'masaz', label: 'Orál + masáž' },
+        { v: 'nechty', label: 'Striedanie orálu a jemného škrabania nechtami' },
+        { v: 'vibrator', label: 'Vibrátor súčasne' },
+        { v: 'masturbacia', label: 'Ten dole si pritom masturbuje / je masturbovaný' },
+        { v: 'plesnutie', label: 'Plesknutia po zadku' },
+        { v: 'jednoducha', label: 'Bez kombinácií — jednoduchá stimulácia' },
+      ],
+    },
+    {
+      druh: 'text', id: 'tech_myty', nadpis: 'Mýty a tipy', ton: 'info',
+      telo:
+        'Mýtus: „Som na to príliš ťažká / udusím ho." — Realita: ten hore má váhu na kolenách a riadi, koľko jej pustí. Väčšina ľudí dole hlási, že chce viac, nie menej.\n\n' +
+        'Mýtus: „Pre toho dole je to ponižujúce." — Realita: veľa ľudí to opisuje ako najintímnejšiu formu uctievania partnera. Či je to jemné alebo dominantné, rozhodujete vy.\n\n' +
+        'Mýtus: „Vôňa a chuť sú niečo, za čo sa treba hanbiť." — Realita: pre mnohých je vôňa a vlhkosť partnera najsilnejší afrodiziak. Sliny, vlhkosť, neporiadok na tvári k tomu patria.\n\n' +
+        'Tipy: vankúš pod hlavu toho dole, opora rúk o čelo postele, pri análnej verzii sprcha pred tým. Dohodnite si jednoduchý signál rukou na stehno — potom sa obaja uvoľníte.',
+    },
+  ],
+}
+
 // ── Blok „Poskytujúca rola (Dole)" ─────────────────────────────────────────
 const DOLE: Blok = {
   druh: 'skupina',
@@ -661,6 +774,7 @@ export const FACE_SITTING: TemaObsah = {
     DOLE,
     HORE,
     ESTE_NIE,
+    TECHNIKY,
     ...SPOLOCNE,
   ],
   zaver: [

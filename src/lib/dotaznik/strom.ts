@@ -697,7 +697,7 @@ export const MODULY: Modul[] = [
     slug: 'fantazie-preklad-reality', cislo: 56, kod: 'A6', domena: 'A', tier1: true,
     nazov: 'Fantázie — screening a preklad do reality', popis: 'WSFQ klastre fantázií so škálami frekvencie/dôležitosti a samostatným prepínačom realizácie pre každý klaster (kniha).', ikona: '💭', citlivost: 2,
     temy: [
-      o('fantazie-preklad-reality', 'Fantázie — screening a preklad do reality', 'Kompletný sprievodca (kniha + dotazník) — 4 WSFQ klastre fantázií, hranie s tabu, frekvencia/dôležitosť, prepínač realizácie.'),
+      o('fantazie-preklad-reality', 'Fantázie — screening a preklad do reality', 'Kompletný sprievodca (kniha + dotazník) — 4 WSFQ klastre fantázií, frekvencia/dôležitosť, prepínač realizácie.'),
     ],
   },
   {
@@ -705,6 +705,13 @@ export const MODULY: Modul[] = [
     nazov: 'Tantra, slow sex a spiritualita', popis: 'Nastavenie piliera, dych spolu, očný kontakt, pomalé dotyky, „no-goal" dotyk, meditácia, energia a flow, ukotvenie po (kniha).', ikona: '🕉️', citlivost: 1,
     temy: [
       o('tantra-slow-sex-spiritualita', 'Tantra, slow sex a spiritualita', 'Kompletný sprievodca (kniha + dotazník) — dych, očný kontakt, pomalé dotyky, no-goal, meditácia, energia a flow, ukotvenie po.'),
+    ],
+  },
+  {
+    slug: 'tabu-mantinely', cislo: 58, kod: 'I5', domena: 'I',
+    nazov: 'Tabu témy a mantinely', popis: 'Hranie s tabu, mapa naprieč témami (nikdy / len fantázia / možno / áno), tekutiny a hraničné oblasti, ako sa mi s tabu pracuje (kniha).', ikona: '🚧', citlivost: 3,
+    temy: [
+      o('tabu-mantinely', 'Tabu témy a mantinely', 'Kompletný sprievodca (kniha + dotazník) — čo ma na tabu vzrušuje, scenáre, mapa tabu, telesné tekutiny, posúvanie hraníc.'),
     ],
   },
 ]

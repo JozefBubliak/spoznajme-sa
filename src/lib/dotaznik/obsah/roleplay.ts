@@ -21,18 +21,55 @@ const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
   druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
 })
 
+// ── Tipy a mýty ────────────────────────────────────────────────────────
+// Doplnené (xlsm P48624–48631 „Psychologické aspekty roleplay"): čo páru
+// pomôže prekonať trápnosť a začať.
+const TIPY: Blok = {
+  druh: 'skupina', id: 'tipy', nadpis: 'Tipy a mýty',
+  bloky: [
+    {
+      druh: 'text', id: 'tipy_myty', nadpis: 'Mýty', ton: 'info',
+      telo:
+        'Mýtus: „Roleplay je pre hercov, ja by som sa smial(a)." — Realita: smiech k tomu patrí, uvoľní napätie a scéna sa dá kedykoľvek rozbehnúť znova. Nikto nečaká výkon.\n\n' +
+        'Mýtus: „Keď chce roleplay, nestačím mu/jej taký(á), aký(á) som." — Realita: roleplay je hra s vami dvoma, nie náhrada. Kto chce hrať, chce hrať práve s tebou.\n\n' +
+        'Mýtus: „Potrebujeme kostýmy a scenár." — Realita: stačí jedna veta alebo jeden rekvizit. Kostým je bonus.\n\n' +
+        'Mýtus: „Fantázia o učiteľke, šéfovi či cudzincovi je zvrátená." — Realita: patria medzi najčastejšie fantázie vôbec. Robia to milióny párov.',
+    },
+    {
+      druh: 'text', id: 'tipy_zaciatok', nadpis: 'Ako začať bez trápnosti',
+      telo:
+        'Začnite hlasom, nie kostýmom — napíšte si cez deň správu „v role" (cudzinec v bare, nový kolega). ' +
+        'Prvá scéna nech trvá 5–10 minút a skončí sexom ako obvykle. ' +
+        'Vymeňte si 3 lístky s rolou, ktorú by ste skúsili, a ťahajte naslepo. ' +
+        'Stretnite sa „prvýkrát" v bare a zbalte sa navzájom — najjednoduchší štart vôbec. ' +
+        'Kto sa hanbí, nech je najprv ten, kto „len reaguje" — vedenie nechá na druhom.',
+    },
+    {
+      druh: 'text', id: 'tipy_pribeh', nadpis: 'Vytvorte si vlastný príbeh',
+      telo:
+        'Napíšte si spoločne krátky scenár alebo úlohy. Môžete si ich vopred rozdeliť, alebo nechať jeden druhého hádať, ako sa situácia vyvinie. ' +
+        'Jednoduché kostýmy, hudba alebo svetlá dotvoria atmosféru. Rolu si môžete rozohrať už cez deň — správou, telefonátom, lístkom v taške.',
+    },
+  ],
+}
+
 // ── Výber rolí ───────────────────────────────────────────────────────
 const ROLY: Blok = {
   druh: 'skupina', id: 'roly', nadpis: 'Výber rolí',
   bloky: [
     {
       druh: 'otazka', id: 'roly_profesijne', typ: 'viac', inePovolene: true,
-      text: 'Profesijné roly (výslovne len dospelé)',
+      text: 'Profesijné roly',
       moznosti: [
-        { v: 'ucitel', label: 'Učiteľ/ka – študent/ka' },
-        { v: 'sef', label: 'Šéf/ka – asistent/ka' },
-        { v: 'policajt', label: 'Policajt/ka – zadržaný/á' },
-        { v: 'lekar', label: 'Lekár/ka – pacient/ka' },
+        { v: 'ucitel', label: 'Učiteľ/ka – študent/ka — prísnosť a zvedavosť' },
+        { v: 'sef', label: 'Šéf/ka – asistent/ka, sekretárka — autoritatívna dynamika' },
+        { v: 'policajt', label: 'Policajt/ka – zadržaný/á — hra s potrestaním' },
+        { v: 'lekar', label: 'Lekár/ka – pacient/ka — intímne vyšetrenie' },
+        { v: 'vojak', label: 'Vojak – zachránená osoba' },
+        { v: 'fotograf', label: 'Fotograf/ka – modelka/model' },
+        { v: 'maser', label: 'Masér/ka – klient/ka' },
+        { v: 'dozorca', label: 'Dozorca/dozorkyňa – väzeň' },
+        { v: 'taxikar', label: 'Taxikár/ka – pasažier/ka, stopár/ka' },
         { v: 'trener', label: 'Prísny tréner' },
         { v: 'eskort', label: 'Platená spoločníčka/spoločník – klient/ka (hrané, nie reálne)' },
       ],
@@ -51,7 +88,12 @@ const ROLY: Blok = {
       druh: 'otazka', id: 'roly_romanticke', typ: 'viac', inePovolene: true,
       text: 'Romantické a „soft" roly',
       moznosti: [
-        { v: 'zvodca', label: 'Zvodca / plynulé zvádzanie' },
+        { v: 'zvodca', label: g('Zvodca a poddajná milenka', 'Zvodkyňa a poddajný milenec') },
+        { v: 'spoznali', label: 'Milenci, ktorí sa práve spoznali' },
+        { v: 'cudzinec_hotel', label: 'Cudzinci v hoteli / na dovolenke' },
+        { v: 'byvali', label: 'Bývalí, ktorí sa po rokoch stretnú' },
+        { v: 'prvy_krat', label: 'Náš „prvý raz" — nesmelosť a objavovanie' },
+        { v: 'vymena', label: 'Výmena: hráme sa jeden na druhého' },
         { v: 'pickup', label: 'Neznámi v bare („pick-up")' },
         { v: 'odlucenie', label: 'Dlho odlúčení' },
         { v: 'pribeh_dotyky', label: 'Jednoduché „príbeh + dotyky"' },
@@ -61,10 +103,36 @@ const ROLY: Blok = {
       druh: 'otazka', id: 'roly_fantazijne', typ: 'viac', inePovolene: true,
       text: 'Fantázijné a hrdinské',
       moznosti: [
-        { v: 'superhrdinovia', label: 'Superhrdinovia' },
+        { v: 'superhrdinovia', label: 'Superhrdinovia — záchrana s romantickým zakončením' },
+        { v: 'kral', label: 'Kráľ a kráľovná / pán a poddaná' },
+        { v: 'rytier', label: 'Rytier a čarodejnica' },
+        { v: 'upir', label: 'Upír / nadprirodzená bytosť' },
+        { v: 'pirat', label: 'Pirát a zajatá / zajatý' },
+        { v: 'zlodej', label: 'Zlodej a majiteľ/ka domu' },
         { v: 'masky', label: 'Masky' },
         { v: 'historicke', label: 'Historické / kostýmové' },
         { v: 'scifi', label: 'Sci-fi / fantasy' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'roly_medical', typ: 'viac',
+      text: 'Lekárska rola — v akom rozsahu je pre mňa OK',
+      moznosti: [
+        { v: 'vysetrenie', label: 'Prehliadka a „vyšetrenie" rukami' },
+        { v: 'rukavice', label: 'Rukavice, plášť, stetoskop' },
+        { v: 'teplomer_zrkadlo', label: 'Rekvizity (teplomer, zrkadielko, lubrikant)' },
+        { v: 'gyn', label: 'Gynekologická / urologická prehliadka' },
+        { v: 'nie', label: 'Lekárska rola nie' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'roly_autorita_kedy', typ: 'viac',
+      text: 'Autoritné role (šéf, policajt, učiteľ) ma lákajú najmä',
+      moznosti: [
+        { v: 'po_praci', label: 'Po náročnom dni — chcem, aby niekto prevzal velenie' },
+        { v: 'ked_chcem_viest', label: 'Keď mám chuť ja viesť' },
+        { v: 'vikend', label: 'Na plánovaný víkendový večer' },
+        { v: 'spontanne', label: 'Spontánne, jednou hláškou' },
       ],
     },
     { druh: 'otazka', id: 'roly_vlastna', typ: 'text', text: 'Vlastná rola alebo scenár:' },
@@ -75,7 +143,7 @@ const ROLY: Blok = {
 // ── Edge roly — len screening ──────────────────────────────────────
 const EDGE: Blok = {
   druh: 'skupina', id: 'edge', nadpis: 'Edge roly — len screening',
-  uvod: 'Tieto roly majú vysoké riziko. Nižšie je len záujem, nie návod. Do reality len s detailným protokolom a hard-stopmi; výhradne dospelé roly.',
+  uvod: 'Intenzívnejšie roly, ktoré veľa ľudí vzrušuje práve svojou zakázanosťou. Tu len zaznač, či ťa lákajú.',
   bloky: [
     {
       druh: 'otazka', id: 'edge_cnc', typ: 'jeden',
@@ -115,12 +183,13 @@ const DYNAMIKA: Blok = {
       druh: 'otazka', id: 'dyn_volba', typ: 'jeden',
       text: 'Akú dynamiku pri roleplay preferujem',
       moznosti: [
-        { v: 'dom', label: 'Dominantnú' },
-        { v: 'sub', label: 'Submisívnu' },
-        { v: 'rovnocenna', label: 'Rovnocennú' },
-        { v: 'scenar', label: 'Záleží od scenára' },
+        { v: 'dom', label: 'Dominantnú — viesť a určovať priebeh' },
+        { v: 'sub', label: 'Submisívnu — odovzdať kontrolu' },
+        { v: 'rovnocenna', label: 'Rovnocennú — zdieľanie úloh' },
+        { v: 'scenar', label: g('Záleží od scenára a nálady — rád striedam', 'Záleží od scenára a nálady — rada striedam') },
       ],
     },
+    { druh: 'otazka', id: 'dyn_volba_ine', typ: 'text', text: 'Vlastná odpoveď — dynamika (voliteľné):' },
     p('dyn_switch', 'Switch — prepínať role počas scény'),
     { druh: 'otazka', id: 'dyn_vediem_v', typ: 'text', text: 'V ktorých rolách chcem viesť:' },
     { druh: 'otazka', id: 'dyn_prijimam_v', typ: 'text', text: 'V ktorých rolách chcem prijímať:' },
@@ -151,7 +220,6 @@ const ROZSAH: Blok = {
         { v: 'pravidla', label: 'Scéna s pravidlami' },
       ],
     },
-    p('roz_okno_z_role', '„Okno z reality" — možnosť kedykoľvek vyjsť z role'),
     {
       druh: 'otazka', id: 'roz_naskocenie', typ: 'jeden',
       text: 'Ako do role naskočiť',
@@ -173,11 +241,12 @@ const KOSTYMY: Blok = {
       druh: 'otazka', id: 'kos_zaujem', typ: 'jeden',
       text: 'Kostýmy a doplnky',
       moznosti: [
-        { v: 'ano', label: 'Áno' },
-        { v: 'mozno', label: 'Možno, s podmienkami' },
-        { v: 'nie', label: 'Nie' },
+        { v: 'ano', label: 'Áno, kostýmy mi pomáhajú lepšie sa vžiť do role' },
+        { v: 'mozno', label: 'Možno, ak sú jednoduché a pohodlné' },
+        { v: 'nie', label: 'Nie, radšej sa sústredím na samotný zážitok' },
       ],
     },
+    { druh: 'otazka', id: 'kos_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — kostýmy (voliteľné):' },
     {
       druh: 'otazka', id: 'kos_ktore', typ: 'viac', inePovolene: true,
       text: 'Aká miera „cosplayu"',
@@ -322,7 +391,7 @@ const RITUALY: Blok = {
     {
       druh: 'text',
       id: 'rit_kreativne_info',
-      telo: 'Kreatívnu atmosféru môžu tvoriť masky, špeciálne svetlá, tematická hudba alebo hranie rolí. Love Treasure Hunt je hra so zmyslovým hľadaním či lúštením; intímny denník je spôsob zaznamenania túžob, o ktorých sa môžete porozprávať a niektoré po dohode skúsiť. Zápis túžby ani dokončenie hry nevytvára povinnosť splniť ju. Jednoduchšie formy intimity sú rovnako platnou voľbou.',
+      telo: 'Masky, svetlá a hry s prekvapením podporujú hravosť a uvoľnenie. Love Treasure Hunt je hľadanie indícií po byte, na konci ktorého čaká odmena; erotický denník je zošit, do ktorého si striedavo píšete túžby a plníte si ich.',
     },
     {
       druh: 'otazka',
@@ -331,6 +400,7 @@ const RITUALY: Blok = {
       text: 'Ktoré kreatívne intímne hry ma lákajú?',
       moznosti: [
         { v: 'masky_pasky', label: 'Masky a pásky na oči' },
+        { v: 'svetla_hudba', label: 'Tematické svetlá a hudba' },
         { v: 'treasure_hunt', label: 'Love Treasure Hunt — zmyslové hľadanie' },
         { v: 'dennik', label: 'Intímny denník — zapisovanie a dobrovoľné uskutočňovanie túžob' },
         { v: 'jednoduchsie', label: 'Žiadne z uvedených — radšej jednoduchšie formy intimity' },
@@ -356,6 +426,16 @@ const KOMBINACIE: Blok = {
   druh: 'skupina', id: 'kombinacie', nadpis: 'Kombinácie',
   bloky: [
     {
+      druh: 'otazka', id: 'komb_zaujem', typ: 'jeden',
+      text: 'Mám záujem kombinovať roleplay s inými praktikami (bondage, pomôcky, masáže)',
+      moznosti: [
+        { v: 'ano', label: 'Áno, chcem to preskúmať' },
+        { v: 'mozno', label: 'Možno, záleží na konkrétnej situácii' },
+        { v: 'nie', label: 'Nie, preferujem jednoduchšie hry' },
+      ],
+    },
+    { druh: 'otazka', id: 'komb_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — kombinácie (voliteľné):' },
+    {
       druh: 'otazka', id: 'komb_s_cim', typ: 'viac',
       text: 'Roleplay chcem prepájať s…',
       moznosti: [
@@ -375,8 +455,37 @@ const KOMBINACIE: Blok = {
         { v: 'predohra', label: 'Náväznosť na predohru' },
       ],
     },
+    {
+      druh: 'otazka', id: 'komb_hry_zaujem', typ: 'jeden',
+      text: 'Chcem spájať roleplay s hrami',
+      moznosti: [
+        { v: 'ano', label: 'Áno, vymyslenie príbehu a jeho hranie je vzrušujúce' },
+        { v: 'mozno', label: 'Možno, záleží na scenári' },
+        { v: 'nie', label: 'Nie, preferujem jednoduché hry' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'komb_hry_ktore', typ: 'viac', inePovolene: true,
+      text: 'Aké kombinácie roleplay a hier by som chcel(a) skúsiť',
+      moznosti: [
+        { v: 'kartova', label: 'Roleplay s kartovou hrou (odhaľovanie úloh)' },
+        { v: 'detektivka', label: 'Detektívny príbeh s intímnymi dôkazmi' },
+        { v: 'masaz_pomocky', label: 'Klasické roleplay spojené s erotickou masážou alebo pomôckami' },
+        { v: 'kocky', label: 'Kocky určia rolu, miesto a akciu' },
+        { v: 'escape', label: 'Erotický „escape room" — za každú úlohu kus oblečenia' },
+      ],
+    },
     p('komb_maznanie', 'Jemné roleplay počas maznania'),
-    { druh: 'otazka', id: 'komb_maznanie_roly', typ: 'text', text: 'Aké role počas maznania ma najviac lákajú:' },
+    {
+      druh: 'otazka', id: 'komb_maznanie_ktore', typ: 'viac',
+      text: 'Aké role počas maznania ma najviac lákajú',
+      moznosti: [
+        { v: 'jemna_dom_sub', label: 'Jemná dominancia/submisia (šepkanie, vedenie pohybov)' },
+        { v: 'tematicke', label: 'Tematické role (učiteľ/študentka, šéf/sekretárka)' },
+        { v: 'kreativne', label: 'Kombinácia kreatívnych scenárov' },
+      ],
+    },
+    { druh: 'otazka', id: 'komb_maznanie_roly', typ: 'text', text: 'Vlastná odpoveď — role počas maznania (voliteľné):' },
   ],
 }
 
@@ -429,10 +538,9 @@ const SCENARE: Blok = {
 
 // ── Rámec a poznámky ─────────────────────────────────────
 const RAMEC: Blok = {
-  druh: 'skupina', id: 'ramec', nadpis: 'Rámec, hranice a poznámky',
+  druh: 'skupina', id: 'ramec', nadpis: 'Hranice a poznámky',
   bloky: [
     { druh: 'otazka', id: 'ram_hranice', typ: 'text', text: 'Moje hranice pri roleplay (čo určite nie / len s podmienkami):' },
-    { druh: 'otazka', id: 'ram_stopslovo', typ: 'text', text: 'Stop-slovo / gesto (funguje aj v role):' },
     { druh: 'otazka', id: 'ram_aftercare', typ: 'text', text: 'Pred-brief a po-brief — čo potrebujem po scéne (objatie, spätná väzba „2+2"):' },
     { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'GREEN (áno, chcem):' },
     { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'YELLOW (možno, opatrne):' },
@@ -450,13 +558,14 @@ export const ROLEPLAY: TemaObsah = {
       druh: 'text', id: 'co_je', nadpis: 'Čo je roleplay a prečo',
       telo:
         '„Bezpečný únik" — hra na postavy, ktoré nás vzrušujú, bez zmeny reality vzťahu. ' +
-        'Rozdiel fantázia ↔ realita; právo kedykoľvek vyjsť z role (semafor, stop-slovo).',
+        'Roleplay podporuje dôveru a uvoľňuje bariéry, ktoré bránia naplno si užiť intímne zážitky — ' +
+        'v role sa dá povedať a urobiť to, na čo by „ja" nemal(a) odvahu.',
     },
     {
       druh: 'text', id: 'pravidla', nadpis: 'Základné pravidlá', ton: 'info',
       telo:
-        'Dohody vopred — čo je OK / Možno / Nie. Jasné stop-slovo alebo gesto. Výhradne 18+ dospelé roly, tabu list, rešpekt hraníc oboch. ' +
-        'Krátky pred-brief a po-brief (debrief „2+2"). Pri kostýmoch komfort nad estetikou — pohodlné, dýchateľné, rýchlo skladné.',
+        'Dohody vopred — čo je OK / Možno / Nie. Krátky pred-brief a po-brief (debrief „2+2" — dve veci, čo sa páčili, dve, čo nabudúce inak). ' +
+        'Pri kostýmoch komfort nad estetikou — pohodlné, rýchlo skladné.',
     },
   ],
   telo: [
@@ -464,12 +573,49 @@ export const ROLEPLAY: TemaObsah = {
       druh: 'otazka', id: 'skusenost', typ: 'jeden',
       text: 'Ako sa cítim pri zapojení hrania rolí do intímneho života?',
       moznosti: [
+        { v: 'milujem', label: 'Milujem to a chcem experimentovať viac' },
         { v: 'laka', label: 'Láka ma to, chcem to skúšať' },
+        { v: 'otvoreny_skusenosti', label: g('Som otvorený, ale potrebujem viac skúseností', 'Som otvorená, ale potrebujem viac skúseností') },
         { v: 'zvedavy', label: 'Som zvedavý/á, ale opatrne' },
         { v: 'neutralne', label: 'Neutrálne' },
         { v: 'nie', label: 'Necítim sa na to pripravený/á' },
+        { v: 'nekomfort', label: 'Necítim sa pri tom komfortne' },
       ],
     },
+    { druh: 'otazka', id: 'skusenost_ine', typ: 'text', text: 'Vlastná odpoveď — ako sa cítim pri hraní rolí (voliteľné):' },
+    {
+      druh: 'otazka', id: 'rp_zaujem', typ: 'jeden',
+      text: 'Lákajú ma fantázie spojené s hraním rolí',
+      moznosti: [
+        { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
+        { v: 'tuzim', label: 'Túžim to viac zapojiť do našich hier' },
+        { v: 'ak_chces', label: g('Rád to vyskúšam, ak po tom túžiš', 'Rada to vyskúšam, ak po tom túžiš') },
+        { v: 'mozno', label: 'Možno, záleží na situácii' },
+        { v: 'nie', label: 'Nie, necítim sa pri tom komfortne' },
+      ],
+    },
+    { druh: 'otazka', id: 'rp_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď (voliteľné):' },
+    {
+      druh: 'otazka', id: 'rp_frekvencia', typ: 'jeden',
+      text: 'Ako často by som chcel(a) roleplay',
+      moznosti: [
+        { v: 'vzacne', label: 'Vzácne — na výnimočné večery' },
+        { v: 'mesacne', label: 'Raz za mesiac' },
+        { v: 'tyzdenne', label: 'Pokojne každý týždeň' },
+        { v: 'kratke_casto', label: 'Často, ale len krátke scénky a hlášky' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'rp_kto_vymysla', typ: 'jeden',
+      text: 'Kto vymýšľa scenár',
+      moznosti: [
+        { v: 'ja', label: 'Rád/rada ho vymyslím ja' },
+        { v: 'partner', label: 'Nech ma partner/ka prekvapí' },
+        { v: 'spolu', label: 'Napíšeme ho spolu' },
+        { v: 'nahoda', label: 'Náhoda — karty, kocky, lístky' },
+      ],
+    },
+    TIPY,
     ROLY,
     EDGE,
     DYNAMIKA,
@@ -489,7 +635,7 @@ export const ROLEPLAY: TemaObsah = {
       druh: 'text', id: 'report', nadpis: 'Čo z toho vznikne', ton: 'info',
       telo:
         'Z odpovedí oboch: „top 3 roly" pre každého + spoločné prieniky, mini-scenáre na mieru (10 / 20 / 40 min) s krokmi a slovníkom, ' +
-        'bezpečnostné body a „quit-plan". Pripomenutie: 18+ roly a rešpekt dohôd.',
+        'a nápady, ako scénu rozbehnúť.',
     },
     {
       druh: 'text', id: 'zaver',

@@ -1,3 +1,22 @@
+## HANDOFF CLAUDE → CODEX — xlsm zdroj, 2026-09-30 (AKTUÁLNE, má prednosť)
+
+**Nový zdroj:** `OneDriveDocumentendotazníkdotaznik-odseky-duplicity.xlsm` (hárok „Odseky (2)", A = ID odseku P, B = Pôvodný text, C = Druh). Používateľ vkladá kusy textu do chatu **od konca tabuľky smerom hore**. Parser: `unzip` xlsm do priečinka → `node scripts/xlsm-rows.cjs <priečinok> rows.json` → dohľadať ID prvého odseku kusu. Stav a mapy: **`docs/dotaznik-xlsm-progress.md`** (spracované P47091–P49624). **Ďalší kus: P47090 a nižšie.**
+
+**Záväzné pokyny používateľa (od 2026-09-30):**
+1. **Súhlas/bezpečnosť v témach NERIEŠIŤ** — majú vlastnú sekciu (`suhlas-bezpecie.ts`, `zdravie-ochrana-hygiena.ts`). Žiadne „súhlas/stop-slovo/18+/nie je bezlimitný súhlas" vsuvky; pri úprave súboru existujúce odstraňovať. Bitie, facky, ponižovanie, sliny, moč = bežné preferencie, nemoralizovať.
+2. **Proaktívne dopĺňať**: zdroj nie je strop. Ku každej téme pridať chýbajúce praktiky, varianty m/z, **rady, tipy, mýty vs. realita a búranie tabu/hanby** (napr. „nie je za čo sa hanbiť, robia to milióny ľudí"). Po dokončení sekcie ju ešte premyslieť, čo by ju oživilo.
+3. **Ak dáš jemné, daj aj opak** (intenzívne, drsné, agresívne, vulgárne, značenie).
+4. Chýbajúci obsah (len nadpis v zdroji) **vyrobiť**, nepýtať sa.
+5. Zdroj je mišmaš — duplicity voči kódu overiť grepom, nezakladať druhú otázku na to isté.
+6. Do chatu **minimálne** (3–6 riadkov: rozsah P, zo zdroja, doplnené). Podrobnosti do progress MD.
+
+**Technika:** otázky zo zdroja „Už to robíme / Túžim / Rád(a), ak chceš / Možno / Nie + Iné" → typ `jeden` s m/z textom cez `g(m, z)` + samostatná `*_ine` text otázka. Tipy/mýty = `text` blok `ton: info`. Existujúce ID nemeniť (odpovede), len pridávať voľby/otázky. Po každom kuse: `npm run typecheck` + všetky `scripts/verify-dotaznik-*.cjs` + zápis do progress MD.
+
+**Zmeny tejto relácie (commitnuté lokálne, NEpushnuté):** nový modul I5 `tabu-mantinely.ts` (58 modulov), `sumar.ts` (auto sumár na koniec tém cez `index.ts`), rozšírené: rovnake-pohlavie, miesta-prostredie (voda, karty), polohy (experiment, žena hore, 69, mýty), vaginalna-penetracia (fisting), face-sitting (techniky), roleplay, nepenetrativne-trenie (petting, outercourse), bozky-dotyky (bozky, A/U/fornix, rituály), komunikacia-pocas-po (mikrokroky), masturbacia. Push na prod len na výslovný pokyn používateľa.
+
+**Otvorené:** (a) prejsť aj ~27 tém, ktorých sa xlsm kusy zatiaľ nedotkli, a doplniť tipy/mýty/opaky (používateľ o tom vie, neodsúhlasil poradie); (b) nová 4-stupňová škála (PREF-2026-09-17) stále nemigrovaná; (c) staré duplicitné ID blokov: face-sitting `smother_uvod`, swinging `prostredie`, oral-vulva-klitoris `ramec`.
+
+---
 ## GLOBAL-005 — P619–680 IN PROGRESS
 OWNER Codex. Rezervované predohra-naladenie.ts, roleplay.ts a mapa dávky. RTK/QMD používané; zdroj prečítaný súvisle. P681–700 iba kontext ďalšej dávky, nespracované.
 

@@ -360,7 +360,127 @@ const NETRADICNE: Blok = {
     {
       druh: 'text',
       id: 'net_predstava_ramec',
-      telo: 'Predstava verejného miesta nemusí byť plánom na jej uskutočnenie. Pri realizácii treba súkromie, súhlas zúčastnených a dovolený prístup; nezapájajte nič netušiacich ľudí. Atmosféru si možno vytvoriť aj v súkromnom roleplay.',
+      telo: 'Predstava verejného miesta nemusí byť plánom na jej uskutočnenie. Atmosféru si možno vytvoriť aj v súkromnom roleplay.',
+    },
+  ],
+}
+
+// ── Sex vo vode ──────────────────────────────────────────────────────
+// Zdroj: xlsm P49388 („sex vo vode (bazén, vírivka, sprcha)" — označené ako
+// nepokryté). Sprcha a vaňa sú v DOMACE; tu ostatné vodné prostredia a to,
+// čo je na vode iné (nadnášanie, teplota, voda zmýva lubrikáciu).
+const VODA: Blok = {
+  druh: 'skupina', id: 'voda', nadpis: 'Sex vo vode',
+  uvod:
+    'Voda nadnáša, mení vnímanie váhy aj dotyku a pridáva teplotu a zvuk. Zároveň zmýva prirodzenú ' +
+    'lubrikáciu — preto sa vo vode častejšie dráždi a penetrácia býva lepšia na kraji než úplne pod hladinou.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'voda_kde', typ: 'viac', inePovolene: true,
+      text: 'Ktoré vodné prostredia ma lákajú',
+      moznosti: [
+        { v: 'sprcha', label: 'Sprcha' },
+        { v: 'vana', label: 'Vaňa' },
+        { v: 'virivka', label: 'Vírivka / jacuzzi' },
+        { v: 'bazen_sukromny', label: 'Súkromný bazén (dom, chata, prenajatá vila)' },
+        { v: 'more', label: 'More' },
+        { v: 'jazero', label: 'Jazero / rieka' },
+        { v: 'sauna_parna', label: 'Sauna / parná kúpeľ (súkromná)' },
+        { v: 'dazd', label: 'Dážď vonku' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'voda_skusenost', typ: 'jeden',
+      text: 'Moja skúsenosť so sexom vo vode',
+      moznosti: [
+        { v: 'casto', label: 'Máme to radi a robíme to' },
+        { v: 'par_krat', label: 'Párkrát sme to zažili' },
+        { v: 'nie_laka', label: 'Ešte nie, ale láka ma to' },
+        { v: 'nie', label: 'Neláka ma to' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'voda_co', typ: 'viac',
+      text: 'Čo vo vode chcem robiť',
+      moznosti: [
+        { v: 'bozky_dotyky', label: 'Bozky, dotyky a maznanie' },
+        { v: 'masaz', label: 'Umývanie a masáž partnera/ky' },
+        { v: 'rukami', label: 'Stimulácia rukami' },
+        { v: 'oral_kraj', label: 'Orál na kraji (bazén, vaňa, vírivka)' },
+        { v: 'penetracia', label: 'Penetrácia' },
+        { v: 'sprchova_hlavica', label: 'Stimulácia prúdom vody / sprchovou hlavicou' },
+        { v: 'hracky', label: 'Vodotesné hračky' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'voda_polohy', typ: 'viac',
+      text: 'Polohy vo vode, ktoré ma lákajú',
+      moznosti: [
+        { v: 'stoj_stena', label: 'V stoji pri stene (sprcha, bazén)' },
+        { v: 'nadnasana', label: g('Partnerka ma nohami obkročí a voda ju nadnáša', 'Obkročím partnera nohami a voda ma nadnáša') },
+        { v: 'kraj_sediac', label: 'Jeden sedí na kraji, druhý vo vode' },
+        { v: 'na_nom', label: 'Žena hore na sediacom partnerovi (vírivka, vaňa)' },
+        { v: 'zozadu_kraj', label: 'Zozadu, opretá o kraj bazéna/vane' },
+        { v: 'lezanie_vana', label: 'Ležanie vo vani / spooning vo vode' },
+      ],
+    },
+    p('voda_lubrikant', 'Silikónový lubrikant, ktorý sa vo vode nezmýva'),
+    p('voda_teplota', 'Kontrast teplôt — horúca vírivka, studená sprcha, chladný vzduch'),
+    p('voda_prirodna', 'Kúpanie nahí v prírode (nudistická pláž, osamelé jazero)'),
+    {
+      druh: 'otazka', id: 'voda_brzdy', typ: 'viac', inePovolene: true,
+      text: 'Čo mi vo vode zážitok kazí',
+      moznosti: [
+        { v: 'suchost', label: 'Voda zmýva lubrikáciu — trenie' },
+        { v: 'chlor_sol', label: 'Chlór alebo soľ' },
+        { v: 'smyk', label: 'Šmýkanie, nestabilita' },
+        { v: 'zima', label: 'Zima po vylezení' },
+        { v: 'nic', label: 'Nič, užívam si to' },
+      ],
+    },
+  ],
+}
+
+// ── Karty zo zdroja ─────────────────────────────────────────────────
+// Zdroj: xlsm P48825–48840 (karty Sprcha/vaňa, Jedlo & miesto, Date out,
+// Diskrétnosť, Klub). Date out = hot_frekvencia, diskrétnosť = ext_hranica,
+// klub = klu_podmienky.
+const KARTY: Blok = {
+  druh: 'skupina', id: 'karty', nadpis: 'Sprcha, jedlo a miesto',
+  bloky: [
+    {
+      druh: 'otazka', id: 'karta_sprcha', typ: 'jeden',
+      text: 'Sprcha / vaňa spolu — ako často',
+      moznosti: [
+        { v: 'nie', label: 'Nie, neláka ma to' },
+        { v: 'obcas', label: 'Občas, ako spestrenie' },
+        { v: 'casto', label: 'Často — spoločná sprcha je náš rituál' },
+        { v: 'vzdy_predohra', label: 'Ako pravidelná predohra pred posteľou' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'karta_sprcha_co', typ: 'viac',
+      text: 'Čo v sprche / vani áno',
+      moznosti: [
+        { v: 'umyvanie', label: 'Umývať sa navzájom' },
+        { v: 'bozky', label: 'Bozky a maznanie' },
+        { v: 'oral', label: 'Orál' },
+        { v: 'sex', label: 'Sex' },
+        { v: 'holenie', label: 'Holiť sa navzájom' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'karta_jedlo_miesto', typ: 'viac', inePovolene: true,
+      text: 'Jedlo & miesto — ktoré kombinácie sú lákavé',
+      moznosti: [
+        { v: 'ranajky', label: 'Raňajky do postele, ktoré skončia sexom' },
+        { v: 'kuchyna_slahacka', label: 'Šľahačka / čokoláda v kuchyni na pulte' },
+        { v: 'vecera_dezert', label: 'Večera pri sviečkach a dezert z tela' },
+        { v: 'piknik', label: 'Piknik v prírode' },
+        { v: 'vino_vana', label: 'Víno a ovocie vo vani / vírivke' },
+        { v: 'restauracia_dotyky', label: 'Dotyky pod stolom v reštaurácii' },
+        { v: 'room_service', label: 'Room service v hoteli' },
+      ],
     },
   ],
 }
@@ -388,6 +508,19 @@ const KLUBY: Blok = {
       ],
     },
     p('klu_bez_zaznamu', 'Pravidlá súkromia a zákaz akéhokoľvek záznamu sú pre mňa podmienkou'),
+    {
+      druh: 'otazka', id: 'klu_podmienky', typ: 'viac', inePovolene: true,
+      text: 'Chceme skúsiť klub? Za akých podmienok',
+      moznosti: [
+        { v: 'prva_len_drink', label: 'Prvá návšteva len na drink a obzretie' },
+        { v: 'len_pozerat', label: 'Len pozerať, nič viac' },
+        { v: 'sex_len_my', label: 'Sex len medzi nami dvoma, ostatní sa môžu dívať' },
+        { v: 'mimo_mesta', label: 'Mimo nášho mesta, kde nás nikto nepozná' },
+        { v: 'tematicky', label: 'Tematický večer (masky, dress code)' },
+        { v: 's_parom', label: 'So spriateleným párom' },
+        { v: 'nechcem', label: 'Klub nechcem' },
+      ],
+    },
   ],
 }
 
@@ -660,8 +793,20 @@ export const MIESTA_PROSTREDIE: TemaObsah = {
         'prináša novosť a dobrodružstvo bez toho, aby sa menilo čokoľvek iné.',
     },
     {
-      druh: 'text', id: 'ramec', nadpis: 'Rámec', ton: 'info',
-      telo: 'Mimo súkromia domova platí navyše: diskrétnosť, legálnosť a jasný plán, ako situáciu rýchlo a bezpečne ukončiť.',
+      druh: 'text', id: 'predstavte', nadpis: 'Predstavte si',
+      telo:
+        'Predstavte si, že sa váš intímny život presunie z pohodlia spálne na miesta, kde by ste to nikdy predtým nečakali — ' +
+        'kuchyňa, príroda, alebo dokonca auto pod nočnou oblohou. Čo by to mohlo znamenať pre váš vzťah? ' +
+        'Nové miesta prinášajú nielen vzrušenie, ale aj pocit dobrodružstva, ktorý vzťah oživí. ' +
+        'Stačí trocha odvahy a kreativity.',
+    },
+    {
+      druh: 'text', id: 'myty', nadpis: 'Mýty a tipy', ton: 'info',
+      telo:
+        'Mýtus: „Mimo postele je to nepohodlné a nestojí to za to." — Realita: novosť prostredia spúšťa dopamín podobne ako na začiatku vzťahu; aj 5 minút v kuchyni si pamätáte dlhšie ako hodinu v posteli.\n\n' +
+        'Mýtus: „Na to treba chatu alebo hotel." — Realita: stačí iná miestnosť, iné svetlo, deka na podlahe pred gaučom.\n\n' +
+        'Tipy: v aute deka a zatemnenie, v prírode deka a osuška, na pult vankúš pod zadok, v sprche protišmyková podložka. ' +
+        'Rýchlovka na netradičnom mieste je skvelá predohra — dokončiť sa dá v posteli.',
     },
   ],
   telo: [
@@ -670,6 +815,8 @@ export const MIESTA_PROSTREDIE: TemaObsah = {
     EXTERIER,
     HOTELY,
     NETRADICNE,
+    KARTY,
+    VODA,
     KLUBY,
     ZVUK,
     KRATKE_OKNO,

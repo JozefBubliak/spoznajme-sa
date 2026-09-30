@@ -12,6 +12,8 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // niektoré otázky viazané na pohlavie.
 // ─────────────────────────────────────────────────────────────────────────────
 
+const g = (m: string, z: string) => ({ m, z })
+
 const POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
@@ -229,15 +231,25 @@ const FISTING: Blok = {
     {
       druh: 'text', id: 'fis_info',
       telo:
-        'Postupné vkladanie celej ruky do vagíny. Vyžaduje veľa dôvery, komunikácie, trpezlivosti a lubrikantu — ' +
-        'nikdy sa nerobí narýchlo.',
+        'Postupné vkladanie celej ruky do vagíny a pomalé experimentovanie s hlbokou stimuláciou. ' +
+        'Pre mnohé ženy je to pocit úplnej plnosti, aký nedá penis ani hračka — a pre muža intenzívny zážitok dôvery a moci zároveň.',
+    },
+    {
+      druh: 'text', id: 'fis_myty', nadpis: 'Mýty a tipy', ton: 'info',
+      telo:
+        'Mýtus: „Vagína sa natrvalo roztiahne." — Realita: vagína je veľmi pružná (prejde ňou pôrodom dieťa) a po vzrušení sa vráti do pôvodného stavu.\n\n' +
+        'Mýtus: „Je to extrém len z porna." — Realita: fisting skúša veľa bežných párov; kľúčom je čas a vzrušenie, nie sila.\n\n' +
+        'Tipy: krátke zbrúsené nechty (alebo rukavica), veľa hustého lubrikantu, najprv 2–3–4 prsty, palec zastrčený do dlane („kačací zobák"). ' +
+        'Ona vedie tempo — často najlepšie funguje, keď sa na ruku pomaly posadí sama. Vnútri netlačiť, skôr jemne pulzovať alebo zovrieť v päsť a nehýbať. ' +
+        'Klitoris stimulovať súčasne — vzrušenie robí zvyšok.',
     },
     {
       druh: 'otazka', id: 'fis_postoj', typ: 'jeden',
-      text: 'Záujem o vaginálny fisting',
+      text: g('Chcel by som skúsiť vložiť ruku do vagíny partnerky a pomaly experimentovať s hlbokou stimuláciou?', 'Chcela by som, aby partner vložil ruku do mojej vagíny a pomaly experimentoval s hlbokou stimuláciou?'),
       moznosti: [
         { v: 'robime', label: 'Už to robíme a som spokojný/á' },
-        { v: 'tuzim', label: 'Túžim to vyskúšať' },
+        { v: 'tuzim', label: 'Túžim to zapojiť do našich hier' },
+        { v: 'ak_chces', label: 'Rád/rada to vyskúšam, ak to chceš' },
         { v: 'mozno', label: 'Možno, za istých okolností' },
         { v: 'nie', label: 'Nie, necítim sa na to' },
       ],
@@ -252,7 +264,8 @@ const FISTING: Blok = {
         { v: 'drep', label: 'Hlboký drep' },
       ],
     },
-    { druh: 'otazka', id: 'fis_podmienky', typ: 'text', text: 'Za akých podmienok (postup, lubrikant, stop-slovo):' },
+    { druh: 'otazka', id: 'fis_postoj_ine', typ: 'text', text: 'Vlastná odpoveď (voliteľné):' },
+    { druh: 'otazka', id: 'fis_podmienky', typ: 'text', text: 'Ako by som to chcel(a) — postup, lubrikant, poloha, nálada:' },
   ],
 }
 
