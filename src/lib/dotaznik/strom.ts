@@ -709,9 +709,9 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'trans-partnerka', cislo: 59, kod: 'H9', domena: 'H', zrkadlovy: true,
-    nazov: 'Trans partnerka — žena s penisom', popis: 'Príťažlivosť k trans ženám: čo láka, praktiky, roly, trojka, varianty bez tretej osoby (strap-on, roleplay), pocity a mýty (kniha).', ikona: '⚧️', citlivost: 3,
+    nazov: 'Trans žena — žena s penisom', popis: 'Moja túžba po trans žene a môj postoj, keď to vzrušuje partnera/partnerku — praktiky, roly, trojka, strap-on doma, pocity (kniha).', ikona: '⚧️', citlivost: 3,
     temy: [
-      o('trans-partnerka', 'Trans partnerka — žena s penisom', 'Kompletný sprievodca (kniha + dotazník) — rovina fantázia/realita, čo priťahuje, praktiky m/z, roly, s partnerom, bez tretej osoby, pocity.'),
+      o('trans-partnerka', 'Trans žena — žena s penisom', 'Kompletný sprievodca (kniha + dotazník) — rovina fantázia/realita, čo priťahuje, praktiky m/z, roly, s partnerom, bez tretej osoby, pocity.'),
     ],
   },
   {

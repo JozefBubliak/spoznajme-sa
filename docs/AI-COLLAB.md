@@ -1,3 +1,14 @@
+## ZÁVÄZNÉ PRAVIDLÁ OBSAHU — používateľ 2026-09-30 (platí pre Codex aj Claude, má prednosť)
+
+1. **Plná personalizácia muž / žena.** Respondent je vždy konkrétne muž (má partnerku) alebo žena (má partnera). Žiadne „partner/ka", „partnerovi/partnerke", „chcel(a)", „rád/rada", „on/ona", „mu/jej", „zvedavý/á". Každý text, otázka aj možnosť cez `g(mužské, ženské)`. Otázka musí dávať zmysel tomu, kto ju číta; kde sa telá líšia, dať iné položky cez `podmienka: { pohlavie }` (rovnaké `id` pre zrkadlové párovanie). Používateľ to označil za **fatálnu chybu** — v obsahu je ~300 takých miest v 33 súboroch, treba ich systematicky opraviť.
+2. **Dve dimenzie v každej téme:** (a) chcem to ja? (b) **aký mám postoj, keď to vzrušuje môjho partnera / moju partnerku** — reakcia, čo dovolím, čo chcem vidieť, čo ma ohrozuje, či sa zapojím.
+3. **Žiadne generické kazateľské rady** („ako začať", „povedzte si to") — len konkrétne, personalizované, podporujúce.
+4. **Pred tvorbou témy hľadať celosvetovo** (výskum, komunitné zdroje, dotazníky typu Mojo Upgrade/kink checklisty, fóra), aby téma bola úplná — nie písať z hlavy.
+5. Platí aj: bez súhlasu/bezpečnosti v témach, jemné aj opak, mýty a búranie tabu, proaktívne dopĺňanie.
+
+Vzor správneho spracovania: `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
+
+---
 ## HANDOFF CLAUDE → CODEX — xlsm zdroj, 2026-09-30 (AKTUÁLNE, má prednosť)
 
 **Nový zdroj:** `OneDriveDocumentendotazníkdotaznik-odseky-duplicity.xlsm` (hárok „Odseky (2)", A = ID odseku P, B = Pôvodný text, C = Druh). Používateľ vkladá kusy textu do chatu **od konca tabuľky smerom hore**. Parser: `unzip` xlsm do priečinka → `node scripts/xlsm-rows.cjs <priečinok> rows.json` → dohľadať ID prvého odseku kusu. Stav a mapy: **`docs/dotaznik-xlsm-progress.md`** (spracované P47091–P49624). **Ďalší kus: P47090 a nižšie.**

@@ -95,7 +95,7 @@ const SLAVNA_OSOBA: Blok = {
 // pod „exotické" alebo sa spájala len s pornografickými klišé.
 const TRANS_PARTNER: Blok = {
   druh: 'text', id: 'trans_odkaz', ton: 'info',
-  telo: 'Fantázia o trans žene s penisom má samostatnú, podrobnú tému „Trans partnerka — žena s penisom".',
+  telo: 'Fantázia o trans žene s penisom má samostatnú, podrobnú tému „Trans žena — žena s penisom".',
 }
 
 // ── Negatívne pocity a zdieľanie ────────────────────────────────────

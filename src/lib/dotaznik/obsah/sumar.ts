@@ -7,6 +7,8 @@ import type { Blok } from './typ'
 // Aké nové veci ste ochotní vyskúšať?" + „plán na realizáciu preferencií").
 // ─────────────────────────────────────────────────────────────────────────────
 
+const g = (m: string, z: string) => ({ m, z })
+
 export const SUMAR: Blok = {
   druh: 'skupina', id: 'sumar', nadpis: 'Sumár a ďalší krok',
   uvod: 'Krátke zhrnutie celej témy — z toho vznikne váš spoločný plán.',
@@ -35,7 +37,7 @@ export const SUMAR: Blok = {
       text: 'Ako chcem, aby sme to naplánovali',
       moznosti: [
         { v: 'naplanovat', label: 'Dohodnúť si konkrétny večer' },
-        { v: 'prekvapenie', label: 'Nech to partner/ka pripraví ako prekvapenie' },
+        { v: 'prekvapenie', label: g('Nech to partnerka pripraví ako prekvapenie', 'Nech to partner pripraví ako prekvapenie') },
         { v: 'ja_pripravim', label: 'Chcem to pripraviť ja' },
         { v: 'spontanne', label: 'Spontánne, bez plánu' },
       ],
