@@ -281,7 +281,8 @@ export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
       <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Presne to, čo uvidí respondent</h1>
       <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
         {temy.length} tém, {celkovyPocet} otázok/textov — rovnaké karty a text ako v ostrom dotazníku, len všetko na jednej
-        stránke. Skupiny s podmienkou (napr. „len pre mužov") sú vždy zobrazené, aj keď by sa v ostrej hre normálne skryli.
+        stránke. Skupiny s podmienkou (napr. „len pre mužov") sú tu vždy zobrazené. Presne to, čo vidí respondent
+        (s vetvením a klikaním, bez ukladania), otvoríš tlačidlom „▶ Vyplniť ako žena / muž" pri každej téme.
       </p>
 
       <div className="sticky top-2 z-10 mt-6 space-y-2">
@@ -340,6 +341,17 @@ export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
                 {s.pocetZobrazene}
                 {q ? ` / ${s.pocet}` : ''} · <span className="text-muted-foreground/50">{s.tema.slug}</span>
               </span>
+            </div>
+            <div className="mb-5 flex flex-wrap gap-2">
+              {(['z', 'm'] as const).map((pg) => (
+                <Link
+                  key={pg}
+                  href={`nahlad/${s.tema.slug}?p=${pg}`}
+                  className="rounded-full bg-primary/15 px-4 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/25"
+                >
+                  ▶ Vyplniť ako {pg === 'z' ? 'žena' : 'muž'} (skutočný dotazník)
+                </Link>
+              ))}
             </div>
             <div className="space-y-4">
               <Bloky bloky={s.uvod} p={pohlavie} />

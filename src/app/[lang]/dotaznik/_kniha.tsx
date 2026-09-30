@@ -274,6 +274,8 @@ export default function Kniha({
   obsah,
   spatHref,
   dalejHref,
+  nahlad = false,
+  pohlavieStart,
 }: {
   lang: string
   modul: string
@@ -281,11 +283,14 @@ export default function Kniha({
   obsah: TemaObsah
   spatHref: string
   dalejHref: string
+  /** Admin náhľad: bez páru, bez ukladania, len lokálny stav. */
+  nahlad?: boolean
+  pohlavieStart?: Pohlavie
 }) {
   const { par, ready } = usePar()
   const { stavy } = useStavy(par)
   const { mapa, nacitane } = useMojeOdpovede(par, modul)
-  const [override, setOverride] = useState<Hodnoty>({})
+  const [override, setOverride] = useState<Hodnoty>(() => (pohlavieStart ? { pohlavie: { v: pohlavieStart } } : {}))
   const [ukladam, setUkladam] = useState(false)
   const timers = useRef<Record<string, number>>({})
   const p = (s: string) => `/${lang}${s}`
@@ -298,15 +303,15 @@ export default function Kniha({
   // ploché hodnoty podľa `polozka` (id blokov sú v rámci témy unikátne)
   const ans = useMemo<Hodnoty>(() => {
     const f: Hodnoty = {}
-    for (const row of Object.values(mapa)) f[row.polozka] = row.hodnota
+    if (!nahlad) for (const row of Object.values(mapa)) f[row.polozka] = row.hodnota
     return { ...f, ...override }
-  }, [mapa, override])
+  }, [mapa, override, nahlad])
 
   const pohlavie = (ans.pohlavie as { v?: Pohlavie } | undefined)?.v
 
   function saveRaw(okruh: string, polozka: string, typ: string, hodnota: unknown, rola?: string) {
     setOverride((o) => ({ ...o, [polozka]: hodnota }))
-    if (!par) return
+    if (nahlad || !par) return
     window.clearTimeout(timers.current[polozka])
     setUkladam(true)
     timers.current[polozka] = window.setTimeout(async () => {
@@ -315,9 +320,9 @@ export default function Kniha({
     }, 500)
   }
 
-  if (!ready || (par && !nacitane)) return <Krok nadpis="Načítavam…" />
+  if (!nahlad && (!ready || (par && !nacitane))) return <Krok nadpis="Načítavam…" />
 
-  if (!par)
+  if (!nahlad && !par)
     return (
       <Krok
         krok="Chýba pár"
@@ -328,7 +333,7 @@ export default function Kniha({
       </Krok>
     )
 
-  if (partnerZamok(stavy, par, modul, tema))
+  if (!nahlad && par && partnerZamok(stavy, par, modul, tema))
     return (
       <Krok
         krok="Zamknuté partnerom"
@@ -394,7 +399,9 @@ export default function Kniha({
       )}
 
       <p className="mt-6 text-[11px] text-muted-foreground">
-        {ukladam ? 'Ukladám…' : 'Uložené priebežne. Partner nevidí tvoje odpovede — len zhodu.'}
+        {nahlad
+          ? `Admin náhľad (${pohlavie === 'm' ? 'muž' : 'žena'}) — odpovede sa neukladajú.`
+          : ukladam ? 'Ukladám…' : 'Uložené priebežne. Partner nevidí tvoje odpovede — len zhodu.'}
       </p>
 
       <div className="mt-6 flex items-center gap-4">
