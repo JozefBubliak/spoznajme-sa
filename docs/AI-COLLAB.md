@@ -6,7 +6,9 @@
 4. **Pred tvorbou témy hľadať celosvetovo** (výskum, komunitné zdroje, dotazníky typu Mojo Upgrade/kink checklisty, fóra), aby téma bola úplná — nie písať z hlavy.
 5. Platí aj: bez súhlasu/bezpečnosti v témach, jemné aj opak, mýty a búranie tabu, proaktívne dopĺňanie.
 
-Vzor správneho spracovania: `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
+6. **Žiadna pevná šablóna.** Každá téma aj podtéma je samostatný projekt. Štruktúru, skupiny a otázky navrhnúť až po tom, čo o nej zistíš maximum (výskum, komunity, existujúce dotazníky, realita praxe, obavy oboch strán). Trans téma nie je šablóna na kopírovanie — je to ukážka **postupu**: rešerš → čo všetko k téme patrí → aké roviny a perspektívy má (ja / partner / spolu / bez tretej osoby / pocity / realita vs. predstava) → až potom otázky, m/ž. Zdroje zapísať do hlavičky súboru.
+
+Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
 
 ---
 ## HANDOFF CLAUDE → CODEX — xlsm zdroj, 2026-09-30 (AKTUÁLNE, má prednosť)
