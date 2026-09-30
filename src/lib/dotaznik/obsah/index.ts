@@ -23,6 +23,7 @@ import { ZMYSLOVA_HRA } from './zmyslova-hra'
 import { TEMPO_INTENZITA } from './tempo-intenzita'
 import { FANTAZIE } from './fantazie'
 import { TABU_MANTINELY } from './tabu-mantinely'
+import { TRANS_PARTNERKA } from './trans-partnerka'
 import { SUMAR, BEZ_SUMARU } from './sumar'
 import { MIESTA_PROSTREDIE } from './miesta-prostredie'
 import { POLOHY } from './polohy'
@@ -74,6 +75,7 @@ const REGISTER: Record<string, TemaObsah> = {
   [NEPENETRATIVNE_TRENIE.slug]: NEPENETRATIVNE_TRENIE,
   [CNM_ENM.slug]: CNM_ENM,
   [TABU_MANTINELY.slug]: TABU_MANTINELY,
+  [TRANS_PARTNERKA.slug]: TRANS_PARTNERKA,
 }
 
 // Záverečný sumár („čo nové skúsime" + plán) na koniec každej praktickej témy.

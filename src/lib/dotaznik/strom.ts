@@ -708,6 +708,13 @@ export const MODULY: Modul[] = [
     ],
   },
   {
+    slug: 'trans-partnerka', cislo: 59, kod: 'H9', domena: 'H', zrkadlovy: true,
+    nazov: 'Trans partnerka — žena s penisom', popis: 'Príťažlivosť k trans ženám: čo láka, praktiky, roly, trojka, varianty bez tretej osoby (strap-on, roleplay), pocity a mýty (kniha).', ikona: '⚧️', citlivost: 3,
+    temy: [
+      o('trans-partnerka', 'Trans partnerka — žena s penisom', 'Kompletný sprievodca (kniha + dotazník) — rovina fantázia/realita, čo priťahuje, praktiky m/z, roly, s partnerom, bez tretej osoby, pocity.'),
+    ],
+  },
+  {
     slug: 'tabu-mantinely', cislo: 58, kod: 'I5', domena: 'I',
     nazov: 'Tabu témy a mantinely', popis: 'Hranie s tabu, mapa naprieč témami (nikdy / len fantázia / možno / áno), tekutiny a hraničné oblasti, ako sa mi s tabu pracuje (kniha).', ikona: '🚧', citlivost: 3,
     temy: [

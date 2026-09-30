@@ -94,18 +94,8 @@ const SLAVNA_OSOBA: Blok = {
 // aby mala rovnaké miesto ako iné bežné fantázie, nie aby zapadla niekam
 // pod „exotické" alebo sa spájala len s pornografickými klišé.
 const TRANS_PARTNER: Blok = {
-  druh: 'skupina', id: 'trans_partner', nadpis: 'Trans partnerka/partner',
-  bloky: [
-    {
-      druh: 'text', id: 'trans_info',
-      telo:
-        'Príťažlivosť k trans ženám alebo trans mužom je bežná a nehovorí nič zvláštne o orientácii toho, ' +
-        'kto ju cíti — je to len jedna z foriem toho, kto nás priťahuje. Ak by sa táto fantázia mala niekedy ' +
-        'preniesť do reality, ide vždy o skutočného človeka s vlastnými hranicami a potrebou rešpektu, nie o „typ".',
-    },
-    { druh: 'otazka', id: 'trans_frekvencia', typ: 'jeden', text: 'Ako často sa mi táto predstava vracia', moznosti: FREKV_DOLEZITOST },
-    { druh: 'otazka', id: 'trans_realizacia', typ: 'jeden', text: 'Chcem to niekedy preniesť do reality?', moznosti: REALIZACIA },
-  ],
+  druh: 'text', id: 'trans_odkaz', ton: 'info',
+  telo: 'Fantázia o trans žene s penisom má samostatnú, podrobnú tému „Trans partnerka — žena s penisom".',
 }
 
 // ── Negatívne pocity a zdieľanie ────────────────────────────────────
