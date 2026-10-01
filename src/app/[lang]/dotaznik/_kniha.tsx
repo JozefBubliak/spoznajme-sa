@@ -78,8 +78,8 @@ function Chips({
             onClick={() => onPick(m.v)}
             className={`rounded-xl border px-3.5 py-2 text-left text-xs font-medium transition ${
               on
-                ? 'border-primary bg-primary/10 text-primary'
-                : 'border-border/70 text-muted-foreground hover:text-foreground'
+                ? 'border-primary bg-primary font-semibold text-primary-foreground shadow-md'
+                : 'border-border/70 text-muted-foreground hover:border-primary/50 hover:text-foreground'
             } ${viac ? '' : 'w-full'}`}
           >
             {m.label}
@@ -108,6 +108,7 @@ function OtazkaPole({
     <div className="rounded-2xl border border-border/70 bg-card/50 p-5">
       <div className="text-sm font-medium text-foreground">{G(blok.text)}</div>
       {blok.napoveda && <p className="mt-1 text-xs text-muted-foreground">{G(blok.napoveda)}</p>}
+      {blok.typ === 'viac' && <p className="mt-1 text-[11px] text-primary/80">Môžeš označiť viac možností.</p>}
 
       <div className="mt-3">
         {(blok.typ === 'jeden' || blok.typ === 'skala') && (
