@@ -9,6 +9,9 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // tabu pre pána/paniu — jasné nie a podmienené možno; všeobecné rizikové
 // oblasti ako krv, moč). Blok „Hranie s tabu" presunutý sem z fantazie.ts
 // (rovnaké id otázok). Obsah mriežky dotvorený.
+// Doplnené 2026-10-01: Deehan & Bartels 2021 (Somnophilia Interest and
+// Proclivity Scale: aktívna konsenzuálna, pasívna konsenzuálna a
+// nekonsenzuálna fantázia) a výskum vnímania súhlasu pri intoxikácii.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -140,6 +143,69 @@ const MAPA: Blok = {
   ],
 }
 
+const SOMNO_INTOX: Blok = {
+  druh: 'skupina', id: 'somno_intox', nadpis: 'Somnofília a intoxikačné fantázie — čo je na obraze erotické',
+  uvod:
+    'Fantázia o spánku, omámení alebo „neovládateľnej“ túžbe môže niesť rôzne významy: úplné odovzdanie, prebudenie rozkošou, pasivitu, starostlivosť, tajomstvo či stratu zábran. Výskum somnofílie preto odlišuje aktívnu konsenzuálnu, pasívnu konsenzuálnu a nekonsenzuálnu predstavu; nie sú psychologicky totožné.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'si_somno_roly', typ: 'viac', inePovolene: true,
+      text: 'Ktoré spánkové scenáre ma eroticky priťahujú',
+      moznosti: [
+        { v: 'prebudeny', label: g('Byť partnerkou zobudený erotickým dotykom', 'Byť partnerom zobudená erotickým dotykom') },
+        { v: 'prebudzam', label: g('Zobudiť partnerku erotickým dotykom', 'Zobudiť partnera erotickým dotykom') },
+        { v: 'predstiera_spanku', label: g('Predstierať spánok a zostať pasívny v role', 'Predstierať spánok a zostať pasívna v role') },
+        { v: 'partner_predstiera', label: g('Partnerka predstiera spánok a odovzdáva mi vedenie', 'Partner predstiera spánok a odovzdáva mi vedenie') },
+        { v: 'sledovat', label: g('Pozorovať spiacu partnerku a fantazírovať bez dotyku', 'Pozorovať spiaceho partnera a fantazírovať bez dotyku') },
+        { v: 'ospalost', label: 'Polospánok, ranná malátnosť a pomalé telesné prebúdzanie' },
+        { v: 'len_fantazia', label: 'Nekonsenzuálny obraz iba ako fantázia alebo dohodnutý roleplay' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'si_intox_obrazy', typ: 'viac', inePovolene: true,
+      text: 'Ktoré intoxikačné alebo „stratené zábrany“ obrazy ma lákajú',
+      moznosti: [
+        { v: 'roleplay_opity', label: 'Roleplay opitosti alebo omámenia bez skutočnej intoxikácie' },
+        { v: 'jedna_davka', label: 'Erotická atmosféra po malom množstve alkoholu, keď sa cítim viac uvoľnene' },
+        { v: 'partner_uvolneny', label: g('Pohľad na uvoľnenú, odvážnejšiu partnerku', 'Pohľad na uvoľneného, odvážnejšieho partnera') },
+        { v: 'ja_uvolneny', label: g('Pocit, že som uvoľnenejší a menej sebakritický', 'Pocit, že som uvoľnenejšia a menej sebakritická') },
+        { v: 'hypno_fantazia', label: 'Fantázia hypnózy, séra pravdy alebo čarovného elixíru' },
+        { v: 'bezvedomie_fantazia', label: 'Úplná bezmocnosť alebo bezvedomie iba ako fiktívny obraz' },
+        { v: 'nelaka', label: 'Intoxikácia ani jej roleplay ma nelákajú' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'si_vyznam', typ: 'viac', inePovolene: true,
+      text: 'Čo je v tejto fantázii jadrom',
+      moznosti: [
+        { v: 'pasivita', label: 'Úplná pasivita a absencia výkonu' },
+        { v: 'odovzdanie', label: 'Odovzdanie kontroly druhému človeku' },
+        { v: 'tajomstvo', label: 'Tajomstvo a pocit zakázaného' },
+        { v: 'prebudenie', label: 'Prebudenie priamo do rozkoše' },
+        { v: 'starostlivost', label: 'Nežnosť, starostlivosť a pokojný spánok pri milovanom človeku' },
+        { v: 'bez_zabran', label: 'Predstava, že zmizne hanba a vnútorná kontrola' },
+        { v: 'moc', label: 'Moc nad nehybným alebo bezbranným telom v role' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'si_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerku vzrušuje spánková alebo intoxikačná fantázia', 'Keď partnera vzrušuje spánková alebo intoxikačná fantázia'),
+      moznosti: [
+        { v: 'roleplay', label: g('Chcem pochopiť jej význam a vytvoriť s ňou roleplay', 'Chcem pochopiť jeho význam a vytvoriť s ním roleplay') },
+        { v: 'somno', label: 'Láka ma iba prebudenie alebo predstieraný spánok' },
+        { v: 'slova', label: 'Chcem ju zdieľať iba slovami alebo erotickým príbehom' },
+        { v: 'fantazia_partner', label: g('Rešpektujem ju ako partnerkinu súkromnú fantáziu, ale nechcem sa zapojiť', 'Rešpektujem ju ako partnerovu súkromnú fantáziu, ale nechcem sa zapojiť') },
+        { v: 'ohrozenie', label: 'Táto predstava vo mne vyvoláva ohrozenie alebo odpor' },
+      ],
+    },
+    {
+      druh: 'text', id: 'si_mytus', ton: 'info', nadpis: 'Mýtus verzus realita',
+      telo:
+        'Mýtus: somnofilná fantázia automaticky znamená túžbu dotknúť sa človeka bez dohody. Realita: výskum rozlišuje konsenzuálne aktívne a pasívne podoby aj nekonsenzuálnu fantáziu; veľa ľudí priťahuje prebudenie, pasivita alebo roleplay. Mýtus: alkohol vytvára úprimnejšie „áno“. Realita: znižuje zábrany, no zároveň zhoršuje čítanie signálov — preto fantazijný obraz intoxikácie a skutočný stav nie sú tá istá situácia.',
+    },
+  ],
+}
+
 // ── Psychologický rámec ─────────────────────────────────────────────
 const RAMEC: Blok = {
   druh: 'skupina', id: 'ramec', nadpis: 'Ako sa mi s tabu pracuje',
@@ -202,6 +268,7 @@ export const TABU_MANTINELY: TemaObsah = {
   telo: [
     HRANIE,
     MAPA,
+    SOMNO_INTOX,
     RAMEC,
   ],
   zaver: [

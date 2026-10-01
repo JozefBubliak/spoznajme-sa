@@ -6,7 +6,11 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // blízkosť, antirutina, mikro-rituály, komunikácia o túžbach, prostredie,
 // senzorika bez tlaku na výkon, novota, pomôcky (soft), iniciatíva,
 // spontánnosť, fantázie→realita, program na mieru, hranice.
+// Doplnené 2026-10-01: emocionálne scenáre podľa výskumu sexuálnych motívov,
+// responzívnej túžby a flexibility sexuálnych skriptov (Bouchard et al. 2023).
 // ─────────────────────────────────────────────────────────────────────────────
+
+const g = (m: string, z: string): TemaObsah['nadpis'] => ({ m, z })
 
 const POSTOJ: Moznost[] = [
   { v: 'robime', label: 'Už na tom pracujeme a som spokojný/á' },
@@ -481,6 +485,54 @@ const FANTAZIE: Blok = {
   ],
 }
 
+const EMOCNE_SCENARE: Blok = {
+  druh: 'skupina', id: 'emocne_scenare', nadpis: 'Erotika po konflikte a v silných životných chvíľach',
+  uvod:
+    'Sex nemusí vyrastať iba z bezstarostnej nálady. Niekedy je vyjadrením návratu, oslavy, útechy, úľavy alebo znovuobjavenia partnera. Rovnaká situácia môže jedného rozpáliť a druhého uzavrieť, preto má zmysel pomenovať konkrétny scenár.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'emo_scenare_lakaju', typ: 'viac', inePovolene: true,
+      text: 'Ktoré emočné scenáre ma môžu eroticky pritiahnuť',
+      moznosti: [
+        { v: 'jemne_zmierenie', label: 'Nežné znovunapojenie po vyriešenom konflikte' },
+        { v: 'dravy_makeup', label: 'Dravý make-up sex po tom, čo je konflikt skutočne uzavretý' },
+        { v: 'navrat', label: 'Intenzívny sex po odlúčení alebo dlhom čakaní' },
+        { v: 'oslava', label: 'Oslava úspechu, výročia alebo veľkej životnej správy' },
+        { v: 'utecha', label: 'Jemná erotická útecha po smútku, strese alebo sklamaní' },
+        { v: 'ulava', label: 'Uvoľnenie po náročnom období alebo splnení povinnosti' },
+        { v: 'nostalgia', label: 'Zopakovať prvé rande, prvú noc alebo starú spoločnú fantáziu' },
+        { v: 'zranitelnost', label: 'Pomalá intimita po úprimnom, zraniteľnom rozhovore' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'emo_po_konflikte', typ: 'jeden',
+      text: 'Po konflikte potrebujem pred erotikou',
+      moznosti: [
+        { v: 'uzavretie', label: 'Jasné slovné uzavretie a pocit, že sme si porozumeli' },
+        { v: 'dotyk', label: 'Najprv tichý dotyk alebo objatie, potom uvidím' },
+        { v: 'vasen', label: 'Keď je vec vyriešená, láka ma okamžitá vášeň' },
+        { v: 'odstup', label: 'Čas a odstup; erotika v ten deň mi nesedí' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'emo_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerka túži po sexe ako po znovunapojení alebo úteche', 'Keď partner túži po sexe ako po znovunapojení alebo úteche'),
+      moznosti: [
+        { v: 'laka', label: g('Vzrušuje ma byť tým, pri kom sa cíti žiadaná a v bezpečí', 'Vzrušuje ma byť tou, pri ktorej sa cíti žiadaný a v bezpečí') },
+        { v: 'jemne', label: 'Chcem najprv nežnú blízkosť a až potom zistiť, či príde erotika' },
+        { v: 'podla_situacie', label: 'Záleží na tom, či ide o oslavu, stres, smútok alebo konflikt' },
+        { v: 'oddelit', label: 'Útechu a riešenie konfliktu chcem od sexu oddeliť' },
+      ],
+    },
+    { druh: 'otazka', id: 'emo_slova', typ: 'text', text: g('Aké slová mi po konflikte alebo v zraniteľnej chvíli pomáhajú znovu cítiť partnerkinu túžbu:', 'Aké slová mi po konflikte alebo v zraniteľnej chvíli pomáhajú znovu cítiť partnerovu túžbu:') },
+    {
+      druh: 'text', id: 'emo_myty', ton: 'info', nadpis: 'Mýty verzus realita',
+      telo:
+        'Mýtus: make-up sex znamená nezdravý vzťah. Realita: môže byť silným rituálom návratu, ak nenahrádza vyriešenie problému. Mýtus: sex ako útecha je neúprimný. Realita: pre niekoho je telesná blízkosť prirodzený jazyk starostlivosti; pre iného je v smútku nepríjemná. Rozhoduje osobný význam, nie univerzálne pravidlo.',
+    },
+  ],
+}
+
 // ── Vášeň cez rutinu + program na mieru ────────────────────
 const PROGRAM: Blok = {
   druh: 'skupina', id: 'program', nadpis: 'Vášeň cez rutinu a „program na mieru"',
@@ -549,6 +601,7 @@ export const DLHODOBA_INTIMITA: TemaObsah = {
     INICIATIVA,
     SPONTANNY,
     FANTAZIE,
+    EMOCNE_SCENARE,
     PROGRAM,
     HRANICE,
   ],

@@ -9,6 +9,8 @@ Autor: Claude. Pre používateľa aj Codex. Riadi sa pravidlami v `docs/AI-COLLA
 
 **Obmedzenie:** zhoda slova ≠ kvalitné spracovanie. Aj položky „pokryté" treba pri prechode témy overiť rešeršou. Fóra (Reddit a pod.) vyhľadávač priamo nevracia — pri spracovaní každej témy ich prejsť cielene (r/sex, r/kinky, r/Swingers, r/hotwife, r/DeadBedrooms, r/askwomenover30…), hlavne kvôli reálnym obavám a jazyku ľudí.
 
+**Doplnenie Codex 2026-10-01:** plné PDF checklisty aj tematické fóra sa podarilo prečítať a radar bol krížovo overený s populačnými dotazníkmi, odbornými štúdiami a významom existujúcich blokov. Konsolidovaný výsledok je v `docs/dotaznik-globalny-gap-audit-2026-10.md`, sekcia „Krížová kontrola Claudeho 201-položkového radaru“. Niektoré položky nižšie sú falošné „úplne chýba“ (napr. forced orgazmus/overstim a brucho/pupok už existujú); iné sú správne, ale patria do rozšírenia existujúcej témy alebo iba do nízkoprioritného screeningu. Pri implementácii je konsolidovaný audit nadradený tomuto automatickému radarovému zoznamu.
+
 ## Zdroje
 - Lehmiller, *Tell Me What You Want* (≈4 000 Američanov): 7 hlavných okruhov fantázií pokrývajúcich 96 % — skupinový sex; moc, kontrola, drsný sex; novosť a dobrodružstvo; tabu, voyeurizmus, exhibicionizmus; vášeň a romantika; nemonogamia a zdieľanie partnera; **erotická flexibilita a „gender-bending"** (crossdressing, zmena rodu, sex mimo svojej orientácie). [prehľad](https://getmaude.com/blogs/themaudern/the-most-common-sexual-fantasies)
 - Joyal a kol. 2015, *What Exactly Is an Unusual Sexual Fantasy?* (1 516 dospelých, 55 fantázií; len 2 vzácne). [PubMed](https://pubmed.ncbi.nlm.nih.gov/25359122)

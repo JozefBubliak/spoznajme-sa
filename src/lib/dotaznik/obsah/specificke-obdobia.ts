@@ -8,7 +8,12 @@ import type { TemaObsah, Blok, Moznost, Podmienka } from './typ'
 // L4 seedu modulu (stres/rodičovstvo, tehotenstvo a po pôrode, menštruácia,
 // menopauza, zdravotné stavy/lieky, vek a únava, dlhé odlúčenie).
 // z/m verzia zrkadlová, niektoré otázky sú viazané na pohlavie 'z'.
+// Doplnené 2026-10-01: Natsal-3 (plodnosť, IVF, zdravotné prechody),
+// fantasy inventáre WSFQ/Joyal a komunitné kink checklisty (breeding fantasy),
+// štúdie sexuality po mastektómii/prostatektómii a pri chronickej bolesti.
 // ─────────────────────────────────────────────────────────────────────────────
+
+const g = (m: string, z: string): TemaObsah['nadpis'] => ({ m, z })
 
 const POSTOJ: Moznost[] = [
   { v: 'aktualne', label: 'Aktuálne sa ma to týka' },
@@ -69,6 +74,57 @@ const TEHOTENSTVO: Blok = {
   ],
 }
 
+const REPRODUKCNA_EROTIKA: Blok = {
+  druh: 'skupina', id: 'reprodukcna_erotika', nadpis: 'Reprodukčná erotika — fantázia, telo a skutočný plán sú tri rôzne veci',
+  uvod:
+    'Breeding alebo impregnation fantasy môže erotizovať plnosť, odovzdanie, označenie, plodnosť či predstavu spoločného dieťaťa. Sama osebe nehovorí, že človek chce otehotnieť, niekoho oplodniť alebo meniť antikoncepčné rozhodnutia.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'repr_co_laka', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na reprodukčnej erotike priťahuje',
+      moznosti: [
+        { v: 'breeding_slova', label: 'Breeding/impregnation dirty talk bez reálneho plánu' },
+        { v: 'naplnenie', label: g('Predstava, že partnerku „naplním“', 'Predstava, že ma partner „naplní“') },
+        { v: 'creampie', label: 'Vizuálna alebo telesná creampie fantázia' },
+        { v: 'riziko_fantazia', label: 'Pocit zakázaného rizika iba vo fantázii' },
+        { v: 'plodnost', label: 'Symbol plodnosti, mužnosti, ženskosti alebo tvorivosti' },
+        { v: 'spolocne_dieta', label: 'Emocionálna predstava spoločného dieťaťa' },
+        { v: 'tehotenske_telo', label: 'Tehotenské telo, rastúce brucho a zmena citlivosti' },
+        { v: 'laktacia', label: 'Laktácia, adult nursing alebo mlieko ako erotický prvok' },
+        { v: 'oznacenie', label: 'Pocit označenia, vlastníctva alebo úplného odovzdania' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'repr_realita', typ: 'jeden',
+      text: 'Ako sa moja fantázia vzťahuje k realite',
+      moznosti: [
+        { v: 'len_fantazia', label: 'Je to iba erotická fantázia, reálne tehotenstvo nechcem' },
+        { v: 'fantazia_a_mozno', label: 'Fantázia ma vzrušuje a dieťa možno chcem inokedy' },
+        { v: 'realny_ciel', label: 'Aktuálne sa snažíme o dieťa a erotický význam je pre mňa súčasťou toho' },
+        { v: 'bez_tehotenstva', label: 'Chcem tento motív hrať bez možnosti tehotenstva' },
+        { v: 'nelaka', label: 'Tento motív ma neláka' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'repr_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerku vzrušuje breeding alebo tehotenská fantázia', 'Keď partnera vzrušuje breeding alebo tehotenská fantázia'),
+      moznosti: [
+        { v: 'spolocne', label: g('Jej túžba ma vzrušuje a chcem ju zdieľať', 'Jeho túžba ma vzrušuje a chcem ju zdieľať') },
+        { v: 'slova', label: 'Láka ma dirty talk a symbolika, nie reálny cieľ' },
+        { v: 'emocie', label: 'Dojíma ma predstava rodiny, ale erotický prvok necítim' },
+        { v: 'tlak', label: 'Takáto fantázia vo mne vytvára tlak alebo obavu' },
+        { v: 'nie', label: 'Nechcem tento motív v našej intimite' },
+      ],
+    },
+    { druh: 'otazka', id: 'repr_slova', typ: 'text', text: 'Konkrétne slová, obrazy alebo hranica medzi fantasy a reálnym plánom, ktoré potrebujem pomenovať:' },
+    {
+      druh: 'text', id: 'repr_mytus', ton: 'info', nadpis: 'Mýtus verzus realita',
+      telo:
+        'Mýtus: breeding fantasy znamená nezodpovednosť alebo tajnú túžbu po dieťati. Realita: často je to symbol extrémnej blízkosti, telesnosti a odovzdania. Mýtus: snaženie o dieťa musí erotiku automaticky zničiť. Realita: niektorým párom pomáha oddeliť „sex podľa kalendára“ od sexu pre potešenie; iným práve význam plodnosti pridáva intenzitu.',
+    },
+  ],
+}
+
 // ── Menštruácia ────────────────────────────────────────────────────
 const MENSTRUACIA: Blok = {
   druh: 'skupina', id: 'menstruacia', nadpis: 'Menštruácia',
@@ -112,6 +168,60 @@ const ZDRAVOTNE: Blok = {
     },
     { druh: 'otazka', id: 'zdr_chronicke', typ: 'text', text: 'Chronický stav (bolesť, únava, endometrióza a pod.), ktorý ovplyvňuje intimitu, a čo pri ňom pomáha:' },
     { druh: 'otazka', id: 'zdr_obmedzenia_polohy', typ: 'text', text: 'Fyzické obmedzenia, ktoré treba zohľadniť pri polohách alebo tempe:' },
+  ],
+}
+
+const ZIVOTNE_PRECHODY: Blok = {
+  druh: 'skupina', id: 'zivotne_prechody', nadpis: 'Zdravotné a životné prechody — nové telo, nová mapa rozkoše',
+  uvod:
+    'Operácia, liečba, neplodnosť alebo strata môžu zmeniť funkciu, citlivosť aj obraz vlastného tela. Neznamenajú koniec erotiky; často iba rušia starý scenár a otvárajú potrebu objaviť nové zóny, tempo a význam intimity.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'zivp_situacie', typ: 'viac', inePovolene: true,
+      text: 'Ktoré situácie ovplyvňujú alebo môžu ovplyvniť našu intimitu',
+      moznosti: [
+        { v: 'snazenie', label: 'Snaženie o dieťa a sex podľa plodných dní' },
+        { v: 'neplodnost', label: 'Neplodnosť, vyšetrenia alebo IVF' },
+        { v: 'strata', label: 'Potrat alebo strata tehotenstva' },
+        { v: 'porod', label: 'Pôrod, jazva, panvové dno alebo zmenená citlivosť' },
+        { v: 'mastektomia', label: 'Mastektómia, rekonštrukcia alebo zmena citlivosti hrudníka' },
+        { v: 'hysterektomia', label: 'Hysterektómia alebo gynekologická operácia' },
+        { v: 'prostatektomia', label: 'Prostatektómia alebo zmena erekcie a ejakulácie' },
+        { v: 'rakovina', label: 'Onkologická liečba a únava alebo zmena obrazu tela' },
+        { v: 'endo_vulvo', label: 'Endometrióza, vulvodýnia alebo chronická panvová bolesť' },
+        { v: 'lieky', label: 'Lieky meniace libido, vzrušenie alebo orgazmus' },
+        { v: 'operacia', label: 'Iná operácia, jazva, protéza, ostómia alebo katéter' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zivp_co_chcem', typ: 'viac', inePovolene: true,
+      text: 'Čo chcem v období zmeny objavovať',
+      moznosti: [
+        { v: 'nove_zony', label: 'Nové citlivé zóny mimo pôvodného centra sexu' },
+        { v: 'bez_penetracie', label: 'Plnohodnotný sex bez penetrácie' },
+        { v: 'bez_orgazmu', label: 'Erotiku bez povinného orgazmu' },
+        { v: 'pomocky', label: 'Pomôcky, polohy a opory pre nové telo' },
+        { v: 'jazva', label: 'Postupné erotické prijatie jazvy alebo zmenenej časti tela' },
+        { v: 'fantazia', label: 'Erotické slová a fantáziu aj v dňoch bez fyzickej energie' },
+        { v: 'prijimat', label: 'Prijímať rozkoš bez fyzickej námahy a bez povinnosti oplácať' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zivp_partner', typ: 'jeden',
+      text: g('Ako chcem reagovať, keď sa partnerkino telo alebo funkcia zmení', 'Ako chcem reagovať, keď sa partnerovo telo alebo funkcia zmení'),
+      moznosti: [
+        { v: 'objavovat', label: g('Chcem s ňou zvedavo objavovať novú mapu rozkoše', 'Chcem s ním zvedavo objavovať novú mapu rozkoše') },
+        { v: 'nechat_viest', label: g('Chcem, aby ma viedla v tom, čo je dnes príjemné', 'Chcem, aby ma viedol v tom, čo je dnes príjemné') },
+        { v: 'potrebujem_cas', label: 'Potrebujem čas prispôsobiť sa aj ja' },
+        { v: 'neviem', label: 'Neviem, ale chcem o tom vedieť hovoriť bez predstierania' },
+      ],
+    },
+    { druh: 'otazka', id: 'zivp_ziaducnost', typ: 'text', text: g('Čo mi pomáha cítiť sa partnerkou žiaduci aj v zmenenom tele:', 'Čo mi pomáha cítiť sa partnerom žiaduca aj v zmenenom tele:') },
+    {
+      druh: 'text', id: 'zivp_mytus', ton: 'info', nadpis: 'Mýtus verzus realita',
+      telo:
+        'Mýtus: keď telo už nereaguje ako predtým, sexuálny život sa skončil. Realita: výskum po operáciách, pri bolesti aj poranení miechy opakovane opisuje sexuálne znovuobjavenie — širšiu definíciu sexu, nové zóny a tvorivejšie roly. Zmena funkcie nie je zánik túžby ani žiaducnosti.',
+    },
   ],
 }
 
@@ -168,9 +278,11 @@ export const SPECIFICKE_OBDOBIA: TemaObsah = {
   telo: [
     RODICOVSTVO,
     TEHOTENSTVO,
+    REPRODUKCNA_EROTIKA,
     MENSTRUACIA,
     MENOPAUZA,
     ZDRAVOTNE,
+    ZIVOTNE_PRECHODY,
     VEK_UNAVA,
     ODLUCENIE,
   ],

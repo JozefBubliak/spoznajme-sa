@@ -9,6 +9,113 @@ ponižovanie = bežné preferencie; chýbajúci obsah dotvoriť.
 
 ## Spracované
 
+### XLSM-014 — prstovanie, klitoris, vaginálny fisting a cunnilingus (2026-09-30)
+
+Celá príloha (**139 riadkov**) bola prečítaná v poradí a súvislo zmapovaná v `docs/dotaznik-xlsm-reaudit-014.md`.
+
+| Oblasť | Výsledok |
+|---|---|
+| Prstovanie | plná m/ž perspektíva; vonkajšie, plytké aj vnútorné techniky, počet prstov, tlak, rytmus, steny vagíny, pohyb tela, štýly a kombinácie |
+| Klitoris/G-oblasť | širšia paleta presných techník; G-oblasť vysvetlená ako variabilná oblasť, nie univerzálny gombík |
+| Cunnilingus | túžobný úvod, štýly, širšie techniky jazyka/pier, prsty, tempo, panva, polohy a partnerova túžba |
+| Vaginálny fisting | motívy, vnútorné vnemy, polohy, obe perspektívy a mýty bez porovnávania veľkosti penisu |
+| Rešerš | akademická anatómia a reprezentatívny výskum ženských techník + komunitné skúsenosti; URL v hlavičkách troch súborov |
+| Duplicity | štyri opakované bloky cunnilingusu porovnané po možnostiach a zlúčené bez druhých otázok |
+| Upratanie | všeobecné stop/safety poučky v dotknutej vaginálnej téme premenené na obsahové preferencie |
+
+`npx tsc --noEmit --incremental false` PASS; všetkých 6 `verify-dotaznik-*.cjs` PASS; statické ID unikátne (`bozky-dotyky.ts` 142, `oralna-intimita.ts` 74, `vaginalna-penetracia.ts` 40); rodový/safety sken aj `git diff --check` PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+### XLSM-013 — stimulácia penisu, semenníkov, hrádze a felácia (2026-09-30)
+
+Celá príloha (**320 riadkov**) bola prečítaná súvislo a zmapovaná v `docs/dotaznik-xlsm-reaudit-013.md`. Každý rozsah je priradený ku konkrétnemu obsahu alebo k už existujúcej téme.
+
+| Oblasť | Výsledok |
+|---|---|
+| Handjob | rozšírené zóny, pohyby, tlak, tempo, predkožka, pomôcky, nové štýly a inšpiračný text |
+| Felácia | výrazne širšia paleta štýlov, techník jazyka/pier, zón, ruky + ústa, vedenia, semenníkov a postojov oboch strán |
+| Túžba a mýty | texty vzbudzujúce chuť skúšať; hĺbka, porno, veľkosť a orgazmus zbavené výkonových mýtov |
+| Telo partnera | žiadny výber preferovaného typu ani veľkosti penisu; techniky sa viažu na konkrétne telo vo vzťahu |
+| Slovenský kontext | predkožka je bežný základ techniky; obriezka nie je postavená ako rovnocenný typ ani preferencia ženy |
+| Odkazy | anál/prostata, krk, prsia, chrbát, stehná a všeobecná senzorika významovo overené a neduplikované |
+| Rešerš | akademické a komunitné zdroje zapísané v hlavičkách dotknutých súborov |
+| Upratanie | staré všeobecné safety/hygienické/bariérové vsuvky v orálnej téme premenené na obsahové preferencie pri zachovaní ID |
+
+`npx tsc --noEmit --incremental false` PASS; všetkých 6 `verify-dotaznik-*.cjs` PASS; statické ID unikátne (`bozky-dotyky.ts` 136, `oralna-intimita.ts` 70); rodový/safety sken aj `git diff --check` PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+### XLSM-012 — prsia, bradavky, manuálne techniky, chrbát a odkazy (2026-09-30)
+
+Celá príloha (**383 riadkov**) bola prečítaná v poradí a rozdelená na osem tematických celkov. Audit v `docs/dotaznik-xlsm-reaudit-012.md` mapuje súvislo každý rozsah riadkov 1–383, takže obsah na prechodoch medzi témami nezmizol.
+
+| Oblasť | Výsledok |
+|---|---|
+| Rešerš | akademické štúdie o vzrušení, nervovej citlivosti a erotogénnych/averzívnych mapách + mužská komunitná skúsenosť; URL v hlavičke `bozky-dotyky.ts` |
+| Prsia/hrudník | túžobný m/ž úvod, vlastný postoj a mapa celého hrudníka, pŕs, areoly, bradaviek a rozdielu strán |
+| Presné techniky | osobitné škály pre tlak celej oblasti, krúženie prstami, stláčanie, ťahanie, jazyk, sanie a hryzenie |
+| Pomôcky a kombinácie | vibrácia, vákuum, svorky, olej, teplota, textúry; bozky, genitálie, orál, penetrácia, masturbácia, edging, masáž |
+| Kontext | kedy stimulovať, orgazmická úloha, premenlivosť citlivosti, prijímanie, poskytovanie a partnerova túžba |
+| Mýty | mužská citlivosť ≠ mužnosť/orientácia; veľkosť neurčuje citlivosť; neutralita/averzia nie je automaticky zlá technika |
+| Manuálna stimulácia | nová zrkadlená skupina poskytovania partnerke/partnerovi: postoj, techniky, intenzita a pomôcky |
+| Chrbát | masáž, tlak, nechty/stopy, pery, textúry, teplo/chlad, poskytovanie, partnerova túžba a mýtus |
+| Všeobecné dotyky | ťahanie vlasov, kontrast jemnosť–intenzita a reakcia na partnerovu preferenciu |
+| Odkazy/opakovania | orál, polohy, anál/prostata, pomôcky, senzorika, UI a facesitting presne namapované, neduplikované |
+| Neprenesené | hygiena, safety/signály a generické kazateľské rady |
+
+`npx tsc --noEmit --incremental false` PASS; všetkých 6 `verify-dotaznik-*.cjs` PASS; 130 statických ID v `bozky-dotyky.ts` je unikátnych; rodový/safety sken aj `git diff --check` PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+### XLSM-010/011 — Facesitting: modul a mužská/ženská vetva (2026-09-30)
+
+Obe prílohy boli prečítané celé (**145 + 219 riadkov vrátane prázdnych**). Mapa **61 + 64 logických bodov** je v `docs/dotaznik-xlsm-reaudit-010-011.md`. Hlavný obsah sa prekrýval s XLSM-006/009, ale každý bod bol porovnaný s konkrétnou otázkou, možnosťou alebo textom.
+
+| Oblasť | Výsledok |
+|---|---|
+| Atmosféra | doplnená čisto telesná, intenzívne orálna verzia bez mocenskej roly |
+| Psychológia hore | triumf, sebaistota a radosť z vlastnej sexuálnej sily |
+| Psychológia dole | pokora bez menejcennosti, eufória a hlboké ponorenie; „subspace“ bez sľubov a mystifikácie |
+| Fantázia | nové kontexty sólo/partner/masturbácia/spoločný sex/mimo sexu/tabu |
+| Náročné pocity | telo, „perverzné“, odsúdenie, výkon a zmiešané vzrušenie s odporom |
+| Bariéry | osobitne vlastná váha hore a partnerova váha/intenzita dole |
+| Spolu | nová otázka, kto má polohu iniciovať častejšie |
+| Opravy | v role dole sa partner uctieva, nie uctieva respondenta; tri odpovede hore majú správny subjekt a m/ž tvar |
+| Neprenesené | breath-play návody, plná/percentuálna váha, stop-signály, hygiena a feromónové tvrdenia |
+
+`npx tsc --noEmit --incremental false` PASS; všetkých 6 `verify-dotaznik-*.cjs` PASS; 133 statických ID v `face-sitting.ts` je unikátnych; rodové a safety skeny aj `git diff --check` PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+### XLSM-009 — Facesitting: komplexný sprievodca (2026-09-30)
+
+Príloha s 158 textovými riadkami bola prečítaná celá a rozdelená na **83 logických bodov**. Výrazne sa prekrývala s XLSM-006, ale nebola totožná. Presná mapa vrátane vedome neprenesených safety/hygienických bodov a záverečného CNM zoznamu je v `docs/dotaznik-xlsm-reaudit-009.md`.
+
+| Oblasť | Výsledok |
+|---|---|
+| Rešerš | akademické zdroje o BDSM motívoch, submisii a obraze tela + komunitné skúsenosti; URL v hlavičke `face-sitting.ts` |
+| Psychológia | moc, obdiv, prijímanie bez zodpovednosti, service kink, živý trón, objektifikácia a zmyslové pohltenie |
+| Dve dimenzie | osobitne vlastná túžba a reakcia na to, keď chce byť hore alebo dole partnerka/partner |
+| Varianty | hover, trón, súvislý kontakt, reverse, sidesaddle, hrana postele/sedadlo, bielizeň/nahota, krátke/dlhé vlny |
+| Aktívne prvky | trenie o nos/bradu, pohyb panvy, sebadotyk, slová, worship, zrkadlo, tma/hudba, znehybnenie, edging |
+| Mýty a tabu | poloha ≠ automaticky breath play; osoba dole nie je pasívna; telo nemusí byť dokonalé; sexuálna rola neurčuje bežný vzťah |
+| Obraz tela | nesediaci uhol nie je hodnotenie tela; partnerova túžba môže byť silnejšia než sebakritika |
+| Neprenesené | stop-signály, zdravotné kontraindikácie, hygiena, nepravdivé tvrdenie o mužskom krku, feromónové nadinterpretácie a generický komunikačný návod |
+| Iné témy | záverečných 10 bodov CNM bolo namapovaných na trojky, swinging, zdieľanie partnera a zdravie/ochranu; bez duplicít |
+
+`npx tsc --noEmit --incremental false` PASS; všetkých 6 `verify-dotaznik-*.cjs` PASS; 129 statických ID v `face-sitting.ts` je unikátnych; rodové a safety/hygienické skeny aj `git diff --check` PASS. Presný P rozsah čaká na spárovanie s XLSM. Bez commitu a pushu.
+
+### XLSM-007/008 — trojky, skupiny a kontrola prekrývajúcej sa dávky (2026-09-30)
+
+Obe prílohy boli prečítané celé. Druhá dávka nie je identická kópia prvej, ale jej hlavné otázky MMF/FMF sú významové duplicity; nové sú najmä dlhé erotické naladenia a niekoľko explicitnejších rolových opisov. Preto vznikla jedna rozšírená téma bez zdvojených otázok. Mapa **71 + 45 logických bodov** je v `docs/dotaznik-xlsm-reaudit-007-008.md`.
+
+| Oblasť | Výsledok |
+|---|---|
+| Túžba | nové personalizované naladenie pre muža a ženu, konkrétne obrazy dotykov, sledovania, stredobodu a hojnosti pozornosti |
+| Mýty a tabu | fantázia ≠ nespokojnosť; všetci nemusia robiť všetko; žiarlivosť môže spoluexistovať so vzrušením; rovnakopohlavný dotyk neurčuje identitu |
+| Dve dimenzie | oddelené „chcem to ja“ a „ako reagujem, keď MMF/FMF vzrušuje partnerku/partnera“ |
+| MMF/FMF | zachované existujúce ID; doplnená plná personalizácia, konfigurácie, prijímanie/poskytovanie a matica kto–s kým–ako |
+| Pozornosť a emócie | konkrétne spúšťače žiarlivosti, pocit vylúčenia, compersion, gesto opätovného spojenia a striedanie stredobodu |
+| Gangbang/bukkake | vysvetlený rozdiel, rola partnera, psychologické motivácie, miesta, vizuál, foto/video a mýty |
+| DP/DAP/DVP | fantázia, simulácia, pomôcky a šesť konkrétnych variantov bez technického safety protokolu |
+| Rešerš | akademické a komunitné zdroje sú zapísané v hlavičke `trojky-skupiny.ts`; štruktúra nebola prevzatá z pevnej šablóny |
+| Safety/hygiena | súhlas, STI, ochrana, hygiena, stop-signály a látkové pravidlá neprenesené; staré bloky premenené na obsahové preferencie |
+
+`npx tsc --noEmit --incremental false` PASS; všetkých 6 `verify-dotaznik-*.cjs` PASS; statické ID unikátne (`trojky-skupiny.ts` 67, `face-sitting.ts` 117). Presný P rozsah čaká na odomknutie XLSM. Bez commitu a pushu.
+
 ### XLSM-006 — Face sitting (2026-09-30)
 
 Celá príloha od screeningu po záverečné motto bola rozdelená na **100 logických bodov**. Presná mapa každého bodu je v `docs/dotaznik-xlsm-reaudit-006.md`.
@@ -67,6 +174,22 @@ Vstup bol prečítaný celý od „Handjob ako samostatný modul…“ cez zdroj
 | Škrabanie | `energia_dotyku` | nová škála intenzity vrátane značenia + mapa miest: chrbát, ramená, zadok, stehná, hrudník, boky |
 | Tempo penetrácie a predohry, zmeny a pauzy | `tempo-intenzita.ts` `tempo_rytmus` | nová skupina so základnou preferenciou, stabilným rytmom, kontrastmi a prestávkami |
 | Psychologické prvky rytmu | `tempo_rytmus` | očný kontakt, budovanie, pomalé hlboké aj rýchle pohyby, zmena hĺbky, nečakaná pauza, prevzatie rytmu; tipy a mýtus |
+### XLSM-015 — análne hračky a opak vulválnych tém (2026-10-01)
+
+Príloha mala 305 riadkov a bola prečítaná súvislo. Presná bunková mapa je v `docs/dotaznik-xlsm-reaudit-015.md`; P-ID čaká na odomknutie zdrojového XLSM.
+
+| Obsah | Cieľ | Rozhodnutie |
+|---|---|---|
+| Kolíky, vibrácie, diaľkové ovládanie, korálky, dildo a prostata | `analna-penetracia.ts` `hracky` | rozšírené na plnú mapu typov, vnemov, tvarov, materiálov, kontextov a rolí |
+| Žena/muž prijíma, poskytuje a používa sólo | `hr_prijimam`, `hr_poskytujem`, `hr_solo` | zlúčené bez opakovania, plne personalizované |
+| Verejné a vzdialené ovládanie | `hr_ovladac`, `hr_bezpecnost` | pôvodné ID zachované; starý safety zoznam premenený na erotické scenáre |
+| Partnerova túžba | `hr_partner_tuzba` | doplnená druhá povinná dimenzia |
+| Klitoris, vaginálne prstovanie, cunnilingus a klitorisové hračky | existujúce témy | porovnané s XLSM-014, bez duplicitných otázok |
+
+Nad zdroj doplnené: rotačné/pulzujúce a nafukovacie hračky, app ovládanie, presný prútik, kov/sklo, ozdobné kolíky, pokojná plnosť, tlak pri otvore, hĺbka, hmotnosť, teplota, rôzne rytmy korálok a päť mýtov. V dotknutom súbore boli všeobecné bezpečnostné, hygienické, semaforové a aftercare poučky premenené na preferencie, túžbu a doznievanie bez zmeny existujúcich ID.
+
+`npx tsc --noEmit --incremental false` PASS; všetkých 6 `verify-dotaznik-*.cjs` PASS; 93 statických ID unikátnych; rodový sken a `git diff --check` PASS. Bežný typecheck bol blokovaný iba cudzou ochranou `tsconfig.tsbuildinfo`.
+
 | Bradavky | `bozky-dotyky.ts` `spol_zony` | rozšírené o hladenie, sanie, ťapkanie, pootočenie/ťah, hryzenie, vibráciu a striedanie; pridaná citlivosť, preferovaný nástroj, experiment a mýtus bez rodového stereotypu |
 | Handjob, G-bod, prostata/hrádza, análna manuálna stimulácia, teplota, orálne polohy, edging, sliny | existujúce témy | významové duplicity aktuálnych podrobných otázok; druhé moduly nevytvorené |
 | Hygiena rúk, deep-throat bezpečnosť a všeobecné bezpečnostné protokoly | — | podľa pokynu neprenesené; staré všeobecné hygienické/semaforové vsuvky v `bozky-dotyky.ts` odstránené alebo prepísané na technické a preferenčné otázky bez zmeny existujúcich ID |

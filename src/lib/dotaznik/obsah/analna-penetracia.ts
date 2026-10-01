@@ -5,8 +5,21 @@ import type { TemaObsah, Blok, Moznost, Podmienka } from './typ'
 // Zdroj: „17_Anal_a_stimulacia_zadku" (proper vetviaci dotazník — 4× opakovaný;
 // zjednotené; úplnosť sa ešte audituje, pozri CONTENT-001 v progress dokumente). Oblasti:
 // externá stimulácia, anilingus, prstovanie (rola + prostata), hračky,
-// penetračný anál, DP, kombinácie, bezpečnosť a aftercare.
+// penetračný anál, DP, kombinácie, psychológia a preferencie.
 // z / m verzia zrkadlová (rovnaké id + hodnoty). Prostata → len pohlavie 'm'.
+// Rešerš análneho potešenia a hračiek (XLSM-015, 2026-10-01):
+// - https://pubmed.ncbi.nlm.nih.gov/35767540/ — Anal Surfacing, Shallowing
+//   a Pairing v reprezentatívnej vzorke 3 017 žien.
+// - https://pubmed.ncbi.nlm.nih.gov/40463812/ — mapy erotogénnych oblastí
+//   konečníka u mužov a žien; častá je povrchová predná oblasť.
+// - https://pubmed.ncbi.nlm.nih.gov/23519588/ a
+//   https://pubmed.ncbi.nlm.nih.gov/28796537/ — učenie, potešenie, zvedavosť,
+//   stigma a rozdielne významy análnej hry pre ženy.
+// - https://www.reddit.com/r/askgaybros/comments/ltolr9/
+// - https://www.reddit.com/r/askgaybros/comments/muip0p/
+// - https://www.reddit.com/r/askgaybros/comments/1vfhamm/
+//   — komunitné rozdiely medzi plnosťou, pohybom, vibráciami, prostatickým
+//   tlakom, nosením a diaľkovým ovládaním.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -16,7 +29,7 @@ const POSTOJ: Moznost[] = [
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
-  { v: 'nie', label: 'Nie — hranica' },
+  { v: 'nie', label: 'Nie — neláka ma to' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
 const postojOt = (id: string, text: TemaObsah['nadpis'], podmienka?: Podmienka): Blok => ({
@@ -36,7 +49,7 @@ const ESTE_NIE: Blok = {
   druh: 'skupina',
   id: 'este_nie',
   nadpis: 'Fantázia a vnútorný postoj',
-  uvod: 'Ak s análnou oblasťou zatiaľ nemáš skúsenosť. Fantázia ≠ záväzok — kedykoľvek môžeš zmeniť názor.',
+  uvod: 'Aj bez skúsenosti môžeš rozlíšiť, či ťa priťahuje dotyk zvonka, plytký tlak, plnosť, prostata, odovzdanie alebo zatiaľ iba samotná fantázia.',
   podmienka: { ot: 'skusenost', obsahuje: 'ziadna' },
   bloky: [
     {
@@ -66,14 +79,14 @@ const ESTE_NIE: Blok = {
       moznosti: [
         { v: 'tuzim', label: 'Túžim to skúsiť' },
         { v: 'vyskusam', label: 'Vyskúšam, ak po tom túžiš' },
-        { v: 'podmienky', label: 'Možno, len za jasných podmienok' },
+        { v: 'podmienky', label: 'Možno — láka ma iba konkrétna podoba' },
         { v: 'fantazia', label: 'Chcem, aby to ostalo len fantázia' },
         { v: 'nekomfort', label: 'Necítim sa komfortne' },
       ],
     },
     {
       druh: 'otazka', id: 'en_ochota_podmienky', typ: 'text',
-      text: 'Za akých podmienok:',
+      text: 'Ktorá konkrétna podoba fantázie ma láka:',
       podmienka: { ot: 'en_ochota', je: 'podmienky' },
     },
     {
@@ -81,8 +94,8 @@ const ESTE_NIE: Blok = {
       text: 'Čo je pre teba blok v ochote to skúsiť?',
       napoveda: 'Nič z toho nie je „zlé".',
       moznosti: [
-        { v: 'bolest', label: 'Obava z bolesti' },
-        { v: 'hygiena', label: 'Hygiena / čistota' },
+        { v: 'bolest', label: 'Predstava nepríjemného telesného pocitu' },
+        { v: 'hygiena', label: 'Telesnosť a prirodzenosť tejto oblasti ma nevzrušuje' },
         { v: 'hanba', label: 'Hanba / trápnosť' },
         { v: 'kontrola', label: 'Strata kontroly' },
         { v: 'odsudenie', label: 'Strach z odsúdenia' },
@@ -150,15 +163,15 @@ const ANILINGUS: Blok = {
     postojOt('ani_prostata', 'Anilingus súčasne s masážou prostaty', { pohlavie: 'm' }),
     {
       druh: 'otazka', id: 'ani_hygiena', typ: 'viac',
-      text: 'Hygienické podmienky pre anilingus',
+      text: 'Aká atmosféra anilingusu ma láka?',
       moznosti: [
-        { v: 'sprcha', label: 'Sprcha tesne predtým' },
-        { v: 'klystir', label: 'Klystír podľa preferencie' },
-        { v: 'bariera', label: 'Bariéra (koferdam)' },
-        { v: 'prirodzenost', label: 'Prirodzenosť je OK' },
+        { v: 'sprcha', label: 'Svieža, zmyselná a starostlivo pripravená' },
+        { v: 'klystir', label: 'Spontánna a telesná bez veľkého rituálu' },
+        { v: 'bariera', label: 'Hravá, jemná a skôr teasingová' },
+        { v: 'prirodzenost', label: 'Veľmi prirodzená, mokrá a intenzívna' },
       ],
     },
-    { druh: 'otazka', id: 'ani_hranice', typ: 'text', text: 'Anilingus — moje podmienky / čo určite nie:' },
+    { druh: 'otazka', id: 'ani_hranice', typ: 'text', text: 'Najvzrušujúcejšia podoba anilingusu, ktorú si viem predstaviť:' },
   ],
 }
 
@@ -282,7 +295,7 @@ const PRST_POSKYTUJEM: Blok = {
   id: 'prst_poskytujem',
   nadpis: 'Prstovanie zadočku — poskytujem',
   bloky: [
-    postojOt('prst_poskytujem_postoj', 'Prstovať partnerovi/ke zadoček — poskytujem'),
+    postojOt('prst_poskytujem_postoj', g('Prstovať partnerke zadoček — poskytujem', 'Prstovať partnerovi zadoček — poskytujem')),
     {
       druh: 'otazka', id: 'prst_stupienky', typ: 'jeden',
       text: 'Čo si trúfam poskytovať',
@@ -297,13 +310,13 @@ const PRST_POSKYTUJEM: Blok = {
       text: 'Iniciatíva',
       moznosti: [
         { v: 'ja', label: 'Iniciujem ja' },
-        { v: 'partner', label: 'Iniciuje partner/ka' },
+        { v: 'partner', label: g('Iniciuje partnerka', 'Iniciuje partner') },
         { v: 'striedavo', label: 'Striedavo' },
       ],
     },
     {
       druh: 'otazka', id: 'prst_poskyt_pokyny', typ: 'jeden',
-      text: 'Preferujem jasné pokyny od partnera/ky',
+      text: g('Preferujem jasné pokyny od partnerky', 'Preferujem jasné pokyny od partnera'),
       moznosti: [
         { v: 'ano', label: 'Áno' },
         { v: 'skor_ano', label: 'Skôr áno' },
@@ -384,7 +397,7 @@ const PROSTATA_POSKYTUJEM: Blok = {
     postojOt('pro_poskytujem_postoj', 'Poskytnúť partnerovi masáž prostaty (prst / pomôcka)'),
     {
       druh: 'otazka', id: 'pro_poskyt_kombinacie', typ: 'viac',
-      text: 'Rád(a) by som to spojil(a) s…',
+      text: g('Rád by som to spojil s…', 'Rada by som to spojila s…'),
       moznosti: [
         { v: 'oral', label: 'Orálom' },
         { v: 'masturbacia', label: 'Masturbáciou partnera' },
@@ -400,7 +413,16 @@ const HRACKY: Blok = {
   id: 'hracky',
   nadpis: 'Análne hračky',
   bloky: [
-    postojOt('hr_prijimam', 'Análne hračky počas predohry alebo sexu — prijímam'),
+    {
+      druh: 'text', id: 'hr_uvod', nadpis: 'Plnosť, vibrácie, pohyb alebo tajomstvo pod oblečením', ton: 'info',
+      telo: g(
+        'Análna hračka môže zostať nehybná a vytvárať pocit plnosti, pulzovať proti prostate, pohybovať sa pri každom stiahnutí svalov alebo odovzdať ovládanie partnerke. Erotické môže byť samotné zavádzanie, sledovanie jej reakcie, vedomie o skrytej hračke počas iného sexu aj chvíľa, keď sa korálky vytiahnu v rytme orgazmu.',
+        'Análna hračka môže zostať nehybná a vytvárať pocit plnosti, vibrovať pri každom pohybe panvy alebo odovzdať ovládanie partnerovi. Erotické môže byť samotné zavádzanie, jeho pohľad na moju reakciu, tajomstvo skryté pod oblečením, súčasná vaginálna stimulácia aj vlnenie korálok počas orgazmu.',
+      ),
+    },
+    postojOt('hr_prijimam', g('Prijímať análne hračky od partnerky', 'Prijímať análne hračky od partnera')),
+    postojOt('hr_poskytujem', g('Zavádzať a ovládať análne hračky partnerke', 'Zavádzať a ovládať análne hračky partnerovi')),
+    postojOt('hr_solo', 'Používať análne hračky pri sólo hre'),
     {
       druh: 'otazka', id: 'hr_typy', typ: 'viac', inePovolene: true,
       text: 'Ktoré hračky ma lákajú',
@@ -413,6 +435,42 @@ const HRACKY: Blok = {
         { v: 'koralky', label: 'Análne korálky (stupňované)' },
         { v: 'dildo', label: 'Análne dildo (zakrivené na P-bod)' },
         { v: 'stimulator', label: 'Prostatický stimulátor (vibračný / rotačný / hands-free)' },
+        { v: 'dialkove', label: 'Diaľkovo alebo cez aplikáciu ovládaný kolík' },
+        { v: 'rotacny', label: 'Rotačný alebo pulzujúci análny stimulátor' },
+        { v: 'nafukovaci', label: 'Nafukovací kolík s meniteľným pocitom plnosti' },
+        { v: 'trening', label: 'Sada stupňovaných kolíkov' },
+        { v: 'prutik', label: 'Zakrivený análny prútik na presný vnútorný tlak' },
+        { v: 'kov_sklo', label: 'Ťažšia kovová alebo sklenená hračka' },
+        { v: 'chvost', label: 'Kolík s ozdobou, šperkom alebo chvostom' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'hr_pocity', typ: 'viac', inePovolene: true,
+      text: 'Ktoré pocity od análnej hračky ma lákajú?',
+      moznosti: [
+        { v: 'plnost', label: 'Nehybný pocit plnosti' },
+        { v: 'otvor', label: 'Tlak a roztiahnutie najmä pri otvore' },
+        { v: 'hlbka', label: 'Hlbší tlak vo vnútri' },
+        { v: 'vibracie', label: 'Vibrácie šíriace sa panvou' },
+        { v: 'pulzy', label: 'Pulzovanie alebo prírazy v rytme' },
+        { v: 'rotacia', label: 'Rotácia alebo pohyb po vnútorných stenách' },
+        { v: 'prostata', label: g('Presný tlak na prostatu', 'Tlak cez prednú stenu smerom k vagíne') },
+        { v: 'hmotnost', label: 'Vnímať hmotnosť hračky pri pohybe tela' },
+        { v: 'teplota', label: 'Teplý alebo chladný materiál ako zmyslový kontrast' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'hr_tvar_material', typ: 'viac', inePovolene: true,
+      text: 'Aký tvar a charakter hračky ma priťahuje?',
+      moznosti: [
+        { v: 'makka', label: 'Mäkká a pružná' },
+        { v: 'pevna', label: 'Pevná a presná' },
+        { v: 'hladka', label: 'Hladký povrch' },
+        { v: 'textura', label: 'Výstupky, vlny alebo výrazná textúra' },
+        { v: 'zuzeny_krk', label: 'Plnšie telo a úzky krk na nosenie' },
+        { v: 'stupnovana', label: 'Postupne rastúce korálky alebo kužele' },
+        { v: 'zakrivena', label: 'Zakrivenie na prednú vnútornú stenu' },
+        { v: 'tazsia', label: 'Ťažšia hračka, ktorú cítiť pri každom pohybe' },
       ],
     },
     {
@@ -421,29 +479,70 @@ const HRACKY: Blok = {
       moznosti: [
         { v: 'vydych', label: 'Na výdych' },
         { v: 'vyvrcholenie', label: 'Pri vyvrcholení (timing)' },
+        { v: 'pred', label: 'Tesne pred orgazmom ako ďalšia vlna' },
+        { v: 'postupne', label: 'Po jednej korálke v pomalom rytme' },
+        { v: 'dnu_von', label: 'Pohybovať nimi dnu a von počas celej stimulácie' },
         { v: 'nezaujem', label: 'Nezáujem' },
       ],
     },
-    postojOt('hr_plug_nosenie', 'Nosenie plugu — pred aktom / počas vaginálneho sexu / diskrétne mimo domova („public play light")'),
+    postojOt('hr_plug_nosenie', 'Nosenie plugu — počas predohry, iného sexu alebo ako diskrétne erotické tajomstvo mimo spálne'),
+    {
+      druh: 'otazka', id: 'hr_kontexty', typ: 'viac', inePovolene: true,
+      text: 'Kedy ma análne hračky lákajú najviac?',
+      moznosti: [
+        { v: 'solo', label: 'Pri sólo masturbácii' },
+        { v: 'partner_zavadza', label: g('Keď mi ju zavádza partnerka', 'Keď mi ju zavádza partner') },
+        { v: 'ja_zavadzam', label: g('Keď ju zavádzam partnerke a sledujem jej reakciu', 'Keď ju zavádzam partnerovi a sledujem jeho reakciu') },
+        { v: 'oral', label: 'Počas orálu alebo manuálnej stimulácie' },
+        { v: 'vaginalny', label: 'Súčasne s vaginálnou penetráciou' },
+        { v: 'penis', label: 'Súčasne so stimuláciou penisu' },
+        { v: 'orgazmus', label: 'Ako vrstva tesne pred orgazmom alebo počas neho' },
+        { v: 'nosenie', label: 'Pri nosení pod oblečením' },
+        { v: 'bdsm', label: 'Ako súčasť hry s mocou, úlohami alebo odovzdaním' },
+      ],
+    },
     {
       druh: 'otazka', id: 'hr_ovladac', typ: 'jeden',
       text: 'Kto ovláda hračku',
       moznosti: [
         { v: 'ja', label: 'Ovládam ja' },
-        { v: 'partner', label: 'Ovláda partner/ka' },
+        { v: 'partner', label: g('Ovláda partnerka', 'Ovláda partner') },
         { v: 'striedavo', label: 'Striedavo' },
+        { v: 'program', label: 'Automatický program alebo rytmus podľa hudby' },
       ],
     },
     {
       druh: 'otazka', id: 'hr_bezpecnost', typ: 'viac',
-      text: 'Bezpečnostné pravidlá, na ktorých trvám',
+      text: 'Ktoré podoby diaľkového ovládania ma lákajú?',
       moznosti: [
-        { v: 'zakladna', label: 'Vždy základňa / stoper' },
-        { v: 'lub', label: 'Veľa lubrikantu' },
-        { v: 'kondom', label: 'Kondóm na hračke pri zdieľaní' },
-        { v: 'cistenie', label: 'Čistenie a dezinfekcia medzi použitiami' },
-        { v: 'material', label: 'Kompatibilita lubu s materiálom' },
+        { v: 'zakladna', label: 'Partner mení intenzitu, zatiaľ čo vidí moju reakciu' },
+        { v: 'lub', label: 'Nečakané krátke vlny počas večera doma' },
+        { v: 'kondom', label: 'Diskrétna hra na večeri, prechádzke alebo ceste' },
+        { v: 'cistenie', label: 'Ovládanie na diaľku, keď nie sme na rovnakom mieste' },
+        { v: 'material', label: 'Hra s úlohami alebo odmenou za reakciu' },
       ],
+    },
+    {
+      druh: 'otazka', id: 'hr_partner_tuzba', typ: 'jeden',
+      text: g('Ako na mňa pôsobí, keď partnerka túži používať análnu hračku na mne alebo na sebe?', 'Ako na mňa pôsobí, keď partner túži používať análnu hračku na mne alebo na sebe?'),
+      moznosti: [
+        { v: 'silno', label: g('Jej zvedavosť a reakcia ma silno vzrušujú', 'Jeho zvedavosť a reakcia ma silno vzrušujú') },
+        { v: 'rad', label: g('Rád jej hračku zavádzam, ovládam alebo ju prijímam', 'Rada mu hračku zavádzam, ovládam alebo ju prijímam') },
+        { v: 'sledovat', label: g('Láka ma sledovať, ako ju používa sama', 'Láka ma sledovať, ako ju používa sám') },
+        { v: 'vyber', label: 'Niektoré typy alebo roly ma lákajú, iné nie' },
+        { v: 'fantazia', label: 'Vzrušuje ma to skôr ako fantázia než plán' },
+        { v: 'neutral', label: g('Jej túžbu chápem, ale mňa osobne veľmi nevzrušuje', 'Jeho túžbu chápem, ale mňa osobne veľmi nevzrušuje') },
+        { v: 'nie', label: 'Nechcem to zaradiť medzi naše zhody' },
+      ],
+    },
+    {
+      druh: 'text', id: 'hr_myty', nadpis: 'Mýty o análnych hračkách', ton: 'info',
+      telo:
+        'Mýtus: kolík je iba príprava na análny sex. Realita: pre veľa ľudí je plnosť, tlak pri otvore alebo tajomstvo nosenia samostatným cieľom bez pokračovania k penisu.\n\n' +
+        'Mýtus: vibračná hračka musí automaticky stimulovať prostatu a vyvolať silný orgazmus. Realita: tvar a uhol rozhodujú rovnako ako vibrácie; niekto cíti prostatu okamžite, iný miluje iba plnosť alebo pohyb pri otvore.\n\n' +
+        'Mýtus: análne korálky sú zaujímavé iba pri vyťahovaní počas orgazmu. Realita: rozdielne veľkosti môžu vytvárať vlny aj pri pomalom pohybe dnu a von alebo pri nehybnom držaní.\n\n' +
+        'Mýtus: mužská túžba prijímať análnu hračku určuje orientáciu alebo mužnosť. Realita: konečník a prostata sú telesné zóny; erotická rola nie je test identity.\n\n' +
+        'Mýtus: väčšia hračka je automaticky lepšia. Realita: niekto hľadá plnosť, iný presný tlak, vibráciu, pohyb alebo iba jemné „shallowing" tesne za otvorom.',
     },
   ],
 }
@@ -458,14 +557,14 @@ const PENETRACNY: Blok = {
     postojOt('pen_poskytujem', 'Análny styk (penisom / strap-onom) — poskytujem'),
     {
       druh: 'otazka', id: 'pen_priprava', typ: 'viac',
-      text: 'Príprava, na ktorej mi záleží',
+      text: 'Aké naladenie a vrstvenie ma pred análnou penetráciou láka?',
       moznosti: [
-        { v: 'sprcha', label: 'Sprcha' },
-        { v: 'klystir', label: 'Klystír podľa preferencie' },
-        { v: 'kondom', label: 'Kondóm' },
-        { v: 'lub', label: 'Veľa lubrikantu' },
-        { v: 'plug', label: 'Plug alebo prsty pred' },
-        { v: 'dych', label: 'Dýchanie na výdych pri vniknutí' },
+        { v: 'sprcha', label: 'Zmyselný rituál a pomalé očakávanie' },
+        { v: 'klystir', label: 'Masáž zadku, stehien a hrádze' },
+        { v: 'kondom', label: 'Anilingus ako prechod k penetrácii' },
+        { v: 'lub', label: 'Veľmi mokrá a klzká hra' },
+        { v: 'plug', label: 'Kolík alebo prsty ako prvá vrstva' },
+        { v: 'dych', label: 'Spoločný rytmus dychu a pohybu' },
       ],
     },
     {
@@ -510,12 +609,12 @@ const PENETRACNY: Blok = {
     },
     {
       druh: 'otazka', id: 'pen_bezpecnost', typ: 'viac',
-      text: 'Bezpečnostné pravidlá, na ktorých trvám',
+      text: 'Ktoré kontrasty pri análnej penetrácii ma lákajú?',
       moznosti: [
-        { v: 'nikdy_vagina', label: 'Anál → vagína nikdy bez výmeny kondómu / rukavíc' },
-        { v: 'bolest_stop', label: 'Bolesť = stop, nie „pretlačiť"' },
-        { v: 'prestavky', label: 'Hygienické prestávky' },
-        { v: 'regeneracia', label: 'Frekvencia a regenerácia' },
+        { v: 'nikdy_vagina', label: 'Striedanie análnej hry s klitorisom, vagínou alebo penisom' },
+        { v: 'bolest_stop', label: 'Jemný začiatok a neskôr výrazne dravšia intenzita' },
+        { v: 'prestavky', label: 'Krátke nehybné pauzy medzi vlnami pohybu' },
+        { v: 'regeneracia', label: 'Dlhá scéna s viacerými kolami a zmenami polôh' },
       ],
     },
   ],
@@ -545,8 +644,8 @@ const PEGGING: Blok = {
         { v: 'zvedavost', label: 'Čistá zvedavosť, bez veľkého rámca' },
       ],
     },
-    postojOt('peg_prva_noc_light', 'Prvý pokus chcem ako krátku „light" session — pomaly, s pauzami, bez tlaku na výsledok'),
-    { druh: 'otazka', id: 'peg_hranice', typ: 'text', text: 'Pegging — moje podmienky / čo určite nie:' },
+    postojOt('peg_prva_noc_light', 'Krátka „light" verzia peggingu s pomalým rytmom a dlhými nehybnými chvíľami'),
+    { druh: 'otazka', id: 'peg_hranice', typ: 'text', text: 'Najvzrušujúcejšia rola, poloha a atmosféra peggingu, ktorú si viem predstaviť:' },
   ],
 }
 
@@ -562,63 +661,63 @@ const KOMBINACIE: Blok = {
       text: 'Análny fisting — kde som?',
       moznosti: [
         { v: 'fantazia', label: 'Len fantázia' },
-        { v: 'mozno', label: 'Možno, s jasnými podmienkami' },
-        { v: 'ano', label: 'Áno, s podmienkami' },
+        { v: 'mozno', label: 'Možno — láka ma konkrétna podoba' },
+        { v: 'ano', label: 'Áno, chcem to preskúmať' },
         { v: 'nie', label: 'Nie' },
       ],
     },
     postojOt('komb_anilingus_prst', 'Anilingus + prst / plug súčasne'),
-    postojOt('komb_public', 'Public play light — nositeľný plug / vajce s dohodnutými signálmi a časovými oknami'),
-    { druh: 'otazka', id: 'komb_scenar', typ: 'text', text: 'Ako by mal vyzerať náš prvý spoločný pokus (miesto, dĺžka, kto prijíma, stop-signál):' },
+    postojOt('komb_public', 'Public play light — nositeľný plug alebo vajce ako diskrétne erotické tajomstvo mimo spálne'),
+    { druh: 'otazka', id: 'komb_scenar', typ: 'text', text: 'Ako vyzerá môj ideálny spoločný scenár — miesto, dĺžka, kto prijíma, kto vedie a s čím sa hra kombinuje:' },
     {
       druh: 'text', id: 'komb_dilatacia_tip', ton: 'info',
       telo:
-        'Postupné zvykanie na väčší priemer nie je o rekorde, ale o pohodlí: séria 3–5 veľkostí (napr. S → M → L), ' +
-        'každú nosiť/skúšať 10–20 minút v uvoľnenej polohe, bez ponáhľania sa na ďalší level. Tvar ruky pri fistingu je vždy zúžený ' +
-        '(„tulipán" — prsty pospolu, palec pritlačený), nikdy nie plná päsť; lubrikant sa dopĺňa pri každom prechode na väčší priemer.',
+        'Stupňované kolíky dokážu vytvoriť vlastný erotický scenár: každý priemer má inú plnosť, hmotnosť a tlak pri otvore. ' +
+        'Nemusí ísť o cestu k najväčšiemu rozmeru — niekoho najviac vzruší presný malý kolík, iného pocit postupných vĺn alebo chvíľa, keď partner vyberie ďalšiu veľkosť. ' +
+        'Pri fistingu môže byť hlavným zážitkom nehybná ruka, jemné pulzy, pohyb panvy alebo psychológia odovzdania, nie rekord.',
     },
   ],
 }
 
-// ── Bezpečie, semafor, tabu ─────────────────────────────────────────
+// ── Mapa túžby, prirodzenosť a tabu ─────────────────────────────────
 const SEMAFOR: Blok = {
   druh: 'skupina',
   id: 'semafor',
-  nadpis: 'Bezpečie, podmienky a tabu',
+  nadpis: 'Mapa túžby, prirodzenosť a tabu',
   bloky: [
-    { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'GREEN (áno, chcem):' },
-    { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'YELLOW (možno, opatrne, za podmienok):' },
-    { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'RED (tvrdá hranica — nikdy):' },
-    { druh: 'otazka', id: 'sem_stopslovo', typ: 'text', text: 'Naše stop-slovo / gesto (aj v hlučnom prostredí):' },
+    { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'Čo ma na análnej hre vzrušuje najviac:' },
+    { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: g('Na čo som zvedavý, ale zatiaľ neviem, či sa mi to páči:', 'Na čo som zvedavá, ale zatiaľ neviem, či sa mi to páči:') },
+    { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'Čo ma neláka a nechcem to zaradiť medzi naše zhody:' },
+    { druh: 'otazka', id: 'sem_stopslovo', typ: 'text', text: 'Slovo alebo veta, ktorú chcem pri análnej hre počuť:' },
     {
       druh: 'otazka', id: 'sem_hygiena', typ: 'jeden',
-      text: 'Komfort s hygienou / čistotou',
+      text: 'Ako na mňa pôsobí prirodzená telesnosť análnej oblasti?',
       moznosti: [
-        { v: '1', label: '1 — veľké obavy' },
-        { v: '2', label: '2' },
-        { v: '3', label: '3 — stredne' },
-        { v: '4', label: '4' },
-        { v: '5', label: '5 — som úplne v pohode' },
+        { v: '1', label: '1 — výrazne ma odpudzuje' },
+        { v: '2', label: '2 — skôr ma ruší' },
+        { v: '3', label: '3 — neutrálne' },
+        { v: '4', label: '4 — prijímam ju ako súčasť erotiky' },
+        { v: '5', label: '5 — prirodzenosť a tabu ma silno vzrušujú' },
       ],
     },
     {
       druh: 'otazka', id: 'sem_lubrikant', typ: 'jeden',
-      text: 'Lubrikant',
+      text: 'Aký pocit klzkosti a mokrosti ma láka?',
       moznosti: [
-        { v: 'vodny', label: 'Vodný' },
-        { v: 'silikon', label: 'Silikónový' },
-        { v: 'hybrid', label: 'Hybrid' },
-        { v: 'testujeme', label: 'Testujeme' },
+        { v: 'vodny', label: 'Ľahký a prirodzený sklz' },
+        { v: 'silikon', label: 'Veľmi hladký, dlhotrvajúci a mokrý pocit' },
+        { v: 'hybrid', label: 'Hustejší, mäkký a obopínajúci pocit' },
+        { v: 'testujeme', label: 'Láka ma skúšať rozdielne textúry' },
       ],
     },
     {
       druh: 'otazka', id: 'sem_bariery', typ: 'viac',
-      text: 'Bariéry',
+      text: 'Ktorý vizuál a pocit pri práci rukou alebo hračkou ma láka?',
       moznosti: [
-        { v: 'rukavice', label: 'Rukavice' },
-        { v: 'kondom_prst', label: 'Kondóm na prst' },
-        { v: 'kondom_hracka', label: 'Kondóm na hračku' },
-        { v: 'bez', label: 'Bez (dohoda)' },
+        { v: 'rukavice', label: 'Čierne rukavice ako fetišový alebo profesionálny vizuál' },
+        { v: 'kondom_prst', label: 'Hladký obalený prst a presný dotyk' },
+        { v: 'kondom_hracka', label: 'Hladký povrch hračky bez výraznej textúry' },
+        { v: 'bez', label: 'Priamy kontakt kože, prstov a prirodzených textúr' },
       ],
     },
     {
@@ -633,31 +732,31 @@ const SEMAFOR: Blok = {
     },
     {
       druh: 'otazka', id: 'sem_narocne_text', typ: 'text',
-      text: 'Čo konkrétne (aby to partner vedel):',
+      text: g('Čo konkrétne vo mne vyvoláva náročné pocity, aby to partnerka pochopila:', 'Čo konkrétne vo mne vyvoláva náročné pocity, aby to partner pochopil:'),
       podmienka: { ot: 'sem_narocne', jeNiektora: ['dost', 'velmi'] },
     },
   ],
 }
 
-// ── Komunikácia ──────────────────────────────────────────────────────
+// ── Erotické vedenie a spätná väzba ─────────────────────────────────
 const KOMUNIKACIA: Blok = {
   druh: 'skupina',
   id: 'komunikacia',
-  nadpis: 'Komunikácia a spätná väzba',
+  nadpis: 'Erotické vedenie a spätná väzba',
   bloky: [
     {
       druh: 'otazka', id: 'kom_forma', typ: 'viac',
-      text: 'Forma signálov',
+      text: 'Ako ma láka viesť tempo a intenzitu?',
       moznosti: [
-        { v: 'slova', label: 'Kľúčové slová („pomalšie", „drž", „pauza")' },
-        { v: 'semafor', label: 'Semafor (zelená / žltá / červená)' },
-        { v: 'gesta', label: 'Dohodnuté gestá / dotyk' },
-        { v: 'vety', label: 'Krátke vety' },
+        { v: 'slova', label: 'Priame erotické slová: „hlbšie", „drž", „pridaj"' },
+        { v: 'semafor', label: 'Stupňovanie slovami: jemne, silnejšie, naplno' },
+        { v: 'gesta', label: 'Pohybom panvy, rukou alebo stiahnutím svalov' },
+        { v: 'vety', label: 'Opisovať partnerovi, čo práve cítim a chcem' },
       ],
     },
     {
       druh: 'otazka', id: 'kom_frekvencia', typ: 'jeden',
-      text: 'Frekvencia spätnej väzby',
+      text: 'Ako často chcem počas hry meniť alebo potvrdzovať vedenie?',
       moznosti: [
         { v: 'priebezne', label: 'Priebežne' },
         { v: 'kroky', label: 'Po kľúčových krokoch' },
@@ -676,7 +775,7 @@ const KOMUNIKACIA: Blok = {
     },
     {
       druh: 'otazka', id: 'kom_okamzity_switch', typ: 'text',
-      text: 'Naša veta pre okamžitý „komfort switch" (napr. „dnes len zvonka") — čo presne znamená, že sa má okamžite prejsť len na externú stimuláciu:',
+      text: 'Veta, ktorou chcem eroticky prejsť z penetrácie iba na vonkajší dotyk, masáž alebo anilingus:',
     },
     { druh: 'otazka', id: 'kom_pomenovania_ok', typ: 'text', text: 'Pomenovania tejto oblasti, ktoré sú pre mňa OK (anál/riť/zadoček...):' },
     { druh: 'otazka', id: 'kom_pomenovania_nie', typ: 'text', text: 'Pomenovania, ktoré nechcem počuť:' },
@@ -703,7 +802,7 @@ const KONTEXT: Blok = {
     },
     {
       druh: 'otazka', id: 'ctx_frekvencia', typ: 'jeden',
-      text: 'Ako často by som análnu hru chcel(a)',
+      text: g('Ako často by som análnu hru chcel', 'Ako často by som análnu hru chcela'),
       moznosti: [
         { v: 'casto', label: 'Často' },
         { v: 'nalada', label: 'Podľa nálady' },
@@ -712,8 +811,8 @@ const KONTEXT: Blok = {
         { v: 'nikdy', label: 'Nikdy' },
       ],
     },
-    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo chcem, aby partner/ka vedel(a) (1–3 vety):' },
-    { druh: 'otazka', id: 'pozn_bojim', typ: 'text', text: 'Čoho sa bojím / čo ma úplne odradí:' },
+    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: g('Čo chcem, aby partnerka vedela o mojej túžbe po análnej hre:', 'Čo chcem, aby partner vedel o mojej túžbe po análnej hre:') },
+    { druh: 'otazka', id: 'pozn_bojim', typ: 'text', text: 'Ktorý pocit, vizuál alebo dynamika ma pri análnej hre úplne vypína:' },
   ],
 }
 
@@ -758,15 +857,11 @@ export const ANALNA_PENETRACIA: TemaObsah = {
     {
       druh: 'text',
       id: 'bezpecne',
-      nadpis: 'Bezpečne a s pôžitkom',
-      ton: 'vystraha',
+      nadpis: 'Čo všetko môže análna hra znamenať',
+      ton: 'info',
       telo:
-        'Veľa lubrikantu (ideálne silikónový; vodný je OK, no rýchlejšie schne) a priebežné dopĺňanie. ' +
-        'Krátke nechty alebo rukavice, pomalý vstup, trpezlivosť, dýchanie na výdych pri vniknutí. ' +
-        'Semafor / dohodnuté gesto, malé „OK?" check-iny. ' +
-        'Anál → vagína nikdy bez výmeny ochrany. Krátka hygienická rutina pred hrou (toaleta, teplá sprcha, pokojná hlava), uterák poruke. ' +
-        'Umývanie rúk pred aj po je dôležitejšie, než sa zdá — análna oblasť nesie baktérie (napr. Shigella), ktoré sa fekálno-orálnou cestou dajú preniesť aj cez prsty. ' +
-        'Po hnačke alebo črevnej infekcii je rozumné počkať aspoň 2 týždne pred análnou hrou.',
+        'Pre niekoho je jadrom jemný dotyk okolo otvoru, pre iného plytký tlak, pocit plnosti, pohyb hračky, prostata alebo vrstvenie s klitorisom, vagínou či penisom. ' +
+        'Rovnaká praktika môže pôsobiť nežne, hravo, tabu, dominantne alebo úplne meditatívne. Kolík môže byť samostatný hlavný akt, tajomstvo pod oblečením, súčasť orálu, prvok odovzdania alebo iba nehybný tlak, ktorý zosilní orgazmus inde v tele.',
     },
   ],
   telo: [
@@ -806,18 +901,17 @@ export const ANALNA_PENETRACIA: TemaObsah = {
     {
       druh: 'text',
       id: 'aftercare',
-      nadpis: 'Aftercare',
+      nadpis: 'Ako môže análna hra doznieť',
       ton: 'info',
       telo:
-        'Po scéne: ticho, nápoj, jemná masáž brucha alebo krížov. Debrief „2+2" — dve veci super, dve na úpravu. ' +
-        'Pri intenzívnejšej hre počítaj s „dropom" na druhý deň a krátkym check-inom.',
+        'Hra môže skončiť vybratím hračky počas orgazmu, prechodom na jemný vonkajší dotyk, masážou zadku a krížov alebo tým, že malý kolík zostane ako tiché doznievanie. ' +
+        'Pre niekoho je bodkou pocit prázdna po plnosti, pre iného ďalšie kolo orálu, masturbácie alebo pokojného telesného objatia.',
     },
     {
       druh: 'text',
       id: 'zaver',
       telo:
-        'Výsledky zohľadnia len zhody medzi tebou a partnerom. Čo niekto označí ako RED, sa nikde nezobrazí — ' +
-        'zostáva len to, čo je pre vás oboch v poriadku a vzrušujúce.',
+        'Výsledok ukáže spoločné podoby análnej hry — od dotyku zvonka po plnosť, vibrácie, prostatu a partnerské ovládanie — ktoré vzrušujú oboch.',
     },
   ],
 }

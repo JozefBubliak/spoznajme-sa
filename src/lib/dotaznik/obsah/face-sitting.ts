@@ -4,8 +4,20 @@ import type { TemaObsah, Blok } from './typ'
 // Face-sitting — obsah 1:1 podľa „Face sitting M./ž." (spracované podklady).
 // Mužská (m) a ženská (z) verzia sú zrkadlové: rovnaké id otázok aj hodnoty,
 // líši sa len oslovenie a rod, aby pri Double-Blind sadli odpovede proti sebe.
-// Rola: DOLE = poskytuješ orál (tvár pod lonom partnera/ky).
-//        HORE = prijímaš orál (sedíš na tvári partnera/ky).
+// Rola: DOLE = poskytuješ orál (tvár pod lonom partnera alebo partnerky).
+//        HORE = prijímaš orál (sedíš na tvári partnera alebo partnerky).
+// Rešerš doplnená 2026-09-30 (XLSM-009, použitá aj pri XLSM-010/011):
+// - https://pubmed.ncbi.nlm.nih.gov/27235283/ — BDSM ako potešenie, relaxácia,
+//   sebavyjadrenie a dobrovoľne rozvíjaná zručnosť, nie automaticky patológia.
+// - https://pubmed.ncbi.nlm.nih.gov/30956128/ — systematický prehľad motívov BDSM.
+// - https://pubmed.ncbi.nlm.nih.gov/32486920/ — rozmanité motívy submisie,
+//   odovzdania a intenzívneho telesného zážitku.
+// - https://pubmed.ncbi.nlm.nih.gov/35247866/ — sexuálny obraz tela ovplyvňuje
+//   pôžitok aj pocit vlastnej prijateľnosti.
+// - https://www.reddit.com/r/PlusSize/comments/1iouk21/ — skúsenosti s neistotou
+//   z váhy, uhlom, reverse polohou a rozdielom medzi obavou a pôžitkom.
+// - https://www.reddit.com/r/sexadvise/comments/1fezbsu/ — komunitné otázky o
+//   pohybe, predstave polohy a strachu „urobiť to zle“.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -36,6 +48,7 @@ const STYL_MOZNOSTI = [
 ]
 
 const ATMOSFERA_MOZNOSTI = [
+  { v: 'telesna', label: 'Čisto telesnú — intenzívny orál bez mocenskej roly' },
   { v: 'dominantna', label: 'Dominantnú a vášnivú' },
   { v: 'hrava', label: 'Hravú a laškovnú' },
   { v: 'jemna', label: 'Jemnú a zmyselnú' },
@@ -98,6 +111,8 @@ const TECHNIKY: Blok = {
         { v: 'jazyk_dnu', label: 'Jazyk vo vagíne' },
         { v: 'dlhe_tahy', label: 'Dlhé ťahy celým jazykom od vagíny ku klitorisu' },
         { v: 'anilingus', label: 'Anilingus — sadnem si viac dozadu' },
+        { v: 'nos_brada', label: 'Rytmické trenie klitorisu o nos alebo bradu partnera' },
+        { v: 'vlastne_ruky', label: 'Dotýkam sa pritom svojich pŕs alebo klitorisu' },
       ],
     },
     {
@@ -111,6 +126,8 @@ const TECHNIKY: Blok = {
         { v: 'oral_penis', label: 'Orál na penis — kľačím nad jej tvárou' },
         { v: 'semenniky', label: 'Lízanie semenníkov' },
         { v: 'hradza', label: 'Hrádza — jazyk medzi semenníkmi a anusom' },
+        { v: 'trenie', label: 'Rytmický pohyb panvy podľa toho, čo mi robí dobre' },
+        { v: 'vlastne_ruky', label: 'Dotýkam sa pritom svojho tela alebo penisu' },
       ],
     },
     {
@@ -124,6 +141,8 @@ const TECHNIKY: Blok = {
         { v: 'celo_postele', label: 'Držím sa čela postele / steny' },
         { v: 'otocena', label: 'Otočená k jeho nohám — dosiahnem na penis' },
         { v: 'jazdenie', label: 'Sama sa pohybujem, „jazdím" na jeho jazyku' },
+        { v: 'bokom', label: 'Sedím bokom — sidesaddle' },
+        { v: 'hrana', label: 'Som na hrane postele alebo na stabilnom sedadle' },
       ],
     },
     {
@@ -136,6 +155,8 @@ const TECHNIKY: Blok = {
         { v: 'kinging', label: 'Kľaknem si nad jej tvár (kinging)' },
         { v: 'na_styroch', label: 'Na štyroch, ona zozadu' },
         { v: 'striedanie', label: 'Striedam rôzne pozície' },
+        { v: 'bokom', label: 'Som nad ňou bokom — sidesaddle' },
+        { v: 'hrana', label: 'Som na hrane postele alebo na stabilnom sedadle' },
       ],
     },
     {
@@ -168,16 +189,27 @@ const TECHNIKY: Blok = {
         { v: 'vibrator', label: 'Vibrátor súčasne' },
         { v: 'masturbacia', label: 'Ten dole si pritom masturbuje / je masturbovaný' },
         { v: 'plesnutie', label: 'Plesknutia po zadku' },
+        { v: 'slova', label: 'Príkazy, prosby alebo pochvala' },
+        { v: 'worship', label: 'Rituál uctievania a „trónová" atmosféra' },
+        { v: 'zrkadlo', label: 'Zrkadlo alebo vedomý očný kontakt' },
+        { v: 'zmysly', label: 'Tma, hudba alebo zaviazané oči' },
+        { v: 'znehybnenie', label: 'Znehybnenie osoby dole ako súčasť mocenskej fantázie' },
+        { v: 'edging', label: 'Edging — budovanie viacerých vĺn vzrušenia' },
         { v: 'jednoducha', label: 'Bez kombinácií — jednoduchá stimulácia' },
       ],
     },
     {
       druh: 'text', id: 'tech_myty', nadpis: 'Mýty a tipy', ton: 'info',
-      telo:
-        'Mýtus: „Som na to príliš ťažká / udusím ho." — Realita: ten hore má váhu na kolenách a riadi, koľko jej pustí. Väčšina ľudí dole hlási, že chce viac, nie menej.\n\n' +
-        'Mýtus: „Pre toho dole je to ponižujúce." — Realita: veľa ľudí to opisuje ako najintímnejšiu formu uctievania partnera. Či je to jemné alebo dominantné, rozhodujete vy.\n\n' +
-        'Mýtus: „Vôňa a chuť sú niečo, za čo sa treba hanbiť." — Realita: pre mnohých je vôňa a vlhkosť partnera najsilnejší afrodiziak. Sliny, vlhkosť, neporiadok na tvári k tomu patria.\n\n' +
-        'Tip: vyskúšajte rozdiel medzi kľačaním s takmer žiadnou váhou, mäkkým dosadnutím a rytmickým pohybom panvy. Rovnaká poloha môže pôsobiť ako nežné uctievanie, hravé jazdenie aj intenzívna mocenská scéna.',
+      telo: g(
+        'Mýtus: „Musím na jej tvári vyzerať dokonale." — Realita: partnerku môže vzrušovať práve tvoja neupravená túžba, pohyb panvy a to, že si vezmeš jej pozornosť pre seba.\n\n' +
+          'Mýtus: „Face sitting automaticky znamená hru s dychom." — Realita: mnohých priťahuje poloha, blízkosť, uctievanie či mocenský obraz bez toho, aby bol dych jadrom fantázie.\n\n' +
+          'Mýtus: „Ten dole je pasívny." — Realita: jazyk, pery, ruky, zvuky aj aktívne vedenie panvy z neho môžu robiť rovnocenného tvorcu zážitku.\n\n' +
+          'Mýtus: „Ak ma láka dominancia alebo služba, musí to určovať náš bežný vzťah." — Realita: sexuálna rola môže byť krátkym priestorom na uvoľnenie, hru a sebavyjadrenie bez zmeny života mimo spálne.',
+        'Mýtus: „Musím na jeho tvári vyzerať dokonale." — Realita: partnera môže vzrušovať práve tvoja neupravená túžba, pohyb panvy a to, že si vezmeš jeho pozornosť pre seba.\n\n' +
+          'Mýtus: „Face sitting automaticky znamená hru s dychom." — Realita: mnohých priťahuje poloha, blízkosť, uctievanie či mocenský obraz bez toho, aby bol dych jadrom fantázie.\n\n' +
+          'Mýtus: „Ten dole je pasívny." — Realita: jazyk, pery, ruky, zvuky aj aktívne vedenie panvy z neho môžu robiť rovnocenného tvorcu zážitku.\n\n' +
+          'Mýtus: „Ak ma láka dominancia alebo služba, musí to určovať náš bežný vzťah." — Realita: sexuálna rola môže byť krátkym priestorom na uvoľnenie, hru a sebavyjadrenie bez zmeny života mimo spálne.',
+      ),
     },
   ],
 }
@@ -225,6 +257,8 @@ const DOLE: Blok = {
         { v: 'prosba', label: g('Keď ma partnerka prosí, aby som pokračoval', 'Keď ma partner prosí, aby som pokračovala') },
         { v: 'vedenie', label: g('Keď partnerka sebavedomo a aktívne vedie tempo a tlak', 'Keď partner sebavedomo a aktívne vedie tempo a tlak') },
         { v: 'vaha', label: g('Pocit partnerkinej váhy na mojej tvári', 'Pocit partnerovej váhy na mojej tvári') },
+        { v: 'zivy_tron', label: g('Byť pre partnerku „živým trónom" alebo nástrojom jej rozkoše', 'Byť pre partnera „živým trónom" alebo nástrojom jeho rozkoše') },
+        { v: 'tunel', label: g('Tunelové sústredenie iba na partnerkinu vôňu, chuť a pohyb', 'Tunelové sústredenie iba na partnerovu vôňu, chuť a pohyb') },
       ],
     },
     {
@@ -273,7 +307,7 @@ const DOLE: Blok = {
         { v: 'pauzy', label: 'Viac pauz a pomalšie tempo' },
         { v: 'instrukcie', label: g('Jasnejšie inštrukcie od partnerky', 'Jasnejšie inštrukcie od partnera') },
         { v: 'menej_tlaku', label: 'Menej tlaku na výkon' },
-        { v: 'stop', label: 'Možnosť sám/sama určovať dĺžku jednotlivých vĺn' },
+        { v: 'stop', label: g('Možnosť sám určovať dĺžku jednotlivých vĺn', 'Možnosť sama určovať dĺžku jednotlivých vĺn') },
       ],
     },
     {
@@ -286,7 +320,7 @@ const DOLE: Blok = {
         { v: 'moc', label: 'Pocit moci a kontroly' },
         { v: 'intenzita', label: 'Intenzita a blízkosť' },
         { v: 'vona', label: g('Vôňa a prirodzenosť partnerky', 'Vôňa a prirodzenosť partnera') },
-        { v: 'uctievanie', label: g('Pocit, že ma partnerka uctieva', 'Pocit, že ma partner uctieva') },
+        { v: 'uctievanie', label: g('Pocit, že uctievam partnerku a jej potešenie', 'Pocit, že uctievam partnera a jeho potešenie') },
         { v: 'pasivita', label: 'Pohodlie a pasivita' },
       ],
     },
@@ -320,17 +354,17 @@ const DOLE: Blok = {
     { druh: 'otazka', id: 'dole_hranice', typ: 'text', text: 'Ktoré prvky ma v tejto roli eroticky vypínajú alebo rušia?' },
     {
       druh: 'otazka', id: 'dole_rola', typ: 'jeden',
-      text: 'Akú rolu chcem mať ako ten/tá dole',
+      text: g('Akú rolu chcem mať ako muž dole', 'Akú rolu chcem mať ako žena dole'),
       moznosti: [
-        { v: 'pasivna', label: 'Pasívnu — nechám partnera/partnerku viesť pohyb' },
+        { v: 'pasivna', label: g('Pasívnu — nechám partnerku viesť pohyb', 'Pasívnu — nechám partnera viesť pohyb') },
         { v: 'aktivna', label: 'Aktívnu — jazykom, rukami a rytmom vediem zážitok ja' },
         { v: 'striedat', label: 'Striedať aktívnu a pasívnu rolu' },
       ],
     },
-    { druh: 'otazka', id: 'dole_pocut', typ: 'text', text: 'Čo by som počas tejto polohy najradšej počul(a) od partnera/partnerky?' },
+    { druh: 'otazka', id: 'dole_pocut', typ: 'text', text: g('Čo by som počas tejto polohy najradšej počul od partnerky?', 'Čo by som počas tejto polohy najradšej počula od partnera?') },
     { druh: 'otazka', id: 'dole_nevyslovene', typ: 'text', text: 'O ktorom lákavom prvku sa mi hovorí najťažšie, hoci ma zaujíma?' },
     { druh: 'otazka', id: 'dole_prvykrat', typ: 'text', text: 'Ako by vyzerala moja ideálna prvá alebo nová verzia tejto polohy?' },
-    { druh: 'otazka', id: 'dole_fungovalo', typ: 'text', text: 'Čo pri doterajšej skúsenosti fungovalo a čo by som nabudúce zmenil(a)?' },
+    { druh: 'otazka', id: 'dole_fungovalo', typ: 'text', text: g('Čo pri doterajšej skúsenosti fungovalo a čo by som nabudúce zmenil?', 'Čo pri doterajšej skúsenosti fungovalo a čo by som nabudúce zmenila?') },
     { druh: 'otazka', id: 'dole_zhrnutie', typ: 'text', text: 'Jednou vetou: najviac ma na tom berie, keď…' },
 
     { druh: 'text', id: 'dole_konkretne_nadpis', nadpis: 'Konkrétne preferencie – intenzita a kontrola', telo: '' },
@@ -432,6 +466,8 @@ const HORE: Blok = {
         { v: 'prosim', label: g('Keď ma partnerka prosí, aby som pokračoval', 'Keď ma partner prosí, aby som pokračovala') },
         { v: 'poslucha', label: g('Keď partnerka poslúcha moje vedenie', 'Keď partner poslúcha moje vedenie') },
         { v: 'sebavedomy', label: g('Keď je partnerka dole sebavedomá a aktívna', 'Keď je partner dole sebavedomý a aktívny') },
+        { v: 'bez_zodpovednosti', label: g('Na chvíľu nemusím niesť zodpovednosť za partnerkino potešenie — iba prijímam', 'Na chvíľu nemusím niesť zodpovednosť za partnerovo potešenie — iba prijímam') },
+        { v: 'stredobod', label: g('Som stredobodom partnerkinej úplnej pozornosti', 'Som stredobodom partnerovej úplnej pozornosti') },
       ],
     },
     { druh: 'otazka', id: 'hore_atmosfera', typ: 'jeden', text: 'Akú atmosféru preferuješ?', moznosti: ATMOSFERA_MOZNOSTI },
@@ -455,9 +491,9 @@ const HORE: Blok = {
       typ: 'viac',
       text: 'Čo je pre teba v tejto roli najviac erotické?',
       moznosti: [
-        { v: 'plnis', label: 'Keď plníš moje pokyny' },
-        { v: 'iniciativa', label: g('Keď preberáš iniciatívu a si aktívna', 'Keď preberáš iniciatívu a si aktívny') },
-        { v: 'uziva', label: 'Keď vidím, že si to užívaš' },
+        { v: 'plnis', label: g('Keď partnerka plní moje pokyny', 'Keď partner plní moje pokyny') },
+        { v: 'iniciativa', label: g('Keď partnerka preberá iniciatívu a je aktívna', 'Keď partner preberá iniciatívu a je aktívny') },
+        { v: 'uziva', label: g('Keď vidím, že si to partnerka užíva', 'Keď vidím, že si to partner užíva') },
       ],
     },
     { druh: 'otazka', id: 'hore_hranice', typ: 'text', text: 'Ktoré prvky ma v tejto roli eroticky vypínajú alebo rušia?' },
@@ -478,13 +514,13 @@ const HORE: Blok = {
       druh: 'otazka', id: 'hore_vedenie', typ: 'jeden', text: 'Kto má viesť tempo a tlak',
       moznosti: [
         { v: 'ja', label: 'Ja ako osoba hore' },
-        { v: 'partner', label: 'Partner/ka dole svojím jazykom a rukami' },
+        { v: 'partner', label: g('Partnerka dole svojím jazykom a rukami', 'Partner dole svojím jazykom a rukami') },
         { v: 'striedame', label: 'Striedame sa počas jednej scény' },
       ],
     },
     { druh: 'otazka', id: 'hore_frazy', typ: 'text', text: 'Ktoré slová alebo frázy ma v tejto polohe okamžite naladia?' },
     { druh: 'otazka', id: 'hore_tabu', typ: 'text', text: 'Čo je pre mňa na tejto polohe najviac tabu — a práve preto vzrušujúce?' },
-    { druh: 'otazka', id: 'hore_fungovalo', typ: 'text', text: 'Čo pri doterajšej skúsenosti fungovalo a čo by som nabudúce zmenil(a)?' },
+    { druh: 'otazka', id: 'hore_fungovalo', typ: 'text', text: g('Čo pri doterajšej skúsenosti fungovalo a čo by som nabudúce zmenil?', 'Čo pri doterajšej skúsenosti fungovalo a čo by som nabudúce zmenila?') },
     { druh: 'otazka', id: 'hore_zhrnutie', typ: 'text', text: 'Jednou vetou: najviac ma na tom vzrušuje…' },
 
     {
@@ -494,7 +530,10 @@ const HORE: Blok = {
       bloky: [
         {
           druh: 'text', id: 'hore_smother_uvod', ton: 'info',
-          telo: 'V role hore môže byť vzrušujúca samotná symbolika moci, vedomé dávkovanie váhy alebo pocit, že partner/ka zostáva úplne sústredený/á na tvoje potešenie.',
+          telo: g(
+            'V role hore môže byť vzrušujúca samotná symbolika moci, vedomé dávkovanie váhy alebo pocit, že partnerka zostáva úplne sústredená na tvoje potešenie.',
+            'V role hore môže byť vzrušujúca samotná symbolika moci, vedomé dávkovanie váhy alebo pocit, že partner zostáva úplne sústredený na tvoje potešenie.',
+          ),
         },
         {
           druh: 'otazka',
@@ -607,6 +646,8 @@ function ochota(rola: 'hore' | 'dole'): Blok {
                 { v: 'dych', label: 'Obava z dychu (len pocitová)' },
                 { v: 'kontrola', label: 'Pocit straty kontroly' },
                 { v: 'hanba', label: 'Hanba / trápnosť' },
+                { v: 'nenormalne', label: 'Pocit, že je táto túžba „perverzná" alebo nenormálna' },
+                { v: 'vaha_partner', label: g('Obava z partnerkinej váhy alebo intenzity tlaku', 'Obava z partnerovej váhy alebo intenzity tlaku') },
                 { v: 'hygiena', label: 'Rozpaky z prirodzenej vône alebo chuti' },
                 { v: 'odsudenie', label: 'Strach z odsúdenia' },
                 { v: 'nic', label: g('Nič – som otvorený všetkému', 'Nič – som otvorená všetkému') },
@@ -615,6 +656,8 @@ function ochota(rola: 'hore' | 'dole'): Blok {
                 { v: 'ublizim', label: 'Strach, že ti ublížim' },
                 { v: 'zodpovednost', label: 'Pocit zodpovednosti' },
                 { v: 'trapnost', label: 'Trápnosť / neistota' },
+                { v: 'vaha_telo', label: g('Strach, že som pre partnerku príliš ťažký', 'Strach, že som pre partnera príliš ťažká') },
+                { v: 'nenormalne', label: 'Pocit, že je táto túžba „perverzná" alebo nenormálna' },
                 { v: 'reakcia', label: 'Obava z tvojej reakcie' },
                 { v: 'neviem', label: g('Neviem, čo by som mal robiť', 'Neviem, čo by som mala robiť') },
                 { v: 'nic', label: g('Nič – som otvorený všetkému', 'Nič – som otvorená všetkému') },
@@ -707,8 +750,158 @@ const SPOLOCNE: Blok[] = [
         ],
       },
       {
+        druh: 'otazka', id: 'fant_kontext', typ: 'viac', inePovolene: true,
+        text: 'Kde sa táto fantázia najčastejšie objavuje?',
+        moznosti: [
+          { v: 'solo', label: 'V sólo fantáziách alebo pri masturbácii' },
+          { v: 'partner', label: g('Vo fantázii priamo s partnerkou', 'Vo fantázii priamo s partnerom') },
+          { v: 'spolu', label: 'Počas spoločného sexu ako predstava alebo slová' },
+          { v: 'cez_den', label: 'Mimo sexu — ako náhla predstava cez deň' },
+          { v: 'tabu', label: 'Najmä vtedy, keď ju vnímam ako tajnú alebo zakázanú' },
+          { v: 'neobjavuje', label: 'Vo fantáziách sa mi neobjavuje' },
+        ],
+      },
+      {
+        druh: 'otazka', id: 'fant_narocne_pocity', typ: 'viac', inePovolene: true,
+        text: 'Ktoré náročné pocity sa miešajú s mojou zvedavosťou alebo vzrušením?',
+        moznosti: [
+          { v: 'ziadne', label: 'Žiadne — táto túžba mi pripadá prirodzená' },
+          { v: 'hanba', label: 'Hanba alebo rozpaky z vlastného tela' },
+          { v: 'nenormalne', label: 'Obava, že je to „perverzné" alebo nenormálne' },
+          { v: 'odsudenie', label: g('Strach, že ma partnerka odsúdi', 'Strach, že ma partner odsúdi') },
+          { v: 'vykon', label: 'Tlak, že musím vyzerať alebo podať výkon určitým spôsobom' },
+          { v: 'zmiesane', label: 'Vzrušenie a odpor alebo neistota zároveň' },
+        ],
+      },
+      {
         druh: 'text', id: 'fant_normalizacia', nadpis: 'Fantázia nemusí vyzerať ako realita', ton: 'info',
-        telo: 'Niekto sníva o úplnej dominancii, hoci v realite ho láka iba jemné kľačanie nad tvárou. Iného vzrušuje vôňa, váha alebo uctievanie bez mocenskej hry. Rozdiel medzi predstavou a praxou je bežný a nič nevypovedá o kvalite túžby.',
+        telo: 'Niekto sníva o úplnej dominancii, hoci v realite ho láka iba jemné kľačanie nad tvárou. Iného vzrušuje vôňa, váha alebo uctievanie bez mocenskej hry. Rozdiel medzi predstavou a praxou je bežný. Ani tabu fantázia, ani záujem o službu či moc z človeka nerobia „perverzného" alebo pokazeného.',
+      },
+    ],
+  },
+  {
+    druh: 'skupina',
+    id: 'psychologia_rol',
+    nadpis: 'Čo môže byť na tejto polohe také silné',
+    uvod: g(
+      'Hore môžeš prežívať moc, obdiv a úľavu od povinnosti stále niečo dávať. Dole môžeš byť aktívnym tvorcom partnerkinej rozkoše, jej „živým trónom" alebo človekom, ktorému sa celý svet zúži na jej telo. Ani jedna rola nie je menejcenná a nemusí kopírovať to, aký si mimo sexu.',
+      'Hore môžeš prežívať moc, obdiv a úľavu od povinnosti stále niečo dávať. Dole môžeš byť aktívnou tvorkyňou partnerovej rozkoše, jeho „živým trónom" alebo ženou, ktorej sa celý svet zúži na jeho telo. Ani jedna rola nie je menejcenná a nemusí kopírovať to, aká si mimo sexu.',
+    ),
+    bloky: [
+      {
+        druh: 'otazka', id: 'psychologia_hore', typ: 'viac', inePovolene: true,
+        text: 'Keď si predstavím seba hore, ktoré vnútorné prežívanie ma láka?',
+        moznosti: [
+          { v: 'bozstvo', label: g('Cítiť sa ako kráľ alebo božstvo', 'Cítiť sa ako kráľovná alebo bohyňa') },
+          { v: 'obdiv', label: g('Vidieť partnerkin obdiv a úplnú pozornosť', 'Vidieť partnerov obdiv a úplnú pozornosť') },
+          { v: 'vypnutie', label: 'Vypnúť zodpovednosť a iba prijímať' },
+          { v: 'vedenie', label: 'Viesť pohybom panvy a brať si presne to, čo mi robí dobre' },
+          { v: 'triumf', label: 'Triumf, sebaistota a radosť z vlastnej sexuálnej sily' },
+          { v: 'tabu', label: 'Prekročiť vlastnú hanblivosť a užiť si zakázaný pocit' },
+        ],
+      },
+      {
+        druh: 'otazka', id: 'psychologia_dole', typ: 'viac', inePovolene: true,
+        text: 'Keď si predstavím seba dole, ktoré vnútorné prežívanie ma láka?',
+        moznosti: [
+          { v: 'sluzba', label: g('Slúžiť partnerkinej rozkoši a byť v tom užitočný', 'Slúžiť partnerovej rozkoši a byť v tom užitočná') },
+          { v: 'objekt', label: g('Byť partnerkiným „živým trónom" alebo erotickým nástrojom', 'Byť partnerovým „živým trónom" alebo erotickým nástrojom') },
+          { v: 'pohltenie', label: g('Nechať sa pohltiť partnerkiným teplom, vôňou a pohybom', 'Nechať sa pohltiť partnerovým teplom, vôňou a pohybom') },
+          { v: 'aktivita', label: g('Aktívne tvoriť partnerkin pôžitok jazykom, perami a rukami', 'Aktívne tvoriť partnerov pôžitok jazykom, perami a rukami') },
+          { v: 'odovzdanie', label: 'Na chvíľu sa vzdať bežnej kontroly a sústrediť sa iba na jeden zmyslový svet' },
+          { v: 'pokora', label: 'Pokora a oddanosť bez pocitu menejcennosti' },
+          { v: 'euforia', label: 'Eufória alebo hlboké ponorenie, pri ktorom ustúpi analytické premýšľanie' },
+        ],
+      },
+      {
+        druh: 'text', id: 'psychologia_ponorenie', nadpis: 'Hlboké ponorenie nie je povinný výsledok', ton: 'info',
+        telo: 'Niektorí ľudia nazývajú intenzívne zúženie pozornosti pri submisívnej alebo zmyslovo pohlcujúcej hre „subspace". Iní cítia iba príjemné sústredenie, vzrušenie alebo nič zvláštne. Nie je to dôkaz kvality zážitku ani úroveň, ktorú treba dosiahnuť.',
+      },
+    ],
+  },
+  {
+    druh: 'skupina',
+    id: 'partnerova_tuzba',
+    nadpis: g('Keď po tom túži moja partnerka', 'Keď po tom túži môj partner'),
+    uvod: g(
+      'Partnerkina túžba nemusí automaticky znamenať tvoju túžbu. Môže ťa vzrušiť jej sebavedomie, chuť uctievať ju alebo predstava, že ona uctieva teba — a pritom ti môže sedieť iba jedna konkrétna verzia.',
+      'Partnerova túžba nemusí automaticky znamenať tvoju túžbu. Môže ťa vzrušiť jeho sebavedomie, chuť uctievať ho alebo predstava, že on uctieva teba — a pritom ti môže sedieť iba jedna konkrétna verzia.',
+    ),
+    bloky: [
+      {
+        druh: 'otazka', id: 'partner_chce_mna_hore', typ: 'jeden',
+        text: g('Ako reagujem na predstavu, že partnerka chce mňa hore na svojej tvári?', 'Ako reagujem na predstavu, že partner chce mňa hore na svojej tvári?'),
+        moznosti: [
+          { v: 'vzrusuje', label: g('Jej túžba po mne ma sama osebe vzrušuje', 'Jeho túžba po mne ma sama osebe vzrušuje') },
+          { v: 'chcem', label: g('Chcem jej túto rolu dopriať aj preto, že viem, ako ju láka', 'Chcem mu túto rolu dopriať aj preto, že viem, ako ho láka') },
+          { v: 'jemne', label: g('Som zvedavý iba na jemnú alebo krátku verziu', 'Som zvedavá iba na jemnú alebo krátku verziu') },
+          { v: 'fantazia', label: 'Páči sa mi to ako fantázia, slová alebo obraz, nie ako reálna poloha' },
+          { v: 'neutral', label: g('Jej túžbe rozumiem, ale vo mne erotickú odozvu nevyvoláva', 'Jeho túžbe rozumiem, ale vo mne erotickú odozvu nevyvoláva') },
+          { v: 'nie', label: 'Táto rola mi nesedí' },
+        ],
+      },
+      {
+        druh: 'otazka', id: 'partner_chce_seba_hore', typ: 'jeden',
+        text: g('Ako reagujem na predstavu, že partnerka chce byť hore na mojej tvári?', 'Ako reagujem na predstavu, že partner chce byť hore na mojej tvári?'),
+        moznosti: [
+          { v: 'vzrusuje', label: g('Jej sebavedomá túžba ma silno vzrušuje', 'Jeho sebavedomá túžba ma silno vzrušuje') },
+          { v: 'uctievat', label: g('Láka ma uctievať ju a sústrediť sa iba na jej pôžitok', 'Láka ma uctievať ho a sústrediť sa iba na jeho pôžitok') },
+          { v: 'aktivne', label: g('Chcem byť dole, ale aktívne viesť jej pohyb a stimuláciu', 'Chcem byť dole, ale aktívne viesť jeho pohyb a stimuláciu') },
+          { v: 'fantazia', label: 'Páči sa mi táto mocenská fantázia iba v slovách alebo predstavách' },
+          { v: 'neutral', label: g('Rád jej túžbu spoznám, ale zatiaľ ma osobne nevzrušuje', 'Rada jeho túžbu spoznám, ale zatiaľ ma osobne nevzrušuje') },
+          { v: 'nie', label: 'Táto rola mi nesedí' },
+        ],
+      },
+      {
+        druh: 'otazka', id: 'partnerova_tuzba_detail', typ: 'text',
+        text: g('Ktorá časť partnerkinej túžby ma priťahuje a ktorá vo mne vyvoláva neistotu alebo odpor?', 'Ktorá časť partnerovej túžby ma priťahuje a ktorá vo mne vyvoláva neistotu alebo odpor?'),
+      },
+    ],
+  },
+  {
+    druh: 'skupina',
+    id: 'mapa_poloh',
+    nadpis: 'Nie jedna poloha, ale celé menu',
+    uvod: 'To, že nesedí jeden uhol alebo jedna intenzita, ešte nehovorí nič o celej téme. Rozdiel môže urobiť smer, opora tela, oblečenie, dĺžka vĺn aj to, kto sa aktívne pohybuje.',
+    bloky: [
+      {
+        druh: 'otazka', id: 'mapa_kontakt', typ: 'viac', inePovolene: true,
+        text: 'Ktoré podoby kontaktu ma eroticky lákajú?',
+        moznosti: [
+          { v: 'hover', label: 'Hover — telo tesne nad tvárou, dotyk iba podľa pohybu' },
+          { v: 'tron', label: 'Trón — obkročmo s váhou najmä vo vlastných nohách' },
+          { v: 'kontakt', label: 'Súvislý mäkký kontakt a výrazný pocit blízkosti' },
+          { v: 'pohyb', label: 'Rytmické jazdenie a trenie o jazyk, nos alebo bradu' },
+        ],
+      },
+      {
+        druh: 'otazka', id: 'mapa_geometria', typ: 'viac', inePovolene: true,
+        text: 'Ktorú geometriu si viem predstaviť?',
+        moznosti: [
+          { v: 'tvarou', label: g('Tvárou k partnerke — pohľad a kontakt', 'Tvárou k partnerovi — pohľad a kontakt') },
+          { v: 'reverse', label: g('Reverse — otočený k partnerkiným nohám', 'Reverse — otočená k partnerovým nohám') },
+          { v: 'bokom', label: 'Sidesaddle — bokom a asymetricky' },
+          { v: 'hrana', label: 'Hrana postele alebo stabilné sedadlo — iný uhol tela' },
+        ],
+      },
+      {
+        druh: 'otazka', id: 'mapa_vrstvy', typ: 'viac', inePovolene: true,
+        text: 'Ktoré ďalšie vrstvy menia môj zážitok?',
+        moznosti: [
+          { v: 'bielizen', label: 'Najprv cez bielizeň — vôňa, teplo a teasing' },
+          { v: 'naha', label: 'Nahé telo a priamy kontakt' },
+          { v: 'vlny', label: 'Krátke intenzívne vlny a návraty' },
+          { v: 'dlho', label: 'Dlhý súvislý rytmus' },
+          { v: 'oci', label: g('Očný kontakt alebo vedomie, že ma partnerka sleduje', 'Očný kontakt alebo vedomie, že ma partner sleduje') },
+          { v: 'zrkadlo', label: 'Zrkadlo a možnosť vidieť celú scénu' },
+        ],
+      },
+      {
+        druh: 'text', id: 'mapa_telo_mytus', nadpis: 'Uhol nie je hodnotenie tela', ton: 'info',
+        telo: g(
+          'Ak jeden uhol neprináša dosť stimulácie alebo sa pri ňom cítiš neisto, neznamená to, že je tvoje telo „zlé". Anatómia, výška, pohyblivosť aj poloha jazyka menia zážitok. Partnerkina túžba po tvojom tele môže byť oveľa silnejšia než tvoj vlastný kritický pohľad.',
+          'Ak jeden uhol neprináša dosť stimulácie alebo sa pri ňom cítiš neisto, neznamená to, že je tvoje telo „zlé". Anatómia, výška, pohyblivosť aj poloha jazyka menia zážitok. Partnerova túžba po tvojom tele môže byť oveľa silnejšia než tvoj vlastný kritický pohľad.',
+        ),
       },
     ],
   },
@@ -719,7 +912,7 @@ const SPOLOCNE: Blok[] = [
     bloky: [
       { druh: 'otazka', id: 'nastavenie_podmienky', typ: 'text', text: 'Atmosféra a naladenie, v ktorých mi táto poloha znie najlepšie:' },
       { druh: 'otazka', id: 'nastavenie_hranice', typ: 'text', text: 'Čo ma pri nej eroticky vypína alebo vytrhne z nálady:' },
-      { druh: 'otazka', id: 'nastavenie_cervena', typ: 'text', text: 'Ktorý detail by som chcel(a) zmeniť oproti svojim doterajším predstavám alebo skúsenostiam:' },
+      { druh: 'otazka', id: 'nastavenie_cervena', typ: 'text', text: g('Ktorý detail by som chcel zmeniť oproti svojim doterajším predstavám alebo skúsenostiam:', 'Ktorý detail by som chcela zmeniť oproti svojim doterajším predstavám alebo skúsenostiam:') },
     ],
   },
   {
@@ -737,7 +930,7 @@ const SPOLOCNE: Blok[] = [
           'Čo mi komplikuje uvoľnenie a čo by mi od partnera pomohlo:',
         ),
       },
-      { druh: 'otazka', id: 'poznamky_zaciatok', typ: 'text', text: 'Ako má partner/ka začať — jedna konkrétna veta alebo gesto:' },
+      { druh: 'otazka', id: 'poznamky_zaciatok', typ: 'text', text: g('Ako má partnerka začať — jedna konkrétna veta alebo gesto:', 'Ako má partner začať — jedna konkrétna veta alebo gesto:') },
     ],
   },
   {
@@ -839,7 +1032,7 @@ const SPOLOCNE: Blok[] = [
     druh: 'skupina', id: 'spol_vona', nadpis: 'Vôňa, chuť a prirodzenosť',
     bloky: [
       {
-        druh: 'otazka', id: 'spol_vona_postoj', typ: 'jeden', text: 'Prirodzená vôňa a chuť partnera/partnerky je pre mňa',
+        druh: 'otazka', id: 'spol_vona_postoj', typ: 'jeden', text: g('Prirodzená vôňa a chuť partnerky je pre mňa', 'Prirodzená vôňa a chuť partnera je pre mňa'),
         moznosti: [
           { v: 'spinac', label: 'Silný erotický spínač' },
           { v: 'prijemna', label: 'Príjemná súčasť blízkosti' },
@@ -847,16 +1040,29 @@ const SPOLOCNE: Blok[] = [
           { v: 'blok', label: 'Skôr mentálny blok' },
         ],
       },
-      { druh: 'otazka', id: 'spol_vona_uvolnenie', typ: 'text', text: 'Čo by mi pomohlo menej riešiť vlastnú alebo partnerovu vôňu a viac vnímať zážitok?' },
+      { druh: 'otazka', id: 'spol_vona_uvolnenie', typ: 'text', text: g('Čo by mi pomohlo menej riešiť vlastnú alebo partnerkinu vôňu a viac vnímať zážitok?', 'Čo by mi pomohlo menej riešiť vlastnú alebo partnerovu vôňu a viac vnímať zážitok?') },
       {
         druh: 'text', id: 'spol_vona_mytus', nadpis: 'Mýtus o prirodzenosti', ton: 'info',
-        telo: 'Mýtus: pri orále musí telo voňať ako kozmetika. Realita: veľa ľudí priťahuje práve prirodzená vôňa, chuť a vlhkosť partnera. Rozpaky sú bežné, no nie sú dôkazom, že je s telom niečo zlé.',
+        telo: g(
+          'Mýtus: pri orále musí telo voňať ako kozmetika. Realita: veľa mužov priťahuje práve prirodzená vôňa, chuť a vlhkosť partnerky. Rozpaky sú bežné, no nie sú dôkazom, že je s telom niečo zlé.',
+          'Mýtus: pri orále musí telo voňať ako kozmetika. Realita: veľa žien priťahuje práve prirodzená vôňa a chuť partnera. Rozpaky sú bežné, no nie sú dôkazom, že je s telom niečo zlé.',
+        ),
       },
     ],
   },
   {
     druh: 'skupina', id: 'spol_diskusia', nadpis: 'Body pre spoločný rozhovor',
     bloky: [
+      {
+        druh: 'otazka', id: 'spol_iniciativa', typ: 'jeden',
+        text: 'Kto má túto polohu častejšie iniciovať?',
+        moznosti: [
+          { v: 'ja', label: 'Častejšie ja' },
+          { v: 'partner', label: g('Častejšie partnerka', 'Častejšie partner') },
+          { v: 'striedavo', label: 'Približne striedavo' },
+          { v: 'nalada', label: 'Bez stáleho pravidla — podľa nálady a konkrétnej roly' },
+        ],
+      },
       {
         druh: 'otazka', id: 'disk_ciel', typ: 'viac', inePovolene: true, text: 'Čo ma na spoločnom skúšaní láka ako hlavný cieľ',
         moznosti: [
@@ -867,7 +1073,7 @@ const SPOLOCNE: Blok[] = [
           { v: 'uctievanie', label: 'Rituál uctievania alebo služby' },
         ],
       },
-      { druh: 'otazka', id: 'disk_uspech', typ: 'text', text: 'Čo by som považoval(a) za vydarený zážitok, aj keby trval iba krátko?' },
+      { druh: 'otazka', id: 'disk_uspech', typ: 'text', text: g('Čo by som považoval za vydarený zážitok, aj keby trval iba krátko?', 'Čo by som považovala za vydarený zážitok, aj keby trval iba krátko?') },
       {
         druh: 'otazka', id: 'disk_detail', typ: 'viac', text: 'Ktoré detaily sú pre mňa kľúčové',
         moznosti: [
@@ -875,7 +1081,7 @@ const SPOLOCNE: Blok[] = [
           { v: 'vona', label: 'Vôňa' }, { v: 'kontrola', label: 'Kontrola' }, { v: 'tabu', label: 'Tabu prvok' },
         ],
       },
-      { druh: 'otazka', id: 'disk_pochopit', typ: 'text', text: 'Čo chcem, aby partner/ka pochopil(a) o mojej fantázii?' },
+      { druh: 'otazka', id: 'disk_pochopit', typ: 'text', text: g('Čo chcem, aby partnerka pochopila o mojej fantázii?', 'Čo chcem, aby partner pochopil o mojej fantázii?') },
       { druh: 'otazka', id: 'disk_obava', typ: 'text', text: 'Aká je moja najväčšia obava a čo by mi pomohlo uvoľniť sa?' },
       {
         druh: 'otazka', id: 'disk_verzia', typ: 'jeden', text: 'Ktorá verzia ma láka najviac',
@@ -887,19 +1093,14 @@ const SPOLOCNE: Blok[] = [
       },
       { druh: 'otazka', id: 'disk_rola_preco', typ: 'text', text: 'Túžim viac byť hore alebo dole — a čo ma na tej roli priťahuje?' },
       { druh: 'otazka', id: 'disk_tajny_ritual', typ: 'text', text: 'Ktorý detail by mohol byť iba naším tajným rituálom?' },
-      { druh: 'otazka', id: 'disk_veta', typ: 'text', text: 'Jedna veta pre partnera/partnerku: najviac ma vzruší, keď ty…' },
+      { druh: 'otazka', id: 'disk_veta', typ: 'text', text: g('Jedna veta pre partnerku: najviac ma vzruší, keď ty…', 'Jedna veta pre partnera: najviac ma vzruší, keď ty…') },
     ],
   },
   {
-    druh: 'text', id: 'rebrik_experimentov', nadpis: 'Spoločný rebrík experimentovania', ton: 'info',
+    druh: 'text', id: 'rebrik_experimentov', nadpis: 'Sedem erotických nálad', ton: 'info',
     telo:
-      '1. Rozhovor: každý opíše jednu fantáziu a jednu vec, ktorá ho na nej priťahuje.\n\n' +
-      '2. Poloha bez orálu: na pár sekúnd si vyskúšajte iba geometriu tiel, blízkosť a pohľad.\n\n' +
-      '3. Jemná verzia: kľačanie nad tvárou, ľahký dotyk jazyka a časté zmeny medzi priblížením a oddialením.\n\n' +
-      '4. Zmyslový upgrade: pridajte hudbu, tlmené svetlo, vôňu, bielizeň alebo zrkadlo.\n\n' +
-      '5. Roly: skúste raz uctievanie a službu, inokedy sebavedomé vedenie osoby hore.\n\n' +
-      '6. Intenzita: porovnajte pomalý stabilný rytmus s vlnami tlaku, pohybu a pauzy.\n\n' +
-      '7. Fantasy vrstva: pridajte prosbu, pochvalu, príkaz, jemné poníženie alebo tajný rituál podľa toho, čo vás eroticky oslovuje.',
+      'Face sitting môže mať sedem odlišných erotických nálad: tesné priblíženie bez orálu; jemný dotyk a teasing; pokojné uctievanie; aktívne jazdenie; trónová dominancia; zmyslové pohltenie; alebo fantázia postavená na slovách, príkazoch a rituáli. ' +
+      'Nie sú to stupne, ktoré treba „splniť". Každá dvojica si môže obľúbiť jedinú náladu alebo medzi nimi meniť podľa chuti.',
   },
 ]
 
@@ -912,10 +1113,10 @@ export const FACE_SITTING: TemaObsah = {
       druh: 'text',
       id: 'co_je_to',
       nadpis: 'Čo je to?',
-      telo:
-        'Face sitting (tiež známe ako „queening" pre ženy alebo „kinging" pre mužov) je intímna poloha, pri ktorej si jeden ' +
-        'z partnerov sadne alebo kľakne nad tvár druhého, pričom dochádza k orálnej stimulácii genitálií alebo análnej oblasti. ' +
-        'Táto praktika môže mať mnoho podôb – od jemnej a zmyselnej až po dominantnú a intenzívnu, podľa rolí, nálady a preferencií.',
+      telo: g(
+        'Face sitting (kinging, keď si hore ty, alebo queening, keď je hore partnerka) je intímna poloha, v ktorej jeden z vás sedí či kľačí nad tvárou druhého a prijíma orálnu stimuláciu genitálií alebo análnej oblasti. Môže byť jemný a zmyselný, hravý, aktívny aj výrazne dominantný.',
+        'Face sitting (queening, keď si hore ty, alebo kinging, keď je hore partner) je intímna poloha, v ktorej jeden z vás sedí či kľačí nad tvárou druhého a prijíma orálnu stimuláciu genitálií alebo análnej oblasti. Môže byť jemný a zmyselný, hravý, aktívny aj výrazne dominantný.',
+      ),
     },
     {
       druh: 'text',
@@ -936,7 +1137,7 @@ export const FACE_SITTING: TemaObsah = {
       id: 'master_dokument',
       ton: 'info',
       telo:
-        '→ Master dokument: „Facesitting – Sprievodca pre páry" — hĺbkový sprievodca psychológiou, technickými variáciami a mocenskou dynamikou. Otvor si ho, ak chcete vedieť viac.',
+        '→ Master dokument: „Facesitting – Sprievodca pre páry" — hĺbkový pohľad na psychológiu, technické variácie a mocenskú dynamiku.',
     },
   ],
   telo: [

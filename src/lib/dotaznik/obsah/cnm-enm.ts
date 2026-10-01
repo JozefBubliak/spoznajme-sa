@@ -13,7 +13,12 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 //    vzťahoch (20 rozhovorov) — 4 aspekty autonómie + kompersia.
 // Konkrétne čísla (napr. 16.8 % túži, 10.7 % skúsilo) sú vedome ponechané v
 // texte — dávajú párom istotu, že nie sú jediní, kto o tom uvažuje.
+// Doplnené 2026-10-01: Mitchell et al. 2021 k explicitným/implicitným CNM
+// pravidlám; MRMS 2026 (N=4290) k zdrojom, deťom, hierarchii a reputácii;
+// komunitné dohody r/polyamory a Temple Scarlet; profesionálna tretia osoba.
 // ─────────────────────────────────────────────────────────────────────────────
+
+const g = (m: string, z: string): TemaObsah['nadpis'] => ({ m, z })
 
 const ZAUJEM: Moznost[] = [
   { v: 'uz_zijeme', label: 'Už takto žijeme a som spokojný/á' },
@@ -98,6 +103,11 @@ const TVARY: Blok = {
     },
     z('tv_solo', '„Solo poly" — nechcem žiadneho „primárneho" partnera ani spoločnú domácnosť, ale mám viac vzťahov'),
     z('tv_polyfidelita', 'Polyfidelita — uzavretá skupina viacerých ľudí, verní si navzájom, nie smerom von'),
+    z('tv_mono_poly', 'Mono-poly — jeden človek zostáva monogamný, druhý má po spoločnej dohode aj ďalšie vzťahy'),
+    z('tv_queerplatonic', 'Queerplatonický vzťah — hlboký záväzok mimo bežného delenia na priateľstvo a romantiku'),
+    z('tv_living_apart', 'Living apart together — vážny vzťah bez spoločnej domácnosti'),
+    z('tv_comet', 'Comet partner — zriedkavé, ale významné stretnutia bez každodenného spoločného života'),
+    z('tv_fluid_bonding', 'Fluid bonding — osobitná dohoda, s kým pár zdieľa sex bez bariér a aký význam tomu pripisuje'),
   ],
 }
 
@@ -202,6 +212,129 @@ const PRAKTICKE: Blok = {
   ],
 }
 
+const DOHODY_HLBKA: Blok = {
+  druh: 'skupina', id: 'dohody_hlbka', nadpis: 'Vzťahové dohody do hĺbky — čo sa v praxi ľahko predpokladá',
+  uvod:
+    'Výskum CNM párov ukazuje, že partneri často veria, že majú rovnaké pravidlo, hoci ho nikdy nepovedali nahlas. Dohoda preto potrebuje konkrétny obsah: kto, kde, kedy, čo sa oznamuje, ktoré zdroje patria domácnosti a čo sa stane pri nečakanej zmene.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'doh_info_gradient', typ: 'viac', inePovolene: true,
+      text: 'Akú mieru informácií chcem dostávať',
+      moznosti: [
+        { v: 'pred', label: 'Vedieť vopred, že stretnutie alebo sex môže nastať' },
+        { v: 'po', label: 'Stačí mi stručná informácia po udalosti' },
+        { v: 'kto', label: 'Chcem vedieť, kto to je a aký je typ vzťahu' },
+        { v: 'logistika', label: 'Chcem vedieť iba logistiku a dopad na náš čas' },
+        { v: 'emocie', label: 'Chcem vedieť o vznikajúcej citovej väzbe' },
+        { v: 'sexualne_detaily', label: 'Chcem počuť erotické alebo sexuálne detaily' },
+        { v: 'bez_detailov', label: 'Sexuálne detaily počuť nechcem' },
+        { v: 'sukromie_meta', label: 'Metamour má právo na súkromie; nezdieľa sa všetko ani s primárnym partnerom' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'doh_domov_noc', typ: 'viac', inePovolene: true,
+      text: 'Dohody o domove a nocovaní, ktoré potrebujem mať jasné',
+      moznosti: [
+        { v: 'domov_ano', label: 'Iný partner môže prísť do našej domácnosti' },
+        { v: 'domov_nie', label: 'Spoločná domácnosť zostáva priestorom iba pre nás' },
+        { v: 'postel_ano', label: 'Spoločná posteľ môže byť použitá' },
+        { v: 'postel_nie', label: 'Spoločná posteľ je výhradne náš priestor' },
+        { v: 'overnight', label: 'Nocovanie s iným partnerom je v poriadku' },
+        { v: 'cesty', label: 'Víkend alebo dovolenka s iným partnerom je v poriadku' },
+        { v: 'deti', label: 'Potrebujeme osobitnú dohodu, kedy a ako sa do toho zapájajú deti' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'doh_cas_zdroje', typ: 'viac', inePovolene: true,
+      text: 'Ktoré rozhodnutia o čase a zdrojoch chceme robiť spoločne',
+      moznosti: [
+        { v: 'kalendare', label: 'Zdieľané kalendáre a minimálny čas pre náš vzťah' },
+        { v: 'rusenie', label: 'Kedy možno zrušiť plán kvôli inému partnerovi' },
+        { v: 'kriza', label: 'Čo je kríza a kto má vtedy prioritu' },
+        { v: 'peniaze', label: 'Rozpočet na rande, cesty, dary a ubytovanie' },
+        { v: 'domacnost', label: 'Domáce povinnosti a starostlivosť o deti počas rande' },
+        { v: 'sviatky', label: 'Sviatky, výročia a rodinné udalosti' },
+        { v: 'verejnost', label: 'Kde a pred kým môžu byť ďalšie vzťahy viditeľné' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'doh_autonomia', typ: 'jeden',
+      text: 'Rozdiel medzi povolením a informovaním',
+      moznosti: [
+        { v: 'povolenie', label: 'Pred novým krokom potrebujem spoločné rozhodnutie' },
+        { v: 'heads_up', label: 'Potrebujem včasné upozornenie, nie právo rozhodovať za druhého človeka' },
+        { v: 'autonomia', label: 'Každý rozhoduje autonómne a oznamuje iba dohodnuté dopady' },
+        { v: 'podla_kroku', label: 'Záleží na kroku — sex, city, nocovanie a spoločné financie majú inú váhu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'doh_revizie', typ: 'viac',
+      text: 'Kedy chceme dohody znovu otvoriť',
+      moznosti: [
+        { v: 'pravidelne', label: 'Pravidelne, aj keď nič nehorí' },
+        { v: 'nova_osoba', label: 'Pri novej osobe alebo novom type vzťahu' },
+        { v: 'novy_krok', label: 'Pred sexom, nocovaním, cestou alebo zoznámením s deťmi' },
+        { v: 'ziarlivost', label: 'Keď sa objaví opakovaná žiarlivosť alebo nerovnováha zdrojov' },
+        { v: 'porusenie', label: 'Po porušení dohody — odlíšiť nedorozumenie, zmenu potreby a vedomé zatajenie' },
+      ],
+    },
+    { druh: 'otazka', id: 'doh_nevyslovene', typ: 'text', text: 'Pravidlo, ktoré možno považujem za „samozrejmé“, ale ešte sme ho spolu nepomenovali:' },
+  ],
+}
+
+const PROFESIONALNA_TRETIA: Blok = {
+  druh: 'skupina', id: 'profesionalna_tretia', nadpis: 'Profesionálna tretia osoba — služba, učenie a fantázia',
+  uvod:
+    'Profesionálna tretia osoba môže vo fantázii znamenať odbornosť, anonymitu, jasnú rolu, pozorovanie partnera alebo zážitok bez romantickej konkurencie. Pre niekoho je rozdiel medzi platenou službou a aférou zásadný; pre iného je aj platená intimita vzťahovou hranicou.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'pro_typy', typ: 'viac', inePovolene: true,
+      text: 'Ktoré predstavy ma zaujímajú',
+      moznosti: [
+        { v: 'masaz', label: 'Erotická alebo tantrická masáž' },
+        { v: 'domme', label: 'Profesionálna domme alebo dom pre BDSM scénu' },
+        { v: 'sex_worker', label: 'Sexuálna služba od sex workerky alebo sex workera' },
+        { v: 'bodyworker', label: 'Sexological bodyworker alebo edukatívna práca s telom tam, kde existuje' },
+        { v: 'surrogate', label: 'Surrogate partner terapia tam, kde je odborne a právne dostupná' },
+        { v: 'strip', label: 'Súkromný tanec alebo performer pre pár' },
+        { v: 'ucenie', label: 'Profesionál ukazuje techniku jednému alebo obom' },
+        { v: 'fantazia', label: 'Iba roleplay medzi nami, kde sa jeden hrá na plateného profesionála' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'pro_usporiadanie', typ: 'viac', inePovolene: true,
+      text: 'Aké usporiadanie si viem predstaviť',
+      moznosti: [
+        { v: 'spolu', label: 'Sme prítomní obaja a zážitok je spoločný' },
+        { v: 'pozorujem', label: g('Pozorujem partnerku s profesionálom', 'Pozorujem partnera s profesionálom') },
+        { v: 'partner_pozoruje', label: g('Partnerka pozoruje mňa', 'Partner pozoruje mňa') },
+        { v: 'solo', label: 'Sólo návšteva ako vopred dohodnutá služba' },
+        { v: 'ucenie', label: 'Profesionál iba vysvetľuje alebo demonštruje, neparticipuje sexuálne' },
+        { v: 'fantazia', label: 'Iba fantázia, dirty talk alebo roleplay medzi nami' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'pro_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerka túži po profesionálnej tretej osobe', 'Keď partner túži po profesionálnej tretej osobe'),
+      moznosti: [
+        { v: 'vzrusuje', label: g('Jej túžba ma vzrušuje a chcem byť súčasťou výberu alebo zážitku', 'Jeho túžba ma vzrušuje a chcem byť súčasťou výberu alebo zážitku') },
+        { v: 'bez_romantiky', label: 'Platený a jasne ohraničený kontext je pre mňa prijateľnejší než osobný vzťah' },
+        { v: 'fantazia', label: 'Chcem túto predstavu používať iba v našom roleplay' },
+        { v: 'ohrozuje', label: 'Aj profesionálny kontakt vo mne vyvoláva pocit nevery alebo ohrozenia' },
+      ],
+    },
+    { druh: 'otazka', id: 'pro_vyznam', typ: 'text', text: 'Čo presne je na profesionálnej role príťažlivé alebo neprijateľné — odbornosť, anonymita, platba, moc, pozorovanie, absencia romantiky alebo niečo iné:' },
+    {
+      druh: 'text', id: 'pro_mytus', ton: 'info', nadpis: 'Mýtus verzus realita',
+      telo:
+        g(
+          'Mýtus: fantázia o profesionálovi znamená, že partnerka „nestačí“. Realita: jadrom môže byť jasná rola, skúsenosť, anonymita alebo možnosť sledovať rozkoš partnerky bez romantického príbehu. Fantázia, platená služba a terapeutická či edukatívna práca s telom sú odlišné veci a nemajú sa zamieňať.',
+          'Mýtus: fantázia o profesionálovi znamená, že partner „nestačí“. Realita: jadrom môže byť jasná rola, skúsenosť, anonymita alebo možnosť sledovať rozkoš partnera bez romantického príbehu. Fantázia, platená služba a terapeutická či edukatívna práca s telom sú odlišné veci a nemajú sa zamieňať.',
+        ),
+    },
+  ],
+}
+
 // ── Autonómia — 4 piliere podľa výskumu ──────────────────────────────
 const AUTONOMIA: Blok = {
   druh: 'skupina', id: 'autonomia', nadpis: 'Autonómia — čo ju v praxi tvorí',
@@ -253,7 +386,7 @@ export const CNM_ENM: TemaObsah = {
         'tabu, ak je na oboch stranách slobodný a informovaný súhlas.',
     },
   ],
-  telo: [MODEL, POLITIKA, TVARY, MOTIVY, ZIARLIVOST, PRAKTICKE, AUTONOMIA, RAMEC],
+  telo: [MODEL, POLITIKA, TVARY, MOTIVY, ZIARLIVOST, PRAKTICKE, DOHODY_HLBKA, PROFESIONALNA_TRETIA, AUTONOMIA, RAMEC],
   zaver: [
     {
       druh: 'text', id: 'zaver', ton: 'info',

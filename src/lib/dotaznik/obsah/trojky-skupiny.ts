@@ -5,6 +5,18 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // Zdroj: „24_Trojky_skupiny_a_gangbang" (mišmaš viacerých návrhov — zjednotené,
 // exaktné duplikáty spojené, každá odlišná otázka zachovaná).
 // Mužská (m) / ženská (z) verzia zrkadlová: rovnaké id + hodnoty.
+// Rešerš 2026-09-30:
+// - Scoats et al., žiarlivosť, pozornosť a pocit vylúčenia v zmiešaných trojkách:
+//   https://pubmed.ncbi.nlm.nih.gov/30764748/
+// - Lehmiller, fantázie o konsenzuálnej nemonogamii v monogamných vzťahoch:
+//   https://pubmed.ncbi.nlm.nih.gov/32728869/
+// - Thompson & Byers, záujem a skúsenosti mladých dospelých so zmiešanými trojkami:
+//   https://pubmed.ncbi.nlm.nih.gov/26943139/
+// - Compersion a pozitívne prežívanie partnerovej rozkoše:
+//   https://pubmed.ncbi.nlm.nih.gov/38177605/ a https://pubmed.ncbi.nlm.nih.gov/38951409/
+// - Komunitné opakujúce sa témy: tretie koleso, nerovnováha pozornosti, 2+1 namiesto trojky:
+//   https://www.reddit.com/r/nonmonogamy/comments/1jstxb1/
+//   https://www.reddit.com/r/nonmonogamy/comments/uqc9aa/
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -13,7 +25,7 @@ const g = (m: string, z: string) => ({ m, z })
 const POSTOJ: Moznost[] = [
   { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
   { v: 'tuzim', label: 'Túžim to zapojiť do našich hier' },
-  { v: 'ak_chce', label: g('Rád to spravím, ak po tom druhý túži', 'Rada to spravím, ak po tom druhý túži') },
+  { v: 'ak_chce', label: g('Rád to spravím, ak po tom túži moja partnerka', 'Rada to spravím, ak po tom túži môj partner') },
   { v: 'mozno', label: 'Možno, za istých okolností' },
   { v: 'nie', label: 'Nie, necítim sa komfortne' },
 ]
@@ -25,9 +37,18 @@ const STREDOBOD_POCIT: Moznost[] = [
 ]
 
 const ROLY_DYNAMIKA: Moznost[] = [
-  { v: 'dominant', label: 'Jeden partner je dominantný a vedie celú dynamiku' },
+  { v: 'dominant', label: 'Jedna osoba je dominantná a vedie celú dynamiku' },
   { v: 'vyvazene', label: 'Role sú vyvážené, všetci na rovnakej úrovni' },
   { v: 'striedanie', label: 'Role sa striedajú (raz dominant, raz submisívny)' },
+]
+
+const PARTNER_TUZBA: Moznost[] = [
+  { v: 'vzrusuje', label: g('Jej túžba ma sama vzrušuje', 'Jeho túžba ma sama vzrušuje') },
+  { v: 'fantazia', label: 'Chcem túto predstavu rozvíjať spolu, aj keby ostala fantáziou' },
+  { v: 'pozorujem', label: g('Viem si predstaviť, že ju budem sledovať s treťou osobou', 'Viem si predstaviť, že ho budem sledovať s treťou osobou') },
+  { v: 'zapojim', label: g('Viem si predstaviť, že sa aktívne zapojím do jej scenára', 'Viem si predstaviť, že sa aktívne zapojím do jeho scenára') },
+  { v: 'mix', label: 'Vzrušuje ma to, no zároveň vo mne predstava otvára žiarlivosť alebo neistotu' },
+  { v: 'nie', label: g('Jej túžbu chápem, ale tento scenár ma eroticky neláka', 'Jeho túžbu chápem, ale tento scenár ma eroticky neláka') },
 ]
 
 const postojOtazka = (id: string, text: TemaObsah['nadpis']): Blok => ({
@@ -78,14 +99,14 @@ const MMF: Blok = {
       id: 'mmf_prijat',
       typ: 'viac',
       inePovolene: true,
-      text: 'Aké interakcie by si chcel(a) prijať od druhého muža?',
+      text: g('Aké interakcie by si chcel prijať od druhého muža?', 'Aké interakcie by si chcela prijať od druhého muža?'),
       moznosti: [
         { v: 'bozk', label: 'Bozkávanie' },
         { v: 'hladenie', label: 'Hladenie tela, rúk, stehien, krku' },
         { v: 'drazdenie', label: 'Dráždenie rukou alebo erotickou pomôckou' },
         { v: 'dvojita_penetracia', label: 'Dvojitá penetrácia' },
         { v: 'oral', label: 'Orálna stimulácia' },
-        { v: 'ziadna', label: 'Nepreferujem interakciu s ďalším mužom — chcem sa sústrediť len na partnera/ku' },
+        { v: 'ziadna', label: g('Nepreferujem interakciu s ďalším mužom — chcem sa sústrediť len na partnerku', 'Nepreferujem interakciu s ďalším mužom — chcem sa sústrediť len na partnera') },
       ],
     },
     {
@@ -93,7 +114,7 @@ const MMF: Blok = {
       id: 'mmf_poskytnut',
       typ: 'viac',
       inePovolene: true,
-      text: 'Aké interakcie by si chcel(a) poskytnúť druhému mužovi?',
+      text: g('Aké interakcie by si chcel poskytnúť druhému mužovi?', 'Aké interakcie by si chcela poskytnúť druhému mužovi?'),
       moznosti: [
         { v: 'bozk', label: 'Bozkávanie' },
         { v: 'hladenie', label: 'Hladenie jeho tela, skúmanie jeho reakcií' },
@@ -126,7 +147,7 @@ const FMF: Blok = {
   nadpis: 'Trojka s ďalšou ženou (FMF)',
   uvod: g(
     'Predstav si, že si obklopený dvoma ženami — ich vzájomná chémia pridáva na intenzite. Môžeš si užívať ich pozornosť naplno, alebo sledovať, ako sa venujú aj sebe navzájom.',
-    'Zapojenie ďalšej ženy môže byť cestou k objaveniu svojej sexuality v bezpečnom prostredí. Pohľad na partnera, ako si to užíva, môže byť zdrojom tvojho vlastného vzrušenia.',
+    'Zapojenie ďalšej ženy môže byť cestou k objaveniu vlastnej zvedavosti a príťažlivosti v spoločnej fantázii. Pohľad na partnera, ako si to užíva, môže byť zdrojom tvojho vlastného vzrušenia.',
   ),
   bloky: [
     postojOtazka('fmf_postoj', g(
@@ -160,7 +181,7 @@ const FMF: Blok = {
       id: 'fmf_prijat_ona',
       typ: 'viac',
       inePovolene: true,
-      text: 'Čo by si si rád(a) užil(a) od druhej ženy?',
+      text: 'Čo by si si rada užila od druhej ženy?',
       podmienka: { pohlavie: 'z' },
       moznosti: [
         { v: 'bozk', label: 'Bozkávanie — jemné, vášnivé, skúmavé' },
@@ -209,8 +230,8 @@ const SKUPINY: Blok = {
         { v: 'oralny_gang', label: 'Skupinová hra s orálnym sexom' },
       ],
     },
-    postojOtazka('orgie_postoj', 'Chcel(a) by si byť súčasťou orgie, kde sa každý môže zapojiť s každým?'),
-    postojOtazka('kazdy_postoj', 'Chcel(a) by si byť súčasťou aktivity, kde každý môže preskúmať interakcie s kýmkoľvek v miestnosti?'),
+    postojOtazka('orgie_postoj', g('Chcel by si byť súčasťou orgie, kde sa každý môže zapojiť s každým?', 'Chcela by si byť súčasťou orgie, kde sa každý môže zapojiť s každým?')),
+    postojOtazka('kazdy_postoj', g('Chcel by si byť súčasťou aktivity, kde každý môže preskúmať interakcie s kýmkoľvek v miestnosti?', 'Chcela by si byť súčasťou aktivity, kde každý môže preskúmať interakcie s kýmkoľvek v miestnosti?')),
     postojOtazka('kazdy_kombinacia', 'Cítiš vzrušenie pri myšlienke na kombináciu dotykov, bozkov a viacnásobných interakcií počas jednej aktivity?'),
     postojOtazka('kazdy_sloboda', 'Túžiš slobodne objavovať nové interakcie vo väčšej skupine, pričom vieš, že tvoj partner je s tebou?'),
   ],
@@ -244,7 +265,7 @@ const GANGBANG: Blok = {
       druh: 'otazka',
       id: 'gb_partner_rola',
       typ: 'jeden',
-      text: 'Akú rolu má mať partner pri gangbangu?',
+      text: g('Akú rolu má mať partnerka pri gangbangu?', 'Akú rolu má mať partner pri gangbangu?'),
       moznosti: [
         { v: 'ucastnik', label: 'Zapojený účastník' },
         { v: 'pozorovatel', label: 'Pasívny pozorovateľ' },
@@ -275,7 +296,7 @@ const GANGBANG: Blok = {
         { v: 'intenzita', label: 'Fyzická intenzita a množstvo podnetov' },
         { v: 'objektivizacia', label: 'Erotická objektivizácia a „použitie"' },
         { v: 'voyeur', label: g('Sledovať partnerku a jej reakcie', 'Vnímať, že ma partner sleduje') },
-        { v: 'cuckold', label: 'Cuckold/hotwife alebo compersion dynamika' },
+        { v: 'cuckold', label: 'Cuckold, hotwife alebo compersion dynamika' },
         { v: 'tabu', label: 'Tabu, odvážnosť a prekročenie bežného scenára' },
       ],
     },
@@ -305,7 +326,7 @@ const GANGBANG: Blok = {
         { v: 'vizual', label: 'Vizuál semena na tele' },
         { v: 'ocakavanie', label: 'Očakávanie spoločného finále' },
         { v: 'moc', label: 'Moc, odovzdanie alebo submisivita' },
-        { v: 'exhibicia', label: 'Exhibicionizmus a byť sledovaný/á' },
+        { v: 'exhibicia', label: g('Exhibicionizmus a byť sledovaný', 'Exhibicionizmus a byť sledovaná') },
         { v: 'uctievanie', label: 'Pocit, že všetka túžba smeruje na jednu osobu' },
         { v: 'messy', label: 'Messy estetika, vlhkosť a neporiadok' },
       ],
@@ -336,8 +357,8 @@ const POZOROVANIE: Blok = {
   nadpis: 'Pozorovanie',
   uvod: 'Byť len pozorovateľom je jemný vstup do skupinových aktivít — zažiť atmosféru bez nutnosti aktívneho zapojenia.',
   bloky: [
-    postojOtazka('voyeur_postoj', 'Chcel(a) by si byť pasívnym pozorovateľom počas skupinových aktivít — len sledovať bez aktívneho zapojenia?'),
-    postojOtazka('watch_partner_postoj', 'Chcel(a) by si sledovať svojho partnera pri intímnej aktivite s inou osobou?'),
+    postojOtazka('voyeur_postoj', g('Chcel by si byť pasívnym pozorovateľom počas skupinových aktivít — len sledovať bez aktívneho zapojenia?', 'Chcela by si byť pasívnou pozorovateľkou počas skupinových aktivít — len sledovať bez aktívneho zapojenia?')),
+    postojOtazka('watch_partner_postoj', g('Chcel by si sledovať partnerku pri intímnej aktivite s inou osobou?', 'Chcela by si sledovať partnera pri intímnej aktivite s inou osobou?')),
   ],
 }
 
@@ -346,7 +367,10 @@ const RAMEC: Blok = {
   druh: 'skupina',
   id: 'ramec',
   nadpis: 'Scenár, tretia osoba a dozvuk',
-  uvod: 'Erotický charakter skupinovej skúsenosti neurčujú iba telá. Mení ho spôsob pozvania, známosť tretej osoby, miesto, rola partnera aj to, ako sa pár po zážitku znovu spojí.',
+  uvod: g(
+    'Erotický charakter skupinovej skúsenosti neurčujú iba telá. Mení ho spôsob pozvania, známosť tretej osoby, miesto, rola partnerky aj to, ako sa pár po zážitku znovu spojí.',
+    'Erotický charakter skupinovej skúsenosti neurčujú iba telá. Mení ho spôsob pozvania, známosť tretej osoby, miesto, rola partnera aj to, ako sa pár po zážitku znovu spojí.',
+  ),
   bloky: [
     {
       druh: 'otazka',
@@ -396,7 +420,7 @@ const RAMEC: Blok = {
         { v: 'zaklad', label: 'Nápoj, objatie a chvíľa páru osamote' },
         { v: 'dva_dva', label: '„2+2" — dve veci super, dve na úpravu' },
         { v: 'checkin', label: 'Check-in po 24 hodinách (pocity, žiarlivosť, čo nabudúce)' },
-        { v: 'samostatne', label: 'Debrief osamote len s partnerom' },
+        { v: 'samostatne', label: g('Reflexia osamote len s partnerkou', 'Reflexia osamote len s partnerom') },
       ],
     },
     {
@@ -424,7 +448,7 @@ const RAMEC: Blok = {
         { v: 'znamy', label: 'Človek, ktorého už obaja poznáme' },
         { v: 'novy', label: 'Úplne nový človek bez ďalšieho príbehu' },
         { v: 'klub', label: 'Niekto zo swinger/sex-positive prostredia' },
-        { v: 'pozorovanim', label: 'Najprv ho/ju iba sledovať v skupine' },
+        { v: 'pozorovanim', label: 'Najprv tú osobu iba sledovať v skupine' },
       ],
     },
     { druh: 'otazka', id: 'ramec_preco_osoba', typ: 'text', text: 'Koho si predstavujem ako tretiu osobu — a čo konkrétne ma na nej priťahuje?' },
@@ -452,27 +476,27 @@ const EMOCIE: Blok = {
   nadpis: 'Emócie, žiarlivosť, zdieľanie',
   bloky: [
     { druh: 'otazka', id: 'emo_ocakavanie', typ: 'text', text: 'Čo očakávam od svojich emócií (vzrušenie × zraniteľnosť, zmiešané pocity sú normálne):' },
-    { druh: 'otazka', id: 'emo_ziarlivost', typ: 'text', text: 'Čo u mňa spúšťa žiarlivosť a aký druh pozornosti by som vtedy chcel(a) od partnera/partnerky:' },
+    { druh: 'otazka', id: 'emo_ziarlivost', typ: 'text', text: g('Čo u mňa spúšťa žiarlivosť a aký druh pozornosti by som vtedy chcel od partnerky:', 'Čo u mňa spúšťa žiarlivosť a aký druh pozornosti by som vtedy chcela od partnera:') },
     {
       druh: 'otazka', id: 'emo_spustace', typ: 'viac', inePovolene: true,
       text: 'Ktoré momenty by vo mne mohli miešať vzrušenie so žiarlivosťou',
       moznosti: [
-        { v: 'bozk', label: 'Dlhé alebo romantické bozkávanie partnera s treťou osobou' },
-        { v: 'orgazmus', label: 'Orgazmus partnera spôsobený treťou osobou' },
+        { v: 'bozk', label: g('Dlhé alebo romantické bozkávanie partnerky s treťou osobou', 'Dlhé alebo romantické bozkávanie partnera s treťou osobou') },
+        { v: 'orgazmus', label: g('Orgazmus partnerky spôsobený treťou osobou', 'Orgazmus partnera spôsobený treťou osobou') },
         { v: 'pozornost', label: 'Keď tretia osoba dostáva dlhšie viac pozornosti než ja' },
-        { v: 'pohlad', label: 'Intenzívny očný kontakt medzi partnerom a treťou osobou' },
-        { v: 'rovnake', label: 'Interakcia partnera s osobou rovnakého pohlavia' },
+        { v: 'pohlad', label: g('Intenzívny očný kontakt medzi partnerkou a treťou osobou', 'Intenzívny očný kontakt medzi partnerom a treťou osobou') },
+        { v: 'rovnake', label: g('Interakcia partnerky so ženou', 'Interakcia partnera s mužom') },
         { v: 'po', label: 'Neha, maznanie alebo ďalší kontakt po sexe' },
-        { v: 'bokom', label: 'Pocit, že som sa ocitol/ocitla bokom' },
+        { v: 'bokom', label: g('Pocit, že som sa ocitol bokom', 'Pocit, že som sa ocitla bokom') },
       ],
     },
-    { druh: 'otazka', id: 'emo_hinty', typ: 'text', text: 'Ktoré gesto, pohľad alebo dotyk ma počas scény znovu eroticky prepojí s partnerom/partnerkou?' },
+    { druh: 'otazka', id: 'emo_hinty', typ: 'text', text: g('Ktoré gesto, pohľad alebo dotyk ma počas scény znovu eroticky prepojí s partnerkou?', 'Ktoré gesto, pohľad alebo dotyk ma počas scény znovu eroticky prepojí s partnerom?') },
     {
-      druh: 'otazka', id: 'emo_compersion', typ: 'jeden', text: 'Ako na mňa pôsobí predstava partnerovej rozkoše s treťou osobou',
+      druh: 'otazka', id: 'emo_compersion', typ: 'jeden', text: g('Ako na mňa pôsobí predstava partnerkinej rozkoše s treťou osobou', 'Ako na mňa pôsobí predstava partnerovej rozkoše s treťou osobou'),
       moznosti: [
         { v: 'silno', label: 'Je to silný zdroj môjho vlastného vzrušenia' },
         { v: 'mix', label: 'Vzrušuje ma a zároveň vo mne vyvoláva žiarlivosť' },
-        { v: 'neutral', label: 'Som skôr neutrálny/a a zvedavý/á' },
+        { v: 'neutral', label: g('Som skôr neutrálny a zvedavý', 'Som skôr neutrálna a zvedavá') },
         { v: 'blok', label: 'Skôr ma to eroticky blokuje' },
       ],
     },
@@ -483,7 +507,7 @@ const EMOCIE: Blok = {
       text: 'Zdieľanie detailov po akcii',
       moznosti: [
         { v: 'ano', label: 'Áno, vzrušuje ma to' },
-        { v: 'ak_chce', label: 'Len ak to chce počuť aj druhý' },
+        { v: 'ak_chce', label: g('Len ak to chce počuť aj partnerka', 'Len ak to chce počuť aj partner') },
         { v: 'nie', label: 'Nie, nechcem detaily' },
       ],
     },
@@ -560,6 +584,22 @@ export const TROJKY_SKUPINY: TemaObsah = {
         'Niekedy je stredobodom jedna osoba, inokedy sa vášeň delí rovnomerne. Rovnaké zloženie môže pôsobiť úplne inak podľa toho, kto vedie, kto pozoruje a či sa osoby rovnakého pohlavia navzájom dotýkajú.',
     },
     {
+      druh: 'text', id: 'tuzba_trojka', nadpis: 'Čo je na trojke také príťažlivé', ton: 'citat',
+      telo: g(
+        'Predstav si, že známu partnerkinu rozkoš zrazu vidíš novými očami. Niekto ďalší obdivuje jej telo, ty sleduješ reakcie, ktoré poznáš, a zároveň objavuješ nové. Alebo si medzi dvomi ženami a každý dotyk prichádza z iného smeru — jedna ťa bozkáva, druhá vedie rukou po tele a ich vzájomná chémia sa stáva súčasťou tvojho vzrušenia. Trojka môže byť o hojnosti pozornosti, pozorovaní, spolupráci aj o príjemnom napätí z toho, že nevieš, kto sa ťa dotkne ďalší.',
+        'Predstav si, že sa na tvoje telo sústredia dve osoby naraz: jedny pery na krku, druhé medzi stehnami, ruky, ktoré sa striedajú a učia sa z tvojich reakcií. Alebo sleduješ partnera s druhou ženou a zisťuješ, že jeho vzrušenie zvyšuje aj tvoje. Trojka môže byť o rozmaznávaní, objavovaní vlastnej príťažlivosti k žene, o moci byť stredobodom aj o vzrušujúcej zmesi zvedavosti a žiarlivosti.',
+      ),
+    },
+    {
+      druh: 'text', id: 'myty_trojka', nadpis: 'Mýty, ktoré zbytočne brzdia túžbu', ton: 'info',
+      telo:
+        'Mýtus: fantázia o trojke znamená, že partner nestačí. Realita: často ide o novosť, množstvo pozornosti, sledovanie partnerovej rozkoše alebo objavenie inej stránky vlastnej sexuality.\n\n' +
+        'Mýtus: v dobrej trojke musí každý robiť všetko s každým. Realita: niekoho vzrušuje stredobod, iného pozorovanie a ďalšieho kontakt iba s jednou osobou. Choreografia môže byť „dvaja pre jedného", striedanie aj erotické 2+1.\n\n' +
+        'Mýtus: žiarlivosť znamená, že človek trojku nechce. Realita: vzrušenie, zraniteľnosť, compersion aj žiarlivosť sa môžu objaviť naraz.\n\n' +
+        'Mýtus: dotyk osoby rovnakého pohlavia automaticky určuje sexuálnu orientáciu. Realita: konkrétna fantázia, zvedavosť alebo skupinová skúsenosť nemusí byť novou identitou.\n\n' +
+        'Trojky patria medzi rozšírené sexuálne fantázie. Túžba po nich nie je dôvodom na hanbu a rovnako nie je zlyhaním, ak človeka lákajú iba v predstavách.',
+    },
+    {
       druh: 'text',
       id: 'ako_prijemne',
       nadpis: 'Čo robí trojku eroticky živou',
@@ -583,6 +623,29 @@ export const TROJKY_SKUPINY: TemaObsah = {
       ],
     },
     {
+      druh: 'skupina', id: 'partnerova_tuzba', nadpis: g('Keď trojka vzrušuje moju partnerku', 'Keď trojka vzrušuje môjho partnera'),
+      uvod: g(
+        'Je rozdiel medzi tým, či MMF alebo FMF chceš ty, a tým, ako na teba pôsobí partnerkina túžba. Jej vzrušenie môže byť nákazlivé, môže v tebe prebudiť voyeurizmus, súťaživosť, zvedavosť aj žiarlivosť.',
+        'Je rozdiel medzi tým, či MMF alebo FMF chceš ty, a tým, ako na teba pôsobí partnerova túžba. Jeho vzrušenie môže byť nákazlivé, môže v tebe prebudiť exhibicionizmus, zvedavosť, compersion aj žiarlivosť.',
+      ),
+      bloky: [
+        {
+          druh: 'otazka', id: 'partner_tuzba_mmf', typ: 'jeden',
+          text: g('Ako reagujem na predstavu, že moju partnerku vzrušuje trojka s ďalším mužom', 'Ako reagujem na predstavu, že môjho partnera vzrušuje trojka s ďalším mužom'),
+          moznosti: PARTNER_TUZBA,
+        },
+        {
+          druh: 'otazka', id: 'partner_tuzba_fmf', typ: 'jeden',
+          text: g('Ako reagujem na predstavu, že moju partnerku vzrušuje trojka s ďalšou ženou', 'Ako reagujem na predstavu, že môjho partnera vzrušuje trojka s ďalšou ženou'),
+          moznosti: PARTNER_TUZBA,
+        },
+        {
+          druh: 'otazka', id: 'partner_tuzba_detail', typ: 'text',
+          text: g('Ktorá časť partnerkinej fantázie ma priťahuje a ktorá vo mne otvára neistotu?', 'Ktorá časť partnerovej fantázie ma priťahuje a ktorá vo mne otvára neistotu?'),
+        },
+      ],
+    },
+    {
       druh: 'otazka',
       id: 'troj_dynamika',
       typ: 'viac',
@@ -599,11 +662,11 @@ export const TROJKY_SKUPINY: TemaObsah = {
       druh: 'otazka',
       id: 'troj_aktivita',
       typ: 'jeden',
-      text: 'Chceš byť počas trojky aktívny/á alebo skôr pasívny/á?',
+      text: g('Chceš byť počas trojky aktívny alebo skôr pasívny?', 'Chceš byť počas trojky aktívna alebo skôr pasívna?'),
       moznosti: [
-        { v: 'aktivny', label: 'Chcem byť aktívny/á a zapojiť sa naplno' },
-        { v: 'pasivny', label: 'Rád/rada by som bol/a v pasívnej úlohe (sledovanie, jemné zapojenie)' },
-        { v: 'diskusia', label: 'Nie som si istý/á — preferujem diskusiu predtým' },
+        { v: 'aktivny', label: g('Chcem byť aktívny a zapojiť sa naplno', 'Chcem byť aktívna a zapojiť sa naplno') },
+        { v: 'pasivny', label: g('Rád by som bol v pasívnej úlohe — sledovanie alebo jemné zapojenie', 'Rada by som bola v pasívnej úlohe — sledovanie alebo jemné zapojenie') },
+        { v: 'diskusia', label: g('Nie som si istý — chcem si najprv predstaviť konkrétny scenár', 'Nie som si istá — chcem si najprv predstaviť konkrétny scenár') },
       ],
     },
     MMF,
@@ -617,7 +680,10 @@ export const TROJKY_SKUPINY: TemaObsah = {
     },
     {
       druh: 'skupina', id: 'matica_interakcii', nadpis: 'Matica interakcií — kto s kým a ako',
-      uvod: 'Trojka nemusí znamenať, že každý robí všetko s každým. Oddelené otázky ukážu, či ťa láka kontakt s treťou osobou, sledovanie partnera alebo spoločná aktivita všetkých troch.',
+      uvod: g(
+        'Trojka nemusí znamenať, že každý robí všetko s každým. Oddelené otázky ukážu, či ťa láka kontakt s treťou osobou, sledovanie partnerky alebo spoločná aktivita všetkých troch.',
+        'Trojka nemusí znamenať, že každý robí všetko s každým. Oddelené otázky ukážu, či ťa láka kontakt s treťou osobou, sledovanie partnera alebo spoločná aktivita všetkých troch.',
+      ),
       bloky: [
         {
           druh: 'otazka', id: 'mat_ja_tretia', typ: 'viac', inePovolene: true, text: 'Čo ma láka medzi mnou a treťou osobou',
@@ -625,15 +691,15 @@ export const TROJKY_SKUPINY: TemaObsah = {
             { v: 'pohlad', label: 'Pohľady a slovné dráždenie' }, { v: 'bozk', label: 'Bozkávanie' },
             { v: 'dotyky', label: 'Dotyky a manuálna stimulácia' }, { v: 'oral', label: 'Orálna stimulácia' },
             { v: 'penetracia', label: 'Penetrácia' }, { v: 'pomocky', label: 'Spoločná hra s pomôckou' },
-            { v: 'nic', label: 'Žiadny priamy kontakt — iba spoločná pozornosť partnerovi' },
+            { v: 'nic', label: g('Žiadny priamy kontakt — iba spoločná pozornosť partnerke', 'Žiadny priamy kontakt — iba spoločná pozornosť partnerovi') },
           ],
         },
         {
-          druh: 'otazka', id: 'mat_partner_tretia', typ: 'viac', inePovolene: true, text: 'Čo ma vzrušuje sledovať medzi partnerom/partnerkou a treťou osobou',
+          druh: 'otazka', id: 'mat_partner_tretia', typ: 'viac', inePovolene: true, text: g('Čo ma vzrušuje sledovať medzi partnerkou a treťou osobou', 'Čo ma vzrušuje sledovať medzi partnerom a treťou osobou'),
           moznosti: [
             { v: 'pohlad', label: 'Flirt a očný kontakt' }, { v: 'bozk', label: 'Bozkávanie' },
             { v: 'dotyky', label: 'Dotyky a manuálna stimulácia' }, { v: 'oral', label: 'Orálna stimulácia' },
-            { v: 'penetracia', label: 'Penetrácia' }, { v: 'orgazmus', label: 'Orgazmus partnera/partnerky' },
+            { v: 'penetracia', label: 'Penetrácia' }, { v: 'orgazmus', label: g('Orgazmus partnerky', 'Orgazmus partnera') },
             { v: 'nic', label: 'Nechcem byť pri ich priamej interakcii' },
           ],
         },
@@ -661,11 +727,11 @@ export const TROJKY_SKUPINY: TemaObsah = {
           id: 'hr_aktivity_partner_treti',
           typ: 'viac',
           inePovolene: true,
-          text: 'Aké aktivity si vieš predstaviť medzi partnerom/kou a treťou osobou?',
+          text: g('Aké aktivity si vieš predstaviť medzi partnerkou a treťou osobou?', 'Aké aktivity si vieš predstaviť medzi partnerom a treťou osobou?'),
           moznosti: [
-            { v: 'bozk', label: 'Bozkávanie medzi partnerom a treťou osobou' },
-            { v: 'oral', label: 'Orálna stimulácia medzi partnerom a treťou osobou' },
-            { v: 'penetracia', label: 'Penetrácia medzi partnerom a treťou osobou' },
+            { v: 'bozk', label: g('Bozkávanie medzi partnerkou a treťou osobou', 'Bozkávanie medzi partnerom a treťou osobou') },
+            { v: 'oral', label: g('Orálna stimulácia medzi partnerkou a treťou osobou', 'Orálna stimulácia medzi partnerom a treťou osobou') },
+            { v: 'penetracia', label: g('Penetrácia medzi partnerkou a treťou osobou', 'Penetrácia medzi partnerom a treťou osobou') },
             { v: 'pomocky', label: 'Hranie sa s erotickými pomôckami' },
             { v: 'ds', label: 'Dominantno-submisívne prvky (zväzovanie, príkazy, podriadenie)' },
             { v: 'sleduje', label: 'Partner sleduje, ale nezasahuje' },
@@ -682,7 +748,7 @@ export const TROJKY_SKUPINY: TemaObsah = {
             { v: 'bozk', label: 'Partner bozkáva tretiu osobu' },
             { v: 'oral_dava', label: 'Partner poskytuje orál tretej osobe' },
             { v: 'oral_prijima', label: 'Partner prijíma orál od tretej osoby' },
-            { v: 'penetracia', label: 'Penetrácia medzi partnerom a treťou osobou' },
+            { v: 'penetracia', label: g('Penetrácia medzi partnerkou a treťou osobou', 'Penetrácia medzi partnerom a treťou osobou') },
             { v: 'viac_kontaktu', label: 'Partner má viac fyzického kontaktu s treťou osobou ako so mnou' },
             { v: 'rovnake_pohlavie', label: 'Akákoľvek interakcia medzi rovnakým pohlavím' },
             { v: 'bdsm', label: 'Akékoľvek BDSM prvky (zväzovanie, škrtenie, facky)' },
@@ -692,10 +758,10 @@ export const TROJKY_SKUPINY: TemaObsah = {
           druh: 'otazka',
           id: 'hr_vidiet_partnera',
           typ: 'jeden',
-          text: 'Ako by si sa cítil/a, keby si videl/a svojho partnera v akcii s treťou osobou?',
+          text: g('Ako by si sa cítil, keby si videl partnerku v akcii s treťou osobou?', 'Ako by si sa cítila, keby si videla partnera v akcii s treťou osobou?'),
           moznosti: [
             { v: 'vzrusuje', label: 'Vzrušuje ma to, chcem to skúsiť' },
-            { v: 'mozno', label: 'Možno, musel/a by som to vidieť a posúdiť' },
+            { v: 'mozno', label: g('Možno, musel by som to vidieť a vnímať svoju reakciu', 'Možno, musela by som to vidieť a vnímať svoju reakciu') },
             { v: 'nie', label: 'Nie, neviem si to predstaviť' },
           ],
         },

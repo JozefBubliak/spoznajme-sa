@@ -8,7 +8,11 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // tému „Tempo, intenzita a orgazmus" (D4) — tu je dôraz na SAMOTNÝ
 // orgazmus (cesta, poradie, kontrola, po ňom), nie na tempo pred ním.
 // z/m verzia zrkadlová.
+// Doplnené 2026-10-01: Herbenick et al. (orgazmický repertoár), WSFQ/Joyal
+// fantasy inventáre, OMGYES pleasure research a komunitné kink checklisty.
 // ─────────────────────────────────────────────────────────────────────────────
+
+const g = (m: string, z: string): TemaObsah['nadpis'] => ({ m, z })
 
 const POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
@@ -193,6 +197,79 @@ const VIACNASOBNE: Blok = {
   ],
 }
 
+const ORGAZMICKE_SCENARE: Blok = {
+  druh: 'skupina', id: 'orgazmicke_scenare', nadpis: 'Orgazmické scenáre — vrchol, ktorý nesie vlastný príbeh',
+  uvod:
+    'Orgazmus môže byť odmena, príkaz, prekvapenie, nedokončený vrchol alebo iba vedľajší efekt celého zážitku. Niektorých vzrušuje kontrola a presné načasovanie, iných predstava, že telo „neposlúchne“ plán.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'osc_prijimam', typ: 'viac', inePovolene: true, rola: 'prijimam',
+      text: 'Ktoré scenáre chcem zažiť na vlastnom tele',
+      moznosti: [
+        { v: 'na_povel', label: 'Orgazmus na povel alebo po odpočítaní' },
+        { v: 'forced', label: '„Forced orgasm“ — partner pokračuje v stimulácii v dohodnutej role' },
+        { v: 'ruined', label: 'Ruined orgasm — zámerne prerušená stimulácia tesne pri vrchole' },
+        { v: 'overstim', label: 'Overstimulation — pokračovanie po orgazme cez precitlivenosť' },
+        { v: 'handsfree', label: 'Hands-free orgazmus bez priamej stimulácie genitálií' },
+        { v: 'bez_dotyku', label: 'Fantasy orgazmu iba hlasom, predstavou alebo príkazom' },
+        { v: 'viacnasobny', label: 'Viacnásobné orgazmy alebo dlhé orgazmické vlny' },
+        { v: 'spolocny', label: 'Súčasný orgazmus ako spoločné finále' },
+        { v: 'sledovany', label: g('Byť pozorovaný pri orgazme bez pomoci partnerky', 'Byť pozorovaná pri orgazme bez pomoci partnera') },
+        { v: 'zakazany', label: 'Orgazmus zakázaný počas celej scény' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'osc_poskytujem', typ: 'viac', inePovolene: true, rola: 'poskytujem',
+      text: g('Ktoré orgazmické scenáre chcem vytvoriť partnerke', 'Ktoré orgazmické scenáre chcem vytvoriť partnerovi'),
+      moznosti: [
+        { v: 'na_povel', label: g('Viesť partnerku k orgazmu na povel', 'Viesť partnera k orgazmu na povel') },
+        { v: 'forced', label: 'Pokračovať v dohodnutej forced-orgasm role' },
+        { v: 'ruined', label: 'Zámerne „pokaziť“ vrchol prerušením' },
+        { v: 'overstim', label: 'Pokračovať cez precitlivenosť po orgazme' },
+        { v: 'edging', label: 'Opakovane priviesť tesne k vrcholu a oddialiť ho' },
+        { v: 'sledovat', label: g('Iba pozorovať partnerkin orgazmus a reakciu tela', 'Iba pozorovať partnerov orgazmus a reakciu tela') },
+        { v: 'viacnasobny', label: 'Skúmať viacnásobné vlny bez tlaku na počet' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'osc_telesne_varianty', typ: 'viac', inePovolene: true,
+      text: 'Ktoré telesné varianty ma zaujímajú alebo ich zažívam',
+      moznosti: [
+        { v: 'org_bez_ejak', label: 'Orgazmus bez ejakulácie' },
+        { v: 'ejak_bez_org', label: 'Ejakulácia bez pocitu orgazmu' },
+        { v: 'squirting', label: 'Squirting alebo ženská ejakulácia ako možný sprievodný jav' },
+        { v: 'bez_org', label: 'Plnohodnotný sex bez orgazmu' },
+        { v: 'nejasny', label: 'Nejasná hranica medzi veľmi silným vzrušením a orgazmom' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'osc_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerka túži po inom orgazmickom scenári než ja', 'Keď partner túži po inom orgazmickom scenári než ja'),
+      moznosti: [
+        { v: 'laka', label: g('Jej vzrušenie ma láka a chcem jej ten zážitok vytvoriť', 'Jeho vzrušenie ma láka a chcem mu ten zážitok vytvoriť') },
+        { v: 'bez_ciela', label: 'Chcem ho skúmať bez toho, aby výsledok bol povinný' },
+        { v: 'fantazia', label: 'Chcem o ňom hovoriť alebo ho hrať slovami, nie telom' },
+        { v: 'nie', label: 'Tento scenár vo mne vytvára tlak a nechcem ho' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'osc_squirting_partner', typ: 'jeden',
+      text: g('Ako na mňa pôsobí partnerkin squirting alebo ženská ejakulácia', 'Ako chcem, aby partner reagoval na môj squirting alebo ženskú ejakuláciu'),
+      moznosti: [
+        { v: 'vzrusuje', label: 'Veľmi ma vzrušuje a vnímam ho ako telesný prejav' },
+        { v: 'bonus', label: 'Je to príjemný bonus, nie cieľ ani dôkaz kvality' },
+        { v: 'neutral', label: 'Je mi to neutrálne' },
+        { v: 'nechcem', label: 'Tento prvok nechcem v centre pozornosti' },
+      ],
+    },
+    {
+      druh: 'text', id: 'osc_myty', ton: 'info', nadpis: 'Mýty verzus realita',
+      telo:
+        'Mýtus: každý orgazmus musí vyzerať rovnako a byť sprevádzaný ejakuláciou. Realita: orgazmus, ejakulácia, squirting a subjektívny pocit vrcholu sú prepojené, ale nie totožné javy. Mýtus: „forced orgasm“ znamená skutočné donútenie. V erotickom scenári ide o fantáziu neovládateľnej rozkoše v dohodnutej role, nie o popretie hraníc.',
+    },
+  ],
+}
+
 // ── Po orgazme ──────────────────────────────────────────────────
 const PO_ORGAZME: Blok = {
   druh: 'skupina', id: 'po_orgazme', nadpis: 'Po orgazme',
@@ -243,6 +320,7 @@ export const ORGAZMUS_KONTROLA: TemaObsah = {
     SYNCHRONIZACIA,
     KONTROLA,
     VIACNASOBNE,
+    ORGAZMICKE_SCENARE,
     PO_ORGAZME,
   ],
   zaver: [

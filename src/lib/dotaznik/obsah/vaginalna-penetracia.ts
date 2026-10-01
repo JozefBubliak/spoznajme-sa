@@ -10,6 +10,11 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // existujúcich L4 seedov modulu. Vaginálny fisting bol v zdroji ako jediná
 // genuinne nová položka — zahrnutý samostatne. z/m verzia zrkadlová,
 // niektoré otázky viazané na pohlavie.
+// Rešerš pre vaginálnu manuálnu stimuláciu a fisting (XLSM-014):
+// https://pubmed.ncbi.nlm.nih.gov/26880506/
+// https://pubmed.ncbi.nlm.nih.gov/25112854/
+// https://pubmed.ncbi.nlm.nih.gov/29198508/
+// https://journals.plos.org/plosone/doi?id=10.1371/journal.pone.0249242
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -19,7 +24,7 @@ const POSTOJ: Moznost[] = [
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
-  { v: 'nie', label: 'Nie — hranica' },
+  { v: 'nie', label: 'Nie — neláka ma to' },
 ]
 const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
   druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
@@ -27,7 +32,7 @@ const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
 
 // ── Penetrácia ako voľba ──────────────────────────────────────────────
 // Doplnené z „dotaznik.xlsx" list „7) Penetrácia & polohy" — chýbajúci
-// rámec „musí byť/nemusí byť" a protokol pri nepohodlí.
+// rámec „musí byť/nemusí byť" a premenlivosť pocitu pri penetrácii.
 const VOLBA: Blok = {
   druh: 'skupina', id: 'volba', nadpis: 'Penetrácia ako voľba',
   bloky: [
@@ -60,9 +65,9 @@ const VOLBA: Blok = {
     },
     {
       druh: 'text', id: 'vol_diskomfort', ton: 'info',
-      telo: 'Pri nepohodlí je prvým krokom vždy spomaliť, opýtať sa, prípadne zmeniť polohu alebo pridať lubrikant — nikdy pokračovať cez bolesť.',
+      telo: 'Penetrácia nemusí byť stále rovnaká ani povinná. Niekedy telo túži po plnosti a hlbokom tlaku, inokedy po plytkej hre pri vstupe, dlhom nehybnom objatí alebo úplne inom druhu sexu.',
     },
-    { druh: 'otazka', id: 'vol_prvy_krok', typ: 'text', text: 'Čo chcem ako prvý krok, keď sa objaví nepohodlie (spomaliť / zastaviť / opýtať sa / zmeniť polohu / viac lubrikantu):' },
+    { druh: 'otazka', id: 'vol_prvy_krok', typ: 'text', text: 'Keď ma aktuálny pocit prestane vzrušovať, na čo chcem prejsť — plytšie, iný uhol, nehybný tlak, klitoris alebo inú aktivitu:' },
   ],
 }
 
@@ -96,7 +101,7 @@ const TECHNIKY: Blok = {
   bloky: [
     {
       druh: 'otazka', id: 'tec_ktore', typ: 'viac', inePovolene: true,
-      text: 'Ktoré techniky mám rád(a)',
+      text: g('Ktoré techniky mám rád', 'Ktoré techniky mám rada'),
       moznosti: [
         { v: 'plytke_hlboke', label: 'Striedanie plytkých a hlbokých ťahov' },
         { v: 'angling', label: '„Angling" — uhol smerom na prednú stenu (G-bod)' },
@@ -111,8 +116,8 @@ const TECHNIKY: Blok = {
       druh: 'otazka', id: 'tec_pairing_kto', typ: 'jeden',
       text: '„Pairing" (súbežná stimulácia klitorisu počas penetrácie) — kto ju robí',
       moznosti: [
-        { v: 'ja_sam', label: 'Ja sám/sama' },
-        { v: 'partner', label: 'Partner/ka rukou' },
+        { v: 'ja_sam', label: g('Ja sám', 'Ja sama') },
+        { v: 'partner', label: g('Partnerka rukou', 'Partner rukou') },
         { v: 'hracka', label: 'Hračka' },
         { v: 'nie', label: 'Radšej bez toho — ruší mi to rytmus' },
       ],
@@ -202,8 +207,8 @@ const SUROVY: Blok = {
       ],
     },
     { druh: 'otazka', id: 'sur_akurat', typ: 'text', text: 'Čo presne chcem cítiť, keď je intenzita „akurát" (napätie v panve, tlak, pocit vedenia):' },
-    { druh: 'otazka', id: 'sur_uz_veela', typ: 'text', text: 'Môj signál, že je to už príliš (telo sa stiahne, dych sa zlomí nepríjemne, potrebujem pauzu):' },
-    { druh: 'otazka', id: 'sur_signal_stop', typ: 'text', text: 'Náš dohodnutý signál na spomalenie/stop pri rýchlom sexe:' },
+    { druh: 'otazka', id: 'sur_uz_veela', typ: 'text', text: 'Ktorá intenzívna telesná reakcia ma vzrušuje najviac — napätie panvy, zrýchlený dych, zvuky, pocit plnosti alebo strata rytmu:' },
+    { druh: 'otazka', id: 'sur_signal_stop', typ: 'text', text: 'Ako chcem, aby dravá penetrácia vyvrcholila alebo prešla do ďalšej aktivity:' },
   ],
 }
 
@@ -229,29 +234,55 @@ const FISTING: Blok = {
   druh: 'skupina', id: 'fisting', nadpis: 'Vaginálny fisting',
   bloky: [
     {
-      druh: 'text', id: 'fis_info',
-      telo:
-        'Postupné vkladanie celej ruky do vagíny a pomalé experimentovanie s hlbokou stimuláciou. ' +
-        'Pre mnohé ženy je to pocit úplnej plnosti, aký nedá penis ani hračka — a pre muža intenzívny zážitok dôvery a moci zároveň.',
+      druh: 'text', id: 'fis_info', nadpis: 'Plnosť, tlak a úplné odovzdanie', ton: 'info',
+      telo: g(
+        'Vaginálny fisting môže byť pre muža intenzívnym zážitkom z partnerkinho odovzdania: celá ruka je obklopená jej telom a namiesto rýchlych ťahov môže vytvárať hlboký tlak, malé pulzy alebo nehybný pocit plnosti. Erotický náboj môže stáť na presnosti, moci, pohľade na jej reakciu alebo vedomí, že sa jej dotýka spôsobom úplne odlišným od penisu.',
+        'Vaginálny fisting môže priniesť pocit úplnej plnosti, hlbokého vnútorného tlaku a odovzdania, ktorý sa nepodobá bežnej penetrácii. Ruka môže zostať nehybná, jemne pulzovať, meniť svoj tvar alebo sa spojiť s klitorisom; vzrušujúce môže byť aj to, že partner cíti každý pohyb mojej panvy a svalov zvnútra.',
+      ),
     },
     {
       druh: 'text', id: 'fis_myty', nadpis: 'Mýty a tipy', ton: 'info',
       telo:
-        'Mýtus: „Vagína sa natrvalo roztiahne." — Realita: vagína je veľmi pružná (prejde ňou pôrodom dieťa) a po vzrušení sa vráti do pôvodného stavu.\n\n' +
-        'Mýtus: „Je to extrém len z porna." — Realita: fisting skúša veľa bežných párov; kľúčom je čas a vzrušenie, nie sila.\n\n' +
-        'Tipy: krátke zbrúsené nechty (alebo rukavica), veľa hustého lubrikantu, najprv 2–3–4 prsty, palec zastrčený do dlane („kačací zobák"). ' +
-        'Ona vedie tempo — často najlepšie funguje, keď sa na ruku pomaly posadí sama. Vnútri netlačiť, skôr jemne pulzovať alebo zovrieť v päsť a nehýbať. ' +
-        'Klitoris stimulovať súčasne — vzrušenie robí zvyšok.',
+        'Mýtus: fisting musí byť rýchly, násilný alebo vyzerať ako porno. Realita: jeho príťažlivosť môže stáť na pomalom pocite plnosti, nehybnom tlaku, malých pulzoch a pohybe panvy.\n\n' +
+        'Mýtus: celá ruka znamená, že klitoris prestáva byť dôležitý. Realita: hlboká plnosť a presná vonkajšia stimulácia môžu byť dve samostatné vrstvy toho istého zážitku.\n\n' +
+        'Mýtus: túžba po fistingu znamená, že partnerov penis nestačí. Realita: ruka prináša úplne iný tvar, tlak, pohyb a psychologický význam; nie je hodnotením veľkosti partnerovho tela.\n\n' +
+        'Mýtus: záujem o intenzívnu plnosť robí ženu „príliš voľnou" alebo nenásytnou. Realita: je to jedna z konkrétnych erotických preferencií a nehovorí nič o jej hodnote ani o kvalite bežného sexu.',
     },
     {
       druh: 'otazka', id: 'fis_postoj', typ: 'jeden',
       text: g('Chcel by som skúsiť vložiť ruku do vagíny partnerky a pomaly experimentovať s hlbokou stimuláciou?', 'Chcela by som, aby partner vložil ruku do mojej vagíny a pomaly experimentoval s hlbokou stimuláciou?'),
       moznosti: [
-        { v: 'robime', label: 'Už to robíme a som spokojný/á' },
+        { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
         { v: 'tuzim', label: 'Túžim to zapojiť do našich hier' },
-        { v: 'ak_chces', label: 'Rád/rada to vyskúšam, ak to chceš' },
+        { v: 'ak_chces', label: g('Rád to vyskúšam, ak po tom túži partnerka', 'Rada to vyskúšam, ak po tom túži partner') },
         { v: 'mozno', label: 'Možno, za istých okolností' },
         { v: 'nie', label: 'Nie, necítim sa na to' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'fis_motivy', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na predstave vaginálneho fistingu priťahuje?',
+      moznosti: [
+        { v: 'plnost', label: 'Výnimočne intenzívny pocit plnosti' },
+        { v: 'hlboky_tlak', label: 'Hlboký tlak po väčšej ploche' },
+        { v: 'odovzdanie', label: g('Partnerkino úplné odovzdanie sa mojej ruke', 'Úplné odovzdanie sa partnerovej ruke') },
+        { v: 'moc', label: g('Pocit moci a vedenia v mojich rukách', 'Pocit, že partner vedie a drží ma zvnútra') },
+        { v: 'tabu', label: 'Tabu a intenzita samotnej predstavy' },
+        { v: 'zvedavost', label: 'Zvedavosť na nový druh vnútorného pocitu' },
+        { v: 'svaly', label: g('Cítiť jej vnútorné pohyby a zovretie okolo ruky', 'Zvierať a uvoľňovať svaly okolo jeho ruky') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'fis_pocity', typ: 'viac', inePovolene: true,
+      text: 'Ktoré vnútorné pohyby a kombinácie ma lákajú?',
+      moznosti: [
+        { v: 'nehybne', label: 'Ruka zostane nehybná a vytvára súvislú plnosť' },
+        { v: 'pulzy', label: 'Malé rytmické pulzy prstov alebo dlane' },
+        { v: 'rotacia', label: 'Pomalá rotácia celej ruky' },
+        { v: 'zovretie', label: 'Zmena úzkeho tvaru ruky na jemne zovretú päsť vo vnútri' },
+        { v: 'panva', label: g('Partnerka sa hýbe proti mojej ruke', 'Ja sa hýbem panvou proti partnerovej ruke') },
+        { v: 'klitoris', label: 'Súbežná stimulácia klitorisu' },
+        { v: 'svaly', label: 'Rytmické zovretie panvových svalov okolo ruky' },
       ],
     },
     {
@@ -265,7 +296,19 @@ const FISTING: Blok = {
       ],
     },
     { druh: 'otazka', id: 'fis_postoj_ine', typ: 'text', text: 'Vlastná odpoveď (voliteľné):' },
-    { druh: 'otazka', id: 'fis_podmienky', typ: 'text', text: 'Ako by som to chcel(a) — postup, lubrikant, poloha, nálada:' },
+    {
+      druh: 'otazka', id: 'fis_partner_tuzba', typ: 'jeden',
+      text: g('Ako na mňa pôsobí, keď partnerka túži cítiť moju ruku hlboko v sebe?', 'Ako na mňa pôsobí, keď partner túži vložiť do mňa celú ruku?'),
+      moznosti: [
+        { v: 'silno', label: g('Jej dôvera a túžba ma silno vzrušujú', 'Jeho túžba a intenzita predstavy ma silno vzrušujú') },
+        { v: 'rad', label: g('Rád jej túto plnosť poskytujem', 'Rada sa mu v tejto predstave odovzdám') },
+        { v: 'zvedavy', label: g('Som zvedavý, ako by jej telo reagovalo', 'Som zvedavá, ako by reagovalo moje telo') },
+        { v: 'fantazia', label: 'Vzrušuje ma skôr ako fantázia než plán' },
+        { v: 'neutral', label: g('Jej túžbu chápem, ale mňa osobne veľmi nevzrušuje', 'Jeho túžbu chápem, ale mňa osobne veľmi nevzrušuje') },
+        { v: 'nie', label: 'Nechcem to zaradiť medzi naše zhody' },
+      ],
+    },
+    { druh: 'otazka', id: 'fis_podmienky', typ: 'text', text: g('Ako vyzerá moja najvzrušujúcejšia predstava tejto hry — poloha, nálada, pohyb a partnerkina reakcia:', 'Ako vyzerá moja najvzrušujúcejšia predstava tejto hry — poloha, nálada, pohyb a partnerovo vedenie:') },
   ],
 }
 
@@ -298,7 +341,7 @@ export const VAGINALNA_PENETRACIA: TemaObsah = {
   zaver: [
     {
       druh: 'text', id: 'zaver',
-      telo: 'Výsledky zohľadnia len zhody medzi tebou a partnerom. Čo niekto označí ako hranicu, sa nikde nezobrazí.',
+      telo: 'Výsledok ukáže spoločné podoby penetrácie — od plytkej hry a nehybného tlaku po hlbokú intenzitu — ktoré vzrušujú oboch.',
     },
   ],
 }

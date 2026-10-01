@@ -6,6 +6,10 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // bondage, impact play, senzorika/deprivácia, bradavky/svorky, kontrola orgazmu,
 // gagy/nákrčníky, breath play (len screening), roleplay, anál v BDSM, skupiny,
 // mini-scény, rámec a aftercare. z/m verzia zrkadlová (rovnaké id + hodnoty).
+// Doplnené 2026-10-01: Herbenick et al. (2021/2025) a Bőthe et al. (2024)
+// k rough sexu; Holvoet et al. 2017 a Schuerwegen et al. 2023 k BDSM;
+// The Duchy, Temple Scarlet a Lascivity checklisty k pozitívnej moci,
+// service/worship a hĺbke bondage. Komunitné zoznamy sú taxonómia, nie prevalencia.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -788,6 +792,176 @@ const PREKVAPENIE: Blok = {
   ],
 }
 
+const ROUGH_MAPA: Blok = {
+  druh: 'skupina', id: 'rough_mapa', nadpis: 'Rough sex — dravosť bez povinnej BDSM identity',
+  uvod:
+    'Rough sex môže byť spontánna vášnivá energia, nie dlhodobá rola dominantného a submisívneho človeka. Niekoho láka sila a naliehavosť, iného viditeľná stopa, vulgárne slová alebo pocit, že partner stráca sebakontrolu od túžby.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'rough_prijimam', typ: 'viac', inePovolene: true, rola: 'prijimam',
+      text: 'Čo chcem pri dravej hre prijímať',
+      moznosti: [
+        { v: 'pevny_uchop', label: 'Pevný úchop bokov, stehien, zápästí alebo vlasov' },
+        { v: 'pritlacenie', label: 'Pritlačenie telom k posteli, stene alebo nábytku' },
+        { v: 'vlasy', label: 'Ťahanie vlasov — jemné až výrazné' },
+        { v: 'hryzenie', label: 'Hryzenie a sanie so stopou' },
+        { v: 'skrabanie', label: 'Škrabanie nechtami' },
+        { v: 'zadok', label: 'Pleskanie po zadku — dlaňou alebo pomôckou' },
+        { v: 'tvar', label: 'Plesknutie po tvári ako psychologicky silný moment' },
+        { v: 'genital', label: 'Plesknutie po genitáliách ako intenzívny podnet' },
+        { v: 'smother', label: 'Prikrytie tváre dlaňou alebo telom ako pocit pohltenia' },
+        { v: 'wrestling', label: 'Wrestling, pretláčanie a fyzický odpor v hre' },
+        { v: 'slova', label: 'Vulgárne, majetnícke alebo rozkazovačné slová' },
+        { v: 'znacky', label: 'Dočasné značky, ktoré mi neskôr pripomenú zážitok' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'rough_poskytujem', typ: 'viac', inePovolene: true, rola: 'poskytujem',
+      text: g('Čo ma láka robiť partnerke', 'Čo ma láka robiť partnerovi'),
+      moznosti: [
+        { v: 'pevny_uchop', label: 'Pevne držať a určovať pohyb tela' },
+        { v: 'pritlacenie', label: g('Pritlačiť ju k posteli, stene alebo nábytku', 'Pritlačiť ho k posteli, stene alebo nábytku') },
+        { v: 'vlasy', label: 'Ťahať vlasy' },
+        { v: 'hryzenie', label: 'Hrýzť a zanechať stopu' },
+        { v: 'skrabanie', label: 'Škrabať nechtami' },
+        { v: 'zadok', label: 'Dávať výprask po zadku' },
+        { v: 'tvar', label: 'Plesknúť po tvári ako súčasť dynamiky' },
+        { v: 'genital', label: 'Plesknúť po genitáliách' },
+        { v: 'smother', label: 'Prikryť tvár dlaňou alebo telom ako súčasť dravej dynamiky' },
+        { v: 'wrestling', label: g('Premôcť partnerku v hravom zápase', 'Premôcť partnera v hravom zápase') },
+        { v: 'slova', label: 'Používať dravé, vulgárne alebo majetnícke slová' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'rough_intenzita_vyznam', typ: 'jeden',
+      text: 'Čo je na dravosti pre mňa najviac erotické',
+      moznosti: [
+        { v: 'tuzba', label: g('Pocit neodolateľnej túžby partnerky', 'Pocit neodolateľnej túžby partnera') },
+        { v: 'telo', label: 'Silný telesný vnem' },
+        { v: 'moc', label: 'Moc a strata kontroly v role' },
+        { v: 'tabu', label: 'Prekročenie obrazu „slušného“ sexu' },
+        { v: 'stopy', label: 'Stopy a telesná spomienka po sexe' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'rough_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerka túži po dravšej hre, než prirodzene iniciujem', 'Keď partner túži po dravšej hre, než prirodzene iniciujem'),
+      moznosti: [
+        { v: 'vzrusuje', label: g('Jej túžba ma vzrušuje a chcem tú rolu objaviť', 'Jeho túžba ma vzrušuje a chcem tú rolu objaviť') },
+        { v: 'vybrane', label: 'Chcem vybrať konkrétne prvky, nie celý balík rough sexu' },
+        { v: 'fantazia', label: 'Páči sa mi predstava alebo dirty talk, nie fyzická intenzita' },
+        { v: 'nie', label: 'Nie je to dynamika, v ktorej sa cítim eroticky' },
+      ],
+    },
+    {
+      druh: 'text', id: 'rough_myty', ton: 'info', nadpis: 'Mýty verzus realita',
+      telo:
+        'Mýtus: kto chce rough sex, chce byť zraňovaný alebo nerešpektovaný. Realita: často ide o intenzívny jazyk túžby, kontrast k bežnej jemnosti alebo vedome zvolenú rolu. Mýtus: dravosť musí stále silnieť. Realita: mnohých najviac vzrušuje kontrast pevného úchopu a nežného bozku, nie maximum bolesti.',
+    },
+  ],
+}
+
+const POZITIVNA_MOC: Blok = {
+  druh: 'skupina', id: 'pozitivna_moc', nadpis: 'Pozitívna moc — chvála, uctievanie, služba a vedenie k rozkoši',
+  uvod:
+    'Mocenská hra nemusí stáť na treste ani ponížení. Dominancia môže znamenať sústredenú starostlivosť a vedenie k rozkoši; submisia môže byť dar služby, uctievanie tela druhého človeka alebo úľava od rozhodovania.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'pm_dynamiky', typ: 'viac', inePovolene: true,
+      text: 'Ktoré pozitívne dynamiky ma vzrušujú',
+      moznosti: [
+        { v: 'praise', label: 'Praise kink — pochvala za telo, poslušnosť, odvahu alebo rozkoš' },
+        { v: 'body_worship', label: 'Body worship — uctievanie celého tela dotykom, bozkom a slovami' },
+        { v: 'genital_worship', label: 'Uctievanie genitálií ako centra pozornosti' },
+        { v: 'service', label: 'Service submission — masáž, vyzliekanie, obsluha alebo erotické úlohy' },
+        { v: 'pleasure_dom', label: 'Pleasure dom — dominantný človek riadi rozkoš prijímajúceho' },
+        { v: 'gentle_dom', label: 'Gentle dom — pokojný hlas, istota, nežné príkazy a pevné vedenie' },
+        { v: 'odmeny', label: 'Odmeny, privilégiá a potešenie za splnenie úlohy' },
+        { v: 'ritual', label: 'Rituály oddanosti počas dňa' },
+        { v: 'vlastnictvo', label: 'Symbolické vlastníctvo — oslovenie, obojok, šperk alebo značka' },
+        { v: 'objekt', label: 'Pozitívna objektifikácia — byť obdivovaným telom alebo nástrojom rozkoše' },
+        { v: 'brat', label: 'Hravé provokovanie a „brat/brat-tamer“ dynamika' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'pm_slova', typ: 'viac', inePovolene: true,
+      text: 'Aké druhy pochvaly ma zasahujú najhlbšie',
+      moznosti: [
+        { v: 'telo', label: 'Ako vyzerá a pôsobí moje telo' },
+        { v: 'reakcia', label: 'Ako krásne reagujem na dotyk alebo príkaz' },
+        { v: 'vykon', label: 'Ako dobre poskytujem rozkoš' },
+        { v: 'oddanost', label: 'Moja oddanosť, služba alebo poslušnosť' },
+        { v: 'odvaha', label: 'Odvaha odovzdať sa alebo viesť' },
+        { v: 'ziaducnost', label: g('Priame uistenie, že som neodolateľne žiaduci', 'Priame uistenie, že som neodolateľne žiaduca') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'pm_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerka túži byť uctievaná, obsluhovaná alebo vedená k rozkoši', 'Keď partner túži byť uctievaný, obsluhovaný alebo vedený k rozkoši'),
+      moznosti: [
+        { v: 'silne', label: g('Jej túžba ma silno vzrušuje', 'Jeho túžba ma silno vzrušuje') },
+        { v: 'vybrane', label: 'Áno, ale iba vo vybraných rolách alebo chvíľach' },
+        { v: 'striedat', label: 'Chcem sa v prijímaní a poskytovaní striedať' },
+        { v: 'nie', label: 'Táto forma moci mi nesedí' },
+      ],
+    },
+    { druh: 'otazka', id: 'pm_ritual', typ: 'text', text: 'Malý rituál chvály, služby alebo uctievania, ktorý by ma lákalo zažiť:' },
+  ],
+}
+
+const BONDAGE_HLBKA: Blok = {
+  druh: 'skupina', id: 'bondage_hlbka', nadpis: 'Bondage do hĺbky — materiál, poloha a psychologický význam',
+  bloky: [
+    {
+      druh: 'otazka', id: 'bh_co_laka', typ: 'viac', inePovolene: true,
+      text: 'Ktoré podoby bondage ma lákajú',
+      moznosti: [
+        { v: 'drzanie', label: 'Obmedzenie iba rukami alebo váhou tela' },
+        { v: 'makke', label: 'Šatka, mäkké putá alebo páska' },
+        { v: 'koza_kov', label: 'Kožené alebo kovové putá a manžety' },
+        { v: 'lano_jednoduche', label: 'Jednoduché lano — praktické znehybnenie' },
+        { v: 'shibari', label: 'Shibari — estetika, tlak lana a pocit byť vytvoreným obrazom' },
+        { v: 'spreader', label: 'Spreader bar — otvorená, vystavená poloha' },
+        { v: 'hogtie', label: 'Hogtie alebo výrazne zložená poloha' },
+        { v: 'predicament', label: 'Predicament bondage — voľba medzi dvoma náročnými polohami/podnetmi' },
+        { v: 'mummification', label: 'Mumifikácia, sleep sack alebo vak — úplné obalenie a nehybnosť' },
+        { v: 'cage', label: 'Klietka, cela, skriňa alebo uzavretý priestor ako psychologický obraz' },
+        { v: 'suspension', label: 'Suspension ako estetická a intenzívna fantázia' },
+        { v: 'pod_odevom', label: 'Diskrétne obmedzenie pod oblečením' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'bh_vyznam', typ: 'viac', inePovolene: true,
+      text: 'Čo chcem v bondage cítiť',
+      moznosti: [
+        { v: 'bezmocnost', label: 'Bezmocnosť a úľavu od rozhodovania' },
+        { v: 'vystavenie', label: 'Vystavenie tela a vedomie, že sa nemôžem skryť' },
+        { v: 'objatie', label: 'Tlak a obalenie ako pevné objatie' },
+        { v: 'estetika', label: 'Krásu uzlov, línií a fotografie' },
+        { v: 'disciplina', label: 'Disciplínu alebo trest v role' },
+        { v: 'starostlivost', label: g('Byť starostlivo viazaný a cítiť plnú pozornosť partnerky', 'Byť starostlivo viazaná a cítiť plnú pozornosť partnera') },
+        { v: 'predmet', label: g('Pocit, že som partnerkin vystavený objekt alebo umelecké dielo', 'Pocit, že som partnerov vystavený objekt alebo umelecké dielo') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'bh_roly', typ: 'jeden',
+      text: g('Keď partnerka túži viazať alebo byť viazaná', 'Keď partner túži viazať alebo byť viazaný'),
+      moznosti: [
+        { v: 'obe', label: 'Lákajú ma obe roly' },
+        { v: 'viazem', label: g('Najviac ma láka viazať ju', 'Najviac ma láka viazať ho') },
+        { v: 'viazany', label: g('Najviac ma láka byť viazaný', 'Najviac ma láka byť viazaná') },
+        { v: 'fantazia', label: 'Láka ma obraz a atmosféra, nie reálna nehybnosť' },
+        { v: 'nie', label: 'Bondage ma neláka' },
+      ],
+    },
+    {
+      druh: 'text', id: 'bh_mytus', ton: 'info', nadpis: 'Mýtus verzus realita',
+      telo:
+        'Mýtus: bondage je iba praktický spôsob, ako niekoho znehybniť. Realita: môže byť výtvarným rituálom, intenzívnym telesným objatím, službou, disciplínou alebo priestorom, kde človek na chvíľu nemusí nič rozhodovať. Pre mnohých je najerotickejšie samotné viazanie, nie to, čo príde po ňom.',
+    },
+  ],
+}
+
 // ── Rámec, hranice, aftercare ────────────────────────────────
 const RAMEC: Blok = {
   druh: 'skupina', id: 'ramec', nadpis: 'Rámec, hranice a aftercare',
@@ -864,7 +1038,10 @@ export const BDSM: TemaObsah = {
     ROLA,
     VERBAL,
     BONDAGE,
+    BONDAGE_HLBKA,
     IMPACT,
+    ROUGH_MAPA,
+    POZITIVNA_MOC,
     SENZORIKA,
     BRADAVKY,
     ORGAZMUS,

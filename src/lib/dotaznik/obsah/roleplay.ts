@@ -5,6 +5,9 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // Zdroj: „20_Roleplay_a_scenare". Výber rolí, edge roly (screening), dynamika,
 // rozsah scény, kostýmy a rekvizity, atmosféra, senzorika, neštandardné
 // rituály, kombinácie, skupinové prvky, mini-scenáre, rámec. z/m zrkadlová.
+// Doplnené 2026-10-01 po porovnaní WSFQ/Joyal fantasy inventárov a
+// komunitných BDSM checklistov The Duchy, Temple Scarlet a Autostraddle:
+// medical/examination, transformácia, gender play, doll/object a human art.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -526,6 +529,70 @@ const SKUPINOVE: Blok = {
   ],
 }
 
+const MEDICAL_TRANSFORM: Blok = {
+  druh: 'skupina', id: 'medical_transform', nadpis: 'Medical, transformačný a objektový roleplay',
+  uvod:
+    'Tieto fantázie často nestoja na povolaní či kostýme samotnom. Medical hra môže erotizovať sústredenú pozornosť, vyšetrenie a vystavenie tela. Transformácia môže na chvíľu uvoľniť inú rodovú, telesnú alebo charakterovú stránku človeka. Objektová hra môže priniesť pocit vystavenia, vlastníctva alebo dokonalej nehybnosti.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'mt_medical', typ: 'viac', inePovolene: true,
+      text: 'Ktoré medical scenáre ma eroticky lákajú',
+      moznosti: [
+        { v: 'vysetrenie', label: 'Dôkladné „vyšetrenie“ celého tela' },
+        { v: 'ordinacia', label: 'Vyšetrujúca autorita a pacient v ordinácii' },
+        { v: 'uniforma', label: 'Uniforma, rukavice, rúško alebo autoritatívny hlas' },
+        { v: 'meranie', label: 'Meranie, zapisovanie výsledkov a hodnotenie reakcií' },
+        { v: 'poloha', label: 'Nariadená poloha a vystavenie tela pohľadu' },
+        { v: 'pomocky', label: 'Lekársky pôsobiace rekvizity alebo sexologické pomôcky' },
+        { v: 'klinika', label: 'Futuristická klinika, experiment alebo „výskumný subjekt“' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mt_transform', typ: 'viac', inePovolene: true,
+      text: 'Ktoré transformačné scenáre ma lákajú',
+      moznosti: [
+        { v: 'crossdress', label: 'Cross-dressing alebo premena oblečením a stylingom' },
+        { v: 'gender_play', label: 'Gender play — dočasne iné oslovenie, rola alebo rodový prejav' },
+        { v: 'feminizacia', label: 'Feminizácia ako erotická premena' },
+        { v: 'maskulinizacia', label: 'Maskulinizácia ako erotická premena' },
+        { v: 'makeover', label: g('Makeover pod partnerkiným vedením', 'Makeover pod partnerovým vedením') },
+        { v: 'doll', label: 'Dollification — premena na dokonale upravenú bábiku' },
+        { v: 'bimbo', label: 'Bimbo/himbo fantasy — prehnaná sexualizovaná postava' },
+        { v: 'statue', label: 'Socha alebo figurína — nehybnosť a vystavenie' },
+        { v: 'furniture', label: 'Human furniture — telo ako trón, podnožka alebo dekorácia' },
+        { v: 'creature', label: 'Fantazijná premena na zviera, bytosť alebo inú formu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mt_roly', typ: 'jeden',
+      text: 'Ktorá strana premeny alebo vyšetrenia ma priťahuje',
+      moznosti: [
+        { v: 'vykonavam', label: g('Ja premieňam, obliekam alebo vyšetrujem partnerku', 'Ja premieňam, obliekam alebo vyšetrujem partnera') },
+        { v: 'prijimam', label: g('Partnerka premieňa, oblieka alebo vyšetruje mňa', 'Partner premieňa, oblieka alebo vyšetruje mňa') },
+        { v: 'obe', label: 'Chcem obe roly' },
+        { v: 'pozorujem', label: 'Láka ma najmä výsledný obraz a pozorovanie' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'mt_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerku vzrušuje premena alebo medical rola', 'Keď partnera vzrušuje premena alebo medical rola'),
+      moznosti: [
+        { v: 'laka', label: g('Jej fantázia ma láka a chcem ju s ňou vytvoriť', 'Jeho fantázia ma láka a chcem ju s ním vytvoriť') },
+        { v: 'estetika', label: 'Láka ma estetika a kostým, nie poníženie ani strata identity' },
+        { v: 'vybrane', label: 'Chcem iba konkrétne prvky alebo oslovenia' },
+        { v: 'fantazia', label: g('Rád o tom fantazírujem, ale nechcem plnú scénu', 'Rada o tom fantazírujem, ale nechcem plnú scénu') },
+        { v: 'nie', label: 'Táto premena alebo rola ma eroticky neláka' },
+      ],
+    },
+    { druh: 'otazka', id: 'mt_slova', typ: 'text', text: 'Oslovenia, vzhľad a prvky, ktoré majú byť súčasťou tejto premeny — a ktoré by pokazili jej význam:' },
+    {
+      druh: 'text', id: 'mt_mytus', ton: 'info', nadpis: 'Mýtus verzus realita',
+      telo:
+        'Mýtus: gender play automaticky vypovedá o rodovej identite človeka mimo scény. Realita: niekomu pomáha skúmať identitu, inému ide iba o kostým, kontrast alebo mocenskú hru. Mýtus: medical fantasy znamená túžbu po skutočnom zákroku. Realita: často je jadrom pozornosť, autorita, vystavenie a detailné skúmanie tela.',
+    },
+  ],
+}
+
 // ── Mini-scenáre ──────────────────────────────────────────
 const SCENARE: Blok = {
   druh: 'skupina', id: 'scenare', nadpis: 'Mini-scenáre — čo ma láka',
@@ -627,6 +694,7 @@ export const ROLEPLAY: TemaObsah = {
     RITUALY,
     KOMBINACIE,
     SKUPINOVE,
+    MEDICAL_TRANSFORM,
     SCENARE,
     RAMEC,
   ],

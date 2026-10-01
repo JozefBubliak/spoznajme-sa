@@ -5,6 +5,9 @@ import type { TemaObsah, Blok, Moznost, Podmienka } from './typ'
 // Zdroj: „21_Fetise" (checklist materiálov/častí tela + hlboký ponor do
 // telesných tekutín + situačné fetiše). Zjednotené, každá odlišná otázka
 // zachovaná. z/m verzia zrkadlová (rovnaké id + hodnoty).
+// Doplnené 2026-10-01: WHO SHAPE; Holvoet et al. 2017; kink ženy
+// (Sagarin et al.); Autostraddle, The Duchy a Temple Scarlet checklisty.
+// Rozšírené WAM/tekutiny a nízkofrekvenčný screening špecifických praktík.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -395,11 +398,98 @@ const ROLEPLAY: Blok = {
 
 // ── Messy play ──────────────────────────────────────────────────────
 const MESSY: Blok = {
-  druh: 'skupina', id: 'messy', nadpis: 'Messy play',
+  druh: 'skupina', id: 'messy', nadpis: 'Tekutiny a wet-and-messy play — telo bez sterilnosti',
+  uvod:
+    'Pre niekoho je vlhkosť dôkazom vzrušenia, pot vôňou blízkosti a neporiadok dovolením stratiť kontrolu nad uhladeným obrazom seba. WAM môže byť hravý a zmyslový, ponižujúci, vizuálny alebo jednoducho veľmi telesný.',
   bloky: [
-    p('messy_jedlo', 'Jedlo ako rekvizita (šľahačka, med, ovocie)'),
-    p('messy_bodypaint', 'Body paint / „liquid latex" / farby na tele'),
-    p('messy_olej', 'Olej a lesk po celom tele'),
+    {
+      druh: 'otazka', id: 'messy_latky', typ: 'viac', inePovolene: true,
+      text: 'Ktoré látky a telesné prejavy ma eroticky priťahujú',
+      moznosti: [
+        { v: 'pot', label: 'Pot, horúca koža a prirodzený pach po sexe alebo pohybe' },
+        { v: 'slzy', label: 'Slzy ako emocionálny alebo mocenský obraz' },
+        { v: 'sliny', label: 'Sliny — bozk, stekanie, pľutie alebo rozotieranie' },
+        { v: 'semeno', label: 'Semeno — na tele, v ústach alebo ako vizuálne finále' },
+        { v: 'vaginalna', label: 'Vaginálna vlhkosť alebo squirting ako viditeľný znak vzrušenia' },
+        { v: 'menstruacia', label: 'Menštruačná krv bez hanby alebo odporu' },
+        { v: 'moc', label: 'Moč ako telesná, tabu alebo mocenská hra' },
+        { v: 'mlieko', label: 'Materské mlieko alebo laktácia' },
+        { v: 'jedlo', label: 'Šľahačka, med, čokoláda, ovocie alebo iné jedlo' },
+        { v: 'krem', label: 'Krém, pena, olej, gél alebo lesk po celom tele' },
+        { v: 'sliz', label: 'Sliz, blato, farba alebo výrazne klzká hmota' },
+        { v: 'bodypaint', label: 'Body paint alebo liquid latex ako premena tela' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'messy_scenare', typ: 'viac', inePovolene: true,
+      text: 'Ktoré messy scenáre ma lákajú',
+      moznosti: [
+        { v: 'ochutnavanie', label: g('Ochutnávať látku alebo tekutinu z partnerkinho tela', 'Ochutnávať látku alebo tekutinu z partnerovho tela') },
+        { v: 'natieranie', label: 'Natierať telo a pomaly ho čistiť ústami alebo rukami' },
+        { v: 'polievanie', label: 'Polievanie, striekanie alebo stekanie po tele' },
+        { v: 'wrestling', label: 'Klzký wrestling alebo hra tiel pokrytých olejom či gélom' },
+        { v: 'cum_kiss', label: 'Cum-kiss alebo snowballing — odovzdanie semena bozkom' },
+        { v: 'felching', label: 'Felching ako explicitná fantasy alebo praktika' },
+        { v: 'oznacenie', label: 'Označenie tela tekutinou ako dominantný alebo majetnícky obraz' },
+        { v: 'ponizenie', label: 'Zašpinenie ako dohodnuté ponižovanie' },
+        { v: 'hravost', label: 'Hravá food fight alebo smiech bez mocenskej roly' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'messy_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerka túži po tekutinách alebo zašpinení viac než ja', 'Keď partner túži po tekutinách alebo zašpinení viac než ja'),
+      moznosti: [
+        { v: 'laka', label: g('Jej telesnosť a túžba ma vzrušujú', 'Jeho telesnosť a túžba ma vzrušujú') },
+        { v: 'vybrane', label: 'Chcem vybrať konkrétnu látku a konkrétnu rolu' },
+        { v: 'fantazia', label: 'Môžeme o tom hovoriť alebo fantazírovať, no nechcem to na tele' },
+        { v: 'nie', label: 'Táto telesnosť ma eroticky vypína' },
+      ],
+    },
+    {
+      druh: 'text', id: 'messy_mytus', ton: 'info', nadpis: 'Mýtus verzus realita',
+      telo:
+        'Mýtus: messy hra je iba „špinavý fetiš“. Realita: môže byť hravým návratom k telu, zmyslovou textúrou, dôkazom vzrušenia alebo vedomým opustením potreby vyzerať dokonale. Nie každý, koho vzrušuje pot či vlhkosť, chce extrémnejšie tekutiny — každá má vlastný význam.',
+    },
+  ],
+}
+
+const SPECIFICKE_PRAKTIKY: Blok = {
+  druh: 'skupina', id: 'specificke_praktiky', nadpis: 'Špecifické praktiky a pomôcky — stručný objavovací screening',
+  uvod:
+    'Niektoré menej bežné záujmy sa v širokom dotazníku ľahko stratia. Tento blok ich nepovyšuje na povinnú skúsenosť; dáva človeku možnosť povedať „poznám a chcem“, „iba fantázia“, „zaujíma ma vysvetlenie“ alebo „nie“.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'sp_pomocky', typ: 'viac', inePovolene: true,
+      text: 'Ktoré špecifické praktiky alebo pomôcky ma zaujímajú',
+      moznosti: [
+        { v: 'sounding', label: 'Uretrálny sounding alebo uretrálny plug' },
+        { v: 'figging', label: 'Figging — intenzívny hrejivý podnet v análnej oblasti' },
+        { v: 'enema', label: 'Erotický klystír alebo pocit naplnenia tekutinou' },
+        { v: 'penis_pump', label: 'Penisová pumpa alebo vákuum ako vizuálny a telesný prvok' },
+        { v: 'vulva_pump', label: 'Vulvová alebo klitorálna pumpa' },
+        { v: 'nipple_pump', label: 'Pumpovanie bradaviek alebo pŕs' },
+        { v: 'milking', label: 'Milking — prostatické „dojenie“ alebo kontrolované vyvrcholenie' },
+        { v: 'speculum', label: 'Speculum alebo medical pomôcka ako prvok fantázie a roleplay' },
+        { v: 'sex_machine', label: 'Sex machine — prijímať alebo ovládať jej rytmus' },
+        { v: 'clone', label: 'Odliatok vlastných genitálií ako hračka pre pár' },
+        { v: 'sleeve', label: 'Penisový sleeve, návlek alebo protéza pre inú textúru a funkciu' },
+        { v: 'thigh_harness', label: 'Stehenný alebo bezbedrový harness' },
+        { v: 'docking', label: 'Docking alebo spájanie genitálií cez predkožku' },
+        { v: 'inflatable', label: 'Nafukovacie insertables alebo postupná zmena plnosti' },
+        { v: 'furniture', label: 'Sex sling, dverový záves alebo polohovací nábytok' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'sp_uroven', typ: 'jeden',
+      text: 'Ako chcem s označenou položkou naložiť',
+      moznosti: [
+        { v: 'realita', label: 'Chcem ju reálne preskúmať' },
+        { v: 'fantazia', label: 'Vzrušuje ma iba ako fantázia alebo obraz' },
+        { v: 'info', label: 'Najprv potrebujem presné vysvetlenie, až potom postoj' },
+        { v: 'partner', label: g('Sám ju nepotrebujem, ale zaujíma ma partnerkina túžba', 'Sama ju nepotrebujem, ale zaujíma ma partnerova túžba') },
+      ],
+    },
+    { druh: 'otazka', id: 'sp_partner', typ: 'text', text: g('Čo ma na partnerkinej túžbe po špecifickej praktike láka, zneisťuje alebo by som potreboval pochopiť:', 'Čo ma na partnerovej túžbe po špecifickej praktike láka, zneisťuje alebo by som potrebovala pochopiť:') },
   ],
 }
 
@@ -483,6 +573,7 @@ export const FETISE: TemaObsah = {
     VOYEUR,
     ROLEPLAY,
     MESSY,
+    SPECIFICKE_PRAKTIKY,
     RAMEC,
   ],
   zaver: [

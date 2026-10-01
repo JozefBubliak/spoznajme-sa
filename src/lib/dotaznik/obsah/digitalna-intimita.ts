@@ -8,7 +8,12 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // existujúcich L4 seedov modulu — spolu presne pokrývajú oba pôvodné
 // názvy: sexting/fotky/videá, ukladanie a riziko, porno spolu, kamera/VR/
 // hračky na diaľku. z/m verzia zrkadlová.
+// Doplnené 2026-10-01: pornografické motívy v 42 krajinách, partnered/solo/
+// secret use (Zhou et al. 2025), AI-supported sexuality a digisexuality
+// (nemecké národné prieskumy 2024–2026), Scarleteen a Autostraddle worksheety.
 // ─────────────────────────────────────────────────────────────────────────────
+
+const g = (m: string, z: string): TemaObsah['nadpis'] => ({ m, z })
 
 const POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
@@ -250,6 +255,89 @@ const EROTICKA_LITERATURA: Blok = {
   ],
 }
 
+const MEDIA_FORMY: Blok = {
+  druh: 'skupina', id: 'media_formy', nadpis: 'Erotické médiá podľa formy, motívu a spôsobu používania',
+  uvod:
+    g(
+      'Erotické médium nie je iba video. Niekto potrebuje hlas a fantáziu, iný príbeh, interaktivitu alebo spoločné objavovanie. Rovnako dôležité ako obsah je, či ho používam sám, s vedomím partnerky, tajne alebo priamo spolu s ňou.',
+      'Erotické médium nie je iba video. Niekto potrebuje hlas a fantáziu, iný príbeh, interaktivitu alebo spoločné objavovanie. Rovnako dôležité ako obsah je, či ho používam sama, s vedomím partnera, tajne alebo priamo spolu s ním.',
+    ),
+  bloky: [
+    {
+      druh: 'otazka', id: 'med_formy', typ: 'viac', inePovolene: true,
+      text: 'Ktoré formy erotického obsahu ma priťahujú',
+      moznosti: [
+        { v: 'video', label: 'Pornografické video alebo krátke klipy' },
+        { v: 'foto', label: 'Fotografie a erotické vizuály' },
+        { v: 'audio', label: 'Audio erotika, hlasové príbehy alebo erotický ASMR' },
+        { v: 'knihy', label: 'Romány, poviedky alebo erotická literatúra' },
+        { v: 'fanfiction', label: 'Fanfiction a známe postavy v nových scenároch' },
+        { v: 'hentai', label: 'Hentai, animácia, komiks alebo ilustrovaná erotika' },
+        { v: 'hry', label: 'Interaktívne erotické hry alebo príbehy s voľbami' },
+        { v: 'cam', label: 'Živá cam show alebo interakcia s performerom' },
+        { v: 'vr', label: 'VR, 360° video alebo avatarové prostredie' },
+        { v: 'ai_text', label: 'AI erotický príbeh alebo roleplay chatbot' },
+        { v: 'ai_obraz', label: 'AI generované obrázky alebo personalizované video' },
+        { v: 'sync', label: 'Obsah synchronizovaný s hračkou' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'med_motivy', typ: 'viac', inePovolene: true,
+      text: 'Čo od erotického média najčastejšie chcem',
+      moznosti: [
+        { v: 'rychle_vzrusenie', label: 'Rýchlo prebudiť vzrušenie' },
+        { v: 'fantazia', label: 'Zažiť fantáziu, ktorú nechcem robiť v realite' },
+        { v: 'inspiracia', label: 'Nájsť techniku, scénu alebo slová pre nás dvoch' },
+        { v: 'solo', label: 'Súkromný sólo priestor' },
+        { v: 'spolu', label: g('Spoločná predohra a sledovanie reakcie partnerky', 'Spoločná predohra a sledovanie reakcie partnera') },
+        { v: 'novota', label: 'Novosť, prekvapenie alebo tabu' },
+        { v: 'pribeh', label: 'Emocionálny príbeh a pomalé budovanie napätia' },
+        { v: 'identita', label: 'Skúmať rolu, orientáciu alebo stránku seba bez záväzku konať' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'med_pouzivanie', typ: 'viac', inePovolene: true,
+      text: 'Ako chcem médiá používať v našom vzťahu',
+      moznosti: [
+        { v: 'solo_sukromne', label: 'Sólo a súkromne, bez povinnosti hlásiť konkrétny obsah' },
+        { v: 'solo_otvorene', label: 'Sólo, ale otvorene vieme, že to obaja používame' },
+        { v: 'spolu_vyber', label: 'Spoločne vyberať a pozerať alebo počúvať' },
+        { v: 'striedat_kurator', label: g('Striedať sa v kurátorovaní večera pre partnerku', 'Striedať sa v kurátorovaní večera pre partnera') },
+        { v: 'poslat_tip', label: 'Posielať si klip, príbeh alebo audio ako nepriamu fantáziu' },
+        { v: 'vytvorit_spolu', label: 'Spoločne vytvoriť text, audio, fotku alebo video iba pre nás' },
+        { v: 'ai_spolu', label: 'Spoločne zadávať AI scenár a sledovať, kam sa príbeh vyvinie' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'med_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerku vzrušuje forma alebo obsah, ktorý sám nevyhľadávam', 'Keď partnera vzrušuje forma alebo obsah, ktorý sama nevyhľadávam'),
+      moznosti: [
+        { v: 'zvedavost', label: g('Som zvedavý, čo sa jej na tom páči', 'Som zvedavá, čo sa mu na tom páči') },
+        { v: 'spolu', label: g('Chcem to s partnerkou raz preskúmať ako jej fantáziu', 'Chcem to s partnerom raz preskúmať ako jeho fantáziu') },
+        { v: 'solo_ok', label: g('Mne to nič nehovorí, ale partnerkin sólo priestor rešpektujem', 'Mne to nič nehovorí, ale partnerov sólo priestor rešpektujem') },
+        { v: 'hranica', label: 'Táto konkrétna forma alebo interakcia prekračuje moju vzťahovú hranicu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'med_nevera', typ: 'viac', inePovolene: true,
+      text: 'Čo už pre mňa môže pôsobiť ako vzťahová nevera alebo zatajenie',
+      moznosti: [
+        { v: 'tajne_platenie', label: 'Tajné platenie alebo finančné stopy' },
+        { v: 'live_osoba', label: 'Interakcia so živým performerom alebo konkrétnou osobou' },
+        { v: 'ai_vztah', label: 'Emocionálne pripútanie k AI companionovi' },
+        { v: 'real_osoba_ai', label: 'Generovanie sexuálneho obsahu podľa reálnej osoby' },
+        { v: 'nahravanie', label: 'Tvorba alebo zverejnenie vlastného obsahu' },
+        { v: 'nic', label: 'Samotné médium za neveru nepovažujem; rozhoduje dohoda a utajovanie' },
+      ],
+    },
+    {
+      druh: 'text', id: 'med_myty', ton: 'info', nadpis: 'Mýty verzus realita',
+      telo:
+        'Mýtus: to, čo človek pozerá alebo číta, chce automaticky urobiť. Realita: médiá často slúžia práve na bezpečný priestor pre fantáziu bez želania preniesť ju do života. Mýtus: spoločné porno musí pár porovnávať. Realita: pre mnoho párov je skôr slovníkom — ukáže tempo, dynamiku alebo atmosféru, o ktorej sa ťažko začína hovoriť.',
+    },
+  ],
+}
+
 // ── Platformy na tvorbu obsahu (OnlyFans a podobné) ─────────────────
 const PLATFORMY: Blok = {
   druh: 'skupina', id: 'platformy', nadpis: 'Platformy na tvorbu obsahu (OnlyFans a podobné)',
@@ -338,6 +426,7 @@ export const DIGITALNA_INTIMITA: TemaObsah = {
     UKLADANIE,
     PORNO,
     EROTICKA_LITERATURA,
+    MEDIA_FORMY,
     KAMERA_VR,
     PLATFORMY,
   ],
