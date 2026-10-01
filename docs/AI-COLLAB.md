@@ -8,6 +8,10 @@
 
 6. **Žiadna pevná šablóna.** Každá téma aj podtéma je samostatný projekt. Štruktúru, skupiny a otázky navrhnúť až po tom, čo o nej zistíš maximum (výskum, komunity, existujúce dotazníky, realita praxe, obavy oboch strán). Trans téma nie je šablóna na kopírovanie — je to ukážka **postupu**: rešerš → čo všetko k téme patrí → aké roviny a perspektívy má (ja / partner / spolu / bez tretej osoby / pocity / realita vs. predstava) → až potom otázky, m/ž. Zdroje zapísať do hlavičky súboru.
 
+7. **Nehodnotiť vrodené telesné „typy“ partnera.** Párový dotazník nemá žene ponúkať preferenciu veľkého/malého, hrubého/tenkého ani iného typu penisu, keď partnerovo telo je dané; môže sa pýtať na techniku pre konkrétne telo, citlivé miesta a polohy. Rovnako nevytvárať zbytočné porovnávanie iných nemenných čŕt. V slovenskom kontexte je predkožka bežný základ techniky; obriezku nedať ako rovnocenne častý „typ“ ani ako erotickú preferenciu ženy.
+
+**Zoznam medzier na doplnenie:** `docs/dotaznik-gap-analyza.md` (33 chýba, 38 len zmienka, systémové medzery, poradie).
+
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
 
 ---
@@ -28,6 +32,46 @@ Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (v
 **Zmeny tejto relácie (commitnuté lokálne, NEpushnuté):** nový modul I5 `tabu-mantinely.ts` (58 modulov), `sumar.ts` (auto sumár na koniec tém cez `index.ts`), rozšírené: rovnake-pohlavie, miesta-prostredie (voda, karty), polohy (experiment, žena hore, 69, mýty), vaginalna-penetracia (fisting), face-sitting (techniky), roleplay, nepenetrativne-trenie (petting, outercourse), bozky-dotyky (bozky, A/U/fornix, rituály), komunikacia-pocas-po (mikrokroky), masturbacia. Push na prod len na výslovný pokyn používateľa.
 
 **Otvorené:** (a) prejsť aj ~27 tém, ktorých sa xlsm kusy zatiaľ nedotkli, a doplniť tipy/mýty/opaky (používateľ o tom vie, neodsúhlasil poradie); (b) nová 4-stupňová škála (PREF-2026-09-17) stále nemigrovaná; (c) staré duplicitné ID blokov: face-sitting `smother_uvod`, swinging `prostredie`, oral-vulva-klitoris `ramec`.
+
+---
+## GLOBAL GAP AUDIT — túžby, preferencie a praktiky, 2026-10-01
+
+OWNER Codex. Na žiadosť používateľa vznikol `docs/dotaznik-globalny-gap-audit-2026-10.md`: porovnanie 58 modulov a 36 obsahových tém s populačnými, medzinárodnými, trans/ace a kink zdrojmi. Najvyššie priority sú anatómia oddelená od rodovej identity, trans muži, širšie spracovanie trans žien, nebinárni/intersex ľudia, skutočné queer páry a hlbšie ace spektrum. Ďalej audit radí asymetriu dávania/prijímania, rough sex, praise/service/primal kink, reprodukčnú erotiku, nové digitálne/AI praktiky a špecializované zdravotné či životné situácie. Je to prioritný backlog, nie automaticky implementovaný obsah.
+
+---
+## XLSM-015 — análne hračky, 2026-10-01
+
+OWNER Codex. Príloha bola prečítaná celá (**305 riadkov**) a súvislo zmapovaná v `docs/dotaznik-xlsm-reaudit-015.md`. `analna-penetracia.ts` má teraz plnú m/ž mapu prijímania, poskytovania a sólo používania; typy hračiek, vnemy, tvary a materiály, korálky, diaľkové ovládanie, kontexty, reakciu na partnerovu túžbu a mýty. Opakované bloky klitorisu, vaginálneho prstovania a cunnilingusu boli porovnané s XLSM-014 a neduplikovali sa. Staré všeobecné safety/hygienické/semaforové vsuvky v dotknutej téme boli premenené na erotické preferencie bez zmeny existujúcich ID. Typecheck bez cache a všetkých 6 validátorov PASS; 93 statických ID unikátnych; rodový sken a diff-check PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+---
+## XLSM-014 — prstovanie, klitoris, vaginálny fisting a cunnilingus, 2026-09-30
+
+OWNER Codex. Príloha bola prečítaná celá (**139 riadkov**) a súvislo zmapovaná v `docs/dotaznik-xlsm-reaudit-014.md`. Rozšírené boli `bozky-dotyky.ts`, `oralna-intimita.ts` a `vaginalna-penetracia.ts`: plná m/ž perspektíva prstovania, podrobná externá/plytká/vnútorná mapa, pohyb tela a štýly; širšia paleta cunnilingusu; motívy, vnemy a mýty vaginálneho fistingu. Opakované cunnilingusové bloky boli porovnané po jednotlivých možnostiach a zlúčené bez duplicít. Akademické a komunitné zdroje sú v hlavičkách súborov. Všeobecné stop/safety poučky v dotknutej vaginálnej téme boli premenené na obsahové preferencie. Typecheck a všetkých 6 validátorov PASS; statické ID unikátne (142/74/40); rodový/safety sken aj diff-check PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+---
+## XLSM-013 — stimulácia penisu a jeho okolia, 2026-09-30
+
+OWNER Codex. Príloha bola prečítaná celá (**320 riadkov**) a súvislo zmapovaná v `docs/dotaznik-xlsm-reaudit-013.md`. Rozšírené boli `bozky-dotyky.ts` a `oralna-intimita.ts`: podrobná mapa zón, štýly handjobu, práca s predkožkou, pomôcky, široké spektrum felácie, techniky jazyka a pier, ruka + ústa, semenníky, hrádza, vedenie, túžba oboch strán a mýty. Zdroj nebol stropom — doplnené boli akademické aj komunitné technické inšpirácie. Na pokyn používateľa dotazník nehodnotí preferovaný typ ani veľkosť penisu; pracuje s konkrétnym telom partnera a predkožku berie ako bežnú slovenskú realitu, nie ako jeden z rovnocenných „typov“. Staré všeobecné safety/hygienické/bariérové vsuvky v orálnej téme boli premenené na tematické preferencie; textové duplicitné ID `ramec` bolo opravené bez zásahu do odpovedí. Typecheck a všetkých 6 validátorov PASS; statické ID unikátne (`bozky-dotyky.ts` 136, `oralna-intimita.ts` 70); rodový/safety sken aj diff-check PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+---
+## XLSM-012 — prsia, bradavky, manuálne techniky, chrbát a odkazy, 2026-09-30
+
+OWNER Codex. Príloha bola prečítaná celá (**383 riadkov**) a rozdelená podľa presných rozsahov na prsia/bradavky, manuálnu stimuláciu genitálií, zmyslové experimenty, chrbát, všeobecné dotyky, orálne prelinky, generický UI obsah a opak facesittingu. Úplná mapa bez vynechaných rozsahov je v `docs/dotaznik-xlsm-reaudit-012.md`. Hlavne rozšírený `bozky-dotyky.ts`: detailná mapa hrudníka/pŕs, sedem samostatných technických intenzít, pomôcky, načasovanie, kombinácie, orgazmická úloha, premenlivosť citlivosti, poskytovanie a partnerova túžba; ďalej nový podrobný chrbát, poskytovanie manuálnej stimulácie partnerovi, ťahanie vlasov, kontrast dotykov a postoj k partnerovej túžbe. Akademické a komunitné zdroje sú v hlavičke súboru. Opakované orálne/facesittingové časti a odkazy sa neduplikovali; hygiena a safety sa nepreniesli. Typecheck a všetkých 6 validátorov PASS; 130 statických ID v `bozky-dotyky.ts` je unikátnych; rodový/safety sken a diff-check PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+---
+## XLSM-010/011 — Facesitting: modul a mužská/ženská vetva, 2026-09-30
+
+OWNER Codex. Obe prílohy boli prečítané celé (145 + 219 riadkov vrátane prázdnych) a spracované proti konkrétnym blokom `face-sitting.ts`; mapa 61 + 64 logických bodov je v `docs/dotaznik-xlsm-reaudit-010-011.md`. Väčšina bola významovým prekrytím XLSM-006/009, no doplnené boli: čisto telesná atmosféra bez D/s, triumf a sexuálna sebaistota hore, pokora/eufória/hlboké ponorenie dole, kontext fantázie (sólo, partner, sex, masturbácia, cez deň, tabu), náročné pocity, hanba typu „perverzné“, strach z váhy a otázka iniciatívy. Opravený bol obrátený význam uctievania v role dole a tri nesprávne subjekty v role hore. Subspace je normalizovaný ako možná skúsenosť, nie cieľ; feromónové tvrdenia, percentá/plná váha, breath-play návody, stop-signály a hygiena sa nepreniesli. Typecheck a všetkých 6 validátorov PASS; 133 statických ID je unikátnych; rodové a safety skeny aj diff-check PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+---
+## XLSM-009 — Facesitting: komplexný sprievodca, 2026-09-30
+
+OWNER Codex. Príloha bola prečítaná celá (158 textových riadkov) a rozdelená na 83 logických bodov; presná mapa je v `docs/dotaznik-xlsm-reaudit-009.md`. Dávka sa s XLSM-006 výrazne prekrývala, ale priniesla nové motívy: service kink a „živý trón“, úľavu od zodpovednosti, tunelové zmyslové sústredenie, hover/trón/sidesaddle/hranu postele, oblečenú a nahú verziu, krátke a dlhé vlny, aktívny pohyb osoby hore, sebadotyk, zrkadlo, edging a znehybnenie. Po akademickej a komunitnej rešerši pribudla psychológia oboch rolí, druhá dimenzia „keď po tom túži partner“, menu polôh, body-image normalizácia a rozšírené mýty. Nepravdivé tvrdenie o odolnosti mužskej tváre/krku, feromónové nadinterpretácie, všeobecná bezpečnosť, hygiena a generické návody na rozhovor sa nepreniesli. Záverečný CNM zoznam bol iba namapovaný na samostatné témy. Typecheck a všetkých 6 validátorov PASS; 129 statických ID je unikátnych; rodové a safety/hygienické skeny aj diff-check PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
+
+---
+## XLSM-007/008 — trojky a kontrola prekrývajúcej sa dávky, 2026-09-30
+
+OWNER Codex. Obe prílohy boli prečítané celé. XLSM-008 sa s XLSM-007 silno prekrýva, ale nie je identická: obsahuje dlhšie MMF/FMF naladenia a niekoľko osobitných prijímacích/poskytovacích vetiev. Jedinečné detaily boli zlúčené, otázky sa neduplikovali. Presná mapa 71 + 45 bodov je v `docs/dotaznik-xlsm-reaudit-007-008.md`. Téma vznikla bez pevnej šablóny a po rešerši akademických aj komunitných zdrojov zapísaných v hlavičke `trojky-skupiny.ts`. Doplnené: text vzbudzujúci túžbu, mýty/tabu, druhá dimenzia „keď to chce partner“, konfigurácie, matica interakcií, pozornosť, spúšťače žiarlivosti, compersion, gangbang/bukkake rozdiel a motivácie, foto/video fantázia a podrobný DP/DAP/DVP screening. Všeobecný safety/hygienický rámec odstránený alebo premenený. Dotknuté znenia v `trojky-skupiny.ts` a doznievajúce znenia v `face-sitting.ts` sú personalizované cez `g()`. Typecheck a všetkých 6 validátorov PASS; statické ID unikátne (`trojky-skupiny.ts` 67, `face-sitting.ts` 117); diff-check PASS. Presný P rozsah čaká na XLSM. Bez commitu a pushu.
 
 ---
 ## XLSM-006 — Face sitting, 2026-09-30
