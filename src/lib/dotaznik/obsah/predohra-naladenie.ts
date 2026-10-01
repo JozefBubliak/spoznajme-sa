@@ -11,6 +11,16 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // modul A2 — tu len doplnok (nepriame prejavy, očný kontakt). Prostredie má
 // vlastný modul A3 — tu nerozvádzané. Rituály a antirutina sú v „Dlhodobej
 // intimite" (A1) — tu nerozvádzané. z/m verzia zrkadlová.
+// Doplnené 2026-10-01 podľa XLSM P37396: fantázia, spomienky, erotické
+// príbehy, všímavosť, pomalé budovanie očakávania, zraniteľnosť a pochvala.
+// Výskumné opory: Brotto et al. (mindfulness a túžba/vzrušenie),
+// https://pubmed.ncbi.nlm.nih.gov/34383535/ ; Birnbaum et al. (partnerské
+// fantázie a túžba), https://pubmed.ncbi.nlm.nih.gov/30122104/
+// Reaudit XLSM riadky 12909–13158 (P35262–P35877): hlas, telefonát,
+// list/lístok, rozdiel medzi používanou a želanou formou a partnerova túžba.
+// Výskumné opory k digitálnej erotickej komunikácii dospelých:
+// https://pubmed.ncbi.nlm.nih.gov/31502070/ a párové dáta
+// https://pubmed.ncbi.nlm.nih.gov/26484980/.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -105,26 +115,77 @@ const MENTALNA_PRIPRAVA: Blok = {
     {
       druh: 'text', id: 'men_info',
       telo:
-        'Intimita nezačína dotykom — začína v hlave. Fantazírovanie počas dňa, zdieľanie túžob vopred alebo len ' +
-        'vedomé spomalenie a naladenie sa dokážu vytvoriť očakávanie, ktoré predĺži a zintenzívni to, čo príde večer.',
+        'Intimita často nezačína dotykom, ale tým, čomu dovolíme rásť v hlave. Spomienka na silnú chvíľu, tajný scenár, ' +
+        'pomalé správy počas dňa alebo vedomé sústredenie na telo môžu meniť obyčajný večer na niečo, na čo sa obaja tešia. ' +
+        'Fantázia pritom nie je prísľub ani plán: môže zostať súkromným palivom, byť zdieľaná len sčasti alebo sa stať spoločnou hrou.',
     },
     {
       druh: 'otazka', id: 'men_priprava', typ: 'viac', inePovolene: true,
       text: 'Ako sa psychicky pripravujem na intímne chvíle',
       moznosti: [
-        { v: 'fantazirujem', label: 'Fantazírujem o rôznych situáciách' },
-        { v: 'zdielam', label: 'Zdieľam svoje túžby a očakávania s partnerom vopred' },
-        { v: 'relaxujem', label: 'Relaxujem, aby som sa naladil(a) na správnu atmosféru' },
+        { v: 'fantazirujem', label: 'Nechám v hlave rozvinúť erotickú scénu alebo zakázanú predstavu' },
+        { v: 'spomienka', label: g('Vrátim sa k spomienke, pri ktorej som sa cítil príťažlivo a žiadane', 'Vrátim sa k spomienke, pri ktorej som sa cítila príťažlivo a žiadane') },
+        { v: 'pribeh', label: 'Vytváram si vlastný príbeh a postupne ho rozvíjam' },
+        { v: 'zdielam', label: g('Naznačím partnerke svoju túžbu alebo očakávanie vopred', 'Naznačím partnerovi svoju túžbu alebo očakávanie vopred') },
+        { v: 'relaxujem', label: 'Najprv vypnem pracovný režim a uvoľním napätie' },
+        { v: 'vsimavost', label: 'Sústredím sa na dych, telo a prítomný okamih' },
+        { v: 'bez_pripravy', label: 'Najviac mi vyhovuje spontánnosť bez vedomej prípravy' },
       ],
     },
     {
       druh: 'otazka', id: 'men_aktivity', typ: 'viac', inePovolene: true,
       text: 'Aké mentálne aktivity ma najviac vzrušujú',
       moznosti: [
-        { v: 'scenar', label: 'Predstavovanie si konkrétnych scén' },
-        { v: 'role_v_mysli', label: 'Hranie rolí vo svojej mysli' },
-        { v: 'vizualizacia', label: 'Vizualizovanie blízkosti s partnerom' },
+        { v: 'scenar', label: 'Predstavovanie si konkrétnej scény krok za krokom' },
+        { v: 'role_v_mysli', label: 'Hranie inej roly alebo osobnosti vo svojej mysli' },
+        { v: 'partner', label: g('Predstava partnerky a toho, čo spolu radi robíme', 'Predstava partnera a toho, čo spolu radi robíme') },
+        { v: 'spomienka', label: 'Návrat k skutočnému zážitku, ktorý vo mne stále žije' },
+        { v: 'pribeh_media', label: 'Erotický príbeh, hlas, obraz alebo scéna z média' },
+        { v: 'tabu', label: 'Predstava niečoho tabu, čo nemusím chcieť uskutočniť' },
+        { v: 'tuzba_partner', label: g('Predstava, že ma partnerka silno chce a nevie na mňa prestať myslieť', 'Predstava, že ma partner silno chce a nevie na mňa prestať myslieť') },
       ],
+    },
+    {
+      druh: 'otazka', id: 'men_ocakavanie', typ: 'viac', inePovolene: true,
+      text: 'Ako sa u mňa najkrajšie buduje erotické očakávanie počas dňa',
+      moznosti: [
+        { v: 'blizkost', label: 'Emocionálna blízkosť, pozornosť a drobné prejavy náklonnosti' },
+        { v: 'flirt', label: 'Pohľady, dvojsmysly a flirt, ktorému rozumieme len my dvaja' },
+        { v: 'spravy', label: 'Krátke správy alebo hlasovky, ktoré nechajú pracovať predstavivosť' },
+        { v: 'dotyky', label: 'Nenápadné dotyky bez okamžitého pokračovania' },
+        { v: 'slub', label: 'Konkrétny prísľub toho, čo by sa mohlo stať neskôr' },
+        { v: 'odklad', label: 'Vedome si blízkosť odkladať a nechať túžbu pomaly hustnúť' },
+        { v: 'tajomstvo', label: g('Nevedieť presne, čo partnerka pripravuje', 'Nevedieť presne, čo partner pripravuje') },
+      ],
+    },
+    {
+      druh: 'text', id: 'men_sebavedomie_info', nadpis: 'Keď hlava dovolí telu byť žiadané',
+      telo: g(
+        'Pochvala nemusí byť zdvorilosť a zraniteľnosť nemusí byť slabosť. Môže byť veľmi erotické počuť konkrétne, čo na mne partnerka obdivuje, ukázať jej túžbu bez masky a cítiť, že odpoveďou nie je hodnotenie, ale záujem. Mentálne naladenie môže znamenať aj dovoliť si nebyť dokonalý a napriek tomu sa cítiť vybraný.',
+        'Pochvala nemusí byť zdvorilosť a zraniteľnosť nemusí byť slabosť. Môže byť veľmi erotické počuť konkrétne, čo na mne partner obdivuje, ukázať mu túžbu bez masky a cítiť, že odpoveďou nie je hodnotenie, ale záujem. Mentálne naladenie môže znamenať aj dovoliť si nebyť dokonalá a napriek tomu sa cítiť vybraná.',
+      ),
+    },
+    {
+      druh: 'otazka', id: 'men_emocie', typ: 'viac', inePovolene: true,
+      text: 'Čo mi pomáha cítiť sa odvážne, príťažlivo a otvorene',
+      moznosti: [
+        { v: 'konkretna_pochvala', label: 'Konkrétna pochvala môjho tela, energie alebo spôsobu dotyku' },
+        { v: 'obdiv', label: g('Vidieť v partnerkinom pohľade obdiv a hlad', 'Vidieť v partnerovom pohľade obdiv a hlad') },
+        { v: 'vyznanie', label: g('Počuť priamo, po čom na mne partnerka túži', 'Počuť priamo, po čom na mne partner túži') },
+        { v: 'zranitelnost', label: 'Môcť priznať fantáziu, neistotu alebo silnú túžbu bez hanby' },
+        { v: 'iniciativa', label: 'Urobiť prvý krok a cítiť, že je vítaný' },
+        { v: 'prijatie', label: 'Pocit, že nemusím podávať výkon ani vyzerať dokonale' },
+      ],
+    },
+    p('men_hanba', g('Dokážem si všimnúť myšlienku „nie som dosť dobrý" a nenechať ju rozhodovať za mňa', 'Dokážem si všimnúť myšlienku „nie som dosť dobrá" a nenechať ju rozhodovať za mňa')),
+    p('men_partner_tuzi', g('Vzrušuje ma, keď partnerka potrebuje dlhšie mentálne naladenie a dovolí mi ho s ňou budovať', 'Vzrušuje ma, keď partner potrebuje dlhšie mentálne naladenie a dovolí mi ho s ním budovať')),
+    {
+      druh: 'text', id: 'men_myty', nadpis: 'Mýty, ktoré túžbu zbytočne brzdia', ton: 'info',
+      telo:
+        'Mýtus: skutočná túžba musí prísť sama a okamžite. Realita: u mnohých ľudí sa prebúdza až z blízkosti, predstavivosti, ' +
+        'dotyku alebo očakávania. Mýtus: fantázia prezrádza, čo človek tajne chce urobiť. Realita: myseľ môže skúmať moc, ' +
+        'novotu či tabu bez túžby preniesť scénu do života. A všímavosť nie je „neerotické cvičenie" — môže pomôcť vrátiť ' +
+        'pozornosť z hodnotenia výkonu späť k tomu, čo telo práve cíti.',
     },
   ],
 }
@@ -236,7 +297,7 @@ const SEXTING: Blok = {
       druh: 'otazka', id: 'sex_zaujem', typ: 'jeden',
       text: 'Záujem o výmenu erotických správ počas dňa',
       moznosti: [
-        { v: 'ano', label: 'Áno, rád(a) flirtujem a budujem vzrušenie cez texty' },
+        { v: 'ano', label: g('Áno, rád flirtujem a budujem vzrušenie cez texty', 'Áno, rada flirtujem a budujem vzrušenie cez texty') },
         { v: 'mozno', label: 'Možno, ak je správny kontext a nálada' },
         { v: 'nie', label: 'Nie, preferujem osobný kontakt' },
       ],
@@ -268,14 +329,49 @@ const SEXTING: Blok = {
       text: 'Aké formy intímnej komunikácie okrem textových správ už používam?',
       moznosti: [
         { v: 'hlasovka', label: 'Hlasové správy so zvodným tónom' },
+        { v: 'telefonat', label: 'Telefonát, v ktorom počujem dych, pauzy a erotický podtón' },
         { v: 'video', label: 'Videohovory na zdieľanie fantázií' },
         { v: 'foto', label: 'Erotická fotografia' },
         { v: 'listocek', label: 'Skrytý odkaz / lístoček v taške' },
+        { v: 'list', label: 'Dlhší osobný list s opisom túžby alebo spoločnej spomienky' },
         { v: 'len_text', label: 'Nie, preferujem iba textovú formu' },
         { v: 'ziadne', label: 'Žiadnu z týchto foriem zatiaľ nepoužívam' },
       ],
       inePovolene: true,
       napoveda: 'Tu sa pýtame na súčasnú skúsenosť. Budúca chuť môže byť odlišná.',
+    },
+    {
+      druh: 'otazka', id: 'sex_formy_chcem', typ: 'viac', inePovolene: true,
+      text: g('Ktoré formy by som chcel skúsiť alebo zažívať častejšie', 'Ktoré formy by som chcela skúsiť alebo zažívať častejšie'),
+      moznosti: [
+        { v: 'naznak', label: 'Jedna krátka veta alebo dvojsmysel, ktorý vo mne pracuje celý deň' },
+        { v: 'hlasovka', label: 'Hlasovka s dychom, tónom hlasu alebo opisom predstavy' },
+        { v: 'telefonat', label: 'Telefonát, pri ktorom sa vzájomne dráždime iba hlasom' },
+        { v: 'pribeh', label: 'Správy písané na pokračovanie ako náš spoločný erotický príbeh' },
+        { v: 'spomienka', label: 'Pripomenutie konkrétneho zážitku, ku ktorému sa chceme večer vrátiť' },
+        { v: 'uloha', label: 'Malá úloha alebo pokyn, ktorý mám splniť pred stretnutím' },
+        { v: 'list', label: 'Ručne napísaný list alebo lístok ukrytý tam, kde ho nájdem neskôr' },
+        { v: 'foto_video', label: g('Fotografia alebo krátke video vytvorené iba pre partnerku', 'Fotografia alebo krátke video vytvorené iba pre partnera') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'sex_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerka túži po erotických správach, telefonátoch alebo hlasovkách častejšie než ja', 'Keď partner túži po erotických správach, telefonátoch alebo hlasovkách častejšie než ja'),
+      moznosti: [
+        { v: 'vzrusuje', label: g('Jej očakávanie ma vzrušuje a rád jej ho budujem', 'Jeho očakávanie ma vzrušuje a rada mu ho budujem') },
+        { v: 'prijimam', label: g('Rád ich prijímam, no menej prirodzene sa mi tvoria vlastné', 'Rada ich prijímam, no menej prirodzene sa mi tvoria vlastné') },
+        { v: 'jemne', label: 'Vyhovujú mi náznaky, nie explicitné opisy alebo obrazový obsah' },
+        { v: 'obcas', label: 'Láka ma to iba občas, keď mám správne mentálne naladenie' },
+        { v: 'osobne', label: g('Jej túžbu chápem, ale erotiku chcem nechať na osobné stretnutie', 'Jeho túžbu chápem, ale erotiku chcem nechať na osobné stretnutie') },
+        { v: 'nie', label: 'Táto forma ma eroticky neláka' },
+      ],
+    },
+    {
+      druh: 'text', id: 'sex_myty', nadpis: 'Mýty o erotických správach', ton: 'info',
+      telo:
+        'Erotická komunikácia nemusí znamenať fotografie ani explicitné opisy. Pre mnoho párov je silnejšia jedna osobná veta, ' +
+        'hlasová pauza alebo pripomenutie spoločného zážitku. A rozdiel medzi tým, kto rád správy prijíma a kto ich rád tvorí, ' +
+        'nemusí znamenať rozdiel v túžbe — písanie, hlas a osobný dotyk sú odlišné erotické jazyky.',
     },
   ],
 }

@@ -5,8 +5,10 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // Zdroj: „zdroj.docx" (katalóg) + xlsm kus „Putá a laná… / Erotické pomôcky /
 // Dotazník o erotických pomôckach" (2026-10-01): hry s hračkami m/ž (jeden ID
 // = jeden akt, text z pohľadu muža aj ženy), putá + hračky oboma smermi,
-// predohra s pomôckami, párové pomôcky, postoj k hračkám partnera/partnerky.
+// predohra s pomôckami, párové pomôcky, postoj k hračkám druhého človeka.
 // Análne hračky z toho istého kusu spracoval Codex v analna-penetracia.ts.
+// Reaudit XLSM P40200–40255: katalóg vibrátorov, zmyslových, análnych,
+// BDSM, diaľkových a penisových pomôcok bol zlúčený bez duplicít.
 // Rešerš: Herbenick a kol. 2009 (J Sex Med) — vibrátor použilo 53 % žien a
 // ~45 % mužov, 81 % žien a 91 % mužov s vibrátorom ho použilo s partnerom;
 // Univ. of Guelph / prieskum 2 056 žien a 1 047 mužov — 37 % žien si myslí, že
@@ -35,7 +37,7 @@ const ZAUJEM: Moznost[] = [
   { v: 'nie', label: 'Nie' },
 ]
 
-// ── Hry s hračkami — čo chcem ja, na sebe aj na partnerovi/partnerke ──
+// ── Hry s hračkami — čo chcem ja, na sebe aj na druhom človeku ──
 const HRY: Blok = {
   druh: 'skupina', id: 'hry_s_hrackami', nadpis: 'Hry s hračkami',
   uvod: g(
@@ -150,11 +152,11 @@ const POSTOJ_PARTNER: Blok = {
     },
     {
       druh: 'otazka', id: 'pph_vacsie', typ: 'jeden',
-      text: g('Keby partnerka chcela dildo väčšie alebo iné, než som ja', 'Chcela by som dildo väčšie alebo iné, než je partner'),
+      text: g('Keby partnerka chcela hračku s inou funkciou, tvarom alebo pocitom, než dokáže telo', 'Keby som chcela hračku s inou funkciou, tvarom alebo pocitom, než dokáže partnerovo telo'),
       moznosti: [
-        { v: 'vzrusuje', label: g('Vzrušovalo by ma to — rád by som sa pozeral', 'Áno a povedala by som mu to') },
-        { v: 'ok', label: g('Je to v poriadku, je to hračka', 'Áno, ale bála by som sa ho raniť') },
-        { v: 'neprijemne', label: g('Bolo by mi to nepríjemné', 'Nie, nepotrebujem to') },
+        { v: 'vzrusuje', label: 'Vzrušovalo by ma objavovať to spolu' },
+        { v: 'ok', label: 'Je to iný druh podnetu, nie porovnanie tiel' },
+        { v: 'neprijemne', label: g('Potreboval by som rozumieť, čo ju na tom priťahuje', 'Chcela by som partnerovi vysvetliť, čo ma na tom priťahuje') },
       ],
     },
     {
@@ -285,7 +287,7 @@ const ANALNE: Blok = {
         { v: 'male', label: 'Malé pre začiatočníkov' },
         { v: 'vibracne', label: 'Vibračné' },
         { v: 'chvostik', label: 'S chvostíkom' },
-        { v: 'nositelne', label: 'Nositeľné (krátke intervaly)' },
+        { v: 'nositelne', label: 'Nositeľné — tajný pocit plnosti počas spoločného večera' },
       ],
     },
     {
@@ -319,12 +321,12 @@ const ANALNE: Blok = {
     },
     {
       druh: 'otazka', id: 'an_bezpecnost', typ: 'viac',
-      text: 'Bezpečnosť',
+      text: 'Ktoré vlastnosti análnej hračky ma priťahujú',
       moznosti: [
-        { v: 'zakladna', label: 'VŽDY základňa / stoper' },
-        { v: 'lub', label: 'Veľa lubrikantu' },
-        { v: 'cistenie', label: 'Čistenie medzi použitiami' },
-        { v: 'kondom', label: 'Kondóm na hračke pri zdieľaní' },
+        { v: 'zakladna', label: 'Výrazná ozdobná základňa alebo šperk' },
+        { v: 'lub', label: 'Veľmi klzký, hladký pohyb' },
+        { v: 'cistenie', label: 'Pevný materiál, hmotnosť a tlak' },
+        { v: 'kondom', label: 'Mäkký materiál, ktorý sa prispôsobuje telu' },
       ],
     },
   ],
@@ -379,12 +381,12 @@ const DP: Blok = {
     },
     {
       druh: 'otazka', id: 'dp_priprava', typ: 'viac',
-      text: 'Príprava',
+      text: 'Ako má narastať intenzita',
       moznosti: [
-        { v: 'rozsirenie', label: 'Rozšírenie otvorov pred aktom' },
-        { v: 'lub', label: 'Veľa lubrikantu' },
-        { v: 'koordinacia', label: 'Koordinácia pohybov' },
-        { v: 'pomaly', label: 'Pomaly, s pauzami' },
+        { v: 'rozsirenie', label: 'Postupne od jednej stimulácie k pocitu naplnenia' },
+        { v: 'lub', label: 'Klzkosť a plynulé kĺzanie ako súčasť vzrušenia' },
+        { v: 'koordinacia', label: 'Synchronizované pohyby penisu a hračky' },
+        { v: 'pomaly', label: 'Pomalé vlny, pauzy a potom intenzívnejší rytmus' },
       ],
     },
   ],
@@ -473,9 +475,9 @@ const KONTEXT: Blok = {
         { v: 'nie', label: 'Nie, dávam prednosť jednoduchej hre — jedna vec naraz' },
       ],
     },
-    { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'GREEN (áno, chcem):' },
-    { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'YELLOW (možno, opatrne):' },
-    { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'RED (tvrdá hranica — nikdy):' },
+    { druh: 'otazka', id: 'sem_green', typ: 'text', text: 'Pomôcka alebo kombinácia, ktorú chcem skúsiť ako prvú:' },
+    { druh: 'otazka', id: 'sem_yellow', typ: 'text', text: 'Pomôcka, ktorá ma zatiaľ láka skôr vo fantázii:' },
+    { druh: 'otazka', id: 'sem_red', typ: 'text', text: 'Detail pomôcky alebo spôsob použitia, ktorý ma eroticky vypína:' },
     { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: g('Čo chcem, aby partnerka vedela (1–3 vety):', 'Čo chcem, aby partner vedel (1–3 vety):') },
   ],
 }
@@ -522,7 +524,7 @@ export const POMOCKY_HRACKY: TemaObsah = {
   zaver: [
     {
       druh: 'text', id: 'zaver',
-      telo: 'Výsledky zohľadnia len zhody medzi tebou a partnerom. Čo niekto označí ako RED, sa nikde nezobrazí.',
+      telo: 'Výsledok ukáže, ktoré hračky, vnemy, kombinácie a roly vás priťahujú oboch — aj či vás viac láka výber, ovládanie, sledovanie alebo samotný telesný pocit.',
     },
   ],
 }

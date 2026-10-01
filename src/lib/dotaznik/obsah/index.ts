@@ -36,6 +36,7 @@ import { KOMUNIKACIA_POCAS_PO } from './komunikacia-pocas-po'
 import { ORGAZMUS_KONTROLA } from './orgazmus-kontrola'
 import { NEPENETRATIVNE_TRENIE } from './nepenetrativne-trenie'
 import { CNM_ENM } from './cnm-enm'
+import { VOYEUR_EXHIB } from './voyeur-exhib'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -76,6 +77,7 @@ const REGISTER: Record<string, TemaObsah> = {
   [CNM_ENM.slug]: CNM_ENM,
   [TABU_MANTINELY.slug]: TABU_MANTINELY,
   [TRANS_PARTNERKA.slug]: TRANS_PARTNERKA,
+  [VOYEUR_EXHIB.slug]: VOYEUR_EXHIB,
 }
 
 // Záverečný sumár („čo nové skúsime" + plán) na koniec každej praktickej témy.

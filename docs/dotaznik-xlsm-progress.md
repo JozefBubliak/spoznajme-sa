@@ -9,6 +9,34 @@ ponižovanie = bežné preferencie; chýbajúci obsah dotvoriť.
 
 ## Spracované
 
+### XLSM-024 — nový skrátený zošit, riadky 12659–12908 (P34930–P35261, 2026-10-01)
+
+Všetkých 250 neprázdnych buniek bolo prečítaných v poradí. Najväčšia skutočná medzera bola v téme tempo/edging: pribudlo naladenie, podoby vĺn, vedenie, obsah pauzy, počet návratov, konkrétne experimenty, presnejšie telesné signály, partnerova túžba a mýty. Zmysly, pomôcky, anál/prostata, zdravotné obdobia, tretie osoby a roleplay boli po položkách porovnané s bohatšími témami a neduplikovali sa; všeobecné safety/hygienické karty sa nepreniesli. Typecheck, 6 validátorov, unikátnosť ID, rodový diff-sken aj `git diff --check` PASS. Mapa: `docs/dotaznik-xlsm-reaudit-024.md`. Ďalšia dávka: **riadky 12409–12658**. Bez commitu a pushu.
+
+### XLSM-023 — nový skrátený zošit, riadky 12909–13158 (P35262–P35877, 2026-10-01)
+
+Začaté pri používateľom určenej hranici riadka 13158 a spracované smerom nahor. Všetkých 250 neprázdnych buniek bolo prečítaných v poradí. Väčšina je starý strom alebo obsah už podrobnejšie pokrytý v roleplay, masturbácii, outercourse, miestach a interakciách s rovnakým pohlavím. Skutočná medzera bola v erotickej komunikácii počas dňa: pribudli telefonáty, dlhší list, želané budúce formy, spoločný príbeh, úloha, spomienka, partnerova túžba a mýty. Typecheck, 6 validátorov, unikátnosť ID, rodový diff-sken aj `git diff --check` PASS. Mapa: `docs/dotaznik-xlsm-reaudit-023.md`. Ďalšia dávka: **riadky 12659–12908**. Bez commitu a pushu.
+
+### XLSM-022 — zapojenie iných osôb a opakovaný tematický strom (P36690–P37389, 2026-10-01)
+
+Celý export starej konverzácie bol prečítaný v poradí vrátane jednej rozsiahlej bunky s kompletným stromom. Skutočná medzera bola v skupinových scénach: do `trojky-skupiny.ts` pribudli warm-up/pomocné roly, symbolické prijímacie rituály, multisenzorika viacerých rúk a tiel, vlastná rola, partnerova túžba a mýty. Opakované pomôcky, rovnaké pohlavie, tabu, mentálna príprava a vaginálna vlhkosť boli už podrobnejšie pokryté; meta-dialóg o Worde sa nepreniesol. Typecheck, 6 validátorov, unikátnosť ID, rodový diff-sken aj `git diff --check` PASS. Mapa: `docs/dotaznik-xlsm-reaudit-022.md`. Bez commitu a pushu.
+
+### XLSM-021 — mentálna príprava, fetiše, sliny a vaginálna vlhkosť (P37396–P37664, 2026-10-01)
+
+Celá dávka bola prečítaná v poradí a zmapovaná vrátane prázdnych oddeľovacích buniek. Mentálna príprava bola výrazne prehĺbená o fantáziu, spomienky, príbehy, mindfulness, pomalé očakávanie, zraniteľnosť, pochvalu, partnerovu túžbu a mýty. Fetišový checklist a sliny boli už detailnejšie pokryté a neduplikovali sa; pri vaginálnej vlhkosti pribudol význam uctievania tela a zvodného ponúknutia, kým nepravdivý „dôkaz túžby“ bol odmietnutý. Typecheck, 6 validátorov, unikátnosť ID, rodový diff-sken aj `git diff --check` PASS. Mapa: `docs/dotaznik-xlsm-reaudit-021.md`. Bez commitu a pushu.
+
+### XLSM-020 — semeno, vaginálna vlhkosť a pissing (P37666–P38227, 2026-10-01)
+
+Celá 675-riadková príloha bola prečítaná v poradí. Semeno dostalo samostatnú postojovú otázku pre každé hlavné miesto a presné m/ž znenia; vaginálna vlhkosť presné scenáre prstov, bozku, tela, vône a bielizne. Nepodložené percentá, tvrdenie, že vlhkosť „neklame“, a zaručené chuťové recepty sa nepreniesli. Pissing sa zlúčil s podrobnejším XLSM-019 bez duplicít. Typecheck, 6 validátorov, unikátnosť 172 ID, rodový sken aj diff-check PASS. Mapa: docs/dotaznik-xlsm-reaudit-020.md. Bez commitu a pushu.
+
+### XLSM-019 — telesné tekutiny a opakované fetiše (P38231–P38653, 2026-10-01)
+
+Celá 636-riadková príloha bola nájdená v XLSM a prečítaná v poradí. fetise.ts bol prehĺbený o ďalšie give/receive formy slín, presnejšie m/ž roly pri semene, prijatie bez prehltnutia, zlíznutie z tela, messy hru s jedlom, konkrétne watersports scenáre a rozsah materiálovej scény. Voyeurizmus, chodidlá, textílie a nohavičky boli porovnané s už bohatšími témami a neduplikovali sa. Typecheck, 6 validátorov, unikátnosť ID, rodový sken aj diff-check PASS. Presná mapa: docs/dotaznik-xlsm-reaudit-019.md. Bez commitu a pushu.
+
+### XLSM-018 — fetiše a netradičné techniky (P38657–P38888, 2026-10-01)
+
+Celá príloha bola nájdená v XLSM a prečítaná bunka po bunke. `fetise.ts` dostal široký screening predmetov, materiálov, častí tela, zmyslov, menej bežných podnetov, spôsobov použitia, reality verzus fantázie a postoja k partnerovej túžbe. Samostatná bohatá skupina rozvíja nohavičky a spodnú bielizeň od strihu a nosenia cez vôňu, výmenu a trenie až po význam a mýty. Chodidlá, ruky, vlasy a materiály boli prehĺbené; tekutiny a voyeurizmus sa zlúčili s už podrobnejšími témami bez duplicít. Typecheck, 6 validátorov, unikátnosť ID, rodový sken aj diff-check PASS. Presná mapa: `docs/dotaznik-xlsm-reaudit-018.md`. Bez commitu a pushu.
+
 ### XLSM-014 — prstovanie, klitoris, vaginálny fisting a cunnilingus (2026-09-30)
 
 Celá príloha (**139 riadkov**) bola prečítaná v poradí a súvislo zmapovaná v `docs/dotaznik-xlsm-reaudit-014.md`.
@@ -174,6 +202,14 @@ Vstup bol prečítaný celý od „Handjob ako samostatný modul…“ cez zdroj
 | Škrabanie | `energia_dotyku` | nová škála intenzity vrátane značenia + mapa miest: chrbát, ramená, zadok, stehná, hrudník, boky |
 | Tempo penetrácie a predohry, zmeny a pauzy | `tempo-intenzita.ts` `tempo_rytmus` | nová skupina so základnou preferenciou, stabilným rytmom, kontrastmi a prestávkami |
 | Psychologické prvky rytmu | `tempo_rytmus` | očný kontakt, budovanie, pomalé hlboké aj rýchle pohyby, zmena hĺbky, nečakaná pauza, prevzatie rytmu; tipy a mýtus |
+### XLSM-017 — P38890–P40255: exhibicionizmus, hotwife/cuckold a pomôcky (2026-10-01)
+
+Celý rozsah bol nájdený v XLSM a zmapovaný v `docs/dotaznik-xlsm-reaudit-017.md`. Vznikol chýbajúci samostatný modul H2 `voyeur-exhib.ts`; `zdielanie-partnera.ts` dostalo motivácie oboch rolí, partnerovu túžbu a mýty. Pissing a katalóg pomôcok boli porovnané s konkrétnymi možnosťami existujúcich hlbokých tém a neduplikovali sa. V dotknutých starších blokoch sa generická safety/hygiena zmenila na erotické preferencie a odstránilo sa porovnávanie hračky s veľkosťou partnerovho tela.
+
+### XLSM-016 — P40258–P40670: vibrátor pri masturbácii, hračky a bondage (2026-10-01)
+
+Celý rozsah bol overený v zdrojovom XLSM a zmapovaný v `docs/dotaznik-xlsm-reaudit-016.md`. Jedinečná medzera — konkrétny m/ž scenár masturbácie vibrátorom pri sledovaní a súčasnej masturbácii partnera — bola doplnená do `masturbacia.ts` vrátane postoja k partnerovej túžbe. Análne hračky, DP, diaľkové hračky a bondage boli porovnané na úroveň konkrétnych možností; už sú podrobnejšie spracované, preto sa neduplikovali. Tekutiny boli zároveň znovu overené proti P37449–38472 a P38787–38793: samostatné témy sa prehĺbili a všeobecný WAM blok už neopakuje sliny, semeno, vlhkosť, moč ani menštruáciu.
+
 ### XLSM-015 — análne hračky a opak vulválnych tém (2026-10-01)
 
 Príloha mala 305 riadkov a bola prečítaná súvislo. Presná bunková mapa je v `docs/dotaznik-xlsm-reaudit-015.md`; P-ID čaká na odomknutie zdrojového XLSM.

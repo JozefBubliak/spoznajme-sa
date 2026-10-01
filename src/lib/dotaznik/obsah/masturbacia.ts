@@ -72,7 +72,7 @@ const SOLO: Blok = {
     p('solo_zdielam', 'Som OK, keď partner vie, ako si to robím'),
     {
       druh: 'otazka', id: 'solo_pomocky', typ: 'viac', inePovolene: true,
-      text: 'Ktoré sólo-pomôcky používam alebo by som chcel(a)',
+      text: g('Ktoré sólo-pomôcky používam alebo by som chcel', 'Ktoré sólo-pomôcky používam alebo by som chcela'),
       moznosti: [
         { v: 'ruka', label: 'Len ruka' },
         { v: 'klit_vibr', label: 'Klitorálny vibrátor / bullet' },
@@ -89,7 +89,7 @@ const SOLO: Blok = {
 
 // ── Sledovanie partnera (voyeur v páre) ────────────────────────────
 const VOYEUR: Blok = {
-  druh: 'skupina', id: 'voyeur', nadpis: 'Sledovanie partnera pri masturbácii',
+  druh: 'skupina', id: 'voyeur', nadpis: g('Sledovanie partnerky pri masturbácii', 'Sledovanie partnera pri masturbácii'),
   bloky: [
     {
       druh: 'text', id: 'voy_predstav',
@@ -110,7 +110,7 @@ const VOYEUR: Blok = {
       ],
     },
     { druh: 'otazka', id: 'voy_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — sledovanie (voliteľné):' },
-    p('voy_postoj', 'Pozerať sa, ako partner/ka masturbuje'),
+    p('voy_postoj', g('Pozerať sa, ako partnerka masturbuje', 'Pozerať sa, ako partner masturbuje')),
     {
       druh: 'otazka', id: 'voy_co_vzrusuje', typ: 'viac',
       text: 'Čo ma na tom vzrušuje',
@@ -131,7 +131,7 @@ const VOYEUR: Blok = {
         { v: 'spontanne', label: 'Spontánne' },
         { v: 'predohra', label: 'Ako súčasť predohry' },
         { v: 'provokovanie', label: 'Keď ma partner provokuje pohľadom' },
-        { v: 'rastuce_vzrusenie', label: 'Keď vidím, ako jeho/jej vzrušenie postupne rastie' },
+        { v: 'rastuce_vzrusenie', label: g('Keď vidím, ako jej vzrušenie postupne rastie', 'Keď vidím, ako jeho vzrušenie postupne rastie') },
         { v: 'dych_vzdychy', label: 'Keď počujem dych a vzdychy bez prikrášľovania' },
       ],
     },
@@ -152,7 +152,7 @@ const VOYEUR: Blok = {
 
 // ── Byť sledovaný (exhib v páre) ─────────────────────────────────
 const EXHIB: Blok = {
-  druh: 'skupina', id: 'exhib', nadpis: 'Byť sledovaný/á pri sólo hre',
+  druh: 'skupina', id: 'exhib', nadpis: g('Byť sledovaný pri sólo hre', 'Byť sledovaná pri sólo hre'),
   bloky: [
     {
       druh: 'text', id: 'exh_predstav',
@@ -169,7 +169,7 @@ const EXHIB: Blok = {
         { v: 'nie', label: 'Nie, necítim sa komfortne' },
       ],
     },
-    { druh: 'otazka', id: 'exh_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — byť sledovaný/á (voliteľné):' },
+    { druh: 'otazka', id: 'exh_zaujem_ine', typ: 'text', text: g('Vlastná odpoveď — byť sledovaný (voliteľné):', 'Vlastná odpoveď — byť sledovaná (voliteľné):') },
     p('exh_postoj', 'Keď ma partner sleduje pri sólo hre'),
     {
       druh: 'otazka', id: 'exh_co_vzrusuje', typ: 'viac', inePovolene: true,
@@ -204,7 +204,7 @@ const EXHIB: Blok = {
     },
     {
       druh: 'otazka', id: 'exh_slovnik', typ: 'jeden',
-      text: 'Čo od partnera chcem',
+      text: g('Čo od partnerky chcem', 'Čo od partnera chcem'),
       moznosti: [
         { v: 'len_pozoruj', label: '„Len pozoruješ"' },
         { v: 'navadzaj', label: '„Pozeraj a navádzaj ma"' },
@@ -248,6 +248,27 @@ const SPOLOCNA: Blok = {
     },
     { druh: 'otazka', id: 'spol_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — spoločná masturbácia (voliteľné):' },
     p('spol_postoj', 'Masturbovať spolu, obaja naraz'),
+    p(
+      'spol_vibrator_sledovanie',
+      g(
+        'Pozerať sa, ako partnerka masturbuje vibrátorom, kým sa zároveň venujem sebe',
+        'Masturbovať vibrátorom pred partnerom, kým sa na mňa pozerá a zároveň sa venuje sebe',
+      ),
+    ),
+    {
+      druh: 'otazka', id: 'spol_vibrator_partner_tuzi', typ: 'jeden',
+      text: g(
+        'Keď partnerka túži masturbovať vibrátorom predo mnou a chce, aby som sa pritom venoval sebe',
+        'Keď partner túži sledovať ma s vibrátorom a pritom sa venovať sebe',
+      ),
+      moznosti: [
+        { v: 'laka', label: g('Jej predvádzanie a vzájomné vzrušenie ma lákajú', 'Jeho pohľad a vzájomné vzrušenie ma lákajú') },
+        { v: 'iba_sledujem', label: 'Radšej sa iba pozerám alebo nechám pozerať bez vlastnej masturbácie' },
+        { v: 'postupne', label: 'Láka ma začať sledovaním a neskôr sa pridať' },
+        { v: 'ina_hracka', label: 'Áno, ale radšej s inou hračkou alebo rukami' },
+        { v: 'nie', label: 'Táto konkrétna scéna ma neláka' },
+      ],
+    },
     {
       druh: 'otazka', id: 'spol_hracky_zaujem', typ: 'jeden',
       text: g('Chcel by si zapojiť hračky do spoločnej masturbácie?', 'Chcela by si zapojiť hračky do spoločnej masturbácie?'),
@@ -263,8 +284,11 @@ const SPOLOCNA: Blok = {
       text: 'Aké formy spoločnej masturbácie ma vzrušujú',
       moznosti: [
         { v: 'obaja_svoje_telo', label: 'Obaja sa dotýkame vlastného tela naraz' },
-        { v: 'striedanie', label: 'Striedame pozorovanie, vlastné dotyky a dotyky partnera' },
+        { v: 'striedanie', label: g('Striedame pozorovanie, vlastné dotyky a dotyky partnerky', 'Striedame pozorovanie, vlastné dotyky a dotyky partnera') },
         { v: 'napodobnovanie', label: 'Napodobňujeme pohyby a tempo toho druhého' },
+        { v: 'vibrator_a_ruka', label: 'Jeden používa vibrátor a druhý ruku alebo masturbátor' },
+        { v: 'jeden_predvadza', label: 'Jeden sa s hračkou predvádza, druhý sa pozerá a venuje sebe' },
+        { v: 'obaja_hracky', label: 'Obaja používame vlastnú hračku a sledujeme reakcie toho druhého' },
         { v: 'nove_pozicie', label: 'Skúšame nové pozície, uhly pohľadu a vzdialenosť' },
         { v: 'sutaziva', label: 'Hravá alebo súťaživá verzia — kto vydrží dlhšie alebo príde prvý' },
       ],
@@ -306,9 +330,10 @@ const GUIDED: Blok = {
   bloky: [
     {
       druh: 'text', id: 'guid_predstav',
-      telo:
-        'Masturbácia nemusí byť sólový akt. Keď sa partner pripojí — navádzaním, bozkami alebo šepkaním — vzniká zážitok hlbokého spojenia. ' +
-        'Vezmeš ruku partnera/ky, ukážeš iný uhol, šepneš, čo na ňom/nej zbožňuješ… a dych sa zrýchľuje.',
+      telo: g(
+        'Masturbácia nemusí byť sólový akt. Keď sa partnerka pripojí — navádzaním, bozkami alebo šepkaním — vzniká zážitok hlbokého spojenia. Vezmeš jej ruku, ukážeš iný uhol, šepneš, čo na nej zbožňuješ… a dych sa zrýchľuje.',
+        'Masturbácia nemusí byť sólový akt. Keď sa partner pripojí — navádzaním, bozkami alebo šepkaním — vzniká zážitok hlbokého spojenia. Vezmeš jeho ruku, ukážeš iný uhol, šepneš, čo na ňom zbožňuješ… a dych sa zrýchľuje.',
+      ),
     },
     {
       druh: 'otazka', id: 'guid_zaujem', typ: 'jeden',
@@ -333,15 +358,15 @@ const GUIDED: Blok = {
         { v: 'nie', label: 'Nie, necítim sa komfortne' },
       ],
     },
-    { druh: 'otazka', id: 'guid_dat_ine', typ: 'text', text: 'Vlastná odpoveď — pomáhať partnerovi/ke (voliteľné):' },
+    { druh: 'otazka', id: 'guid_dat_ine', typ: 'text', text: g('Vlastná odpoveď — pomáhať partnerke (voliteľné):', 'Vlastná odpoveď — pomáhať partnerovi (voliteľné):') },
     {
       druh: 'otazka', id: 'guid_formy', typ: 'viac', inePovolene: true,
-      text: 'Aké formy pomoci by som chcel(a) skúsiť',
+      text: g('Aké formy pomoci by som chcel skúsiť', 'Aké formy pomoci by som chcela skúsiť'),
       moznosti: [
         { v: 'navadzanie', label: 'Jemné navádzanie rúk' },
         { v: 'bozky_sepot', label: 'Bozky alebo šepkanie vzrušujúcich slov počas aktivity' },
         { v: 'striedanie', label: 'Striedanie aktívnej a pasívnej role' },
-        { v: 'ruka_na_ruke', label: 'Moja ruka na jeho/jej ruke — spolu v rytme' },
+        { v: 'ruka_na_ruke', label: g('Moja ruka na jej ruke — spolu v rytme', 'Moja ruka na jeho ruke — spolu v rytme') },
         { v: 'ostatne_telo', label: 'Partner/ka sa venuje zvyšku tela (prsia, krk, zadok)' },
         { v: 'hracka', label: 'Partner/ka drží hračku, ja rukou' },
       ],
@@ -351,8 +376,8 @@ const GUIDED: Blok = {
       druh: 'otazka', id: 'guid_rola', typ: 'jeden',
       text: 'Ktorá rola mi sedí',
       moznosti: [
-        { v: 'vediem', label: 'Rád/rada vediem partnerove ruky a tempo' },
-        { v: 'vedeny', label: 'Rád/rada som vedený/á' },
+        { v: 'vediem', label: g('Rád vediem partnerkine ruky a tempo', 'Rada vediem partnerove ruky a tempo') },
+        { v: 'vedeny', label: g('Rád som vedený', 'Rada som vedená') },
         { v: 'striedanie', label: 'Striedať aktívnu a pasívnu rolu' },
       ],
     },
@@ -379,7 +404,7 @@ const SITUACIE: Blok = {
       druh: 'otazka', id: 'sit_ktore', typ: 'viac', inePovolene: true,
       text: 'Aké situácie ma pri masturbácii alebo jej sledovaní najviac lákajú',
       moznosti: [
-        { v: 'ticho', label: 'Byť sledovaný/á v tichu a intímnej atmosfére' },
+        { v: 'ticho', label: g('Byť sledovaný v tichu a intímnej atmosfére', 'Byť sledovaná v tichu a intímnej atmosfére') },
         { v: 'skumanie', label: 'Spoločné skúmanie tiel a vzájomné dotyky počas sólo hry' },
         { v: 'ocny_kontakt', label: 'Provokovanie očným kontaktom' },
         { v: 'sledovanie_zapojenie', label: 'Sledovanie a následné zapojenie do aktivity' },
@@ -390,7 +415,7 @@ const SITUACIE: Blok = {
     },
     p('sit_instrukcie', 'Partner/ka mi presne diktuje, ako sa mám dotýkať a kedy smiem prísť'),
     p('sit_zakaz_dotyku', 'Pozerať sa na seba, ale nesmieť sa dotknúť jeden druhého'),
-    p('sit_na_telo', 'Masturbovať až do konca na partnerovo/partnerkino telo'),
+    p('sit_na_telo', g('Masturbovať až do konca na partnerkino telo', 'Masturbovať až do konca na partnerovo telo')),
     p('sit_prekvapenie', 'Nechať sa „prichytiť" pri masturbácii'),
     {
       druh: 'text', id: 'sit_tipy', nadpis: 'Tipy na experimentovanie', ton: 'info',
@@ -401,11 +426,16 @@ const SITUACIE: Blok = {
     },
     {
       druh: 'text', id: 'sit_myty', nadpis: 'Mýty', ton: 'info',
-      telo:
-        'Mýtus: „Keď partner/ka masturbuje, nestačím mu/jej." — Realita: masturbujú aj ľudia v šťastných vzťahoch s dobrým sexom; je to iná potreba, nie náhrada. ' +
-        'Mýtus: „Ženy nemasturbujú." — Realita: veľká väčšina žien áno, len o tom menej hovoria. ' +
-        'Mýtus: „Sledovať partnera pri tom je úchylné." — Realita: je to jeden z najrýchlejších spôsobov, ako sa naučiť presne to, čo mu/jej robí dobre, a pre mnohých jeden z najvzrušujúcejších pohľadov vôbec. ' +
-        'Mýtus: „Masturbácia berie chuť na spoločný sex." — Realita: u väčšiny ľudí skôr udržiava libido a telo „v kondícii".',
+      telo: g(
+        'Mýtus: „Keď partnerka masturbuje, nestačím jej." — Realita: masturbujú aj ľudia v šťastných vzťahoch s dobrým sexom; je to iná potreba, nie náhrada. ' +
+          'Mýtus: „Ženy nemasturbujú." — Realita: veľká väčšina žien áno, len o tom menej hovoria. ' +
+          'Mýtus: „Sledovať partnerku pri tom je úchylné." — Realita: je to jeden z najrýchlejších spôsobov, ako sa naučiť presne to, čo jej robí dobre, a pre mnohých jeden z najvzrušujúcejších pohľadov vôbec. ' +
+          'Mýtus: „Masturbácia berie chuť na spoločný sex." — Realita: u väčšiny ľudí skôr udržiava libido a telo „v kondícii".',
+        'Mýtus: „Keď partner masturbuje, nestačím mu." — Realita: masturbujú aj ľudia v šťastných vzťahoch s dobrým sexom; je to iná potreba, nie náhrada. ' +
+          'Mýtus: „Ženy nemasturbujú." — Realita: veľká väčšina žien áno, len o tom menej hovoria. ' +
+          'Mýtus: „Sledovať partnera pri tom je úchylné." — Realita: je to jeden z najrýchlejších spôsobov, ako sa naučiť presne to, čo mu robí dobre, a pre mnohých jeden z najvzrušujúcejších pohľadov vôbec. ' +
+          'Mýtus: „Masturbácia berie chuť na spoločný sex." — Realita: u väčšiny ľudí skôr udržiava libido a telo „v kondícii".',
+      ),
     },
   ],
 }
@@ -424,7 +454,7 @@ const REMOTE: Blok = {
       text: 'Kto ovláda',
       moznosti: [
         { v: 'ja', label: 'Ovládam ja' },
-        { v: 'partner', label: 'Ovláda partner/ka' },
+        { v: 'partner', label: g('Ovláda partnerka', 'Ovláda partner') },
         { v: 'striedavo', label: 'Striedavo' },
       ],
     },
@@ -542,7 +572,7 @@ const KONTEXT: Blok = {
       druh: 'otazka', id: 'ctx_po_spolocnej', typ: 'jeden',
       text: 'Ako sa najčastejšie cítim po spoločnej sólo hre',
       moznosti: [
-        { v: 'blizsie', label: 'Bližšie k partnerovi/ke a viac prepojený/á' },
+        { v: 'blizsie', label: g('Bližšie k partnerke a viac prepojený', 'Bližšie k partnerovi a viac prepojená') },
         { v: 'vzrusene', label: 'Stále vzrušený/á a pripravený/á pokračovať' },
         { v: 'uvolnene', label: 'Uvoľnene a spokojne' },
         { v: 'zranitelne', label: 'Odhalene alebo zraniteľne' },
@@ -566,14 +596,17 @@ export const MASTURBACIA: TemaObsah = {
   uvod: [
     {
       druh: 'text', id: 'preco', nadpis: 'Prečo to zaradiť',
-      telo:
-        'Dôvera a „učenie sa" z partnerovej techniky — vidím, čo naozaj funguje. ' +
-        'Dá sa použiť ako predohra, samostatný akt alebo „most" po pauze. ' +
-        'Typy: sledovanie partnera, byť sledovaný/á, spoločná masturbácia, pomáhanie (guidance).',
+      telo: g(
+        'Dôvera a „učenie sa" z partnerkinej techniky — vidím, čo naozaj funguje. Dá sa použiť ako predohra, samostatný akt alebo „most" po pauze. Typy: sledovanie partnerky, byť sledovaný, spoločná masturbácia a pomáhanie.',
+        'Dôvera a „učenie sa" z partnerovej techniky — vidím, čo naozaj funguje. Dá sa použiť ako predohra, samostatný akt alebo „most" po pauze. Typy: sledovanie partnera, byť sledovaná, spoločná masturbácia a pomáhanie.',
+      ),
     },
     {
       druh: 'text', id: 'hranie_vo_dvojici', nadpis: 'Hranie sa s túžbou vo dvojici',
-      telo: 'Masturbácia v páre môže byť jemná predohra, spôsob sebapoznania alebo vzrušujúce divadlo pre oči partnera. Je to priestor na odhaľovanie najhlbších túžob a zdieľanie intimity.',
+      telo: g(
+        'Masturbácia v páre môže byť jemná predohra, spôsob sebapoznania alebo vzrušujúce divadlo pre oči partnerky. Je to priestor na odhaľovanie najhlbších túžob a zdieľanie intimity.',
+        'Masturbácia v páre môže byť jemná predohra, spôsob sebapoznania alebo vzrušujúce divadlo pre oči partnera. Je to priestor na odhaľovanie najhlbších túžob a zdieľanie intimity.',
+      ),
     },
   ],
   telo: [
@@ -582,14 +615,14 @@ export const MASTURBACIA: TemaObsah = {
       text: 'Čo zo sólo aktivít v páre chceš preskúmať?',
       napoveda: 'Rýchly prehľad — detaily nižšie. Môžeš označiť viac.',
       moznosti: [
-        { v: 'solo_zdielanie', label: 'Otvorene zdieľať, ako to mám rád/a' },
-        { v: 'voyeur', label: 'Sledovať partnera pri masturbácii' },
-        { v: 'exhib', label: 'Byť sledovaný/á pri sólo hre' },
+        { v: 'solo_zdielanie', label: g('Otvorene zdieľať, ako to mám rád', 'Otvorene zdieľať, ako to mám rada') },
+        { v: 'voyeur', label: g('Sledovať partnerku pri masturbácii', 'Sledovať partnera pri masturbácii') },
+        { v: 'exhib', label: g('Byť sledovaný pri sólo hre', 'Byť sledovaná pri sólo hre') },
         { v: 'spolocna', label: 'Spoločná masturbácia (obaja naraz)' },
         { v: 'guided', label: 'Vedená masturbácia / pomáhanie' },
-        { v: 'sledovat_zapojit', label: 'Sledovať partnera a postupne sa zapojiť' },
+        { v: 'sledovat_zapojit', label: g('Sledovať partnerku a postupne sa zapojiť', 'Sledovať partnera a postupne sa zapojiť') },
         { v: 'remote', label: 'Remote play (diaľkové hračky)' },
-        { v: 'ziadne', label: 'Zatiaľ nič konkrétne — som zvedavý/á' },
+        { v: 'ziadne', label: g('Zatiaľ nič konkrétne — som zvedavý', 'Zatiaľ nič konkrétne — som zvedavá') },
       ],
     },
     VLASTNY_VZTAH,

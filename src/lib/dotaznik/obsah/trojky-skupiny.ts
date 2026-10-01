@@ -17,6 +17,13 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // - Komunitné opakujúce sa témy: tretie koleso, nerovnováha pozornosti, 2+1 namiesto trojky:
 //   https://www.reddit.com/r/nonmonogamy/comments/1jstxb1/
 //   https://www.reddit.com/r/nonmonogamy/comments/uqc9aa/
+// Reaudit XLSM P36690–37389: pomocné „warm-up" roly, symbolické prijatie
+// do skupiny a multisenzorická choreografia viacerých rúk a tiel.
+// Cielená rešerš: skupinový sex ako hra s telesnými hranicami a rolami
+// https://pubmed.ncbi.nlm.nih.gov/34729896/; striedanie stredobodu, okraja
+// a podpornej roly v komunitnej praxi
+// https://www.reddit.com/r/nonmonogamy/comments/t1bdo3/ a
+// https://www.reddit.com/r/nonmonogamy/comments/zqxn3j/.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const g = (m: string, z: string) => ({ m, z })
@@ -234,6 +241,91 @@ const SKUPINY: Blok = {
     postojOtazka('kazdy_postoj', g('Chcel by si byť súčasťou aktivity, kde každý môže preskúmať interakcie s kýmkoľvek v miestnosti?', 'Chcela by si byť súčasťou aktivity, kde každý môže preskúmať interakcie s kýmkoľvek v miestnosti?')),
     postojOtazka('kazdy_kombinacia', 'Cítiš vzrušenie pri myšlienke na kombináciu dotykov, bozkov a viacnásobných interakcií počas jednej aktivity?'),
     postojOtazka('kazdy_sloboda', 'Túžiš slobodne objavovať nové interakcie vo väčšej skupine, pričom vieš, že tvoj partner je s tebou?'),
+  ],
+}
+
+// ── Pomocné roly, rituály a viac tiel ─────────────────────────────────────
+const CHOREOGRAFIA_SKUPINY: Blok = {
+  druh: 'skupina',
+  id: 'choreografia_skupiny',
+  nadpis: 'Pomocné roly, prijímacie rituály a viac tiel',
+  uvod:
+    'Skupinová scéna nemusí byť iba séria penetrácií. Niekedy je najerotickejší človek, ktorý pripravuje telá a atmosféru, ' +
+    'udržiava vzrušenie dotykom či slovami alebo plynulo odovzdáva stredobod ďalším rukám. Výraz „fluffer" pochádza zo sveta ' +
+    'pornografickej produkcie; v spoločnej fantázii môže pomenovať dobrovoľnú warm-up rolu bez toho, aby z človeka robil iba pomôcku.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'skup_pomocne_roly', typ: 'viac', inePovolene: true,
+      text: 'Ktoré pomocné alebo podporné roly ma v skupinovej scéne priťahujú',
+      moznosti: [
+        { v: 'warmup', label: 'Warm-up osoba, ktorá bozkami, rukami alebo orálom pripravuje ostatných' },
+        { v: 'udrziava', label: 'Osoba, ktorá udržiava niekoho vzrušeného, kým sa pozornosť presunie inde' },
+        { v: 'hracky', label: 'Ovládať pomôcky a pridávať ďalšiu vrstvu stimulácie' },
+        { v: 'slova', label: 'Povzbudzovať, chváliť alebo viesť scénu hlasom' },
+        { v: 'reziser', label: 'Režírovať rytmus, striedanie a to, kto je práve stredobodom' },
+        { v: 'servis', label: 'Podávať pomôcky, olej alebo nápoj ako erotickú službu' },
+        { v: 'pozorovatel', label: 'Pozorovať zblízka a vstúpiť až vo vybranom momente' },
+        { v: 'bez_role', label: 'Nechcem pomocnú rolu, láka ma priame zapojenie' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'skup_ritual_prijatia', typ: 'viac', inePovolene: true,
+      text: 'Aký symbolický rituál prijatia do skupiny by ma eroticky naladil',
+      moznosti: [
+        { v: 'vyzliekanie', label: 'Skupina ma pomaly vyzlieka, každý odhalí inú časť tela' },
+        { v: 'kruh_dotykov', label: 'Stojím alebo ležím uprostred kruhu a každý pridá prvý dotyk' },
+        { v: 'predstavenie', label: 'Partner ma skupine slovami predstaví ako dnešný stredobod' },
+        { v: 'symbol', label: 'Dostanem symbolickú stuhu, obojok, značku farbou alebo iný znak roly' },
+        { v: 'bozky', label: 'Privítanie postupnými bozkami alebo dotykom pier a rúk' },
+        { v: 'zaviazane_oci', label: 'So zaviazanými očami postupne spoznávam jednotlivé dotyky a hlasy' },
+        { v: 'uctievanie', label: 'Krátky rituál chvály, obdivu alebo uctievania tela' },
+        { v: 'bez_ritualu', label: 'Rituál ma neláka, preferujem spontánny začiatok' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'skup_multisenzorika', typ: 'viac', inePovolene: true,
+      text: 'Ktorá choreografia viacerých rúk, úst a tiel ma vzrušuje',
+      moznosti: [
+        { v: 'cele_telo', label: 'Viac rúk sa súčasne venuje rôznym miestam celého tela' },
+        { v: 'oral_manual', label: 'Ústa na jednom mieste, ruky na ďalších a telo pritlačené z druhej strany' },
+        { v: 'obklopenie', label: g('Byť tesne obklopený telami, dychom, vôňou a teplom', 'Byť tesne obklopená telami, dychom, vôňou a teplom') },
+        { v: 'masaz', label: 'Pomalá masáž štyrmi alebo šiestimi rukami, ktorá sa mení na erotickú hru' },
+        { v: 'kontrast', label: 'Jemné a intenzívne dotyky prichádzajú naraz z rôznych strán' },
+        { v: 'neviem_kto', label: 'Nevedieť, čie ruky alebo ústa sa ma práve dotýkajú' },
+        { v: 'rotacia', label: 'Stredobod sa po čase presunie na ďalšiu osobu' },
+        { v: 'jedna_vedie', label: 'Jedna osoba diriguje ostatných a skladá podnety do jedného rytmu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'skup_pomocna_rola_ja', typ: 'jeden',
+      text: g('Ako na mňa pôsobí predstava, že budem pomocnou warm-up osobou pre partnerku a skupinu', 'Ako na mňa pôsobí predstava, že budem pomocnou warm-up osobou pre partnera a skupinu'),
+      moznosti: [
+        { v: 'silno', label: 'Silno ma vzrušuje byť užitočnou súčasťou cudzej rozkoše' },
+        { v: 'vedenie', label: 'Láka ma to iba vtedy, keď zároveň scénu vediem' },
+        { v: 'striedat', label: 'Chcem túto rolu striedať s pozíciou stredobodu' },
+        { v: 'fantazia', label: 'Láka ma skôr ako fantázia než reálna rola' },
+        { v: 'nie', label: 'Táto rola ma neláka' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'skup_partner_pomocna_rola', typ: 'jeden',
+      text: g('Keď partnerku vzrušuje pomocná alebo servisná rola v skupine', 'Keď partnera vzrušuje pomocná alebo servisná rola v skupine'),
+      moznosti: [
+        { v: 'vzrusuje', label: g('Jej služba a otvorenosť ma vzrušujú', 'Jeho služba a otvorenosť ma vzrušujú') },
+        { v: 'spolu', label: 'Chcem byť pri tom a zdieľať s ňou alebo s ním rovnakú rolu' },
+        { v: 'sledovat', label: g('Láka ma najmä sledovať ju pri tejto úlohe', 'Láka ma najmä sledovať ho pri tejto úlohe') },
+        { v: 'stredobod', label: g('Je mi bližšie, keď je partnerka stredobodom, nie pomocníčkou', 'Je mi bližšie, keď je partner stredobodom, nie pomocníkom') },
+        { v: 'fantazia', label: 'Môžeme o tom fantazírovať, no nechcem to uskutočniť' },
+        { v: 'nie', label: 'Nie je to pre mňa erotické' },
+      ],
+    },
+    {
+      druh: 'text', id: 'skup_pomocne_myty', nadpis: 'Mýty a tabu', ton: 'info',
+      telo:
+        'Mýtus: v skupinovom sexe musí každý robiť všetko s každým. Realita: pozorovanie, slovné vedenie, masáž, práca s pomôckou ' +
+        'alebo udržiavanie vzrušenia môžu byť plnohodnotné erotické roly. Mýtus: pomocná osoba je menejcenná. Realita: práve ona môže ' +
+        'ovládať rytmus celej scény alebo vytvoriť pocit, že stredobod prijíma pozornosť zo všetkých strán.',
+    },
   ],
 }
 
@@ -768,6 +860,7 @@ export const TROJKY_SKUPINY: TemaObsah = {
       ],
     },
     SKUPINY,
+    CHOREOGRAFIA_SKUPINY,
     GANGBANG,
     POZOROVANIE,
     RAMEC,

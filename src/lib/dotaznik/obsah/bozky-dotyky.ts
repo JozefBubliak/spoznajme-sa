@@ -29,6 +29,12 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 //   úchope, vlhkosti, tempe, orgazme z ruky a zapojení partnerky.
 // - https://www.reddit.com/r/askgaybros/comments/1ile77m/ — rôzne preferencie
 //   pri práci s predkožkou, žaluďom a uzdičkou.
+// Rešerš tempa a experimentovania (XLSM-024, 2026-10-01):
+// - https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0249242
+//   — populačne opísané techniky zmeny uhla, hojdania, plytkej stimulácie a
+//   kombinovania podnetov; tempo nie je iba zrýchľovanie.
+// - https://pubmed.ncbi.nlm.nih.gov/31741252/ — start-stop ako skúmaná
+//   behaviorálna technika; v dotazníku použitá ako voľba, nie prísľub výsledku.
 // Rešerš vulvy, klitorisu a vaginálnej stimulácie (XLSM-014, 2026-09-30):
 // - https://pubmed.ncbi.nlm.nih.gov/26880506/ — anatómia vulvy, klitorisu a
 //   jeho ústredná úloha v ženskom vzrušení a orgazme.
@@ -1254,6 +1260,35 @@ const SPOL_ZONY: Blok = {
 const TEMPO: Blok = {
   druh: 'skupina', id: 'tempo', nadpis: 'Tempo, rytmus a edging',
   bloky: [
+    {
+      druh: 'text', id: 'tempo_uvod', nadpis: 'Napätie nemusí rásť rovnou čiarou', ton: 'info',
+      telo:
+        'Niekoho vzrušuje plynulé zrýchľovanie, iného návraty od intenzity k jemnosti, dlhé držanie tesne pod vrcholom alebo úplné zastavenie, pri ktorom zostane iba dych a očakávanie. Edging nie je pokazený orgazmus ani skúška výdrže: môže byť samostatnou hrou, spôsobom, ako zosilniť vnímanie tela, alebo spoločným experimentom bez povinného finále.',
+    },
+    {
+      druh: 'otazka', id: 'tempo_co_laka', typ: 'viac', inePovolene: true,
+      text: 'Ktoré podoby práce s napätím ma lákajú',
+      moznosti: [
+        { v: 'plynule', label: 'Plynulo pridávať bez prestávok až k vrcholu' },
+        { v: 'vlny', label: 'Opakované vlny — zosilniť, ubrať a znovu sa vrátiť' },
+        { v: 'tesne', label: 'Držať ma dlhšie tesne pod vrcholom' },
+        { v: 'stop_start', label: 'Úplne zastaviť a po chvíli začať inak' },
+        { v: 'zmena_miesta', label: 'Pri vysokej intenzite prejsť na inú časť tela' },
+        { v: 'bez_finale', label: 'Skončiť príjemne aj bez orgazmu a nechať napätie doznieť' },
+        { v: 'prekvapenie', label: 'Nevedieť vopred, koľko vĺn alebo či príde finále' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tempo_kto_vedie', typ: 'viac',
+      text: 'Kto má pri vlnách určovať tempo',
+      moznosti: [
+        { v: 'ja', label: 'Ja podľa vlastného tela' },
+        { v: 'partner', label: g('Partnerka podľa mojich reakcií', 'Partner podľa mojich reakcií') },
+        { v: 'striedat', label: 'Striedať vedenie počas jedného zážitku' },
+        { v: 'casovac', label: 'Nechať rytmus určovať hudbou alebo časovačom' },
+        { v: 'nahoda', label: 'Pridať hravú náhodu — karta, kocka alebo nečakaný pokyn' },
+      ],
+    },
     p('tempo_vlny', 'Budovanie vĺn — pomalý nábeh → držanie napätia → útlm → nový nábeh'),
     {
       druh: 'otazka', id: 'tempo_startstop', typ: 'jeden',
@@ -1266,13 +1301,67 @@ const TEMPO: Blok = {
     },
     p('tempo_zmena_vzorca', 'Prepnúť vzorec pohybu / úchop v „žltých" zónach vzrušenia'),
     {
+      druh: 'otazka', id: 'tempo_pauza', typ: 'viac', inePovolene: true,
+      text: 'Čo má zostať počas pauzy, aby napätie nezmizlo',
+      moznosti: [
+        { v: 'dych', label: 'Teplý dych tesne pri koži' },
+        { v: 'pohlad', label: 'Očný kontakt alebo pohľad na telo' },
+        { v: 'slova', label: 'Šepot, opis pokračovania alebo pokyn čakať' },
+        { v: 'tlak', label: 'Nehybný tlak dlane alebo hračky bez pohybu' },
+        { v: 'mimo_zony', label: 'Dotyky inde — krk, bradavky, stehná alebo chodidlá' },
+        { v: 'nic', label: 'Úplné odtiahnutie a čisté očakávanie' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tempo_pocet_vln', typ: 'jeden',
+      text: 'Koľko návratov tesne k vrcholu mi znie eroticky',
+      moznosti: [
+        { v: 'jedna', label: 'Jeden — krátke oddialenie' },
+        { v: 'dve_tri', label: 'Dva až tri — jasne vnímateľné vlny' },
+        { v: 'vela', label: 'Viac vĺn a dlhé budovanie' },
+        { v: 'bez_poctu', label: 'Nechcem počítať, chcem sa riadiť pocitom' },
+        { v: 'nelaka', label: 'Odďaľovanie ma neláka' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tempo_inspiracie', typ: 'viac', inePovolene: true,
+      text: 'Ktoré malé experimenty by som chcel vyskúšať',
+      moznosti: [
+        { v: 'tri_vlny', label: 'Tri krátke vlny rukou alebo ústami, zakaždým s inou pauzou' },
+        { v: 'cele_telo', label: 'Po každom priblížení presunúť pozornosť na inú zónu tela' },
+        { v: 'zmysly', label: 'Spojiť vlny so zaviazanými očami, hlasom, hudbou alebo teplotným kontrastom' },
+        { v: 'poloha', label: 'Skúsiť polohu, v ktorej ľahko ukážem tempo pohybom panvy' },
+        { v: 'cez_den', label: 'Budovať očakávanie správami a krátkymi dotykmi už počas dňa' },
+        { v: 'len_teasing', label: 'Dohodnúť si stretnutie venované iba teasingu bez povinného finále' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'tempo_signaly', typ: 'viac',
       text: 'Signály počas hry',
       moznosti: [
         { v: 'dych', label: 'Dýchanie' },
         { v: 'pridaj', label: '„Pridaj / uber"' },
         { v: 'slova', label: 'Krátke kľúčové slová' },
+        { v: 'ruka', label: g('Položiť ruku na partnerkinu ruku a viesť ju', 'Položiť ruku na partnerovu ruku a viesť ju') },
+        { v: 'panva', label: 'Pohybom panvy ukázať priblíženie alebo odstup' },
       ],
+    },
+    { druh: 'otazka', id: 'tempo_zona', typ: 'text', text: 'Ako na mojom tele spoznať „ešte pokračuj“, „uber“ a „už nemen nič“:' },
+    {
+      druh: 'otazka', id: 'tempo_partner_tuzi', typ: 'jeden',
+      text: g('Keď partnerku vzrušuje viesť ma vo vlnách alebo mi oddialiť orgazmus', 'Keď partnera vzrušuje viesť ma vo vlnách alebo mi oddialiť orgazmus'),
+      moznosti: [
+        { v: 'silno', label: g('Jej potešenie z vedenia ma vzrušuje ešte viac', 'Jeho potešenie z vedenia ma vzrušuje ešte viac') },
+        { v: 'skusit', label: g('Rád to skúsim, ak sa budeme učiť z mojich reakcií', 'Rada to skúsim, ak sa budeme učiť z mojich reakcií') },
+        { v: 'striedat', label: 'Láka ma to iba vtedy, keď sa vo vedení striedame' },
+        { v: 'fantazia', label: 'Páči sa mi to skôr ako fantázia než pravidelná prax' },
+        { v: 'nie', label: 'Pri vzrušení nechcem odovzdať kontrolu nad tempom' },
+      ],
+    },
+    {
+      druh: 'text', id: 'tempo_myty', nadpis: 'Mýty, ktoré zbytočne kazia hru', ton: 'info',
+      telo:
+        'Mýtus: čím viac oddialení, tým lepší výsledok. Realita: niekomu stačí jediná krátka pauza a priveľa návratov môže citlivosť alebo chuť oslabiť. Mýtus: edging musí skončiť silným orgazmom. Realita: pre časť ľudí je najvzrušujúcejšie práve napätie, vedenie a dlhé vnímanie tela — finále je možnosť, nie meradlo úspechu.',
     },
   ],
 }
