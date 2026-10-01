@@ -56,7 +56,7 @@ const NASTAVENIE: Blok = {
     { druh: 'otazka', id: 'nas_pritazlive_cringe', typ: 'text', text: 'Čo je pre mňa na tejto téme príťažlivé a čo je „cringe/NO":' },
     {
       druh: 'otazka', id: 'nas_ako_pouzivat', typ: 'viac',
-      text: 'Chcel(a) by som to používať ako',
+      text: g('Chcel by som to používať ako', 'Chcela by som to používať ako'),
       moznosti: [
         { v: 'ritual', label: 'Občasný špeciálny rituál' },
         { v: 'liek_na_stres', label: '„Liek" na stres' },
@@ -186,7 +186,7 @@ const POMALE_DOTYKY: Blok = {
       druh: 'otazka', id: 'pom_mapovanie', typ: 'jeden',
       text: '„Mapovanie tela"',
       moznosti: [
-        { v: 'pytat_sa', label: 'Mám rád(a), keď sa partner pýta, čo je príjemné' },
+        { v: 'pytat_sa', label: g('Mám rád, keď sa partnerka pýta, čo je príjemné', 'Mám rada, keď sa partner pýta, čo je príjemné') },
         { v: 'ticho', label: 'Radšej ticho a plynutie bez slov' },
       ],
     },
@@ -237,12 +237,12 @@ const NO_GOAL: Blok = {
     },
     {
       druh: 'otazka', id: 'nog_kolko_minut', typ: 'jeden',
-      text: 'Koľko minút viem realisticky vydržať v dotyku bez cieľa, bez toho, aby som začal(a) tlačiť na pokračovanie',
+      text: g('Koľko minút viem realisticky zostať v dotyku bez cieľa a nezačať tlačiť na pokračovanie', 'Koľko minút viem realisticky zostať v dotyku bez cieľa a nezačať tlačiť na pokračovanie'),
       moznosti: [
         { v: '5', label: 'Asi 5 minút' },
         { v: '10', label: 'Asi 10 minút' },
         { v: '20', label: '20 minút a viac' },
-        { v: 'neviem', label: 'Neviem, nikdy som to neskúšal(a) vedome merať' },
+        { v: 'neviem', label: g('Neviem, nikdy som to neskúšal vedome merať', 'Neviem, nikdy som to neskúšala vedome merať') },
       ],
     },
     {
@@ -266,7 +266,7 @@ const MEDITACIA: Blok = {
       moznosti: [
         { v: 'pomohla_by', label: 'Pomohla by mi' },
         { v: 'nesexy', label: 'Pre mňa je to skôr nesexy' },
-        { v: 'neviem', label: 'Neviem, neskúsil(a) som to' },
+        { v: 'neviem', label: g('Neviem, neskúsil som to', 'Neviem, neskúsila som to') },
       ],
     },
     {
@@ -339,7 +339,7 @@ const UKOTVENIE: Blok = {
   bloky: [
     {
       druh: 'otazka', id: 'uko_potreby', typ: 'viac',
-      text: 'Čo potrebujem po slow sexe, aby som sa cítil(a) ukotvený/á',
+      text: g('Čo potrebujem po slow sexe, aby som sa cítil ukotvený', 'Čo potrebujem po slow sexe, aby som sa cítila ukotvená'),
       moznosti: [
         { v: 'objatie', label: 'Objatie' },
         { v: 'slova', label: 'Slová' },
@@ -384,6 +384,71 @@ const MIKROTEMY: Blok = {
   ],
 }
 
+const HLBKOVA_MAPA: Blok = {
+  druh: 'skupina', id: 'hlbkova_mapa', nadpis: 'Čo ma na spomalení skutočne priťahuje',
+  uvod: 'Slow sex môže byť nežný, spirituálny, eroticky napätý aj prekvapivo intenzívny. Nejde o jednu správnu náladu, ale o tú, ktorá prebúdza túžbu medzi vami.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'tan_jadro', typ: 'viac', inePovolene: true,
+      text: 'Čo je pre mňa na slow sexe najerotickejšie',
+      moznosti: [
+        { v: 'ocakavanie', label: 'Dlhé očakávanie a odďaľovanie ďalšieho dotyku' },
+        { v: 'pozornost', label: 'Pocit, že partner vníma každú moju reakciu' },
+        { v: 'pohlad', label: 'Očný kontakt, pri ktorom sa nedá skryť vzrušenie' },
+        { v: 'dych', label: 'Spoločný dych a rytmus tiel' },
+        { v: 'uctievanie', label: 'Pomalé uctievanie tela bez ponáhľania' },
+        { v: 'odovzdanie', label: 'Odovzdanie vedenia bez potreby niečo dosiahnuť' },
+        { v: 'ritual', label: 'Pocit výnimočného rituálu iba pre nás' },
+        { v: 'vlna', label: 'Kontrast pokoja a náhlej intenzívnej vlny' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tan_partner_tuzba', typ: 'jeden', inePovolene: true,
+      text: g('Ako na mňa pôsobí, keď partnerka túži po pomalom vedomom sexe', 'Ako na mňa pôsobí, keď partner túži po pomalom vedomom sexe'),
+      moznosti: [
+        { v: 'vzrusuje', label: g('Jej túžba venovať mi plnú pozornosť ma vzrušuje', 'Jeho túžba venovať mi plnú pozornosť ma vzrušuje') },
+        { v: 'uvolnuje', label: 'Uvoľňuje ma predstava, že nemusím nič predviesť' },
+        { v: 'chcem_viest', label: 'Chcem vytvoriť pomalý rituál a viesť ho' },
+        { v: 'chcem_prijimat', label: 'Chcem sa nechať viesť a iba prijímať vnemy' },
+        { v: 'podla_nalady', label: 'Láka ma to iba niekedy; inokedy chcem spontánnosť alebo dravosť' },
+        { v: 'nie', label: 'Spomalenie ma skôr vyrušuje než vzrušuje' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tan_rola', typ: 'viac', inePovolene: true,
+      text: 'Ktoré roly v pomalom rituáli ma lákajú',
+      moznosti: [
+        { v: 'vediem', label: 'Vediem dych, pohľad, dotyk aj tempo' },
+        { v: 'prijimam', label: 'Prijímam pozornosť a nemusím nič vracať' },
+        { v: 'uctievam', label: 'Pomaly uctievam partnerovo telo' },
+        { v: 'zrkadlime', label: 'Zrkadlíme si pohyb a dych rovnocenne' },
+        { v: 'striedame', label: 'Vedenie sa medzi nami pomaly prelieva' },
+        { v: 'pozorujem', label: 'Chvíľu iba sledujem partnerovo telo a vzrušenie' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tan_fantazia_realita', typ: 'jeden',
+      text: 'Ktorá podoba mi dnes znie najpravdivejšie',
+      moznosti: [
+        { v: 'prakticka', label: 'Praktické spomalenie bez spirituality' },
+        { v: 'ritualna', label: 'Zmyselný rituál s hudbou, svetlom a symbolikou' },
+        { v: 'eroticka', label: 'Dlhé dráždenie a napätie bez ponáhľania' },
+        { v: 'hlboka', label: 'Emočné ponorenie, dych a intenzívny očný kontakt' },
+        { v: 'fantazia', label: 'Zatiaľ ma viac priťahuje predstava než realita' },
+        { v: 'nie', label: 'Táto forma intimity ma neláka' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'tan_idealna_scena', typ: 'text',
+      text: 'Moja ideálna pomalá scéna — ako začne, kto ju vedie, ktorý vnem sa stupňuje a kedy príde intenzívna vlna:',
+    },
+    {
+      druh: 'text', id: 'tan_myty', nadpis: 'Mýty a tabu', ton: 'info',
+      telo: 'Mýtus: slow sex musí byť tichý, vážny a spirituálny. Realita: môže byť hravý, telesný, vulgárny aj veľmi intenzívny — jeho jadrom je pozornosť a čas, nie predpísaná atmosféra.\n\nMýtus: spomalenie je iba riešenie problému s výkonom. Realita: mnohých priťahuje práve dlhé očakávanie, presnosť dotyku a pocit, že partner nikam neuteká.\n\nMýtus: ak sa objaví orgazmus alebo dravosť, rituál zlyhal. Realita: pomalosť a intenzita sa môžu striedať v jednej vlne.',
+    },
+  ],
+}
+
 export const TANTRA_SLOW_SEX: TemaObsah = {
   slug: 'tantra-slow-sex-spiritualita/tantra-slow-sex-spiritualita',
   nadpis: 'Tantra, slow sex a spiritualita',
@@ -410,6 +475,7 @@ export const TANTRA_SLOW_SEX: TemaObsah = {
     ENERGIA_FLOW,
     UKOTVENIE,
     MIKROTEMY,
+    HLBKOVA_MAPA,
   ],
   zaver: [
     {

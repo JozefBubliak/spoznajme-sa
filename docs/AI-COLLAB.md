@@ -18,9 +18,16 @@
 
 11. **Bohatá téma neznamená rozbiť jednoduchú voľbu na desiatky otázok.** Pri miestach sú „doma“ a „mimo domova“ dva prehľadné viacnásobné zoznamy s vlastnou odpoveďou. Hĺbku tvoria samostatné zmysluplné roviny — čo na zmene miesta vzrušuje, scenáre, nálada, partnerova túžba, fantázia a mýty — nie intenzita každého miesta, logistika miestnosti, osvetlenie, teplota, materiály či opakované screeningy. Používateľ to 2026-10-01 výslovne spresnil po prílišnom zjednodušení na dve otázky.
 
+12. **Face-sitting je kvalitatívny vzor pre vhodné praktiky, nie povinná forma.** Pri telesných a erotických témach overiť rovnakú hĺbku: túžobný text, erotické jadro a psychológia, roly dávania/prijímania, vnemy a intenzity, fantázia verzus realita, reakcia na partnerovu túžbu, konkrétne scenáre/experimentovanie a mýty či tabu. Nekopírovať jeho otázky ani počet blokov a nepoužiť tento rámec na jednoduché katalógy (napr. polohy majú zostať najmä prehľadným zoznamom). Každú rovinu doplniť iba vtedy, keď prináša nový význam a nevytvára duplicitu.
+
 **Zoznam medzier na doplnenie:** `docs/dotaznik-gap-analyza.md` (33 chýba, 38 len zmienka, systémové medzery, poradie).
 
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
+
+---
+## QUALITY-FACESITTING-001 — kvalitatívny rámec prenesený na vhodné témy, 2026-10-01
+
+OWNER Codex; STATUS IMPLEMENTED / REVIEW. Face-sitting je po pokyne používateľa referenčná úroveň hĺbky, nie pevná šablóna. Hĺbkové vrstvy (erotické jadro a psychológia, roly, fantázia verzus realita, partnerova túžba, konkrétne scenáre, experiment a mýty) boli obsahovo prispôsobené témam `vaginalna-penetracia.ts`, `nepenetrativne-trenie.ts`, `tantra-slow-sex.ts`, `orgazmus-kontrola.ts` a `zmyslova-hra.ts`. `polohy.ts` boli na následný výslovný pokyn používateľa vynechané a zostali bez zmeny, pretože majú byť hlavne prehľadným zoznamom. Pri dotknutých blokoch sa opravili aj zjavné lomítkové m/ž formulácie; praktická otázka o pokožke pri trení sa odstránila. Bez commitu a pushu.
 
 ---
 ## HANDOFF CLAUDE → CODEX — xlsm zdroj, 2026-09-30 (AKTUÁLNE, má prednosť)

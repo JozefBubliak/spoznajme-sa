@@ -41,11 +41,11 @@ const AKO_STYL: Blok = {
     },
     {
       druh: 'otazka', id: 'sty_ked_nepride', typ: 'jeden',
-      text: 'Keď orgazmus nepríde, chcem, aby partner/ka',
+      text: g('Keď orgazmus nepríde, chcem, aby partnerka', 'Keď orgazmus nepríde, chcem, aby partner'),
       moznosti: [
-        { v: 'podporil', label: 'Dal(a) najavo, že to je úplne v poriadku' },
-        { v: 'nerozoberal', label: 'Vôbec to neriešil(a) nahlas' },
-        { v: 'opytal', label: 'Opýtal(a) sa, čo by pomohlo' },
+        { v: 'podporil', label: g('Dala najavo, že to je úplne v poriadku', 'Dal najavo, že to je úplne v poriadku') },
+        { v: 'nerozoberal', label: g('Vôbec to nahlas nerozoberala', 'Vôbec to nahlas nerozoberal') },
+        { v: 'opytal', label: g('Opýtala sa, čo by pomohlo', 'Opýtal sa, čo by pomohlo') },
       ],
     },
     {
@@ -99,8 +99,8 @@ const SYNCHRONIZACIA: Blok = {
       druh: 'otazka', id: 'syn_preferencia', typ: 'jeden',
       text: 'Poradie a počet',
       moznosti: [
-        { v: 'ja_prvy', label: 'Ja prvý/á' },
-        { v: 'partner_prvy', label: 'Partner/ka prvý/á' },
+        { v: 'ja_prvy', label: g('Ja prvý', 'Ja prvá') },
+        { v: 'partner_prvy', label: g('Partnerka prvá', 'Partner prvý') },
         { v: 'sucasne', label: 'Súčasne (ak vyjde)' },
         { v: 'nezalezi', label: 'Nezáleží na poradí' },
       ],
@@ -115,7 +115,7 @@ const SYNCHRONIZACIA: Blok = {
         { v: 'zmena_polohy', label: 'Zmenu polohy' },
       ],
     },
-    p('syn_pockat', 'Občas rád(a) „počkám" so svojím orgazmom kvôli partnerovi/ke, bez pocitu tlaku'),
+    p('syn_pockat', g('Občas rád počkám so svojím orgazmom kvôli partnerke, bez pocitu tlaku', 'Občas rada počkám so svojím orgazmom kvôli partnerovi, bez pocitu tlaku')),
     { druh: 'otazka', id: 'syn_nepriejmne', typ: 'text', text: 'Čo je pri synchronizácii pre mňa nepríjemné (tlak, zadržiavanie, „už musíš"):' },
   ],
 }
@@ -133,7 +133,7 @@ const KONTROLA: Blok = {
         { v: 'pocitanie', label: 'Počítanie' },
         { v: 'zakaz_dni', label: 'Zákaz na dni' },
         { v: 'forced', label: '„Forced" — nútený viacnásobný / overstim' },
-        { v: 'ziadna', label: 'Žiadna kontrola, chcem si to riadiť sám/sama' },
+        { v: 'ziadna', label: g('Žiadna kontrola, chcem si to riadiť sám', 'Žiadna kontrola, chcem si to riadiť sama') },
       ],
     },
   ],
@@ -154,7 +154,7 @@ const VIACNASOBNE: Blok = {
       text: 'Viac orgazmov/vĺn za sebou',
       moznosti: [
         { v: 'mam_a_chcem', label: 'Mám túto skúsenosť a chcem ju rozvíjať' },
-        { v: 'fantazia', label: 'Zatiaľ len fantázia, chcel(a) by som skúsiť' },
+        { v: 'fantazia', label: g('Zatiaľ len fantázia, chcel by som to skúsiť', 'Zatiaľ len fantázia, chcela by som to skúsiť') },
         { v: 'nezaujima', label: 'Nezaujíma ma to' },
       ],
     },
@@ -185,7 +185,7 @@ const VIACNASOBNE: Blok = {
         { v: 'pauza', label: 'Dať si krátku pauzu a vrátiť sa' },
         { v: 'staly_rytmus', label: 'Pokračovať v rovnakom rytme' },
         { v: 'hracka', label: 'Pridať alebo vymeniť pomôcku' },
-        { v: 'partner_vedie', label: 'Nechať ďalšiu vlnu viesť partnera/ku' },
+        { v: 'partner_vedie', label: g('Nechať ďalšiu vlnu viesť partnerku', 'Nechať ďalšiu vlnu viesť partnera') },
       ],
     },
     {
@@ -284,9 +284,75 @@ const PO_ORGAZME: Blok = {
         { v: 'nechaj_chvilu', label: '„Nechaj ma chvíľu"' },
       ],
     },
-    p('poo_hlucnost', 'Je pre mňa v poriadku byť pri orgazme hlučný/á'),
-    p('poo_partner_hlucny', 'Chcem, aby bol/a aj partner/ka hlučný/á'),
-    { druh: 'otazka', id: 'poo_zapamataj', typ: 'text', text: '1 veta, ktorú chcem, aby si partner/ka zapamätal(a) o mojom orgazme (čo funguje):' },
+    p('poo_hlucnost', g('Je pre mňa v poriadku byť pri orgazme hlučný', 'Je pre mňa v poriadku byť pri orgazme hlučná')),
+    p('poo_partner_hlucny', g('Chcem, aby bola aj partnerka hlučná', 'Chcem, aby bol aj partner hlučný')),
+    { druh: 'otazka', id: 'poo_zapamataj', typ: 'text', text: g('Jedna veta, ktorú chcem, aby si partnerka zapamätala o mojom orgazme:', 'Jedna veta, ktorú chcem, aby si partner zapamätal o mojom orgazme:') },
+  ],
+}
+
+const HLBKOVA_MAPA: Blok = {
+  druh: 'skupina', id: 'hlbkova_mapa', nadpis: 'Psychológia orgazmu',
+  uvod: 'Orgazmus môže byť súkromné uvoľnenie, spoločný vrchol, predstavenie pre partnera aj chvíľa úplnej straty kontroly. Rozdiel často nie je v sile, ale vo význame.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'org_jadro', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na orgazme eroticky priťahuje najviac',
+      moznosti: [
+        { v: 'uvolnenie', label: 'Telesné uvoľnenie a doznievanie' },
+        { v: 'strata_kontroly', label: 'Chvíľa, keď telo prestane poslúchať plán' },
+        { v: 'pohlad', label: 'Pohľad na partnerov vrchol a mimovoľné reakcie' },
+        { v: 'dar', label: g('Pocit, že som partnerke orgazmus vytvoril', 'Pocit, že som partnerovi orgazmus vytvorila') },
+        { v: 'odovzdanie', label: 'Odovzdanie načasovania do partnerových rúk' },
+        { v: 'vykon', label: 'Viditeľná alebo hlasná intenzita ako erotické predstavenie' },
+        { v: 'spolocny', label: 'Pocit spoločnej vlny, aj keď nepríde presne naraz' },
+        { v: 'ocakavanie', label: 'Očakávanie tesne pred vrcholom' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'org_partner_tuzba', typ: 'jeden', inePovolene: true,
+      text: g('Ako na mňa pôsobí partnerkina silná túžba priviesť ma k orgazmu', 'Ako na mňa pôsobí partnerova silná túžba priviesť ma k orgazmu'),
+      moznosti: [
+        { v: 'ziadany', label: g('Cítim sa veľmi žiadaný', 'Cítim sa veľmi žiadaná') },
+        { v: 'odovzdam', label: g('Vzrušuje ma odovzdať jej vedenie až do konca', 'Vzrušuje ma odovzdať mu vedenie až do konca') },
+        { v: 'ukazem', label: 'Chcem partnerovi presne ukázať, čo moje telo potrebuje' },
+        { v: 'bez_ciela', label: g('Láka ma jej pozornosť, ale nechcem z orgazmu urobiť cieľ', 'Láka ma jeho pozornosť, ale nechcem z orgazmu urobiť cieľ') },
+        { v: 'tlak', label: 'Táto túžba vo mne môže vytvoriť tlak na výkon' },
+        { v: 'nie', label: g('Radšej si svoj orgazmus vediem sám', 'Radšej si svoj orgazmus vediem sama') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'org_partnerov_vrchol', typ: 'viac', inePovolene: true,
+      text: g('Čo ma vzrušuje na partnerkinom orgazme', 'Čo ma vzrušuje na partnerovom orgazme'),
+      moznosti: [
+        { v: 'telo', label: 'Mimovoľné pohyby a napätie tela' },
+        { v: 'hlas', label: 'Zvuky, dych a strata uhladenosti' },
+        { v: 'pohlad', label: 'Očný kontakt tesne pred vrcholom alebo počas neho' },
+        { v: 'moja_zasluha', label: 'Vedomie, že vrchol vzniká mojím dotykom alebo vedením' },
+        { v: 'pokyny', label: 'Keď mi povie alebo ukáže, že mám presne pokračovať' },
+        { v: 'dozvuk', label: 'Precitlivenosť, úsmev, tras alebo úplné uvoľnenie po ňom' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'org_fantazia_realita', typ: 'viac', inePovolene: true,
+      text: 'Ktoré orgazmické fantázie ma lákajú',
+      moznosti: [
+        { v: 'bez_varovania', label: 'Vrchol bez varovania, ktorý partner rozpozná na tele' },
+        { v: 'prikaz', label: 'Orgazmus na pokyn alebo ako odmena' },
+        { v: 'zadrziavanie', label: 'Dlhé zadržiavanie a prosenie o dovolenie' },
+        { v: 'viac_vln', label: 'Viac vĺn alebo pokračovanie cez precitlivenosť' },
+        { v: 'partner_sleduje', label: g('Partnerka iba sleduje, kým sa k vrcholu privediem sám', 'Partner iba sleduje, kým sa k vrcholu privediem sama') },
+        { v: 'spolu', label: 'Vyvrcholenie v tesnom kontakte alebo čo najbližšie po sebe' },
+        { v: 'bez_orgazmu', label: 'Scéna, ktorá zámerne skončí bez orgazmu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'org_idealna_scena', typ: 'text',
+      text: 'Moja ideálna orgazmická scéna — kto vedie, čo sa deje tesne pred vrcholom, čo partner vidí alebo počuje a ako má chvíľa doznieť:',
+    },
+    {
+      druh: 'text', id: 'org_myty_hlbka', nadpis: 'Mýty, ktoré vytvárajú zbytočný tlak', ton: 'info',
+      telo: 'Mýtus: silný orgazmus musí byť hlasný, viditeľný alebo súčasný s partnerovým. Realita: intenzita sa môže prejaviť trasom, tichom, kontrakciami, smiechom aj hlbokým uvoľnením.\n\nMýtus: kto partnera nepriviedol k orgazmu, zlyhal. Realita: vrchol nie je známka ani dôkaz kvality sexu; erotické môže byť aj presné vedenie, očakávanie alebo vedomé nedokončenie.\n\nMýtus: fantázia o kontrole orgazmu znamená túžbu stratiť hlas. Realita: jej náboj môže stáť na role, prosení, odovzdaní alebo predstave neovládateľnej rozkoše.',
+    },
   ],
 }
 
@@ -321,6 +387,7 @@ export const ORGAZMUS_KONTROLA: TemaObsah = {
     KONTROLA,
     VIACNASOBNE,
     ORGAZMICKE_SCENARE,
+    HLBKOVA_MAPA,
     PO_ORGAZME,
   ],
   zaver: [

@@ -45,7 +45,7 @@ const ZRAK: Blok = {
         { v: 'zaviazane_oci', label: 'Zaviazané oči — jeden z nás nevidí, druhý áno (napätie z neistoty, čo príde)' },
         { v: 'tma', label: 'Úplná tma — nevidí ani jeden z nás (zrak odpadá obom, zbystrí sa dotyk aj sluch)' },
         { v: 'striptiz', label: 'Striptíz / pomalé vyzliekanie' },
-        { v: 'zrkadlo', label: 'Sledovanie seba/partnera v zrkadle (nový uhol na to, čo sa práve deje)' },
+        { v: 'zrkadlo', label: g('Sledovanie seba a partnerky v zrkadle — nový uhol na to, čo sa práve deje', 'Sledovanie seba a partnera v zrkadle — nový uhol na to, čo sa práve deje') },
         { v: 'vizualne_podnety', label: 'Vizuálne podnety (tlmené svetlo, farebné LED, sviečky)' },
         { v: 'oblecenie', label: 'Oblečenie, ktoré odhaľuje alebo zahaľuje — erotický odev či kostým' },
         { v: 'maska', label: 'Maska (anonymita/estetika — iné než zaviazané oči, vidím ja, nevidí sa moja tvár)' },
@@ -164,7 +164,7 @@ const SLUCH: Blok = {
       druh: 'otazka', id: 'slu_druhy_prejavov', typ: 'viac', inePovolene: true,
       text: 'Aké druhy verbálnych prejavov ma vzrušujú',
       moznosti: [
-        { v: 'komplimenty', label: 'Nežné komplimenty ("Si nádherná/ý.")' },
+        { v: 'komplimenty', label: g('Nežné komplimenty („Si nádherný.“)', 'Nežné komplimenty („Si nádherná.“)') },
         { v: 'dirty_talk', label: 'Priamy dirty talk (odvážne, explicitné slová)' },
         { v: 'opisovanie', label: 'Opisovanie toho, čo sa práve deje alebo bude nasledovať' },
         { v: 'roleplay_rec', label: 'Roleplay oslovenia ("môj pán", "zlý chlapec"...)' },
@@ -651,7 +651,7 @@ const LAYERING: Blok = {
     },
     {
       druh: 'otazka', id: 'lay_co', typ: 'viac',
-      text: 'Čo by som chcel(a) skúsiť',
+      text: g('Čo by som chcel skúsiť', 'Čo by som chcela skúsiť'),
       moznosti: [
         { v: 'kombinacia', label: 'Kombinácia dvoch zmyslov naraz (napr. oči + dotyk)' },
         { v: 'postupne_odoberanie', label: 'Postupné odoberanie zmyslov v priebehu scény' },
@@ -665,6 +665,80 @@ const LAYERING: Blok = {
       telo:
         'Mýtus: zmyslová deprivácia patrí iba k tvrdému BDSM. Realita: môže ísť o jemnú pásku na oči a pomalé bozky, ale aj o drsnú, intenzívnu hru s viacerými odobratými zmyslami. ' +
         'Nejde o test odvahy ani o nič, za čo by sa bolo treba hanbiť; je to bežný spôsob, ako presunúť pozornosť zo sledovania vlastného tela na samotné vnemy.',
+    },
+  ],
+}
+
+const HLBKOVA_MAPA: Blok = {
+  druh: 'skupina', id: 'hlbkova_mapa', nadpis: 'Psychológia zmyslovej hry',
+  uvod: 'Rovnaký podnet môže byť nežný, hravý, rituálny aj dominantný. To, čo vzrušuje, často nie je predmet sám, ale očakávanie, prekvapenie a partnerova pozornosť.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'zh_jadro', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na zmyslovej hre priťahuje najviac',
+      moznosti: [
+        { v: 'ocakavanie', label: 'Očakávanie, keď neviem, ktorý podnet príde' },
+        { v: 'presnost', label: 'Presná pozornosť venovaná každej reakcii tela' },
+        { v: 'prekvapenie', label: 'Kontrast a prekvapenie — jemné verzus intenzívne, teplé verzus chladné' },
+        { v: 'odovzdanie', label: 'Odovzdanie vnímania a vedenia partnerovi' },
+        { v: 'kontrola', label: 'Možnosť partnerove vnemy skladať a stupňovať' },
+        { v: 'ponorenie', label: 'Úplné ponorenie do tela bez rozptyľovania' },
+        { v: 'estetika', label: 'Vizuál, vôňa, zvuk a atmosféra ako jeden erotický obraz' },
+        { v: 'tabu', label: 'Neobvyklý alebo mierne tabu podnet' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zh_rola', typ: 'viac', inePovolene: true,
+      text: 'Ktoré roly ma lákajú',
+      moznosti: [
+        { v: 'prijimam', label: 'Prijímam podnety a nechávam telo reagovať' },
+        { v: 'tvorim', label: 'Tvorím partnerovi postupnosť vnemov' },
+        { v: 'pozorujem', label: 'Sledujem partnerove reakcie bez veľa slov' },
+        { v: 'hadam', label: 'So zatvorenými očami hádam predmet, chuť, vôňu alebo dotyk' },
+        { v: 'striedame', label: 'Po každom kole si úlohy vymeníme' },
+        { v: 'spolu', label: 'Obaja prijímame rovnaký podnet súčasne' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zh_partner_tuzba', typ: 'jeden', inePovolene: true,
+      text: g('Ako na mňa pôsobí, keď partnerka túži riadiť moje zmysly', 'Ako na mňa pôsobí, keď partner túži riadiť moje zmysly'),
+      moznosti: [
+        { v: 'vzrusuje', label: g('Jej sústredená pozornosť ma silno vzrušuje', 'Jeho sústredená pozornosť ma silno vzrušuje') },
+        { v: 'odovzdam', label: 'Chcem zatvoriť oči a nechať sa viesť' },
+        { v: 'vymenim', label: g('Vzrušuje ma predstava, že jej potom pripravím vlastnú verziu', 'Vzrušuje ma predstava, že mu potom pripravím vlastnú verziu') },
+        { v: 'jemne', label: 'Láka ma to iba v jemnej a predvídateľnej podobe' },
+        { v: 'fantazia', label: 'Silnejšia deprivácia ma láka skôr vo fantázii' },
+        { v: 'nie', label: 'Radšej chcem mať zmysly aj priebeh pod vlastnou kontrolou' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zh_scenar', typ: 'viac', inePovolene: true,
+      text: 'Ktoré zmyslové scény ma lákajú',
+      moznosti: [
+        { v: 'jeden_zmysel', label: 'Celá scéna postavená na jedinom zmysle' },
+        { v: 'stupnovanie', label: 'Postupné pridávanie ďalších zmyslov vo vrstvách' },
+        { v: 'odoberanie', label: 'Postupné odoberanie zraku alebo sluchu' },
+        { v: 'kontrasty', label: 'Rýchle kontrasty textúry, teploty a intenzity' },
+        { v: 'ritual', label: 'Pomalý rituál vône, hudby, svetla a dotyku' },
+        { v: 'telo', label: 'Iba telo, dych, chuť a prirodzená vôňa bez pomôcok' },
+        { v: 'dominantna', label: 'Rozhodná scéna, v ktorej jeden dávkuje každý podnet' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zh_fantazia_realita', typ: 'jeden',
+      text: 'Ako ďaleko chcem zmyslovú hru posunúť',
+      moznosti: [
+        { v: 'oblubene', label: 'Zopakovať našu obľúbenú kombináciu a prehĺbiť ju' },
+        { v: 'novy_zmysel', label: 'Pridať jeden nový zmysel alebo kontrast' },
+        { v: 'cela_scena', label: 'Vytvoriť celý erotický scenár od začiatku po koniec' },
+        { v: 'rola', label: 'Vyskúšať výraznejšie vedenie alebo odovzdanie' },
+        { v: 'fantazia', label: 'Zatiaľ zostať pri predstavách a slovnom dráždení' },
+        { v: 'nie', label: 'Nechcem ju ďalej rozvíjať' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'zh_idealna_scena', typ: 'text',
+      text: 'Moja ideálna zmyslová scéna — ktorý zmysel otvorí hru, čo zostane skryté a ktorý kontrast prinesie najsilnejšiu chvíľu:',
     },
   ],
 }
@@ -688,6 +762,7 @@ export const ZMYSLOVA_HRA: TemaObsah = {
     CHUT,
     HMAT,
     LAYERING,
+    HLBKOVA_MAPA,
   ],
   zaver: [
     {

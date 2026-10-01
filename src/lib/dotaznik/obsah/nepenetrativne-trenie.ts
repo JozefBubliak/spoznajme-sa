@@ -14,18 +14,18 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // z/m verzia zrkadlová.
 // ─────────────────────────────────────────────────────────────────────────────
 
+const g = (m: string, z: string) => ({ m, z })
+
 const POSTOJ: Moznost[] = [
-  { v: 'robime', label: 'Už to robíme a som spokojný/á' },
+  { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
   { v: 'tuzim', label: 'Túžim to zapojiť' },
-  { v: 'ak_partner_chce', label: 'Rád(a) to spravím, ak po tom partner/ka túži' },
+  { v: 'ak_partner_chce', label: g('Rád to spravím, ak po tom partnerka túži', 'Rada to spravím, ak po tom partner túži') },
   { v: 'mozno', label: 'Možno, za istých okolností' },
   { v: 'nie', label: 'Nie, necítim sa komfortne' },
 ]
 const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
   druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
 })
-const g = (m: string, z: string) => ({ m, z })
-
 // ── Petting ─────────────────────────────────────────────────────────
 const PETTING: Blok = {
   druh: 'skupina', id: 'petting', nadpis: 'Petting — jemnosť, blízkosť a zmyselnosť',
@@ -205,12 +205,12 @@ const TRIBBING: Blok = {
       druh: 'otazka', id: 'tri_na_com', typ: 'viac',
       text: 'Trenie vulvy o',
       moznosti: [
-        { v: 'stehno', label: 'Stehno partnera/ky' },
+        { v: 'stehno', label: g('Stehno partnerky', 'Stehno partnera') },
         { v: 'zadok', label: 'Zadok' },
-        { v: 'cele_telo', label: 'Celé telo partnera/ky' },
+        { v: 'cele_telo', label: g('Celé telo partnerky', 'Celé telo partnera') },
       ],
     },
-    { druh: 'otazka', id: 'tri_variacie', typ: 'text', text: 'Uhly/polohy nôh, ktoré by som chcel(a) skúšať:' },
+    { druh: 'otazka', id: 'tri_variacie', typ: 'text', text: g('Uhly a polohy nôh, ktoré by som chcel skúšať:', 'Uhly a polohy nôh, ktoré by som chcela skúšať:') },
     p('tri_sledovanie', 'Predstava, že ma pri tom partner sleduje (vojeurský prvok), ma vzrušuje'),
   ],
 }
@@ -326,8 +326,77 @@ const RAMEC: Blok = {
         { v: 'tyzdenne', label: 'Každý týždeň' },
       ],
     },
-    { druh: 'otazka', id: 'ram_koza', typ: 'text', text: 'Komfort pokožky — čo pomáha pri dlhšom trení (materiály, olej, uterák):' },
-    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo chcem, aby partner/ka vedel(a) (1–3 vety):' },
+    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: g('Čo chcem, aby partnerka vedela o mojej túžbe po nepenetračnej hre:', 'Čo chcem, aby partner vedel o mojej túžbe po nepenetračnej hre:') },
+  ],
+}
+
+const HLBKOVA_MAPA: Blok = {
+  druh: 'skupina', id: 'hlbkova_mapa', nadpis: 'Viac než náhrada penetrácie',
+  uvod: 'Trenie môže byť pomalé a intímne, hravé cez oblečenie aj dravé a úplne telesné. Dôležité je, ktorá vrstva z neho robí hlavný zážitok.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'nt_jadro', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na nepenetračnom trení priťahuje najviac',
+      moznosti: [
+        { v: 'cele_telo', label: 'Kontakt veľkej plochy tela a kože' },
+        { v: 'napatie', label: 'Napätie z toho, že telá sú tesne pri sebe bez preniknutia' },
+        { v: 'oblecenie', label: 'Trenie cez oblečenie a postupné odhaľovanie' },
+        { v: 'rytmus', label: 'Spoločný rytmus panvy' },
+        { v: 'pohlad', label: 'Pohľad na partnerovu rastúcu reakciu' },
+        { v: 'kontrola', label: 'Možnosť presne viesť tlak, uhol a tempo' },
+        { v: 'hlavny_akt', label: 'Pocit, že to nemusí byť iba cesta k inej aktivite' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'nt_rola', typ: 'viac', inePovolene: true,
+      text: 'Ktoré roly ma pri trení lákajú',
+      moznosti: [
+        { v: 'prijimam', label: 'Ležať alebo sedieť a nechať partnera viesť pohyb' },
+        { v: 'poskytujem', label: 'Viesť rytmus vlastnou panvou a sledovať partnerovu reakciu' },
+        { v: 'rovnocenne', label: 'Hýbať sa proti sebe rovnocenne' },
+        { v: 'drzim', label: 'Pevne partnera držať na mieste' },
+        { v: 'striedat', label: 'Počas jednej scény si vedenie vymeniť' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'nt_partner_tuzba', typ: 'jeden', inePovolene: true,
+      text: g('Ako na mňa pôsobí, keď partnerka túži po trení bez penetrácie', 'Ako na mňa pôsobí, keď partner túži po trení bez penetrácie'),
+      moznosti: [
+        { v: 'vzrusuje', label: g('Jej chuť cítiť moje telo ma vzrušuje', 'Jeho chuť cítiť moje telo ma vzrušuje') },
+        { v: 'uvolnuje', label: 'Uvoľňuje ma, že zážitok nemusí smerovať k penetrácii' },
+        { v: 'chcem_viest', label: 'Chcem prevziať vedenie a ukázať svoj ideálny tlak a rytmus' },
+        { v: 'chcem_dat', label: g('Chcem jej dopriať presne tú podobu, po ktorej túži', 'Chcem mu dopriať presne tú podobu, po ktorej túži') },
+        { v: 'fantazia', label: 'Láka ma to skôr ako fantázia alebo krátka časť hry' },
+        { v: 'nie', label: 'Tento typ kontaktu ma eroticky neťahá' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'nt_nalada', typ: 'viac', inePovolene: true,
+      text: 'V akej nálade ma trenie láka',
+      moznosti: [
+        { v: 'jemne', label: 'Pomaly, nahí, s dlhým objatím' },
+        { v: 'oblecenie', label: 'Nedočkavo cez nohavičky, boxerky alebo džínsy' },
+        { v: 'mokre', label: 'Mokré a klzké, s dôrazom na telesný pocit' },
+        { v: 'drave', label: 'Pevný stisk, silný tlak a dravý rytmus' },
+        { v: 'pred_zrkadlom', label: 'Pred zrkadlom alebo s dôrazom na pohľad' },
+        { v: 'bez_orgazmu', label: 'Ako dlhé dráždenie bez potreby vyvrcholenia' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'nt_fantazia_realita', typ: 'jeden',
+      text: 'Ako chcem túto tému preskúmať ďalej',
+      moznosti: [
+        { v: 'oblubene', label: 'Vrátiť sa k našej obľúbenej forme a prehĺbiť ju' },
+        { v: 'nova_forma', label: 'Vyskúšať nový typ trenia alebo novú rolu' },
+        { v: 'hlavny_akt', label: 'Prvýkrát ho nechať ako hlavný akt' },
+        { v: 'fantazia', label: 'Zatiaľ ho rozvíjať iba vo fantázii alebo slovách' },
+        { v: 'nie', label: 'Nechcem túto tému ďalej rozvíjať' },
+      ],
+    },
+    {
+      druh: 'text', id: 'nt_myty', nadpis: 'Mýty a tabu', ton: 'info',
+      telo: 'Mýtus: trenie je iba tínedžerská predohra alebo náhradný sex. Realita: môže ponúknuť plný telesný rytmus, intenzívnu stimuláciu aj orgazmus a pre mnohých je cieľom samo osebe.\n\nMýtus: keď pár nepenetratuje, niečo mu chýba. Realita: frottage, tribbing, interkrurálna hra či trenie genitálií prinášajú iné vnemy a inú psychológiu než penetrácia — nie slabšiu verziu toho istého.',
+    },
   ],
 }
 
@@ -351,6 +420,7 @@ export const NEPENETRATIVNE_TRENIE: TemaObsah = {
     TITJOB,
     GRINDING,
     OUTERCOURSE,
+    HLBKOVA_MAPA,
     RAMEC,
   ],
   zaver: [

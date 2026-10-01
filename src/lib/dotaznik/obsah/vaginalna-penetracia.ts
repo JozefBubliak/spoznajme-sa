@@ -312,6 +312,72 @@ const FISTING: Blok = {
   ],
 }
 
+// Hĺbková mapa podľa kvalitatívneho vzoru face-sittingu: nielen technika,
+// ale aj erotické jadro, predstava verzus realita a partnerova túžba.
+const HLBKOVA_MAPA: Blok = {
+  druh: 'skupina', id: 'hlbkova_mapa', nadpis: 'Čo pre mňa penetrácia znamená',
+  uvod: 'Rovnaký pohyb môže byť nežný, hravý, odovzdaný aj surový. Táto časť pomenúva, čo z neho robí práve tvoj zážitok.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'vp_jadro', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na vaginálnej penetrácii priťahuje najviac',
+      moznosti: [
+        { v: 'spojenie', label: 'Pocit tesného telesného spojenia' },
+        { v: 'plnost', label: 'Plnosť a tlak zvnútra' },
+        { v: 'rytmus', label: 'Rytmus, ktorý pohltí celé telo' },
+        { v: 'pohlad', label: 'Pohľad na partnerove reakcie zblízka' },
+        { v: 'ziaducnost', label: g('Pocit, že ma partnerka chce v sebe', 'Pocit, že ma partner chce preniknúť') },
+        { v: 'vedenie', label: 'Vedenie, odovzdanie alebo výmena kontroly' },
+        { v: 'surovost', label: 'Dravosť a strata uhladenosti' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vp_fantazia_realita', typ: 'jeden', inePovolene: true,
+      text: 'Kde dnes žije moja najsilnejšia predstava penetrácie',
+      moznosti: [
+        { v: 'realita', label: 'Už ju zažívam a chcem ju prehĺbiť' },
+        { v: 'variacia', label: 'Chcem novú verziu toho, čo už poznáme' },
+        { v: 'fantazia', label: 'Zatiaľ najmä vo fantázii' },
+        { v: 'slova', label: 'Vzrušuje ma o nej hovoriť počas sexu' },
+        { v: 'nelaka', label: 'Nie je pre mňa dôležitou súčasťou sexu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vp_partner_tuzba', typ: 'jeden', inePovolene: true,
+      text: g('Ako na mňa pôsobí, keď partnerka túži po penetrácii', 'Ako na mňa pôsobí, keď partner túži po penetrácii'),
+      moznosti: [
+        { v: 'nakazlive', label: g('Jej túžba ma okamžite naladí', 'Jeho túžba ma okamžite naladí') },
+        { v: 'ziadany', label: g('Cítim sa žiadaný a chcem jej dať presne ten pocit', 'Cítim sa žiadaná a chcem cítiť jeho túžbu v tele') },
+        { v: 'vedenie', label: g('Vzrušuje ma, keď mi ukáže tempo a hĺbku, po ktorých túži', 'Vzrušuje ma, keď ma vedie tempom a hĺbkou, po ktorých túži') },
+        { v: 'podla_nalady', label: 'Láka ma to iba v určitej nálade alebo podobe' },
+        { v: 'neutral', label: g('Jej túžbu prijímam, ale sama ma nemusí vzrušovať', 'Jeho túžbu prijímam, ale sama ma nemusí vzrušovať') },
+        { v: 'nie', label: 'Nechcem, aby sa penetrácia očakávala zakaždým' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vp_scenar', typ: 'viac', inePovolene: true,
+      text: 'Ktoré erotické podoby penetrácie ma lákajú',
+      moznosti: [
+        { v: 'pomaly', label: 'Veľmi pomalý vstup a dlhé nehybné spojenie' },
+        { v: 'ona_vedie', label: 'Žena vedie uhol, hĺbku a rytmus' },
+        { v: 'on_vedie', label: 'Muž vedie pevne a rozhodne' },
+        { v: 'vlny', label: 'Striedanie plytkých, hlbokých a nehybných chvíľ' },
+        { v: 'klitoris', label: 'Penetrácia vrstvená s presnou stimuláciou klitorisu' },
+        { v: 'zrkadlo', label: 'Pohľad na spojenie v zrkadle alebo zblízka' },
+        { v: 'slova', label: 'Slová, pochvala alebo vulgárnejší tón počas pohybu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vp_nova_verzia', typ: 'text',
+      text: 'Jedna nová verzia penetrácie, ktorú chcem skúsiť — čo sa zmení na nálade, vedení, uhle alebo rytme:',
+    },
+    {
+      druh: 'text', id: 'vp_myty', nadpis: 'Mýty, ktoré zbytočne zužujú penetráciu', ton: 'info',
+      telo: 'Mýtus: penetrácia je automaticky hlavný alebo „skutočný“ sex. Realita: je jednou z mnohých plnohodnotných možností.\n\nMýtus: hlbšie a rýchlejšie znamená lepšie. Realita: pre niekoho je najsilnejší plytký tlak pri vstupe, stabilný rytmus, nehybné spojenie alebo kombinácia s klitorisom.\n\nMýtus: partneri by mali chcieť rovnakú podobu zakaždým. Realita: túžba po jemnosti, plnosti, kontrole či dravosti sa môže meniť podľa nálady bez toho, aby to hodnotilo partnera alebo jeho telo.',
+    },
+  ],
+}
+
 export const VAGINALNA_PENETRACIA: TemaObsah = {
   slug: 'vaginalna-penetracia/vaginalna-penetracia',
   nadpis: 'Vaginálna penetrácia',
@@ -336,6 +402,7 @@ export const VAGINALNA_PENETRACIA: TemaObsah = {
     CIM,
     RYTMUS,
     SUROVY,
+    HLBKOVA_MAPA,
     FISTING,
   ],
   zaver: [
