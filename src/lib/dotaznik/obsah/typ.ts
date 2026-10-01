@@ -39,7 +39,7 @@ export type OtazkaBlok = {
   text: GText
   napoveda?: GText
   moznosti?: Moznost[] // jeden / viac / skala
-   inePovolene?: boolean // 'viac' → pridá pole „Iné"
+  inePovolene?: boolean // 'jeden' / 'skala' / 'viac' → pridá voľné pole v tej istej karte
   riadky?: Moznost[] // 'mrezka'
   stlpce?: Moznost[] // 'mrezka'
   rola?: 'prijimam' | 'poskytujem' // uloží sa pod túto rolu (inak spoločné)

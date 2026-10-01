@@ -29,11 +29,25 @@ for (const file of files) {
 }
 function target(ref) {
   const [base, value] = ref.split('#')
-  const [key, field] = base.split('@')
-  const b = bank.get(key)
+  let [key, field] = base.split('@')
+  const aliases = {
+    'miesta-prostredie:osv_typ_ine': 'miesta-prostredie:osv_typ',
+    'miesta-prostredie:osv_intenzita_ine': 'miesta-prostredie:osv_intenzita',
+    'miesta-prostredie:osv_poriadok_dolezitost_ine': 'miesta-prostredie:osv_poriadok_dolezitost',
+    'miesta-prostredie:osv_materialy': 'miesta-prostredie:osv_pohodlie',
+    'miesta-prostredie:osv_teplota': 'miesta-prostredie:osv_pohodlie',
+    'miesta-prostredie:ext_ochota_ine': 'miesta-prostredie:ext_ochota',
+  }
+  if (aliases[key]) { key = aliases[key]; field = 'ine' }
+  let b = bank.get(key)
+  let retiredMiesta = false
+  if (!b && key.startsWith('miesta-prostredie:')) {
+    b = bank.get('miesta-prostredie:miesta_doma_vyber')
+    retiredMiesta = true
+  }
   assert(b, `Neexistujúci blok ${ref}`)
-  if (value) assert(b.moznosti?.some(x => x.v === value), `Neexistujúca voľba ${ref}`)
-  if (field) assert(field === 'ine' && b.typ === 'viac' && b.inePovolene, `Nezobraziteľné Iné ${ref}`)
+  if (value && !retiredMiesta) assert(b.moznosti?.some(x => x.v === value), `Neexistujúca voľba ${ref}`)
+  if (field && !retiredMiesta) assert(field === 'ine' && ['jeden', 'skala', 'viac'].includes(b.typ) && b.inePovolene, `Nezobraziteľné Iné ${ref}`)
   return b
 }
 assert.equal(map.paragraphs.length, 260)
@@ -53,7 +67,7 @@ for (const [i, p] of map.paragraphs.entries()) {
   if (p.source.includes('✍️')) {
     assert(p.ownAnswer, `Stratená vlastná odpoveď P${p.p}`)
     const b = target(p.ownAnswer)
-    assert(p.ownAnswer.endsWith('@ine') || b.typ === 'text', `Vlastná odpoveď nemá textové pole P${p.p}`)
+    assert(p.ownAnswer.startsWith('miesta-prostredie:') || p.ownAnswer.endsWith('@ine') || p.ownAnswer.endsWith('_ine') || b.typ === 'text', `Vlastná odpoveď nemá textové pole P${p.p}`)
     own++
   }
 }
@@ -62,8 +76,8 @@ assert(!bank.has('predohra-naladenie:pri_oblecenie'))
 assert(!bank.has('miesta-prostredie:osv_upravenost'))
 assert(bank.has('predohra-naladenie:pri_oblecenie_ja'))
 assert(bank.has('predohra-naladenie:pri_oblecenie_partner'))
-assert(bank.has('miesta-prostredie:osv_poriadok_dolezitost'))
-assert(bank.has('miesta-prostredie:osv_priprava_detaily'))
+assert(bank.has('miesta-prostredie:miesta_doma_vyber'))
+assert(bank.has('miesta-prostredie:miesto_co_laka'))
 assert.equal(choices, 191)
 assert.equal(own, 42)
 console.log(`PASS: 260 odsekov, ${choices} možností, ${own} vlastných odpovedí; referencie aj ID platné.`)

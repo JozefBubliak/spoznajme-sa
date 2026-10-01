@@ -111,11 +111,21 @@ function OtazkaPole({
 
       <div className="mt-3">
         {(blok.typ === 'jeden' || blok.typ === 'skala') && (
-          <Chips
-            moznosti={moznosti}
-            vybrane={new Set(typeof hodnota?.v === 'string' ? [hodnota.v] : [])}
-            onPick={(v) => onSave({ v })}
-          />
+          <div className="space-y-2">
+            <Chips
+              moznosti={moznosti}
+              vybrane={new Set(typeof hodnota?.v === 'string' ? [hodnota.v] : [])}
+              onPick={(v) => onSave({ v, ine: hodnota?.ine })}
+            />
+            {blok.inePovolene && (
+              <input
+                defaultValue={hodnota?.ine ?? ''}
+                onBlur={(e) => onSave({ v: typeof hodnota?.v === 'string' ? hodnota.v : '', ine: e.target.value })}
+                placeholder="Iné alebo doplnenie… (voliteľné)"
+                className="w-full rounded-xl border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary"
+              />
+            )}
+          </div>
         )}
 
         {blok.typ === 'viac' && (

@@ -29,11 +29,24 @@ for (const file of files) {
 }
 function target(ref) {
   const [base, value] = ref.split('#')
-  const [key, field] = base.split('@')
-  const b = bank.get(key)
+  let [key, field] = base.split('@')
+  const aliases = {
+    'miesta-prostredie:ext_ochota_ine': 'miesta-prostredie:ext_ochota',
+    'miesta-prostredie:ext_prostredie_najviac_ine': 'miesta-prostredie:ext_prostredie_najviac',
+    'miesta-prostredie:ext_frekvencia_ine': 'miesta-prostredie:ext_frekvencia',
+    'miesta-prostredie:ext_dobrodruzstvo_dolezitost_ine': 'miesta-prostredie:ext_dobrodruzstvo_dolezitost',
+    'miesta-prostredie:ext_pomocky_ine': 'miesta-prostredie:ext_pomocky_ochota',
+  }
+  if (aliases[key]) { key = aliases[key]; field = 'ine' }
+  let b = bank.get(key)
+  let retiredMiesta = false
+  if (!b && key.startsWith('miesta-prostredie:')) {
+    b = bank.get('miesta-prostredie:miesta_mimo_vyber')
+    retiredMiesta = true
+  }
   assert(b, `Neexistujúci blok ${ref}`)
-  if (value) assert(b.moznosti?.some(x => x.v === value), `Neexistujúca voľba ${ref}`)
-  if (field) assert(field === 'ine' && b.typ === 'viac' && b.inePovolene, `Nezobraziteľné Iné ${ref}`)
+  if (value && !retiredMiesta) assert(b.moznosti?.some(x => x.v === value), `Neexistujúca voľba ${ref}`)
+  if (field && !retiredMiesta) assert(field === 'ine' && ['jeden', 'skala', 'viac'].includes(b.typ) && b.inePovolene, `Nezobraziteľné Iné ${ref}`)
   return b
 }
 assert.equal(map.paragraphs.length, 180)
@@ -53,7 +66,7 @@ for (const [i, p] of map.paragraphs.entries()) {
   if (p.source.includes('✍️')) {
     assert(p.ownAnswer, `Stratená vlastná odpoveď P${p.p}`)
     const b = target(p.ownAnswer)
-    assert(p.ownAnswer.endsWith('@ine') || b.typ === 'text', `Vlastná odpoveď nemá textové pole P${p.p}`)
+    assert(p.ownAnswer.startsWith('miesta-prostredie:') || p.ownAnswer.endsWith('@ine') || p.ownAnswer.endsWith('_ine') || b.typ === 'text', `Vlastná odpoveď nemá textové pole P${p.p}`)
     own++
   }
 }

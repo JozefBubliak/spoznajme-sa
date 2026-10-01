@@ -58,6 +58,7 @@ const RITUALY: Blok = {
         { v: 'kompliment', label: 'Kompliment („páči sa mi, ako dnes vyzeráš")' },
         { v: 'checkin', label: '„Mini check-in" — 1 veta o nálade / túžbe' },
         { v: 'dotyk_bez_ciela', label: 'Dotyk bez cieľa' },
+        { v: 'ranajky_postel', label: 'Raňajky do postele' },
       ],
     },
   ],

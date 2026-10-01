@@ -137,7 +137,18 @@ function OtazkaPoleStatic({ blok, p }: { blok: OtazkaBlok; p: Pohlavie }) {
       {blok.napoveda && <p className="mt-1 text-xs text-muted-foreground">{G(blok.napoveda)}</p>}
 
       <div className="mt-3">
-        {(blok.typ === 'jeden' || blok.typ === 'skala') && <ChipsStatic moznosti={moznosti} />}
+        {(blok.typ === 'jeden' || blok.typ === 'skala') && (
+          <div className="space-y-2">
+            <ChipsStatic moznosti={moznosti} />
+            {blok.inePovolene && (
+              <input
+                disabled
+                placeholder="Iné alebo doplnenie… (voliteľné)"
+                className="w-full rounded-xl border border-border bg-background px-3 py-2 text-xs text-muted-foreground outline-none"
+              />
+            )}
+          </div>
+        )}
 
         {blok.typ === 'viac' && (
           <div className="space-y-2">

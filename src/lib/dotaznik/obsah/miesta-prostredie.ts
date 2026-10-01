@@ -5,7 +5,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // Zdroj: „29_Miesta_a_prostredie.docx". Domáce priestory (spálňa, kúpeľňa,
 // kuchyňa, obývačka), exteriér a verejné prostredia (auto, príroda, kino,
 // park), hotely a prenajaté priestory, netradičné/experimentálne prostredia,
-// kluby a tematické párty, bezpečnosť a diskrétnosť ako spoločný rámec.
+// kluby, tematické párty a diskrétnosť ako erotická preferencia.
 // z/m verzia zrkadlová.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -52,7 +52,6 @@ const DOMACE: Blok = {
       ],
       inePovolene: true,
     },
-    p('dom_bezpecnost_sprcha', 'V sprche/vani mi záleží na protišmykovej opore — bez nej sa neuvoľním'),
     {
       druh: 'otazka',
       id: 'dom_kuchyna',
@@ -98,6 +97,7 @@ const EXTERIER: Blok = {
       druh: 'otazka',
       id: 'ext_ochota',
       typ: 'jeden',
+      inePovolene: true,
       text: 'Chcem preskúmať intimitu mimo spálne?',
       moznosti: [
         { v: 'chcem', label: 'Chcem — láka ma to vyskúšať alebo zopakovať' },
@@ -105,12 +105,6 @@ const EXTERIER: Blok = {
         { v: 'mozno', label: 'Možno — potrebujem rozhovor o podmienkach' },
         { v: 'nie', label: 'Nie — teraz sa na to necítim' },
       ],
-    },
-    {
-      druh: 'otazka',
-      id: 'ext_ochota_ine',
-      typ: 'text',
-      text: 'Intimita mimo spálne — vlastná odpoveď, podmienky alebo doplnenie (voliteľné):',
     },
     {
       druh: 'otazka',
@@ -148,17 +142,13 @@ const EXTERIER: Blok = {
     p('ext_priroda', 'Príroda (les, pláž) — pocit slobody a kontakt s prírodou ma láka'),
     {
       druh: 'otazka', id: 'ext_verejne_miesta', typ: 'viac',
-      text: 'Ktoré verejné miesta ma (opatrne) lákajú',
+      text: 'Ktoré miesta s nádychom verejnosti ma lákajú',
       moznosti: [
         { v: 'kino', label: 'Kino' },
         { v: 'park', label: 'Park' },
         { v: 'swingers_klub', label: 'Swingers klub (téma sama o sebe — pozri modul o zdieľaní partnera)' },
         { v: 'ziadne', label: 'Žiadne — radšej súkromie' },
       ],
-    },
-    {
-      druh: 'text', id: 'ext_pravidla', ton: 'vystraha',
-      telo: 'Vždy bez svedkov, bez rizika priestupku a s jasným plánom rýchleho ukončenia. Diskrétnosť má prednosť pred vzrušením z rizika.',
     },
     {
       druh: 'otazka',
@@ -193,6 +183,7 @@ const EXTERIER: Blok = {
       druh: 'otazka',
       id: 'ext_prostredie_najviac',
       typ: 'jeden',
+      inePovolene: true,
       text: 'Aké prostredie ma najviac láka?',
       moznosti: [
         { v: 'priroda', label: 'Príroda — les, pláž alebo hory' },
@@ -200,15 +191,9 @@ const EXTERIER: Blok = {
         { v: 'doma', label: 'Jednoduché zmeny doma — sviečky, nové obliečky' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'ext_prostredie_najviac_ine',
-      typ: 'text',
-      text: 'Prostredie, ktoré ma najviac láka — vlastná odpoveď (voliteľné):',
-    },
     { druh: 'otazka', id: 'ext_hranica', typ: 'text', text: 'Kde je moja hranica diskrétnosti — čo je pre mňa ešte OK a čo už nie:' },
     {
-      druh: 'otazka', id: 'ext_frekvencia', typ: 'jeden',
+      druh: 'otazka', id: 'ext_frekvencia', typ: 'jeden', inePovolene: true,
       text: 'Ako často by som chcel(a) experimentovať s prostredím',
       moznosti: [
         { v: 'pravidelne', label: 'Pravidelne (napr. raz mesačne)' },
@@ -217,13 +202,7 @@ const EXTERIER: Blok = {
       ],
     },
     {
-      druh: 'otazka',
-      id: 'ext_frekvencia_ine',
-      typ: 'text',
-      text: 'Frekvencia experimentovania s prostredím — vlastná odpoveď (voliteľné):',
-    },
-    {
-      druh: 'otazka', id: 'ext_dobrodruzstvo_dolezitost', typ: 'jeden',
+      druh: 'otazka', id: 'ext_dobrodruzstvo_dolezitost', typ: 'jeden', inePovolene: true,
       text: 'Ako dôležitý je pre mňa pocit dobrodružstva v intímnych chvíľach',
       moznosti: [
         { v: 'velmi', label: 'Veľmi — posilňuje našu dôveru' },
@@ -231,12 +210,6 @@ const EXTERIER: Blok = {
         { v: 'zaujimave', label: 'Zaujímavé, ale nie kľúčové' },
         { v: 'nie', label: 'Nie je to pre mňa dôležité' },
       ],
-    },
-    {
-      druh: 'otazka',
-      id: 'ext_dobrodruzstvo_dolezitost_ine',
-      typ: 'text',
-      text: 'Význam dobrodružstva — vlastná odpoveď (voliteľné):',
     },
     {
       druh: 'text',
@@ -261,6 +234,7 @@ const EXTERIER: Blok = {
       druh: 'otazka',
       id: 'ext_pomocky_ochota',
       typ: 'jeden',
+      inePovolene: true,
       text: 'Chcem diskrétne pomôcky mimo spálne použiť?',
       moznosti: [
         { v: 'chcem', label: 'Chcem — láka ma začať alebo pokračovať' },
@@ -274,12 +248,6 @@ const EXTERIER: Blok = {
           label: { m: 'Nie — necítim sa na to pripravený', z: 'Nie — necítim sa na to pripravená' },
         },
       ],
-    },
-    {
-      druh: 'otazka',
-      id: 'ext_pomocky_ine',
-      typ: 'text',
-      text: 'Diskrétne pomôcky — skúsenosť, podmienky alebo vlastná odpoveď (voliteľné):',
     },
     {
       druh: 'text',
@@ -433,7 +401,6 @@ const VODA: Blok = {
       moznosti: [
         { v: 'suchost', label: 'Voda zmýva lubrikáciu — trenie' },
         { v: 'chlor_sol', label: 'Chlór alebo soľ' },
-        { v: 'smyk', label: 'Šmýkanie, nestabilita' },
         { v: 'zima', label: 'Zima po vylezení' },
         { v: 'nic', label: 'Nič, užívam si to' },
       ],
@@ -473,7 +440,6 @@ const KARTY: Blok = {
       druh: 'otazka', id: 'karta_jedlo_miesto', typ: 'viac', inePovolene: true,
       text: 'Jedlo & miesto — ktoré kombinácie sú lákavé',
       moznosti: [
-        { v: 'ranajky', label: 'Raňajky do postele, ktoré skončia sexom' },
         { v: 'kuchyna_slahacka', label: 'Šľahačka / čokoláda v kuchyni na pulte' },
         { v: 'vecera_dezert', label: 'Večera pri sviečkach a dezert z tela' },
         { v: 'piknik', label: 'Piknik v prírode' },
@@ -535,7 +501,7 @@ const OSVETLENIE: Blok = {
       telo: 'Tlmené lampy alebo sviečky môžu podporiť pokoj a romantiku, farebné svetlá hravosť; niekomu vyhovuje tma a inému denné či priame svetlo. Sprcha, kuchynský pult alebo súkromné miesto v prírode ponúkajú odlišnú atmosféru. Spoločné objavovanie priestoru a rytmu môže priniesť nové zážitky a dôveru, ak obaja rešpektujete svoje hranice.',
     },
     {
-      druh: 'otazka', id: 'osv_typ', typ: 'jeden',
+      druh: 'otazka', id: 'osv_typ', typ: 'jeden', inePovolene: true,
       text: 'Preferované osvetlenie pri intímnych chvíľach',
       moznosti: [
         { v: 'tlmene', label: 'Tlmené svetlo — lampy alebo sviečky' },
@@ -545,13 +511,7 @@ const OSVETLENIE: Blok = {
       ],
     },
     {
-      druh: 'otazka',
-      id: 'osv_typ_ine',
-      typ: 'text',
-      text: 'Osvetlenie — vlastná odpoveď alebo doplnenie (voliteľné):',
-    },
-    {
-      druh: 'otazka', id: 'osv_intenzita', typ: 'jeden',
+      druh: 'otazka', id: 'osv_intenzita', typ: 'jeden', inePovolene: true,
       text: 'Intenzita svetla',
       moznosti: [
         { v: 'jemne', label: 'Jemné, romantické' },
@@ -560,26 +520,15 @@ const OSVETLENIE: Blok = {
     },
     {
       druh: 'otazka',
-      id: 'osv_intenzita_ine',
-      typ: 'text',
-      text: 'Intenzita svetla — vlastná odpoveď alebo doplnenie (voliteľné):',
-    },
-    {
-      druh: 'otazka',
       id: 'osv_poriadok_dolezitost',
       typ: 'jeden',
+      inePovolene: true,
       text: 'Ako dôležitá je pre mňa upravenosť miestnosti?',
       moznosti: [
         { v: 'velmi', label: 'Veľmi dôležitá' },
         { v: 'trochu', label: 'Záleží mi na nej, ale nie je podmienkou' },
         { v: 'nezalezi', label: 'Nezáleží mi na nej' },
       ],
-    },
-    {
-      druh: 'otazka',
-      id: 'osv_poriadok_dolezitost_ine',
-      typ: 'text',
-      text: 'Upravenosť miestnosti — vlastná odpoveď (voliteľné):',
     },
     {
       druh: 'otazka',
@@ -620,13 +569,6 @@ const OSVETLENIE: Blok = {
       ],
       inePovolene: true,
     },
-    {
-      druh: 'otazka',
-      id: 'osv_teplota',
-      typ: 'text',
-      text: 'Aká teplota a nastavenie klimatizácie mi vyhovujú? (voliteľné)',
-    },
-    { druh: 'otazka', id: 'osv_materialy', typ: 'text', text: 'Materiály a detaily, ktoré mi prinášajú pohodlie (mäkké látky, optimálna teplota):' },
   ],
 }
 
@@ -694,7 +636,6 @@ const PRED_RITUAL: Blok = {
       text: 'Čo musí byť pripravené na dosah, aby som sa cítil(a) uvoľnene',
       moznosti: [
         { v: 'lubrikant', label: 'Lubrikant' },
-        { v: 'ochrana', label: 'Kondómy/ochrana' },
         { v: 'uterak', label: 'Uterák' },
         { v: 'voda', label: 'Voda na pitie' },
         { v: 'hracky', label: 'Hračky' },
@@ -768,16 +709,147 @@ const PO_SEXE: Blok = {
   ],
 }
 
-// ── Bezpečnosť a diskrétnosť ──────────────────────────────────────────
-const BEZPECNOST: Blok = {
-  druh: 'skupina', id: 'bezpecnost', nadpis: 'Bezpečnosť a diskrétnosť',
+// Zjednodušená verzia podľa revízie používateľa 2026-10-01. Staršie jemné
+// členenie sa nezobrazuje; miesto je jedna voľba, nie séria intenzít a podmienok.
+// Zdroje zoznamu mimo domova:
+// - https://pmc.ncbi.nlm.nih.gov/articles/PMC5519052/ — hotel ako samostatná položka
+//   v reprezentatívnom americkom výskume sexuálnej diverzity.
+// - https://pmc.ncbi.nlm.nih.gov/articles/PMC2885574/ — domov, hotel, sauna,
+//   klub, park, toaleta, doprava, kino a auto ako skúmané kategórie miesta.
+// - https://onlinedoctor.superdrug.com/public-sex.html — európsko-americký
+//   komunitný prieskum: park, pláž, kancelária a verejná toaleta.
+const MIESTA_DOMA: Blok = {
+  druh: 'skupina', id: 'miesta_doma', nadpis: 'Miesta doma',
   bloky: [
     {
-      druh: 'text', id: 'bez_info', ton: 'info',
-      telo: 'Novota a zmena prostredia prehlbujú dôveru len vtedy, keď je vopred jasné, čo je „ešte OK" a čo nie — najmä mimo súkromia domova.',
+      druh: 'otazka', id: 'miesta_doma_vyber', typ: 'viac', inePovolene: true,
+      text: 'Ktoré miesta doma ma lákajú na intimitu alebo sex?',
+      moznosti: [
+        { v: 'spalna', label: 'Spálňa a posteľ' },
+        { v: 'obyvacka', label: 'Obývačka a gauč' },
+        { v: 'sprcha', label: 'Sprcha' },
+        { v: 'vana', label: 'Vaňa' },
+        { v: 'kuchyna', label: 'Kuchyňa — stôl alebo pult' },
+        { v: 'podlaha', label: 'Podlaha alebo koberec' },
+        { v: 'pradelna', label: 'Práčovňa' },
+        { v: 'balkon', label: 'Balkón alebo terasa' },
+        { v: 'zahrada', label: 'Záhrada alebo dvor' },
+        { v: 'garaz', label: 'Garáž alebo dielňa' },
+        { v: 'schody', label: 'Schody alebo chodba' },
+        { v: 'bazensauna', label: 'Domáci bazén, vírivka alebo sauna' },
+      ],
     },
-    { druh: 'otazka', id: 'bez_signal', typ: 'text', text: 'Náš signál/plán, ak sa mimo domova náhle prestanem cítiť komfortne:' },
-    { druh: 'otazka', id: 'bez_pomocky', typ: 'text', text: 'Čo mať vždy poruke mimo domova (uterák, lubrikant, hygienické pomôcky):' },
+  ],
+}
+
+const MIESTA_MIMO_DOMOVA: Blok = {
+  druh: 'skupina', id: 'miesta_mimo_domova', nadpis: 'Miesta mimo domova',
+  bloky: [
+    {
+      druh: 'otazka', id: 'miesta_mimo_vyber', typ: 'viac', inePovolene: true,
+      text: 'Ktoré miesta mimo domova ma lákajú na intimitu alebo sex?',
+      moznosti: [
+        { v: 'hotel', label: 'Hotel, motel alebo prenajatý apartmán' },
+        { v: 'chata', label: 'Chata alebo dovolenkový dom' },
+        { v: 'iny_domov', label: 'Dom alebo byt niekoho iného' },
+        { v: 'auto', label: 'Auto' },
+        { v: 'stan', label: 'Stan alebo kempovanie' },
+        { v: 'les', label: 'Les' },
+        { v: 'luka_park', label: 'Lúka alebo park' },
+        { v: 'plaz', label: 'Pláž alebo pobrežie' },
+        { v: 'voda', label: 'Jazero, more alebo bazén' },
+        { v: 'wellness', label: 'Sauna, wellness alebo vírivka' },
+        { v: 'kancelaria', label: 'Kancelária alebo pracovisko' },
+        { v: 'klub', label: 'Klub, sex klub alebo tematická párty' },
+        { v: 'kino', label: 'Kino alebo divadlo' },
+        { v: 'toaleta', label: 'Toaleta alebo prezliekacia kabínka' },
+        { v: 'doprava', label: 'Vlak, lietadlo alebo loď' },
+        { v: 'vytah_strecha', label: 'Výťah alebo strecha' },
+      ],
+    },
+  ],
+}
+
+const CO_NA_MIESTE_LAKA: Blok = {
+  druh: 'skupina', id: 'miesto_vyznam', nadpis: 'Čo na zmene miesta vzrušuje',
+  uvod:
+    'Miesto nie je iba kulisa. Niekedy vzrušuje novosť, inokedy pocit úniku z bežného života, anonymita hotela, sloboda v prírode alebo tajomstvo, že tentoraz nie ste tam, kde zvyčajne.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'miesto_co_laka', typ: 'viac', inePovolene: true,
+      text: 'Čo ma na sexe na inom mieste priťahuje?',
+      moznosti: [
+        { v: 'novost', label: 'Novosť — známe telo v úplne inom priestore' },
+        { v: 'spontannost', label: 'Spontánnosť a pocit „stalo sa to samo“' },
+        { v: 'unik', label: 'Únik od povinností a bežných rolí' },
+        { v: 'tajomstvo', label: 'Tajomstvo a pocit, že o tom vieme iba my dvaja' },
+        { v: 'riziko_videnia', label: 'Fantázia, že by nás niekto mohol zazrieť alebo začuť' },
+        { v: 'anonymita', label: 'Anonymita hotela alebo cudzieho mesta' },
+        { v: 'priroda', label: 'Kontakt s prírodou, vzduchom, vodou alebo nočnou oblohou' },
+        { v: 'luxus', label: 'Luxus, výnimočnosť a pocit rozmaznávania' },
+        { v: 'spomienka', label: 'Vytvorenie spoločnej spomienky spojenej s konkrétnym miestom' },
+        { v: 'rola', label: 'Miesto mi uľahčuje vstúpiť do inej roly alebo nálady' },
+      ],
+    },
+  ],
+}
+
+const SCENARE_MIESTA: Blok = {
+  druh: 'skupina', id: 'miesto_scenare', nadpis: 'Scenáre, ktoré by mohli prebudiť chuť',
+  bloky: [
+    {
+      druh: 'otazka', id: 'miesto_scenare_vyber', typ: 'viac', inePovolene: true,
+      text: 'Ktoré scenáre ma lákajú?',
+      moznosti: [
+        { v: 'ina_izba', label: 'Bez plánovania sa presunúť do inej miestnosti doma' },
+        { v: 'hotel_noc', label: 'Hotelová noc, pri ktorej na chvíľu zmizne bežný život' },
+        { v: 'vylet_odbočka', label: 'Počas výletu spontánne odbočiť na miesto, ktoré nás zaujme' },
+        { v: 'chata_vikend', label: 'Víkend na chate venovaný blízkosti a sexu' },
+        { v: 'auto_zastavka', label: 'Neplánovaná zastávka autom a rýchly spontánny sex' },
+        { v: 'priroda_noc', label: 'Byť spolu v prírode, pod hviezdami alebo pri vode' },
+        { v: 'cudzie_mesto', label: 'Správať sa v cudzom meste ako milenci, ktorí sa práve stretli' },
+        { v: 'luxusny_priestor', label: 'Rozmaznávať sa v krásnej izbe, apartmáne alebo wellness priestore' },
+        { v: 'verejna_fantazia', label: 'Vytvoriť si v súkromí atmosféru verejného alebo zakázaného miesta' },
+        { v: 'klub_party', label: 'Navštíviť erotický klub alebo tematickú párty' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'miesto_nalada', typ: 'viac', inePovolene: true,
+      text: 'Akú náladu má zmena miesta priniesť?',
+      moznosti: [
+        { v: 'rychla', label: 'Rýchlu a spontánnu' },
+        { v: 'romanticka', label: 'Romantickú a výnimočnú' },
+        { v: 'dobrodruzna', label: 'Dobrodružnú a hravú' },
+        { v: 'surova', label: 'Surovú, prirodzenú a bez príprav' },
+        { v: 'tajna', label: 'Tajnú a zakázanú' },
+        { v: 'luxusna', label: 'Luxusnú a rozmaznávajúcu' },
+        { v: 'dlha', label: 'Pomalú, dlhú a bez časového tlaku' },
+      ],
+    },
+  ],
+}
+
+const PARTNER_A_FANTAZIA: Blok = {
+  druh: 'skupina', id: 'miesto_partner_fantazia', nadpis: 'Partnerova túžba a moja fantázia',
+  bloky: [
+    {
+      druh: 'otazka', id: 'miesto_partner_tuzi', typ: 'jeden', inePovolene: true,
+      text: g('Keď partnerku silno láka miesto, ktoré som si nevybral', 'Keď partnera silno láka miesto, ktoré som si nevybrala'),
+      moznosti: [
+        { v: 'nakazlive', label: g('Jej nadšenie vo mne môže prebudiť vlastnú chuť', 'Jeho nadšenie vo mne môže prebudiť vlastnú chuť') },
+        { v: 'skusim', label: g('Rád ho preskúmam ako spoločný experiment', 'Rada ho preskúmam ako spoločný experiment') },
+        { v: 'fantazia', label: 'Môžeme sa s tým hrať vo fantázii alebo roleplay' },
+        { v: 'ine_miesto', label: 'Radšej nájdime iné miesto, ktoré láka oboch' },
+        { v: 'nie', label: 'Zmena miesta ma sama osebe neláka' },
+      ],
+    },
+    { druh: 'otazka', id: 'miesto_fantazia', typ: 'text', text: 'Miesto alebo scénar, ktorý sa mi vracia vo fantázii a prečo:' },
+    { druh: 'otazka', id: 'miesto_spomienka', typ: 'text', text: g('Miesto spojené s našou silnou erotickou spomienkou, ku ktorému by som sa chcel vrátiť:', 'Miesto spojené s našou silnou erotickou spomienkou, ku ktorému by som sa chcela vrátiť:') },
+    {
+      druh: 'text', id: 'miesto_myty', nadpis: 'Mýty verzus realita', ton: 'info',
+      telo:
+        'Mýtus: zaujímavý sex potrebuje exotické miesto. Realita: pre niekoho je najväčšou zmenou už presun z postele na gauč alebo spoločná sprcha. Mýtus: fantázia o verejnom mieste musí byť plánom. Realita: často vzrušuje samotné tajomstvo, spontánnosť alebo predstava videnia — rovnakú náladu možno vytvoriť aj v súkromí.',
+    },
   ],
 }
 
@@ -787,44 +859,12 @@ export const MIESTA_PROSTREDIE: TemaObsah = {
   zdielanieDovod: true,
   uvod: [
     {
-      druh: 'text', id: 'preco', nadpis: 'Zmena miesta ako zdroj novosti',
+      druh: 'text', id: 'miesto_uvod', nadpis: 'Keď sa zmení kulisa, zmení sa aj príbeh',
       telo:
-        'Intimita nemusí patriť len spálni. Zmena priestoru — iná izba, kúpeľňa, výlet, diskrétne miesto vonku — ' +
-        'prináša novosť a dobrodružstvo bez toho, aby sa menilo čokoľvek iné.',
-    },
-    {
-      druh: 'text', id: 'predstavte', nadpis: 'Predstavte si',
-      telo:
-        'Predstavte si, že sa váš intímny život presunie z pohodlia spálne na miesta, kde by ste to nikdy predtým nečakali — ' +
-        'kuchyňa, príroda, alebo dokonca auto pod nočnou oblohou. Čo by to mohlo znamenať pre váš vzťah? ' +
-        'Nové miesta prinášajú nielen vzrušenie, ale aj pocit dobrodružstva, ktorý vzťah oživí. ' +
-        'Stačí trocha odvahy a kreativity.',
-    },
-    {
-      druh: 'text', id: 'myty', nadpis: 'Mýty a tipy', ton: 'info',
-      telo:
-        'Mýtus: „Mimo postele je to nepohodlné a nestojí to za to." — Realita: novosť prostredia spúšťa dopamín podobne ako na začiatku vzťahu; aj 5 minút v kuchyni si pamätáte dlhšie ako hodinu v posteli.\n\n' +
-        'Mýtus: „Na to treba chatu alebo hotel." — Realita: stačí iná miestnosť, iné svetlo, deka na podlahe pred gaučom.\n\n' +
-        'Tipy: v aute deka a zatemnenie, v prírode deka a osuška, na pult vankúš pod zadok, v sprche protišmyková podložka. ' +
-        'Rýchlovka na netradičnom mieste je skvelá predohra — dokončiť sa dá v posteli.',
+        'Iná miestnosť môže prebudiť spontánnosť, hotel odložiť bežné roly a príroda priniesť pocit slobody. Nejde o zbieranie miest ani o výkon. Ide o to nájsť kulisy, v ktorých sa medzi vami objaví iný druh túžby.',
     },
   ],
-  telo: [
-    DOMACE,
-    OSVETLENIE,
-    EXTERIER,
-    HOTELY,
-    NETRADICNE,
-    KARTY,
-    VODA,
-    KLUBY,
-    ZVUK,
-    KRATKE_OKNO,
-    PRED_RITUAL,
-    PRERUSENIA,
-    PO_SEXE,
-    BEZPECNOST,
-  ],
+  telo: [MIESTA_DOMA, MIESTA_MIMO_DOMOVA, CO_NA_MIESTE_LAKA, SCENARE_MIESTA, PARTNER_A_FANTAZIA],
   zaver: [
     {
       druh: 'text', id: 'zaver',
