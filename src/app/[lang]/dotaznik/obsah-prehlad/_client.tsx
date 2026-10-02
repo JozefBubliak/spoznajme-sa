@@ -412,7 +412,7 @@ function Bloky({ bloky, p }: { bloky: Blok[]; p: Pohlavie }) {
 
 // ── stránka ─────────────────────────────────────────────────────────────────
 
-export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
+export default function ObsahPrehladClient({ lang, temy }: { lang: string; temy: TemaObsah[] }) {
   const [query, setQuery] = useState('')
   const [pohlavie, setPohlavie] = useState<Pohlavie>('z')
 
@@ -528,7 +528,7 @@ export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
               {(['z', 'm'] as const).map((pg) => (
                 <Link
                   key={pg}
-                  href={`nahlad/${s.tema.slug}?p=${pg}`}
+                  href={`/${lang}/dotaznik/nahlad/${s.tema.slug}?p=${pg}`}
                   className="rounded-full bg-primary/15 px-4 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/25"
                 >
                   ▶ Simulovať ako {pg === 'z' ? 'žena' : 'muž'}

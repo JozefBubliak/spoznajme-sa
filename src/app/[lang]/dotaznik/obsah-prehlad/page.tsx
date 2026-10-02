@@ -6,7 +6,7 @@ type P = { params: Promise<{ lang: string }> }
 
 export default async function ObsahPrehladPage({ params }: P) {
   const { lang: raw } = await params
-  normalizeUrlLocale(raw)
+  const lang = normalizeUrlLocale(raw)
 
-  return <ObsahPrehladClient temy={vsetkyObsahy()} />
+  return <ObsahPrehladClient lang={lang} temy={vsetkyObsahy()} />
 }

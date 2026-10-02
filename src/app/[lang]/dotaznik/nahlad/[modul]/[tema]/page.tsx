@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
-import { getTema } from '@/lib/dotaznik/strom'
 import { temaObsah } from '@/lib/dotaznik/obsah'
 import type { Pohlavie } from '@/lib/dotaznik/obsah/typ'
 import Kniha from '../../../_kniha'
@@ -16,9 +15,7 @@ export default async function NahladTemy({ params, searchParams }: P) {
   const { lang: raw, modul, tema } = await params
   const { p } = await searchParams
   const lang = normalizeUrlLocale(raw)
-  const found = getTema(modul, tema)
-  if (!found) notFound()
-  const obsah = temaObsah(found.modul.slug, found.tema.slug)
+  const obsah = temaObsah(modul, tema)
   if (!obsah) notFound()
   const pohlavie: Pohlavie | undefined = p === 'm' || p === 'z' ? p : undefined
 
@@ -26,8 +23,8 @@ export default async function NahladTemy({ params, searchParams }: P) {
     <Kniha
       key={pohlavie ?? 'x'}
       lang={lang}
-      modul={found.modul.slug}
-      tema={found.tema.slug}
+      modul={modul}
+      tema={tema}
       obsah={obsah}
       spatHref={`/dotaznik/obsah-prehlad#${obsah.slug}`}
       dalejHref={`/dotaznik/obsah-prehlad#${obsah.slug}`}
