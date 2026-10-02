@@ -86,6 +86,28 @@ const BEZ_SKUSENOSTI_SLEDOVAT: Blok = {
   podmienka: { ot: 'skusenost', jeNiektora: ['sledovany', 'ziadna'] },
   bloky: [
     {
+      druh: 'text', id: 'sledovat_fantazia_info', ton: 'info',
+      telo: 'Fantázia nie je súhlas ani záväzok niečo uskutočniť. Môže zostať úplná aj v predstavách alebo v slovnej hre medzi partnermi.',
+    },
+    {
+      druh: 'otazka', id: 'sledovat_fantazia_vyskyt', typ: 'jeden', text: 'Ako sa ti predstava sledovania objavuje?',
+      moznosti: [
+        { v: 'silna', label: 'Je to moja silná alebo opakujúca sa fantázia' },
+        { v: 'obcas', label: 'Je to občasná predstava' },
+        { v: 'zvedavost', label: g('Som zvedavý, ale spontánne o tom nefantazírujem', 'Som zvedavá, ale spontánne o tom nefantazírujem') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'sledovat_fantazia_pocit', typ: 'jeden', text: 'Aký pocit v tebe táto predstava vyvoláva?',
+      moznosti: [
+        { v: 'vzrusenie', label: 'Príjemný a výrazne vzrušujúci' },
+        { v: 'zvedavost', label: 'Skôr zvedavý než vzrušujúci' },
+        { v: 'neutral', label: 'Neutrálny' },
+        { v: 'zmiesane', label: 'Rozpačitý alebo zmiešaný' },
+        { v: 'neprijemne_vracia', label: 'Skôr nepríjemný, ale predstava sa mi napriek tomu vracia' },
+      ],
+    },
+    {
       druh: 'otazka', id: 'sledovat_realita', typ: 'jeden', text: 'Kam chceš túto predstavu zaradiť?',
       moznosti: [
         { v: 'tuzim', label: 'Túžim to reálne skúsiť' },
@@ -95,6 +117,17 @@ const BEZ_SKUSENOSTI_SLEDOVAT: Blok = {
       ],
     },
     { druh: 'otazka', id: 'sledovat_podmienky', typ: 'text', text: 'Čo by ti umožnilo cítiť sa pri sledovaní príjemne?', podmienka: { ot: 'sledovat_realita', je: 'podmienky' } },
+    {
+      druh: 'otazka', id: 'sledovat_bariera', typ: 'viac', inePovolene: true, text: 'Čo ti môže brániť skúsiť sledovanie?',
+      moznosti: [
+        { v: 'sukromie', label: 'Potrebujem mať istotu, že všetci zúčastnení o pohľade vedia' },
+        { v: 'trapnost', label: 'Trápnosť alebo neistota, ako sa pri tom správať' },
+        { v: 'partner', label: g('Obava z reakcie partnerky', 'Obava z reakcie partnera') },
+        { v: 'ziarlivost', label: 'Obava, že namiesto vzrušenia príde žiarlivosť' },
+        { v: 'ludia', label: 'Potrebujem správnych ľudí a scénu, ktorá ma skutočne priťahuje' },
+        { v: 'nic', label: g('Nič — som otvorený preskúmaniu', 'Nič — som otvorená preskúmaniu') },
+      ],
+    },
   ],
 }
 
@@ -102,6 +135,28 @@ const BEZ_SKUSENOSTI_BYT_SLEDOVANY: Blok = {
   druh: 'skupina', id: 'bez_skusenosti_byt_sledovany', nadpis: g('Byť sledovaný — zatiaľ bez skúsenosti', 'Byť sledovaná — zatiaľ bez skúsenosti'),
   podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'ziadna'] },
   bloky: [
+    {
+      druh: 'text', id: 'byt_sledovany_fantazia_info', ton: 'info',
+      telo: 'Fantázia o predvádzaní sa nemusí byť plánom. Môže zostať pri predstave, zrkadle alebo vedomom pohľade partnera či partnerky.',
+    },
+    {
+      druh: 'otazka', id: 'byt_sledovany_fantazia_vyskyt', typ: 'jeden', text: 'Ako sa ti predstava predvádzania objavuje?',
+      moznosti: [
+        { v: 'silna', label: 'Je to moja silná alebo opakujúca sa fantázia' },
+        { v: 'obcas', label: 'Je to občasná predstava' },
+        { v: 'zvedavost', label: g('Som zvedavý, ale spontánne o tom nefantazírujem', 'Som zvedavá, ale spontánne o tom nefantazírujem') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'byt_sledovany_fantazia_pocit', typ: 'jeden', text: 'Aký pocit v tebe táto predstava vyvoláva?',
+      moznosti: [
+        { v: 'vzrusenie', label: 'Príjemný a výrazne vzrušujúci' },
+        { v: 'zvedavost', label: 'Skôr zvedavý než vzrušujúci' },
+        { v: 'neutral', label: 'Neutrálny' },
+        { v: 'zmiesane', label: 'Rozpačitý alebo zmiešaný' },
+        { v: 'neprijemne_vracia', label: 'Skôr nepríjemný, ale predstava sa mi napriek tomu vracia' },
+      ],
+    },
     {
       druh: 'otazka', id: 'byt_sledovany_realita', typ: 'jeden', text: 'Kam chceš túto predstavu zaradiť?',
       moznosti: [
