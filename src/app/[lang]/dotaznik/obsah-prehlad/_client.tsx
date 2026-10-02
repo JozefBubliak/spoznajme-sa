@@ -84,7 +84,7 @@ function countLeaves(bloky: Blok[]): number {
   return n
 }
 
-type PrehladPolozka = { nazov: string; slugs: readonly string[] }
+type PrehladPolozka = { nazov: Parameters<typeof gtext>[0]; slugs: readonly string[] }
 type PrehladSkupina = { id: string; nazov: string; popis: string; polozky: readonly PrehladPolozka[] }
 
 const PREHLAD_SKUPINY: readonly PrehladSkupina[] = [
@@ -197,6 +197,13 @@ const PREHLAD_SKUPINY: readonly PrehladSkupina[] = [
     popis: 'Prirodzené vône a chute tela, telesné tekutiny a osobitejšie erotické záujmy.',
     polozky: [
       { nazov: 'Prirodzenosť tela — vôňa a chuť', slugs: ['telesne-tekutiny/prirodzenost'] },
+      {
+        nazov: {
+          m: 'Jej prirodzená vlhkosť — vôňa, chuť a ochutnávanie',
+          z: 'Moja prirodzená vlhkosť — vôňa, chuť a ochutnávanie',
+        },
+        slugs: ['telesne-tekutiny/zenska-vlhkost'],
+      },
       { nazov: 'Semeno a ejakulácia', slugs: ['telesne-tekutiny/semeno'] },
       { nazov: 'Menštruačná krv a period play', slugs: ['telesne-tekutiny/menstrualna-krv'] },
       { nazov: 'Watersports', slugs: ['telesne-tekutiny/watersports'] },
@@ -492,11 +499,11 @@ export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
                     const pocet = temyPolozky.reduce((sucet, s) => sucet + s.pocet, 0)
                     return (
                       <a
-                        key={polozka.nazov}
+                        key={polozka.slugs[0]}
                         href={`#${temyPolozky[0].tema.slug}`}
                         className="rounded-full border border-border/70 bg-card/50 px-3 py-1.5 text-xs text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
                       >
-                        {polozka.nazov} <span className="text-muted-foreground/50">({pocet})</span>
+                        {gtext(polozka.nazov, pohlavie)} <span className="text-muted-foreground/50">({pocet})</span>
                       </a>
                     )
                   })}

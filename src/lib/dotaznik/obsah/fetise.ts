@@ -1457,10 +1457,21 @@ export const PRIRODZENOST_TEMA: TemaObsah = {
   uvod: [
     {
       druh: 'text', id: 'prirodzenost_uvod', nadpis: 'Telo bez uhladenia',
-      telo: 'Prirodzená vôňa, pot, sliny a vaginálna vlhkosť môžu byť intímnym detailom, výrazným zmyslovým podnetom aj súčasťou hry s úplným prijatím tela. Každá z týchto vrstiev má vlastné preferencie — jedna odpoveď za všetky by ich zbytočne osekala.',
+      telo: 'Prirodzená vôňa, pot a sliny môžu byť intímnym detailom, výrazným zmyslovým podnetom aj súčasťou hry s úplným prijatím tela. Každá z týchto vrstiev má vlastné preferencie — jedna odpoveď za všetky by ich zbytočne osekala.',
     },
   ],
-  telo: [SLINY, VLHKOST, POT, VONE],
+  telo: [SLINY, POT, VONE],
+}
+
+export const ZENSKA_VLHKOST_TEMA: TemaObsah = {
+  slug: 'telesne-tekutiny/zenska-vlhkost',
+  nadpis: g(
+    'Jej prirodzená vlhkosť — vôňa, chuť a ochutnávanie',
+    'Moja prirodzená vlhkosť — vôňa, chuť a ochutnávanie',
+  ),
+  zdielanieDovod: true,
+  uvod: [],
+  telo: [VLHKOST],
 }
 
 export const SEMENO_TEMA: TemaObsah = {

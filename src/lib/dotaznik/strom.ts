@@ -548,6 +548,7 @@ export const MODULY: Modul[] = [
     temy: [
       o('telesne-tekutiny', 'Fetiše a špecifické záujmy', 'Kompletný sprievodca (kniha + dotazník) — celá doména fetišov.', undefined, { rizikova: true }),
       o('prirodzenost', 'Prirodzenosť', 'Vôňa a chuť tela.', ['Vôňa / chuť partnera ako afrodiziakum', 'Pot', 'Sliny', '„Po sexe" stav']),
+      o('zenska-vlhkost', 'Prirodzená vlhkosť ženy', 'Vôňa, chuť a ochutnávanie.', ['Ochutnávanie priamo', 'Z prstov', 'V bozku', 'Z tela', 'Mokrá stopa a vôňa']),
       o('semeno', 'Semeno', 'Miesta, význam a hry so semenom.', [
         'Tvár', 'Do úst a prehltnúť', 'Do úst bez prehltnutia', 'Vlasy',
         'Krk / ramená / kľúčne kosti', 'Prsia / bradavky / hruď', 'Brucho / pupok',

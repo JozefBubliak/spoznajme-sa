@@ -96,6 +96,7 @@ export const VETVENIE_SKUSENOSTI: Record<string, VetvenieSkusenosti> = {
   'roleplay-scenare/roleplay-scenare': kostra('jedna-skusenost'),
   'telesne-tekutiny/telesne-tekutiny': kostra('davam-prijimam'),
   'telesne-tekutiny/prirodzenost': kostra('davam-prijimam'),
+  'telesne-tekutiny/zenska-vlhkost': kostra('davam-prijimam'),
   'telesne-tekutiny/semeno': kostra('davam-prijimam'),
   'telesne-tekutiny/menstrualna-krv': kostra('davam-prijimam'),
   'telesne-tekutiny/watersports': kostra('davam-prijimam'),
