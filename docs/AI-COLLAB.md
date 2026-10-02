@@ -36,6 +36,8 @@
 
 **SOURCE-KINK-ACADEMY-002:** Zachytený je celý verejný slovník, nie celý web. Články, lekcie, videá a ostatný obsah The Kink Academy zostávajú zdrojovým TODO na systematické preskúmanie.
 
+**SAME-SEX-BRANCHING-001:** `bi-zvedavost/bi-zvedavost` má aktívne obsahové vetvenie podľa skutočnej skúsenosti. Bez skúsenosti sa zobrazuje iba vetva zvedavosti, fantázie, ochoty preniesť ju do reality a bariér; so skúsenosťou iba hodnotenie zážitku, možné zlepšenie, frekvencia a čo opakovať. Spoločná časť potom osobitne mapuje, čo chce respondent od osoby rovnakého pohlavia prijímať a čo jej chce poskytovať. Tieto praktiky sú zámerne v dvoch bohatých viacnásobných výberoch s opisnými možnosťami a inline „Iné“, nie rozdrobené na množstvo samostatných otázok. Ženské a mužské možnosti sú zrkadlené cez `g()`; pôvodné soft/hard praktiky, kontext, hranice, integrácia a postoj k partnerovej túžbe zostali zachované.
+
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
 
 ---

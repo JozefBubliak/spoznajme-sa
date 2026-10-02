@@ -23,32 +23,101 @@ const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
   druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
 })
 
-// ── Karta: Kde som na škále zvedavosť ↔ prax ─────────────────────────
-const SKALA: Blok = {
-  druh: 'skupina', id: 'skala', nadpis: 'Kde som na škále zvedavosť ↔ prax',
+const SKUSENOST: Blok = {
+  druh: 'otazka', id: 'skusenost', typ: 'jeden',
+  text: g('Máš už skúsenosť s intimitou s iným mužom?', 'Máš už skúsenosť s intimitou s inou ženou?'),
+  moznosti: [
+    { v: 'mam', label: g('Áno, mám', 'Áno, mám') },
+    { v: 'nemam', label: g('Nie, ešte nemám', 'Nie, ešte nemám') },
+  ],
+}
+
+const SO_SKUSENOSTOU: Blok = {
+  druh: 'skupina', id: 'so_skusenostou', nadpis: 'Moja doterajšia skúsenosť',
+  podmienka: { ot: 'skusenost', je: 'mam' },
   bloky: [
     {
-      druh: 'otazka', id: 'skala_miesto', typ: 'skala',
-      text: g('Kde som dnes na škále vo vzťahu k mužom', 'Kde som dnes na škále vo vzťahu k ženám'),
+      druh: 'otazka', id: 'skusenost_hodnotenie', typ: 'jeden',
+      text: 'Ktoré tvrdenie najviac sedí na tvoju doterajšiu skúsenosť?',
       moznosti: [
-        { v: 'nic', label: 'Vôbec ma to neláka' },
-        { v: 'myslienka', label: 'Občas mi to prebehne hlavou' },
-        { v: 'fantazia', label: 'Je to moja fantázia (pri sexe, masturbácii)' },
-        { v: 'chcem_skusit', label: 'Chcem to reálne skúsiť' },
-        { v: 'skusil', label: g('Skúsil som to', 'Skúsila som to') },
-        { v: 'prax', label: 'Je to súčasť môjho sexuálneho života' },
+        { v: 'velmi', label: 'Veľmi ma to vzrušovalo — chcem to opakovať alebo zaradiť' },
+        { v: 'skor', label: g('Skôr ma to vzrušovalo — rád to zopakujem za vhodných podmienok', 'Skôr ma to vzrušovalo — rada to zopakujem za vhodných podmienok') },
+        { v: 'neutral', label: 'Neutrálne — bolo to v poriadku, ale nie je to moja priorita' },
+        { v: 'zlepsit', label: 'Skôr mi to nesedelo, ale mohlo by sa to zlepšiť iným človekom, tempom alebo podobou' },
+        { v: 'neprijemne', label: 'Bolo mi to nepríjemné — nechcem to opakovať' },
+      ],
+    },
+    { druh: 'otazka', id: 'skusenost_zlepsit', typ: 'text', text: 'Čo by mohlo túto skúsenosť zlepšiť?', podmienka: { ot: 'skusenost_hodnotenie', je: 'zlepsit' } },
+    {
+      druh: 'otazka', id: 'skusenost_frekvencia', typ: 'jeden', text: 'Aká frekvencia ti vyhovuje?',
+      podmienka: { ot: 'skusenost_hodnotenie', nie: 'neprijemne' },
+      moznosti: [
+        { v: 'pravidelne', label: 'Pravidelne' },
+        { v: 'nalada', label: 'Podľa nálady' },
+        { v: 'obcas', label: 'Občas ako spestrenie' },
+        { v: 'vynimocne', label: 'Len výnimočne' },
+      ],
+    },
+    { druh: 'otazka', id: 'skusenost_fungovalo', typ: 'text', text: 'Čo fungovalo najlepšie a čo chceš nabudúce inak?', podmienka: { ot: 'skusenost_hodnotenie', nie: 'neprijemne' } },
+  ],
+}
+
+const BEZ_SKUSENOSTI: Blok = {
+  druh: 'skupina', id: 'bez_skusenosti', nadpis: 'Zvedavosť, fantázia a možnosť reality',
+  podmienka: { ot: 'skusenost', je: 'nemam' },
+  bloky: [
+    {
+      druh: 'otazka', id: 'fantazia_vyskyt', typ: 'jeden',
+      text: g('Objavuje sa ti intimita s iným mužom v myšlienkach alebo fantáziách?', 'Objavuje sa ti intimita s inou ženou v myšlienkach alebo fantáziách?'),
+      moznosti: [
+        { v: 'silna', label: 'Je to moja silná alebo opakujúca sa fantázia' },
+        { v: 'obcas', label: 'Je to občasná predstava' },
+        { v: 'zvedavost', label: 'Skôr zvedavosť než konkrétna fantázia' },
+        { v: 'nie', label: 'Neobjavuje sa mi spontánne, ale chcem tému preskúmať' },
       ],
     },
     {
-      druh: 'otazka', id: 'skala_posun', typ: 'jeden',
-      text: 'Ako sa to u mňa vyvíja',
+      druh: 'otazka', id: 'fantazia_pocit', typ: 'jeden', text: 'Aký pocit v tebe táto predstava vyvoláva?',
       moznosti: [
-        { v: 'rastie', label: 'Zvedavosť rastie' },
-        { v: 'stabilne', label: 'Je to dlhodobo rovnaké' },
-        { v: 'vlny', label: 'Prichádza vo vlnách' },
-        { v: 'slabne', label: 'Skôr slabne' },
+        { v: 'vzrusenie', label: 'Príjemný a výrazne vzrušujúci' },
+        { v: 'zvedavost', label: 'Skôr zvedavý než vzrušujúci' },
+        { v: 'zmiesane', label: 'Rozpačitý alebo zmiešaný' },
+        { v: 'ziadny', label: 'Zatiaľ vo mne nevyvoláva túžbu' },
       ],
     },
+    {
+      druh: 'otazka', id: 'fantazia_realita', typ: 'jeden', text: 'Aký je tvoj súčasný vzťah k preneseniu tejto predstavy do reality?',
+      moznosti: [
+        { v: 'tuzim', label: 'Túžim to skúsiť' },
+        { v: 'partner', label: g('Vyskúšal by som to, ak by to lákalo partnerku', 'Vyskúšala by som to, ak by to lákalo partnera') },
+        { v: 'podmienky', label: 'Možno — iba za jasných podmienok' },
+        { v: 'fantazia', label: 'Chcem, aby to zostalo iba fantáziou' },
+        { v: 'nie', label: 'Nechcem to preniesť do reality' },
+      ],
+    },
+    { druh: 'otazka', id: 'fantazia_podmienky', typ: 'text', text: 'Aké podmienky by si potreboval/a?', podmienka: { ot: 'fantazia_realita', je: 'podmienky' } },
+    {
+      druh: 'otazka', id: 'fantazia_bariery', typ: 'viac', inePovolene: true,
+      text: 'Čo ti môže brániť cítiť sa pri tejto možnosti slobodne?',
+      moznosti: [
+        { v: 'technika', label: 'Neistota, či by som vedel/a, čo robiť' },
+        { v: 'telo', label: g('Porovnávanie tela alebo tlak na výkon', 'Porovnávanie môjho tela s jej telom') },
+        { v: 'identita', label: 'Obava, čo to znamená pre moju orientáciu alebo identitu' },
+        { v: 'partner', label: g('Strach z reakcie partnerky alebo zo straty jej príťažlivosti ku mne', 'Strach z reakcie partnera') },
+        { v: 'okolie', label: 'Obava z odsúdenia okolia' },
+        { v: 'nic', label: g('Nič — som otvorený preskúmaniu', 'Nič — som otvorená preskúmaniu') },
+      ],
+    },
+  ],
+}
+
+const VYVOJ: Blok = {
+  druh: 'otazka', id: 'skala_posun', typ: 'jeden', text: 'Ako sa tvoja zvedavosť alebo túžba vyvíja?',
+  moznosti: [
+    { v: 'rastie', label: 'Rastie' },
+    { v: 'stabilne', label: 'Je dlhodobo podobná' },
+    { v: 'vlny', label: 'Prichádza vo vlnách' },
+    { v: 'slabne', label: 'Skôr slabne' },
   ],
 }
 
@@ -69,53 +138,39 @@ const POCITY: Blok = {
   ],
 }
 
-// ── Karta: Soft bi — čo je ešte OK ───────────────────────────────────
-const SOFT_BI: Blok = {
-  druh: 'skupina', id: 'soft_bi', nadpis: 'Soft bi — čo je ešte OK',
-  uvod: 'Dotyky a bozky bez penetrácie. Pri každej položke zvlášť — kde je moja hranica.',
+const INTERAKCIE: Blok = {
+  druh: 'skupina', id: 'interakcie', nadpis: 'Čo chcem prijímať a čo poskytovať',
+  uvod: 'Obe strany sa vyberajú oddelene. Túžba prijímať automaticky neznamená túžbu robiť to isté druhému človeku.',
   bloky: [
     {
-      druh: 'otazka', id: 'for_jemna', typ: 'viac',
-      text: 'Jemná fyzická interakcia — čo si viem predstaviť',
+      druh: 'otazka', id: 'interakcie_prijimat', typ: 'viac', inePovolene: true, rola: 'prijimam',
+      text: g('Aké interakcie by si bol ochotný prijímať od druhého muža?', 'Aké interakcie by si bola ochotná prijímať od druhej ženy?'),
       moznosti: [
-        { v: 'nahota', label: 'Spoločná nahota (sprcha, sauna)' },
-        { v: 'dotyky', label: 'Dotyky bez penetrácie' },
-        { v: 'maznanie', label: 'Maznanie a bozkávanie' },
-        { v: 'oral', label: 'Orálna stimulácia' },
+        { v: 'nahota', label: '👀 Spoločná nahota — vnímať telo druhého človeka bez priameho dotyku' },
+        { v: 'bozky', label: '💋 Bozkávanie — jemné, skúmavé alebo vášnivé' },
+        { v: 'telo', label: g('🤲 Hladenie tela, hrude, stehien alebo krku — vnímať jeho dotyky', '🤲 Hladenie tela, pŕs, stehien alebo krku — vnímať jej dotyky') },
+        { v: 'ruka', label: '🔥 Dráždenie rukou — nechať druhého človeka hrať sa s mojím vzrušením' },
+        { v: 'pomocka', label: '🧸 Dráždenie erotickou pomôckou — jemne alebo intenzívnejšie' },
+        { v: 'oral', label: g('👄 Orálna stimulácia — prijímať jeho ústa a jazyk na svojom tele', '👄 Orálna stimulácia — prijímať jej ústa a jazyk na svojom tele') },
+        { v: 'penetracia', label: g('🍆 Análna penetrácia prstami, hračkou alebo penisom — podľa mojej roly a túžby', '🔥 Penetrácia prstami alebo strap-onom — podľa mojej roly a túžby') },
+        { v: 'trenie', label: g('💞 Vzájomné trenie tiel alebo penisov', '💞 Trenie vuliev alebo tiel — tribbing/scissoring') },
+        { v: 'iba_poskytovat', label: g('❌ Nechcem od neho nič prijímať — chcem sa venovať iba jemu', '❌ Nechcem od nej nič prijímať — chcem sa venovať iba jej') },
       ],
     },
-    p('soft_bozk', 'Bozk na ústa'),
-    p('soft_bozk_hlboky', 'Hlboký, vášnivý bozk'),
-    p('soft_telo', 'Hladkanie tela, masáž'),
-    p('soft_prsia', g('Dotyky hrude a bradaviek', 'Dotyky pŕs a bradaviek')),
-    p('soft_genitalie', 'Dotyky genitálií rukou'),
-    p('soft_masturbacia', 'Vzájomná masturbácia'),
-    p('soft_vedla', 'Masturbovať vedľa seba bez dotyku'),
-    p('soft_trenie', g('Trenie tiel o seba', 'Trenie tiel o seba (tribbing)')),
-    p('soft_tanec', 'Erotický tanec, obchytkávanie'),
-  ],
-}
-
-// ── Hard bi — orál, prsty, strap-on, penetrácia, roly ────────────────
-const HARD_BI: Blok = {
-  druh: 'skupina', id: 'hard_bi', nadpis: 'Hard bi — orál a penetrácia',
-  bloky: [
     {
-      druh: 'otazka', id: 'for_penetracia', typ: 'viac',
-      text: 'Penetrácia a hlbšie interakcie',
+      druh: 'otazka', id: 'interakcie_poskytovat', typ: 'viac', inePovolene: true, rola: 'poskytujem',
+      text: g('Aké interakcie by si bol ochotný poskytovať druhému mužovi?', 'Aké interakcie by si bola ochotná poskytovať druhej žene?'),
       moznosti: [
-        { v: 'strap_prsty', label: g('Análna hra prstami', 'Hra prstami a strap-onom') },
-        { v: 'top_bottom', label: '„Top" a „bottom" dynamika' },
-        { v: 'ziadne', label: 'Žiadne' },
+        { v: 'bozky', label: '💋 Bozkávanie — jemné, vášnivé alebo skúmavé' },
+        { v: 'telo', label: g('🤲 Hladenie jeho tela a sledovanie jeho reakcií', '🤲 Hladenie jej tela, pŕs a sledovanie jej reakcií') },
+        { v: 'ruka', label: g('🔥 Dráždenie rukou — hrať sa s jeho vzrušením', '🔥 Dráždenie rukou — hrať sa s jej vzrušením') },
+        { v: 'pomocka', label: g('🧸 Dráždenie erotickou pomôckou — viesť jeho rozkoš', '🧸 Dráždenie erotickou pomôckou — viesť jej rozkoš') },
+        { v: 'oral', label: g('👄 Poskytovanie orálnej stimulácie — skúmať jeho reakcie ústami a jazykom', '👄 Poskytovanie orálnej stimulácie — pocítiť jej túžbu na vlastných perách') },
+        { v: 'penetracia', label: g('🍆 Penetrovať ho prstami, hračkou alebo penisom', '🔥 Penetrovať ju prstami alebo strap-onom') },
+        { v: 'trenie', label: g('💞 Vzájomné trenie tiel alebo penisov', '💞 Trenie vuliev alebo tiel — tribbing/scissoring') },
+        { v: 'iba_prijimat', label: g('❌ Nechcem mu nič poskytovať — chcem iba prijímať', '❌ Nechcem jej nič poskytovať — chcem iba prijímať') },
       ],
     },
-    p('hard_oral_dat', g('Dávať orál mužovi', 'Dávať orál žene')),
-    p('hard_oral_prijat', g('Prijímať orál od muža', 'Prijímať orál od ženy')),
-    p('hard_prsty_dat', g('Prstovať iného muža (anál)', 'Prstovať inú ženu')),
-    p('hard_prsty_prijat', g('Nechať sa prstovať iným mužom (anál)', 'Nechať sa prstovať inou ženou')),
-    p('hard_strapon', g('Strap-on / dildo medzi mužmi', 'Strap-on — dávať alebo prijímať')),
-    p('hard_penetracia', g('Análna penetrácia penisom', 'Penetrácia hračkou, ktorú drží ona')),
-    p('hard_ejakulacia', g('Ejakulácia iného muža na mňa / do mňa', 'Priviesť ju k orgazmu / nechať sa ňou priviesť k orgazmu')),
     {
       druh: 'otazka', id: 'hard_rola', typ: 'jeden',
       text: 'Ktorá rola ma láka',
@@ -129,7 +184,7 @@ const HARD_BI: Blok = {
     },
     {
       druh: 'otazka', id: 'hard_postup', typ: 'jeden',
-      text: 'Akým tempom by som chcel(a) postupovať',
+      text: g('Akým tempom by si chcel postupovať?', 'Akým tempom by si chcela postupovať?'),
       moznosti: [
         { v: 'krokmi', label: 'Pomaly, krok po kroku — najprv soft, potom viac' },
         { v: 'podla_situacie', label: 'Podľa toho, ako sa to rozbehne' },
@@ -147,18 +202,20 @@ const HARD_BI: Blok = {
         { v: 'trojka', label: 'Pri trojke — dotyky medzi rovnakým pohlavím' },
         { v: 'soft_bi', label: 'Soft bi hry (maznanie, bozkávanie)' },
         { v: 'par_plus', label: 'Pár + rovnakopohlavná osoba' },
+        { v: 'spolocne_partner', label: g('S druhým mužom sa striedať alebo sa súčasne venovať partnerke', 'S druhou ženou sa striedať alebo sa súčasne venovať partnerovi') },
+        { v: 'dvojita_stimulacia', label: g('Dvojitá penetrácia alebo iná synchronizovaná stimulácia partnerky', 'Dvojitá alebo synchronizovaná stimulácia partnera') },
       ],
     },
   ],
 }
 
-// ── Karta: Aký rozsah by som reálne chcel(a) ─────────────────────────
+// ── Karta: Aký rozsah by som reálne chcel/a ──────────────────────────
 const ROZSAH: Blok = {
-  druh: 'skupina', id: 'rozsah', nadpis: 'Aký rozsah by som reálne chcel(a)',
+  druh: 'skupina', id: 'rozsah', nadpis: g('Aký rozsah by si reálne chcel?', 'Aký rozsah by si reálne chcela?'),
   bloky: [
     {
       druh: 'otazka', id: 'rozsah_realny', typ: 'skala',
-      text: 'Kam až by som reálne chcel(a) zájsť',
+      text: g('Kam až by si reálne chcel zájsť?', 'Kam až by si reálne chcela zájsť?'),
       moznosti: [
         { v: 'nic', label: 'Nikam — ostane to v hlave' },
         { v: 'pozerat', label: 'Len sa pozerať' },
@@ -234,9 +291,9 @@ const HRANICE: Blok = {
       druh: 'otazka', id: 'hr_podmienky', typ: 'viac', inePovolene: true,
       text: 'Moje podmienky',
       moznosti: [
-        { v: 'partner_pritomny', label: 'Partner/ka musí byť pri tom' },
-        { v: 'partner_zapojeny', label: 'Partner/ka sa musí zapojiť' },
-        { v: 'partner_nie', label: 'Radšej bez partnera/ky pri tom' },
+        { v: 'partner_pritomny', label: g('Partnerka musí byť pri tom', 'Partner musí byť pri tom') },
+        { v: 'partner_zapojeny', label: g('Partnerka sa musí zapojiť', 'Partner sa musí zapojiť') },
+        { v: 'partner_nie', label: g('Radšej bez partnerky pri tom', 'Radšej bez partnera pri tom') },
         { v: 'mimo_okolia', label: 'Nikto z nášho okolia' },
         { v: 'najprv_stretnutie', label: 'Najprv stretnutie bez sexu' },
         { v: 'sympatia', label: 'Musí ma daný človek priťahovať' },
@@ -282,16 +339,34 @@ const INTEGRACIA: Blok = {
     },
     {
       druh: 'otazka', id: 'kom_raz', typ: 'jeden',
-      text: 'Ako by som sa cítil(a), keby to bolo len raz',
+      text: g('Ako by si sa cítil, keby to bolo len raz?', 'Ako by si sa cítila, keby to bolo len raz?'),
       moznosti: [
         { v: 'v_pohode', label: 'V pohode' },
-        { v: 'debrief', label: 'Potreboval(a) by som debrief' },
+        { v: 'debrief', label: g('Potreboval by som sa o tom potom porozprávať', 'Potrebovala by som sa o tom potom porozprávať') },
         { v: 'nie', label: 'Nie, to nie je pre mňa' },
       ],
     },
-    p('int_partner_bi', g('Vzrušuje ma predstava, že moja partnerka je s inou ženou', 'Vzrušuje ma predstava, že môj partner je s iným mužom')),
-    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo chcem, aby partner/ka vedel(a) (1–3 vety):' },
+    {
+      druh: 'otazka', id: 'int_partner_bi', typ: 'jeden', inePovolene: true,
+      text: g('Ako na teba pôsobí predstava, že partnerka túži po interakcii s inou ženou?', 'Ako na teba pôsobí predstava, že partner túži po interakcii s iným mužom?'),
+      moznosti: [
+        { v: 'vidiet_zapojit', label: g('Veľmi ma to vzrušuje — chcem to vidieť alebo sa zapojiť', 'Veľmi ma to vzrušuje — chcem to vidieť alebo sa zapojiť') },
+        { v: 'solo', label: g('Vzrušuje ma aj jej samostatný zážitok a chcem o ňom počuť', 'Vzrušuje ma aj jeho samostatný zážitok a chcem o ňom počuť') },
+        { v: 'fantazia', label: 'Láka ma to iba ako spoločná fantázia alebo dirty talk' },
+        { v: 'doprajem', label: g('Nevzrušuje ma to, ale jej túžbu viem prijať', 'Nevzrušuje ma to, ale jeho túžbu viem prijať') },
+        { v: 'ohrozenie', label: 'Vyvoláva to vo mne žiarlivosť alebo pocit ohrozenia' },
+        { v: 'turnoff', label: g('Zmenilo by to môj pohľad na jej príťažlivosť', 'Zmenilo by to môj pohľad na jeho príťažlivosť') },
+        { v: 'tabu', label: 'Je to pre mňa hranica — nechcem to prenášať do reality' },
+      ],
+    },
+    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: g('Čo chceš, aby partnerka vedela?', 'Čo chceš, aby partner vedel?') },
   ],
+}
+
+const SPOLOCNA_CAST: Blok = {
+  druh: 'skupina', id: 'spolocna_cast',
+  podmienka: { ot: 'skusenost', jeNiektora: ['mam', 'nemam'] },
+  bloky: [VYVOJ, POCITY, INTERAKCIE, ROZSAH, PREDSTAVY, HRANICE, INTEGRACIA],
 }
 
 export const ROVNAKE_POHLAVIE: TemaObsah = {
@@ -318,25 +393,10 @@ export const ROVNAKE_POHLAVIE: TemaObsah = {
     },
   ],
   telo: [
-    {
-      druh: 'otazka', id: 'skusenost', typ: 'jeden',
-      text: 'Chcel(a) by si niekedy skúsiť dotyk / interakciu s rovnakým pohlavím?',
-      moznosti: [
-        { v: 'robime', label: 'Už sme to zažili a som spokojný/á' },
-        { v: 'tuzim', label: 'Túžim to skúsiť' },
-        { v: 'zvedavy', label: 'Som zvedavý/á, ale len ako fantázia' },
-        { v: 'neutral', label: 'Neutrálne' },
-        { v: 'nie', label: 'Nie, neláka ma to' },
-      ],
-    },
-    SKALA,
-    POCITY,
-    SOFT_BI,
-    HARD_BI,
-    ROZSAH,
-    PREDSTAVY,
-    HRANICE,
-    INTEGRACIA,
+    SKUSENOST,
+    SO_SKUSENOSTOU,
+    BEZ_SKUSENOSTI,
+    SPOLOCNA_CAST,
   ],
   zaver: [
     {

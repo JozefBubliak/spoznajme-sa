@@ -122,7 +122,13 @@ export const VETVENIE_SKUSENOSTI: Record<string, VetvenieSkusenosti> = {
   'manualna-stimulacia/manualna-stimulacia': kostra('davam-prijimam'),
   'polohy/polohy': kostra('jedna-skusenost'),
   'mentalna-priprava-tuzba/mentalna-priprava-tuzba': bezVetvenia('Téma opisuje dlhodobý vzorec vzťahu, nie skúsenosť s praktikou.'),
-  'bi-zvedavost/bi-zvedavost': kostra('jedna-skusenost'),
+  'bi-zvedavost/bi-zvedavost': {
+    rezim: 'jedna-skusenost',
+    stav: 'aktivne',
+    bezSkusenosti: [],
+    soSkusenostou: [],
+    paroveZobrazenie: 'vsetko-relevantne-okrem-nie',
+  },
   'mentalna-priprava-tuzba/libido-chut': bezVetvenia('Téma mapuje aktuálnu túžbu a motiváciu.'),
   'oral-kombinacie-polohy/face-sitting': {
     rezim: 'hore-dole',
