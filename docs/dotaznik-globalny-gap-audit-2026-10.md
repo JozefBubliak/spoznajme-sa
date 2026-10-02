@@ -218,6 +218,8 @@ Každý nový modul má zachovať dve osi: **čo túži respondent** a **ako rea
 
 ### Komunitné checklisty a fóra
 
+- SDC, úplný lifestyle/kink/CNM slovník (289 hesiel pri audite 2026-10-02): https://www.sdc.com/swingers-terms/ — presný snapshot a mapa v `docs/dotaznik-sdc-audit-2026-10.md`.
+- The Kink Academy, rastúci BDSM/kink slovník (309 hesiel pri audite 2026-10-02): https://thekinkacademy.com/dictionary/ — presný snapshot a pravidlá použitia v `docs/dotaznik-kink-academy-audit-2026-10.md`.
 - Scarleteen Yes/No/Maybe, vrátane tela, súkromia, vzťahov a odpovede „fantasy/N/A“: https://www.scarleteen.com/read/relationships/yes-no-maybe-so-sexual-inventory-stocklist
 - Autostraddle Sex Toy Exploration, plný 5-stranový PDF a giving/receiving: https://www.autostraddle.com/wp-content/uploads/2018/12/SexToyExplorationList-Autostraddle.pdf
 - The Duchy, stovky BDSM položiek: https://www.theduchy.com/blogs/bdsm-checklist

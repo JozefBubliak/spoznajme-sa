@@ -30,6 +30,8 @@
 
 **Zoznam medzier na doplnenie:** `docs/dotaznik-gap-analyza.md` (33 chýba, 38 len zmienka, systémové medzery, poradie).
 
+**Trvalé globálne zdrojové radary:** `docs/dotaznik-sdc-audit-2026-10.md` obsahuje úplný snapshot 289 hesiel zo SDC a mapu cleanup/reclaiming zdrojov; `docs/dotaznik-kink-academy-audit-2026-10.md` obsahuje úplný snapshot 309 hesiel The Kink Academy. Pri každej BDSM, fetišovej, CNM alebo mocenskej téme ich použiť na kontrolu podtypov, motivácií a rolí. Nie sú dôkazom prevalencie ani pokynom slepo vytvoriť stovky otázok; každé heslo najprv významovo porovnať s existujúcim obsahom a odbornými zdrojmi.
+
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
 
 ---
@@ -46,6 +48,8 @@ OWNER Codex; STATUS IMPLEMENTED / REVIEW. Používateľ spresnil, že nejde o bl
 ## REAL-RETURN-001 — skutočný návrat, erotické rozprávanie a opätovné spojenie, 2026-10-02
 
 OWNER Codex; STATUS IMPLEMENTED / REVIEW. Používateľ spresnil, že návrat nemusí byť iba fiktívny roleplay: môže ísť o skutočný návrat ženy zo stretnutia s iným mužom a následné vzrušovanie partnera pravdivým opisom. Do `zdielanie-partnera.ts` pribudol samostatný blok `NAVRAT_A_ROZPRAVANIE`: okamih a forma rozprávania, presné sexuálne detaily, zmyslové stopy (vrátane chuti druhého muža na perách alebo jazyku), konkrétne otázky partnera, miera pravdivosti a pokračovanie bozkami, dotykmi alebo sexom. Následná globálna komunitná rešerš potvrdila „cleanup“ ako samostatne pomenovanú cuckold praktiku; preto pribudol blok `CLEANUP_A_SLUZBA`: vlhké nohavičky so stopami cudzieho semena, ich použitie, facesitting a orálne očistenie, zlíznutie stôp z tela, konkrétne príkazy, význam služby/moci/odmeny/poníženia, nálada a postoj k partnerovej túžbe. Face-sitting dostal iba jednu kontextovú voľbu s prepojením na tento rituál, aby sa bohatý obsah neduplikoval. Bloky sú rodovo zrkadlené cez `g()` a nenahrádzajú fiktívnu verziu vo všeobecnom Dirty talku. Komunitné pojmy „reclaiming“ a „cleanup“ sú použité opisne; zdroje z anglického, nemeckého a španielskeho prostredia sú pri bloku v kóde.
+
+Následný plný audit zdrojov doplnil `ck_ulohy_pocas`, `ck_zakazy`, `ck_orgazmus_partner`, `navrat_podoba_spojenia` a `cleanup_ritual`: obliekanie a hotwife šperk, odvoz, nápoje, prípravu ženy aj lovera, čakanie/privolanie, kľačanie a sledovanie, masáž chodidiel, záznam, zákaz dotyku/penetrácie/reči, chastity a podrobnú kontrolu orgazmu; ďalej drsný, zmyselný, nesexuálny, odložený alebo žiadny reclaiming a prikázaný, vyžiadaný či dobrovoľne ponúknutý cleanup. Úplné zdrojové mapy sú v `docs/dotaznik-sdc-audit-2026-10.md` a `docs/dotaznik-kink-academy-audit-2026-10.md`.
 
 ---
 ## QUALITY-FACESITTING-001 — kvalitatívny rámec prenesený na vhodné témy, 2026-10-01
