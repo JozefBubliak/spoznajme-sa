@@ -38,7 +38,7 @@ OWNER Codex; STATUS SCAFFOLD / FACE-SITTING ACTIVE. Schéma `TemaObsah` eviduje 
 ---
 ## CONTENT-OVERVIEW-003 — hierarchický admin prehľad, 2026-10-02
 
-OWNER Codex; STATUS IMPLEMENTED. `/dotaznik/obsah-prehlad` nesmie vypisovať plochý register `TemaObsah`, pretože podtémy (napr. štyri časti dirty talku) potom vyzerajú ako štyri hlavné témy. Navigácia používa kanonický strom: obsahová oblasť → hlavná téma/modul → podtémy → obsah vybratej podtémy. Poradie pre čítanie je A → I → B → C → D → E → F → G → H: naladenie, základný rámec hraníc/tela, dotyk, orál, penetrácia, pomôcky, mocenské hry, fetiše a najcitlivejšie praktiky s ďalšími ľuďmi. Detailne spracovaná podtéma ukáže plné bloky; generická podtéma ukáže svoje seed položky a odkaz do dotazníka.
+OWNER Codex; STATUS IMPLEMENTED. `/dotaznik/obsah-prehlad` nesmie vypisovať plochý register `TemaObsah`, pretože podtémy (napr. štyri časti dirty talku) potom vyzerajú ako štyri hlavné témy. Navigácia používa kanonický strom: obsahová oblasť → hlavná téma/modul → podtémy → obsah vybratej podtémy. Poradie pre čítanie je A → I → B → C → D → E → F → G → H: naladenie, základný rámec hraníc/tela, dotyk, orál, penetrácia, pomôcky, mocenské hry, fetiše a najcitlivejšie praktiky s ďalšími ľuďmi. **Admin musí vidieť celý skutočný návštevnícky tok, nie iba zdrojové L4 položky:** screening, prípadnú voľbu roly, všetky sekcie v poradí, bankové aj generované otázky a výslovne aj prázdne kostry, ktoré dnes vidí návštevník. Generovanie otázok je spoločné v `otazkyPreSekciu`, aby sa admin prehľad a ostrá route nemohli rozísť.
 
 ---
 ## QUALITY-FACESITTING-001 — kvalitatívny rámec prenesený na vhodné témy, 2026-10-01

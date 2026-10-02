@@ -134,3 +134,21 @@ export const OTAZKY: Record<string, Otazka[]> = {
 export function otazkySekcie(modul: string, tema: string, sekcia: string): Otazka[] {
   return OTAZKY[`${modul}/${tema}/${sekcia}`] ?? []
 }
+
+/** L4 položky témy → rovnaké otázky, aké používa generický section walker. */
+export function otazkyZPoloziek(sekcia: string, polozky: string[] | undefined): Otazka[] {
+  if (!polozky?.length) return []
+  if (sekcia === 'preferencie' || sekcia === 'techniky' || sekcia === 'scenare') {
+    return polozky.map((text, i) => ({ id: `pl_${i}`, typ: 'postoj', text }))
+  }
+  if (sekcia === 'hranice') {
+    return polozky.map((text, i) => ({ id: `hr_${i}`, typ: 'semafor', text }))
+  }
+  return []
+}
+
+/** Kompletný zdroj otázok jednej generickej stránky — banka má prednosť. */
+export function otazkyPreSekciu(modul: string, tema: string, sekcia: string, polozky?: string[]): Otazka[] {
+  const bankove = otazkySekcie(modul, tema, sekcia)
+  return bankove.length ? bankove : otazkyZPoloziek(sekcia, polozky)
+}

@@ -4,7 +4,15 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { Blok, OtazkaBlok, Podmienka, Pohlavie, TabulkaBlok, TemaObsah, TextBlok } from '@/lib/dotaznik/obsah/typ'
 import { gtext } from '@/lib/dotaznik/obsah/typ'
-import type { Domena, Modul } from '@/lib/dotaznik/strom'
+import { sekcieTemy, type Domena, type Modul } from '@/lib/dotaznik/strom'
+import {
+  FREKVENCIA_MOZNOSTI,
+  otazkyPreSekciu,
+  POSTOJ_MOZNOSTI,
+  SEMAFOR_MOZNOSTI,
+  SKUSENOST_MOZNOSTI,
+  type Otazka,
+} from '@/lib/dotaznik/otazky'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Admin prehľad: rovnaké vizuálne komponenty ako skutočný dotazník (_kniha.tsx),
@@ -195,6 +203,50 @@ function OtazkaPoleStatic({ blok, p }: { blok: OtazkaBlok; p: Pohlavie }) {
         #{blok.id}
         {meta ? ` · ${meta}` : ''}
       </p>
+    </div>
+  )
+}
+
+function GenericOtazkaStatic({ otazka }: { otazka: Otazka }) {
+  const moznosti =
+    otazka.typ === 'postoj' || otazka.typ === 'rola'
+      ? POSTOJ_MOZNOSTI
+      : otazka.typ === 'semafor'
+        ? SEMAFOR_MOZNOSTI
+        : otazka.typ === 'frekvencia'
+          ? FREKVENCIA_MOZNOSTI
+          : otazka.typ === 'skusenost'
+            ? SKUSENOST_MOZNOSTI
+            : []
+
+  const vyber = moznosti.map((m) => ({ v: m.v, label: m.label }))
+
+  return (
+    <div className="rounded-2xl border border-border/70 bg-card/50 p-5">
+      <div className="text-sm font-medium text-foreground">{otazka.text}</div>
+      {otazka.napoveda && <p className="mt-1 text-xs text-muted-foreground">{otazka.napoveda}</p>}
+      <div className="mt-3">
+        {(otazka.typ === 'postoj' || otazka.typ === 'semafor' || otazka.typ === 'frekvencia' || otazka.typ === 'skusenost') && (
+          <ChipsStatic viac moznosti={vyber} />
+        )}
+        {otazka.typ === 'rola' && (
+          <div className="space-y-4">
+            <div><div className="mb-2 text-xs text-muted-foreground">Keď prijímam</div><ChipsStatic viac moznosti={vyber} /></div>
+            <div><div className="mb-2 text-xs text-muted-foreground">Keď poskytujem</div><ChipsStatic viac moznosti={vyber} /></div>
+          </div>
+        )}
+        {otazka.typ === 'multi' && <ChipsStatic viac moznosti={(otazka.moznosti ?? []).map((label, i) => ({ v: String(i), label }))} />}
+        {otazka.typ === 'intenzita' && (
+          <div>
+            <div className="flex gap-2">
+              {Array.from({ length: otazka.stupne ?? 5 }, (_, i) => i + 1).map((n) => <span key={n} className="grid h-9 w-9 place-items-center rounded-full border border-border/70 text-xs text-muted-foreground">{n}</span>)}
+            </div>
+            {(otazka.min || otazka.max) && <div className="mt-1 flex justify-between text-[11px] text-muted-foreground"><span>{otazka.min}</span><span>{otazka.max}</span></div>}
+          </div>
+        )}
+        {otazka.typ === 'text' && <textarea disabled rows={2} placeholder="Napíš voľne… (voliteľné)" className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm text-muted-foreground" />}
+      </div>
+      <p className="mt-3 text-[10px] text-muted-foreground/40">#{otazka.id} · typ: {otazka.typ}</p>
     </div>
   )
 }
@@ -460,6 +512,15 @@ export default function ObsahPrehladClient({
             <p className="mt-2 text-sm text-muted-foreground">{vybranaTema.popis}</p>
           </div>
 
+          <div className="mt-6 rounded-2xl border border-border/70 bg-card/30 p-5">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">1. Screening témy</p>
+            <h3 className="mt-2 font-semibold text-foreground">Chceš túto tému skúmať?</h3>
+            <p className="mt-1 text-sm text-muted-foreground">„Nie“ alebo „Ešte nie“ tému zamkne aj partnerovi; dôvod sa nezobrazí.</p>
+            <div className="mt-4 space-y-2">
+              {['Áno, chcem to skúmať', 'Ešte nie — dočasný zámok', 'Nie — trvalý zámok'].map((label) => <div key={label} className="rounded-xl border border-border/70 bg-background px-4 py-3 text-sm font-medium text-foreground">{label}</div>)}
+            </div>
+          </div>
+
           {detail ? (
             <>
               <div className="my-5 flex flex-wrap gap-2">
@@ -477,14 +538,41 @@ export default function ObsahPrehladClient({
               </div>
             </>
           ) : (
-            <div className="mt-6 rounded-2xl border border-border/70 bg-card/30 p-5">
-              <h3 className="font-semibold text-foreground">Obsah podtémy</h3>
-              {vybranaTema.polozky?.length ? (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {vybranaTema.polozky.map((polozka) => <span key={polozka} className="rounded-full border border-border/70 bg-background px-3 py-1.5 text-xs text-foreground">{polozka}</span>)}
+            <div className="mt-6 space-y-5">
+              {vybranaTema.zrkadlova && (
+                <div className="rounded-2xl border border-border/70 bg-card/30 p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">2. Voľba roly</p>
+                  <h3 className="mt-2 font-semibold text-foreground">Ako chceš pri tejto téme vystupovať?</h3>
+                  <div className="mt-4 space-y-2">
+                    {['Chcem prijímať', 'Chcem poskytovať', 'Oboje / zaujíma ma to zo všetkých strán'].map((label) => <div key={label} className="rounded-xl border border-border/70 bg-background px-4 py-3 text-sm font-medium text-foreground">{label}</div>)}
+                  </div>
                 </div>
-              ) : <p className="mt-3 text-sm text-muted-foreground">Podtéma zatiaľ nemá samostatný detailný obsah.</p>}
-              <Link href={`/${lang}/dotaznik/m/${vybranyModul.slug}/t/${vybranaTema.slug}`} className="mt-5 inline-flex rounded-full bg-primary/15 px-4 py-2 text-xs font-semibold text-primary hover:bg-primary/25">Otvoriť v dotazníku →</Link>
+              )}
+
+              {sekcieTemy(vybranaTema).map((sekcia, index) => {
+                const otazky = otazkyPreSekciu(vybranyModul.slug, vybranaTema.slug, sekcia.id, vybranaTema.polozky)
+                return (
+                  <div key={sekcia.id} className="rounded-2xl border border-border/70 bg-card/20 p-5">
+                    <div className="flex flex-wrap items-baseline justify-between gap-2">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">{index + (vybranaTema.zrkadlova ? 3 : 2)}. Sekcia</p>
+                        <h3 className="mt-1 text-lg font-semibold text-foreground">{sekcia.nazov}</h3>
+                      </div>
+                      <span className="text-xs text-muted-foreground">{otazky.length} otázok</span>
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground">{sekcia.ucel}</p>
+                    {otazky.length > 0 ? (
+                      <div className="mt-4 space-y-3">{otazky.map((otazka) => <GenericOtazkaStatic key={otazka.id} otazka={otazka} />)}</div>
+                    ) : (
+                      <div className="mt-4 rounded-2xl border border-dashed border-border/70 bg-background/50 p-5 text-sm text-muted-foreground">
+                        Miesto pre otázky sekcie „{sekcia.nazov}“. Návštevník dnes vidí iba túto kostru — obsah ešte nie je doplnený.
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+
+              <Link href={`/${lang}/dotaznik/m/${vybranyModul.slug}/t/${vybranaTema.slug}`} className="inline-flex rounded-full bg-primary/15 px-4 py-2 text-xs font-semibold text-primary hover:bg-primary/25">Otvoriť presnú návštevnícku cestu →</Link>
             </div>
           )}
         </section>
