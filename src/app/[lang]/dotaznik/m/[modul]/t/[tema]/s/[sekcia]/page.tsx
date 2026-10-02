@@ -9,9 +9,21 @@ import {
   MODULY,
   type SekciaId,
 } from '@/lib/dotaznik/strom'
-import { otazkyPreSekciu } from '@/lib/dotaznik/otazky'
+import { otazkySekcie, type Otazka } from '@/lib/dotaznik/otazky'
 import { Krok } from '../../../../../../_ui'
 import SekciaOtazky from '../../../../../../_odpovede'
+
+// L4 `polozky` z `strom.ts` → otázky, keď sekcia nemá vlastnú banku v `otazky.ts`.
+function otazkyZPoloziek(sekciaId: string, polozky: string[] | undefined): Otazka[] {
+  if (!polozky?.length) return []
+  if (sekciaId === 'preferencie' || sekciaId === 'techniky' || sekciaId === 'scenare') {
+    return polozky.map((text, i) => ({ id: `pl_${i}`, typ: 'postoj', text }))
+  }
+  if (sekciaId === 'hranice') {
+    return polozky.map((text, i) => ({ id: `hr_${i}`, typ: 'semafor', text }))
+  }
+  return []
+}
 
 type P = { params: Promise<{ lang: string; modul: string; tema: string; sekcia: string }> }
 
@@ -50,7 +62,9 @@ export default async function TemaSekcia({ params }: P) {
     : cesta.temaHotovo(modul.slug, tema.slug)
 
   // Vlastná banka z `otazky.ts`, inak vygenerované z L4 `polozky`, inak kostra.
-  const otazky = otazkyPreSekciu(modul.slug, tema.slug, sekcia.id, tema.polozky)
+  const bankove = otazkySekcie(modul.slug, tema.slug, sekcia.id)
+  const zPoloziek = bankove.length ? [] : otazkyZPoloziek(sekcia.id, tema.polozky)
+  const otazky = bankove.length ? bankove : zPoloziek
 
   if (otazky.length > 0) {
     return (
