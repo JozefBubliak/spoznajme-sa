@@ -123,6 +123,7 @@ const BEZ_SKUSENOSTI_SLEDOVAT: Blok = {
     { druh: 'otazka', id: 'sledovat_podmienky', typ: 'text', text: 'Čo by ti umožnilo cítiť sa pri sledovaní príjemne?', podmienka: { ot: 'sledovat_realita', je: 'podmienky' } },
     {
       druh: 'otazka', id: 'sledovat_bariera', typ: 'viac', inePovolene: true, text: 'Čo ti môže brániť skúsiť sledovanie?',
+      podmienka: { ot: 'sledovat_realita', jeNiektora: ['tuzim', 'podmienky'] },
       moznosti: [
         { v: 'sukromie', label: 'Potrebujem mať istotu, že všetci zúčastnení o pohľade vedia' },
         { v: 'trapnost', label: 'Trápnosť alebo neistota, ako sa pri tom správať' },
@@ -173,6 +174,7 @@ const BEZ_SKUSENOSTI_BYT_SLEDOVANY: Blok = {
     { druh: 'otazka', id: 'byt_sledovany_podmienky', typ: 'text', text: 'Čo by ti umožnilo cítiť sa pod pohľadom príjemne?', podmienka: { ot: 'byt_sledovany_realita', je: 'podmienky' } },
     {
       druh: 'otazka', id: 'byt_sledovany_bariera', typ: 'viac', inePovolene: true, text: 'Čo ti môže brániť skúsiť to?',
+      podmienka: { ot: 'byt_sledovany_realita', jeNiektora: ['tuzim', 'podmienky'] },
       moznosti: [
         { v: 'telo', label: 'Neistota z vlastného tela alebo nahoty' },
         { v: 'vykon', label: 'Pocit, že musím podávať výkon' },
@@ -390,21 +392,74 @@ const MYTY: Blok = {
   ],
 }
 
+const POKRACOVANIE_SLEDOVAT_SO_SKUSENOSTOU: Blok = {
+  druh: 'skupina', id: 'pokracovanie_sledovat_so_skusenostou',
+  podmienka: { vsetky: [
+    { ot: 'skusenost', jeNiektora: ['sledoval', 'oboje'] },
+    { ot: 'sledovat_hodnotenie', jeNiektora: ['velmi', 'skor', 'neutral', 'zlepsit'] },
+  ] },
+  bloky: [SCENARE_SLEDOVAT, SLEDOVAT],
+}
+
+const POKRACOVANIE_SLEDOVAT_BEZ_SKUSENOSTI: Blok = {
+  druh: 'skupina', id: 'pokracovanie_sledovat_bez_skusenosti',
+  podmienka: { vsetky: [
+    { ot: 'skusenost', jeNiektora: ['sledovany', 'ziadna'] },
+    { ot: 'sledovat_realita', jeNiektora: ['tuzim', 'podmienky', 'fantazia'] },
+  ] },
+  bloky: [SCENARE_SLEDOVAT, SLEDOVAT],
+}
+
+const POKRACOVANIE_BYT_SLEDOVANY_SO_SKUSENOSTOU: Blok = {
+  druh: 'skupina', id: 'pokracovanie_byt_sledovany_so_skusenostou',
+  podmienka: { vsetky: [
+    { ot: 'skusenost', jeNiektora: ['sledovany', 'oboje'] },
+    { ot: 'byt_sledovany_hodnotenie', jeNiektora: ['velmi', 'skor', 'neutral', 'zlepsit'] },
+  ] },
+  bloky: [SCENARE_BYT_SLEDOVANY, POHLAD_PARTNERA, PUBLIKUM, RIZIKO],
+}
+
+const POKRACOVANIE_BYT_SLEDOVANY_BEZ_SKUSENOSTI: Blok = {
+  druh: 'skupina', id: 'pokracovanie_byt_sledovany_bez_skusenosti',
+  podmienka: { vsetky: [
+    { ot: 'skusenost', jeNiektora: ['sledoval', 'ziadna'] },
+    { ot: 'byt_sledovany_realita', jeNiektora: ['tuzim', 'podmienky', 'fantazia'] },
+  ] },
+  bloky: [SCENARE_BYT_SLEDOVANY, POHLAD_PARTNERA, PUBLIKUM, RIZIKO],
+}
+
 const KAPITOLA_SLEDOVANIE: Blok = {
   druh: 'skupina', id: 'kapitola_sledovanie', nadpis: 'Sledovanie iných',
   podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'sledovany', 'oboje', 'ziadna'] },
-  bloky: [SKUSENOST_SLEDOVAT, BEZ_SKUSENOSTI_SLEDOVAT, SCENARE_SLEDOVAT, SLEDOVAT],
+  bloky: [SKUSENOST_SLEDOVAT, BEZ_SKUSENOSTI_SLEDOVAT, POKRACOVANIE_SLEDOVAT_SO_SKUSENOSTOU, POKRACOVANIE_SLEDOVAT_BEZ_SKUSENOSTI],
 }
 
 const KAPITOLA_BYT_SLEDOVANY: Blok = {
   druh: 'skupina', id: 'kapitola_byt_sledovany', nadpis: g('Byť sledovaný', 'Byť sledovaná'),
   podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'sledovany', 'oboje', 'ziadna'] },
-  bloky: [SKUSENOST_BYT_SLEDOVANY, BEZ_SKUSENOSTI_BYT_SLEDOVANY, SCENARE_BYT_SLEDOVANY, POHLAD_PARTNERA, PUBLIKUM, RIZIKO],
+  bloky: [SKUSENOST_BYT_SLEDOVANY, BEZ_SKUSENOSTI_BYT_SLEDOVANY, POKRACOVANIE_BYT_SLEDOVANY_SO_SKUSENOSTOU, POKRACOVANIE_BYT_SLEDOVANY_BEZ_SKUSENOSTI],
 }
 
 const SPOLOCNA_CAST: Blok = {
   druh: 'skupina', id: 'spolocna_cast', nadpis: 'Čo majú obe roly spoločné',
-  podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'sledovany', 'oboje', 'ziadna'] },
+  podmienka: { asponJedna: [
+    { vsetky: [
+      { ot: 'skusenost', jeNiektora: ['sledoval', 'oboje'] },
+      { ot: 'sledovat_hodnotenie', jeNiektora: ['velmi', 'skor', 'neutral', 'zlepsit'] },
+    ] },
+    { vsetky: [
+      { ot: 'skusenost', jeNiektora: ['sledovany', 'ziadna'] },
+      { ot: 'sledovat_realita', jeNiektora: ['tuzim', 'podmienky', 'fantazia'] },
+    ] },
+    { vsetky: [
+      { ot: 'skusenost', jeNiektora: ['sledovany', 'oboje'] },
+      { ot: 'byt_sledovany_hodnotenie', jeNiektora: ['velmi', 'skor', 'neutral', 'zlepsit'] },
+    ] },
+    { vsetky: [
+      { ot: 'skusenost', jeNiektora: ['sledoval', 'ziadna'] },
+      { ot: 'byt_sledovany_realita', jeNiektora: ['tuzim', 'podmienky', 'fantazia'] },
+    ] },
+  ] },
   bloky: [PSYCHOLOGIA, MYTY],
 }
 

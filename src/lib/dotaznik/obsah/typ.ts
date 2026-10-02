@@ -14,6 +14,8 @@ export type Pohlavie = 'm' | 'z'
 
 /** Podmienka zobrazenia bloku — vyhodnocuje sa proti odpovediam vyššie v strome. */
 export type Podmienka = {
+  vsetky?: Podmienka[] // logické AND viacerých podmienok
+  asponJedna?: Podmienka[] // logické OR viacerých podmienok
   ot?: string // id otázky (vynechaj, ak podmieňuješ len pohlavím)
   je?: string // presná hodnota (jeden / skala / mrezka-bunka)
   jeNiektora?: string[] // hodnota ∈ zoznam

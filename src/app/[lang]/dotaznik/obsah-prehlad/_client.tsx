@@ -21,6 +21,11 @@ function normalize(s: string): string {
 function podmienkaText(p?: Podmienka): string | undefined {
   if (!p) return undefined
   const casti: string[] = []
+  if (p.vsetky) casti.push(...p.vsetky.map((cast) => podmienkaText(cast)).filter((text): text is string => Boolean(text)))
+  if (p.asponJedna) {
+    const alternativy = p.asponJedna.map((cast) => podmienkaText(cast)).filter((text): text is string => Boolean(text))
+    if (alternativy.length) casti.push(`aspoň jedna z: (${alternativy.join(') ALEBO (')})`)
+  }
   if (p.pohlavie) casti.push(`len pohlavie: ${p.pohlavie}`)
   if (p.ot && p.je) casti.push(`${p.ot} = ${p.je}`)
   if (p.ot && p.nie) casti.push(`${p.ot} ≠ ${p.nie}`)

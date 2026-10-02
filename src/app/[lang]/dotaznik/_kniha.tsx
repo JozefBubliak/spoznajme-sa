@@ -15,6 +15,8 @@ type Hodnoty = Record<string, unknown>
 
 function splna(pod: Podmienka | undefined, ans: Hodnoty, pohlavie?: Pohlavie): boolean {
   if (!pod) return true
+  if (pod.vsetky != null && !pod.vsetky.every((cast) => splna(cast, ans, pohlavie))) return false
+  if (pod.asponJedna != null && !pod.asponJedna.some((cast) => splna(cast, ans, pohlavie))) return false
   if (pod.pohlavie != null && pod.pohlavie !== pohlavie) return false
   if (pod.ot == null) return true
   const h = ans[pod.ot] as { v?: unknown } | undefined
