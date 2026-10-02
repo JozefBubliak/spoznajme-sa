@@ -232,6 +232,113 @@ const MOTIVACIE: Blok = {
   ],
 }
 
+// Reálny návrat po samostatnom stretnutí: v komunitách hotwife/stag sa často
+// opisuje ako „reclaiming“ — samostatný zážitok sa rozprávaním, bozkami a
+// pokračovaním premení na spoločnú erotickú skúsenosť páru.
+// Zdroje a jazyk komunity:
+// https://www.vixen-games.com/2024/07/19/reclaiming-after-watching-your-hotwife/
+// https://vxnlifestyle.com/reclaim-sex/
+// Odborný kontext erotickej compersion:
+// https://www.cosrtlearn.org.uk/wp-content/uploads/2024/05/Niki-D-Loving-Freedom-2023.pdf
+const NAVRAT_A_ROZPRAVANIE: Blok = {
+  druh: 'skupina',
+  id: 'navrat_a_rozpravanie',
+  nadpis: 'Skutočný návrat — príbeh, ktorý pokračuje doma',
+  uvod: g(
+    'Stretnutie sa nemusí skončiť zatvorením hotelových dverí. Partnerka sa môže vrátiť ešte rozohriata, sadnúť si k tebe a postupne ti odovzdať celý zážitok: pohľad, prvý bozk, slová, dotyky aj to, čo jej telo prezrádza bez slov. Pre mnohých je práve tento návrat jadrom fantázie — jej dobrodružstvo sa rozprávaním a tvojou túžbou zmení na niečo, čo patrí vám dvom.',
+    'Stretnutie sa nemusí skončiť odchodom z hotela či cudzieho bytu. Môžeš sa vrátiť ešte rozohriata, sadnúť si k partnerovi a postupne mu odovzdať celý zážitok: pohľad, prvý bozk, slová, dotyky aj to, čo tvoje telo prezrádza bez slov. Pre mnohé páry je práve tento návrat jadrom fantázie — tvoj zážitok sa rozprávaním a jeho túžbou zmení na niečo, čo patrí vám dvom.',
+  ),
+  bloky: [
+    postojOt('navrat_realny', g(
+      'Vzrušuje ťa reálny návrat partnerky zo stretnutia s iným mužom a následné rozprávanie o tom, čo zažila?',
+      'Vzrušuje ťa vrátiť sa z reálneho stretnutia s iným mužom a rozprávaním znovu prebudiť celý zážitok pred partnerom?',
+    )),
+    {
+      druh: 'otazka', id: 'navrat_kedy', typ: 'viac', inePovolene: true,
+      text: 'Kedy a ako má rozprávanie začať',
+      moznosti: [
+        { v: 'dvere', label: g('Hneď pri dverách — ešte skôr, než sa prezlečie', 'Hneď pri dverách — ešte skôr, než sa prezlečiem') },
+        { v: 'vyzliekanie', label: g('Keď ju pomaly vyzliekam a pýtam sa', 'Keď ma partner pomaly vyzlieka a pýta sa') },
+        { v: 'bozky', label: 'Počas prvých bozkov a dotykov po návrate' },
+        { v: 'pocuvanie', label: g('Kým počúvam a vzrušujem sa bez dotykov', 'Kým partner počúva a vzrušuje sa bez dotykov') },
+        { v: 'masturbacia', label: g('Kým pri jej rozprávaní masturbujem', 'Kým partner pri mojom rozprávaní masturbuje') },
+        { v: 'sex', label: 'Počas spoločného sexu — príbeh a telo pokračujú naraz' },
+        { v: 'neskor', label: 'Až neskôr, keď si celý zážitok vedome znovu prehráme' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'navrat_sposob', typ: 'viac', inePovolene: true,
+      text: g('Ako chcem príbeh od partnerky počuť', 'Ako chcem partnerovi príbeh rozprávať'),
+      moznosti: [
+        { v: 'chronologicky', label: 'Od prvého pohľadu až po rozlúčku, krok za krokom' },
+        { v: 'otazky', label: g('Ja sa pýtam a ona mi odpovedá', 'Partner sa pýta a ja mu odpovedám') },
+        { v: 'spoved', label: g('Ona rozpráva sama ako erotickú spoveď', 'Rozprávam sama ako erotickú spoveď') },
+        { v: 'pritomny_cas', label: 'V prítomnom čase, akoby sa to dialo práve teraz' },
+        { v: 'vybrane', label: 'Iba najvzrušujúcejšie obrazy a detaily' },
+        { v: 'spravy', label: 'Najprv cez správy alebo hlasovú nahrávku, potom osobne' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'navrat_detaily', typ: 'viac', inePovolene: true,
+      text: 'Ktoré detaily chcem počuť alebo rozprávať',
+      moznosti: [
+        { v: 'iskra', label: 'Kedy vznikla prvá iskra a kto urobil prvý krok' },
+        { v: 'bozk', label: 'Ako chutil a pôsobil prvý bozk' },
+        { v: 'slova', label: 'Čo si povedali alebo pošepkali' },
+        { v: 'dotyky', label: 'Ako, kde a akým tempom sa dotýkali' },
+        { v: 'robila', label: g('Čo mu partnerka robila a ako na to reagoval', 'Čo som mu robila a ako na to reagoval') },
+        { v: 'robil', label: g('Čo robil on jej a pri čom sa najviac vzrušila', 'Čo robil on mne a pri čom som sa najviac vzrušila') },
+        { v: 'poloha', label: 'Ktoré polohy, pohyby alebo momenty boli najsilnejšie' },
+        { v: 'orgazmus', label: 'Ako prišlo vyvrcholenie a čo mu predchádzalo' },
+        { v: 'partner', label: g('Či počas stretnutia myslela na mňa', 'Či som počas stretnutia myslela na partnera') },
+        { v: 'rozdiel', label: 'V čom bola energia alebo štýl zážitku iný — bez hodnotenia tiel' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'navrat_zmyslove_stopy', typ: 'viac', inePovolene: true,
+      text: g('Ktoré zmyslové stopy návratu ma vzrušujú', 'Ktoré zmyslové stopy chcem po návrate priniesť partnerovi'),
+      moznosti: [
+        { v: 'jazyk', label: g('Pri bozku cítiť na jej perách alebo jazyku chuť druhého muža', 'Pri bozku nechať partnera cítiť na mojich perách alebo jazyku chuť druhého muža') },
+        { v: 'koza', label: g('Cítiť jeho vôňu na jej koži, vlasoch alebo oblečení', 'Priniesť jeho vôňu na koži, vlasoch alebo oblečení') },
+        { v: 'dych', label: g('Počuť v jej dychu, že je ešte vzrušená', 'Nechať partnera počuť v mojom dychu, že som ešte vzrušená') },
+        { v: 'bielizen', label: g('Vidieť jej vlhkú alebo posunutú bielizeň', 'Ukázať partnerovi vlhkú alebo posunutú bielizeň') },
+        { v: 'stopy', label: g('Objavovať na nej stopy dotykov, bozkov alebo rozmazaného mejkapu', 'Nechať partnera objavovať stopy dotykov, bozkov alebo rozmazaného mejkapu') },
+        { v: 'vlhkost', label: g('Cítiť, že jej telo je ešte vlhké a rozohriate', 'Nechať partnera cítiť, že moje telo je ešte vlhké a rozohriate') },
+        { v: 'semeno', label: g('Vidieť, cítiť alebo ochutnať stopy jeho semena', 'Priniesť partnerovi viditeľné alebo hmatateľné stopy jeho semena') },
+        { v: 'bez_stop', label: 'Chcem iba slovný opis — fyzické stopy ma nelákajú' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'navrat_otazky', typ: 'viac', inePovolene: true,
+      text: g('Ktoré otázky by som jej chcel klásť', 'Ktoré otázky chcem od partnera počuť'),
+      moznosti: [
+        { v: 'prvy_bozk', label: g('„Ako ťa prvýkrát pobozkal?"', '„Ako ťa prvýkrát pobozkal?"') },
+        { v: 'chut', label: g('„Cítiš ešte jeho chuť na jazyku?"', '„Cítiš ešte jeho chuť na jazyku?"') },
+        { v: 'ty_jemu', label: g('„Čo presne si mu robila?"', '„Čo presne si mu robila?"') },
+        { v: 'on_tebe', label: g('„Čo presne robil on tebe?"', '„Čo presne robil on tebe?"') },
+        { v: 'najviac', label: g('„Pri čom si ho chcela najviac?"', '„Pri čom si ho chcela najviac?"') },
+        { v: 'orgazmus', label: g('„Ako si vyvrcholila a čo si vtedy cítila?"', '„Ako si vyvrcholila a čo si vtedy cítila?"') },
+        { v: 'myslienka', label: g('„Spomenula si si počas toho na mňa?"', '„Spomenula si si počas toho na mňa?"') },
+        { v: 'teraz', label: g('„Čo chceš, aby som s tebou urobil teraz?"', '„Čo chceš, aby s tebou partner urobil teraz?"') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'navrat_pravdivost', typ: 'jeden', inePovolene: true,
+      text: 'Aký vzťah má mať rozprávanie k tomu, čo sa naozaj stalo',
+      moznosti: [
+        { v: 'presne', label: 'Chcem čo najpresnejší a pravdivý opis' },
+        { v: 'jadro', label: 'Pravdivé jadro, ale eroticky zvýraznené detaily' },
+        { v: 'vyber', label: 'Iba vybrané skutočné momenty, ktoré nás oboch vzrušujú' },
+        { v: 'mix', label: 'Skutočný zážitok môžeme pri rozprávaní ďalej rozvíjať fantáziou' },
+      ],
+    },
+    postojOt('navrat_pokracovanie', g(
+      'Túžiš po rozprávaní partnerku znovu „získať" bozkami, dotykmi alebo sexom a pokračovať tam, kde jej stretnutie skončilo?',
+      'Túžiš, aby ťa partner po rozprávaní znovu „získal" bozkami, dotykmi alebo sexom a pokračoval tam, kde sa stretnutie skončilo?',
+    )),
+  ],
+}
+
 const PARTNEROVA_TUZBA: Blok = {
   druh: 'skupina', id: 'partnerova_tuzba', nadpis: g('Keď po tom túži partnerka', 'Keď po tom túži partner'),
   bloky: [
@@ -385,7 +492,7 @@ export const ZDIELANIE_PARTNERA: TemaObsah = {
         'Nemusí ísť o sex; stačí, že iní túžia a obdivujú.',
     },
   ],
-  telo: [HOTWIFING, CUCKOLDING, KANDALIZMUS, MOTIVACIE, PARTNEROVA_TUZBA, MYTY, RAMEC, POZNAMKY],
+  telo: [HOTWIFING, CUCKOLDING, KANDALIZMUS, MOTIVACIE, NAVRAT_A_ROZPRAVANIE, PARTNEROVA_TUZBA, MYTY, RAMEC, POZNAMKY],
   zaver: [
     {
       druh: 'text',
