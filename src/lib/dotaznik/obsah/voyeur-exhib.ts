@@ -185,8 +185,8 @@ const BEZ_SKUSENOSTI_BYT_SLEDOVANY: Blok = {
   ],
 }
 
-const SCENARE: Blok = {
-  druh: 'skupina', id: 'scenare', nadpis: 'Scény, ktoré ma oslovujú',
+const SCENARE_SLEDOVAT: Blok = {
+  druh: 'skupina', id: 'scenare_sledovat_skupina', nadpis: g('Čo by som chcel sledovať', 'Čo by som chcela sledovať'),
   bloky: [
     {
       druh: 'otazka', id: 'scenare_sledovat', typ: 'viac', inePovolene: true, favoritPovoleny: true,
@@ -201,6 +201,12 @@ const SCENARE: Blok = {
         { v: 'skupina', label: 'Viac ľudí pri spoločnej sexuálnej scéne' },
       ],
     },
+  ],
+}
+
+const SCENARE_BYT_SLEDOVANY: Blok = {
+  druh: 'skupina', id: 'scenare_byt_sledovany_skupina', nadpis: g('Pri čom by som chcel byť sledovaný', 'Pri čom by som chcela byť sledovaná'),
+  bloky: [
     {
       druh: 'otazka', id: 'scenare_byt_sledovany', typ: 'viac', inePovolene: true, favoritPovoleny: true,
       text: g('Pri čom by si chcel byť sledovaný?', 'Pri čom by si chcela byť sledovaná?'),
@@ -384,10 +390,22 @@ const MYTY: Blok = {
   ],
 }
 
-const SPOLOCNA_CAST: Blok = {
-  druh: 'skupina', id: 'spolocna_cast',
+const KAPITOLA_SLEDOVANIE: Blok = {
+  druh: 'skupina', id: 'kapitola_sledovanie', nadpis: 'Sledovanie iných',
   podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'sledovany', 'oboje', 'ziadna'] },
-  bloky: [SCENARE, POHLAD_PARTNERA, SLEDOVAT, PUBLIKUM, RIZIKO, PSYCHOLOGIA, MYTY],
+  bloky: [SKUSENOST_SLEDOVAT, BEZ_SKUSENOSTI_SLEDOVAT, SCENARE_SLEDOVAT, SLEDOVAT],
+}
+
+const KAPITOLA_BYT_SLEDOVANY: Blok = {
+  druh: 'skupina', id: 'kapitola_byt_sledovany', nadpis: g('Byť sledovaný', 'Byť sledovaná'),
+  podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'sledovany', 'oboje', 'ziadna'] },
+  bloky: [SKUSENOST_BYT_SLEDOVANY, BEZ_SKUSENOSTI_BYT_SLEDOVANY, SCENARE_BYT_SLEDOVANY, POHLAD_PARTNERA, PUBLIKUM, RIZIKO],
+}
+
+const SPOLOCNA_CAST: Blok = {
+  druh: 'skupina', id: 'spolocna_cast', nadpis: 'Čo majú obe roly spoločné',
+  podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'sledovany', 'oboje', 'ziadna'] },
+  bloky: [PSYCHOLOGIA, MYTY],
 }
 
 export const VOYEUR_EXHIB: TemaObsah = {
@@ -405,10 +423,8 @@ export const VOYEUR_EXHIB: TemaObsah = {
   ],
   telo: [
     SKUSENOST,
-    SKUSENOST_SLEDOVAT,
-    BEZ_SKUSENOSTI_SLEDOVAT,
-    SKUSENOST_BYT_SLEDOVANY,
-    BEZ_SKUSENOSTI_BYT_SLEDOVANY,
+    KAPITOLA_SLEDOVANIE,
+    KAPITOLA_BYT_SLEDOVANY,
     SPOLOCNA_CAST,
   ],
   zaver: [

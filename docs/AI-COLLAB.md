@@ -42,7 +42,7 @@
 
 **ADMIN-SIMULATION-001:** Admin prehľad pri každej spracovanej téme ponúka „Simulovať ako žena/muž“. Route `/dotaznik/nahlad/[modul]/[tema]` používa ten istý interaktívny renderer ako respondent: odpovede sa dajú označovať, podmienené bloky sa okamžite zobrazujú/skrývajú a simulácia sa dá resetovať. Odpovede sú iba lokálne a neukladajú sa.
 
-**VOYEUR-BRANCHING-001:** `voyeur-exhib/voyeur-exhib` sa vetví osobitne podľa skúsenosti so sledovaním a s tým, že respondent bol sledovaný. Každá rola má vlastnú vetvu so skúsenosťou alebo bez nej; spoločná časť sa zobrazí až po úvodnej voľbe. Scény sledovania a predvádzania sú viacnásobné výbery, nie stupnice. Vhodné viacnásobné preferenčné otázky podporujú jedného favorita cez srdiečko (`favoritPovoleny`); bariéry a hranice favorita nemajú.
+**VOYEUR-BRANCHING-001:** `voyeur-exhib/voyeur-exhib` má po jednom spoločnom gatekeeperi dve viditeľne oddelené kapitoly: „Sledovanie iných“ a „Byť sledovaný/á“. V každej kapitole sa nezávisle zobrazí vetva so skúsenosťou alebo bez nej: „len sledovanie“ = skúsenosť pri sledovaní + bez skúsenosti pri predvádzaní; „len predvádzanie“ = opačne; „obe“ = obe skúsenostné vetvy; „žiadna“ = obe vetvy bez skúsenosti. Role sa obsahovo nemiešajú. Až za nimi nasledujú skutočne spoločné motívy a mýty. Scény sledovania a predvádzania sú viacnásobné výbery, nie stupnice. Vhodné viacnásobné preferenčné otázky podporujú jedného favorita cez srdiečko (`favoritPovoleny`); bariéry a hranice favorita nemajú.
 
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
 
