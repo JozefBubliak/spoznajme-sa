@@ -20,14 +20,35 @@
 
 12. **Face-sitting je kvalitatívny vzor pre vhodné praktiky, nie povinná forma.** Pri telesných a erotických témach overiť rovnakú hĺbku: túžobný text, erotické jadro a psychológia, roly dávania/prijímania, vnemy a intenzity, fantázia verzus realita, reakcia na partnerovu túžbu, konkrétne scenáre/experimentovanie a mýty či tabu. Nekopírovať jeho otázky ani počet blokov a nepoužiť tento rámec na jednoduché katalógy (napr. polohy majú zostať najmä prehľadným zoznamom). Každú rovinu doplniť iba vtedy, keď prináša nový význam a nevytvára duplicitu.
 
+13. **Vždy overiť presnú používateľskú route, nie iba existenciu bohatého bloku v inom súbore.** Strom má samostatné L3 témy, ktoré môžu bez registrácie spadnúť do generického walkera s niekoľkými seed položkami, hoci ich plný obsah už existuje v širokej téme. Pred označením témy za hotovú skontrolovať `${modul}/${tema}` cez register `obsah/index.ts`. Ak bohatý blok zodpovedá samostatnej L3 téme, vytvoriť a registrovať presný `TemaObsah` alebo vedome odstrániť duplicitný vstup zo stromu. Spustiť `npm run verify:dotaznik-routing`; report generických súrodencov získavať cez `node scripts/verify-dotaznik-rich-routing.cjs --report`.
+
+14. **V závere tém sa nepýtať „Kedy by som chcel/chcela začať“ ani „Ako chcem, aby sme to naplánovali“.** Používateľ ich označil za nechcený generický balast. Spoločný sumár môže zachytiť iba to, čo chce respondent skúsiť a čo chce častejšie alebo inak; termín ani spôsob plánovania sa automaticky nepridávajú.
+
+15. **Vetvenie podľa skúsenosti patrí do celých blokov, nie do dvojíc otázka/protiotázka.** Pri každej praktike výslovne určiť, či je vhodná jedna os `mám / nemám skúsenosť`, samostatné roly `poskytujem / prijímam`, alebo výnimočná vlastná os (HORE/DOLE patrí iba face sittingu). Človek bez skúsenosti vidí vysvetlenie, lákadlá, fantáziu verzus realitu a ochotu skúsiť; človek so skúsenosťou hodnotenie zážitku, čo fungovalo, čo zmeniť, želanú frekvenciu a nevyskúšané varianty. Pri jednej skúsenej a jednej neskúsenej roli sa vetví každá rola samostatne. „Bolo mi to nepríjemné — nechcem opakovať“ je NIE: ďalšie otázky tej roly ani párový výsledok sa nezobrazia. Párové vyhodnotenie nevyžaduje zhodnú skúsenosť partnerov; spojí všetky relevantné odpovede oboch okrem NIE. Kostry a povinná klasifikácia sú v `obsah/vetvenie-skusenosti.ts`; všeobecný základ sa nesmie považovať za hotový obsah bez prispôsobenia konkrétnej téme.
+
 **Zoznam medzier na doplnenie:** `docs/dotaznik-gap-analyza.md` (33 chýba, 38 len zmienka, systémové medzery, poradie).
 
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
 
 ---
+## EXPERIENCE-BRANCHING-001 — vetvy podľa skúsenosti, 2026-10-02
+
+OWNER Codex; STATUS SCAFFOLD / FACE-SITTING ACTIVE. Schéma `TemaObsah` eviduje typ vetvenia, stav, celé bloky bez skúsenosti/so skúsenosťou a pravidlo párového výsledku `vsetko-relevantne-okrem-nie`. Všetkých 45 registrovaných data-driven tém je povinne klasifikovaných; témy, kde skúsenosť nedáva význam, majú výslovný dôvod. Praktické témy majú v kostre základné otázky pre obe vetvy, ale kostra sa zobrazí až po obsahovom prispôsobení konkrétnej téme. Face sitting je aktívny: výber skúsenosti je vzájomne výlučný, HORE a DOLE sa vetvia nezávisle a spoločná fantasy vetva sa skúsenej osobe nezobrazuje. Pri ďalšom čistení presunúť všetky otázky každej témy do správneho celého bloku a zachovať unikátny obsah bez duplicít.
+
+---
 ## QUALITY-FACESITTING-001 — kvalitatívny rámec prenesený na vhodné témy, 2026-10-01
 
 OWNER Codex; STATUS IMPLEMENTED / REVIEW. Face-sitting je po pokyne používateľa referenčná úroveň hĺbky, nie pevná šablóna. Hĺbkové vrstvy (erotické jadro a psychológia, roly, fantázia verzus realita, partnerova túžba, konkrétne scenáre, experiment a mýty) boli obsahovo prispôsobené témam `vaginalna-penetracia.ts`, `nepenetrativne-trenie.ts`, `tantra-slow-sex.ts`, `orgazmus-kontrola.ts` a `zmyslova-hra.ts`. `polohy.ts` boli na následný výslovný pokyn používateľa vynechané a zostali bez zmeny, pretože majú byť hlavne prehľadným zoznamom. Pri dotknutých blokoch sa opravili aj zjavné lomítkové m/ž formulácie; praktická otázka o pokožke pri trení sa odstránila. Bez commitu a pushu.
+
+---
+## ROUTING-CONTENT-001 — orezaný obsah samostatných L3 tém, 2026-10-02
+
+OWNER Codex; STATUS IMPLEMENTED / REVIEW. Príčina orezanej otázky „Ejakulácia na telo — kam je to v poriadku“: plný blok `SEMENO` existoval v širokej téme `telesne-tekutiny/telesne-tekutiny`, ale samostatná route `telesne-tekutiny/semeno` nebola registrovaná, preto web použil generický štvorpoložkový seed zo `strom.ts`. Oprava: samostatná detailná téma semena, úplná mapa miest a jednotlivé m/ž otázky; rovnaké prepojenie bolo doplnené pre prirodzenosť, menštruačnú krv a watersports. Rovnaká chyba bola následne potvrdená v F6: plný dirty-talk blok bol skrytý vo fetišovej téme, ale stránky tón, obsah, oslovenia a jazyk tela ukazovali iba krátke seed zoznamy. Všetky štyri sú teraz presne registrované a prehĺbené podľa dodaného zdroja. Pridaný je automatický routing validátor a povinné pravidlo kontroly presnej route. Audit generických súrodencov je významový radar, nie automatický dôkaz chyby.
+
+---
+## CONTENT-CLEANUP-002 — tantra a voyeurizmus, 2026-10-02
+
+OWNER Codex; STATUS IMPLEMENTED / REVIEW. Na výslovný pokyn používateľa boli z tantry odstránené 1–3-minútové varianty dychu; dĺžka je teraz 10–15, 20–30 minút alebo vedomý dych naprieč celým rituálom. Teplota je v tejto téme povolená a doplnená ako zmyslová preferencia rituálu. Vo voyeurizme `pp_sex` znamená sledovanie partnerom počas aktivity s inou osobou, nie duplicitu masturbácie. Odstránené boli používateľom označené duplicity: klubový divák, live video, obsah pohľadu publika, zmiešané pocity, fantázia verzus realita a celý opakovaný blok partnerovej túžby. Téma má vlastný krátky sumár bez otázok na termín a plánovanie.
 
 ---
 ## HANDOFF CLAUDE → CODEX — xlsm zdroj, 2026-09-30 (AKTUÁLNE, má prednosť)

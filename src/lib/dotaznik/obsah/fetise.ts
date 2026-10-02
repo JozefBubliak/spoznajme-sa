@@ -353,17 +353,28 @@ const SEMENO: Blok = {
     },
     {
       druh: 'otazka', id: 'semeno_na_telo', typ: 'viac', inePovolene: true,
-      text: g('Kde ma láka ejakulovať alebo vidieť svoje semeno', 'Kde ma láka prijať alebo vidieť partnerovo semeno'),
+      text: g('Kde ma láka ejakulovať alebo vidieť svoje semeno', 'Kde mi vyhovuje prijať alebo vidieť partnerovo semeno'),
       moznosti: [
-        { v: 'tvar', label: 'Tvár („facial")' },
-        { v: 'prsia', label: 'Prsia a bradavky' },
-        { v: 'brucho', label: 'Brucho' },
-        { v: 'stehna', label: 'Stehná alebo zadok' },
+        { v: 'tvar', label: 'Tvár — čelo, líca alebo pery („facial")' },
+        { v: 'usta_prehltnut', label: 'Do úst a prehltnúť' },
+        { v: 'usta_bez_prehlt', label: 'Do úst bez prehltnutia — vypľuť, ukázať alebo použiť ďalej' },
         { v: 'vlasy', label: 'Vlasy' },
-        { v: 'genitalie', label: 'Vulva, penis alebo hrádza' },
-        { v: 'usta', label: 'Ústa alebo jazyk' },
+        { v: 'krk_ramena', label: 'Krk, kľúčne kosti alebo ramená' },
+        { v: 'prsia', label: 'Prsia a bradavky' },
+        { v: 'hrud', label: 'Hruď' },
+        { v: 'brucho', label: 'Brucho alebo pupok' },
+        { v: 'podbrusko', label: 'Podbruško alebo lonová oblasť' },
+        { v: 'vulva', label: 'Vulva zvonka' },
+        { v: 'penis_semenniky', label: 'Penis alebo semenníky — vlastné semeno vrátené na telo' },
+        { v: 'hrádza', label: 'Hrádza' },
+        { v: 'stehna', label: 'Stehná — spredu alebo zvnútra' },
+        { v: 'zadok', label: 'Zadok' },
+        { v: 'chrbat', label: 'Chrbát alebo kríže' },
+        { v: 'ruky', label: 'Ruky alebo prsty' },
+        { v: 'chodidla', label: 'Chodidlá alebo prsty na nohách' },
         { v: 'oblecenie', label: 'Spodná bielizeň alebo oblečenie' },
-        { v: 'vo_vnutri', label: 'Ejakulácia dovnútra ako erotická predstava' },
+        { v: 'vagina', label: 'Do vagíny' },
+        { v: 'anus', label: 'Do análu' },
         { v: 'nikam', label: 'Nikam na telo' },
       ],
     },
@@ -377,11 +388,21 @@ const SEMENO: Blok = {
     p('semeno_miesto_tvar', g('Ejakulovať partnerke na tvár a sledovať výrazný vizuálny okamih', 'Prijať partnerovo semeno na tvár')),
     p('semeno_miesto_usta_prehltnut', g('Ejakulovať partnerke do úst a vzrušuje ma, keď ho prehltne', 'Prijať partnerovo semeno do úst a prehltnúť ho')),
     p('semeno_miesto_usta_hra', g('Ejakulovať partnerke do úst bez očakávania prehltnutia a pokračovať v hre', 'Nechať si partnerovo semeno v ústach, vypľuť ho, rozotrieť alebo vrátiť bozkom')),
+    p('semeno_miesto_vlasy', g('Ejakulovať partnerke do vlasov ako výraznú stopu scény', 'Prijať partnerovo semeno do vlasov ako výraznú stopu scény')),
+    p('semeno_miesto_krk_ramena', g('Ejakulovať partnerke na krk, kľúčne kosti alebo ramená', 'Prijať partnerovo semeno na krk, kľúčne kosti alebo ramená')),
     p('semeno_miesto_prsia', g('Ejakulovať partnerke na prsia alebo bradavky', 'Prijať partnerovo semeno na prsia alebo bradavky a cítiť jeho stekanie')),
-    p('semeno_miesto_brucho_stehna', g('Ejakulovať partnerke na brucho, stehná alebo zadok', 'Prijať partnerovo semeno na brucho, stehná alebo zadok')),
+    p('semeno_miesto_hrud', g('Prijať vlastné semeno späť na hruď', 'Naniesť partnerovo semeno na jeho hruď')),
+    p('semeno_miesto_brucho', g('Ejakulovať partnerke na brucho alebo pupok', 'Prijať partnerovo semeno na brucho alebo pupok')),
+    p('semeno_miesto_podbrusko', g('Ejakulovať partnerke na podbruško alebo lonovú oblasť', 'Prijať partnerovo semeno na podbruško alebo lonovú oblasť')),
+    p('semeno_miesto_stehna', g('Ejakulovať partnerke na stehná alebo medzi ne', 'Prijať partnerovo semeno na stehná alebo medzi ne')),
+    p('semeno_miesto_zadok', g('Ejakulovať partnerke na zadok', 'Prijať partnerovo semeno na zadok')),
+    p('semeno_miesto_chrbat', g('Ejakulovať partnerke na chrbát alebo kríže', 'Prijať partnerovo semeno na chrbát alebo kríže')),
+    p('semeno_miesto_ruky', g('Ejakulovať partnerke na ruky alebo prsty a pokračovať v hre', 'Prijať partnerovo semeno na ruky alebo prsty a pokračovať v hre')),
+    p('semeno_miesto_chodidla', g('Ejakulovať partnerke na chodidlá alebo prsty na nohách', 'Prijať partnerovo semeno na chodidlá alebo prsty na nohách')),
     p('semeno_miesto_vulva', g('Ejakulovať partnerke na vulvu a pokračovať v stimulácii', 'Prijať partnerovo semeno zvonka na vulvu a pokračovať v stimulácii')),
     p('semeno_miesto_vagina', g('Ejakulovať do partnerkinej vagíny ako predstavu hlbokého spojenia', 'Cítiť partnerovu ejakuláciu vo vagíne ako predstavu hlbokého spojenia')),
-    p('semeno_miesto_vlasy', g('Ejakulovať partnerke do vlasov ako výraznú stopu scény', 'Prijať partnerovo semeno do vlasov ako výraznú stopu scény')),
+    p('semeno_miesto_anal', g('Ejakulovať partnerke do análu', 'Cítiť partnerovu ejakuláciu v anále')),
+    p('semeno_miesto_partner', g('Prijať vlastné semeno späť na penis, semenníky alebo hrádzu', 'Naniesť partnerovo semeno späť na jeho penis, semenníky alebo hrádzu')),
     p('semeno_prehltanie', 'Prehĺtanie semena ako súčasť orálneho rituálu'),
     p('semeno_snowballing', '„Snowballing" — predávanie semena ústami späť osobe, ktorá ejakulovala'),
     p('semeno_ocistenie', 'Orálne očistenie po ejakulácii (penis / vagína jazykom)'),
@@ -921,23 +942,282 @@ const VONE: Blok = {
 }
 
 // ── Dirty talk, prosby a hlas ─────────────────────────────────────────
-const DIRTY_TALK: Blok = {
-  druh: 'skupina', id: 'dirty_talk', nadpis: 'Dirty talk, prosby a hlas',
+const DT_TON: Blok = {
+  druh: 'skupina', id: 'dt_ton', nadpis: 'Tón, hlas a načasovanie',
+  uvod: 'Rovnaká veta môže znieť nežne, dráždivo, vlastnícky alebo surovo. Často rozhoduje hlas, tempo a chvíľa viac než samotné slovo.',
   bloky: [
-    p('dt_hruby', 'Hrubší slovník / vulgárne'),
     {
-      druh: 'otazka', id: 'dt_urazky', typ: 'jeden',
-      text: 'Sexuálne urážky / ponižovanie',
+      druh: 'otazka', id: 'dt_ton_prijimam', typ: 'viac', inePovolene: true, rola: 'prijimam',
+      text: g('Ako chcem, aby na mňa partnerka hovorila', 'Ako chcem, aby na mňa partner hovoril'),
       moznosti: [
-        { v: 'ano', label: 'Áno, láka ma to' },
-        { v: 'za_podmienok', label: 'Len niektoré slová alebo konkrétny štýl' },
-        { v: 'nie', label: 'Nie, vypína ma to' },
+        { v: 'sepot', label: 'Tichý šepot priamo do ucha' },
+        { v: 'hlboky', label: 'Pomalý, hlboký a sebavedomý hlas' },
+        { v: 'nezny', label: 'Nežný, obdivný a láskyplný tón' },
+        { v: 'hravy', label: 'Hravé provokovanie a podpichovanie' },
+        { v: 'rozkazovacny', label: 'Pokojný rozkazovací tón bez zvyšovania hlasu' },
+        { v: 'naliehavy', label: 'Naliehavý hlas, ktorý stráca uhladenosť' },
+        { v: 'vulgarny', label: 'Surový a vulgárny slovník' },
+        { v: 'hlasny', label: 'Hlasné slová alebo príkazy' },
+        { v: 'asmr', label: 'ASMR, dych, zavrčanie alebo hlas tesne pri koži' },
       ],
     },
-    p('dt_prosby', 'Prosby a pokorné reči'),
-    p('dt_hlas', 'Fetiš na hlas — šepot, ASMR, pomalý hlas do ucha'),
-    { druh: 'otazka', id: 'dt_mimo', typ: 'text', text: 'Presné slová alebo oslovenia, ktoré ma vypínajú:' },
+    {
+      druh: 'otazka', id: 'dt_ton_poskytujem', typ: 'viac', inePovolene: true, rola: 'poskytujem',
+      text: g('Ako chcem hovoriť na partnerku', 'Ako chcem hovoriť na partnera'),
+      moznosti: [
+        { v: 'sepot', label: 'Tichý šepot priamo do ucha' },
+        { v: 'hlboky', label: 'Pomalý, hlboký a sebavedomý hlas' },
+        { v: 'nezny', label: 'Nežný, obdivný a láskyplný tón' },
+        { v: 'hravy', label: 'Hravé provokovanie a podpichovanie' },
+        { v: 'rozkazovacny', label: 'Pokojný rozkazovací tón bez zvyšovania hlasu' },
+        { v: 'naliehavy', label: 'Naliehavý hlas, ktorý stráca uhladenosť' },
+        { v: 'vulgarny', label: 'Surový a vulgárny slovník' },
+        { v: 'hlasny', label: 'Hlasné slová alebo príkazy' },
+        { v: 'asmr', label: 'ASMR, dych, zavrčanie alebo hlas tesne pri koži' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_kedy', typ: 'viac', inePovolene: true,
+      text: 'Kedy ma dirty talk láka najviac',
+      moznosti: [
+        { v: 'spravy', label: 'V správach počas dňa ako budovanie očakávania' },
+        { v: 'zvadzanie', label: 'Pri zvádzaní a vyzliekaní' },
+        { v: 'predohra', label: 'Počas predohry a pomalého dráždenia' },
+        { v: 'oral', label: 'Počas orálu alebo manuálnej stimulácie' },
+        { v: 'penetracia', label: 'Počas penetrácie alebo intenzívneho trenia' },
+        { v: 'dominancia', label: 'V dominantno-submisívnej scéne' },
+        { v: 'pred_orgazmom', label: 'Tesne pred orgazmom, keď miznú zábrany' },
+        { v: 'po', label: 'Po sexe ako pomenovanie toho, čo bolo silné' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_gradacia', typ: 'viac', inePovolene: true,
+      text: 'Ako má slovná intenzita narastať',
+      moznosti: [
+        { v: 'jemne_silne', label: 'Od komplimentov cez túžbu až k vulgárnym slovám' },
+        { v: 'rovnako', label: 'Jeden štýl držať počas celej scény' },
+        { v: 'prekvapenie', label: 'Jedna nečakane silná veta v správnej chvíli' },
+        { v: 'partner_vedie', label: g('Nechať partnerku určovať, ako ďaleko slová pôjdu', 'Nechať partnera určovať, ako ďaleko slová pôjdu') },
+        { v: 'ja_vediem', label: g('Sám ukazovať reakciou alebo slovami, že chcem viac', 'Sama ukazovať reakciou alebo slovami, že chcem viac') },
+      ],
+    },
   ],
+}
+
+const DT_OBSAH: Blok = {
+  druh: 'skupina', id: 'dt_obsah', nadpis: 'Čo chcem hovoriť a počuť',
+  uvod: 'Dirty talk nemusí byť iba vulgarita. Môže opisovať túžbu, telo, práve prebiehajúcu scénu, budúci obraz, príkaz, prosbu, pochvalu aj úplné odovzdanie.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'dt_obsah_prijimam', typ: 'viac', inePovolene: true, rola: 'prijimam',
+      text: 'Ktorý obsah chcem počuť',
+      moznosti: [
+        { v: 'tuzba', label: g('Ako veľmi ma partnerka chce', 'Ako veľmi ma partner chce') },
+        { v: 'pochvala', label: 'Pochvala môjho tela, pohybu alebo reakcií' },
+        { v: 'opis', label: g('Presný opis toho, čo partnerka práve robí a vidí', 'Presný opis toho, čo partner práve robí a vidí') },
+        { v: 'buducnost', label: g('Čo mi partnerka ešte urobí', 'Čo mi partner ešte urobí') },
+        { v: 'fantazia', label: 'Rozprávanie erotickej fantázie alebo zakázaného scenára' },
+        { v: 'prikazy', label: 'Krátke príkazy: pozri sa, otoč sa, zostaň, povedz mi…' },
+        { v: 'otazky', label: 'Otázky, ktoré ma nútia vysloviť túžbu nahlas' },
+        { v: 'vlastnictvo', label: g('Vlastnícky jazyk: „si môj“, „patríš mi“', 'Vlastnícky jazyk: „si moja“, „patríš mi“') },
+        { v: 'uctievanie', label: 'Uctievanie a obdiv: moje telo je nádherné a žiadané' },
+        { v: 'degradacia', label: 'Erotická degradácia a sexuálne ponižovanie' },
+        { v: 'orgazmus', label: 'Príkazy, prosby alebo odpočítavanie pred orgazmom' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_obsah_poskytujem', typ: 'viac', inePovolene: true, rola: 'poskytujem',
+      text: g('Ktorý obsah chcem hovoriť partnerke', 'Ktorý obsah chcem hovoriť partnerovi'),
+      moznosti: [
+        { v: 'tuzba', label: g('Ako veľmi ju chcem', 'Ako veľmi ho chcem') },
+        { v: 'pochvala', label: g('Pochvala jej tela, pohybu alebo reakcií', 'Pochvala jeho tela, pohybu alebo reakcií') },
+        { v: 'opis', label: 'Presný opis toho, čo práve robím a vidím' },
+        { v: 'buducnost', label: g('Čo jej ešte urobím', 'Čo mu ešte urobím') },
+        { v: 'fantazia', label: 'Rozprávanie erotickej fantázie alebo zakázaného scenára' },
+        { v: 'prikazy', label: 'Krátke príkazy a vedenie tela' },
+        { v: 'otazky', label: g('Otázky, ktoré ju nútia vysloviť túžbu nahlas', 'Otázky, ktoré ho nútia vysloviť túžbu nahlas') },
+        { v: 'vlastnictvo', label: g('Vlastnícky jazyk: „si moja“, „patríš mi“', 'Vlastnícky jazyk: „si môj“, „patríš mi“') },
+        { v: 'uctievanie', label: g('Uctievanie a obdiv jej tela', 'Uctievanie a obdiv jeho tela') },
+        { v: 'degradacia', label: 'Erotická degradácia a sexuálne ponižovanie' },
+        { v: 'orgazmus', label: 'Príkazy, prosby alebo odpočítavanie pred orgazmom' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_reakcia', typ: 'viac', inePovolene: true,
+      text: 'Ako chcem na dirty talk reagovať',
+      moznosti: [
+        { v: 'potvrdit', label: g('Potvrdiť vetu: „áno, som tvoj“', 'Potvrdiť vetu: „áno, som tvoja“') },
+        { v: 'prosit', label: 'Prosiť o pokračovanie, viac alebo dovolenie' },
+        { v: 'opakovat', label: 'Nechať si slovo či oslovenie zopakovať' },
+        { v: 'odpovedat', label: g('Vrátiť partnerke rovnako silnú vetu', 'Vrátiť partnerovi rovnako silnú vetu') },
+        { v: 'iba_telo', label: 'Neodpovedať slovami — reagovať dychom, zvukom a telom' },
+        { v: 'viest', label: 'Povedať presne, ktoré slovo alebo veta ma zasiahli' },
+      ],
+    },
+  ],
+}
+
+const DT_OSLOVENIA: Blok = {
+  druh: 'skupina', id: 'dt_oslovenia', nadpis: 'Oslovenia — od nežných po degradačné',
+  uvod: '„Miláčik“ je iba jeden koniec spektra. Oslovenie môže vyjadrovať nehu, pochvalu, vlastníctvo, rolu, sexuálny apetít, objektifikáciu alebo zámernú degradáciu.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'dt_oslovenia_prijimam', typ: 'viac', inePovolene: true, rola: 'prijimam',
+      text: g('Ako ma môže partnerka v posteli oslovovať', 'Ako ma môže partner v posteli oslovovať'),
+      moznosti: [
+        { v: 'meno', label: 'Mojím menom alebo intímnou prezývkou' },
+        { v: 'laska', label: 'Láska, miláčik, zlatko' },
+        { v: 'krasny', label: g('Krásavec, sexy muž, môj chlap', 'Kráska, sexy žena, moja žena') },
+        { v: 'dobry', label: g('Dobrý chlapec, poslušný chlapec', 'Dobré dievča, poslušné dievča') },
+        { v: 'pan_pani', label: g('Pán, Sir, Daddy', 'Pani, Mistress, Mommy') },
+        { v: 'moj_moja', label: g('Môj muž, môj majetok, môj milenec', 'Moja žena, môj majetok, moja milenka') },
+        { v: 'hracka', label: 'Moja hračka, sex toy, fucktoy, pet' },
+        { v: 'nenasytny', label: g('Nenásytný, hladný, nedočkavý', 'Nenásytná, hladná, nedočkavá') },
+        { v: 'spinavy', label: g('Špinavý chlapec, zvrhlík', 'Špinavé dievča, zvrhlíčka') },
+        { v: 'slut', label: g('Slut, whore alebo bitch ako anglická erotická rola', 'Slut, whore alebo bitch ako anglická erotická rola') },
+        { v: 'kurvicka', label: g('Kurviak alebo kurva ako degradačná rola', 'Kurvička, štetka alebo suka ako degradačná rola') },
+        { v: 'sluha', label: g('Sluha, otrok, psík', 'Slúžka, otrokyňa, sučka') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_oslovenia_poskytujem', typ: 'viac', inePovolene: true, rola: 'poskytujem',
+      text: g('Ako chcem oslovovať partnerku', 'Ako chcem oslovovať partnera'),
+      moznosti: [
+        { v: 'meno', label: g('Jej menom alebo intímnou prezývkou', 'Jeho menom alebo intímnou prezývkou') },
+        { v: 'laska', label: 'Láska, miláčik, zlatko' },
+        { v: 'krasny', label: g('Kráska, sexy žena, moja žena', 'Krásavec, sexy muž, môj chlap') },
+        { v: 'dobry', label: g('Dobré dievča, poslušné dievča', 'Dobrý chlapec, poslušný chlapec') },
+        { v: 'pan_pani', label: g('Pani, Mistress, Mommy', 'Pán, Sir, Daddy') },
+        { v: 'moj_moja', label: g('Moja žena, môj majetok, moja milenka', 'Môj muž, môj majetok, môj milenec') },
+        { v: 'hracka', label: 'Moja hračka, sex toy, fucktoy, pet' },
+        { v: 'nenasytny', label: g('Nenásytná, hladná, nedočkavá', 'Nenásytný, hladný, nedočkavý') },
+        { v: 'spinavy', label: g('Špinavé dievča, zvrhlíčka', 'Špinavý chlapec, zvrhlík') },
+        { v: 'slut', label: 'Slut, whore alebo bitch ako anglická erotická rola' },
+        { v: 'kurvicka', label: g('Kurvička, štetka alebo suka ako degradačná rola', 'Kurviak alebo kurva ako degradačná rola') },
+        { v: 'sluha', label: g('Slúžka, otrokyňa, sučka', 'Sluha, otrok, psík') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_degradacia_styl', typ: 'viac', inePovolene: true,
+      text: 'Ktorá podoba erotickej degradácie ma vzrušuje',
+      moznosti: [
+        { v: 'moja', label: 'Vlastnícka: „moja kurvička“, „moja hračka“, „patríš mi“' },
+        { v: 'apetit', label: g('Zameraná na sexuálny apetít: hladný, nenásytný, nedočkavý', 'Zameraná na sexuálny apetít: hladná, nenásytná, nedočkavá') },
+        { v: 'kontrast', label: g('Kontrast roly: cez deň slušný, v posteli úplne zvrhlý', 'Kontrast roly: cez deň slušná, v posteli úplne zvrhlá') },
+        { v: 'objekt', label: 'Erotická objektifikácia: telo alebo hračka určená na rozkoš' },
+        { v: 'vykon', label: 'Komentovanie toho, ako poslúcham, prosím alebo strácam kontrolu' },
+        { v: 'anglictina', label: 'Anglické slová, ktoré na mňa pôsobia mäkšie alebo filmovejšie' },
+        { v: 'ziadna', label: 'Žiadna degradácia — chcem iba pochvalu alebo príkazy' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_oslovenia_mimo', typ: 'text',
+      text: 'Presné oslovenia alebo typy útoku, ktoré ma okamžite eroticky vypínajú:',
+    },
+  ],
+}
+
+const DT_JAZYK_TELA: Blok = {
+  druh: 'skupina', id: 'dt_jazyk_tela', nadpis: 'Slová pre telo, genitálie a samotný akt',
+  bloky: [
+    {
+      druh: 'otazka', id: 'dt_telo_styl', typ: 'viac', inePovolene: true,
+      text: g('Ako môže partnerka hovoriť o mojom tele', 'Ako môže partner hovoriť o mojom tele'),
+      moznosti: [
+        { v: 'obdiv', label: 'Obdivne a zmyselne — krásne, sexy, neodolateľné' },
+        { v: 'konkretne', label: 'Konkrétne — pomenovať, čo vidí, cíti a čo sa mu páči' },
+        { v: 'vulgarny', label: 'Vulgárne a priamo, bez zjemňovania' },
+        { v: 'vlastnicky', label: 'Vlastnícky — „toto telo patrí mne“' },
+        { v: 'objektifikacia', label: 'Ako o erotickom objekte alebo hračke' },
+        { v: 'reakcie', label: 'Opisovať mokrosť, tvrdosť, tras, zvuky a stratu kontroly' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_telo_styl_poskytujem', typ: 'viac', inePovolene: true, rola: 'poskytujem',
+      text: g('Ako chcem hovoriť o partnerkinom tele', 'Ako chcem hovoriť o partnerovom tele'),
+      moznosti: [
+        { v: 'obdiv', label: g('Obdivne a zmyselne — krásna, sexy, neodolateľná', 'Obdivne a zmyselne — krásny, sexy, neodolateľný') },
+        { v: 'konkretne', label: g('Konkrétne pomenovať, čo na nej vidím, cítim a čo sa mi páči', 'Konkrétne pomenovať, čo na ňom vidím, cítim a čo sa mi páči') },
+        { v: 'vulgarny', label: 'Vulgárne a priamo, bez zjemňovania' },
+        { v: 'vlastnicky', label: g('Vlastnícky — „toto telo je moje“', 'Vlastnícky — „toto telo je moje“') },
+        { v: 'objektifikacia', label: g('Hovoriť o nej ako o erotickom objekte alebo hračke', 'Hovoriť o ňom ako o erotickom objekte alebo hračke') },
+        { v: 'reakcie', label: g('Opisovať jej mokrosť, tras, zvuky a stratu kontroly', 'Opisovať jeho tvrdosť, tras, zvuky a stratu kontroly') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_penis_slova', typ: 'viac', inePovolene: true,
+      text: g('Ktoré pomenovania môjho penisu mi znejú eroticky', 'Ktoré pomenovania partnerovho penisu mi znejú eroticky'),
+      moznosti: [
+        { v: 'penis', label: 'Penis' },
+        { v: 'vtak', label: 'Vták' },
+        { v: 'kokot', label: 'Kokot alebo kok' },
+        { v: 'ud', label: 'Úd' },
+        { v: 'privlastnenie', label: g('Môj vták alebo môj penis', 'Tvoj vták alebo tvoj penis') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_vulva_slova', typ: 'viac', inePovolene: true,
+      text: g('Ktoré pomenovania partnerkinej vulvy alebo vagíny mi znejú eroticky', 'Ktoré pomenovania mojej vulvy alebo vagíny mi znejú eroticky'),
+      moznosti: [
+        { v: 'vulva', label: 'Vulva' },
+        { v: 'vagina', label: 'Vagína' },
+        { v: 'picka', label: 'Pička alebo kundička' },
+        { v: 'rozkrok', label: 'Rozkrok' },
+        { v: 'privlastnenie', label: g('Tvoja pička alebo tvoja vulva', 'Moja pička alebo moja vulva') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_prsia_zadok_slova', typ: 'viac', inePovolene: true,
+      text: 'Ktoré ďalšie telesné pomenovania sú pre mňa erotické',
+      moznosti: [
+        { v: 'prsia', label: 'Prsia' },
+        { v: 'kozy', label: 'Kozy alebo cecky' },
+        { v: 'zadok', label: 'Zadok' },
+        { v: 'rit', label: 'Riť' },
+        { v: 'usta', label: 'Ústa, pery alebo jazyk pomenované priamo' },
+        { v: 'cele_telo', label: 'Celé telo ako niečo žiadané alebo vlastnené' },
+      ],
+    },
+    { druh: 'otazka', id: 'dt_telo_mimo', typ: 'text', text: 'Slová o mojom tele, ktoré nechcem počuť ani v erotickej role:' },
+  ],
+}
+
+const DT_PARTNER: Blok = {
+  druh: 'skupina', id: 'dt_partner', nadpis: g('Keď chce dirty talk partnerka', 'Keď chce dirty talk partner'),
+  bloky: [
+    {
+      druh: 'otazka', id: 'dt_partner_tuzba', typ: 'jeden', inePovolene: true,
+      text: g('Ako na mňa pôsobí partnerkina túžba po odvážnejších slovách', 'Ako na mňa pôsobí partnerova túžba po odvážnejších slovách'),
+      moznosti: [
+        { v: 'nakazlive', label: g('Jej túžba ma vzrušuje a prebúdza moju odvahu', 'Jeho túžba ma vzrušuje a prebúdza moju odvahu') },
+        { v: 'chcem_dat', label: g('Chcem jej hovoriť presne to, čo ju zasiahne', 'Chcem mu hovoriť presne to, čo ho zasiahne') },
+        { v: 'chcem_pocut', label: g('Chcem, aby rovnakú otvorenosť použila aj voči mne', 'Chcem, aby rovnakú otvorenosť použil aj voči mne') },
+        { v: 'vybrane', label: 'Lákajú ma iba vybrané tóny, slová alebo oslovenia' },
+        { v: 'spravy', label: 'Ľahšie sa mi to skúma písomne než nahlas' },
+        { v: 'fantazia', label: 'Vzrušuje ma predstava, ale v realite sa pri nej zatiaľ necítim prirodzene' },
+        { v: 'nie', label: 'Dirty talk ma eroticky neťahá' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_partner_najsilnejsie', typ: 'text',
+      text: g('Ktorá konkrétna veta alebo oslovenie by podľa mňa partnerku najviac vzrušili:', 'Ktorá konkrétna veta alebo oslovenie by podľa mňa partnera najviac vzrušili:'),
+    },
+  ],
+}
+
+const DT_MYTY: Blok = {
+  druh: 'text', id: 'dt_myty', nadpis: 'Mýty a tabu', ton: 'info',
+  telo:
+    'Mýtus: dirty talk musí byť vulgárny. Realita: môže byť komplimentom, opisom túžby, šepotom, prosbou aj jedným slovom v správnej chvíli.\n\n' +
+    'Mýtus: degradačné oslovenie ukazuje, čo si o človeku jeho náprotivok naozaj myslí. Realita: „moja kurvička“, „slut“ alebo „hračka“ môžu fungovať ako presná erotická rola postavená na vlastníctve, apetíte či kontraste s bežným životom.\n\n' +
+    'Mýtus: slovenské a anglické slovo majú rovnakú silu. Realita: pre mnohých znie „slut“, „good girl“ alebo „fucktoy“ filmovejšie a menej osobne než slovenský výraz; pre iných je práve slovenčina silnejšia.\n\n' +
+    'Mýtus: smiech pokazí atmosféru. Realita: niekedy iba uvoľní hanbu a pomôže nájsť slová, ktoré páru znejú prirodzene.',
+}
+
+const DIRTY_TALK: Blok = {
+  druh: 'skupina', id: 'dirty_talk', nadpis: 'Dirty talk, oslovenia a slovný priestor',
+  uvod: 'Slová môžu byť predohrou, navigáciou, pochvalou, príkazom, fantáziou aj nástrojom moci. Táto mapa ide od jemného šepotu cez priame pomenovanie túžby až po vlastnícky jazyk a erotickú degradáciu.',
+  bloky: [DT_TON, DT_OBSAH, DT_OSLOVENIA, DT_JAZYK_TELA, DT_PARTNER, DT_MYTY],
 }
 
 // ── Voyeurizmus a exhibicionizmus ───────────────────────────────────
@@ -1166,4 +1446,112 @@ export const FETISE: TemaObsah = {
       telo: 'Výsledky zvýraznia podnety, tekutiny, materiály a scenáre, pri ktorých sa vaše preferencie stretávajú.',
     },
   ],
+}
+
+// Samostatné L3 témy musia smerovať na plný obsah, nie na skrátené seed
+// položky zo stromu. Rovnaké bloky ostávajú aj v širokom fetišovom sprievodcovi.
+export const PRIRODZENOST_TEMA: TemaObsah = {
+  slug: 'telesne-tekutiny/prirodzenost',
+  nadpis: 'Prirodzenosť tela — vôňa, chuť a tekutiny',
+  zdielanieDovod: true,
+  uvod: [
+    {
+      druh: 'text', id: 'prirodzenost_uvod', nadpis: 'Telo bez uhladenia',
+      telo: 'Prirodzená vôňa, pot, sliny a vaginálna vlhkosť môžu byť intímnym detailom, výrazným zmyslovým podnetom aj súčasťou hry s úplným prijatím tela. Každá z týchto vrstiev má vlastné preferencie — jedna odpoveď za všetky by ich zbytočne osekala.',
+    },
+  ],
+  telo: [SLINY, VLHKOST, POT, VONE],
+}
+
+export const SEMENO_TEMA: TemaObsah = {
+  slug: 'telesne-tekutiny/semeno',
+  nadpis: 'Semeno a ejakulácia',
+  zdielanieDovod: true,
+  uvod: [
+    {
+      druh: 'text', id: 'semeno_tema_uvod', nadpis: 'Viditeľné finále, zmysly a význam',
+      telo: 'Semeno môže byť vizuálnym finále, stopou na tele, chuťou, teplom, symbolom plodnosti, moci, prijatia alebo hravosti. Táto téma preto oddeľuje konkrétne miesta, ústa s prehltnutím a bez neho, vnútornú ejakuláciu, rozotieranie, zlíznutie, snowballing aj kombinácie s ďalšími telesnými tekutinami.',
+    },
+  ],
+  telo: [SEMENO],
+}
+
+export const MENSTRUALNA_KRV_TEMA: TemaObsah = {
+  slug: 'telesne-tekutiny/menstrualna-krv',
+  nadpis: 'Menštruačná krv a period play',
+  zdielanieDovod: true,
+  uvod: [
+    {
+      druh: 'text', id: 'menstruacia_tema_uvod', nadpis: 'Krv ako prirodzenosť, vizuál alebo tabu',
+      telo: 'Menštruácia môže meniť chuť na sex, telesné vnemy aj význam samotnej krvi. Pre niekoho je neutrálna, pre iného zmyselná, vizuálna alebo tabu vrstva, ktorú chce preskúmať samostatne.',
+    },
+  ],
+  telo: [MENSTRUACIA],
+}
+
+export const WATERSPORTS_TEMA: TemaObsah = {
+  slug: 'telesne-tekutiny/watersports',
+  nadpis: 'Watersports',
+  zdielanieDovod: true,
+  uvod: [
+    {
+      druh: 'text', id: 'watersports_tema_uvod', nadpis: 'Teplo, prirodzenosť, moc a tabu',
+      telo: 'Watersports môže byť jemná spoločná telesná hra, sledovanie, prijímanie teplého prúdu, označenie tela alebo výrazná mocenská fantázia. Rozdiel medzi týmito podobami je príliš veľký na jednu všeobecnú otázku.',
+    },
+  ],
+  telo: [MOC],
+}
+
+// F6 má štyri samostatné používateľské stránky. Každá dostáva vlastný výrez
+// plného dirty-talk obsahu, aby nespadla na krátky seed zo stromu.
+export const DIRTY_TALK_TON_TEMA: TemaObsah = {
+  slug: 'dirty-talk-oslovenia/ton',
+  nadpis: 'Dirty talk — tón, hlas a načasovanie',
+  zdielanieDovod: true,
+  uvod: [
+    {
+      druh: 'text', id: 'dt_ton_tema_uvod', nadpis: 'Keď túžbu nesie hlas',
+      telo: 'Šepot pri uchu, nežný obdiv, hravé provokovanie aj pokojný rozkaz môžu z tej istej vety urobiť úplne iný zážitok. Táto časť mapuje hlas, chvíľu a postupné zosilňovanie slov.',
+    },
+  ],
+  telo: [DT_TON, DT_PARTNER, DT_MYTY],
+}
+
+export const DIRTY_TALK_OBSAH_TEMA: TemaObsah = {
+  slug: 'dirty-talk-oslovenia/obsah',
+  nadpis: 'Dirty talk — čo chcem hovoriť a počuť',
+  zdielanieDovod: true,
+  uvod: [
+    {
+      druh: 'text', id: 'dt_obsah_tema_uvod', nadpis: 'Slová ako predohra, vedenie aj fantázia',
+      telo: 'Dirty talk môže pomenovať túžbu, obdivovať telo, opisovať prítomný okamih, sľubovať ďalší krok, viesť príkazom alebo otvoriť erotickú rolu. Nejde o jednu správnu vetu, ale o obsah, ktorý medzi dvoma ľuďmi znie pravdivo a vzrušujúco.',
+    },
+  ],
+  telo: [DT_OBSAH, DT_PARTNER, DT_MYTY],
+}
+
+export const DIRTY_TALK_OSLOVENIA_TEMA: TemaObsah = {
+  slug: 'dirty-talk-oslovenia/oslovenia',
+  nadpis: 'Dirty talk — oslovenia',
+  zdielanieDovod: true,
+  uvod: [
+    {
+      druh: 'text', id: 'dt_oslovenia_tema_uvod', nadpis: 'Od mena po erotickú rolu',
+      telo: '„Miláčik“ je iba začiatok. Oslovenie môže niesť nehu, pochvalu, vlastníctvo, poslušnosť, sexuálny apetít, objektifikáciu aj vedome zvolenú degradáciu. Rozhodujú presné slová a význam, ktorý majú práve pre vás.',
+    },
+  ],
+  telo: [DT_OSLOVENIA, DT_PARTNER, DT_MYTY],
+}
+
+export const DIRTY_TALK_JAZYK_TELA_TEMA: TemaObsah = {
+  slug: 'dirty-talk-oslovenia/jazyk-tela',
+  nadpis: 'Dirty talk — jazyk tela a genitálií',
+  zdielanieDovod: true,
+  uvod: [
+    {
+      druh: 'text', id: 'dt_jazyk_tela_tema_uvod', nadpis: 'Slová, ktoré telo rozsvietia alebo vypnú',
+      telo: 'Niekto chce zmyselný obdiv, iný priame anatomické slová a ďalší surový slovník. Táto časť oddeľuje spôsob hovorenia o tele od konkrétnych pomenovaní, aby sa nestratilo to, čo znie eroticky — ani to, čo okamžite ruší náladu.',
+    },
+  ],
+  telo: [DT_JAZYK_TELA, DT_PARTNER, DT_MYTY],
 }

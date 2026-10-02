@@ -7,8 +7,6 @@ import type { Blok } from './typ'
 // Aké nové veci ste ochotní vyskúšať?" + „plán na realizáciu preferencií").
 // ─────────────────────────────────────────────────────────────────────────────
 
-const g = (m: string, z: string) => ({ m, z })
-
 export const SUMAR: Blok = {
   druh: 'skupina', id: 'sumar', nadpis: 'Sumár a ďalší krok',
   uvod: 'Krátke zhrnutie celej témy — z toho vznikne váš spoločný plán.',
@@ -22,26 +20,6 @@ export const SUMAR: Blok = {
       druh: 'otazka', id: 'sumar_viac', typ: 'text',
       text: 'Čo z toho, čo už robíme, chcem častejšie alebo inak?',
     },
-    {
-      druh: 'otazka', id: 'sumar_kedy', typ: 'jeden',
-      text: { m: 'Kedy by som chcel začať', z: 'Kedy by som chcela začať' },
-      moznosti: [
-        { v: 'hned', label: 'Čo najskôr — pokojne už tento týždeň' },
-        { v: 'mesiac', label: 'V najbližšom mesiaci' },
-        { v: 'niekedy', label: 'Niekedy, keď príde vhodná chvíľa' },
-        { v: 'len_rozhovor', label: 'Najprv sa o tom len porozprávať' },
-      ],
-    },
-    {
-      druh: 'otazka', id: 'sumar_ako', typ: 'jeden',
-      text: 'Ako chcem, aby sme to naplánovali',
-      moznosti: [
-        { v: 'naplanovat', label: 'Dohodnúť si konkrétny večer' },
-        { v: 'prekvapenie', label: g('Nech to partnerka pripraví ako prekvapenie', 'Nech to partner pripraví ako prekvapenie') },
-        { v: 'ja_pripravim', label: 'Chcem to pripraviť ja' },
-        { v: 'spontanne', label: 'Spontánne, bez plánu' },
-      ],
-    },
   ],
 }
 
@@ -49,4 +27,6 @@ export const SUMAR: Blok = {
 export const BEZ_SUMARU = new Set<string>([
   'suhlas-safewords/suhlas-safewords',
   'kontext-vztahu-zivotna-situacia/kontext-vztahu-zivotna-situacia',
+  // Má vlastný krátky sumár bez duplicitných otázok na termín a plánovanie.
+  'voyeur-exhib/voyeur-exhib',
 ])

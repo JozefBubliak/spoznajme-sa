@@ -89,9 +89,11 @@ const SMOTHER_UVOD: Blok = {
 const TECHNIKY: Blok = {
   druh: 'skupina', id: 'techniky', nadpis: 'Techniky a polohy',
   uvod: 'Face sitting sa dá použiť pri cunnilinguse, felácii aj anilinguse. Tu si pomenuj, čo presne chceš.',
+  podmienka: { ot: 'skusenost', jeNiektora: ['dole', 'hore', 'oboje'] },
   bloky: [
     {
       druh: 'otazka', id: 'tech_hore_pocit', typ: 'jeden',
+      podmienka: { ot: 'skusenost', jeNiektora: ['hore', 'oboje'] },
       text: 'Ako sa cítim pri prijímaní face sittingu (som hore)',
       moznosti: [
         { v: 'milujem', label: g('Milujem to', 'Milujem to — je to pre mňa veľmi vzrušujúce') },
@@ -101,7 +103,7 @@ const TECHNIKY: Blok = {
     },
     {
       druh: 'otazka', id: 'tech_hore_z', typ: 'viac', inePovolene: true,
-      podmienka: { pohlavie: 'z' },
+      podmienka: { pohlavie: 'z', ot: 'skusenost', jeNiektora: ['hore', 'oboje'] },
       text: 'Aké techniky chcem, keď som hore',
       moznosti: [
         { v: 'lizanie_klitoris', label: 'Intenzívne lízanie klitorisu' },
@@ -117,7 +119,7 @@ const TECHNIKY: Blok = {
     },
     {
       druh: 'otazka', id: 'tech_hore_m', typ: 'viac', inePovolene: true,
-      podmienka: { pohlavie: 'm' },
+      podmienka: { pohlavie: 'm', ot: 'skusenost', jeNiektora: ['hore', 'oboje'] },
       text: 'Aké techniky chcem, keď prijímam',
       moznosti: [
         { v: 'anilingus_jemny', label: 'Jemná stimulácia análnej oblasti jazykom' },
@@ -132,7 +134,7 @@ const TECHNIKY: Blok = {
     },
     {
       druh: 'otazka', id: 'tech_hore_poloha_z', typ: 'viac', inePovolene: true,
-      podmienka: { pohlavie: 'z' },
+      podmienka: { pohlavie: 'z', ot: 'skusenost', jeNiektora: ['hore', 'oboje'] },
       text: 'Ako chcem byť hore',
       moznosti: [
         { v: 'klacanie', label: 'Kľačanie nad tvárou partnera' },
@@ -147,7 +149,7 @@ const TECHNIKY: Blok = {
     },
     {
       druh: 'otazka', id: 'tech_hore_poloha_m', typ: 'viac', inePovolene: true,
-      podmienka: { pohlavie: 'm' },
+      podmienka: { pohlavie: 'm', ot: 'skusenost', jeNiektora: ['hore', 'oboje'] },
       text: 'Aká poloha mi vyhovuje',
       moznosti: [
         { v: 'ona_kontrola', label: 'Partnerka má úplnú kontrolu nad tempom a pohybom' },
@@ -161,6 +163,7 @@ const TECHNIKY: Blok = {
     },
     {
       druh: 'otazka', id: 'tech_dole_pocit', typ: 'jeden',
+      podmienka: { ot: 'skusenost', jeNiektora: ['dole', 'oboje'] },
       text: 'Ako vnímam poskytovanie face sittingu (som dole)',
       moznosti: [
         { v: 'milujem', label: 'Milujem dávať túto formu potešenia' },
@@ -170,6 +173,7 @@ const TECHNIKY: Blok = {
     },
     {
       druh: 'otazka', id: 'tech_dole', typ: 'viac', inePovolene: true,
+      podmienka: { ot: 'skusenost', jeNiektora: ['dole', 'oboje'] },
       text: 'Aké techniky používam, keď som dole',
       moznosti: [
         { v: 'kruzenie_anus', label: 'Jemné krúženie jazykom okolo análneho otvoru' },
@@ -223,7 +227,7 @@ const DOLE: Blok = {
     'Táto časť je pre teba ako partnera, ktorý poskytuje orálnu stimuláciu. Pomôže ti pomenovať pocity, lákadlá a potreby v tejto pozícii.',
     'Táto časť je pre teba ako partnerku, ktorá poskytuje orálnu stimuláciu. Pomôže ti pomenovať pocity, lákadlá a potreby v tejto pozícii.',
   ),
-  podmienka: { ot: 'skusenost', obsahujeNiektoru: ['dole', 'oboje'] },
+  podmienka: { ot: 'skusenost', jeNiektora: ['dole', 'oboje'] },
   bloky: [
     {
       druh: 'otazka',
@@ -240,6 +244,10 @@ const DOLE: Blok = {
       text: 'Čo by to podľa teba mohlo zlepšiť?',
       podmienka: { ot: 'dole_miera', je: 'nesedelo' },
     },
+    {
+      druh: 'skupina', id: 'dole_pokracovanie',
+      podmienka: { ot: 'dole_miera', nie: 'neprijemne' },
+      bloky: [
     { druh: 'otazka', id: 'dole_frekvencia', typ: 'jeden', text: 'Frekvencia, ktorá ti vyhovuje:', moznosti: FREKVENCIA_MOZNOSTI },
     { druh: 'otazka', id: 'dole_styl', typ: 'viac', text: 'Chceš, aby to bolo:', moznosti: STYL_MOZNOSTI },
     {
@@ -419,6 +427,8 @@ const DOLE: Blok = {
         },
       ],
     },
+      ],
+    },
   ],
 }
 
@@ -431,7 +441,7 @@ const HORE: Blok = {
     'Táto časť je pre teba ako partnera, ktorý prijíma orálnu stimuláciu. Pomôže ti pomenovať, čo ťa v tejto pozícii priťahuje a čo prežívaš.',
     'Táto časť je pre teba ako partnerku, ktorá prijíma orálnu stimuláciu. Pomôže ti pomenovať, čo ťa v tejto pozícii priťahuje a čo prežívaš.',
   ),
-  podmienka: { ot: 'skusenost', obsahujeNiektoru: ['hore', 'oboje'] },
+  podmienka: { ot: 'skusenost', jeNiektora: ['hore', 'oboje'] },
   bloky: [
     {
       druh: 'otazka',
@@ -448,6 +458,10 @@ const HORE: Blok = {
       text: 'Čo by to podľa teba mohlo zlepšiť?',
       podmienka: { ot: 'hore_miera', je: 'nesedelo' },
     },
+    {
+      druh: 'skupina', id: 'hore_pokracovanie',
+      podmienka: { ot: 'hore_miera', nie: 'neprijemne' },
+      bloky: [
     { druh: 'otazka', id: 'hore_frekvencia', typ: 'jeden', text: 'Frekvencia, ktorá ti vyhovuje:', moznosti: FREKVENCIA_MOZNOSTI },
     { druh: 'otazka', id: 'hore_styl', typ: 'viac', text: 'Chceš, aby to bolo:', moznosti: STYL_MOZNOSTI },
     {
@@ -550,6 +564,8 @@ const HORE: Blok = {
         { druh: 'otazka', id: 'hore_smother_podmienky', typ: 'text', text: 'Scenár a atmosféra, v ktorých ma táto mocenská vrstva láka:' },
         { druh: 'otazka', id: 'hore_smother_hranice', typ: 'text', text: 'Chcem skôr symbolickú dominanciu, jemný tlak alebo výraznú váhu — prečo?' },
         { druh: 'otazka', id: 'hore_smother_cervena', typ: 'text', text: 'Čo by túto fantáziu pre mňa pokazilo alebo zmenilo na neerotickú?' },
+      ],
+    },
       ],
     },
   ],
@@ -667,60 +683,33 @@ function ochota(rola: 'hore' | 'dole'): Blok {
   }
 }
 
-const ESTE_NIE: Blok = {
+const ESTE_NIE_HORE: Blok = {
   druh: 'skupina',
-  id: 'este_nie',
-  nadpis: '„Ešte nie" vetva',
-  uvod: 'Ak nemáš skúsenosť v pozícii HORE, v pozícii DOLE, alebo žiadnu skúsenosť s face sittingom.',
-  podmienka: { ot: 'skusenost', obsahuje: 'ziadna' },
+  id: 'este_nie_hore',
+  nadpis: 'Pozícia HORE — zatiaľ bez skúsenosti',
+  uvod: 'Táto vetva je o predstave, zvedavosti a o tom, či má pre teba zmysel preniesť túto rolu do reality.',
+  podmienka: { ot: 'skusenost', jeNiektora: ['dole', 'ziadna'] },
   bloky: [
     fantaziaPostoj('hore'),
-    fantaziaPostoj('dole'),
-    {
-      druh: 'otazka',
-      id: 'en_rola',
-      typ: 'jeden',
-      text: 'Ktorá rola je pre teba predstaviteľnejšia?',
-      moznosti: [
-        { v: 'hore', label: 'Skôr hore' },
-        { v: 'dole', label: 'Skôr dole' },
-        { v: 'obe', label: 'Obe' },
-        { v: 'neviem', label: 'Zatiaľ neviem' },
-      ],
-    },
-    {
-      druh: 'otazka',
-      id: 'en_vzrusenie_hore',
-      typ: 'jeden',
-      text: 'Ako silno ťa samotná predstava vzrušuje? – HORE',
-      moznosti: [
-        { v: 'velmi', label: 'Veľmi' },
-        { v: 'skor', label: 'Skôr áno' },
-        { v: 'neutral', label: 'Neutrálne' },
-        { v: 'skor_nie', label: 'Skôr nie, ale nie je mi to cudzie' },
-      ],
-    },
-    {
-      druh: 'otazka',
-      id: 'en_vzrusenie_dole',
-      typ: 'jeden',
-      text: 'Ako silno ťa samotná predstava vzrušuje? – DOLE',
-      moznosti: [
-        { v: 'velmi', label: 'Veľmi' },
-        { v: 'skor', label: 'Skôr áno' },
-        { v: 'neutral', label: 'Neutrálne' },
-        { v: 'skor_nie', label: 'Skôr nie, ale nie je mi to cudzie' },
-      ],
-    },
     ochota('hore'),
+  ],
+}
+
+const ESTE_NIE_DOLE: Blok = {
+  druh: 'skupina',
+  id: 'este_nie_dole',
+  nadpis: 'Pozícia DOLE — zatiaľ bez skúsenosti',
+  uvod: 'Táto vetva je o predstave, zvedavosti a o tom, či má pre teba zmysel preniesť túto rolu do reality.',
+  podmienka: { ot: 'skusenost', jeNiektora: ['hore', 'ziadna'] },
+  bloky: [
+    fantaziaPostoj('dole'),
     ochota('dole'),
     {
       druh: 'text',
       id: 'en_logika',
       ton: 'info',
       telo:
-        'Odpovede môžu ukázať, že jedna rola láka výrazne viac než druhá, alebo že predstava funguje lepšie než reálny zážitok. ' +
-        'Aj takýto rozdiel je užitočný: odhaľuje, či je jadrom uctievanie, poskytovanie potešenia, kontrola, váha, vôňa alebo samotné tabu.',
+        'Predstava môže fungovať lepšie než reálny zážitok. Aj to je plnohodnotná odpoveď: pomáha odlíšiť zvedavosť, erotickú fantáziu a skutočnú chuť túto rolu vyskúšať.',
     },
   ],
 }
@@ -1144,9 +1133,9 @@ export const FACE_SITTING: TemaObsah = {
     {
       druh: 'otazka',
       id: 'skusenost',
-      typ: 'viac',
+      typ: 'jeden',
       text: 'Máš skúsenosť s face sittingom?',
-      napoveda: 'Môžeš označiť viac možností.',
+      napoveda: 'HORE znamená prijímať orálnu stimuláciu; DOLE ju poskytovať.',
       moznosti: [
         { v: 'dole', label: 'Áno, v pozícii DOLE' },
         { v: 'hore', label: 'Áno, v pozícii HORE' },
@@ -1154,11 +1143,20 @@ export const FACE_SITTING: TemaObsah = {
         { v: 'ziadna', label: 'Nie, nemám žiadnu skúsenosť' },
       ],
     },
-    DOLE,
-    HORE,
-    ESTE_NIE,
-    TECHNIKY,
-    ...SPOLOCNE,
+    {
+      druh: 'skupina',
+      id: 'so_skusenostou',
+      nadpis: 'Moja doterajšia skúsenosť',
+      podmienka: { ot: 'skusenost', jeNiektora: ['dole', 'hore', 'oboje'] },
+      bloky: [
+        DOLE,
+        HORE,
+        TECHNIKY,
+        ...SPOLOCNE.filter((blok) => blok.id !== 'fantazia_spolocna'),
+      ],
+    },
+    ESTE_NIE_HORE,
+    ESTE_NIE_DOLE,
   ],
   zaver: [
     {

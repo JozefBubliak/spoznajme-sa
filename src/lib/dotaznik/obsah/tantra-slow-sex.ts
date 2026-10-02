@@ -104,8 +104,9 @@ const DYCH: Blok = {
       druh: 'otazka', id: 'dyc_dlzka', typ: 'jeden',
       text: 'Preferovaná dĺžka',
       moznosti: [
-        { v: 'kratky', label: 'Krátky „štart" (1–3 min)' },
-        { v: 'dlhsi', label: 'Dlhší rituál (5–15 min)' },
+        { v: '10_15', label: 'Približne 10–15 minút' },
+        { v: '20_30', label: 'Približne 20–30 minút' },
+        { v: 'priebežne', label: 'Dych vedome prepájať s celým rituálom bez pevného času' },
       ],
     },
     {
@@ -273,7 +274,7 @@ const MEDITACIA: Blok = {
       druh: 'otazka', id: 'med_co_ok', typ: 'viac',
       text: 'Čo je pri tom OK',
       moznosti: [
-        { v: 'dychanie', label: '1–3 min spoločné dýchanie' },
+        { v: 'dychanie', label: 'Spoločné dýchanie, kým sa naše tempo prirodzene zosúladí' },
         { v: 'ticho', label: 'Ticho' },
         { v: 'hudba', label: 'Hudba' },
         { v: 'vedena_nahravka', label: 'Vedená nahrávka' },
@@ -369,6 +370,18 @@ const MIKROTEMY: Blok = {
     p('mik_slow_teasing', '„Slow teasing" (dlho sa nedotýkať genitálií) ma láka'),
     p('mik_vedene_vedenie', '„Vedené vedenie" (partner hovorí presné inštrukcie: dýchaj, spomaľ, zostaň) ma láka'),
     p('mik_symbolika', 'Symbolika/rituál (sviečka, hudba, „posvätný čas", ďakovná veta) mi je príjemná, nie „príliš"'),
+    {
+      druh: 'otazka', id: 'mik_teplota', typ: 'viac', inePovolene: true,
+      text: 'Ako má teplota podporiť pomalý rituál',
+      moznosti: [
+        { v: 'tepla_miestnost', label: g('Výrazne teplá miestnosť, v ktorej môžem dlho zostať nahý', 'Výrazne teplá miestnosť, v ktorej môžem dlho zostať nahá') },
+        { v: 'teplo_tiel', label: 'Teplo tiel, prikrývky alebo zahriateho uteráka' },
+        { v: 'teply_olej', label: 'Teplý olej pri pomalých dotykoch' },
+        { v: 'chladny_kontrast', label: 'Chladnejší vzduch ako kontrast k teplej koži' },
+        { v: 'striedanie', label: 'Pomalé striedanie tepla a chladu ako súčasť vnemov' },
+        { v: 'nezalezi', label: 'Teplota pre mňa nie je podstatná súčasť rituálu' },
+      ],
+    },
     { druh: 'otazka', id: 'mik_5_krokov', typ: 'text', text: 'Keby sme mali vytvoriť „náš slow rituál" v 5 krokoch, aké by boli moje kroky:' },
     {
       druh: 'otazka', id: 'mik_co_posilnit', typ: 'jeden',

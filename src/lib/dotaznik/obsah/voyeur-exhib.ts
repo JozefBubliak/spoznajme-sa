@@ -35,14 +35,14 @@ const POHLAD_PARTNERA: Blok = {
     p('pp_tanec', g('Predvádzať sa partnerke erotickým tancom alebo pomalým vyzliekaním', 'Predvádzať sa partnerovi erotickým tancom alebo pomalým vyzliekaním')),
     p('pp_masturbacia', g('Masturbovať pred partnerkou a nechať ju iba pozerať', 'Masturbovať pred partnerom a nechať ho iba pozerať')),
     p('pp_hracka', g('Používať hračku na sebe, kým partnerka sleduje moje reakcie', 'Používať hračku na sebe, kým partner sleduje moje reakcie')),
-    p('pp_sex', g('Byť sledovaný partnerkou počas intímnej aktivity', 'Byť sledovaná partnerom počas intímnej aktivity')),
+    p('pp_sex', g('Byť sledovaný partnerkou počas intímnej aktivity s inou osobou', 'Byť sledovaná partnerom počas intímnej aktivity s inou osobou')),
     {
       druh: 'otazka', id: 'pp_reakcia_divaka', typ: 'viac', inePovolene: true,
       text: g('Ako chcem, aby partnerka pri sledovaní reagovala', 'Ako chcem, aby partner pri sledovaní reagoval'),
       moznosti: [
         { v: 'ticho', label: 'Iba ticho sledovať' },
         { v: 'pohlad', label: 'Držať očný kontakt' },
-        { v: 'komplimenty', label: 'Obdivovať ma a hovoriť, čo sa jej/mu páči' },
+        { v: 'komplimenty', label: g('Obdivovať ma a hovoriť, čo sa jej páči', 'Obdivovať ma a hovoriť, čo sa mu páči') },
         { v: 'instrukcie', label: 'Viesť ma slovami a určovať tempo' },
         { v: 'masturbovat', label: 'Venovať sa pritom vlastnému telu' },
         { v: 'pridat_sa', label: 'Po chvíli sa pridať' },
@@ -60,8 +60,6 @@ const SLEDOVAT: Blok = {
     p('sl_partner_solo', g('Sledovať partnerku pri vyzliekaní, tanci alebo masturbácii', 'Sledovať partnera pri vyzliekaní, tanci alebo masturbácii')),
     p('sl_partner_ine', g('Sledovať partnerku pri dotykoch alebo sexe s inou osobou', 'Sledovať partnera pri dotykoch alebo sexe s inou osobou')),
     p('sl_cudzi_par', 'Sledovať iný pár pri erotickej alebo sexuálnej aktivite'),
-    p('sl_scena_klub', 'Byť iba divákom pri scéne v klube alebo na erotickej párty'),
-    p('sl_live_video', 'Sledovať živé vysielanie alebo súkromný videohovor namiesto nahrávky'),
     {
       druh: 'otazka', id: 'sl_co_vzrusuje', typ: 'viac', inePovolene: true,
       text: 'Čo ma na sledovaní priťahuje',
@@ -106,19 +104,6 @@ const PUBLIKUM: Blok = {
         { v: 'klub', label: 'Ľudia v swingers alebo kink klube' },
         { v: 'online', label: 'Súkromné online publikum' },
         { v: 'anonymne_pohlady', label: 'Anonymné pohľady bez ďalšieho kontaktu' },
-      ],
-    },
-    {
-      druh: 'otazka', id: 'pub_co_vidi', typ: 'viac', inePovolene: true,
-      text: 'Čo má publikum vidieť',
-      moznosti: [
-        { v: 'oblecenie', label: 'Odvážne oblečenie, telo iba naznačené' },
-        { v: 'vyzliekanie', label: 'Pomalé vyzliekanie alebo erotický tanec' },
-        { v: 'nahota', label: 'Nahotu a pózovanie' },
-        { v: 'masturbacia', label: 'Masturbáciu alebo použitie hračky' },
-        { v: 'parova_intimita', label: g('Intimitu s partnerkou', 'Intimitu s partnerom') },
-        { v: 'scena', label: 'Pripravenú BDSM alebo roleplay scénu' },
-        { v: 'plny_sex', label: 'Plný sexuálny akt' },
       ],
     },
     {
@@ -196,59 +181,6 @@ const PSYCHOLOGIA: Blok = {
         { v: 'autenticita', label: 'Vidieť alebo ukázať autentické reakcie bez prikrášlenia' },
       ],
     },
-    {
-      druh: 'otazka', id: 'psy_pocity', typ: 'viac', inePovolene: true,
-      text: 'Aké pocity sa pri tejto predstave miešajú so vzrušením',
-      moznosti: [
-        { v: 'hrdost', label: 'Hrdosť' },
-        { v: 'hanblivost', label: 'Hanblivosť, ktorá vzrušenie zosilňuje' },
-        { v: 'ziarlivost', label: 'Jemná žiarlivosť' },
-        { v: 'sloboda', label: 'Sloboda a odvaha' },
-        { v: 'moc', label: 'Moc alebo odovzdanie' },
-        { v: 'tréma', label: 'Tréma z výkonu' },
-      ],
-    },
-    {
-      druh: 'otazka', id: 'psy_realita', typ: 'jeden',
-      text: 'Kde má táto túžba zostať',
-      moznosti: [
-        { v: 'fantazia', label: 'Iba v predstavách alebo dirty talku' },
-        { v: 'partner', label: g('Iba medzi mnou a partnerkou', 'Iba medzi mnou a partnerom') },
-        { v: 'kontrolovane', label: 'V pripravenom priestore s vybraným publikom' },
-        { v: 'realita', label: 'Chcem ju skúmať aj v realite' },
-        { v: 'neviem', label: 'Ešte neviem' },
-      ],
-    },
-  ],
-}
-
-const PARTNEROVA_TUZBA: Blok = {
-  druh: 'skupina', id: 'partnerova_tuzba', nadpis: g('Keď chce byť videná partnerka', 'Keď chce byť videný partner'),
-  bloky: [
-    {
-      druh: 'otazka', id: 'pt_reakcia', typ: 'viac', inePovolene: true,
-      text: g('Ako na mňa pôsobí partnerkina túžba predvádzať sa', 'Ako na mňa pôsobí partnerova túžba predvádzať sa'),
-      moznosti: [
-        { v: 'vzrusuje', label: g('Jej sebavedomie a odvaha ma vzrušujú', 'Jeho sebavedomie a odvaha ma vzrušujú') },
-        { v: 'hrdost', label: g('Som hrdý, že ju iní považujú za žiaducu', 'Som hrdá, že ho iní považujú za žiaduceho') },
-        { v: 'chcem_sledovat', label: 'Chcem byť hlavný divák' },
-        { v: 'chcem_riadit', label: 'Chcem scénu riadiť alebo vyberať, čo ukáže' },
-        { v: 'iba_sukromne', label: 'Láka ma to iba medzi nami' },
-        { v: 'fantazia', label: 'Môžeme o tom fantazírovať, no nechcem ďalšie publikum' },
-        { v: 'ziarlivost', label: g('Jej túžba vo mne prebúdza viac neistoty než vzrušenia', 'Jeho túžba vo mne prebúdza viac neistoty než vzrušenia') },
-      ],
-    },
-    {
-      druh: 'otazka', id: 'pt_opacne', typ: 'jeden',
-      text: g('Keď partnerka chce, aby som sa predvádzal ja', 'Keď partner chce, aby som sa predvádzala ja'),
-      moznosti: [
-        { v: 'laka', label: g('Byť takto žiadaný ma vzrušuje', 'Byť takto žiadaná ma vzrušuje') },
-        { v: 'iba_partner', label: g('Áno, ale iba pre partnerku', 'Áno, ale iba pre partnera') },
-        { v: 'podla_publika', label: 'Záleží od publika a formy' },
-        { v: 'fantazia', label: 'Iba ako fantázia' },
-        { v: 'nie', label: 'Nie je to pre mňa erotické' },
-      ],
-    },
   ],
 }
 
@@ -280,7 +212,7 @@ export const VOYEUR_EXHIB: TemaObsah = {
       ),
     },
   ],
-  telo: [POHLAD_PARTNERA, SLEDOVAT, PUBLIKUM, RIZIKO, PSYCHOLOGIA, PARTNEROVA_TUZBA, MYTY],
+  telo: [POHLAD_PARTNERA, SLEDOVAT, PUBLIKUM, RIZIKO, PSYCHOLOGIA, MYTY],
   zaver: [
     {
       druh: 'text', id: 'zaver',
@@ -288,6 +220,19 @@ export const VOYEUR_EXHIB: TemaObsah = {
         'Výsledok ukáže, či vás spája pohľad partnerky, rola diváka, predvádzanie, publikum alebo iba erotické napätie z predstavy odhalenia — a kde má túžba zostať fantáziou.',
         'Výsledok ukáže, či vás spája pohľad partnera, rola diváka, predvádzanie, publikum alebo iba erotické napätie z predstavy odhalenia — a kde má túžba zostať fantáziou.',
       ),
+    },
+    {
+      druh: 'skupina', id: 'sumar', nadpis: 'Sumár',
+      bloky: [
+        {
+          druh: 'otazka', id: 'sumar_nove', typ: 'text',
+          text: g('Ktoré nové podoby sledovania alebo predvádzania by som chcel preskúmať?', 'Ktoré nové podoby sledovania alebo predvádzania by som chcela preskúmať?'),
+        },
+        {
+          druh: 'otazka', id: 'sumar_viac', typ: 'text',
+          text: 'Čo z toho, čo už poznáme, chcem častejšie alebo inak?',
+        },
+      ],
     },
   ],
 }

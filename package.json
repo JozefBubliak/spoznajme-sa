@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "verify:dotaznik-routing": "node scripts/verify-dotaznik-rich-routing.cjs",
     "test": "jest",
     "test:e2e": "cypress run"
   },

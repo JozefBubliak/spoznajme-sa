@@ -492,10 +492,10 @@ export const MODULY: Modul[] = [
     slug: 'dirty-talk-oslovenia', cislo: 35, kod: 'F6', domena: 'F', zrkadlovy: true,
     nazov: 'Dirty talk, oslovenia a slovný priestor', popis: 'Tón, obsah, oslovenia, jazyk o tele partnera.', ikona: '🗣️', citlivost: 2,
     temy: [
-      o('ton', 'Tón', 'Ako to znie.', ['Jemné povzbudenie', 'Vulgárne', 'Rozprávanie príbehu / scenára', 'Ticho a len rozkazy']),
-      o('obsah', 'Obsah', 'Čo hovoriť.', ['Pochvala („si úžasná")', 'Komandovanie', '„Ponižovanie" (opt-in — presné slová dohodnúť)', '„Uctievanie"', 'Degradačné vs adorujúce']),
-      o('oslovenia', 'Oslovenia', 'Ako ma volať.', ['Meno', '„Zlato"', '„Pane / Pani"', '„Miláčik"', 'Pet-names', 'Čo je absolútne mimo']),
-      o('jazyk-tela', 'Jazyk tela partnera', 'Hovoriť o tele.', ['Čo o tele partnera áno', 'Čo je citlivé / hranica']),
+      o('ton', 'Tón, hlas a načasovanie', 'Ako slová znejú a kedy prichádzajú.', ['Šepot pri uchu', 'Nežný obdiv', 'Hravé provokovanie', 'Pokojný rozkazovací tón', 'Naliehavý alebo surový hlas', 'Budovanie očakávania v správach', 'Postupné zosilňovanie slov']),
+      o('obsah', 'Čo hovoriť a počuť', 'Túžba, pochvala, opis, vedenie a fantázia.', ['Pomenovanie túžby', 'Pochvala tela a reakcií', 'Opis toho, čo sa práve deje', 'Sľub ďalšieho kroku', 'Erotická fantázia alebo scenár', 'Príkazy a prosby', 'Vlastnícky jazyk', 'Uctievanie', 'Erotická degradácia', 'Slová pred orgazmom']),
+      o('oslovenia', 'Oslovenia a erotické roly', 'Od mena a nehy po vlastníctvo a degradáciu.', ['Meno alebo intímna prezývka', 'Nežné oslovenia', 'Pochvalné oslovenia', 'Dominantné tituly', 'Poslušný chlapec alebo dobré dievča', 'Vlastnícke oslovenia', 'Hračka alebo erotický objekt', 'Nenásytný milenec alebo nenásytná milenka', 'Anglické erotické roly', 'Slovenské degradačné oslovenia', 'Sluha, slúžka alebo otrok', 'Čo je úplne mimo']),
+      o('jazyk-tela', 'Jazyk tela a genitálií', 'Ako pomenovať telo bez straty vzrušenia.', ['Zmyselný obdiv tela', 'Konkrétny opis reakcií', 'Priame anatomické slová', 'Vulgárne pomenovania', 'Vlastnícky jazyk o tele', 'Pomenovania penisu', 'Pomenovania vulvy a vagíny', 'Pomenovania pŕs a zadku', 'Slová, ktoré ma vypínajú']),
     ],
   },
   {
@@ -548,7 +548,15 @@ export const MODULY: Modul[] = [
     temy: [
       o('telesne-tekutiny', 'Fetiše a špecifické záujmy', 'Kompletný sprievodca (kniha + dotazník) — celá doména fetišov.', undefined, { rizikova: true }),
       o('prirodzenost', 'Prirodzenosť', 'Vôňa a chuť tela.', ['Vôňa / chuť partnera ako afrodiziakum', 'Pot', 'Sliny', '„Po sexe" stav']),
-      o('semeno', 'Semeno', 'Kde.', ['V ústach / prehltnúť', 'Na tele / tvári', '„Creampie"', '„Felching" (hygiena)']),
+      o('semeno', 'Semeno', 'Miesta, význam a hry so semenom.', [
+        'Tvár', 'Do úst a prehltnúť', 'Do úst bez prehltnutia', 'Vlasy',
+        'Krk / ramená / kľúčne kosti', 'Prsia / bradavky / hruď', 'Brucho / pupok',
+        'Podbruško / lonová oblasť', 'Vulva zvonka', 'Penis / semenníky / hrádza',
+        'Stehná', 'Zadok', 'Chrbát / kríže', 'Ruky / prsty', 'Chodidlá',
+        'Spodná bielizeň / oblečenie', 'Do vagíny', 'Do análu',
+        'Snowballing', 'Zlíznutie z tela', 'Orálne očistenie', 'Rozotieranie',
+        'Kombinácia so slinami alebo vaginálnou vlhkosťou', 'Messy hra s jedlom',
+      ]),
       o('zenska-ejakulacia', 'Ženská ejakulácia / „squirting"', 'Postoj.', ['Ako cieľ', 'Ako bonus', 'Nezáujem', 'Podložka']),
       o('menstrualna-krv', 'Menštruačná krv', 'Sex počas menštruácie.', ['Sex počas menštruácie', '„Period play"', 'Disk / uterák', 'Úplné NIE']),
       o('watersports', 'Watersports', 'Opt-in.', ['„Golden shower" (opt-in, hygiena / hydratácia, nie na rany / tvár bez dohody)', 'Len „talk" / fantázia']),

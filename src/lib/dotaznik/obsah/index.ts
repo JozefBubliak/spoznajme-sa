@@ -4,7 +4,17 @@ import { TROJKY_SKUPINY } from './trojky-skupiny'
 import { ZDIELANIE_PARTNERA } from './zdielanie-partnera'
 import { SWINGING } from './swinging'
 import { ANALNA_PENETRACIA } from './analna-penetracia'
-import { FETISE } from './fetise'
+import {
+  DIRTY_TALK_JAZYK_TELA_TEMA,
+  DIRTY_TALK_OBSAH_TEMA,
+  DIRTY_TALK_OSLOVENIA_TEMA,
+  DIRTY_TALK_TON_TEMA,
+  FETISE,
+  MENSTRUALNA_KRV_TEMA,
+  PRIRODZENOST_TEMA,
+  SEMENO_TEMA,
+  WATERSPORTS_TEMA,
+} from './fetise'
 import { ORALNA_INTIMITA } from './oralna-intimita'
 import { BDSM } from './bdsm'
 import { DLHODOBA_INTIMITA } from './dlhodoba-intimita'
@@ -37,6 +47,7 @@ import { ORGAZMUS_KONTROLA } from './orgazmus-kontrola'
 import { NEPENETRATIVNE_TRENIE } from './nepenetrativne-trenie'
 import { CNM_ENM } from './cnm-enm'
 import { VOYEUR_EXHIB } from './voyeur-exhib'
+import { vetveniePre } from './vetvenie-skusenosti'
 
 // Registr obsahov tém (hybrid „kniha + dotazník"). Kľúč = `${modul}/${tema}`.
 // Téma bez záznamu tu → beží pôvodný generický „section walker".
@@ -47,6 +58,14 @@ const REGISTER: Record<string, TemaObsah> = {
   [SWINGING.slug]: SWINGING,
   [ANALNA_PENETRACIA.slug]: ANALNA_PENETRACIA,
   [FETISE.slug]: FETISE,
+  [PRIRODZENOST_TEMA.slug]: PRIRODZENOST_TEMA,
+  [SEMENO_TEMA.slug]: SEMENO_TEMA,
+  [MENSTRUALNA_KRV_TEMA.slug]: MENSTRUALNA_KRV_TEMA,
+  [WATERSPORTS_TEMA.slug]: WATERSPORTS_TEMA,
+  [DIRTY_TALK_TON_TEMA.slug]: DIRTY_TALK_TON_TEMA,
+  [DIRTY_TALK_OBSAH_TEMA.slug]: DIRTY_TALK_OBSAH_TEMA,
+  [DIRTY_TALK_OSLOVENIA_TEMA.slug]: DIRTY_TALK_OSLOVENIA_TEMA,
+  [DIRTY_TALK_JAZYK_TELA_TEMA.slug]: DIRTY_TALK_JAZYK_TELA_TEMA,
   [ORALNA_INTIMITA.slug]: ORALNA_INTIMITA,
   [BDSM.slug]: BDSM,
   [DLHODOBA_INTIMITA.slug]: DLHODOBA_INTIMITA,
@@ -78,6 +97,13 @@ const REGISTER: Record<string, TemaObsah> = {
   [TABU_MANTINELY.slug]: TABU_MANTINELY,
   [TRANS_PARTNERKA.slug]: TRANS_PARTNERKA,
   [VOYEUR_EXHIB.slug]: VOYEUR_EXHIB,
+}
+
+// Každá data-driven téma musí mať výslovne určené, či a ako sa vetví podľa
+// skúsenosti. Kostry sú súčasťou reálnych dát dotazníka; prázdne vetvy UI
+// nezobrazuje a naplnia sa pri obsahovom audite konkrétnej témy.
+for (const [k, t] of Object.entries(REGISTER)) {
+  REGISTER[k] = { ...t, vetvenieSkusenosti: vetveniePre(k) }
 }
 
 // Záverečný sumár („čo nové skúsime" + plán) na koniec každej praktickej témy.

@@ -75,6 +75,25 @@ export type SkupinaBlok = {
 
 export type Blok = TextBlok | TabulkaBlok | OtazkaBlok | SkupinaBlok
 
+/**
+ * Obsahový kontrakt pre vetvenie podľa skúsenosti. `kostra` znamená, že téma
+ * je už evidovaná a má pripravené celé vetvy, ale ich obsah sa ešte doplní pri
+ * samostatnom audite témy. Prázdne vetvy sa v UI nikdy nezobrazujú.
+ */
+export type VetvenieSkusenosti =
+  | {
+      rezim: 'jedna-skusenost' | 'davam-prijimam' | 'hore-dole'
+      stav: 'kostra' | 'rozpracovane' | 'aktivne'
+      bezSkusenosti: Blok[]
+      soSkusenostou: Blok[]
+      /** Pri párovom výsledku sa nesmie vyžadovať rovnaká skúsenosť oboch. */
+      paroveZobrazenie: 'vsetko-relevantne-okrem-nie'
+    }
+  | {
+      rezim: 'nepouziva-sa'
+      dovod: string
+    }
+
 export type TemaObsah = {
   /** `${modul}/${tema}` */
   slug: string
@@ -85,6 +104,8 @@ export type TemaObsah = {
   zdielanieDovod?: boolean
   /** Vetviaci dotazník. */
   telo: Blok[]
+  /** Evidencia a celé obsahové vetvy podľa skúsenosti, ak sú pre tému zmysluplné. */
+  vetvenieSkusenosti?: VetvenieSkusenosti
   /** „Ukončenie modulu" + preklik na hĺbkový sprievodcu. */
   zaver?: Blok[]
 }
