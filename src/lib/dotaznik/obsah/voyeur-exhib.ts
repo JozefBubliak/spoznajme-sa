@@ -14,12 +14,16 @@ const g = (m: string, z: string) => ({ m, z })
 
 const SKUSENOST: Blok = {
   druh: 'otazka', id: 'skusenost', typ: 'jeden',
-  text: 'Akú skúsenosť už máš s erotikou pohľadu?',
+  text: g(
+    'Aká je tvoja doterajšia skúsenosť s vedomým sledovaním iných (voyeurizmus) alebo s tým, že si bol sledovaný (exhibicionizmus)?',
+    'Aká je tvoja doterajšia skúsenosť s vedomým sledovaním iných (voyeurizmus) alebo s tým, že si bola sledovaná (exhibicionizmus)?',
+  ),
+  napoveda: 'Skúsenosť môže byť s partnerom alebo partnerkou, inou osobou, párom či viacerými ľuďmi.',
   moznosti: [
-    { v: 'sledoval', label: g('Mám skúsenosť so sledovaním, nie s predvádzaním sa', 'Mám skúsenosť so sledovaním, nie s predvádzaním sa') },
-    { v: 'sledovany', label: g('Mám skúsenosť s tým, že som bol sledovaný, nie so sledovaním druhých', 'Mám skúsenosť s tým, že som bola sledovaná, nie so sledovaním druhých') },
-    { v: 'oboje', label: 'Mám skúsenosť s oboma rolami' },
-    { v: 'ziadna', label: g('Zatiaľ nemám skúsenosť ani s jednou rolou', 'Zatiaľ nemám skúsenosť ani s jednou rolou') },
+    { v: 'sledoval', label: 'Mám skúsenosť LEN so sledovaním — partnera alebo partnerky, iných ľudí či párov' },
+    { v: 'sledovany', label: 'Mám skúsenosť LEN s predvádzaním sa — pred partnerom alebo partnerkou, kamerou či inými ľuďmi' },
+    { v: 'oboje', label: 'Mám skúsenosť S OBOMA rolami' },
+    { v: 'ziadna', label: 'Nemám zatiaľ skúsenosť' },
   ],
 }
 
