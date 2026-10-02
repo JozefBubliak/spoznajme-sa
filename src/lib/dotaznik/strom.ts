@@ -112,6 +112,8 @@ const o = (slug: string, nazov: string, popis: string, polozky?: string[], extra
   slug, nazov, popis, ...(polozky ? { polozky } : {}), ...extra,
 })
 
+const EVIDOVANA_TEMA = 'Téma je zatiaľ iba evidovaná. Zrozumiteľný opis, vysvetlenie pojmov a otázky doplníme neskôr.'
+
 // ─────────────────────────────────────────────────────────────────────────────
 // MODULY (54) — poradie od najjemnejšieho po najcitlivejšie
 // ─────────────────────────────────────────────────────────────────────────────
@@ -449,6 +451,10 @@ export const MODULY: Modul[] = [
       o('prejavy-dominancie', 'Prejavy dominancie', 'Ako vedie Dom.', ['Vedenie tempa', 'Príkazy', '„Nesmieš sa hýbať / vydávať zvuk"', 'Oslovenie (Pane / Pani / meno)', 'Povolenie na dotyk']),
       o('prejavy-submisie', 'Prejavy submisie', 'Ako sa prejavuje sub.', ['Poslúchať', 'Prosiť', '„Service" (obliekať, nosiť)', 'Pokľaknutie', 'Čakať v polohe']),
       o('protokoly', 'Protokoly', 'Pravidlá scény.', ['Pravidlá na scénu', 'Rituál začiatku / konca', '„High protocol" vs voľné']),
+      o('psychologicka-moc', 'Psychologická moc a hlboké protokoly', EVIDOVANA_TEMA),
+      o('sluzobna-submisivita', 'Služobná submisivita a domáca služba', EVIDOVANA_TEMA),
+      o('financna-statusova-moc', 'Finančná a statusová moc', EVIDOVANA_TEMA),
+      o('stavy-sceny-doznievanie', 'Stavy počas scény a jej doznievanie', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -459,6 +465,7 @@ export const MODULY: Modul[] = [
       o('rozsah', 'Rozsah', 'Ako veľmi.', ['Ruky spolu', 'Ruky o posteľ', 'Roztiahnuté', '„Hogtie"', 'O stoličku', 'V stoji']),
       o('prvky', 'Prvky', 'Doplnky.', ['Zaviazané oči', 'Roubík (opt-in — nikdy sám / pri riziku dýchania)', 'Polohové držanie bez pút („nehýb sa")']),
       o('bezpecnost', 'Bezpečnosť', 'Pravidlá.', ['Nikdy sám v miestnosti', 'Nožnice po ruke', 'Kontrola prstov / farba', 'Časový limit', 'Safe-gesto keď nemôže hovoriť']),
+      o('bondage-do-hlbky', 'Bondage do hĺbky a jeho podtypy', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -469,6 +476,7 @@ export const MODULY: Modul[] = [
       o('nastroje', 'Nástroje', 'Čím.', ['Paddle', 'Flogger', 'Prút / trstica', 'Opasok', '„Pinwheel"']),
       o('intenzita-zony', 'Intenzita a zóny', 'Kde a ako silno.', ['Len zadok / stehná (bezpečné)', 'NIE obličky / chrbtica / kĺby', '„Od jemného, pýtať si viac"', 'Počítanie úderov']),
       o('vyznam', 'Význam', 'Prečo.', ['„Funkčná" (rozohriatie)', '„Trestová" scéna', 'Katarzia', 'Slzy sú OK ako uvoľnenie']),
+      o('impact-zmyslove-praktiky', 'Impact a intenzívne zmyslové praktiky', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -486,6 +494,7 @@ export const MODULY: Modul[] = [
       o('ostre-vnemy', 'Ostré vnemy', 'Ostrejšie.', ['Svorky na bradavky / pysky', 'Pinwheel', 'Nechty', 'Hryzenie (silné)', 'Vosk (nízkoteplotný)']),
       o('teplota', 'Teplota', 'Teplo a chlad.', ['Ľad', 'Horúci vosk', 'Kontrastné striedanie']),
       o('elektro', 'Elektro', 'Opt-in.', ['TENS / „violet wand" (opt-in)', 'Nikdy nad pásom / pri srdci']),
+      o('rozsirena-senzorika', 'Rozšírená senzorika a hraničné vnemy', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -517,6 +526,7 @@ export const MODULY: Modul[] = [
       o('situacne', 'Situačné', 'Scenáre.', ['Neznámi v bare („pick-up")', 'Dlho odlúčení', '„Zakázané" (susedia)', 'Lekár / pacient', 'Masér / klient']),
       o('pribehove', 'Príbehové', 'S dejom.', ['Únos-fantázia (CNC — opt-in, prísne rámce)', '„Služobníčka"', 'Historické / kostýmové', 'Sci-fi / fantasy']),
       o('prvky', 'Prvky', 'Ako.', ['Kostýmy', 'Rekvizity', '„Scéna" s dejom', 'Improvizácia vs scenár', 'Kde sa to odohráva']),
+      o('roleplay-podtypy', 'Rozšírené roleplay scenáre a podtypy', EVIDOVANA_TEMA),
     ],
   },
 
@@ -530,6 +540,7 @@ export const MODULY: Modul[] = [
       o('vlasy', 'Vlasy', 'Hair.', ['Ťahanie', 'Česanie', 'Vôňa', 'Dĺžka / účes ako preferencia']),
       o('dalsie', 'Ďalšie', 'Iné zóny.', ['Krk', 'Brucho', 'Zadok', 'Svaly', '„Navel"', 'Slina', 'Pot']),
       o('vzhlad-uprava', 'Vzhľad a úprava', 'Grooming.', ['Ochlpenie (áno / holené / úprava) — moje aj partnerovo', 'Make-up', 'Opálenie', 'Tetovania']),
+      o('uctievanie-tela-sluzba', 'Uctievanie tela, chodidiel, obuvi a služba', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -540,6 +551,7 @@ export const MODULY: Modul[] = [
       o('kusky', 'Kúsky', 'Čo obliecť.', ['Erotická bielizeň', 'Body / korzet', 'Podväzky', 'Vysoké podpätky', 'Uniformy', '„Office" outfit', 'Kostýmy']),
       o('kto-nosi', 'Kto nosí', 'Kto.', ['Ona', 'On', 'Oboje', 'Crossdressing (opt-in)', '„Sissy" dynamika (opt-in)']),
       o('stav-oblecenia', 'Stav oblečenia', 'Oblečení vs nahí.', ['Úplne oblečení (CMNF / CFNM)', 'Čiastočne', '„Roztrhať"', 'Nechať topánky / pančuchy']),
+      o('encasement-oblecenie', 'Encasement, latex a úplné zahalenie tela', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -561,6 +573,7 @@ export const MODULY: Modul[] = [
       o('zenska-ejakulacia', 'Ženská ejakulácia / „squirting"', 'Postoj.', ['Ako cieľ', 'Ako bonus', 'Nezáujem', 'Podložka']),
       o('menstrualna-krv', 'Menštruačná krv', 'Sex počas menštruácie.', ['Sex počas menštruácie', '„Period play"', 'Disk / uterák', 'Úplné NIE']),
       o('watersports', 'Watersports', 'Opt-in.', ['„Golden shower" (opt-in, hygiena / hydratácia, nie na rany / tvár bez dohody)', 'Len „talk" / fantázia']),
+      o('tekutinove-podtypy', 'Ďalšie tekutinové praktiky a ich podtypy', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -579,6 +592,7 @@ export const MODULY: Modul[] = [
       o('situacne-spustace', 'Situačné spúšťače', 'Kontext ako spúšťač.', ['Konkrétne miesto', 'Ročné obdobie / sviatok', '„Po hádke"', '„Ráno"', 'Uniforma z práce']),
       o('rituy', 'Rituály', 'Opakované vzorce.', ['Vždy rovnaká pieseň / sviečka', '„Rozkaz" formulka', 'Poradie krokov', '„Náš" scenár']),
       o('objekty', 'Objekty', 'Konkrétne veci.', ['Konkrétny kus nábytku', 'Zrkadlo (sledovať sa)', 'Polaroid', 'Denník preferencií']),
+      o('dalsie-specificke-praktiky', 'Ďalšie špecifické praktiky zo svetových zdrojov', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -589,6 +603,7 @@ export const MODULY: Modul[] = [
       o('size-fantazie', '„Size" fantázie', 'Nie ako kritika partnera.', ['Rozdiel výšky / sily', '„Size play" (hračky)']),
       o('tehotenstvo-laktacia', 'Tehotenstvo / laktácia', 'Ako fáza.', ['Priťahuje ako fáza', '„Preggo"', '„Milk" (opt-in)']),
       o('vek-hra', 'Vek-hra (len dospelí, len roleplay)', 'Jasne oddeliť od nelegálneho.', ['„Mladší / starší" dynamika ako roleplay', '„Daddy / mommy" oslovenie (opt-in)']),
+      o('genitalna-telesna-intenzita', 'Genitálna a telesná intenzita', EVIDOVANA_TEMA),
     ],
   },
 
@@ -622,6 +637,7 @@ export const MODULY: Modul[] = [
       o('konfiguracia', 'Konfigurácia', 'Kto s kým.', ['MŽŽ', 'ŽMM', 'MŽM', 'ŽMŽ', 'Bi / hetero mix', 'Kto sa koho dotýka']),
       o('treti-clovek', 'Tretí človek', 'Koho zapojiť.', ['Neznámy (klub / app)', 'Kamarát/ka (riziko na vzťah)', '„Unicorn"', 'Profesionál/ka']),
       o('emocie', 'Emócie', 'Žiarlivosť a compersion.', ['Žiarlivosť', '„Compersion" (radosť z partnerovej radosti)', 'Po-debrief', 'Frekvencia']),
+      o('skupinova-choreografia', 'Skupinová choreografia a formáty zapojenia', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -629,6 +645,7 @@ export const MODULY: Modul[] = [
     nazov: 'Swinging / výmena partnerov', popis: 'Soft / full swap, klub a prostredie, pravidlá, matice aktivít (kniha).', ikona: '🔄', citlivost: 3,
     temy: [
       o('swinging', 'Swinging / výmena partnerov', 'Kompletný sprievodca (kniha + dotazník).', undefined, { rizikova: true }),
+      o('swingerske-formaty-priestory', 'Swingerské formáty, priestory a pravidlá zapojenia', EVIDOVANA_TEMA),
     ],
   },
   {
@@ -636,6 +653,10 @@ export const MODULY: Modul[] = [
     nazov: 'Zdieľanie partnera (hotwife / cuckold)', popis: 'Hotwifing, cuckolding, kandalizmus; motív, rovina, roly, pravidlá (kniha).', ikona: '💍', citlivost: 3,
     temy: [
       o('zdielanie-partnera', 'Zdieľanie partnera (hotwife / cuckold)', 'Kompletný sprievodca (kniha + dotazník).', undefined, { rizikova: true }),
+      o('cuckquean-hot-husband', 'Cuckquean, cuckcake a hot-husband dynamika', EVIDOVANA_TEMA),
+      o('soft-cuckolding', 'Soft cuckolding', EVIDOVANA_TEMA),
+      o('cuck-drop-nre', 'Cuck drop a NRE s treťou osobou', EVIDOVANA_TEMA),
+      o('reprodukcne-fantazie-sperm-competition', 'Reprodukčné fantázie a sperm competition', EVIDOVANA_TEMA),
     ],
   },
   {

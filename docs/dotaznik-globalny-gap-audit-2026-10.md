@@ -223,6 +223,17 @@ Každý nový modul má zachovať dve osi: **čo túži respondent** a **ako rea
 - Scarleteen Yes/No/Maybe, vrátane tela, súkromia, vzťahov a odpovede „fantasy/N/A“: https://www.scarleteen.com/read/relationships/yes-no-maybe-so-sexual-inventory-stocklist
 - Autostraddle Sex Toy Exploration, plný 5-stranový PDF a giving/receiving: https://www.autostraddle.com/wp-content/uploads/2018/12/SexToyExplorationList-Autostraddle.pdf
 - The Duchy, stovky BDSM položiek: https://www.theduchy.com/blogs/bdsm-checklist
+
+## TODO — zdrojové témy zapísané v strome bez obsahu (2026-10-02)
+
+**Stav: iba názov témy a dočasný popis. Obsah, otázky, odpovede, tipy, vetvenie a zrozumiteľné vysvetlenie neznámych pojmov ešte NIE sú spracované.** Neoznačovať ich za hotové podľa samotnej prítomnosti v `strom.ts`.
+
+- Psychologická moc a hlboké protokoly; služobná submisivita; finančná a statusová moc; stavy počas scény a doznievanie.
+- Bondage do hĺbky; impact a intenzívne zmyslové praktiky; rozšírená senzorika; rozšírené roleplay scenáre.
+- Uctievanie tela/chodidiel/obuvi a služba; encasement a úplné zahalenie; genitálna a telesná intenzita; ďalšie tekutinové a špecifické praktiky.
+- Skupinová choreografia; swingerské formáty a priestory; cuckquean/cuckcake/hot husband; soft cuckolding; cuck drop/NRE; reprodukčné fantázie a sperm competition.
+
+Pri budúcom spracovaní nepoužívať nevysvetlené heslá typu „boot worship“, „encasement“, „bastinado“, „subspace“ či „cuck drop“ ako hotové odpovede. Najprv pridať krátke ľudské vysvetlenie a až potom konkrétne preferencie a scenáre.
 - The Duchy, plný 7-stranový checklist: https://cdn.sanity.io/files/vedbawa9/production/7406bdab66aec8dbc368ca0e93efeacfe4dbfd52.pdf
 - Temple Scarlet, BDSM aj queer-poly worksheety: https://www.templescarlet.com/printouts
 - Lascivity, krátky negociačný a dlhý objavovací checklist: https://www.lascivity.co.uk/bdsm-checklists/

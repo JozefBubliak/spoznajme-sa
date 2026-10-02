@@ -32,6 +32,8 @@
 
 **Trvalé globálne zdrojové radary:** `docs/dotaznik-sdc-audit-2026-10.md` obsahuje úplný snapshot 289 hesiel zo SDC a mapu cleanup/reclaiming zdrojov; `docs/dotaznik-kink-academy-audit-2026-10.md` obsahuje úplný snapshot 309 hesiel The Kink Academy. Pri každej BDSM, fetišovej, CNM alebo mocenskej téme ich použiť na kontrolu podtypov, motivácií a rolí. Nie sú dôkazom prevalencie ani pokynom slepo vytvoriť stovky otázok; každé heslo najprv významovo porovnať s existujúcim obsahom a odbornými zdrojmi.
 
+**SOURCE-RADAR-STUBS-001:** Nálezy zo SDC a The Kink Academy sú zapísané aj ako viditeľné L3 témy v `strom.ts`, ale sú to iba záchytné nadpisy s dočasným popisom. Obsah ešte nie je spracovaný. Presný TODO a pravidlo vysvetľovania neznámych pojmov sú v `docs/dotaznik-globalny-gap-audit-2026-10.md`.
+
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
 
 ---
