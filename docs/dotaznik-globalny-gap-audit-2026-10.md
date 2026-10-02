@@ -228,6 +228,8 @@ Každý nový modul má zachovať dve osi: **čo túži respondent** a **ako rea
 
 **Stav: iba názov témy a dočasný popis. Obsah, otázky, odpovede, tipy, vetvenie a zrozumiteľné vysvetlenie neznámych pojmov ešte NIE sú spracované.** Neoznačovať ich za hotové podľa samotnej prítomnosti v `strom.ts`.
 
+**Zdrojový TODO — The Kink Academy:** kompletný verejný slovník 309 hesiel je uložený, ale celý obsah webu https://thekinkacademy.com/ (články, lekcie, videá a obsah mimo slovníka) ešte nebol systematicky preskúmaný. Pri budúcom obsahovom audite ho prejsť ako samostatný zdroj; samotný inventár slovníka nepovažovať za audit celého webu.
+
 - Psychologická moc a hlboké protokoly; služobná submisivita; finančná a statusová moc; stavy počas scény a doznievanie.
 - Bondage do hĺbky; impact a intenzívne zmyslové praktiky; rozšírená senzorika; rozšírené roleplay scenáre.
 - Uctievanie tela/chodidiel/obuvi a služba; encasement a úplné zahalenie; genitálna a telesná intenzita; ďalšie tekutinové a špecifické praktiky.

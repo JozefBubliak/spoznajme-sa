@@ -34,6 +34,8 @@
 
 **SOURCE-RADAR-STUBS-001:** Nálezy zo SDC a The Kink Academy sú zapísané aj ako viditeľné L3 témy v `strom.ts`, ale sú to iba záchytné nadpisy s dočasným popisom. Obsah ešte nie je spracovaný. Presný TODO a pravidlo vysvetľovania neznámych pojmov sú v `docs/dotaznik-globalny-gap-audit-2026-10.md`.
 
+**SOURCE-KINK-ACADEMY-002:** Zachytený je celý verejný slovník, nie celý web. Články, lekcie, videá a ostatný obsah The Kink Academy zostávajú zdrojovým TODO na systematické preskúmanie.
+
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
 
 ---
