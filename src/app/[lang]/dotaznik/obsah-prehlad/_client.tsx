@@ -84,6 +84,115 @@ function countLeaves(bloky: Blok[]): number {
   return n
 }
 
+const PREHLAD_SKUPINY = [
+  {
+    id: 'zaklady',
+    nazov: '1. Blízkosť, dôvera a túžba',
+    popis: 'Vzťahový kontext, bezpečie, sebaprijatie a to, čo chuť prebúdza alebo brzdí.',
+    slugs: [
+      'mentalna-priprava-tuzba/mentalna-priprava-tuzba',
+      'kontext-vztahu-zivotna-situacia/kontext-vztahu-zivotna-situacia',
+      'telo-hanba-citlive/telo-hanba-citlive',
+      'telo-hanba-citlive/specificke-obdobia',
+      'mentalna-priprava-tuzba/libido-chut',
+      'mentalna-priprava-tuzba/brzdy-spustace',
+      'suhlas-safewords/suhlas-safewords',
+      'komunikacia-pocas-po/komunikacia-pocas-po',
+      'zdravie-ochrana-hygiena/zdravie-ochrana-hygiena',
+    ],
+  },
+  {
+    id: 'naladenie',
+    nazov: '2. Naladenie, atmosféra a zmysly',
+    popis: 'Ako vzniká nálada: predohra, priestor, zmysly, fantázia, pomalosť a spojenie na diaľku.',
+    slugs: [
+      'predohra-stupnovanie/predohra-stupnovanie',
+      'prostredie-atmosfera/prostredie-atmosfera',
+      'zmyslova-hra/zmyslova-hra',
+      'tantra-slow-sex-spiritualita/tantra-slow-sex-spiritualita',
+      'digitalna-dialkova/digitalna-dialkova',
+      'fantazie-preklad-reality/fantazie-preklad-reality',
+    ],
+  },
+  {
+    id: 'vyjadrenie',
+    nazov: '3. Slová, dotyky a objavovanie tela',
+    popis: 'Ako túžbu vyjadrujeme slovami, dotykmi, sólo objavovaním a pomôckami.',
+    slugs: [
+      'dirty-talk-oslovenia/ton',
+      'dirty-talk-oslovenia/obsah',
+      'dirty-talk-oslovenia/oslovenia',
+      'dirty-talk-oslovenia/jazyk-tela',
+      'bozky/bozky',
+      'manualna-stimulacia/manualna-stimulacia',
+      'vibratory-stimulatory/vibratory-stimulatory',
+    ],
+  },
+  {
+    id: 'praktiky',
+    nazov: '4. Sexuálne techniky a priebeh',
+    popis: 'Preferencie pri trení, tempe, orgazme, polohách, penetrácii a orálnej intimite.',
+    slugs: [
+      'nepenetrativne-trenie/nepenetrativne-trenie',
+      'tempo-rytmus-choreografia/tempo-rytmus-choreografia',
+      'orgazmus-kontrola/orgazmus-kontrola',
+      'polohy/polohy',
+      'vaginalna-penetracia/vaginalna-penetracia',
+      'oral-vulva-klitoris/oral-vulva-klitoris',
+    ],
+  },
+  {
+    id: 'pritazlivost',
+    nazov: '5. Príťažlivosť a rodová zvedavosť',
+    popis: 'Priestor pre zvedavosť voči rovnakému pohlaviu a trans partnerke bez vnucovania predpokladov.',
+    slugs: ['bi-zvedavost/bi-zvedavost', 'trans-partnerka/trans-partnerka'],
+  },
+  {
+    id: 'intenzivnejsie',
+    nazov: '6. Intenzívnejšie a rolové praktiky',
+    popis: 'Konkrétnejšie formy hry s rolami, pohľadom, polohou, stimuláciou zadku a mocou.',
+    slugs: [
+      'roleplay-scenare/roleplay-scenare',
+      'voyeur-exhib/voyeur-exhib',
+      'oral-kombinacie-polohy/face-sitting',
+      'analna-penetracia/analna-penetracia',
+      'dominancia-submisia/dominancia-submisia',
+    ],
+  },
+  {
+    id: 'tekutiny',
+    nazov: '7. Telo, chute a tekutiny',
+    popis: 'Vône, chute a telesné tekutiny — od prirodzenosti tela po výraznejšie preferencie.',
+    slugs: [
+      'telesne-tekutiny/prirodzenost',
+      'telesne-tekutiny/semeno',
+      'telesne-tekutiny/menstrualna-krv',
+      'telesne-tekutiny/watersports',
+    ],
+  },
+  {
+    id: 'viac-ludi',
+    nazov: '8. Ďalší ľudia a vzťahové dohody',
+    popis: 'Túžby a dohody, v ktorých do erotiky alebo vzťahu vstupujú ďalší ľudia.',
+    slugs: [
+      'cnm-enm/cnm-enm',
+      'zdielanie-partnera/zdielanie-partnera',
+      'swinging/swinging',
+      'trojky-skupiny/trojky-skupiny',
+    ],
+  },
+  {
+    id: 'specificke',
+    nazov: '9. Špecifické záujmy, fetiše a tabu',
+    popis: 'Najosobitejšie preferencie a mantinely, ktoré si zaslúžia vlastný citlivý priestor.',
+    slugs: ['telesne-tekutiny/telesne-tekutiny', 'tabu-mantinely/tabu-mantinely'],
+  },
+] as const
+
+const PORADIE_TEM = new Map<string, number>(
+  PREHLAD_SKUPINY.flatMap((skupina) => skupina.slugs).map((slug, index) => [slug, index]),
+)
+
 // ── vizuálne komponenty (1:1 podľa _kniha.tsx, bez interaktivity) ──────────
 
 function Prose({ nadpis, telo, ton }: { nadpis?: string; telo: string; ton?: string }) {
@@ -280,7 +389,7 @@ export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
       const pocetZobrazene = countLeaves(uvod) + countLeaves(telo) + countLeaves(zaver)
       const viditelna = !q || nazovMatch || pocetZobrazene > 0
       return { tema, uvod, telo, zaver, pocet, pocetZobrazene, viditelna }
-    })
+    }).sort((a, b) => (PORADIE_TEM.get(a.tema.slug) ?? 999) - (PORADIE_TEM.get(b.tema.slug) ?? 999))
   }, [temy, q])
 
   const viditelne = sekcie.filter((s) => s.viditelna)
@@ -331,16 +440,28 @@ export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
       {q && viditelne.length === 0 && <p className="mt-10 text-sm text-muted-foreground">Nič sa nenašlo pre „{query}“.</p>}
 
       {!q && (
-        <nav className="mt-8 flex flex-wrap gap-2">
-          {sekcie.map((s) => (
-            <a
-              key={s.tema.slug}
-              href={`#${s.tema.slug}`}
-              className="rounded-full border border-border/70 bg-card/50 px-3 py-1.5 text-xs text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
-            >
-              {gtext(s.tema.nadpis, pohlavie)} <span className="text-muted-foreground/50">({s.pocet})</span>
-            </a>
-          ))}
+        <nav className="mt-8 space-y-6">
+          {PREHLAD_SKUPINY.map((skupina) => {
+            const temySkupiny = sekcie.filter((s) => (skupina.slugs as readonly string[]).includes(s.tema.slug))
+            if (temySkupiny.length === 0) return null
+            return (
+              <div key={skupina.id}>
+                <h2 className="text-sm font-semibold text-foreground">{skupina.nazov}</h2>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{skupina.popis}</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {temySkupiny.map((s) => (
+                    <a
+                      key={s.tema.slug}
+                      href={`#${s.tema.slug}`}
+                      className="rounded-full border border-border/70 bg-card/50 px-3 py-1.5 text-xs text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
+                    >
+                      {gtext(s.tema.nadpis, pohlavie)} <span className="text-muted-foreground/50">({s.pocet})</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
         </nav>
       )}
 
