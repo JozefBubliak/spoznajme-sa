@@ -40,6 +40,8 @@ export type OtazkaBlok = {
   napoveda?: GText
   moznosti?: Moznost[] // jeden / viac / skala
   inePovolene?: boolean // 'jeden' / 'skala' / 'viac' → pridá voľné pole v tej istej karte
+  /** Pri vhodnom viacnásobnom výbere možno zo zvolených možností označiť jednu najobľúbenejšiu. */
+  favoritPovoleny?: boolean
   riadky?: Moznost[] // 'mrezka'
   stlpce?: Moznost[] // 'mrezka'
   rola?: 'prijimam' | 'poskytujem' // uloží sa pod túto rolu (inak spoločné)

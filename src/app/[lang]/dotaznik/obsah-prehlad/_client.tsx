@@ -284,7 +284,11 @@ function OtazkaPoleStatic({ blok, p }: { blok: OtazkaBlok; p: Pohlavie }) {
     <div className="rounded-2xl border border-border/70 bg-card/50 p-5">
       <div className="text-sm font-medium text-foreground">{G(blok.text)}</div>
       {blok.napoveda && <p className="mt-1 text-xs text-muted-foreground">{G(blok.napoveda)}</p>}
-      {blok.typ === 'viac' && <p className="mt-1 text-[11px] text-primary/80">Môžeš označiť viac možností.</p>}
+      {blok.typ === 'viac' && (
+        <p className="mt-1 text-[11px] text-primary/80">
+          {blok.favoritPovoleny ? 'Viac možností + jeden favorit v interaktívnej simulácii.' : 'Môžeš označiť viac možností.'}
+        </p>
+      )}
 
       <div className="mt-3">
         {(blok.typ === 'jeden' || blok.typ === 'skala') && (

@@ -1,4 +1,4 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import type { TemaObsah, Blok } from './typ'
 
 // Voyeurizmus a exhibicionizmus — modul H2.
 // XLSM P38890–38923: partner ako divák, iné páry/jednotlivci a semi-public.
@@ -12,18 +12,151 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
-  { v: 'pacim', label: 'Páči sa mi to' },
-  { v: 'skor_ano', label: 'Skôr áno' },
-  { v: 'neutral', label: 'Neutrálne' },
-  { v: 'skor_nie', label: 'Skôr nie' },
-  { v: 'nie', label: 'Nie, neláka ma to' },
-  { v: 'zvedavy', label: g('Neskúšal som, ale zaujíma ma to', 'Neskúšala som, ale zaujíma ma to') },
-]
+const SKUSENOST: Blok = {
+  druh: 'otazka', id: 'skusenost', typ: 'jeden',
+  text: 'Akú skúsenosť už máš s erotikou pohľadu?',
+  moznosti: [
+    { v: 'sledoval', label: g('Mám skúsenosť so sledovaním, nie s predvádzaním sa', 'Mám skúsenosť so sledovaním, nie s predvádzaním sa') },
+    { v: 'sledovany', label: g('Mám skúsenosť s tým, že som bol sledovaný, nie so sledovaním druhých', 'Mám skúsenosť s tým, že som bola sledovaná, nie so sledovaním druhých') },
+    { v: 'oboje', label: 'Mám skúsenosť s oboma rolami' },
+    { v: 'ziadna', label: g('Zatiaľ nemám skúsenosť ani s jednou rolou', 'Zatiaľ nemám skúsenosť ani s jednou rolou') },
+  ],
+}
 
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
-})
+const SKUSENOST_SLEDOVAT: Blok = {
+  druh: 'skupina', id: 'skusenost_sledovat', nadpis: 'Moja skúsenosť so sledovaním',
+  podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'oboje'] },
+  bloky: [
+    {
+      druh: 'otazka', id: 'sledovat_hodnotenie', typ: 'jeden', text: 'Ako na teba doterajšia skúsenosť so sledovaním pôsobila?',
+      moznosti: [
+        { v: 'velmi', label: 'Veľmi ma vzrušovala — chcem ju opakovať alebo zaradiť' },
+        { v: 'skor', label: g('Skôr ma vzrušovala — za vhodných podmienok ju rád zopakujem', 'Skôr ma vzrušovala — za vhodných podmienok ju rada zopakujem') },
+        { v: 'neutral', label: 'Bola v poriadku, ale nie je mojou prioritou' },
+        { v: 'zlepsit', label: 'Nesadla mi úplne, ale iná scéna alebo ľudia by to mohli zmeniť' },
+        { v: 'neprijemne', label: 'Bola mi nepríjemná — nechcem ju opakovať' },
+      ],
+    },
+    { druh: 'otazka', id: 'sledovat_zlepsit', typ: 'text', text: 'Čo by mohlo zážitok zo sledovania zlepšiť?', podmienka: { ot: 'sledovat_hodnotenie', je: 'zlepsit' } },
+    {
+      druh: 'otazka', id: 'sledovat_frekvencia', typ: 'jeden', text: g('Ako často by si chcel túto rolu zažívať?', 'Ako často by si chcela túto rolu zažívať?'),
+      podmienka: { ot: 'sledovat_hodnotenie', nie: 'neprijemne' },
+      moznosti: [
+        { v: 'pravidelne', label: 'Pravidelne' },
+        { v: 'nalada', label: 'Podľa nálady' },
+        { v: 'obcas', label: 'Občas ako spestrenie' },
+        { v: 'vynimocne', label: 'Len výnimočne' },
+      ],
+    },
+    { druh: 'otazka', id: 'sledovat_fungovalo', typ: 'text', text: 'Čo pri sledovaní fungovalo najlepšie?', podmienka: { ot: 'sledovat_hodnotenie', nie: 'neprijemne' } },
+  ],
+}
+
+const SKUSENOST_BYT_SLEDOVANY: Blok = {
+  druh: 'skupina', id: 'skusenost_byt_sledovany', nadpis: g('Moja skúsenosť s tým, že som bol sledovaný', 'Moja skúsenosť s tým, že som bola sledovaná'),
+  podmienka: { ot: 'skusenost', jeNiektora: ['sledovany', 'oboje'] },
+  bloky: [
+    {
+      druh: 'otazka', id: 'byt_sledovany_hodnotenie', typ: 'jeden', text: g('Ako na teba pôsobila skúsenosť, keď si bol sledovaný?', 'Ako na teba pôsobila skúsenosť, keď si bola sledovaná?'),
+      moznosti: [
+        { v: 'velmi', label: 'Veľmi ma vzrušovala — chcem ju opakovať alebo zaradiť' },
+        { v: 'skor', label: g('Skôr ma vzrušovala — za vhodných podmienok ju rád zopakujem', 'Skôr ma vzrušovala — za vhodných podmienok ju rada zopakujem') },
+        { v: 'neutral', label: 'Bola v poriadku, ale nie je mojou prioritou' },
+        { v: 'zlepsit', label: 'Nesadla mi úplne, ale iný divák alebo scéna by to mohli zmeniť' },
+        { v: 'neprijemne', label: 'Bola mi nepríjemná — nechcem ju opakovať' },
+      ],
+    },
+    { druh: 'otazka', id: 'byt_sledovany_zlepsit', typ: 'text', text: 'Čo by mohlo zážitok z predvádzania zlepšiť?', podmienka: { ot: 'byt_sledovany_hodnotenie', je: 'zlepsit' } },
+    {
+      druh: 'otazka', id: 'byt_sledovany_frekvencia', typ: 'jeden', text: g('Ako často by si chcel túto rolu zažívať?', 'Ako často by si chcela túto rolu zažívať?'),
+      podmienka: { ot: 'byt_sledovany_hodnotenie', nie: 'neprijemne' },
+      moznosti: [
+        { v: 'pravidelne', label: 'Pravidelne' },
+        { v: 'nalada', label: 'Podľa nálady' },
+        { v: 'obcas', label: 'Občas ako spestrenie' },
+        { v: 'vynimocne', label: 'Len výnimočne' },
+      ],
+    },
+    { druh: 'otazka', id: 'byt_sledovany_fungovalo', typ: 'text', text: 'Čo na pohľade druhého človeka fungovalo najlepšie?', podmienka: { ot: 'byt_sledovany_hodnotenie', nie: 'neprijemne' } },
+  ],
+}
+
+const BEZ_SKUSENOSTI_SLEDOVAT: Blok = {
+  druh: 'skupina', id: 'bez_skusenosti_sledovat', nadpis: 'Sledovanie — zatiaľ bez skúsenosti',
+  podmienka: { ot: 'skusenost', jeNiektora: ['sledovany', 'ziadna'] },
+  bloky: [
+    {
+      druh: 'otazka', id: 'sledovat_realita', typ: 'jeden', text: 'Kam chceš túto predstavu zaradiť?',
+      moznosti: [
+        { v: 'tuzim', label: 'Túžim to reálne skúsiť' },
+        { v: 'podmienky', label: 'Možno — záleží na scéne a ľuďoch' },
+        { v: 'fantazia', label: 'Chcem, aby to zostalo iba fantáziou' },
+        { v: 'nie', label: 'Sledovanie druhých ma neláka' },
+      ],
+    },
+    { druh: 'otazka', id: 'sledovat_podmienky', typ: 'text', text: 'Čo by ti umožnilo cítiť sa pri sledovaní príjemne?', podmienka: { ot: 'sledovat_realita', je: 'podmienky' } },
+  ],
+}
+
+const BEZ_SKUSENOSTI_BYT_SLEDOVANY: Blok = {
+  druh: 'skupina', id: 'bez_skusenosti_byt_sledovany', nadpis: g('Byť sledovaný — zatiaľ bez skúsenosti', 'Byť sledovaná — zatiaľ bez skúsenosti'),
+  podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'ziadna'] },
+  bloky: [
+    {
+      druh: 'otazka', id: 'byt_sledovany_realita', typ: 'jeden', text: 'Kam chceš túto predstavu zaradiť?',
+      moznosti: [
+        { v: 'tuzim', label: 'Túžim to reálne skúsiť' },
+        { v: 'podmienky', label: 'Možno — záleží na scéne a divákovi' },
+        { v: 'fantazia', label: 'Chcem, aby to zostalo iba fantáziou' },
+        { v: 'nie', label: g('Byť sledovaný ma neláka', 'Byť sledovaná ma neláka') },
+      ],
+    },
+    { druh: 'otazka', id: 'byt_sledovany_podmienky', typ: 'text', text: 'Čo by ti umožnilo cítiť sa pod pohľadom príjemne?', podmienka: { ot: 'byt_sledovany_realita', je: 'podmienky' } },
+    {
+      druh: 'otazka', id: 'byt_sledovany_bariera', typ: 'viac', inePovolene: true, text: 'Čo ti môže brániť skúsiť to?',
+      moznosti: [
+        { v: 'telo', label: 'Neistota z vlastného tela alebo nahoty' },
+        { v: 'vykon', label: 'Pocit, že musím podávať výkon' },
+        { v: 'zamrznutie', label: 'Obava, že pod pohľadom stuhnem alebo stratím vzrušenie' },
+        { v: 'dovera', label: 'Potrebujem veľmi dôverovať človeku, ktorý sa pozerá' },
+        { v: 'kontrola', label: 'Potrebujem mať kontrolu nad tým, čo presne uvidí' },
+        { v: 'nic', label: g('Nič — som otvorený preskúmaniu', 'Nič — som otvorená preskúmaniu') },
+      ],
+    },
+  ],
+}
+
+const SCENARE: Blok = {
+  druh: 'skupina', id: 'scenare', nadpis: 'Scény, ktoré ma oslovujú',
+  bloky: [
+    {
+      druh: 'otazka', id: 'scenare_sledovat', typ: 'viac', inePovolene: true, favoritPovoleny: true,
+      text: g('Čo by si chcel sledovať?', 'Čo by si chcela sledovať?'),
+      moznosti: [
+        { v: 'partner_tanec', label: g('Partnerku pri erotickom tanci alebo pomalom vyzliekaní', 'Partnera pri erotickom tanci alebo pomalom vyzliekaní') },
+        { v: 'partner_masturbacia', label: g('Partnerku pri masturbácii', 'Partnera pri masturbácii') },
+        { v: 'partner_hracka', label: g('Partnerku pri používaní erotickej pomôcky', 'Partnera pri používaní erotickej pomôcky') },
+        { v: 'partner_ina_osoba', label: g('Partnerku pri dotykoch alebo sexe s inou osobou', 'Partnera pri dotykoch alebo sexe s inou osobou') },
+        { v: 'ina_osoba_solo', label: 'Inú osobu pri vyzliekaní, masturbácii alebo používaní hračky' },
+        { v: 'iny_par', label: 'Iný pár pri erotickej alebo sexuálnej aktivite' },
+        { v: 'skupina', label: 'Viac ľudí pri spoločnej sexuálnej scéne' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'scenare_byt_sledovany', typ: 'viac', inePovolene: true, favoritPovoleny: true,
+      text: g('Pri čom by si chcel byť sledovaný?', 'Pri čom by si chcela byť sledovaná?'),
+      moznosti: [
+        { v: 'tanec', label: 'Pri erotickom tanci alebo pomalom vyzliekaní' },
+        { v: 'masturbacia', label: 'Pri masturbácii' },
+        { v: 'hracka', label: g('Pri používaní erotickej pomôcky na penise, semenníkoch alebo anuse', 'Pri používaní erotickej pomôcky na vulve, klitorise, vo vagíne alebo v anuse') },
+        { v: 'sex_partner', label: 'Pri sexe s partnerom alebo partnerkou' },
+        { v: 'sex_ina_osoba', label: 'Pri dotykoch alebo sexe s inou osobou' },
+        { v: 'oral', label: 'Pri poskytovaní alebo prijímaní orálneho sexu' },
+        { v: 'dominancia', label: 'Pri dominantnej alebo submisívnej scéne' },
+      ],
+    },
+  ],
+}
 
 const POHLAD_PARTNERA: Blok = {
   druh: 'skupina', id: 'pohlad_partnera', nadpis: g('Jej pohľad na mne', 'Jeho pohľad na mne'),
@@ -32,12 +165,8 @@ const POHLAD_PARTNERA: Blok = {
     'Niekedy netreba publikum ani cudzie telo. Stačí vedieť, že partner sleduje každý pohyb, dych a chvíľu, keď sa prestaneš kontrolovať. Jeho pohľad môže byť obdivom, vedením aj tichou mocou.',
   ),
   bloky: [
-    p('pp_tanec', g('Predvádzať sa partnerke erotickým tancom alebo pomalým vyzliekaním', 'Predvádzať sa partnerovi erotickým tancom alebo pomalým vyzliekaním')),
-    p('pp_masturbacia', g('Masturbovať pred partnerkou a nechať ju iba pozerať', 'Masturbovať pred partnerom a nechať ho iba pozerať')),
-    p('pp_hracka', g('Používať hračku na sebe, kým partnerka sleduje moje reakcie', 'Používať hračku na sebe, kým partner sleduje moje reakcie')),
-    p('pp_sex', g('Byť sledovaný partnerkou počas intímnej aktivity s inou osobou', 'Byť sledovaná partnerom počas intímnej aktivity s inou osobou')),
     {
-      druh: 'otazka', id: 'pp_reakcia_divaka', typ: 'viac', inePovolene: true,
+      druh: 'otazka', id: 'pp_reakcia_divaka', typ: 'viac', inePovolene: true, favoritPovoleny: true,
       text: g('Ako chcem, aby partnerka pri sledovaní reagovala', 'Ako chcem, aby partner pri sledovaní reagoval'),
       moznosti: [
         { v: 'ticho', label: 'Iba ticho sledovať' },
@@ -57,11 +186,8 @@ const SLEDOVAT: Blok = {
   uvod:
     'Vzrušenie diváka môže byť v detaile, ktorý človek pri vlastnom zapojení prehliadne: meniaci sa dych, mimovoľný pohyb panvy, strata kontroly alebo vedomie, že scéna pokračuje práve pre jeho pohľad.',
   bloky: [
-    p('sl_partner_solo', g('Sledovať partnerku pri vyzliekaní, tanci alebo masturbácii', 'Sledovať partnera pri vyzliekaní, tanci alebo masturbácii')),
-    p('sl_partner_ine', g('Sledovať partnerku pri dotykoch alebo sexe s inou osobou', 'Sledovať partnera pri dotykoch alebo sexe s inou osobou')),
-    p('sl_cudzi_par', 'Sledovať iný pár pri erotickej alebo sexuálnej aktivite'),
     {
-      druh: 'otazka', id: 'sl_co_vzrusuje', typ: 'viac', inePovolene: true,
+      druh: 'otazka', id: 'sl_co_vzrusuje', typ: 'viac', inePovolene: true, favoritPovoleny: true,
       text: 'Čo ma na sledovaní priťahuje',
       moznosti: [
         { v: 'reakcie', label: 'Nestrážené reakcie, dych a zvuky' },
@@ -93,7 +219,7 @@ const PUBLIKUM: Blok = {
     'Byť sledovaný môže znamenať jemné predvádzanie pre jedného človeka aj pocit, že celá miestnosť sleduje práve vás. Meniť sa môže počet ľudí, ich blízkosť, známosť, reakcie aj to, či ostanú divákmi.',
   bloky: [
     {
-      druh: 'otazka', id: 'pub_kto', typ: 'viac', inePovolene: true,
+      druh: 'otazka', id: 'pub_kto', typ: 'viac', inePovolene: true, favoritPovoleny: true,
       text: 'Kto ma vo fantázii alebo realite sleduje',
       moznosti: [
         { v: 'partner', label: g('Iba partnerka', 'Iba partner') },
@@ -107,7 +233,7 @@ const PUBLIKUM: Blok = {
       ],
     },
     {
-      druh: 'otazka', id: 'pub_reakcie', typ: 'viac', inePovolene: true,
+      druh: 'otazka', id: 'pub_reakcie', typ: 'viac', inePovolene: true, favoritPovoleny: true,
       text: 'Aké reakcie publika ma vzrušujú',
       moznosti: [
         { v: 'ticho', label: 'Tiché sústredené pohľady' },
@@ -137,7 +263,7 @@ const RIZIKO: Blok = {
     'Niekoho priťahuje skutočný pohľad, iného iba predstava, že by mohol byť videný. Erotické napätie môže vytvoriť otvorený záves, zrkadlo, zvuk za dverami alebo klubová miestnosť bez potreby náhodného diváka.',
   bloky: [
     {
-      druh: 'otazka', id: 'riz_kde', typ: 'viac', inePovolene: true,
+      druh: 'otazka', id: 'riz_kde', typ: 'viac', inePovolene: true, favoritPovoleny: true,
       text: 'Ktoré prostredia alebo obrazy ma lákajú',
       moznosti: [
         { v: 'sukromie', label: g('Úplné súkromie, iba vedomý pohľad partnerky', 'Úplné súkromie, iba vedomý pohľad partnera') },
@@ -151,7 +277,7 @@ const RIZIKO: Blok = {
       ],
     },
     {
-      druh: 'otazka', id: 'riz_pocit', typ: 'viac', inePovolene: true,
+      druh: 'otazka', id: 'riz_pocit', typ: 'viac', inePovolene: true, favoritPovoleny: true,
       text: 'Ktorý pocit vytvára erotické napätie',
       moznosti: [
         { v: 'vsetci_vedia', label: 'Všetci presne vedia, že sa predvádzam' },
@@ -168,7 +294,7 @@ const PSYCHOLOGIA: Blok = {
   druh: 'skupina', id: 'psychologia', nadpis: 'Čo robí pohľad erotickým',
   bloky: [
     {
-      druh: 'otazka', id: 'psy_motivy', typ: 'viac', inePovolene: true,
+      druh: 'otazka', id: 'psy_motivy', typ: 'viac', inePovolene: true, favoritPovoleny: true,
       text: 'Čo ma na sledovaní alebo predvádzaní priťahuje najviac',
       moznosti: [
         { v: 'ziaduci', label: g('Cítiť sa žiadaný a obdivovaný', 'Cítiť sa žiadaná a obdivovaná') },
@@ -199,6 +325,12 @@ const MYTY: Blok = {
   ],
 }
 
+const SPOLOCNA_CAST: Blok = {
+  druh: 'skupina', id: 'spolocna_cast',
+  podmienka: { ot: 'skusenost', jeNiektora: ['sledoval', 'sledovany', 'oboje', 'ziadna'] },
+  bloky: [SCENARE, POHLAD_PARTNERA, SLEDOVAT, PUBLIKUM, RIZIKO, PSYCHOLOGIA, MYTY],
+}
+
 export const VOYEUR_EXHIB: TemaObsah = {
   slug: 'voyeur-exhib/voyeur-exhib',
   nadpis: 'Voyeurizmus a exhibicionizmus',
@@ -212,7 +344,14 @@ export const VOYEUR_EXHIB: TemaObsah = {
       ),
     },
   ],
-  telo: [POHLAD_PARTNERA, SLEDOVAT, PUBLIKUM, RIZIKO, PSYCHOLOGIA, MYTY],
+  telo: [
+    SKUSENOST,
+    SKUSENOST_SLEDOVAT,
+    BEZ_SKUSENOSTI_SLEDOVAT,
+    SKUSENOST_BYT_SLEDOVANY,
+    BEZ_SKUSENOSTI_BYT_SLEDOVANY,
+    SPOLOCNA_CAST,
+  ],
   zaver: [
     {
       druh: 'text', id: 'zaver',

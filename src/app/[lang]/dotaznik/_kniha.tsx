@@ -61,29 +61,52 @@ function Chips({
   vybrane,
   onPick,
   viac,
+  favorit,
+  onFavorite,
 }: {
   moznosti: { v: string; label: string }[]
   vybrane: Set<string>
   onPick: (v: string) => void
   viac?: boolean
+  favorit?: string
+  onFavorite?: (v: string) => void
 }) {
   return (
     <div className={viac ? 'flex flex-wrap gap-2' : 'flex flex-col gap-2'}>
       {moznosti.map((m) => {
         const on = vybrane.has(m.v)
-        return (
+        const chip = (
           <button
-            key={m.v}
             type="button"
             onClick={() => onPick(m.v)}
             className={`rounded-xl border px-3.5 py-2 text-left text-xs font-medium transition ${
               on
                 ? 'border-primary bg-primary font-semibold text-primary-foreground shadow-md'
                 : 'border-border/70 text-muted-foreground hover:border-primary/50 hover:text-foreground'
-            } ${viac ? '' : 'w-full'}`}
+            } ${viac ? onFavorite ? 'w-full pr-10' : '' : 'w-full'}`}
           >
             {m.label}
           </button>
+        )
+        if (!onFavorite) return <div key={m.v}>{chip}</div>
+        const fav = favorit === m.v
+        return (
+          <div key={m.v} className="relative max-w-full">
+            {chip}
+            <button
+              type="button"
+              aria-label={fav ? `Zrušiť favorita: ${m.label}` : `Označiť ako favorita: ${m.label}`}
+              aria-pressed={fav}
+              onClick={() => onFavorite(m.v)}
+              className={`absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 transition ${
+                fav ? 'text-red-200' : on ? 'text-primary-foreground/70 hover:text-red-200' : 'text-muted-foreground/50 hover:text-red-300'
+              }`}
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill={fav ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z" />
+              </svg>
+            </button>
+          </div>
         )
       })}
     </div>
@@ -98,7 +121,7 @@ function OtazkaPole({
 }: {
   blok: OtazkaBlok
   p: Pohlavie
-  hodnota: { v?: unknown; ine?: string } | undefined
+  hodnota: { v?: unknown; ine?: string; favorit?: string } | undefined
   onSave: (h: unknown) => void
 }) {
   const G = (t: Parameters<typeof gtext>[0]) => gtext(t, p)
@@ -108,7 +131,11 @@ function OtazkaPole({
     <div className="rounded-2xl border border-border/70 bg-card/50 p-5">
       <div className="text-sm font-medium text-foreground">{G(blok.text)}</div>
       {blok.napoveda && <p className="mt-1 text-xs text-muted-foreground">{G(blok.napoveda)}</p>}
-      {blok.typ === 'viac' && <p className="mt-1 text-[11px] text-primary/80">Môžeš označiť viac možností.</p>}
+      {blok.typ === 'viac' && (
+        <p className="mt-1 text-[11px] text-primary/80">
+          {blok.favoritPovoleny ? 'Môžeš označiť viac možností a srdiečkom vybrať favorita.' : 'Môžeš označiť viac možností.'}
+        </p>
+      )}
 
       <div className="mt-3">
         {(blok.typ === 'jeden' || blok.typ === 'skala') && (
@@ -135,18 +162,24 @@ function OtazkaPole({
               viac
               moznosti={moznosti}
               vybrane={new Set(Array.isArray(hodnota?.v) ? (hodnota.v as string[]) : [])}
+              favorit={hodnota?.favorit}
               onPick={(v) => {
                 const cur = new Set(Array.isArray(hodnota?.v) ? (hodnota!.v as string[]) : [])
                 if (cur.has(v)) cur.delete(v)
                 else cur.add(v)
-                onSave({ v: [...cur], ine: hodnota?.ine })
+                onSave({ v: [...cur], ine: hodnota?.ine, favorit: hodnota?.favorit === v && !cur.has(v) ? undefined : hodnota?.favorit })
               }}
+              onFavorite={blok.favoritPovoleny ? (v) => {
+                const cur = new Set(Array.isArray(hodnota?.v) ? (hodnota!.v as string[]) : [])
+                cur.add(v)
+                onSave({ v: [...cur], ine: hodnota?.ine, favorit: hodnota?.favorit === v ? undefined : v })
+              } : undefined}
             />
             {blok.inePovolene && (
               <input
                 defaultValue={hodnota?.ine ?? ''}
                 onBlur={(e) =>
-                  onSave({ v: Array.isArray(hodnota?.v) ? hodnota!.v : [], ine: e.target.value })
+                  onSave({ v: Array.isArray(hodnota?.v) ? hodnota!.v : [], ine: e.target.value, favorit: hodnota?.favorit })
                 }
                 placeholder="Iné…"
                 className="w-full rounded-xl border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary"
