@@ -99,6 +99,7 @@ const BEZ_SKUSENOSTI: Blok = {
     {
       druh: 'otazka', id: 'fantazia_bariery', typ: 'viac', inePovolene: true,
       text: 'Čo ti môže brániť cítiť sa pri tejto možnosti slobodne?',
+      podmienka: { ot: 'fantazia_realita', jeNiektora: ['tuzim', 'partner', 'podmienky'] },
       moznosti: [
         { v: 'technika', label: 'Neistota, či by som vedel/a, čo robiť' },
         { v: 'telo', label: g('Porovnávanie tela alebo tlak na výkon', 'Porovnávanie môjho tela s jej telom') },
@@ -361,9 +362,21 @@ const INTEGRACIA: Blok = {
   ],
 }
 
-const SPOLOCNA_CAST: Blok = {
-  druh: 'skupina', id: 'spolocna_cast',
-  podmienka: { ot: 'skusenost', jeNiektora: ['mam', 'nemam'] },
+const POKRACOVANIE_SO_SKUSENOSTOU: Blok = {
+  druh: 'skupina', id: 'pokracovanie_so_skusenostou',
+  podmienka: { vsetky: [
+    { ot: 'skusenost', je: 'mam' },
+    { ot: 'skusenost_hodnotenie', jeNiektora: ['velmi', 'skor', 'neutral', 'zlepsit'] },
+  ] },
+  bloky: [VYVOJ, POCITY, INTERAKCIE, ROZSAH, PREDSTAVY, HRANICE, INTEGRACIA],
+}
+
+const POKRACOVANIE_BEZ_SKUSENOSTI: Blok = {
+  druh: 'skupina', id: 'pokracovanie_bez_skusenosti',
+  podmienka: { vsetky: [
+    { ot: 'skusenost', je: 'nemam' },
+    { ot: 'fantazia_realita', jeNiektora: ['tuzim', 'partner', 'podmienky', 'fantazia'] },
+  ] },
   bloky: [VYVOJ, POCITY, INTERAKCIE, ROZSAH, PREDSTAVY, HRANICE, INTEGRACIA],
 }
 
@@ -394,7 +407,8 @@ export const ROVNAKE_POHLAVIE: TemaObsah = {
     SKUSENOST,
     SO_SKUSENOSTOU,
     BEZ_SKUSENOSTI,
-    SPOLOCNA_CAST,
+    POKRACOVANIE_SO_SKUSENOSTOU,
+    POKRACOVANIE_BEZ_SKUSENOSTI,
   ],
   zaver: [
     {
