@@ -26,6 +26,8 @@
 
 15. **Vetvenie podľa skúsenosti patrí do celých blokov, nie do dvojíc otázka/protiotázka.** Pri každej praktike výslovne určiť, či je vhodná jedna os `mám / nemám skúsenosť`, samostatné roly `poskytujem / prijímam`, alebo výnimočná vlastná os (HORE/DOLE patrí iba face sittingu). Človek bez skúsenosti vidí vysvetlenie, lákadlá, fantáziu verzus realitu a ochotu skúsiť; človek so skúsenosťou hodnotenie zážitku, čo fungovalo, čo zmeniť, želanú frekvenciu a nevyskúšané varianty. Pri jednej skúsenej a jednej neskúsenej roli sa vetví každá rola samostatne. „Bolo mi to nepríjemné — nechcem opakovať“ je NIE: ďalšie otázky tej roly ani párový výsledok sa nezobrazia. Párové vyhodnotenie nevyžaduje zhodnú skúsenosť partnerov; spojí všetky relevantné odpovede oboch okrem NIE. Kostry a povinná klasifikácia sú v `obsah/vetvenie-skusenosti.ts`; všeobecný základ sa nesmie považovať za hotový obsah bez prispôsobenia konkrétnej téme.
 
+16. **Prehľad tém sa člení podľa významu pre človeka, nie podľa technických súborov.** Viac registrovaných dokumentov jednej témy sa v navigácii zobrazí ako jeden celok (napr. štyri route Dirty talk = jedna položka). Zmyslová oblasť musí byť čitateľne pomenovaná ako zrak, sluch, čuch, chuť a hmat. Každá obsahová route musí byť zaradená presne raz; nič sa nesmie stratiť, ale technické rozdelenie nemá vytvárať duplicitné kategórie.
+
 **Zoznam medzier na doplnenie:** `docs/dotaznik-gap-analyza.md` (33 chýba, 38 len zmienka, systémové medzery, poradie).
 
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).

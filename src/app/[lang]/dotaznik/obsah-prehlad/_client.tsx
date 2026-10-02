@@ -84,113 +84,146 @@ function countLeaves(bloky: Blok[]): number {
   return n
 }
 
-const PREHLAD_SKUPINY = [
+type PrehladPolozka = { nazov: string; slugs: readonly string[] }
+type PrehladSkupina = { id: string; nazov: string; popis: string; polozky: readonly PrehladPolozka[] }
+
+const PREHLAD_SKUPINY: readonly PrehladSkupina[] = [
   {
-    id: 'zaklady',
-    nazov: '1. Blízkosť, dôvera a túžba',
-    popis: 'Vzťahový kontext, bezpečie, sebaprijatie a to, čo chuť prebúdza alebo brzdí.',
-    slugs: [
-      'mentalna-priprava-tuzba/mentalna-priprava-tuzba',
-      'kontext-vztahu-zivotna-situacia/kontext-vztahu-zivotna-situacia',
-      'telo-hanba-citlive/telo-hanba-citlive',
-      'telo-hanba-citlive/specificke-obdobia',
-      'mentalna-priprava-tuzba/libido-chut',
-      'mentalna-priprava-tuzba/brzdy-spustace',
-      'suhlas-safewords/suhlas-safewords',
-      'komunikacia-pocas-po/komunikacia-pocas-po',
-      'zdravie-ochrana-hygiena/zdravie-ochrana-hygiena',
+    id: 'vztah-tuzba',
+    nazov: '1. Vzťah, blízkosť a túžba',
+    popis: 'Ako sa cítime vo vzťahu, čo v nás prebúdza chuť a čo jej môže brániť.',
+    polozky: [
+      { nazov: 'Dlhodobá intimita vo vzťahu', slugs: ['mentalna-priprava-tuzba/mentalna-priprava-tuzba'] },
+      { nazov: 'Kontext vzťahu a životná situácia', slugs: ['kontext-vztahu-zivotna-situacia/kontext-vztahu-zivotna-situacia'] },
+      { nazov: 'Libido a chuť', slugs: ['mentalna-priprava-tuzba/libido-chut'] },
+      { nazov: 'Brzdy a spúšťače vzrušenia', slugs: ['mentalna-priprava-tuzba/brzdy-spustace'] },
+      { nazov: 'Sebaprijatie, telo a hanba', slugs: ['telo-hanba-citlive/telo-hanba-citlive'] },
+      { nazov: 'Špecifické obdobia a obmedzenia', slugs: ['telo-hanba-citlive/specificke-obdobia'] },
+    ],
+  },
+  {
+    id: 'dohoda',
+    nazov: '2. Dohoda, komunikácia a starostlivosť',
+    popis: 'Súhlas, dorozumenie počas intimity a spoločná starostlivosť o zdravie a pohodlie.',
+    polozky: [
+      { nazov: 'Súhlas, bezpečie a komunikácia', slugs: ['suhlas-safewords/suhlas-safewords'] },
+      { nazov: 'Komunikácia počas a po', slugs: ['komunikacia-pocas-po/komunikacia-pocas-po'] },
+      { nazov: 'Zdravie, ochrana a hygiena', slugs: ['zdravie-ochrana-hygiena/zdravie-ochrana-hygiena'] },
     ],
   },
   {
     id: 'naladenie',
-    nazov: '2. Naladenie, atmosféra a zmysly',
-    popis: 'Ako vzniká nálada: predohra, priestor, zmysly, fantázia, pomalosť a spojenie na diaľku.',
-    slugs: [
-      'predohra-stupnovanie/predohra-stupnovanie',
-      'prostredie-atmosfera/prostredie-atmosfera',
-      'zmyslova-hra/zmyslova-hra',
-      'tantra-slow-sex-spiritualita/tantra-slow-sex-spiritualita',
-      'digitalna-dialkova/digitalna-dialkova',
-      'fantazie-preklad-reality/fantazie-preklad-reality',
+    nazov: '3. Naladenie, bozky a pomalá blízkosť',
+    popis: 'Prejavy túžby a náklonnosti, ktoré budujú napätie ešte pred intenzívnejšími praktikami.',
+    polozky: [
+      { nazov: 'Predohra a naladenie', slugs: ['predohra-stupnovanie/predohra-stupnovanie'] },
+      { nazov: 'Bozky, dotyky a manuálna stimulácia', slugs: ['bozky/bozky'] },
+      { nazov: 'Tantra, slow sex a spiritualita', slugs: ['tantra-slow-sex-spiritualita/tantra-slow-sex-spiritualita'] },
     ],
   },
   {
-    id: 'vyjadrenie',
-    nazov: '3. Slová, dotyky a objavovanie tela',
-    popis: 'Ako túžbu vyjadrujeme slovami, dotykmi, sólo objavovaním a pomôckami.',
-    slugs: [
-      'dirty-talk-oslovenia/ton',
-      'dirty-talk-oslovenia/obsah',
-      'dirty-talk-oslovenia/oslovenia',
-      'dirty-talk-oslovenia/jazyk-tela',
-      'bozky/bozky',
-      'manualna-stimulacia/manualna-stimulacia',
-      'vibratory-stimulatory/vibratory-stimulatory',
+    id: 'zmysly',
+    nazov: '4. Zmysly, atmosféra a prostredie',
+    popis: 'Zrak, sluch, čuch, chuť a hmat spolu s miestom a atmosférou, v ktorej sa vieme uvoľniť.',
+    polozky: [
+      { nazov: 'Zrak, sluch, čuch, chuť a hmat', slugs: ['zmyslova-hra/zmyslova-hra'] },
+      { nazov: 'Miesta, prostredie a atmosféra', slugs: ['prostredie-atmosfera/prostredie-atmosfera'] },
     ],
   },
   {
-    id: 'praktiky',
-    nazov: '4. Sexuálne techniky a priebeh',
-    popis: 'Preferencie pri trení, tempe, orgazme, polohách, penetrácii a orálnej intimite.',
-    slugs: [
-      'nepenetrativne-trenie/nepenetrativne-trenie',
-      'tempo-rytmus-choreografia/tempo-rytmus-choreografia',
-      'orgazmus-kontrola/orgazmus-kontrola',
-      'polohy/polohy',
-      'vaginalna-penetracia/vaginalna-penetracia',
-      'oral-vulva-klitoris/oral-vulva-klitoris',
+    id: 'slova-predstavy',
+    nazov: '5. Slová, predstavy a spojenie na diaľku',
+    popis: 'Ako túžbu vyjadrujeme hlasom, fantáziou, správami, obrazom alebo spoločnou predstavou.',
+    polozky: [
+      {
+        nazov: 'Dirty talk',
+        slugs: [
+          'dirty-talk-oslovenia/ton',
+          'dirty-talk-oslovenia/obsah',
+          'dirty-talk-oslovenia/oslovenia',
+          'dirty-talk-oslovenia/jazyk-tela',
+        ],
+      },
+      { nazov: 'Fantázie — screening a preklad do reality', slugs: ['fantazie-preklad-reality/fantazie-preklad-reality'] },
+      { nazov: 'Digitálna a diaľková intimita', slugs: ['digitalna-dialkova/digitalna-dialkova'] },
+    ],
+  },
+  {
+    id: 'solo-pomocky',
+    nazov: '6. Sólo objavovanie, pomôcky a hra bez penetrácie',
+    popis: 'Spoznávanie vlastného tela, spoločné objavovanie a formy potešenia bez penetrácie.',
+    polozky: [
+      { nazov: 'Masturbácia a sólo aktivity', slugs: ['manualna-stimulacia/manualna-stimulacia'] },
+      { nazov: 'Erotické pomôcky a hračky', slugs: ['vibratory-stimulatory/vibratory-stimulatory'] },
+      { nazov: 'Nepenetratívne trenie', slugs: ['nepenetrativne-trenie/nepenetrativne-trenie'] },
+    ],
+  },
+  {
+    id: 'techniky',
+    nazov: '7. Priebeh, techniky a orgazmus',
+    popis: 'Čo nám vyhovuje pri tempe, intenzite, polohách a najbežnejších sexuálnych praktikách.',
+    polozky: [
+      { nazov: 'Tempo a intenzita', slugs: ['tempo-rytmus-choreografia/tempo-rytmus-choreografia'] },
+      { nazov: 'Orgazmus a jeho kontrola', slugs: ['orgazmus-kontrola/orgazmus-kontrola'] },
+      { nazov: 'Polohy', slugs: ['polohy/polohy'] },
+      { nazov: 'Vaginálna penetrácia', slugs: ['vaginalna-penetracia/vaginalna-penetracia'] },
+      { nazov: 'Orálna intimita', slugs: ['oral-vulva-klitoris/oral-vulva-klitoris'] },
     ],
   },
   {
     id: 'pritazlivost',
-    nazov: '5. Príťažlivosť a rodová zvedavosť',
+    nazov: '8. Príťažlivosť a rodová zvedavosť',
     popis: 'Priestor pre zvedavosť voči rovnakému pohlaviu a trans partnerke bez vnucovania predpokladov.',
-    slugs: ['bi-zvedavost/bi-zvedavost', 'trans-partnerka/trans-partnerka'],
-  },
-  {
-    id: 'intenzivnejsie',
-    nazov: '6. Intenzívnejšie a rolové praktiky',
-    popis: 'Konkrétnejšie formy hry s rolami, pohľadom, polohou, stimuláciou zadku a mocou.',
-    slugs: [
-      'roleplay-scenare/roleplay-scenare',
-      'voyeur-exhib/voyeur-exhib',
-      'oral-kombinacie-polohy/face-sitting',
-      'analna-penetracia/analna-penetracia',
-      'dominancia-submisia/dominancia-submisia',
+    polozky: [
+      { nazov: 'Interakcie s rovnakým pohlavím', slugs: ['bi-zvedavost/bi-zvedavost'] },
+      { nazov: 'Trans žena — žena s penisom', slugs: ['trans-partnerka/trans-partnerka'] },
     ],
   },
   {
-    id: 'tekutiny',
-    nazov: '7. Telo, chute a tekutiny',
-    popis: 'Vône, chute a telesné tekutiny — od prirodzenosti tela po výraznejšie preferencie.',
-    slugs: [
-      'telesne-tekutiny/prirodzenost',
-      'telesne-tekutiny/semeno',
-      'telesne-tekutiny/menstrualna-krv',
-      'telesne-tekutiny/watersports',
+    id: 'specificke-praktiky',
+    nazov: '9. Špecifickejšie praktiky a dynamiky',
+    popis: 'Rolové, pozorovacie, mocenské a intenzívnejšie telesné praktiky.',
+    polozky: [
+      { nazov: 'Roleplay a scenáre', slugs: ['roleplay-scenare/roleplay-scenare'] },
+      { nazov: 'Voyeurizmus a exhibicionizmus', slugs: ['voyeur-exhib/voyeur-exhib'] },
+      { nazov: 'Face Sitting', slugs: ['oral-kombinacie-polohy/face-sitting'] },
+      { nazov: 'Anál a stimulácia zadku', slugs: ['analna-penetracia/analna-penetracia'] },
+      { nazov: 'BDSM a mocenská dynamika', slugs: ['dominancia-submisia/dominancia-submisia'] },
     ],
   },
   {
-    id: 'viac-ludi',
-    nazov: '8. Ďalší ľudia a vzťahové dohody',
+    id: 'telo-tekutiny',
+    nazov: '10. Telo, tekutiny a fetiše',
+    popis: 'Prirodzené vône a chute tela, telesné tekutiny a osobitejšie erotické záujmy.',
+    polozky: [
+      { nazov: 'Prirodzenosť tela — vôňa a chuť', slugs: ['telesne-tekutiny/prirodzenost'] },
+      { nazov: 'Semeno a ejakulácia', slugs: ['telesne-tekutiny/semeno'] },
+      { nazov: 'Menštruačná krv a period play', slugs: ['telesne-tekutiny/menstrualna-krv'] },
+      { nazov: 'Watersports', slugs: ['telesne-tekutiny/watersports'] },
+      { nazov: 'Fetiše a špecifické záujmy', slugs: ['telesne-tekutiny/telesne-tekutiny'] },
+    ],
+  },
+  {
+    id: 'dalsi-ludia',
+    nazov: '11. Ďalší ľudia a vzťahové dohody',
     popis: 'Túžby a dohody, v ktorých do erotiky alebo vzťahu vstupujú ďalší ľudia.',
-    slugs: [
-      'cnm-enm/cnm-enm',
-      'zdielanie-partnera/zdielanie-partnera',
-      'swinging/swinging',
-      'trojky-skupiny/trojky-skupiny',
+    polozky: [
+      { nazov: 'CNM/ENM a vzťahové štruktúry', slugs: ['cnm-enm/cnm-enm'] },
+      { nazov: 'Zdieľanie partnera — hotwife / cuckold', slugs: ['zdielanie-partnera/zdielanie-partnera'] },
+      { nazov: 'Swinging a výmena partnerov', slugs: ['swinging/swinging'] },
+      { nazov: 'Trojky, skupiny a gangbang', slugs: ['trojky-skupiny/trojky-skupiny'] },
     ],
   },
   {
-    id: 'specificke',
-    nazov: '9. Špecifické záujmy, fetiše a tabu',
-    popis: 'Najosobitejšie preferencie a mantinely, ktoré si zaslúžia vlastný citlivý priestor.',
-    slugs: ['telesne-tekutiny/telesne-tekutiny', 'tabu-mantinely/tabu-mantinely'],
+    id: 'tabu',
+    nazov: '12. Tabu a osobné mantinely',
+    popis: 'Najcitlivejšie predstavy a hranice, o ktorých má zmysel hovoriť bez tlaku a hodnotenia.',
+    polozky: [{ nazov: 'Tabu témy a mantinely', slugs: ['tabu-mantinely/tabu-mantinely'] }],
   },
-] as const
+]
 
 const PORADIE_TEM = new Map<string, number>(
-  PREHLAD_SKUPINY.flatMap((skupina) => skupina.slugs).map((slug, index) => [slug, index]),
+  PREHLAD_SKUPINY.flatMap((skupina) => skupina.polozky).flatMap((polozka) => polozka.slugs).map((slug, index) => [slug, index]),
 )
 
 // ── vizuálne komponenty (1:1 podľa _kniha.tsx, bez interaktivity) ──────────
@@ -442,22 +475,31 @@ export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
       {!q && (
         <nav className="mt-8 space-y-6">
           {PREHLAD_SKUPINY.map((skupina) => {
-            const temySkupiny = sekcie.filter((s) => (skupina.slugs as readonly string[]).includes(s.tema.slug))
-            if (temySkupiny.length === 0) return null
+            const maObsah = skupina.polozky.some((polozka) =>
+              sekcie.some((s) => (polozka.slugs as readonly string[]).includes(s.tema.slug)),
+            )
+            if (!maObsah) return null
             return (
               <div key={skupina.id}>
                 <h2 className="text-sm font-semibold text-foreground">{skupina.nazov}</h2>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{skupina.popis}</p>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {temySkupiny.map((s) => (
-                    <a
-                      key={s.tema.slug}
-                      href={`#${s.tema.slug}`}
-                      className="rounded-full border border-border/70 bg-card/50 px-3 py-1.5 text-xs text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
-                    >
-                      {gtext(s.tema.nadpis, pohlavie)} <span className="text-muted-foreground/50">({s.pocet})</span>
-                    </a>
-                  ))}
+                  {skupina.polozky.map((polozka) => {
+                    const temyPolozky = sekcie.filter((s) =>
+                      (polozka.slugs as readonly string[]).includes(s.tema.slug),
+                    )
+                    if (temyPolozky.length === 0) return null
+                    const pocet = temyPolozky.reduce((sucet, s) => sucet + s.pocet, 0)
+                    return (
+                      <a
+                        key={polozka.nazov}
+                        href={`#${temyPolozky[0].tema.slug}`}
+                        className="rounded-full border border-border/70 bg-card/50 px-3 py-1.5 text-xs text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
+                      >
+                        {polozka.nazov} <span className="text-muted-foreground/50">({pocet})</span>
+                      </a>
+                    )
+                  })}
                 </div>
               </div>
             )
