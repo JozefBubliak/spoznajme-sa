@@ -1,10 +1,9 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { Blok, OtazkaBlok, Podmienka, Pohlavie, TabulkaBlok, TemaObsah, TextBlok } from '@/lib/dotaznik/obsah/typ'
 import { gtext } from '@/lib/dotaznik/obsah/typ'
-import type { Domena, Modul } from '@/lib/dotaznik/strom'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Admin prehľad: rovnaké vizuálne komponenty ako skutočný dotazník (_kniha.tsx),
@@ -84,11 +83,6 @@ function countLeaves(bloky: Blok[]): number {
   }
   return n
 }
-
-// Obsahová cesta od naladenia a základného rámca po najcitlivejšie oblasti.
-// Technické písmená domén nemeníme; v admin prehľade ich iba skladáme tak,
-// aby poradie dávalo zmysel človeku, ktorý dotazník číta od začiatku.
-const PORADIE_DOMEN = ['A', 'I', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
 // ── vizuálne komponenty (1:1 podľa _kniha.tsx, bez interaktivity) ──────────
 
@@ -269,29 +263,14 @@ function Bloky({ bloky, p }: { bloky: Blok[]; p: Pohlavie }) {
 
 // ── stránka ─────────────────────────────────────────────────────────────────
 
-export default function ObsahPrehladClient({
-  lang,
-  temy,
-  domeny,
-  moduly,
-}: {
-  lang: string
-  temy: TemaObsah[]
-  domeny: Domena[]
-  moduly: Modul[]
-}) {
+export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
   const [query, setQuery] = useState('')
   const [pohlavie, setPohlavie] = useState<Pohlavie>('z')
-  const [modulSlug, setModulSlug] = useState<string>()
-  const [temaSlug, setTemaSlug] = useState<string>()
 
   const q = normalize(query.trim())
 
-  const detaily = useMemo(() => {
-    return new Map(temy.map((tema) => [tema.slug, tema]))
-  }, [temy])
-
-  const sekcie = useMemo(() => new Map(temy.map((tema) => {
+  const sekcie = useMemo(() => {
+    return temy.map((tema) => {
       const nazovMatch = normalize(gtext(tema.nadpis, 'm') + ' ' + gtext(tema.nadpis, 'z')).includes(q)
       const zobrazitVsetko = !q || nazovMatch
       const uvod = zobrazitVsetko ? tema.uvod : filterBloky(tema.uvod, q)
@@ -300,75 +279,22 @@ export default function ObsahPrehladClient({
       const pocet = countLeaves(tema.uvod) + countLeaves(tema.telo) + countLeaves(tema.zaver ?? [])
       const pocetZobrazene = countLeaves(uvod) + countLeaves(telo) + countLeaves(zaver)
       const viditelna = !q || nazovMatch || pocetZobrazene > 0
-      return [tema.slug, { tema, uvod, telo, zaver, pocet, pocetZobrazene, viditelna }] as const
-    })), [temy, q])
-
-  useEffect(() => {
-    const otvorHash = () => {
-      const hash = decodeURIComponent(window.location.hash.slice(1))
-      if (!hash.includes('/')) {
-        if (moduly.some((m) => m.slug === hash)) {
-          setModulSlug(hash)
-          setTemaSlug(undefined)
-        }
-        return
-      }
-      const [modul, tema] = hash.split('/')
-      if (moduly.some((m) => m.slug === modul && m.temy.some((t) => t.slug === tema))) {
-        setModulSlug(modul)
-        setTemaSlug(tema)
-      }
-    }
-    otvorHash()
-    window.addEventListener('hashchange', otvorHash)
-    return () => window.removeEventListener('hashchange', otvorHash)
-  }, [moduly])
-
-  const vybranyModul = moduly.find((m) => m.slug === modulSlug)
-  const vybranaTema = vybranyModul?.temy.find((t) => t.slug === temaSlug)
-  const detailSlug = vybranyModul && vybranaTema ? `${vybranyModul.slug}/${vybranaTema.slug}` : undefined
-  const detail = detailSlug ? sekcie.get(detailSlug) : undefined
-  const celkovyPocet = [...sekcie.values()].reduce((acc, s) => acc + s.pocet, 0)
-
-  const otvorModul = (slug: string) => {
-    setModulSlug(slug)
-    setTemaSlug(undefined)
-    setQuery('')
-    window.history.replaceState(null, '', `#${slug}`)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const otvorTemu = (modul: string, tema: string) => {
-    setModulSlug(modul)
-    setTemaSlug(tema)
-    setQuery('')
-    window.history.replaceState(null, '', `#${modul}/${tema}`)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  const domov = () => {
-    setModulSlug(undefined)
-    setTemaSlug(undefined)
-    setQuery('')
-    window.history.replaceState(null, '', window.location.pathname)
-  }
-
-  const modulyPrehlad = moduly.filter((modul) => {
-    if (!q) return true
-    const temaMatch = modul.temy.some((tema) => {
-      const detailTema = sekcie.get(`${modul.slug}/${tema.slug}`)
-      return normalize(`${tema.nazov} ${tema.popis} ${(tema.polozky ?? []).join(' ')}`).includes(q) || Boolean(detailTema?.viditelna)
+      return { tema, uvod, telo, zaver, pocet, pocetZobrazene, viditelna }
     })
-    return normalize(`${modul.kod} ${modul.nazov} ${modul.popis}`).includes(q) || temaMatch
-  })
+  }, [temy, q])
+
+  const viditelne = sekcie.filter((s) => s.viditelna)
+  const celkovyPocet = sekcie.reduce((acc, s) => acc + s.pocet, 0)
+  const celkovyPocetZobrazenych = viditelne.reduce((acc, s) => acc + s.pocetZobrazene, 0)
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-5 py-10 sm:py-14">
+    <div className="mx-auto w-full max-w-3xl px-5 py-10 sm:py-14">
       <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">Admin · Obsah dotazníka</p>
-      <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Kompletný prehľad tém a podtém</h1>
+      <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Presne to, čo uvidí respondent</h1>
       <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-        {domeny.length} oblastí → {moduly.length} hlavných tém → podtémy. Najprv vyber hlavnú tému, potom podtému;
-        až následne sa zobrazí jej obsah. Detailne spracovaných je {temy.length} podtém s {celkovyPocet} otázkami a textami.
+        {temy.length} tém, {celkovyPocet} otázok/textov — rovnaké karty a text ako v ostrom dotazníku, len všetko na jednej
+        stránke. Skupiny s podmienkou (napr. „len pre mužov") sú tu vždy zobrazené. Presne to, čo vidí respondent
+        (s vetvením a klikaním, bez ukladania), otvoríš tlačidlom „▶ Vyplniť ako žena / muž" pri každej téme.
       </p>
 
       <div className="sticky top-2 z-10 mt-6 space-y-2">
@@ -394,101 +320,59 @@ export default function ObsahPrehladClient({
               </button>
             ))}
           </div>
-          <p className="pr-2 text-xs text-muted-foreground">{pohlavie === 'z' ? 'Texty pre ženu' : 'Texty pre muža'}</p>
+          {q && (
+            <p className="pr-2 text-xs text-muted-foreground">
+              {celkovyPocetZobrazenych} zhôd v {viditelne.length} témach
+            </p>
+          )}
         </div>
       </div>
 
-      {!vybranyModul && (
-        <div className="mt-10 space-y-10">
-          {[...domeny].sort((a, b) => PORADIE_DOMEN.indexOf(a.id) - PORADIE_DOMEN.indexOf(b.id)).map((domena) => {
-            const dm = modulyPrehlad.filter((m) => m.domena === domena.id)
-            if (dm.length === 0) return null
-            return (
-              <section key={domena.id}>
-                <div className="mb-4">
-                  <h2 className="text-xl font-semibold text-foreground">{domena.id}. {domena.nazov}</h2>
-                  <p className="mt-1 text-sm text-muted-foreground">{domena.popis}</p>
-                </div>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {dm.map((modul) => (
-                    <button key={modul.slug} type="button" onClick={() => otvorModul(modul.slug)} className="rounded-2xl border border-border/70 bg-card/40 p-4 text-left transition hover:border-primary/50 hover:bg-card/70">
-                      <div className="flex items-start justify-between gap-3">
-                        <span className="font-semibold text-foreground">{modul.kod} — {modul.nazov}</span>
-                        <span className="shrink-0 text-xs text-muted-foreground">{modul.temy.length} podtém</span>
-                      </div>
-                      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{modul.popis}</p>
-                    </button>
-                  ))}
-                </div>
-              </section>
-            )
-          })}
-          {modulyPrehlad.length === 0 && <p className="text-sm text-muted-foreground">Nič sa nenašlo pre „{query}“.</p>}
-        </div>
+      {q && viditelne.length === 0 && <p className="mt-10 text-sm text-muted-foreground">Nič sa nenašlo pre „{query}“.</p>}
+
+      {!q && (
+        <nav className="mt-8 flex flex-wrap gap-2">
+          {sekcie.map((s) => (
+            <a
+              key={s.tema.slug}
+              href={`#${s.tema.slug}`}
+              className="rounded-full border border-border/70 bg-card/50 px-3 py-1.5 text-xs text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
+            >
+              {gtext(s.tema.nadpis, pohlavie)} <span className="text-muted-foreground/50">({s.pocet})</span>
+            </a>
+          ))}
+        </nav>
       )}
 
-      {vybranyModul && !vybranaTema && (
-        <section className="mt-10">
-          <button type="button" onClick={domov} className="text-sm text-primary hover:underline">← Všetky hlavné témy</button>
-          <h2 className="mt-5 text-2xl font-semibold text-foreground">{vybranyModul.kod} — {vybranyModul.nazov}</h2>
-          <p className="mt-2 text-sm text-muted-foreground">{vybranyModul.popis}</p>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {vybranyModul.temy.map((tema) => {
-              const spracovana = detaily.get(`${vybranyModul.slug}/${tema.slug}`)
-              const pocet = sekcie.get(`${vybranyModul.slug}/${tema.slug}`)?.pocet
-              return (
-                <button key={tema.slug} type="button" onClick={() => otvorTemu(vybranyModul.slug, tema.slug)} className="rounded-2xl border border-border/70 bg-card/40 p-4 text-left transition hover:border-primary/50 hover:bg-card/70">
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="font-semibold text-foreground">{tema.nazov}</span>
-                    {spracovana && <span className="shrink-0 rounded-full bg-primary/15 px-2 py-1 text-[10px] font-semibold text-primary">detail · {pocet}</span>}
-                  </div>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{tema.popis}</p>
-                  {tema.polozky && <p className="mt-2 text-[11px] text-muted-foreground/70">{tema.polozky.length} položiek</p>}
-                </button>
-              )
-            })}
-          </div>
-        </section>
-      )}
-
-      {vybranyModul && vybranaTema && (
-        <section className="mt-10">
-          <button type="button" onClick={() => otvorModul(vybranyModul.slug)} className="text-sm text-primary hover:underline">← Podtémy: {vybranyModul.nazov}</button>
-          <div className="mt-5 border-b border-border/60 pb-4">
-            <p className="text-xs text-muted-foreground">{vybranyModul.kod} · {vybranyModul.nazov}</p>
-            <h2 className="mt-1 text-2xl font-semibold tracking-tight text-foreground">{detail ? gtext(detail.tema.nadpis, pohlavie) : vybranaTema.nazov}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{vybranaTema.popis}</p>
-          </div>
-
-          {detail ? (
-            <>
-              <div className="my-5 flex flex-wrap gap-2">
-                {(['z', 'm'] as const).map((pg) => (
-                  <Link key={pg} href={`/${lang}/dotaznik/nahlad/${detail.tema.slug}?p=${pg}`} className="rounded-full bg-primary/15 px-4 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/25">
-                    ▶ Vyplniť ako {pg === 'z' ? 'žena' : 'muž'}
-                  </Link>
-                ))}
-                <span className="px-2 py-1.5 text-xs text-muted-foreground">{detail.pocetZobrazene}{q ? ` / ${detail.pocet}` : ''} otázok/textov</span>
-              </div>
-              <div className="space-y-4">
-                <Bloky bloky={detail.uvod} p={pohlavie} />
-                <Bloky bloky={detail.telo} p={pohlavie} />
-                {detail.zaver.length > 0 && <Bloky bloky={detail.zaver} p={pohlavie} />}
-              </div>
-            </>
-          ) : (
-            <div className="mt-6 rounded-2xl border border-border/70 bg-card/30 p-5">
-              <h3 className="font-semibold text-foreground">Obsah podtémy</h3>
-              {vybranaTema.polozky?.length ? (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {vybranaTema.polozky.map((polozka) => <span key={polozka} className="rounded-full border border-border/70 bg-background px-3 py-1.5 text-xs text-foreground">{polozka}</span>)}
-                </div>
-              ) : <p className="mt-3 text-sm text-muted-foreground">Podtéma zatiaľ nemá samostatný detailný obsah.</p>}
-              <Link href={`/${lang}/dotaznik/m/${vybranyModul.slug}/t/${vybranaTema.slug}`} className="mt-5 inline-flex rounded-full bg-primary/15 px-4 py-2 text-xs font-semibold text-primary hover:bg-primary/25">Otvoriť v dotazníku →</Link>
+      <div className="mt-8 space-y-14">
+        {viditelne.map((s) => (
+          <section key={s.tema.slug} id={s.tema.slug} className="scroll-mt-32">
+            <div className="mb-4 flex items-baseline justify-between gap-3 border-b border-border/60 pb-2">
+              <h2 className="text-xl font-semibold tracking-tight text-foreground">{gtext(s.tema.nadpis, pohlavie)}</h2>
+              <span className="text-xs text-muted-foreground">
+                {s.pocetZobrazene}
+                {q ? ` / ${s.pocet}` : ''} · <span className="text-muted-foreground/50">{s.tema.slug}</span>
+              </span>
             </div>
-          )}
-        </section>
-      )}
+            <div className="mb-5 flex flex-wrap gap-2">
+              {(['z', 'm'] as const).map((pg) => (
+                <Link
+                  key={pg}
+                  href={`nahlad/${s.tema.slug}?p=${pg}`}
+                  className="rounded-full bg-primary/15 px-4 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/25"
+                >
+                  ▶ Vyplniť ako {pg === 'z' ? 'žena' : 'muž'} (skutočný dotazník)
+                </Link>
+              ))}
+            </div>
+            <div className="space-y-4">
+              <Bloky bloky={s.uvod} p={pohlavie} />
+              <Bloky bloky={s.telo} p={pohlavie} />
+              {s.zaver.length > 0 && <Bloky bloky={s.zaver} p={pohlavie} />}
+            </div>
+          </section>
+        ))}
+      </div>
 
       <div className="mt-16 border-t border-border/60 pt-6 text-xs text-muted-foreground">
         <Link href="../moduly" className="hover:text-foreground">
