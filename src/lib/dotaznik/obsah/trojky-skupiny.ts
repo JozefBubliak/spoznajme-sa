@@ -165,8 +165,8 @@ const FMF: Blok = {
       moznosti: [
         { v: 'bozk', label: 'Bozkávanie — jemné, vášnivé, skúmavé' },
         { v: 'hladenie', label: 'Hladenie pŕs, tela, vnímanie jej dotykov' },
-        { v: 'oral', label: 'Jej jazyk na tvojom tele, orálna stimulácia' },
-        { v: 'drazdenie', label: 'Dráždenie rukou alebo erotickou pomôckou na intímnych miestach' },
+        { v: 'oral', label: 'Orálna stimulácia vulvy a klitorisu jej ústami a jazykom' },
+        { v: 'drazdenie', label: 'Dráždenie rukou alebo erotickou pomôckou na vulve, klitorise alebo vo vagíne' },
         { v: 'ziadna', label: 'Nepreferujem žiadnu interakciu s druhou ženou' },
       ],
     },
@@ -180,8 +180,8 @@ const FMF: Blok = {
       moznosti: [
         { v: 'bozk', label: 'Bozkávanie — vášnivo, zvedavo, hravo' },
         { v: 'hladenie', label: 'Hladenie jej pŕs, tela, sledovanie jej reakcií' },
-        { v: 'oral', label: 'Poskytovanie orálnej stimulácie' },
-        { v: 'drazdenie', label: 'Dráždenie rukou alebo erotickou pomôckou, hra s jej vzrušením' },
+        { v: 'oral', label: 'Orálna stimulácia jej vulvy a klitorisu' },
+        { v: 'drazdenie', label: 'Dráždenie jej vulvy, klitorisu alebo vagíny rukou či erotickou pomôckou' },
         { v: 'ziadna', label: 'Nepreferujem žiadnu interakciu s druhou ženou' },
       ],
     },

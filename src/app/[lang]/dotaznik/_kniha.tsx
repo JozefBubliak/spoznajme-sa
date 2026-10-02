@@ -395,6 +395,22 @@ export default function Kniha({
       </Link>
       <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{G(obsah.nadpis)}</h1>
 
+      {nahlad && (
+        <div className="mt-5 rounded-2xl border border-primary/30 bg-primary/5 p-4">
+          <div className="text-sm font-semibold text-foreground">Interaktívna admin simulácia</div>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+            Odpovede môžeš normálne označovať. Podmienené časti sa okamžite zobrazia alebo skryjú presne ako respondentovi; nič sa neukladá.
+          </p>
+          <button
+            type="button"
+            onClick={() => setOverride({ pohlavie: { v: pohlavie } })}
+            className="mt-3 rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-muted-foreground transition hover:border-primary/50 hover:text-foreground"
+          >
+            Resetovať simuláciu
+          </button>
+        </div>
+      )}
+
       <div className="mt-8 space-y-4">
         <Bloky bloky={obsah.uvod} okruh="uvod" p={pohlavie} ans={ans} save={(o, b, h) => saveRaw(o, b.id, b.typ, h, b.rola)} />
       </div>

@@ -531,7 +531,7 @@ export default function ObsahPrehladClient({ temy }: { temy: TemaObsah[] }) {
                   href={`nahlad/${s.tema.slug}?p=${pg}`}
                   className="rounded-full bg-primary/15 px-4 py-1.5 text-xs font-semibold text-primary transition hover:bg-primary/25"
                 >
-                  ▶ Vyplniť ako {pg === 'z' ? 'žena' : 'muž'} (skutočný dotazník)
+                  ▶ Simulovať ako {pg === 'z' ? 'žena' : 'muž'}
                 </Link>
               ))}
             </div>

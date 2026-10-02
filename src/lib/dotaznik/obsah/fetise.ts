@@ -241,7 +241,7 @@ const SLINY: Blok = {
       druh: 'otazka', id: 'sliny_akt_usta', typ: 'jeden', podmienka: SLINY_OPEN,
       text: g('Dávam partnerke sliny priamo do úst — pľuvnutím alebo pomalým stekaním', 'Dávam partnerovi sliny priamo do úst — pľuvnutím alebo pomalým stekaním'), moznosti: SLINY_YFMN,
     },
-    p('sliny_lubrikant', 'Sliny ako prirodzená vlhkosť pri dotykoch na intímnych miestach', SLINY_OPEN),
+    p('sliny_lubrikant', 'Sliny ako prirodzené zvlhčenie pri dotykoch vulvy, klitorisu, penisu alebo anusu', SLINY_OPEN),
     p('sliny_na_telo', 'Pľuvanie alebo stekanie slín na telo (prsia, brucho, genitálie) a rozotieranie', SLINY_OPEN),
     p('sliny_do_ust', 'Pľuvanie do úst s chytením za bradu a očným kontaktom', SLINY_OPEN),
     p('sliny_bozk', 'Intenzívne zdieľanie slín počas bozkávania', SLINY_OPEN),

@@ -38,6 +38,10 @@
 
 **SAME-SEX-BRANCHING-001:** `bi-zvedavost/bi-zvedavost` má aktívne obsahové vetvenie podľa skutočnej skúsenosti. Bez skúsenosti sa zobrazuje iba vetva zvedavosti, fantázie, ochoty preniesť ju do reality a bariér; so skúsenosťou iba hodnotenie zážitku, možné zlepšenie, frekvencia a čo opakovať. Spoločná časť potom osobitne mapuje, čo chce respondent od osoby rovnakého pohlavia prijímať a čo jej chce poskytovať. Tieto praktiky sú zámerne v dvoch bohatých viacnásobných výberoch s opisnými možnosťami a inline „Iné“, nie rozdrobené na množstvo samostatných otázok. Ženské a mužské možnosti sú zrkadlené cez `g()`; pôvodné soft/hard praktiky, kontext, hranice, integrácia a postoj k partnerovej túžbe zostali zachované.
 
+**DIRECT-LANGUAGE-001:** Pri spracovaní sa nesmú konkrétne sexuálne praktiky zovšeobecniť na „intímne miesta“, „telo“ alebo neurčitú „hru so vzrušením“, ak zdroj pomenúva vulvu, klitoris, vagínu, penis, semenníky alebo anus. Priame pomenovanie je obsah, nie nevhodný detail. Ikony v možnostiach nepoužívať, aby ostal dizajn jednotný. Po chybe v téme rovnakého pohlavia boli opravené aj rovnaké nepresnosti v trojkách, soft swape a slinách.
+
+**ADMIN-SIMULATION-001:** Admin prehľad pri každej spracovanej téme ponúka „Simulovať ako žena/muž“. Route `/dotaznik/nahlad/[modul]/[tema]` používa ten istý interaktívny renderer ako respondent: odpovede sa dajú označovať, podmienené bloky sa okamžite zobrazujú/skrývajú a simulácia sa dá resetovať. Odpovede sú iba lokálne a neukladajú sa.
+
 Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (verzia po oprave 2026-09-30).
 
 ---

@@ -162,7 +162,7 @@ const SOFT: Blok = {
         { v: 'akykolvek', label: 'Akýkoľvek fyzický kontakt s iným mužom' },
         { v: 'oral_prijem', label: 'Orálny sex — prijímať' },
         { v: 'oral_davam', label: 'Orálny sex — poskytovať' },
-        { v: 'intimne', label: 'Dotyky na intímnych miestach' },
+        { v: 'intimne', label: 'Dotyky penisu, semenníkov alebo anusu' },
       ],
     },
     {
@@ -174,7 +174,7 @@ const SOFT: Blok = {
         { v: 'oral_prijem', label: 'Orálny sex — prijímanie' },
         { v: 'oral_davam', label: 'Orálny sex — poskytovanie' },
         { v: 'masturbacia', label: 'Spoločná masturbácia — vzájomné dotyky, vizuálna stimulácia' },
-        { v: 'zony', label: 'Masírovanie erotogénnych zón (prsia, bradavky, stehná, intímne partie)' },
+        { v: 'zony', label: 'Masírovanie pŕs, bradaviek, stehien, vulvy alebo klitorisu' },
       ],
     },
     {
@@ -184,7 +184,7 @@ const SOFT: Blok = {
         { v: 'bozk', label: 'Bozkávanie' },
         { v: 'akykolvek', label: 'Akýkoľvek fyzický kontakt s inou ženou' },
         { v: 'oral', label: 'Orálny sex' },
-        { v: 'intimne', label: 'Dotyky na intímnych miestach' },
+        { v: 'intimne', label: 'Dotyky vulvy, klitorisu, vagíny alebo anusu' },
       ],
     },
     {
@@ -229,7 +229,7 @@ const SOFT: Blok = {
         { v: 'bozk', label: 'Bozkávanie s inou osobou' },
         { v: 'oral_prijima', label: 'Partner prijíma orálny sex od inej osoby' },
         { v: 'oral_dava', label: 'Partner poskytuje orálny sex inej osobe' },
-        { v: 'intimne', label: 'Dotyky na intímnych miestach inou osobou' },
+        { v: 'intimne', label: 'Dotyky genitálií alebo anusu inou osobou' },
       ],
     },
     {
