@@ -240,6 +240,11 @@ const MOTIVACIE: Blok = {
 // https://vxnlifestyle.com/reclaim-sex/
 // Odborný kontext erotickej compersion:
 // https://www.cosrtlearn.org.uk/wp-content/uploads/2024/05/Niki-D-Loving-Freedom-2023.pdf
+// Cleanup ako pomenovaná cuckold praktika a jej globálne komunitné varianty:
+// https://www.sdc.com/swingers-terms/
+// https://www.joyclub.de/groups/cuckold/forum/t3421770.was_soll_und_darf_der_cucki.html
+// https://www.cuckold.com.ar/foros/tema/24
+// https://thekinkacademy.com/dictionary/creampie-cleanup/
 const NAVRAT_A_ROZPRAVANIE: Blok = {
   druh: 'skupina',
   id: 'navrat_a_rozpravanie',
@@ -336,6 +341,110 @@ const NAVRAT_A_ROZPRAVANIE: Blok = {
       'Túžiš po rozprávaní partnerku znovu „získať" bozkami, dotykmi alebo sexom a pokračovať tam, kde jej stretnutie skončilo?',
       'Túžiš, aby ťa partner po rozprávaní znovu „získal" bozkami, dotykmi alebo sexom a pokračoval tam, kde sa stretnutie skončilo?',
     )),
+  ],
+}
+
+const CLEANUP_A_SLUZBA: Blok = {
+  druh: 'skupina',
+  id: 'cleanup_a_sluzba',
+  nadpis: 'Cleanup — jej návrat ako príkaz, odmena a služba',
+  uvod: g(
+    'V cuckold dynamike môže byť návrat viac než rozprávanie. Partnerka ti môže podať vlhké nohavičky, posadiť sa na tvoju tvár a rozhodovať, ako ju očistíš. Pre niekoho je to nežné uctievanie, pre iného odmena za čakanie, služba, práca s cudzím semenom alebo výrazná ukážka jej moci. Práve význam tejto chvíle rozhoduje, či pôsobí láskyplne, surovo alebo ponižujúco.',
+    'V cuckold dynamike môže byť návrat viac než rozprávanie. Môžeš partnerovi podať vlhké nohavičky, posadiť sa na jeho tvár a rozhodovať, ako ťa očistí. Pre niekoho je to nežné uctievanie, pre iného odmena za čakanie, služba, práca s cudzím semenom alebo výrazná ukážka tvojej moci. Práve význam tejto chvíle rozhoduje, či pôsobí láskyplne, surovo alebo ponižujúco.',
+  ),
+  bloky: [
+    {
+      druh: 'otazka', id: 'cleanup_jadro', typ: 'viac', inePovolene: true,
+      text: 'Čo je na cleanup fantázii najsilnejšie',
+      moznosti: [
+        { v: 'uctievanie', label: g('Uctievať partnerkino telo a rozkoš po návrate', 'Nechať partnera uctievať moje telo a rozkoš po návrate') },
+        { v: 'sluzba', label: g('Slúžiť jej bez toho, aby bola stredobodom moja rozkoš', 'Prijať partnerovu službu bez potreby venovať sa jeho rozkoši') },
+        { v: 'moc', label: g('Jej sebavedomá moc a právo dávať mi príkazy', 'Moja sebavedomá moc a právo dávať partnerovi príkazy') },
+        { v: 'odmena', label: g('Vnímať očistenie ako odmenu za čakanie', 'Dať partnerovi očistenie ako odmenu za čakanie') },
+        { v: 'stopa', label: 'Cítiť prítomnosť tretej osoby cez chuť, vôňu a telesné stopy' },
+        { v: 'ponizenie', label: g('Erotické poníženie a vedomie, že dokončujem po inom mužovi', 'Eroticky partnera ponížiť tým, že dokončuje po inom mužovi') },
+        { v: 'prepojenie', label: 'Premeniť oddelený zážitok na telesnú chvíľu, ktorú zdieľame spolu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'cleanup_predmety', typ: 'viac', inePovolene: true,
+      text: g('Čo mi má partnerka po návrate odovzdať', 'Čo chcem partnerovi po návrate odovzdať'),
+      moznosti: [
+        { v: 'vlhke_nohavicky', label: g('Jej vlhké nohavičky so stopami rozkoše a cudzieho semena', 'Moje vlhké nohavičky so stopami rozkoše a cudzieho semena') },
+        { v: 'oblecenie', label: g('Oblečenie, ktoré má na sebe vôňu alebo stopy stretnutia', 'Oblečenie, ktoré má na sebe vôňu alebo stopy stretnutia') },
+        { v: 'fotka', label: 'Fotografiu alebo krátke video ako obraz toho, čo nasledovalo' },
+        { v: 'sprava', label: 'Správu či hlasovú nahrávku s príkazom, čo má nasledovať doma' },
+        { v: 'nic', label: 'Nič do ruky — samotné telo po návrate je najsilnejšia stopa' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'cleanup_nohavicky', typ: 'viac', inePovolene: true,
+      text: g('Čo chcem s jej nohavičkami po návrate robiť', 'Čo chcem partnerovi prikázať urobiť s mojimi nohavičkami'),
+      moznosti: [
+        { v: 'drzat', label: g('Držať ich pri sebe počas jej rozprávania', 'Držať ich pri sebe počas môjho rozprávania') },
+        { v: 'privonat', label: 'Privoňať k nim a vnímať zmes tiel' },
+        { v: 'pery', label: 'Priložiť ich na pery alebo tvár' },
+        { v: 'ochutnat', label: 'Ochutnať vlhkosť alebo semeno priamo z látky' },
+        { v: 'masturbacia', label: g('Masturbovať s nimi, kým partnerka rozpráva', 'Nechať partnera s nimi masturbovať, kým rozprávam') },
+        { v: 'nosenie', label: g('Obliecť si ich alebo ich nosiť pri sebe ako znak služby', 'Prikázať partnerovi, aby si ich obliekol alebo ich nosil pri sebe') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'cleanup_telo', typ: 'viac', inePovolene: true,
+      text: g('Ako chcem partnerku po návrate očistiť', 'Ako sa chcem po návrate nechať partnerom očistiť'),
+      moznosti: [
+        { v: 'tvar', label: g('Partnerka si sadne na moju tvár a nechá ma pracovať jazykom', 'Sadnem si partnerovi na tvár a nechám ho pracovať jazykom') },
+        { v: 'rozkrocena', label: g('Kľačím alebo ležím pod ňou, keď sa mi rozkročí nad tvárou', 'Rozkročím sa nad partnerovou tvárou a určujem polohu') },
+        { v: 'nohy', label: g('Zlízať stopy z jej stehien, zadku a okolia vulvy', 'Nechať zlízať stopy zo stehien, zadku a okolia vulvy') },
+        { v: 'vulva', label: g('Jazykom ju očistiť zvonka aj pri vchode do vagíny', 'Nechať sa jazykom očistiť zvonka aj pri vchode do vagíny') },
+        { v: 'prsty', label: g('Očistiť jej prsty alebo ich zlízať po tom, čo sa sama dotýkala', 'Dať partnerovi zlízať moje prsty po tom, čo sa sama dotýkam') },
+        { v: 'telo', label: g('Zlízať cudzie semeno z jej brucha, pŕs alebo inej časti tela', 'Nechať partnera zlízať cudzie semeno z môjho brucha, pŕs alebo inej časti tela') },
+        { v: 'bozk', label: g('Po očistení sa s ňou pobozkať a vrátiť jej chuť späť', 'Po očistení partnera pobozkať a ochutnať stopu späť') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'cleanup_prikazy', typ: 'viac', inePovolene: true,
+      text: g('Ktoré príkazy by som pri tom chcel počuť', 'Ktoré príkazy by som pri tom chcela dávať'),
+      moznosti: [
+        { v: 'klakni', label: '„Kľakni si a počkaj na mňa."' },
+        { v: 'privonaj', label: '„Privoňaj si k tomu, čo som ti priniesla."' },
+        { v: 'ochutnaj', label: '„Ochutnaj ho na mojom tele."' },
+        { v: 'vycisti', label: '„Vyčisti ma jazykom."' },
+        { v: 'bez_ruk', label: '„Bez rúk — používaj iba ústa a jazyk."' },
+        { v: 'pozeraj', label: '„Pozeraj sa na mňa, kým to robíš."' },
+        { v: 'neprestavaj', label: '„Neprestávaj, kým ti nepoviem."' },
+        { v: 'povedz', label: '„Povedz mi, čo na mne cítiš a chutíš."' },
+        { v: 'bez_orgazmu', label: g('„Tvoja rozkoš dnes počká."', '„Tvoja rozkoš dnes počká."') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'cleanup_ton', typ: 'jeden', inePovolene: true,
+      text: 'Akú náladu má mať tento rituál',
+      moznosti: [
+        { v: 'nezna', label: 'Nežné uctievanie a vďačná služba bez ponižovania' },
+        { v: 'hrda', label: 'Hrdá hotwife a partner, ktorý s chuťou prijíma jej návrat' },
+        { v: 'dominantna', label: 'Pevné príkazy, kontrola a jasná podriadená rola partnera' },
+        { v: 'ponizujuca', label: 'Surové slová a erotické poníženie ako jadro scény' },
+        { v: 'premenliva', label: 'Začať nežne a postupne prejsť do výraznej moci' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'cleanup_partner_tuzi', typ: 'jeden', inePovolene: true,
+      text: g('Keď partnerka túži, aby som ju po inom mužovi takto očistil', 'Keď partner túži, aby ma po inom mužovi mohol takto očistiť'),
+      moznosti: [
+        { v: 'silno', label: g('Jej túžba a moc ma silno vzrušujú', 'Jeho túžba slúžiť mi a ochutnať môj návrat ma silno vzrušujú') },
+        { v: 'jemne', label: 'Láka ma nežná verzia bez ponižovania' },
+        { v: 'slova', label: 'Chcem sa s tým hrať iba cez slová alebo fantáziu' },
+        { v: 'vybrane', label: 'Lákajú ma iba vybrané časti — vôňa, nohavičky, orál alebo príkazy' },
+        { v: 'nie', label: 'Táto podoba návratu ma neláka' },
+      ],
+    },
+    {
+      druh: 'text', id: 'cleanup_myty', nadpis: 'Nie je to iba „očistenie"', ton: 'info',
+      telo:
+        'Cleanup je v komunitách pomenovaná samostatná praktika, nie náhodný detail po sexe. Môže spájať fluid fetish, pussy worship, službu, príkazy, facesitting, odmenu za čakanie aj erotické poníženie. ' +
+        'Nemusí však byť ponižujúci: pre niektoré páry je to obdivný rituál, v ktorom partner prijíma celé dobrodružstvo ženy — jej túžbu, telo aj stopy — a ona sa vracia priamo do stredu ich spoločnej erotiky.',
+    },
   ],
 }
 
@@ -492,7 +601,7 @@ export const ZDIELANIE_PARTNERA: TemaObsah = {
         'Nemusí ísť o sex; stačí, že iní túžia a obdivujú.',
     },
   ],
-  telo: [HOTWIFING, CUCKOLDING, KANDALIZMUS, MOTIVACIE, NAVRAT_A_ROZPRAVANIE, PARTNEROVA_TUZBA, MYTY, RAMEC, POZNAMKY],
+  telo: [HOTWIFING, CUCKOLDING, KANDALIZMUS, MOTIVACIE, NAVRAT_A_ROZPRAVANIE, CLEANUP_A_SLUZBA, PARTNEROVA_TUZBA, MYTY, RAMEC, POZNAMKY],
   zaver: [
     {
       druh: 'text',

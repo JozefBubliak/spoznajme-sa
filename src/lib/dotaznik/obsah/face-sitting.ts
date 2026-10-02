@@ -745,6 +745,7 @@ const SPOLOCNE: Blok[] = [
           { v: 'solo', label: 'V sólo fantáziách alebo pri masturbácii' },
           { v: 'partner', label: g('Vo fantázii priamo s partnerkou', 'Vo fantázii priamo s partnerom') },
           { v: 'spolu', label: 'Počas spoločného sexu ako predstava alebo slová' },
+          { v: 'cleanup', label: g('Ako cleanup rituál po návrate partnerky od iného muža — ona hore, ja dole', 'Ako cleanup rituál po návrate od iného muža — ja hore, partner dole') },
           { v: 'cez_den', label: 'Mimo sexu — ako náhla predstava cez deň' },
           { v: 'tabu', label: 'Najmä vtedy, keď ju vnímam ako tajnú alebo zakázanú' },
           { v: 'neobjavuje', label: 'Vo fantáziách sa mi neobjavuje' },
