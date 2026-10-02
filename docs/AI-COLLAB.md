@@ -36,6 +36,11 @@ Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (v
 OWNER Codex; STATUS SCAFFOLD / FACE-SITTING ACTIVE. Schéma `TemaObsah` eviduje typ vetvenia, stav, celé bloky bez skúsenosti/so skúsenosťou a pravidlo párového výsledku `vsetko-relevantne-okrem-nie`. Všetkých 45 registrovaných data-driven tém je povinne klasifikovaných; témy, kde skúsenosť nedáva význam, majú výslovný dôvod. Praktické témy majú v kostre základné otázky pre obe vetvy, ale kostra sa zobrazí až po obsahovom prispôsobení konkrétnej téme. Face sitting je aktívny: výber skúsenosti je vzájomne výlučný, HORE a DOLE sa vetvia nezávisle a spoločná fantasy vetva sa skúsenej osobe nezobrazuje. Pri ďalšom čistení presunúť všetky otázky každej témy do správneho celého bloku a zachovať unikátny obsah bez duplicít.
 
 ---
+## CONTENT-OVERVIEW-003 — hierarchický admin prehľad, 2026-10-02
+
+OWNER Codex; STATUS IMPLEMENTED. `/dotaznik/obsah-prehlad` nesmie vypisovať plochý register `TemaObsah`, pretože podtémy (napr. štyri časti dirty talku) potom vyzerajú ako štyri hlavné témy. Navigácia používa kanonický strom: obsahová oblasť → hlavná téma/modul → podtémy → obsah vybratej podtémy. Poradie pre čítanie je A → I → B → C → D → E → F → G → H: naladenie, základný rámec hraníc/tela, dotyk, orál, penetrácia, pomôcky, mocenské hry, fetiše a najcitlivejšie praktiky s ďalšími ľuďmi. Detailne spracovaná podtéma ukáže plné bloky; generická podtéma ukáže svoje seed položky a odkaz do dotazníka.
+
+---
 ## QUALITY-FACESITTING-001 — kvalitatívny rámec prenesený na vhodné témy, 2026-10-01
 
 OWNER Codex; STATUS IMPLEMENTED / REVIEW. Face-sitting je po pokyne používateľa referenčná úroveň hĺbky, nie pevná šablóna. Hĺbkové vrstvy (erotické jadro a psychológia, roly, fantázia verzus realita, partnerova túžba, konkrétne scenáre, experiment a mýty) boli obsahovo prispôsobené témam `vaginalna-penetracia.ts`, `nepenetrativne-trenie.ts`, `tantra-slow-sex.ts`, `orgazmus-kontrola.ts` a `zmyslova-hra.ts`. `polohy.ts` boli na následný výslovný pokyn používateľa vynechané a zostali bez zmeny, pretože majú byť hlavne prehľadným zoznamom. Pri dotknutých blokoch sa opravili aj zjavné lomítkové m/ž formulácie; praktická otázka o pokožke pri trení sa odstránila. Bez commitu a pushu.
