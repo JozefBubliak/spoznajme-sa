@@ -1057,6 +1057,124 @@ const DT_OBSAH: Blok = {
   ],
 }
 
+// Slovná hra nie je iba rozhovor o tom, čo chce pár niekedy uskutočniť.
+// Môže byť sama osebe erotickým aktom: dvojica nahlas vytvára scénu,
+// prizýva do nej imaginárnu tretiu osobu, opisuje sólo zážitok alebo aktuálnu
+// telesnú reakciu a navzájom sa dráždi detailmi. Inšpirácia: Esther Perel
+// (tretí podnet ako vstup do fantasy/roleplayu), Kimberley et al. 2024
+// (zdieľanie fantázií) a komunitné formy erotic storytelling/narratophilia.
+// https://www.estherperel.com/blog/how-to-introduce-role-play-ideas-to-your-partner
+// https://doi.org/10.1080/00224499.2024.2310085
+// https://www.museumofplay.org/app/uploads/2022/01/9-2-article-5-sexual-fantasy-adult-attunement.pdf
+const DT_SLOVNE_PROVOKACIE: Blok = {
+  druh: 'skupina', id: 'dt_slovne_provokacie', nadpis: 'Slovné provokácie a spoločné erotické príbehy',
+  uvod:
+    'Jeden z dvojice rozohrá erotický obraz a druhý ho rozvíja, pýta sa, pridáva detaily alebo iba počúva a reaguje telom. ' +
+    'Príbeh môže začať pohľadom na príťažlivú osobu, priznaním zo sólo chvíle, opisom vlastného vzrušenia alebo úplne vymyslenou scénou. ' +
+    'Nemusí byť plánom na uskutočnenie — samotné rozprávanie, počúvanie a vzájomné dráždenie je celou praktikou.',
+  bloky: [
+    {
+      druh: 'otazka', id: 'dt_provokacie_postoj', typ: 'jeden',
+      text: 'Ako na mňa pôsobí spoločná erotická hra vytváraná nahlas',
+      moznosti: [
+        { v: 'velmi', label: 'Veľmi ma vzrušuje — slová a predstavy sú pre mňa plnohodnotná erotická hra' },
+        { v: 'laka', label: 'Láka ma, keď príbeh vzniká prirodzene a bez pripraveného scenára' },
+        { v: 'pocuvat', label: 'Radšej počúvam a reagujem, než rozprávam' },
+        { v: 'rozpravat', label: 'Radšej príbeh tvorím a sledujem reakciu druhého' },
+        { v: 'mozno', label: g('Možno — potrebujem podnet alebo prvú vetu, aby som sa rozbehol', 'Možno — potrebujem podnet alebo prvú vetu, aby som sa rozbehla') },
+        { v: 'nie', label: 'Táto slovná hra ma neláka' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_provokacie_formy', typ: 'viac', inePovolene: true,
+      text: 'Ktoré podoby slovnej provokácie ma lákajú',
+      podmienka: { ot: 'dt_provokacie_postoj', nie: 'nie' },
+      moznosti: [
+        { v: 'vsimnut_si', label: 'Spoločne si všimnúť príťažlivú ženu alebo muža a opisovať, čo nás na tej osobe priťahuje' },
+        { v: 'co_by_sme_robili', label: 'Opisovať, čo by sme s treťou osobou robili a čo by sme chceli navzájom sledovať' },
+        { v: 'tretia_osoba_partner', label: g('Opisovať, čo by tretia osoba robila partnerke a ako by som pri tom reagoval', 'Opisovať, čo by tretia osoba robila partnerovi a ako by som pri tom reagovala') },
+        { v: 'vymyslena_osoba', label: 'Spoločne vymyslieť tretiu osobu a po vetách dopĺňať jej vzhľad, správanie a dej' },
+        { v: 'masturbacia', label: g('Detailne porozprávať, ako prebiehala moja posledná masturbácia a čo som si predstavoval', 'Detailne porozprávať, ako prebiehala moja posledná masturbácia a čo som si predstavovala') },
+        { v: 'priznanie', label: g('Priznať súkromnú fantáziu, erotickú spomienku alebo myšlienku, ktorú som ešte nepovedal', 'Priznať súkromnú fantáziu, erotickú spomienku alebo myšlienku, ktorú som ešte nepovedala') },
+        { v: 'telo_teraz', label: g('Opisovať, ako práve reaguje moje telo — teplo, tvrdosť, dych a napätie', 'Opisovať, ako práve reaguje moje telo — teplo, vlhkosť, dych a napätie') },
+        { v: 'bielizen', label: g('Pýtať sa na jej bielizeň, vlhkosť a to, čo pod ňou práve cíti', 'Opisovať partnerovi moju bielizeň, vlhkosť a to, čo pod ňou práve cítim') },
+        { v: 'navrat', label: 'Zahrať slovnú scénu návratu zo stretnutia s niekým iným a rozprávať vymyslené detaily' },
+        { v: 'ako_sa_stalo', label: 'Rozprávať vymyslenú scénu v minulom čase, akoby sa naozaj stala' },
+        { v: 'cudzimi_ocami', label: g('Opisovať partnerku očami človeka, ktorý po nej túži', 'Opisovať partnera očami človeka, ktorý po ňom túži') },
+        { v: 'nazivo', label: g('Nahlas opisovať každý partnerkin pohyb, zatiaľ čo reaguje iba telom', 'Nahlas opisovať každý partnerov pohyb, zatiaľ čo reaguje iba telom') },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_provokacie_roly', typ: 'viac', inePovolene: true,
+      text: 'Ako chcem, aby sa pri tejto hre delili roly',
+      podmienka: { ot: 'dt_provokacie_postoj', nie: 'nie' },
+      moznosti: [
+        { v: 'striedanie_viet', label: 'Striedať sa po jednej vete alebo jednom detaile' },
+        { v: 'rozpravac_posluchac', label: 'Jeden rozpráva celý príbeh, druhý iba počúva a reaguje' },
+        { v: 'otazky_priznanie', label: 'Jeden sa pýta čoraz odvážnejšie otázky, druhý odpovedá ako pri erotickom priznaní' },
+        { v: 'rezirovanie', label: 'Jeden je režisér príbehu a určuje, čo sa v ďalšej chvíli stane' },
+        { v: 'vymena', label: 'V polovici si roly vymeniť a pokračovať z pohľadu druhého' },
+        { v: 'bez_slov', label: 'Rozpráva iba jeden; druhý nesmie odpovedať slovami, iba telom a zvukmi' },
+        { v: 'sprava_hlasovka', label: 'Začať správou alebo hlasovkou a príbeh dokončiť spolu naživo' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_provokacie_podnet', typ: 'viac', inePovolene: true,
+      text: 'Čo má spoločný príbeh najľahšie naštartovať',
+      podmienka: { ot: 'dt_provokacie_postoj', nie: 'nie' },
+      moznosti: [
+        { v: 'osoba_okolie', label: 'Príťažlivá osoba, ktorú si spolu všimneme' },
+        { v: 'verejna_osoba', label: 'Herečka, herec alebo iná verejne známa osoba' },
+        { v: 'film', label: 'Scéna z filmu, erotického videa, fotografie alebo príbehu' },
+        { v: 'neznamy', label: 'Úplne vymyslená neznáma osoba bez väzby na náš život' },
+        { v: 'znamy', label: 'Niekto, koho obaja poznáme' },
+        { v: 'spomienka', label: 'Skutočná spoločná erotická spomienka, ktorú prepíšeme inak' },
+        { v: 'solo', label: 'Sólo zážitok alebo masturbácia jedného z nás' },
+        { v: 'telo', label: 'Aktuálny pohľad na telo, bielizeň, dych alebo inú viditeľnú reakciu' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_provokacie_kedy', typ: 'viac', inePovolene: true,
+      text: 'Kedy chcem túto slovnú hru používať',
+      podmienka: { ot: 'dt_provokacie_postoj', nie: 'nie' },
+      moznosti: [
+        { v: 'samostatne', label: 'Ako samostatnú erotickú aktivitu — iba slová, predstava a reakcie' },
+        { v: 'spravy', label: 'Cez správy alebo hlasovky počas dňa' },
+        { v: 'spolocna_masturbacia', label: 'Pri spoločnej masturbácii alebo vzájomnom sledovaní' },
+        { v: 'predohra', label: 'Ako predohru pred dotykmi' },
+        { v: 'pocas', label: 'Počas sexu, keď slová zosilňujú práve prebiehajúci zážitok' },
+        { v: 'po', label: 'Po sexe ako dráždivé prerozprávanie toho, čo sa práve stalo' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'dt_provokacie_partner', typ: 'jeden',
+      text: g('Keď partnerka túži po takejto slovnej hre viac než ja', 'Keď partner túži po takejto slovnej hre viac než ja'),
+      moznosti: [
+        { v: 'nakazlive', label: g('Jej fantázia ma nakazí a chcem ju rozvíjať', 'Jeho fantázia ma nakazí a chcem ju rozvíjať') },
+        { v: 'pocuvat', label: g('Chcem ju nechať rozprávať a vzrušuje ma jej otvorenosť', 'Chcem ho nechať rozprávať a vzrušuje ma jeho otvorenosť') },
+        { v: 'otazky', label: 'Radšej sa pýtam a nechám druhého vytvoriť obsah' },
+        { v: 'vybrane', label: 'Lákajú ma iba vybrané príbehy alebo podnety' },
+        { v: 'len_fantazia', label: 'Chcem, aby príbeh zostal iba medzi nami a iba v slovách' },
+        { v: 'nie', label: 'Nechcem sa do tejto hry zapájať' },
+      ],
+    },
+    {
+      druh: 'text', id: 'dt_provokacie_start', nadpis: 'Štyri spôsoby, ako rozohriať príbeh', ton: 'info',
+      telo: g(
+        '„Povedz mi, čo ťa na tej osobe zaujalo a čo by si chcel vidieť.“\n\n„Opíš mi poslednú chvíľu, keď si sa sám uspokojoval — kde si bol a čo si si predstavoval?“\n\n„Predstav si, že sa vraciaš z vymysleného stretnutia. Sadni si predo mňa a povedz mi, čo sa tam stalo.“\n\n„Povedz mi presne, ako teraz reaguje tvoje telo a čo by si najradšej urobil.“',
+        '„Povedz mi, čo ťa na tej osobe zaujalo a čo by si chcela vidieť.“\n\n„Opíš mi poslednú chvíľu, keď si sa sama uspokojovala — kde si bola a čo si si predstavovala?“\n\n„Predstav si, že sa vraciaš z vymysleného stretnutia. Sadni si predo mňa a povedz mi, čo sa tam stalo.“\n\n„Povedz mi presne, ako teraz reaguje tvoje telo a čo by si najradšej urobila.“',
+      ),
+    },
+    {
+      druh: 'text', id: 'dt_provokacie_myty', nadpis: 'Fantázia ako spoločný erotický priestor', ton: 'info',
+      telo:
+        'Príbeh o tretej osobe nemusí byť skrytou žiadosťou o neveru ani plánom na trojku. Tretia postava môže byť iba obraz, cez ktorý si dvojica navzájom ukazuje vlastnú túžbu. ' +
+        'Rovnako ani detailné rozprávanie o masturbácii nie je náhradou partnera — môže byť intímnym odhalením toho, ako človek prežíva vlastné telo. ' +
+        'Pri tejto hre nie je cieľom podať dokonalý výkon. Najsilnejšia môže byť jediná úprimná veta, otázka alebo detail, na ktorý druhý viditeľne zareaguje.',
+    },
+  ],
+}
+
 const DT_OSLOVENIA: Blok = {
   druh: 'skupina', id: 'dt_oslovenia', nadpis: 'Oslovenia — od nežných po degradačné',
   uvod: '„Miláčik“ je iba jeden koniec spektra. Oslovenie môže vyjadrovať nehu, pochvalu, vlastníctvo, rolu, sexuálny apetít, objektifikáciu alebo zámernú degradáciu.',
@@ -1217,7 +1335,7 @@ const DT_MYTY: Blok = {
 const DIRTY_TALK: Blok = {
   druh: 'skupina', id: 'dirty_talk', nadpis: 'Dirty talk, oslovenia a slovný priestor',
   uvod: 'Slová môžu byť predohrou, navigáciou, pochvalou, príkazom, fantáziou aj nástrojom moci. Táto mapa ide od jemného šepotu cez priame pomenovanie túžby až po vlastnícky jazyk a erotickú degradáciu.',
-  bloky: [DT_TON, DT_OBSAH, DT_OSLOVENIA, DT_JAZYK_TELA, DT_PARTNER, DT_MYTY],
+  bloky: [DT_TON, DT_OBSAH, DT_SLOVNE_PROVOKACIE, DT_OSLOVENIA, DT_JAZYK_TELA, DT_PARTNER, DT_MYTY],
 }
 
 // ── Voyeurizmus a exhibicionizmus ───────────────────────────────────
@@ -1538,7 +1656,7 @@ export const DIRTY_TALK_OBSAH_TEMA: TemaObsah = {
       telo: 'Dirty talk môže pomenovať túžbu, obdivovať telo, opisovať prítomný okamih, sľubovať ďalší krok, viesť príkazom alebo otvoriť erotickú rolu. Nejde o jednu správnu vetu, ale o obsah, ktorý medzi dvoma ľuďmi znie pravdivo a vzrušujúco.',
     },
   ],
-  telo: [DT_OBSAH, DT_PARTNER, DT_MYTY],
+  telo: [DT_OBSAH, DT_SLOVNE_PROVOKACIE, DT_PARTNER, DT_MYTY],
 }
 
 export const DIRTY_TALK_OSLOVENIA_TEMA: TemaObsah = {

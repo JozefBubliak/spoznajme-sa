@@ -35,7 +35,12 @@ Ukážka postupu (nie šablóna): `src/lib/dotaznik/obsah/trans-partnerka.ts` (v
 ---
 ## EXPERIENCE-BRANCHING-001 — vetvy podľa skúsenosti, 2026-10-02
 
-OWNER Codex; STATUS SCAFFOLD / FACE-SITTING ACTIVE. Schéma `TemaObsah` eviduje typ vetvenia, stav, celé bloky bez skúsenosti/so skúsenosťou a pravidlo párového výsledku `vsetko-relevantne-okrem-nie`. Všetkých 45 registrovaných data-driven tém je povinne klasifikovaných; témy, kde skúsenosť nedáva význam, majú výslovný dôvod. Praktické témy majú v kostre základné otázky pre obe vetvy, ale kostra sa zobrazí až po obsahovom prispôsobení konkrétnej téme. Face sitting je aktívny: výber skúsenosti je vzájomne výlučný, HORE a DOLE sa vetvia nezávisle a spoločná fantasy vetva sa skúsenej osobe nezobrazuje. Pri ďalšom čistení presunúť všetky otázky každej témy do správneho celého bloku a zachovať unikátny obsah bez duplicít.
+OWNER Codex; STATUS SCAFFOLD / FACE-SITTING ACTIVE. Schéma `TemaObsah` eviduje typ vetvenia, stav, celé bloky bez skúsenosti/so skúsenosťou a pravidlo párového výsledku `vsetko-relevantne-okrem-nie`. Všetkých 46 registrovaných data-driven tém je povinne klasifikovaných; témy, kde skúsenosť nedáva význam, majú výslovný dôvod. Praktické témy majú v kostre základné otázky pre obe vetvy, ale kostra sa zobrazí až po obsahovom prispôsobení konkrétnej téme. Face sitting je aktívny: výber skúsenosti je vzájomne výlučný, HORE a DOLE sa vetvia nezávisle a spoločná fantasy vetva sa skúsenej osobe nezobrazuje. Pri ďalšom čistení presunúť všetky otázky každej témy do správneho celého bloku a zachovať unikátny obsah bez duplicít.
+
+---
+## DIRTY-TALK-STORY-001 — slovné provokácie a spoločný erotický príbeh, 2026-10-02
+
+OWNER Codex; STATUS IMPLEMENTED / REVIEW. Používateľ spresnil, že nejde o blind matching fantázií, ale o živú párovú praktiku: spoločne komentovať príťažlivú osobu, slovami vytvárať scénu s imaginárnou treťou osobou, opisovať masturbáciu, bielizeň a aktuálnu telesnú reakciu, hrať fiktívny návrat zo stretnutia alebo sa striedať v erotickom príbehu. Blok `DT_SLOVNE_PROVOKACIE` je súčasťou existujúcej route Dirty talk — obsah; nevytvára piatu technickú Dirty-talk tému v prehľade. Obsahuje formy, roly rozprávač/poslucháč, zdroje príbehu, situácie použitia, postoj k partnerovej túžbe, štyri štartovacie prompty a mýty. Zdroje sú zapísané priamo pri bloku v `fetise.ts`. Geminiho pojmy „erotická triangulácia“ a „mozog spracuje slová rovnako ako živý obraz“ neboli prevzaté ako overené odborné tvrdenia.
 
 ---
 ## QUALITY-FACESITTING-001 — kvalitatívny rámec prenesený na vhodné témy, 2026-10-01
