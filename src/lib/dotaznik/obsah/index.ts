@@ -1,4 +1,4 @@
-import type { TemaObsah } from './typ'
+import type { TemaObsah, Blok } from './typ'
 import { FACE_SITTING } from './face-sitting'
 import { TROJKY_SKUPINY } from './trojky-skupiny'
 import { ZDIELANIE_PARTNERA } from './zdielanie-partnera'
@@ -105,7 +105,37 @@ const REGISTER: Record<string, TemaObsah> = {
 // skúsenosti. Kostry sú súčasťou reálnych dát dotazníka; prázdne vetvy UI
 // nezobrazuje a naplnia sa pri obsahovom audite konkrétnej témy.
 for (const [k, t] of Object.entries(REGISTER)) {
-  REGISTER[k] = { ...t, vetvenieSkusenosti: vetveniePre(k) }
+  REGISTER[k] = vlozVetvenie({ ...t, vetvenieSkusenosti: vetveniePre(k) })
+}
+
+// Kostru vetvenia vložíme do dotazníka IBA raz, na úrovni hlavnej témy
+// (nie pri podtémach): otázka „mám skúsenosť?" + príslušná vetva. Témy so
+// stavom 'aktivne'/'rozpracovane' majú vetvenie priamo vo vlastnom obsahu.
+function vlozVetvenie(t: TemaObsah): TemaObsah {
+  const v = t.vetvenieSkusenosti
+  if (!v || v.rezim === 'nepouziva-sa' || v.stav !== 'kostra') return t
+  const strany: { id: string; nadpis?: string; text: TemaObsah['nadpis'] }[] =
+    v.rezim === 'davam-prijimam'
+      ? [
+          { id: 'vetva_mam_prijimanie', nadpis: 'prijimanie', text: 'Mám skúsenosť s prijímaním?' },
+          { id: 'vetva_mam_poskytovanie', nadpis: 'poskytovanie', text: 'Mám skúsenosť s poskytovaním?' },
+        ]
+      : [{ id: 'vetva_mam', text: 'Mám s touto témou vlastnú skúsenosť?' }]
+  const moznosti = [
+    { v: 'ano', label: 'Áno' },
+    { v: 'nie', label: 'Nie, zatiaľ nie' },
+  ]
+  // V režime dávam/prijímam sú vetvy skupiny, ktorých id obsahuje stranu.
+  const bloky: Blok[] = []
+  for (const s of strany) {
+    bloky.push({ druh: 'otazka', id: s.id, typ: 'jeden', text: s.text, moznosti })
+    const so = s.nadpis ? v.soSkusenostou.filter((b) => b.id.includes(s.nadpis!)) : v.soSkusenostou
+    const bez = s.nadpis ? v.bezSkusenosti.filter((b) => b.id.includes(s.nadpis!)) : v.bezSkusenosti
+    bloky.push({ druh: 'skupina', id: `${s.id}_ano`, podmienka: { ot: s.id, je: 'ano' }, bloky: so })
+    bloky.push({ druh: 'skupina', id: `${s.id}_nie`, podmienka: { ot: s.id, je: 'nie' }, bloky: bez })
+  }
+  const skupina: Blok = { druh: 'skupina', id: 'vetvenie_skusenost', nadpis: 'Moja skúsenosť', bloky }
+  return { ...t, telo: [skupina, ...t.telo] }
 }
 
 // Záverečný sumár („čo nové skúsime" + plán) na koniec každej praktickej témy.
