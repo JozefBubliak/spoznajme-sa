@@ -114,28 +114,52 @@ for (const [k, t] of Object.entries(REGISTER)) {
 function vlozVetvenie(t: TemaObsah): TemaObsah {
   const v = t.vetvenieSkusenosti
   if (!v || v.rezim === 'nepouziva-sa' || v.stav !== 'kostra') return t
-  const strany: { id: string; nadpis?: string; text: TemaObsah['nadpis'] }[] =
-    v.rezim === 'davam-prijimam'
-      ? [
-          { id: 'vetva_mam_prijimanie', nadpis: 'prijimanie', text: 'Mám skúsenosť s prijímaním?' },
-          { id: 'vetva_mam_poskytovanie', nadpis: 'poskytovanie', text: 'Mám skúsenosť s poskytovaním?' },
-        ]
-      : [{ id: 'vetva_mam', text: 'Mám s touto témou vlastnú skúsenosť?' }]
-  const moznosti = [
-    { v: 'ano', label: 'Áno' },
-    { v: 'nie', label: 'Nie, zatiaľ nie' },
-  ]
-  // V režime dávam/prijímam sú vetvy skupiny, ktorých id obsahuje stranu.
-  const bloky: Blok[] = []
-  for (const s of strany) {
-    bloky.push({ druh: 'otazka', id: s.id, typ: 'jeden', text: s.text, moznosti })
-    const so = s.nadpis ? v.soSkusenostou.filter((b) => b.id.includes(s.nadpis!)) : v.soSkusenostou
-    const bez = s.nadpis ? v.bezSkusenosti.filter((b) => b.id.includes(s.nadpis!)) : v.bezSkusenosti
-    bloky.push({ druh: 'skupina', id: `${s.id}_ano`, podmienka: { ot: s.id, je: 'ano' }, bloky: so })
-    bloky.push({ druh: 'skupina', id: `${s.id}_nie`, podmienka: { ot: s.id, je: 'nie' }, bloky: bez })
+  // Vzor: face-sitting.ts a voyeur-exhib.ts — JEDNA otázka na skúsenosť s rolami
+  // v možnostiach, potom vetvy „Moja skúsenosť s …" / „… zatiaľ bez skúsenosti".
+  const ID = 'vetva_mam'
+  if (v.rezim === 'davam-prijimam') {
+    const otazka: Blok = {
+      druh: 'otazka', id: ID, typ: 'jeden',
+      text: 'Máš s touto témou skúsenosť?',
+      moznosti: [
+        { v: 'prijimam', label: 'Áno, s prijímaním' },
+        { v: 'poskytujem', label: 'Áno, s poskytovaním' },
+        { v: 'oboje', label: 'Áno, s oboma' },
+        { v: 'ziadna', label: 'Nie, zatiaľ nemám skúsenosť' },
+      ],
+    }
+    const s = (strana: string) => (b: Blok) => b.id.includes(strana)
+    const cast = (bloky: Blok[], strana: string, jeNiektora: string[]): Blok[] =>
+      bloky.filter(s(strana)).map((b) => ({ ...b, podmienka: { ot: ID, jeNiektora } }) as Blok)
+    return {
+      ...t,
+      telo: [
+        otazka,
+        ...cast(v.soSkusenostou, 'prijimanie', ['prijimam', 'oboje']),
+        ...cast(v.soSkusenostou, 'poskytovanie', ['poskytujem', 'oboje']),
+        ...cast(v.bezSkusenosti, 'prijimanie', ['poskytujem', 'ziadna']),
+        ...cast(v.bezSkusenosti, 'poskytovanie', ['prijimam', 'ziadna']),
+        ...t.telo,
+      ],
+    }
   }
-  const skupina: Blok = { druh: 'skupina', id: 'vetvenie_skusenost', nadpis: 'Moja skúsenosť', bloky }
-  return { ...t, telo: [skupina, ...t.telo] }
+  const otazka: Blok = {
+    druh: 'otazka', id: ID, typ: 'jeden',
+    text: 'Máš s touto témou skúsenosť?',
+    moznosti: [
+      { v: 'ano', label: 'Áno' },
+      { v: 'ziadna', label: 'Nie, zatiaľ nemám skúsenosť' },
+    ],
+  }
+  return {
+    ...t,
+    telo: [
+      otazka,
+      { druh: 'skupina', id: 'vetva_so_skusenostou', nadpis: 'Moja skúsenosť', podmienka: { ot: ID, je: 'ano' }, bloky: v.soSkusenostou },
+      { druh: 'skupina', id: 'vetva_bez_skusenosti', nadpis: 'Zatiaľ bez skúsenosti', podmienka: { ot: ID, je: 'ziadna' }, bloky: v.bezSkusenosti },
+      ...t.telo,
+    ],
+  }
 }
 
 // Záverečný sumár („čo nové skúsime" + plán) na koniec každej praktickej témy.
