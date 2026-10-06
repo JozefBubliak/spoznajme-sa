@@ -326,6 +326,20 @@ const POCITY: Blok = {
 
 export const TRANS_PARTNERKA: TemaObsah = {
   slug: 'trans-partnerka/trans-partnerka',
+  rozhovor: {
+    popis: 'Žena s ženským telom, prsiami — a penisom. Predstava, ktorá láka viac ľudí, než by sa zdalo.',
+    otazky: [
+      'Napadla vás už niekedy táto predstava? Pri čom — v porne, v myšlienkach, pri sexe?',
+      'Čo na nej láka — ženskosť, penis, tabu, alebo niečo celkom iné?',
+      'Je to pre vás iba fantázia, alebo by ste to chceli niekedy zažiť naozaj?',
+      'Keby to vzrušovalo iba jedného z vás — ako by to vnímal ten druhý? Čo by ho potešilo a čo znepokojilo?',
+      'Čoho by ste sa pri tom báli — žiarlivosti, toho, čo to „znamená", reakcie okolia?',
+      'Ak trojka, tak ako — kto s kým, kto sa pozerá?',
+      'Dalo by sa to zažiť aj len vo dvojici — strap-on, hra na rolu, rozprávanie počas sexu?',
+      'Kde je pre vás hranica, za ktorú nechcete ísť?',
+      'Čo z toho by ste chceli skúsiť ako prvé — a čo nechať iba v hlave?',
+    ],
+  },
   nadpis: 'Trans žena — žena s penisom',
   zdielanieDovod: true,
   uvod: [

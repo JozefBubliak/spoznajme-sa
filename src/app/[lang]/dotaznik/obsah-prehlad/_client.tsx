@@ -447,7 +447,7 @@ export default function ObsahPrehladClient({ lang, temy }: { lang: string; temy:
 
   return (
     <div className="mx-auto w-full max-w-3xl px-5 py-10 sm:py-14">
-      <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">Admin · Obsah dotazníka</p>
+      <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-primary/80">Admin · Obsah dotazníka · <Link href="spolu" className="underline">režim Spolu (swipe) →</Link></p>
       <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">Presne to, čo uvidí respondent</h1>
       <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
         {temy.length} tém, {celkovyPocet} otázok/textov — rovnaké karty a text ako v ostrom dotazníku, len všetko na jednej

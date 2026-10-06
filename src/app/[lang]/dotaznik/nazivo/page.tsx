@@ -20,6 +20,12 @@ export default async function NazivoIntro({ params }: P) {
       spat={{ href: p('/dotaznik/par'), label: 'Pár' }}
       dalej={{ href: p(`/dotaznik/nazivo/${MODULY[0].slug}`), label: 'Začať prvým modulom' }}
     >
+      <Riadok
+        href={p('/dotaznik/spolu')}
+        ikona="👆"
+        nazov="Spolu — swipe tém"
+        popis="Spolu na jednom telefóne: potiahnite doprava témy, ktoré chcete preskúmať, a potom listujte otázkami na rozhovor."
+      />
       {MODULY.map((m) => (
         <Riadok
           key={m.slug}

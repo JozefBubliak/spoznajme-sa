@@ -98,10 +98,24 @@ export type VetvenieSkusenosti =
       dovod: string
     }
 
+/**
+ * Režim „Spolu": pár spolu na jednom telefóne swipne tému (chceme / nechceme)
+ * a pri zvolených témach listuje otázkami bez odpovedí — rozprávajú sa naživo.
+ * Texty sú v 2. osobe množného čísla (pár sedí spolu), preto bez m/ž variantov.
+ */
+export type Rozhovor = {
+  /** 1–2 vety na swipe kartu. */
+  popis: string
+  /** 5–12 otvorených otázok na rozhovor. */
+  otazky: string[]
+}
+
 export type TemaObsah = {
   /** `${modul}/${tema}` */
   slug: string
   nadpis: GText
+  /** Režim „Spolu" (swipe + otázky na rozhovor). */
+  rozhovor?: Rozhovor
   /** „Kniha" — text pred screeningom (Čo je to, intímny pohľad, mýty…). */
   uvod: Blok[]
   /** Screening ponúkne pod-voľbu „partner uvidí dôvod v 1 vete". */

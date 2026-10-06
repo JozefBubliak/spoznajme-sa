@@ -18,7 +18,9 @@ Jeden obsah, viac výstupov podľa energie páru. Rieši to najväčšie riziko 
 | Rozhovor po výsledkoch | **chýba** — Mapa ukazuje zhody, ale nedáva „o tomto sa porozprávajte" |
 
 ## Odporúčanie: 4 režimy pre používateľa + 2 výstupy
-Sedem režimov je pre používateľa veľa. Navrhujem:
+> **ROZHODNUTÉ 2026-10-06:** iba Hĺbka + režim Spolu (swipe spolu na jednom telefóne → listovanie otázkami bez odpovedí). Návrh nižšie je prekonaný.
+
+Sedem režimov je pre používateľa veľa. Pôvodne som navrhoval:
 
 **Režimy vypĺňania**
 1. **Kartičky** — téma + 1 veta popisu + 1 otvorená otázka, tlačidlá Ďalej / Zastaviť sa / Uložiť. Bez ukladania odpovedí. (Napojiť na existujúce kartičky, nie nová appka.)
