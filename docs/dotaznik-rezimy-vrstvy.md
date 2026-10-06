@@ -44,3 +44,17 @@ Technicky: rozšíriť `TemaObsah` v `typ.ts` o `karta?` a `kompas?` a `OtazkaBl
 1. Súhlasíš so zúžením na 4 režimy + 2 výstupy, alebo chceš všetkých 7?
 2. Kompas ako povinný prvý krok (hĺbka sa odomkne až po zhode), alebo voliteľný?
 3. Kartičky: napojiť na existujúci produkt kartičiek, alebo samostatne v dotazníku?
+
+## Inšpirácia — top svetové riešenia (rešerš 2026-10-06)
+| Riešenie | Čo robí dobre | Čo si zobrať |
+|---|---|---|
+| [Gottman Salsa Card Deck](https://www.gottman.com/product/salsa-card-deck/) | 3 balíčky Mild / Medium / Hot — od dotyku a obdivu po nové polohy a roleplay | úrovne „pikantnosti" pri kartičkách |
+| [We're Not Really Strangers](https://en.wikipedia.org/wiki/We%27re_Not_Really_Strangers) | 3 úrovne Perception → Connection → Reflection; hĺbka rastie postupne | režimy ako **cesta**, nie menu |
+| [Mojo Upgrade](https://emira.io/articles/what-is-mojo-upgrade) | ~200 položiek, Nah / If partner wants / Yep, ukáže len zhody | kompas + double-blind |
+| [Kindu](https://ikanabusinessreview.com/2025/10/kindu-app-review-ideas-and-games-to-boost-connection/) | „Tinder fantázií" — swipe, zhoda sa ukáže len keď chcú obaja; balíčky, % ľudí, ktorí to chcú | swipe kompas, „X % párov to láka" (búranie hanby) |
+| [Paired](https://www.whistleout.com/CellPhones/Apps/paired-app-couples-relationship-questions) | denná otázka, odpoveď partnera skrytá, kým neodpovieš aj ty | denný mikro-režim s odhalením |
+| [Desire](https://apps.apple.com/us/app/desire-couples-game/id923073855) | 6 úrovní výziev, body, odomykanie | gamifikácia (neskôr, voliteľné) |
+| [Coral](https://femtechinsider.com/coral-couples-app-launch/) | chat + hra + učenie, riadené cvičenia, mindfulness | rozhovor po výsledkoch, cvičenia |
+| [OMGYes](https://en.wikipedia.org/wiki/OMGYES) | výskum s 20 000 ženami, pomenované techniky (angling, rocking, shallowing, pairing) | hĺbkový expertný režim podložený výskumom |
+
+Poučenie: žiadna top appka nemá 7 režimov naraz — každá robí 1–2 veci výborne. Vrstvy fungujú, keď sú **postupná cesta** (WNRS, Salsa), nie ponuka na výber.
