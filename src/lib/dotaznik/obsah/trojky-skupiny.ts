@@ -644,7 +644,7 @@ export const TROJKY_SKUPINY: TemaObsah = {
       id: 'konfiguracie',
       nadpis: 'Možné dynamiky a konfigurácie',
       telo:
-        'Trojka môže mať podobu MMF (dvaja muži + žena), FMF (dve ženy + muž), alebo homogénnych skupín (MMM / FFF). ' +
+        'Trojka môže mať podobu MMF (dvaja muži + žena) alebo FMF (dve ženy + muž). ' +
         'Niekedy je stredobodom jedna osoba, inokedy sa vášeň delí rovnomerne. Rovnaké zloženie môže pôsobiť úplne inak podľa toho, kto vedie, kto pozoruje a či sa osoby rovnakého pohlavia navzájom dotýkajú.',
     },
     {
@@ -680,8 +680,6 @@ export const TROJKY_SKUPINY: TemaObsah = {
       moznosti: [
         { v: 'mmf', label: 'MMF — dvaja muži a žena' },
         { v: 'fmf', label: 'FMF — dve ženy a muž' },
-        { v: 'mmm', label: 'MMM — traja muži' },
-        { v: 'fff', label: 'FFF — tri ženy' },
         { v: 'stvorka', label: 'Štvorica alebo viac ľudí' },
         { v: 'nezalezi', label: 'Zloženie nie je rozhodujúce, dôležitá je chémia' },
       ],

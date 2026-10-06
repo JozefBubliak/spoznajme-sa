@@ -254,29 +254,20 @@ const RAMEC: Blok = {
 
 export const TABU_MANTINELY: TemaObsah = {
   slug: 'tabu-mantinely/tabu-mantinely',
-  nadpis: 'Tabu témy a mantinely',
+  nadpis: 'Tabu a osobné mantinely',
   zdielanieDovod: true,
   uvod: [
     {
-      druh: 'text', id: 'uvod', nadpis: 'Čo je absolútne nie, čo len fantázia a čo možno',
+      druh: 'text', id: 'uvod', nadpis: 'Doplnkové miesto na hranice',
       telo:
-        'Každý má iné tabu. Niekoho vzrušuje bitie, facky alebo ponižovanie, pre iného je to nepredstaviteľné — ' +
-        'oboje je v poriadku. Táto téma je rýchla mapa naprieč všetkým: čo je pre mňa jasné nie, ' +
-        'čo je len fantázia, čo možno za podmienok a čo áno.',
+        'Väčšina konkrétnych tém, túžob a hraníc je už rozobratá v samostatných častiach dotazníka. ' +
+        'Táto záverečná časť slúži len na doplnenie toho, čo sa nikde inde neobjavilo alebo čo chceš povedať vlastnými slovami.',
     },
   ],
   telo: [
-    HRANIE,
-    MAPA,
-    SOMNO_INTOX,
-    RAMEC,
-  ],
-  zaver: [
-    {
-      druh: 'text', id: 'zaver',
-      telo:
-        'Dynamika a intenzita sú kľúčom k nezabudnuteľným zážitkom — či ide o temno, rýchlosť, kontrolu alebo tabu. ' +
-        'Výsledky zohľadnia len zhody. Čo niekto označí ako NIKDY, sa partnerovi nezobrazí.',
-    },
+    { druh: 'otazka', id: 'tabu_doplnit', typ: 'text', text: 'Je ešte niečo, čo v dotazníku chýbalo a chcem k tomu povedať svoj postoj?' },
+    { druh: 'otazka', id: 'tabu_nikdy', typ: 'text', text: 'Moje dodatočné jasné NIE, ak sa neobjavilo inde:' },
+    { druh: 'otazka', id: 'tabu_fantazia', typ: 'text', text: 'Niečo, čo má zostať iba fantáziou alebo slovnou hrou:' },
+    { druh: 'otazka', id: 'tabu_podmienky', typ: 'text', text: 'Niečo, čo by bolo možné len za konkrétnych podmienok:' },
   ],
 }
