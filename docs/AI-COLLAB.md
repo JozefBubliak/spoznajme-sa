@@ -30,6 +30,8 @@
 
 8. **Rozhodnutie používateľa 2026-10-06 — režimy:** iba (a) **Hĺbka** ako dnes a (b) **Spolu**: pár spolu na jednom telefóne swipne tému (chceme / nie) a potom listuje otázkami bez odpovedí, rozprávajú sa naživo. Route `/[lang]/dotaznik/spolu`. Každá téma má dostať pole `rozhovor: { popis, otazky[] }` v `TemaObsah` (typ.ts) — 1–2 vety popisu na kartu + 5–12 otvorených otázok, **v 2. osobe množného čísla („vy")**, preto bez m/ž a bez lomítok. Pokrýva aj postoj k túžbe toho druhého. Vzor: `trans-partnerka.ts`. Témy bez `rozhovor` zatiaľ berú otázky zo `sprievodca.ts`.
 
+9. **Odpovede musia významovo sedieť k otázke.** Akčná škála („už to robíme / túžim / ak chce partner / možno / nie") len pre otázky o aktivite („chcem, aby sme…"). Pocity a stavy (dôvera, bezpečie, blízkosť, hanba) majú vlastné odpovede o prežívaní — napr. „úplne bezpečne / láka ma, ale cítim zraniteľnosť / je to ťažké / je to blok". Nikdy nenaťahovať jednu škálu na všetko. Vzor: `dlhodoba-intimita.ts` blok BLIZKOST (2026-10-07).
+
 **Zoznam medzier na doplnenie:** `docs/dotaznik-gap-analyza.md` (33 chýba, 38 len zmienka, systémové medzery, poradie).
 
 **Trvalé globálne zdrojové radary:** `docs/dotaznik-sdc-audit-2026-10.md` obsahuje úplný snapshot 289 hesiel zo SDC a mapu cleanup/reclaiming zdrojov; `docs/dotaznik-kink-academy-audit-2026-10.md` obsahuje úplný snapshot 309 hesiel The Kink Academy. Pri každej BDSM, fetišovej, CNM alebo mocenskej téme ich použiť na kontrolu podtypov, motivácií a rolí. Nie sú dôkazom prevalencie ani pokynom slepo vytvoriť stovky otázok; každé heslo najprv významovo porovnať s existujúcim obsahom a odbornými zdrojmi.

@@ -12,12 +12,14 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string): TemaObsah['nadpis'] => ({ m, z })
 
+// Akčná škála — iba pre otázky typu „chcem, aby sme…" / konkrétna aktivita.
+// Na pocity (dôvera, bezpečie) má každá otázka vlastné odpovede.
 const POSTOJ: Moznost[] = [
-  { v: 'robime', label: 'Už na tom pracujeme a som spokojný/á' },
-  { v: 'tuzim', label: 'Túžim, aby sme na tom pracovali viac' },
-  { v: 'ak_chce', label: 'Rád/rada to urobím, ak po tom druhý túži' },
+  { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
+  { v: 'tuzim', label: 'Túžim po tom viac' },
+  { v: 'ak_chce', label: g('Rád, ak po tom túži partnerka', 'Rada, ak po tom túži partner') },
   { v: 'mozno', label: 'Možno, za istých okolností' },
-  { v: 'nie', label: 'Nie, necítim sa na to pripravený/á' },
+  { v: 'nie', label: 'Nie, neláka ma to' },
 ]
 const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
   druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ, inePovolene: true,
@@ -33,13 +35,57 @@ const BLIZKOST: Blok = {
   druh: 'skupina', id: 'blizkost', nadpis: 'Emocionálna blízkosť a antirutina',
   bloky: [
     {
-      druh: 'text', id: 'bliz_info',
-      telo: 'Prepojenie na emocionálnej úrovni je základom silného vzťahu. Spoločné zdieľanie myšlienok, pocitov a túžob pomáha lepšie porozumieť partnerovi a vytvára priestor pre otvorenosť.',
+      druh: 'otazka', id: 'bliz_teraz', typ: 'jeden',
+      text: g('Ako blízko sa dnes cítim k partnerke', 'Ako blízko sa dnes cítim k partnerovi'),
+      moznosti: [
+        { v: 'velmi', label: g('Veľmi blízko — cítim sa videný a počutý', 'Veľmi blízko — cítim sa videná a počutá') },
+        { v: 'vacsinou', label: 'Väčšinou blízko, občas sa míňame' },
+        { v: 'vedla_seba', label: 'Skôr žijeme vedľa seba ako spolu' },
+        { v: 'daleko', label: 'Cítim sa vzdialene' },
+      ],
     },
-    p('bliz_zamerat', 'Chceme sa viac zamerať na prehlbovanie emocionálnej blízkosti'),
-    p('bliz_antirutina', 'Chceme prelomiť monotónnosť skúšaním niečoho nového'),
-    p('bliz_hra_otazok', 'Skúmať túžby spolu pomocou otázok alebo hier'),
-    p('bliz_dovera', 'Cítim, že si môžeme dôverovať pri rozprávaní o fantáziách'),
+    p('bliz_zamerat', g('Chcel by som, aby sme sa viac venovali emocionálnej blízkosti', 'Chcela by som, aby sme sa viac venovali emocionálnej blízkosti')),
+    p('bliz_antirutina', g('Chcel by som prelomiť stereotyp a skúšať spolu nové veci', 'Chcela by som prelomiť stereotyp a skúšať spolu nové veci')),
+    p('bliz_hra_otazok', 'Spoznávať naše túžby cez otázky alebo hry'),
+    {
+      druh: 'otazka', id: 'bliz_dovera', typ: 'jeden',
+      text: g(
+        'Ako sa cítim pri predstave, že by som partnerke povedal svoje najtajnejšie fantázie',
+        'Ako sa cítim pri predstave, že by som partnerovi povedala svoje najtajnejšie fantázie',
+      ),
+      moznosti: [
+        { v: 'bezpecne', label: 'Úplne bezpečne — nemám problém o nich hovoriť' },
+        { v: 'zranitelnost', label: 'Láka ma to, ale cítim zraniteľnosť alebo rešpekt' },
+        { v: 'tazke', label: 'Je to pre mňa ťažké — potrebujem čas a veľa uistenia' },
+        { v: 'blok', label: 'Zatiaľ sa na to necítim vôbec — je to blok' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'bliz_dovera_brzda', typ: 'viac', inePovolene: true,
+      text: 'Čo mi pri tom najviac bráni',
+      podmienka: { ot: 'bliz_dovera', jeNiektora: ['zranitelnost', 'tazke', 'blok'] },
+      moznosti: [
+        { v: 'odsudenie', label: 'Strach, že ma odsúdi alebo sa mi vysmeje' },
+        { v: 'zmena', label: 'Strach, že ma potom bude vnímať inak' },
+        { v: 'tlak', label: 'Obava, že sa z fantázie hneď stane povinnosť' },
+        { v: 'hanba', label: g('Hanbím sa sám pred sebou', 'Hanbím sa sama pred sebou') },
+        { v: 'skusenost', label: 'Zlá skúsenosť z minulosti' },
+        { v: 'slova', label: 'Neviem to povedať slovami' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'bliz_fantazie_zvyk', typ: 'jeden',
+      text: g(
+        'Chcel by som, aby sme si začali otvorenejšie hovoriť o našich fantáziách',
+        'Chcela by som, aby sme si začali otvorenejšie hovoriť o našich fantáziách',
+      ),
+      moznosti: [
+        { v: 'tuzim', label: 'Veľmi po tom túžim — chcem to začať' },
+        { v: 'postupne', label: g('Som otvorený, ak do toho pôjdeme postupne spolu', 'Som otvorená, ak do toho pôjdeme postupne spolu') },
+        { v: 'stacit', label: g('Som spokojný s tým, koľko si hovoríme teraz', 'Som spokojná s tým, koľko si hovoríme teraz') },
+        { v: 'odvaha', label: 'Teraz na to necítim odvahu ani priestor' },
+      ],
+    },
   ],
 }
 
@@ -50,7 +96,7 @@ const RITUALY: Blok = {
     p('rit_pridat', 'Chcem, aby sme pridali viac každodenných gest lásky'),
     {
       druh: 'otazka', id: 'rit_ktore', typ: 'viac', inePovolene: true,
-      text: 'Ktoré gestá by som chcel(a)',
+      text: g('Ktoré gestá by som chcel', 'Ktoré gestá by som chcela'),
       moznosti: [
         { v: 'objatie', label: 'Objatie „na 6 sekúnd"' },
         { v: 'ruky', label: 'Držanie rúk počas prechádzky' },
@@ -209,7 +255,7 @@ const VZDELAVANIE: Blok = {
       druh: 'otazka', id: 'vzd_zaujem', typ: 'jeden',
       text: 'Záujem o spoločné vzdelávanie sa o intímnych témach (nie erotický obsah, ale poznatky/zručnosti)',
       moznosti: [
-        { v: 'ano', label: 'Áno, rád(a) sa učím nové veci' },
+        { v: 'ano', label: g('Áno, rád sa učím nové veci', 'Áno, rada sa učím nové veci') },
         { v: 'mozno', label: 'Možno, ak by to bolo zábavné a nenútené' },
         { v: 'nie', label: 'Nie, preferujem vlastné experimentovanie' },
       ],
@@ -369,7 +415,7 @@ const INICIATIVA: Blok = {
       druh: 'otazka', id: 'ini_dynamika', typ: 'jeden',
       text: 'Ako vnímam dynamiku iniciatívy',
       moznosti: [
-        { v: 'iniciujem', label: 'Rád/rada iniciujem (milujem pocit, že vediem)' },
+        { v: 'iniciujem', label: g('Rád iniciujem — milujem pocit, že vediem', 'Rada iniciujem — milujem pocit, že vediem') },
         { v: 'od_partnera', label: 'Preferujem, keď vychádza od partnera (užívam si byť zvádzaný/á)' },
         { v: 'rovnovaha', label: 'Uprednostňujem rovnováhu — striedať sa' },
         { v: 'obom', label: 'Otvorený/á obom (podľa nálady a situácie)' },
@@ -457,7 +503,7 @@ const FANTAZIE: Blok = {
     },
     {
       druh: 'otazka', id: 'fan_prenos', typ: 'jeden',
-      text: 'Ako by som rád(a) prenášal(a) fantázie do reality',
+      text: g('Ako by som rád prenášal fantázie do reality', 'Ako by som rada prenášala fantázie do reality'),
       moznosti: [
         { v: 'planovanie', label: 'Cez spoločnú diskusiu a plánovanie' },
         { v: 'spontanne', label: 'Spontánnym experimentovaním počas intimity' },
@@ -466,7 +512,7 @@ const FANTAZIE: Blok = {
     },
     {
       druh: 'otazka', id: 'fan_prve', typ: 'viac', inePovolene: true,
-      text: 'Čo by som chcel(a) uskutočniť najskôr',
+      text: g('Čo by som chcel uskutočniť najskôr', 'Čo by som chcela uskutočniť najskôr'),
       moznosti: [
         { v: 'roleplay', label: 'Roleplay alebo tematické scénky' },
         { v: 'voda', label: 'Intímne hry s vodou (sprcha, vaňa)' },
@@ -476,7 +522,7 @@ const FANTAZIE: Blok = {
     },
     {
       druh: 'otazka', id: 'fan_zaciatok', typ: 'jeden',
-      text: 'Ako by som začal(a) s realizáciou',
+      text: g('Ako by som začal s realizáciou', 'Ako by som začala s realizáciou'),
       moznosti: [
         { v: 'male_kroky', label: 'Malými krokmi a postupným budovaním dôvery' },
         { v: 'spontanne', label: 'Spontánne, podľa nálady' },
@@ -563,12 +609,12 @@ const PROGRAM: Blok = {
 const HRANICE: Blok = {
   druh: 'skupina', id: 'hranice', nadpis: 'Hranice a psychická bezpečnosť',
   bloky: [
-    p('hr_zvedavost', 'Zodpovedná zvedavosť — prekonávať zábrany s dôverou a signálmi'),
+    p('hr_zvedavost', 'Prekonávať zábrany a skúšať veci, ktoré sú pre mňa nové'),
     { druh: 'otazka', id: 'hr_ano', typ: 'text', text: 'ÁNO — čo chcem:' },
     { druh: 'otazka', id: 'hr_mozno', typ: 'text', text: 'MOŽNO — za akých podmienok:' },
     { druh: 'otazka', id: 'hr_nikdy', typ: 'text', text: 'NIKDY — tvrdé limity:' },
     { druh: 'otazka', id: 'hr_debrief', typ: 'text', text: 'Náš debrief „2+2" (2 veci super, 2 upraviť) — ako a kedy:' },
-    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo chcem, aby partner/ka vedel(a) (1–3 vety):' },
+    { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: g('Čo chcem, aby partnerka vedela (1–3 vety):', 'Čo chcem, aby partner vedel (1–3 vety):') },
   ],
 }
 
@@ -578,16 +624,20 @@ export const DLHODOBA_INTIMITA: TemaObsah = {
   zdielanieDovod: true,
   uvod: [
     {
-      druh: 'text', id: 'co_je', nadpis: 'Čo je dlhodobá intimita',
-      telo:
-        'Viac než len fyzický dotyk — spôsob, ako sa cítite spojení, emocionálne prepojení a bezpeční. ' +
-        '„Cítime sa videní a počutí." Oplatí sa pestovať blízkosť aj mimo samotného sexu.',
+      druh: 'text', id: 'co_je', nadpis: 'Po rokoch spolu',
+      telo: g(
+        'Na začiatku vzťahu ide túžba sama. Po rokoch ju prekryje práca, deti, únava a stereotyp — a sex sa stane niečím, „na čo sa nedostaneme". ' +
+          'Táto téma sa pýta, ako sa dnes cítiš pri partnerke, čo ti chýba a čo by ste mohli robiť inak — v posteli aj mimo nej.',
+        'Na začiatku vzťahu ide túžba sama. Po rokoch ju prekryje práca, deti, únava a stereotyp — a sex sa stane niečím, „na čo sa nedostaneme". ' +
+          'Táto téma sa pýta, ako sa dnes cítiš pri partnerovi, čo ti chýba a čo by ste mohli robiť inak — v posteli aj mimo nej.',
+      ),
     },
     {
-      druh: 'text', id: 'antirutina', nadpis: 'Antirutinné princípy', ton: 'info',
+      druh: 'text', id: 'antirutina', nadpis: 'Čo hovorí výskum', ton: 'info',
       telo:
-        'Malé zmeny, nové zážitky, striedanie prostredí. Cieľ je zabrániť „autopilotu" a vracať pocit novoty. ' +
-        'Balans medzi spontánnosťou a plánovaním; pravidelná komunikácia o potrebách a túžbach.',
+        'Páry, ktoré spolu robia nové a vzrušujúce veci, hlásia vyššiu spokojnosť — novota vracia pocit zo začiatkov (Aron a kol., 2000). ' +
+        'V dlhom vzťahu túžba často neprichádza sama od seba, ale až keď sa začne dotyk — tzv. reaktívna túžba (Basson). To je normálne, nie znak, že niečo nie je v poriadku. ' +
+        'A viac nemusí byť lepšie: spokojnosť páry rastie zhruba po sex raz týždenne, potom sa už ďalej nezvyšuje (Muise a kol., 2016).',
     },
   ],
   telo: [
