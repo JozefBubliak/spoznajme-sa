@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT, DOLEZITOST, SCHOPNOST } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Predohra a naladenie — modul A4 „Predohra a stupňovanie".
@@ -25,7 +26,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -33,8 +34,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie, neláka ma to' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Fyzická príprava a starostlivosť ───────────────────────────────────
@@ -93,7 +94,7 @@ const PRIPRAVA: Blok = {
       ],
       inePovolene: true,
     },
-    p('pri_sebavedomie', 'Oblečenie / vlasy / detaily, ktoré mi dodávajú sebavedomie, sú pre mňa dôležité'),
+    p('pri_sebavedomie', 'Oblečenie / vlasy / detaily, ktoré mi dodávajú sebavedomie, sú pre mňa dôležité', DOLEZITOST),
     {
       druh: 'otazka', id: 'pri_doplnky', typ: 'viac',
       text: 'Doplnky, ktoré mi pri intímnych chvíľach pridávajú na sebavedomí',
@@ -177,9 +178,9 @@ const MENTALNA_PRIPRAVA: Blok = {
         { v: 'prijatie', label: 'Pocit, že nemusím podávať výkon ani vyzerať dokonale' },
       ],
     },
-    p('men_hanba', g('Dokážem si všimnúť myšlienku „nie som dosť dobrý" a nenechať ju rozhodovať za mňa', 'Dokážem si všimnúť myšlienku „nie som dosť dobrá" a nenechať ju rozhodovať za mňa')),
+    p('men_hanba', g('Dokážem si všimnúť myšlienku „nie som dosť dobrý" a nenechať ju rozhodovať za mňa', 'Dokážem si všimnúť myšlienku „nie som dosť dobrá" a nenechať ju rozhodovať za mňa'), SCHOPNOST),
     p('men_partner_tuzi', g('Vzrušuje ma, keď partnerka potrebuje dlhšie mentálne naladenie a dovolí mi ho s ňou budovať', 'Vzrušuje ma, keď partner potrebuje dlhšie mentálne naladenie a dovolí mi ho s ním budovať')),
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'men_myty', nadpis: 'Mýty, ktoré túžbu zbytočne brzdia', ton: 'info',
       telo:
         'Mýtus: skutočná túžba musí prísť sama a okamžite. Realita: u mnohých ľudí sa prebúdza až z blízkosti, predstavivosti, ' +
@@ -211,7 +212,7 @@ const SIGNALY: Blok = {
       ],
       inePovolene: true,
     },
-    {
+    { doplnenieId: 'sig_reakcia_ine', inePovolene: true,
       druh: 'otazka',
       id: 'sig_reakcia',
       typ: 'jeden',
@@ -224,26 +225,16 @@ const SIGNALY: Blok = {
         { v: 'nepreferujem', label: 'Tieto prejavy nepreferujem' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'sig_reakcia_ine',
-      typ: 'text',
-      text: 'Moja reakcia na nepriame gestá — vlastná odpoveď alebo doplnenie (voliteľné):',
-    },
-    { druh: 'otazka', id: 'sig_frekvencia', typ: 'jeden', text: 'Ako často by som chcel(a) takéto gestá zažívať',
+
+    { doplnenieId: 'sig_frekvencia_ine', inePovolene: true, druh: 'otazka', id: 'sig_frekvencia', typ: 'jeden', text: 'Ako často by som chcel(a) takéto gestá zažívať',
       moznosti: [
         { v: 'denne', label: 'Denne, ako súčasť každodenného života' },
         { v: 'obcas', label: 'Občas, podľa situácie' },
         { v: 'zriedka', label: 'Zriedka — uprednostňujem iné formy náklonnosti' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'sig_frekvencia_ine',
-      typ: 'text',
-      text: 'Želaná frekvencia gest — vlastná odpoveď alebo doplnenie (voliteľné):',
-    },
-    {
+
+    { doplnenieId: 'sig_ocny_kontakt_ine', inePovolene: true,
       druh: 'otazka', id: 'sig_ocny_kontakt', typ: 'jeden',
       text: 'Význam očného kontaktu počas intímnych chvíľ',
       moznosti: [
@@ -252,12 +243,7 @@ const SIGNALY: Blok = {
         { v: 'nie', label: 'Nie, radšej mám oči zatvorené' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'sig_ocny_kontakt_ine',
-      typ: 'text',
-      text: 'Očný kontakt — vlastná odpoveď alebo doplnenie (voliteľné):',
-    },
+
     {
       druh: 'otazka',
       id: 'sig_pozvanie_formy',
@@ -293,7 +279,7 @@ const SEXTING: Blok = {
       id: 'sexting_intro',
       telo: 'Komunikácia počas dňa môže prepájať fantáziu s blízkosťou: hravá správa o spoločných predstavách, krátka hlasovka, nenápadný pohľad či jemný dotyk môžu budovať očakávanie pred stretnutím. Večer sa dá nadviazať rovnakou vetou, vôňou, hudbou alebo gestom.',
     },
-    {
+    { doplnenieId: 'sex_zaujem_ine', inePovolene: true,
       druh: 'otazka', id: 'sex_zaujem', typ: 'jeden',
       text: 'Záujem o výmenu erotických správ počas dňa',
       moznosti: [
@@ -302,13 +288,8 @@ const SEXTING: Blok = {
         { v: 'nie', label: 'Nie, preferujem osobný kontakt' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'sex_zaujem_ine',
-      typ: 'text',
-      text: 'Môj záujem o správy — vlastná odpoveď alebo doplnenie (voliteľné):',
-    },
-    {
+
+    { doplnenieId: 'sex_intenzita_ine', inePovolene: true,
       druh: 'otazka', id: 'sex_intenzita', typ: 'jeden',
       text: 'Preferovaná intenzita správ',
       moznosti: [
@@ -316,12 +297,7 @@ const SEXTING: Blok = {
         { v: 'priame', label: 'Priame a detailné popisy fantázií' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'sex_intenzita_ine',
-      typ: 'text',
-      text: 'Intenzita správ — vlastná odpoveď alebo doplnenie (voliteľné):',
-    },
+
     {
       druh: 'otazka',
       id: 'sex_formy_pouzivam',
@@ -366,7 +342,7 @@ const SEXTING: Blok = {
         { v: 'nie', label: 'Táto forma ma eroticky neláka' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'sex_myty', nadpis: 'Mýty o erotických správach', ton: 'info',
       telo:
         'Erotická komunikácia nemusí znamenať fotografie ani explicitné opisy. Pre mnoho párov je silnejšia jedna osobná veta, ' +
@@ -491,7 +467,7 @@ const DLZKA_TEMPO: Blok = {
       ],
       inePovolene: true,
     },
-    {
+    { zbalitelny: true,
       druh: 'text',
       id: 'dt_tipy_zdrzovanie',
       nadpis: 'Tipy na vyskúšanie',
@@ -614,7 +590,7 @@ const TELO_NA_TELO: Blok = {
         { v: 'ano', label: 'Áno, prirodzene' },
         { v: 'niekedy', label: 'Niekedy, závisí od nálady' },
         { v: 'nie', label: 'Nie, objatie a sex sú pre mňa oddelené' },
-      ],
+      { v: 'dlhe_naladenie', label: 'Dlhšie objatie mi pomáha uvoľniť sa a postupne sa naladiť' },],
     },
     { druh: 'otazka', id: 'tnt_flow', typ: 'text', text: 'Môj ideálny sled krokov „cuddle → bozk → dotyk → …" (kde začať, kedy eskalovať):' },
   ],
@@ -629,7 +605,7 @@ const MASAZ: Blok = {
       telo:
         'Masáž môže byť pokojný prechod z bežného dňa, zmyslová predohra aj intenzívny erotický zážitok. Dlhé ťahy uvoľňujú, presný tlak prebúdza citlivé body a zmena teploty či textúry dáva známemu dotyku nový charakter.',
     },
-    {
+    { doplnenieId: 'mas_postoj_ine', inePovolene: true,
       druh: 'otazka', id: 'mas_postoj', typ: 'jeden',
       text: 'Ako vnímam masáž ako súčasť predohry',
       moznosti: [
@@ -639,7 +615,7 @@ const MASAZ: Blok = {
         { v: 'nie', label: 'Masáž ma eroticky veľmi neláka' },
       ],
     },
-    { druh: 'otazka', id: 'mas_postoj_ine', typ: 'text', text: 'Masáž v predohre — vlastná odpoveď (voliteľné):' },
+
     {
       druh: 'otazka', id: 'mas_typ', typ: 'viac', inePovolene: true,
       text: 'Aké formy masáže by ma oslovili? (Vyber všetky.)',
@@ -734,13 +710,13 @@ const MASAZ: Blok = {
         { v: 'ja_prijimam', label: 'Radšej prijímam ja' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'mas_experiment', nadpis: 'Experiment: dotyková cesta', ton: 'info',
       telo:
         'Jeden leží so zatvorenými očami a druhý prejde po tele vopred zvoleným poradím: holá dlaň, olej, pierko alebo hodváb, jemný tlak a potom intenzívnejšie hnetenie. ' +
         'Po každom úseku stačí pomenovať pocit ako príjemný, neutrálny alebo rušivý a na konci vybrať tri najvzrušujúcejšie kombinácie.',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'mas_myty', nadpis: 'Mýty o masáži', ton: 'info',
       telo:
         'Mýtus: erotická masáž musí vždy smerovať k penetrácii alebo orgazmu. Realita: môže zostať celotelovým zážitkom a byť hlavným aktom sama osebe. ' +
@@ -765,12 +741,12 @@ const HRAVE_HRY: Blok = {
     {
       druh: 'otazka', id: 'hra_len_ruky', typ: 'jeden',
       text: '„Len ruky" (bez bozkov, bez úst) ako samostatná hra',
-      moznosti: POSTOJ,
+      moznosti: CHUT, predosleMoznosti: POVODNY_POSTOJ,
     },
     {
       druh: 'otazka', id: 'hra_len_usta', typ: 'jeden',
       text: '„Len ústa" (bez rúk) ako samostatná hra',
-      moznosti: POSTOJ,
+      moznosti: CHUT, predosleMoznosti: POVODNY_POSTOJ,
     },
     {
       druh: 'otazka', id: 'hra_zakazana_zona', typ: 'jeden',
@@ -857,7 +833,7 @@ const TEASING_DEN: Blok = {
         { v: 'bozk_krk', label: 'Bozk na krk' },
       ],
     },
-    p('tea_nebrat_osobne', 'Keď na teaser rituál nereagujem, chcem, aby partner/ka to nebral(a) osobne'),
+    p('tea_nebrat_osobne', 'Keď na teaser rituál nereagujem, chcem, aby partner/ka to nebral(a) osobne', DOLEZITOST),
   ],
 }
 
@@ -925,7 +901,17 @@ const KONFLIKT: Blok = {
         { v: 'nie', label: 'Nie, po hádke nie som naladený/á' },
       ],
     },
-    p('kon_prepnutie', 'Vedomé prepnutie režimu — dohodnutý spôsob, ako z hádky prejsť späť k blízkosti'),
+    {
+          druh: 'otazka', id: 'kon_prepnutie', typ: 'jeden',
+          text: 'Ako mi vyhovuje dohodnutý signál alebo rituál návratu k blízkosti po hádke?',
+          predosleMoznosti: POVODNY_POSTOJ,
+          moznosti: [
+            { v: 'pomohol', label: 'Pomohol by mi' },
+            { v: 'otvoreny', label: g('Som tomu otvorený', 'Som tomu otvorená') },
+            { v: 'nepotrebujem', label: 'Nepotrebujem ho, vieme prejsť plynule' },
+            { v: 'umele', label: 'Znie mi to príliš umelo' },
+          ],
+        },
     {
       druh: 'otazka', id: 'kon_po_konflikte', typ: 'viac', inePovolene: true,
       text: 'Čo mi po konflikte pomáha prepnúť späť k blízkosti',
@@ -939,8 +925,8 @@ const KONFLIKT: Blok = {
         { v: 'odstup', label: 'Najprv čas a priestor pre seba' },
       ],
     },
-    {
-      druh: 'otazka', id: 'kon_zdravotne', typ: 'jeden',
+    { povodnyJeden: true, inePovolene: true,
+      druh: 'otazka', id: 'kon_zdravotne', typ: 'viac',
       text: 'Predohra pri zdravotnom obmedzení / únave — čo pomáha',
       moznosti: [
         { v: 'jemnejsie', label: 'Jemnejšie techniky, nižšie tempo' },
@@ -960,6 +946,15 @@ const KONFLIKT: Blok = {
       ],
     },
     {
+          druh: 'otazka', id: 'kon_kontext', typ: 'viac', vylucneMoznosti: ['ziadne'],
+          text: 'Ktoré ďalšie kontexty predohry chcem preskúmať?',
+          moznosti: [
+            { v: 'novy', label: 'Začiatok s novým človekom' },
+            { v: 'viac', label: 'Intimita s viacerými ľuďmi' },
+            { v: 'ziadne', label: 'Žiadne — zostávam pri nás dvoch' },
+          ],
+        },
+        { podmienka: { ot: 'kon_kontext', obsahuje: 'novy' },
       druh: 'otazka', id: 'kon_novy_partner', typ: 'jeden',
       text: 'S novým partnerom/partnerkou mi pri predohre najviac vyhovuje',
       moznosti: [
@@ -970,7 +965,7 @@ const KONFLIKT: Blok = {
         { v: 'spontanne', label: 'Spontánnosť bez pevného scenára' },
       ],
     },
-    {
+    { podmienka: { ot: 'kon_kontext', obsahuje: 'viac' },
       druh: 'otazka', id: 'kon_viac_partnerov', typ: 'viac', inePovolene: true,
       text: 'Pri intimite s viacerými partnermi mi pomáha',
       moznosti: [
@@ -982,7 +977,15 @@ const KONFLIKT: Blok = {
         { v: 'pozorovanie', label: 'Chvíľu iba pozorovať a potom sa zapojiť' },
       ],
     },
-    { druh: 'otazka', id: 'kon_kratky_ritual', typ: 'text', text: 'Pri únave — môj ideálny krátky rituál (5–20 min), ktorý stále môže byť sexi:' },
+    { povodnyText: true, inePovolene: true, moznosti: [
+    { v: 'objatie', label: 'Objatie a ležanie blízko seba' },
+    { v: 'bozky', label: 'Pomalé bozky' },
+    { v: 'masaz', label: 'Krátka masáž chrbta, rúk alebo chodidiel' },
+    { v: 'sprcha', label: 'Spoločná sprcha alebo kúpeľ' },
+    { v: 'dotyky', label: 'Dotyky bez penetrácie' },
+    { v: 'rozhovor', label: 'Rozhovor a chvíľa pozornosti' },
+    { v: 'oddych', label: 'Radšej len oddych bez intímneho rituálu' },
+  ], druh: 'otazka', id: 'kon_kratky_ritual', typ: 'viac', text: "Čo mi pri únave vyhovuje ako krátky intímny rituál?" },
     {
       druh: 'otazka', id: 'kon_reaktivny_start', typ: 'jeden',
       text: 'Keď chuť hneď nie je — aký začiatok mi sedí',
@@ -991,7 +994,14 @@ const KONFLIKT: Blok = {
         { v: 'jasne_nie', label: 'Radšej jasné „dnes nie" bez skúšania' },
       ],
     },
-    { druh: 'otazka', id: 'kon_len_blizkost', typ: 'text', text: 'Čo presne je pre mňa „blízkosť bez sexu" — čo sa deje, ako dlho, kde sa to končí:' },
+    { povodnyText: true, inePovolene: true, moznosti: [
+    { v: 'objatie', label: 'Ležanie v objatí alebo lyžičky' },
+    { v: 'ruka', label: 'Držanie za ruku, napríklad pri filme' },
+    { v: 'masaz', label: 'Masáž bez sexuálneho pokračovania' },
+    { v: 'kupel', label: 'Spoločný kúpeľ alebo sprcha' },
+    { v: 'rozhovor', label: 'Hlboký rozhovor' },
+    { v: 'maznanie', label: 'Nesexuálne hladkanie a maznanie' },
+  ], druh: 'otazka', id: 'kon_len_blizkost', typ: 'viac', text: "Čo pre mňa znamená blízkosť bez sexu?" },
     { druh: 'otazka', id: 'pozn_partnerovi', typ: 'text', text: 'Čo chcem, aby partner/ka vedel(a) (1–3 vety):' },
   ],
 }

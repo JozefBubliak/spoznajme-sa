@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Roleplay a scenáre — modul F8 „Roleplay a scenáre (bez tretej osoby)".
@@ -12,7 +13,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -20,8 +21,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie — hranica' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Tipy a mýty ────────────────────────────────────────────────────────
@@ -30,7 +31,7 @@ const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
 const TIPY: Blok = {
   druh: 'skupina', id: 'tipy', nadpis: 'Tipy a mýty',
   bloky: [
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'tipy_myty', nadpis: 'Mýty', ton: 'info',
       telo:
         'Mýtus: „Roleplay je pre hercov, ja by som sa smial(a)." — Realita: smiech k tomu patrí, uvoľní napätie a scéna sa dá kedykoľvek rozbehnúť znova. Nikto nečaká výkon.\n\n' +
@@ -38,7 +39,7 @@ const TIPY: Blok = {
         'Mýtus: „Potrebujeme kostýmy a scenár." — Realita: stačí jedna veta alebo jeden rekvizit. Kostým je bonus.\n\n' +
         'Mýtus: „Fantázia o učiteľke, šéfovi či cudzincovi je zvrátená." — Realita: patria medzi najčastejšie fantázie vôbec. Robia to milióny párov.',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'tipy_zaciatok', nadpis: 'Ako začať bez trápnosti',
       telo:
         'Začnite hlasom, nie kostýmom — napíšte si cez deň správu „v role" (cudzinec v bare, nový kolega). ' +
@@ -47,7 +48,7 @@ const TIPY: Blok = {
         'Stretnite sa „prvýkrát" v bare a zbalte sa navzájom — najjednoduchší štart vôbec. ' +
         'Kto sa hanbí, nech je najprv ten, kto „len reaguje" — vedenie nechá na druhom.',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'tipy_pribeh', nadpis: 'Vytvorte si vlastný príbeh',
       telo:
         'Napíšte si spoločne krátky scenár alebo úlohy. Môžete si ich vopred rozdeliť, alebo nechať jeden druhého hádať, ako sa situácia vyvinie. ' +
@@ -182,7 +183,7 @@ const EDGE: Blok = {
 const DYNAMIKA: Blok = {
   druh: 'skupina', id: 'dynamika', nadpis: 'Dynamika moci',
   bloky: [
-    {
+    { doplnenieId: 'dyn_volba_ine', inePovolene: true,
       druh: 'otazka', id: 'dyn_volba', typ: 'jeden',
       text: 'Akú dynamiku pri roleplay preferujem',
       moznosti: [
@@ -192,7 +193,7 @@ const DYNAMIKA: Blok = {
         { v: 'scenar', label: g('Záleží od scenára a nálady — rád striedam', 'Záleží od scenára a nálady — rada striedam') },
       ],
     },
-    { druh: 'otazka', id: 'dyn_volba_ine', typ: 'text', text: 'Vlastná odpoveď — dynamika (voliteľné):' },
+
     p('dyn_switch', 'Switch — prepínať role počas scény'),
     { druh: 'otazka', id: 'dyn_vediem_v', typ: 'text', text: 'V ktorých rolách chcem viesť:' },
     { druh: 'otazka', id: 'dyn_prijimam_v', typ: 'text', text: 'V ktorých rolách chcem prijímať:' },
@@ -240,7 +241,7 @@ const ROZSAH: Blok = {
 const KOSTYMY: Blok = {
   druh: 'skupina', id: 'kostymy', nadpis: 'Kostýmy a rekvizity',
   bloky: [
-    {
+    { doplnenieId: 'kos_zaujem_ine', inePovolene: true,
       druh: 'otazka', id: 'kos_zaujem', typ: 'jeden',
       text: 'Kostýmy a doplnky',
       moznosti: [
@@ -249,7 +250,7 @@ const KOSTYMY: Blok = {
         { v: 'nie', label: 'Nie, radšej sa sústredím na samotný zážitok' },
       ],
     },
-    { druh: 'otazka', id: 'kos_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — kostýmy (voliteľné):' },
+
     {
       druh: 'otazka', id: 'kos_ktore', typ: 'viac', inePovolene: true,
       text: 'Aká miera „cosplayu"',
@@ -428,7 +429,7 @@ const RITUALY: Blok = {
 const KOMBINACIE: Blok = {
   druh: 'skupina', id: 'kombinacie', nadpis: 'Kombinácie',
   bloky: [
-    {
+    { doplnenieId: 'komb_zaujem_ine', inePovolene: true,
       druh: 'otazka', id: 'komb_zaujem', typ: 'jeden',
       text: 'Mám záujem kombinovať roleplay s inými praktikami (bondage, pomôcky, masáže)',
       moznosti: [
@@ -437,7 +438,7 @@ const KOMBINACIE: Blok = {
         { v: 'nie', label: 'Nie, preferujem jednoduchšie hry' },
       ],
     },
-    { druh: 'otazka', id: 'komb_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — kombinácie (voliteľné):' },
+
     {
       druh: 'otazka', id: 'komb_s_cim', typ: 'viac',
       text: 'Roleplay chcem prepájať s…',
@@ -585,7 +586,7 @@ const MEDICAL_TRANSFORM: Blok = {
       ],
     },
     { druh: 'otazka', id: 'mt_slova', typ: 'text', text: 'Oslovenia, vzhľad a prvky, ktoré majú byť súčasťou tejto premeny — a ktoré by pokazili jej význam:' },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'mt_mytus', ton: 'info', nadpis: 'Mýtus verzus realita',
       telo:
         'Mýtus: gender play automaticky vypovedá o rodovej identite človeka mimo scény. Realita: niekomu pomáha skúmať identitu, inému ide iba o kostým, kontrast alebo mocenskú hru. Mýtus: medical fantasy znamená túžbu po skutočnom zákroku. Realita: často je jadrom pozornosť, autorita, vystavenie a detailné skúmanie tela.',
@@ -636,7 +637,7 @@ export const ROLEPLAY: TemaObsah = {
     },
   ],
   telo: [
-    {
+    { doplnenieId: 'skusenost_ine', inePovolene: true,
       druh: 'otazka', id: 'skusenost', typ: 'jeden',
       text: 'Ako sa cítim pri zapojení hrania rolí do intímneho života?',
       moznosti: [
@@ -649,8 +650,8 @@ export const ROLEPLAY: TemaObsah = {
         { v: 'nekomfort', label: 'Necítim sa pri tom komfortne' },
       ],
     },
-    { druh: 'otazka', id: 'skusenost_ine', typ: 'text', text: 'Vlastná odpoveď — ako sa cítim pri hraní rolí (voliteľné):' },
-    {
+
+    { doplnenieId: 'rp_zaujem_ine', inePovolene: true,
       druh: 'otazka', id: 'rp_zaujem', typ: 'jeden',
       text: 'Lákajú ma fantázie spojené s hraním rolí',
       moznosti: [
@@ -661,7 +662,7 @@ export const ROLEPLAY: TemaObsah = {
         { v: 'nie', label: 'Nie, necítim sa pri tom komfortne' },
       ],
     },
-    { druh: 'otazka', id: 'rp_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď (voliteľné):' },
+
     {
       druh: 'otazka', id: 'rp_frekvencia', typ: 'jeden',
       text: 'Ako často by som chcel(a) roleplay',

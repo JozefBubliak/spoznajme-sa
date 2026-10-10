@@ -159,5 +159,11 @@
         ]
       }
     }
+  },
+  "dotaznik": {
+    "ui": {
+      "previousAnswer": "Predošlá odpoveď",
+      "chooseNewScale": "Škála sa zmenila. Svoj postoj môžeš znovu vybrať; pôvodná odpoveď zostáva uložená."
+    }
   }
 }

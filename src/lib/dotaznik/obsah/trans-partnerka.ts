@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Trans žena — žena s penisom — modul H9. VZOR plne personalizovanej témy.
@@ -24,7 +25,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'robime', label: g('Už som to zažil a chcem znova', 'Už som to zažila a chcem znova') },
   { v: 'tuzim', label: 'Túžim to skúsiť' },
   { v: 'fantazia', label: 'Vzrušuje ma to len ako predstava' },
@@ -32,8 +33,8 @@ const POSTOJ: Moznost[] = [
   { v: 'mozno', label: 'Možno, za istých okolností' },
   { v: 'nie', label: 'Nie' },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'jeden', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'jeden', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 const M = { pohlavie: 'm' as const }
 const Z = { pohlavie: 'z' as const }
@@ -359,7 +360,7 @@ export const TRANS_PARTNERKA: TemaObsah = {
         'Asi 6 % mužov má vo svojej najobľúbenejšej fantázii, že ich penetruje trans žena alebo žena so strap-onom. ' +
         'Trans porno patrí medzi najsledovanejšie kategórie a najviac ho pozerajú heterosexuálni muži.',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'myty', nadpis: 'Mýty', ton: 'info',
       telo: g(
         'Mýtus: „Keď ma to priťahuje, som gay." — Realita: výskum ukazuje, že títo muži sú v priemere rovnako priťahovaní ženami. Priťahuje ťa žena; odborníci to opisujú ako variant heterosexuality.\n\n' +

@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Orálna intimita — modul C1 „Orál na vulvu a klitoris" (celá orál doména).
@@ -26,7 +27,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -34,8 +35,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie — neláka ma to' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Cunnilingus ────────────────────────────────────────────────────────
@@ -162,7 +163,7 @@ const CUNNILINGUS: Blok = {
         { v: 'nie', label: 'Nechcem ho zaradiť medzi naše zhody' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'cun_myty', nadpis: 'Mýty o cunnilinguse', ton: 'info',
       telo:
         'Mýtus: existuje jeden pohyb jazyka, ktorý funguje na každú ženu. Realita: rozdiel môže byť medzi priamym a nepriamym dotykom, špičkou a plochou jazyka, saním, tlakom pier, stabilným rytmom a pohybom panvy.\n\n' +
@@ -373,7 +374,7 @@ const FELACIA: Blok = {
         { v: 'nie', label: 'Neláka ma to' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'fel_myty', nadpis: 'Mýty, ktoré z felácie zbytočne robia výkon', ton: 'info',
       telo:
         'Mýtus: čím hlbšie, tým lepšie. Realita: veľmi citlivé miesta sú na žaluďi, korune a najmä pri uzdičke; presná plytká hra môže byť intenzívnejšia než hĺbka.\n\n' +

@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT, DOLEZITOST } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Digitálna a diaľková intimita — modul H8.
@@ -15,15 +16,15 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string): TemaObsah['nadpis'] => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
   { v: 'nie', label: 'Nie — hranica' },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Sexting ────────────────────────────────────────────────────────
@@ -83,7 +84,7 @@ const UKLADANIE: Blok = {
         { v: 'nezalezi', label: 'Nezáleží mi na tom' },
       ],
     },
-    p('ukl_dovera', 'Dôvera, že to partner/ka nikdy nezdieľa ďalej, je pre mňa podmienkou'),
+    p('ukl_dovera', 'Dôvera, že to partner/ka nikdy nezdieľa ďalej, je pre mňa podmienkou', DOLEZITOST),
     {
       druh: 'text', id: 'ukl_riziko', ton: 'vystraha',
       telo: '„Revenge" riziko (zdieľanie po rozchode) je reálne — čím citlivejší materiál, tým dôležitejšia dôvera a jasná dohoda vopred.',
@@ -111,7 +112,7 @@ const PORNO: Blok = {
         { v: 'nie', label: 'Nie, neláka ma to' },
       ],
     },
-    {
+    { doplnenieId: 'por_pocit_predstava_ine', inePovolene: true,
       druh: 'otazka',
       id: 'por_pocit_predstava',
       typ: 'jeden',
@@ -128,12 +129,7 @@ const PORNO: Blok = {
         },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'por_pocit_predstava_ine',
-      typ: 'text',
-      text: 'Pocity pri predstave sledovania — vlastná odpoveď (voliteľné):',
-    },
+
     {
       druh: 'otazka',
       id: 'por_typ',
@@ -149,7 +145,7 @@ const PORNO: Blok = {
       ],
       inePovolene: true,
     },
-    {
+    { doplnenieId: 'por_ocakavanie_ine', inePovolene: true,
       druh: 'otazka', id: 'por_ocakavanie', typ: 'jeden',
       text: 'Čo od spoločného sledovania očakávam',
       moznosti: [
@@ -159,13 +155,8 @@ const PORNO: Blok = {
         { v: 'len_zvedavost', label: 'Len zvedavosť, nie súčasť intímneho života' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'por_ocakavanie_ine',
-      typ: 'text',
-      text: 'Očakávania od spoločného sledovania — vlastná odpoveď (voliteľné):',
-    },
-    {
+
+    { doplnenieId: 'por_hranice_jasnost_ine', inePovolene: true,
       druh: 'otazka',
       id: 'por_hranice_jasnost',
       typ: 'jeden',
@@ -179,12 +170,7 @@ const PORNO: Blok = {
         { v: 'nezaujem', label: 'Nemám záujem sledovať erotické filmy' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'por_hranice_jasnost_ine',
-      typ: 'text',
-      text: 'Moje hranice pri obsahu — vlastná odpoveď (voliteľné):',
-    },
+
     {
       druh: 'otazka',
       id: 'por_priebeh',
@@ -330,7 +316,7 @@ const MEDIA_FORMY: Blok = {
         { v: 'nic', label: 'Samotné médium za neveru nepovažujem; rozhoduje dohoda a utajovanie' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'med_myty', ton: 'info', nadpis: 'Mýty verzus realita',
       telo:
         'Mýtus: to, čo človek pozerá alebo číta, chce automaticky urobiť. Realita: médiá často slúžia práve na bezpečný priestor pre fantáziu bez želania preniesť ju do života. Mýtus: spoločné porno musí pár porovnávať. Realita: pre mnoho párov je skôr slovníkom — ukáže tempo, dynamiku alebo atmosféru, o ktorej sa ťažko začína hovoriť.',

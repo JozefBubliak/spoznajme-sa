@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT as POSTOJ_CHUT, UCINOK } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Zmyslová hra — modul B4 „Zmyslová hra".
@@ -13,7 +14,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -21,8 +22,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie — hranica' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = POSTOJ_CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Zrak ─────────────────────────────────────────────────────────────
@@ -53,7 +54,7 @@ const ZRAK: Blok = {
         { v: 'zatvorene_oci', label: 'Radšej zatvorené oči — sústredím sa na pocity, nie na pohľad' },
       ],
     },
-    p('zra_odopretie', 'Odopretie zraku (tma, páska) mi pomáha uvoľniť sa a viac cítiť'),
+    p('zra_odopretie', 'Odopretie zraku (tma, páska) mi pomáha uvoľniť sa a viac cítiť', UCINOK),
   ],
 }
 
@@ -78,7 +79,7 @@ const SLUCH: Blok = {
       id: 'slu_hudba_info',
       telo: 'Hudba môže dotvoriť atmosféru a rytmus blízkosti: niekomu sedí jazz, inému klavír, rytmické skladby alebo ambientné zvuky. Rovnako platná je voľba ticha.',
     },
-    {
+    { doplnenieId: 'slu_hudobny_zaner_ine', inePovolene: true,
       druh: 'otazka',
       id: 'slu_hudobny_zaner',
       typ: 'jeden',
@@ -91,18 +92,13 @@ const SLUCH: Blok = {
         { v: 'ziadna', label: 'Nepreferujem hudbu počas intimity' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'slu_hudobny_zaner_ine',
-      typ: 'text',
-      text: 'Hudobný podklad — vlastná odpoveď (voliteľné):',
-    },
+
     {
       druh: 'text',
       id: 'slu_hlas_info',
       telo: 'Šepkanie, príkazy či zákazy môžu byť súčasťou hry s vedením. Niekomu vyhovuje autoritatívny tón, inému jemné vedenie, vulgárne slová alebo úplné ticho.',
     },
-    {
+    { doplnenieId: 'slu_verbalne_prikazy_ine', inePovolene: true,
       druh: 'otazka',
       id: 'slu_verbalne_prikazy',
       typ: 'jeden',
@@ -117,13 +113,8 @@ const SLUCH: Blok = {
         { v: 'nie', label: 'Nie, necítim sa pri tom dobre' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'slu_verbalne_prikazy_ine',
-      typ: 'text',
-      text: 'Verbálne príkazy — vlastná odpoveď (voliteľné):',
-    },
-    {
+
+    { doplnenieId: 'slu_povzbudenie_ine', inePovolene: true,
       druh: 'otazka',
       id: 'slu_povzbudenie',
       typ: 'jeden',
@@ -134,13 +125,8 @@ const SLUCH: Blok = {
         { v: 'nie', label: 'Nie, preferujem ticho' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'slu_povzbudenie_ine',
-      typ: 'text',
-      text: 'Povzbudenie — vlastná odpoveď (voliteľné):',
-    },
-    {
+
+    { doplnenieId: 'slu_pouzivat_slova_ine', inePovolene: true,
       druh: 'otazka',
       id: 'slu_pouzivat_slova',
       typ: 'jeden',
@@ -154,12 +140,7 @@ const SLUCH: Blok = {
         { v: 'nie', label: 'Nie, necítim sa pri tom dobre' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'slu_pouzivat_slova_ine',
-      typ: 'text',
-      text: 'Slová, príkazy alebo oslovenia — vlastná odpoveď (voliteľné):',
-    },
+
     {
       druh: 'otazka', id: 'slu_druhy_prejavov', typ: 'viac', inePovolene: true,
       text: 'Aké druhy verbálnych prejavov ma vzrušujú',
@@ -194,7 +175,7 @@ const CUCH: Blok = {
       id: 'cuc_info',
       telo: 'Vôňa pokožky, dychu či vlasov môže byť osobným podnetom blízkosti a autenticity. Niekto ju miluje, inému vyhovuje parfum a niekomu záleží na situácii. Vône ako jazmín, ylang-ylang, vanilka alebo santalové drevo vnímajte ako osobné preferencie, nie ako zaručené afrodiziaká. Môžete si zvoliť vôňu pre spoločné chvíle, ak je príjemná obom.',
     },
-    {
+    { doplnenieId: 'cuc_prirodzena_postoj_ine', inePovolene: true,
       druh: 'otazka',
       id: 'cuc_prirodzena_postoj',
       typ: 'jeden',
@@ -210,12 +191,7 @@ const CUCH: Blok = {
         { v: 'nevsimam', label: 'Nevenujem tomu veľa pozornosti' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'cuc_prirodzena_postoj_ine',
-      typ: 'text',
-      text: 'Prirodzená vôňa — vlastná odpoveď (voliteľné):',
-    },
+
     {
       druh: 'otazka',
       id: 'cuc_co',
@@ -238,7 +214,7 @@ const CUCH: Blok = {
       id: 'cuc_ritual_info',
       telo: 'Vedomé vnímanie vône krku, zápästí či vlasov môže byť súčasťou spoločného rituálu a vytvoriť osobnú pachovú spomienku na partnera.',
     },
-    {
+    { doplnenieId: 'cuc_ritual_skusenost_ine', inePovolene: true,
       druh: 'otazka',
       id: 'cuc_ritual_skusenost',
       typ: 'jeden',
@@ -257,18 +233,13 @@ const CUCH: Blok = {
         { v: 'nezaujem', label: 'Nezaujíma ma to.' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'cuc_ritual_skusenost_ine',
-      typ: 'text',
-      text: 'Vlastná odpoveď k otázke „Aká je moja skúsenosť a postoj k vedomému zapojeniu vône tela do intimity?“ (voliteľné):',
-    },
+
     {
       druh: 'text',
       id: 'cuc_oleje_info',
       telo: 'Kokos, santal alebo pačuli sú príklady vôní či zložiek telových prípravkov. To, či prirodzenú vôňu doplnia alebo prekryjú, je osobné vnímanie.',
     },
-    {
+    { doplnenieId: 'cuc_oleje_pouzivanie_ine', inePovolene: true,
       druh: 'otazka',
       id: 'cuc_oleje_pouzivanie',
       typ: 'jeden',
@@ -287,18 +258,13 @@ const CUCH: Blok = {
         { v: 'parfum', label: 'Nie, dávam prednosť parfumom.' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'cuc_oleje_pouzivanie_ine',
-      typ: 'text',
-      text: 'Vlastná odpoveď k otázke „Používam na tele prírodné oleje na doplnenie prirodzenej vône?“ (voliteľné):',
-    },
+
     {
       druh: 'text',
       id: 'cuc_aroma_info',
       telo: 'Aromaterapia môže pre niekoho znamenať príjemné prostredie. Ylang-ylang, jazmín či vanilka však nie sú zaručeným prostriedkom na uvoľnenie alebo zvýšenie túžby. Vôňu možno vnímať sladko, exoticky, kvetinovo či drevito; význam a emócie sa líšia medzi ľuďmi.',
     },
-    {
+    { doplnenieId: 'cuc_aroma_skusenost_ine', inePovolene: true,
       druh: 'otazka',
       id: 'cuc_aroma_skusenost',
       typ: 'jeden',
@@ -317,12 +283,7 @@ const CUCH: Blok = {
         { v: 'nedolezite', label: 'Nie, nevnímam to ako dôležité.' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'cuc_aroma_skusenost_ine',
-      typ: 'text',
-      text: 'Vlastná odpoveď k otázke „Akú mám skúsenosť a postoj k aromaterapii počas intimity?“ (voliteľné):',
-    },
+
     {
       druh: 'otazka',
       id: 'cuc_vone_vyber',
@@ -343,7 +304,7 @@ const CUCH: Blok = {
       id: 'cuc_masaz_info',
       telo: 'Masáž s vonným olejom prepája teplo rúk, dotyk a čuch. Príjemnosť každej z týchto zložiek je individuálna; olej ani vôňa nie sú podmienkou masáže.',
     },
-    {
+    { doplnenieId: 'cuc_masaz_skusenost_ine', inePovolene: true,
       druh: 'otazka',
       id: 'cuc_masaz_skusenost',
       typ: 'jeden',
@@ -362,12 +323,7 @@ const CUCH: Blok = {
         { v: 'nezaujem', label: 'Nie, nemám záujem.' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'cuc_masaz_skusenost_ine',
-      typ: 'text',
-      text: 'Vlastná odpoveď k otázke „Aká je moja skúsenosť a postoj k intímnej masáži s aromatickými olejmi?“ (voliteľné):',
-    },
+
     {
       druh: 'text',
       id: 'cuc_prostredie_info',
@@ -385,7 +341,7 @@ const CUCH: Blok = {
       ],
       inePovolene: true,
     },
-    {
+    { doplnenieId: 'cuc_prostredie_frekvencia_ine', inePovolene: true,
       druh: 'otazka',
       id: 'cuc_prostredie_frekvencia',
       typ: 'jeden',
@@ -396,12 +352,7 @@ const CUCH: Blok = {
         { v: 'zriedka', label: 'Zriedka – len keď je výnimočná nálada.' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'cuc_prostredie_frekvencia_ine',
-      typ: 'text',
-      text: 'Vlastná odpoveď k otázke „Ako často chcem vytvárať takéto spoločné prostredie?“ (voliteľné):',
-    },
+
   ],
 }
 
@@ -414,7 +365,7 @@ const CHUT: Blok = {
       id: 'chu_jedlo_info',
       telo: 'Ovocie, šľahačka a čokoládová poleva na tele, vzájomné kŕmenie či ochutnávanie môžu byť osobnou preferenciou. Ide o preferenciu, nie o povinnú súčasť predohry. Táto otázka nie je návod na nanášanie potravín do genitálií.',
     },
-    {
+    { doplnenieId: 'chu_jedlo_postoj_ine', inePovolene: true,
       druh: 'otazka',
       id: 'chu_jedlo_postoj',
       typ: 'jeden',
@@ -425,12 +376,7 @@ const CHUT: Blok = {
         { v: 'nie', label: 'Nepreferujem jedlo v posteli.' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'chu_jedlo_postoj_ine',
-      typ: 'text',
-      text: 'Vlastná odpoveď k otázke „Ako vnímam hranie s jedlom počas intimity?“ (voliteľné):',
-    },
+
     {
       druh: 'text',
       id: 'chu_prenos_info',
@@ -476,7 +422,7 @@ const CHUT: Blok = {
       id: 'chu_kombinacia_info',
       telo: 'Ďalšia otázka sa týka predstavy kombinovať telesné tekutiny (semeno alebo vaginálny sekrét) s inou chuťou, napríklad medom, šľahačkou či sirupom. Zachytáva osobný postoj a konkrétnu chuťovú fantáziu.',
     },
-    {
+    { doplnenieId: 'chu_kombinacia_postoj_ine', inePovolene: true,
       druh: 'otazka',
       id: 'chu_kombinacia_postoj',
       typ: 'jeden',
@@ -487,18 +433,13 @@ const CHUT: Blok = {
         { v: 'nie', label: 'Nie, necítim sa na to.' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'chu_kombinacia_postoj_ine',
-      typ: 'text',
-      text: 'Vlastná odpoveď k otázke „Ako sa staviam ku kombinácii telesných tekutín s inými chuťami?“ (voliteľné):',
-    },
+
     {
       druh: 'text',
       id: 'chu_napoj_info',
       telo: 'Samostatne možno hovoriť o prenose chuti nápoja pri bozku, napríklad džúsu alebo vína. Nejde automaticky o rovnakú preferenciu ako pri telesných tekutinách.',
     },
-    {
+    { doplnenieId: 'chu_napoj_postoj_ine', inePovolene: true,
       druh: 'otazka',
       id: 'chu_napoj_postoj',
       typ: 'jeden',
@@ -512,12 +453,7 @@ const CHUT: Blok = {
         { v: 'nie', label: 'Nie, radšej nie.' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'chu_napoj_postoj_ine',
-      typ: 'text',
-      text: 'Vlastná odpoveď k otázke „Ako vnímam prenášanie nápojov bozkami?“ (voliteľné):',
-    },
+
     {
       druh: 'text',
       id: 'chu_alkohol_info',
@@ -535,7 +471,7 @@ const CHUT: Blok = {
     },
     { druh: 'otazka', id: 'chu_kde', typ: 'text', text: 'Ktoré chute a na ktorých miestach tela sú pre mňa lákavé:' },
     p('chu_kombinacia_tekutin', 'Kombinácia telesných tekutín s inou chuťou (med, sladký sirup) ma láka'),
-    {
+    { doplnenieId: 'chu_alkohol_ine', inePovolene: true,
       druh: 'otazka', id: 'chu_alkohol', typ: 'jeden',
       text: 'Alkohol (víno, šampanské) ako súčasť erotických hier',
       moznosti: [
@@ -544,12 +480,7 @@ const CHUT: Blok = {
         { v: 'nie', label: 'Nie, nechcem miešať alkohol a intimitu' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'chu_alkohol_ine',
-      typ: 'text',
-      text: 'Alkohol a intimita — vlastná odpoveď (voliteľné):',
-    },
+
   ],
 }
 
@@ -562,7 +493,7 @@ const HMAT: Blok = {
       id: 'hma_dotyky_info',
       telo: 'Dotyk môže byť spôsobom blízkosti, no jeho príjemnosť závisí od miesta, intenzity a aktuálnej nálady. Jemné hladenie, tlak, stisk či škrabkanie sú odlišné podnety. To, čo vyhovuje jednému, nemusí vyhovovať druhému; dohodnite sa a reagujte na spätnú väzbu.',
     },
-    {
+    { doplnenieId: 'hma_dotyky_preferencia_ine', inePovolene: true,
       druh: 'otazka',
       id: 'hma_dotyky_preferencia',
       typ: 'jeden',
@@ -573,13 +504,8 @@ const HMAT: Blok = {
         { v: 'kombinacia', label: 'Kombinácia jemných a intenzívnych dotykov' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'hma_dotyky_preferencia_ine',
-      typ: 'text',
-      text: 'Preferované dotyky — vlastná odpoveď (voliteľné):',
-    },
-    {
+
+    { doplnenieId: 'hma_nove_dotyky_ine', inePovolene: true,
       druh: 'otazka',
       id: 'hma_nove_dotyky',
       typ: 'jeden',
@@ -593,12 +519,7 @@ const HMAT: Blok = {
         { v: 'nie', label: 'Nie, preferujem to, čo už poznám' },
       ],
     },
-    {
-      druh: 'otazka',
-      id: 'hma_nove_dotyky_ine',
-      typ: 'text',
-      text: 'Nové druhy dotykov — vlastná odpoveď (voliteľné):',
-    },
+
     {
       druh: 'text',
       id: 'hma_obklady_info',
@@ -659,8 +580,8 @@ const LAYERING: Blok = {
         { v: 'intenzivna', label: 'Intenzívna deprivácia viacerých zmyslov naraz — tma, slúchadlá a obmedzený pohyb' },
       ],
     },
-    p('lay_deprivacia_ok', 'Zmyslová deprivácia (páska, slúchadlá) mi zosilňuje dotyk, dych a očakávanie'),
-    {
+    p('lay_deprivacia_ok', 'Zmyslová deprivácia (páska, slúchadlá) mi zosilňuje dotyk, dych a očakávanie', UCINOK),
+    { zbalitelny: true,
       druh: 'text', id: 'lay_myty', nadpis: 'Mýtus verzus realita', ton: 'info',
       telo:
         'Mýtus: zmyslová deprivácia patrí iba k tvrdému BDSM. Realita: môže ísť o jemnú pásku na oči a pomalé bozky, ale aj o drsnú, intenzívnu hru s viacerými odobratými zmyslami. ' +

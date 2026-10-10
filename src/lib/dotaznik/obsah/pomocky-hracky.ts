@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Erotické pomôcky a hračky — modul E1 „Vibrátory a stimulátory".
@@ -18,7 +19,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -26,8 +27,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie — hranica' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 const ZAUJEM: Moznost[] = [
   { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
@@ -113,7 +114,7 @@ const PREDOHRA: Blok = {
         { v: 'textury', label: 'Rôzne textúry — chlpatá páska na oči, gumový bičík, pierko' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'pre_tipy', nadpis: 'Tipy', ton: 'info',
       telo:
         'Spojte viac vecí naraz: páska na oči, jemné viazanie a plácačka. Hrajte sa s textúrami a intenzitou — mäkké pierko a hneď nato gumový bičík. ' +
@@ -159,7 +160,7 @@ const POSTOJ_PARTNER: Blok = {
         { v: 'neprijemne', label: g('Potreboval by som rozumieť, čo ju na tom priťahuje', 'Chcela by som partnerovi vysvetliť, čo ma na tom priťahuje') },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'pph_myty', nadpis: 'Mýty', ton: 'info',
       telo: g(
         'Mýtus: „Vibrátor ma nahradí." — Realita: 81 % žien, ktoré vibrátor používajú, ho používa s partnerom. Je to tvoj pomocník, nie súper.\n\n' +

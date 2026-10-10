@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Miesta a prostredie — modul A3 „Prostredie a atmosféra".
@@ -11,7 +12,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -19,8 +20,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie — hranica' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Domáce priestory ────────────────────────────────────────────────
@@ -846,7 +847,7 @@ const PARTNER_A_FANTAZIA: Blok = {
     },
     { druh: 'otazka', id: 'miesto_fantazia', typ: 'text', text: 'Miesto alebo scénar, ktorý sa mi vracia vo fantázii a prečo:' },
     { druh: 'otazka', id: 'miesto_spomienka', typ: 'text', text: g('Miesto spojené s našou silnou erotickou spomienkou, ku ktorému by som sa chcel vrátiť:', 'Miesto spojené s našou silnou erotickou spomienkou, ku ktorému by som sa chcela vrátiť:') },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'miesto_myty', nadpis: 'Mýty verzus realita', ton: 'info',
       telo:
         'Mýtus: zaujímavý sex potrebuje exotické miesto. Realita: pre niekoho je najväčšou zmenou už presun z postele na gauč alebo spoločná sprcha. Mýtus: fantázia o verejnom mieste musí byť plánom. Realita: často vzrušuje samotné tajomstvo, spontánnosť alebo predstava videnia — rovnakú náladu možno vytvoriť aj v súkromí.',

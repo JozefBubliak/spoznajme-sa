@@ -157,5 +157,11 @@
         ]
       }
     }
+  },
+  "dotaznik": {
+    "ui": {
+      "previousAnswer": "Previous answer",
+      "chooseNewScale": "The scale has changed. You can choose your answer again; your previous answer remains saved."
+    }
   }
 }

@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT, PRIJATIE_PREJAVU } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Orgazmus a jeho kontrola — modul D5.
@@ -14,15 +15,15 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string): TemaObsah['nadpis'] => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
   { v: 'nie', label: 'Nie, neláka ma to' },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Orgazmus ako štýl, nie povinnosť ────────────────────────────────
@@ -188,7 +189,7 @@ const VIACNASOBNE: Blok = {
         { v: 'partner_vedie', label: g('Nechať ďalšiu vlnu viesť partnerku', 'Nechať ďalšiu vlnu viesť partnera') },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'via_myty', nadpis: 'Mýtus verzus realita', ton: 'info',
       telo:
         'Mýtus: viac orgazmov je automaticky lepších než jeden. Realita: jeden hlboký vrchol, viac menších vĺn aj sex bez orgazmu môžu byť rovnako hodnotné. ' +
@@ -262,7 +263,7 @@ const ORGAZMICKE_SCENARE: Blok = {
         { v: 'nechcem', label: 'Tento prvok nechcem v centre pozornosti' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'osc_myty', ton: 'info', nadpis: 'Mýty verzus realita',
       telo:
         'Mýtus: každý orgazmus musí vyzerať rovnako a byť sprevádzaný ejakuláciou. Realita: orgazmus, ejakulácia, squirting a subjektívny pocit vrcholu sú prepojené, ale nie totožné javy. Mýtus: „forced orgasm“ znamená skutočné donútenie. V erotickom scenári ide o fantáziu neovládateľnej rozkoše v dohodnutej role, nie o popretie hraníc.',
@@ -284,7 +285,7 @@ const PO_ORGAZME: Blok = {
         { v: 'nechaj_chvilu', label: '„Nechaj ma chvíľu"' },
       ],
     },
-    p('poo_hlucnost', g('Je pre mňa v poriadku byť pri orgazme hlučný', 'Je pre mňa v poriadku byť pri orgazme hlučná')),
+    p('poo_hlucnost', g('Je pre mňa v poriadku byť pri orgazme hlučný', 'Je pre mňa v poriadku byť pri orgazme hlučná'), PRIJATIE_PREJAVU),
     p('poo_partner_hlucny', g('Chcem, aby bola aj partnerka hlučná', 'Chcem, aby bol aj partner hlučný')),
     { druh: 'otazka', id: 'poo_zapamataj', typ: 'text', text: g('Jedna veta, ktorú chcem, aby si partnerka zapamätala o mojom orgazme:', 'Jedna veta, ktorú chcem, aby si partner zapamätal o mojom orgazme:') },
   ],
@@ -349,7 +350,7 @@ const HLBKOVA_MAPA: Blok = {
       druh: 'otazka', id: 'org_idealna_scena', typ: 'text',
       text: 'Moja ideálna orgazmická scéna — kto vedie, čo sa deje tesne pred vrcholom, čo partner vidí alebo počuje a ako má chvíľa doznieť:',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'org_myty_hlbka', nadpis: 'Mýty, ktoré vytvárajú zbytočný tlak', ton: 'info',
       telo: 'Mýtus: silný orgazmus musí byť hlasný, viditeľný alebo súčasný s partnerovým. Realita: intenzita sa môže prejaviť trasom, tichom, kontrakciami, smiechom aj hlbokým uvoľnením.\n\nMýtus: kto partnera nepriviedol k orgazmu, zlyhal. Realita: vrchol nie je známka ani dôkaz kvality sexu; erotické môže byť aj presné vedenie, očakávanie alebo vedomé nedokončenie.\n\nMýtus: fantázia o kontrole orgazmu znamená túžbu stratiť hlas. Realita: jej náboj môže stáť na role, prosení, odovzdaní alebo predstave neovládateľnej rozkoše.',
     },

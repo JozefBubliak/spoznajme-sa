@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT, VYSKYT_POCITU, UCINOK } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Polohy — modul D3 „Polohy".
@@ -13,15 +14,15 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
   { v: 'nie', label: 'Nie, neláka ma to' },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Rámec: čo od polôh chceme ──────────────────────────────────────
@@ -65,7 +66,7 @@ const KLASICKE: Blok = {
       ],
     },
     p('kla_variacie', 'Drobné variácie (vankúš pod panvou, zdvihnuté nohy, náklon) mi menia zážitok výrazne'),
-    {
+    { doplnenieId: 'kla_zmena_pocas_ine', inePovolene: true,
       druh: 'otazka', id: 'kla_zmena_pocas', typ: 'jeden',
       text: 'Ako často meníme polohy počas jedného aktu',
       moznosti: [
@@ -74,7 +75,7 @@ const KLASICKE: Blok = {
         { v: 'zriedka', label: 'Zriedka — radšej ostávam pri jednej' },
       ],
     },
-    { druh: 'otazka', id: 'kla_zmena_pocas_ine', typ: 'text', text: 'Vlastná odpoveď — zmena polôh počas aktu (voliteľné):' },
+
     {
       druh: 'otazka', id: 'kla_prehody', typ: 'viac', inePovolene: true,
       text: 'Aké prechody medzi polohami ma lákajú',
@@ -223,8 +224,8 @@ const VARIACIE: Blok = {
   druh: 'skupina', id: 'variacie', nadpis: 'Variácie pre rozdiely tela a komfort',
   bloky: [
     { druh: 'otazka', id: 'var_adaptacie', typ: 'text', text: 'Ktoré nastavenia znižujú námahu na chrbát/bedrá/kolená (vankúše, výška, uhol):' },
-    p('var_citlive_miesta', 'Pri niektorých polohách mám citlivé/bolestivé miesta a potrebujem menší rozsah pohybu'),
-    p('var_senzorika', 'Senzorika (svetlo, hudba, páska na oči) mi v konkrétnej polohe zosilňuje alebo tlmí vnímanie'),
+    p('var_citlive_miesta', 'Pri niektorých polohách mám citlivé/bolestivé miesta a potrebujem menší rozsah pohybu', VYSKYT_POCITU),
+    p('var_senzorika', 'Senzorika (svetlo, hudba, páska na oči) mi v konkrétnej polohe zosilňuje alebo tlmí vnímanie', UCINOK),
   ],
 }
 
@@ -252,7 +253,7 @@ const BEZPECNOST: Blok = {
 }
 
 // ── Mýty a tipy ─────────────────────────────────────────────────────
-const MYTY: Blok = {
+const MYTY: Blok = { zbalitelny: true,
   druh: 'text', id: 'myty', nadpis: 'Mýty a tipy', ton: 'info',
   telo:
     'Mýtus: „Dobrý sex = veľa polôh." — Realita: väčšina párov má 2–4 obľúbené a mení malé detaily (uhol, vankúš, nohy). To stačí.\n\n' +
@@ -296,7 +297,7 @@ const ZENA_HORE: Blok = {
         { v: 'nic', label: 'Nič — len sa pozerať a nechať ju' },
       ],
     },
-    p('zh_hanba', g('Partnerka sa hore niekedy hanbí za svoje telo alebo „výkon"', 'Hore sa niekedy hanbím za svoje telo alebo „výkon"')),
+    p('zh_hanba', g('Partnerka sa hore niekedy hanbí za svoje telo alebo „výkon"', 'Hore sa niekedy hanbím za svoje telo alebo „výkon"'), VYSKYT_POCITU),
     {
       druh: 'text', id: 'zh_tipy', ton: 'info',
       telo:

@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Masturbácia a solo aktivity — modul B6 „Manuálna stimulácia".
@@ -16,7 +17,7 @@ const g = (m: string, z: string) => ({ m, z })
 // (inštrukcie, zákaz dotyku, ejakulácia na telo), mýty.
 // + xlsm ≤P47090: oprava ženskej verzie sledovania, scenáre sledovania,
 // mapa vzrušenia pri predvádzaní a formy spoločnej masturbácie.
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -24,8 +25,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie, neláka ma to' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Vlastný vzťah k masturbácii ──────────────────────────────────────
@@ -98,7 +99,7 @@ const VOYEUR: Blok = {
         'Predstav si, ako ticho sedíš a sleduješ jeho ruky na tele. Každý jeho pohyb prezrádza, čo naozaj miluje. Jeho dych sa zrýchľuje a pohľad, ktorým ťa sleduje, ťa vtiahne do hry.',
       ),
     },
-    {
+    { doplnenieId: 'voy_zaujem_ine', inePovolene: true,
       druh: 'otazka', id: 'voy_zaujem', typ: 'jeden',
       text: g('Túžiš sledovať partnerku pri masturbácii?', 'Túžiš sledovať partnera pri masturbácii?'),
       moznosti: [
@@ -109,7 +110,7 @@ const VOYEUR: Blok = {
         { v: 'nie', label: 'Nie, necítim sa komfortne' },
       ],
     },
-    { druh: 'otazka', id: 'voy_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — sledovanie (voliteľné):' },
+
     p('voy_postoj', g('Pozerať sa, ako partnerka masturbuje', 'Pozerať sa, ako partner masturbuje')),
     {
       druh: 'otazka', id: 'voy_co_vzrusuje', typ: 'viac',
@@ -158,7 +159,7 @@ const EXHIB: Blok = {
       druh: 'text', id: 'exh_predstav',
       telo: 'Predstav si, že ťa partner pozoruje, zatiaľ čo sa venuješ sebe. Ten okamih môže byť zdrojom sebadôvery, vzrušenia a hlbokého spojenia.',
     },
-    {
+    { doplnenieId: 'exh_zaujem_ine', inePovolene: true,
       druh: 'otazka', id: 'exh_zaujem', typ: 'jeden',
       text: g('Chcel by si byť sledovaný, keď masturbuješ?', 'Chcela by si byť sledovaná, keď masturbuješ?'),
       moznosti: [
@@ -169,7 +170,7 @@ const EXHIB: Blok = {
         { v: 'nie', label: 'Nie, necítim sa komfortne' },
       ],
     },
-    { druh: 'otazka', id: 'exh_zaujem_ine', typ: 'text', text: g('Vlastná odpoveď — byť sledovaný (voliteľné):', 'Vlastná odpoveď — byť sledovaná (voliteľné):') },
+
     p('exh_postoj', 'Keď ma partner sleduje pri sólo hre'),
     {
       druh: 'otazka', id: 'exh_co_vzrusuje', typ: 'viac', inePovolene: true,
@@ -235,7 +236,7 @@ const SPOLOCNA: Blok = {
       druh: 'text', id: 'spol_predstav',
       telo: 'Predstav si, že ležíte vedľa seba a synchronizujete dotyky, pohyby aj pohľady. Všetko sa spája do jedného spoločného zážitku.',
     },
-    {
+    { doplnenieId: 'spol_zaujem_ine', inePovolene: true,
       druh: 'otazka', id: 'spol_zaujem', typ: 'jeden',
       text: g('Ako vnímaš spoločnú masturbáciu s partnerkou?', 'Ako vnímaš spoločnú masturbáciu s partnerom?'),
       moznosti: [
@@ -246,7 +247,7 @@ const SPOLOCNA: Blok = {
         { v: 'nie', label: 'Nie, necítim sa komfortne' },
       ],
     },
-    { druh: 'otazka', id: 'spol_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — spoločná masturbácia (voliteľné):' },
+
     p('spol_postoj', 'Masturbovať spolu, obaja naraz'),
     p(
       'spol_vibrator_sledovanie',
@@ -269,7 +270,7 @@ const SPOLOCNA: Blok = {
         { v: 'nie', label: 'Táto konkrétna scéna ma neláka' },
       ],
     },
-    {
+    { doplnenieId: 'spol_hracky_zaujem_ine', inePovolene: true,
       druh: 'otazka', id: 'spol_hracky_zaujem', typ: 'jeden',
       text: g('Chcel by si zapojiť hračky do spoločnej masturbácie?', 'Chcela by si zapojiť hračky do spoločnej masturbácie?'),
       moznosti: [
@@ -278,7 +279,7 @@ const SPOLOCNA: Blok = {
         { v: 'nie', label: 'Nie, radšej prirodzené dotyky' },
       ],
     },
-    { druh: 'otazka', id: 'spol_hracky_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — hračky (voliteľné):' },
+
     {
       druh: 'otazka', id: 'spol_formy', typ: 'viac', inePovolene: true,
       text: 'Aké formy spoločnej masturbácie ma vzrušujú',
@@ -335,7 +336,7 @@ const GUIDED: Blok = {
         'Masturbácia nemusí byť sólový akt. Keď sa partner pripojí — navádzaním, bozkami alebo šepkaním — vzniká zážitok hlbokého spojenia. Vezmeš jeho ruku, ukážeš iný uhol, šepneš, čo na ňom zbožňuješ… a dych sa zrýchľuje.',
       ),
     },
-    {
+    { doplnenieId: 'guid_zaujem_ine', inePovolene: true,
       druh: 'otazka', id: 'guid_zaujem', typ: 'jeden',
       text: g('Chcel by si, aby ti partnerka pomáhala pri masturbácii?', 'Chcela by si, aby ti partner pomáhal pri masturbácii?'),
       moznosti: [
@@ -346,8 +347,8 @@ const GUIDED: Blok = {
         { v: 'nie', label: 'Nie, necítim sa komfortne' },
       ],
     },
-    { druh: 'otazka', id: 'guid_zaujem_ine', typ: 'text', text: 'Vlastná odpoveď — pomoc pri masturbácii (voliteľné):' },
-    {
+
+    { doplnenieId: 'guid_dat_ine', inePovolene: true,
       druh: 'otazka', id: 'guid_dat', typ: 'jeden',
       text: g('Ako vnímaš pomoc partnerke pri masturbácii?', 'Ako vnímaš pomoc partnerovi pri masturbácii?'),
       moznosti: [
@@ -358,7 +359,7 @@ const GUIDED: Blok = {
         { v: 'nie', label: 'Nie, necítim sa komfortne' },
       ],
     },
-    { druh: 'otazka', id: 'guid_dat_ine', typ: 'text', text: g('Vlastná odpoveď — pomáhať partnerke (voliteľné):', 'Vlastná odpoveď — pomáhať partnerovi (voliteľné):') },
+
     {
       druh: 'otazka', id: 'guid_formy', typ: 'viac', inePovolene: true,
       text: g('Aké formy pomoci by som chcel skúsiť', 'Aké formy pomoci by som chcela skúsiť'),
@@ -417,14 +418,14 @@ const SITUACIE: Blok = {
     p('sit_zakaz_dotyku', 'Pozerať sa na seba, ale nesmieť sa dotknúť jeden druhého'),
     p('sit_na_telo', g('Masturbovať až do konca na partnerkino telo', 'Masturbovať až do konca na partnerovo telo')),
     p('sit_prekvapenie', 'Nechať sa „prichytiť" pri masturbácii'),
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'sit_tipy', nadpis: 'Tipy na experimentovanie', ton: 'info',
       telo:
         'Začnite pomaly — najprv len sledovaním, neskôr jemným dotykom. Dohodnite si večer bez dotyku: len sa navzájom sledujte. ' +
         'Zrkadlo alebo kamera (bez záznamu) ukáže reakcie z inej perspektívy. Šepkajte si, čo práve cítite, alebo komplimenty. ' +
         'Dohodnite si signál, kedy sa môže ten druhý priblížiť a zapojiť. Všímajte si, ako sa vzrušenie mení pri rôznych technikách — to je najlepšia škola pre oboch.',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'sit_myty', nadpis: 'Mýty', ton: 'info',
       telo: g(
         'Mýtus: „Keď partnerka masturbuje, nestačím jej." — Realita: masturbujú aj ľudia v šťastných vzťahoch s dobrým sexom; je to iná potreba, nie náhrada. ' +
@@ -568,7 +569,7 @@ const KONTEXT: Blok = {
       ],
     },
     p('ctx_zmyslovy_vecer', '„Zmyslový večer" — poradie krokov, koľko minút ktorému zmyslu'),
-    {
+    { doplnenieId: 'ctx_po_spolocnej_ine', inePovolene: true,
       druh: 'otazka', id: 'ctx_po_spolocnej', typ: 'jeden',
       text: 'Ako sa najčastejšie cítim po spoločnej sólo hre',
       moznosti: [
@@ -580,7 +581,7 @@ const KONTEXT: Blok = {
         { v: 'podla_situacie', label: 'Veľmi záleží na situácii' },
       ],
     },
-    { druh: 'otazka', id: 'ctx_po_spolocnej_ine', typ: 'text', text: 'Po spoločnej sólo hre — vlastná odpoveď (voliteľné):' },
+
     {
       druh: 'text', id: 'ctx_po_spolocnej_info', nadpis: 'Aj dozvuk je súčasť zážitku', ton: 'info',
       telo:

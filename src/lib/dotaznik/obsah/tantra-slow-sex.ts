@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT, UCINOK } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Tantra, slow sex a spiritualita — nový modul A7 (doplnený nad rámec
@@ -14,7 +15,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -22,8 +23,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie — hranica' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Nastavenie piliera ────────────────────────────────────────────────
@@ -288,7 +289,7 @@ const MEDITACIA: Blok = {
         { v: 'sam', label: 'Každý sám a potom sa stretneme' },
       ],
     },
-    p('med_odlozit_den', '„Odložiť deň" pred intimitou (telefón preč, sprcha, čaj) mi pomáha'),
+    p('med_odlozit_den', '„Odložiť deň" pred intimitou (telefón preč, sprcha, čaj) mi pomáha', UCINOK),
   ],
 }
 
@@ -455,7 +456,7 @@ const HLBKOVA_MAPA: Blok = {
       druh: 'otazka', id: 'tan_idealna_scena', typ: 'text',
       text: 'Moja ideálna pomalá scéna — ako začne, kto ju vedie, ktorý vnem sa stupňuje a kedy príde intenzívna vlna:',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'tan_myty', nadpis: 'Mýty a tabu', ton: 'info',
       telo: 'Mýtus: slow sex musí byť tichý, vážny a spirituálny. Realita: môže byť hravý, telesný, vulgárny aj veľmi intenzívny — jeho jadrom je pozornosť a čas, nie predpísaná atmosféra.\n\nMýtus: spomalenie je iba riešenie problému s výkonom. Realita: mnohých priťahuje práve dlhé očakávanie, presnosť dotyku a pocit, že partner nikam neuteká.\n\nMýtus: ak sa objaví orgazmus alebo dravosť, rituál zlyhal. Realita: pomalosť a intenzita sa môžu striedať v jednej vlne.',
     },

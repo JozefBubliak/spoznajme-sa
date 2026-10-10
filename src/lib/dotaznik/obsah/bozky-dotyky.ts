@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT, ZONY_TELA } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Bozky, dotyky a manuálna stimulácia — modul B1 „Bozky".
@@ -54,7 +55,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -62,8 +63,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie, neláka ma to' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 const VLHKOST: Moznost[] = [
   { v: 'sucho', label: 'Nasucho' },
@@ -92,7 +93,7 @@ const BOZKY_USTA: Blok = {
         'Intenzívne a vášnivé — hlbšie spojenie pier a jazyka, rýchlejší rytmus, pevnejší tlak; prebúdzajú túžbu. ' +
         'Agresívne a dráždivé — silné zovretie pier, jemné alebo intenzívne hryzenie, vzrušujúci kontrast bolesti a potešenia.',
     },
-    {
+    { doplnenieId: 'boz_usta_ine', inePovolene: true,
       druh: 'otazka', id: 'boz_usta', typ: 'jeden',
       text: g(
         'Predstav si, že ju držíš za šiju a vaše pery sa spoja v hlbokom, hladnom bozku. Ako máš rád bozky na ústa?',
@@ -105,9 +106,9 @@ const BOZKY_USTA: Blok = {
         { v: 'agresivne', label: 'Agresívnejšie — silný tlak, pritlačenie pier, zovretie, hryzenie' },
       ],
     },
-    { druh: 'otazka', id: 'boz_usta_ine', typ: 'text', text: 'Vlastná odpoveď — bozky na ústa (voliteľné):' },
 
-    {
+
+    { doplnenieId: 'boz_francuzske_ine', inePovolene: true,
       druh: 'otazka', id: 'boz_francuzske', typ: 'jeden',
       text: g(
         'Predstav si, že jej jazyk sa dotkne tvojho a váš dych sa spojí. Ako vnímaš francúzske bozky?',
@@ -119,9 +120,9 @@ const BOZKY_USTA: Blok = {
         { v: 'nie', label: 'Nie, nevyhľadávam ich' },
       ],
     },
-    { druh: 'otazka', id: 'boz_francuzske_ine', typ: 'text', text: 'Vlastná odpoveď — francúzske bozky (voliteľné):' },
 
-    {
+
+    { doplnenieId: 'boz_hryzenie_pier_ine', inePovolene: true,
       druh: 'otazka', id: 'boz_hryzenie_pier', typ: 'jeden',
       text: g(
         'Predstav si, že jej zuby sa zľahka zahryznú do tvojej pery. Láka ťa hryzenie pier?',
@@ -134,12 +135,12 @@ const BOZKY_USTA: Blok = {
         { v: 'nie', label: 'Nepreferujem hryzenie pier' },
       ],
     },
-    { druh: 'otazka', id: 'boz_hryzenie_pier_ine', typ: 'text', text: 'Vlastná odpoveď — hryzenie pier (voliteľné):' },
+
     p('boz_6_sekund', 'Denný „6-sekundový bozk" — dlhší bozk pri odchode a príchode, nie len cmuk'),
-    p('boz_pocas_sexu', 'Bozkávanie počas celého sexu, nielen na začiatku'),
+    { ...p('boz_pocas_sexu', 'Bozkávanie počas celého sexu, nielen na začiatku'), zbalitelna: true },
     p('boz_po_orali', g('Bozk po oráli — ochutnať sa na perách partnerky', 'Bozk po oráli — ochutnať sa na perách partnera')),
     p('boz_hlava_vlasy', 'Ťahanie za vlasy alebo držanie tváre pri bozku'),
-    p('boz_ocny_kontakt', 'Bozkávanie s hlbokým pohľadom do očí'),
+    { ...p('boz_ocny_kontakt', 'Bozkávanie s hlbokým pohľadom do očí'), zbalitelna: true },
     {
       druh: 'otazka', id: 'boz_miera_vlhkosti', typ: 'jeden',
       text: 'Miera „vlhkosti" bozku, ktorá mi je príjemná',
@@ -166,7 +167,7 @@ const BOZKY_USTA: Blok = {
 const BOZKY_TELO: Blok = {
   druh: 'skupina', id: 'bozky_telo', nadpis: 'Bozky — krk a telo',
   bloky: [
-    {
+    { doplnenieId: 'boz_krk_ine', inePovolene: true,
       druh: 'otazka', id: 'boz_krk', typ: 'jeden',
       text: g(
         'Predstav si, že jej pery a zuby sa dotýkajú tvojho krku a ty len zavrieš oči. Ako vnímaš bozkávanie krku?',
@@ -179,7 +180,7 @@ const BOZKY_TELO: Blok = {
         { v: 'nie', label: 'Nie, bozkávanie krku nevyhľadávam' },
       ],
     },
-    { druh: 'otazka', id: 'boz_krk_ine', typ: 'text', text: 'Vlastná odpoveď — bozky na krk (voliteľné):' },
+
 
     p('boz_znacenie', 'Značenie (cumlík / hryznutie, ktoré zanechá stopu)'),
     {
@@ -224,7 +225,7 @@ const BOZKY_TIPY: Blok = {
         'Predstav si večer, v ktorom sa partnerove pery presúvajú z tvojich úst na krk, uši a hrudník. Nevidíš, kam príde ďalší bozk — raz je mäkký, potom hladný, s prisatím, zubami, dychom na koži alebo krátkym ťahom za vlasy.',
       ),
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'boz_myty', nadpis: 'Mýty', ton: 'info',
       telo:
         'Mýtus: „Po rokoch vzťahu sa bozkávanie prirodzene vytratí." — Realita: páry, ktoré sa denne bozkávajú dlhšie ako pár sekúnd, hlásia vyššiu spokojnosť aj chuť na sex. Stačí to vedome obnoviť. ' +
@@ -302,7 +303,7 @@ const DOTYKY: Blok = {
         { v: 'film', label: 'Pri filme' },
       ],
     },
-    {
+    { zbalitelna: true,
       druh: 'otazka', id: 'dot_vlasy', typ: 'jeden',
       text: 'Ako vnímam ťahanie za vlasy počas intímnych chvíľ?',
       moznosti: [
@@ -313,7 +314,7 @@ const DOTYKY: Blok = {
         { v: 'nie', label: 'Nevyhľadávam ho' },
       ],
     },
-    {
+    { zbalitelna: true,
       druh: 'otazka', id: 'dot_kontrast', typ: 'jeden',
       text: 'Ako ma láka striedanie jemných a intenzívnych dotykov?',
       moznosti: [
@@ -466,8 +467,8 @@ const MVN: Blok = {
       ],
     },
     { druh: 'otazka', id: 'mvn_vlhkost', typ: 'jeden', text: g('Aká vlhkosť pri stimulácii partnerky ma láka?', 'Aká vlhkosť mi pri stimulácii vyhovuje?'), moznosti: VLHKOST },
-    { druh: 'otazka', id: 'mvn_intenzita', typ: 'jeden', text: g('Akú intenzitu ma láka partnerke poskytovať?', 'Aká intenzita mi vyhovuje?'), moznosti: INT5 },
-    {
+    { zbalitelna: true, druh: 'otazka', id: 'mvn_intenzita', typ: 'jeden', text: g('Akú intenzitu ma láka partnerke poskytovať?', 'Aká intenzita mi vyhovuje?'), moznosti: INT5 },
+    { zbalitelna: true,
       druh: 'otazka', id: 'mvn_styl', typ: 'viac', inePovolene: true,
       text: 'Ktoré štýly ma lákajú?',
       moznosti: [
@@ -516,7 +517,7 @@ const MVN: Blok = {
         { v: 'nie', label: 'Nechcem ho zaradiť medzi naše zhody' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'mvn_myty', nadpis: 'Mýty o prstovaní, klitorise a G-oblasti', ton: 'info',
       telo:
         'Mýtus: prstovanie znamená najmä pohyb dnu a von. Realita: mnohé ženy viac vzrušuje vonkajší klitoris, plytká hra pri vstupe, tlak na prednú stenu alebo ich kombinácia.\n\n' +
@@ -573,7 +574,7 @@ const RUKY_RITUALY: Blok = {
         'Dlaň na krížoch, palce na panvových hrebeňoch alebo pevný úchop bokov môžu meniť držanie tela aj pocit vedenia. ' +
         'Takýto tlak môže byť jemnou oporou, súčasťou masáže alebo intenzívnym kontrastom k presnej stimulácii prstami.',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'rr_myty', nadpis: 'Mýty', ton: 'info',
       telo:
         'Mýtus: „Ruky sú len náhrada, keď sa nedá sex." — Realita: pre väčšinu žien je ruka na klitorise najspoľahlivejšia cesta k orgazmu. ' +
@@ -638,7 +639,7 @@ const MNP: Blok = {
         { v: 'rychlo_pomaly', label: 'Striedanie rýchlych a pomalých ťahov' },
       ],
     },
-    {
+    { zbalitelna: true,
       druh: 'otazka', id: 'mnp_tlak', typ: 'jeden',
       text: 'Aký tlak pri handjobe mi vyhovuje',
       moznosti: [
@@ -681,7 +682,7 @@ const MNP: Blok = {
         { v: 's_oralom', label: 'Súčasne s orálom' },
       ],
     },
-    {
+    { zbalitelna: true,
       druh: 'otazka', id: 'mnp_tempo', typ: 'jeden',
       text: 'Tempo',
       moznosti: [
@@ -727,7 +728,7 @@ const MNP: Blok = {
         { v: 'partner', label: 'Láka ma, keď partnerka prinesie vlastný nápad' },
       ],
     },
-    {
+    { zbalitelna: true,
       druh: 'otazka', id: 'mnp_styl', typ: 'viac', inePovolene: true,
       text: 'Ktoré štýly ručnej stimulácie ma lákajú?',
       moznosti: [
@@ -776,7 +777,7 @@ const MNP: Blok = {
         { v: 'nezalezi', label: 'Nezáleží' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'mnp_myty', nadpis: 'Mýty o penise a „správnej" technike', ton: 'info',
       telo:
         'Mýtus: všetci muži chcú čo najpevnejší stisk a najrýchlejší pohyb. Realita: citlivosť sa líši podľa miesta, vzrušenia, vlhkosti, predkožky aj dňa; niekoho berie ľahký dotyk uzdičky, iného pevný úchop hriadeľa.\n\n' +
@@ -863,7 +864,7 @@ const CHRBT: Blok = {
         { v: 'teplota', label: 'Teplý olej, masážna sviečka alebo chladný kontrast' },
       ],
     },
-    {
+    { zbalitelna: true,
       druh: 'otazka', id: 'chr_intenzita', typ: 'jeden',
       text: 'Akú intenzitu na chrbte preferujem?',
       moznosti: [
@@ -873,7 +874,7 @@ const CHRBT: Blok = {
         { v: 'kontrast', label: 'Striedanie mäkkých dotykov a intenzívnych stôp' },
       ],
     },
-    {
+    { zbalitelna: true,
       druh: 'otazka', id: 'chr_teplota', typ: 'jeden',
       text: 'Ako ma na chrbte láka teplo a chlad?',
       moznosti: [
@@ -905,7 +906,7 @@ const CHRBT: Blok = {
         { v: 'nie', label: 'Nechcem ju poskytovať' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'chr_mytus', nadpis: 'Mýtus: chrbát je iba masážna zóna', ton: 'info',
       telo: 'Chrbát môže byť upokojujúci, ale aj výrazne erotický: pomalý dych pri uchu, nechty cez lopatky, pevný úchop krížov alebo teplotná stopa po chrbtici môžu byť samostatným centrom hry. Niekto chce relaxáciu, iný intenzitu a viditeľné stopy — jedno nie je „správnejšie“ než druhé.',
     },
@@ -926,7 +927,7 @@ const STEHNA: Blok = {
         'Predstav si pomalé bozky na vnútornej strane stehien, ktoré sa približujú a znovu vzďaľujú. Potom príde pevný tlak dlaní alebo krátke hryzenie.',
       ),
     },
-    {
+    { doplnenieId: 'steh_techniky_ine',
       druh: 'otazka', id: 'steh_techniky', typ: 'viac', inePovolene: true,
       text: g('Ako mám rád stimuláciu stehien?', 'Ako preferujem stimuláciu stehien?'),
       moznosti: [
@@ -940,8 +941,8 @@ const STEHNA: Blok = {
         { v: 'teplota', label: 'Teplý dych, olej alebo chladný kontrast' },
       ],
     },
-    { druh: 'otazka', id: 'steh_techniky_ine', typ: 'text', text: 'Stimulácia stehien — vlastná odpoveď (voliteľné):' },
-    {
+
+    { zbalitelna: true,
       druh: 'otazka', id: 'steh_intenzita', typ: 'jeden',
       text: 'Akú intenzitu na stehnách preferujem',
       moznosti: [
@@ -951,7 +952,7 @@ const STEHNA: Blok = {
         { v: 'striedanie', label: 'Striedanie jemnej a intenzívnej energie' },
       ],
     },
-    {
+    { zbalitelna: true, doplnenieId: 'steh_kombinovanie_ine', inePovolene: true,
       druh: 'otazka', id: 'steh_kombinovanie', typ: 'jeden',
       text: 'Chcem na stehnách kombinovať viac techník',
       moznosti: [
@@ -960,7 +961,7 @@ const STEHNA: Blok = {
         { v: 'jedna', label: 'Radšej jednu techniku a stabilný rytmus' },
       ],
     },
-    { druh: 'otazka', id: 'steh_kombinovanie_ine', typ: 'text', text: 'Moja ideálna kombinácia na stehnách (voliteľné):' },
+
     {
       druh: 'otazka', id: 'steh_teasing', typ: 'jeden',
       text: 'Ako dlho ma baví dráždenie stehien pred dotykom genitálií',
@@ -971,7 +972,7 @@ const STEHNA: Blok = {
         { v: 'samostatne', label: 'Stehná môžu byť samostatným centrom hry' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'steh_tipy_myty', nadpis: 'Tip a mýtus', ton: 'info',
       telo:
         'Tip: skús kontrast medzi sotva cítiacim dotykom nechtov, mokrým bozkom a pevným stiskom tesne nad kolenom; potom postupuj vyššie a znovu sa vráť. ' +
@@ -1016,7 +1017,7 @@ const SPOL_ZONY: Blok = {
         { v: 'ziadna', label: 'Žiadna časť tejto oblasti nie je pre mňa erotická' },
       ],
     },
-    {
+    { doplnenieId: 'sz_bradavky_ine', inePovolene: true,
       druh: 'otazka', id: 'sz_bradavky', typ: 'viac',
       text: 'Bradavky',
       moznosti: [
@@ -1036,8 +1037,8 @@ const SPOL_ZONY: Blok = {
         { v: 'nie', label: 'Stimulácia tejto oblasti ma neláka' },
       ],
     },
-    { druh: 'otazka', id: 'sz_bradavky_ine', typ: 'text', text: 'Stimulácia pŕs alebo bradaviek — vlastná odpoveď (voliteľné):' },
-    {
+
+    { zbalitelna: true,
       druh: 'otazka', id: 'sz_bradavky_prsia_tlak', typ: 'jeden',
       text: g('Aký tlak na celom hrudníku mi vyhovuje?', 'Aký tlak pri hladení a stláčaní celých pŕs mi vyhovuje?'),
       moznosti: [
@@ -1059,7 +1060,7 @@ const SPOL_ZONY: Blok = {
         { v: 'nie', label: 'Krúženie mi nesedí' },
       ],
     },
-    {
+    { podmienka: { ot: 'sz_bradavky', obsahujeNiektoru: ["roll","pinch"] }, zbalitelna: true,
       druh: 'otazka', id: 'sz_bradavky_stlacanie', typ: 'jeden',
       text: 'Ako mi vyhovuje stláčanie alebo rolovanie bradaviek medzi prstami?',
       moznosti: [
@@ -1070,7 +1071,7 @@ const SPOL_ZONY: Blok = {
         { v: 'nie', label: 'Stláčanie mi nesedí' },
       ],
     },
-    {
+    { podmienka: { ot: 'sz_bradavky', obsahujeNiektoru: ["twist_pull"] }, zbalitelna: true,
       druh: 'otazka', id: 'sz_bradavky_tahanie', typ: 'jeden',
       text: 'Ako mi vyhovuje ťahanie alebo pootočenie bradaviek?',
       moznosti: [
@@ -1081,7 +1082,7 @@ const SPOL_ZONY: Blok = {
         { v: 'nie', label: 'Ťahanie ani pootočenie mi nesedí' },
       ],
     },
-    {
+    { podmienka: { ot: 'sz_bradavky', obsahujeNiektoru: ["lick", "flick"] }, zbalitelna: true,
       druh: 'otazka', id: 'sz_bradavky_jazyk', typ: 'jeden',
       text: 'Aký pohyb jazyka ma najviac vzrušuje?',
       moznosti: [
@@ -1092,7 +1093,7 @@ const SPOL_ZONY: Blok = {
         { v: 'nie', label: 'Jazyk mi na tejto oblasti nesedí' },
       ],
     },
-    {
+    { podmienka: { ot: 'sz_bradavky', obsahujeNiektoru: ["sanie"] }, zbalitelna: true,
       druh: 'otazka', id: 'sz_bradavky_sanie', typ: 'jeden',
       text: 'Aké sanie bradaviek mi vyhovuje?',
       moznosti: [
@@ -1103,7 +1104,7 @@ const SPOL_ZONY: Blok = {
         { v: 'nie', label: 'Sanie mi nesedí' },
       ],
     },
-    {
+    { podmienka: { ot: 'sz_bradavky', obsahujeNiektoru: ["hryzenie"] }, zbalitelna: true,
       druh: 'otazka', id: 'sz_bradavky_hryzenie', typ: 'jeden',
       text: 'Aká intenzita hryzenia bradaviek ma láka?',
       moznosti: [
@@ -1125,7 +1126,7 @@ const SPOL_ZONY: Blok = {
         { v: 'neutralne', label: 'Skôr neutrálna zóna' },
       ],
     },
-    {
+    { zbalitelna: true,
       druh: 'otazka', id: 'sz_bradavky_nastroj', typ: 'jeden',
       text: 'Čo mi pri stimulácii bradaviek vyhovuje najviac',
       moznosti: [
@@ -1223,7 +1224,7 @@ const SPOL_ZONY: Blok = {
         { v: 'nie', label: 'Nechcem túto stimuláciu poskytovať' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'sz_bradavky_tipy', nadpis: 'Bradavky: experiment a mýtus', ton: 'info',
       telo:
         'Presná dotyková mapa môže porovnať celú plochu, okolie areoly a samotnú bradavku; prsty verzus jazyk; pomalý verzus rýchly pohyb; ľavú verzus pravú stranu. Rovnaký človek môže chcieť jemnosť na začiatku a silný tlak pri vysokom vzrušení.\n\n' +
@@ -1252,7 +1253,7 @@ const SPOL_ZONY: Blok = {
         { v: 'doplnky', label: 'Senzorické doplnky (štetec, hodváb)' },
       ],
     },
-    { druh: 'otazka', id: 'sz_vynechat', typ: 'text', text: 'Ktoré zóny určite vynechať:' },
+    { povodnyText: true, inePovolene: true, moznosti: ZONY_TELA, druh: 'otazka', id: 'sz_vynechat', typ: 'viac', text: "Ktorým zónam sa chcem pri dotykoch vyhnúť?" },
   ],
 }
 
@@ -1289,8 +1290,8 @@ const TEMPO: Blok = {
         { v: 'nahoda', label: 'Pridať hravú náhodu — karta, kocka alebo nečakaný pokyn' },
       ],
     },
-    p('tempo_vlny', 'Budovanie vĺn — pomalý nábeh → držanie napätia → útlm → nový nábeh'),
-    {
+    { ...p('tempo_vlny', 'Budovanie vĺn — pomalý nábeh → držanie napätia → útlm → nový nábeh'), zbalitelna: true },
+    { zbalitelna: true,
       druh: 'otazka', id: 'tempo_startstop', typ: 'jeden',
       text: 'Start-stop (krátke pauzy pri 7–8/10 vzrušenia)',
       moznosti: [
@@ -1299,7 +1300,7 @@ const TEMPO: Blok = {
         { v: 'nie', label: 'Nie' },
       ],
     },
-    p('tempo_zmena_vzorca', 'Prepnúť vzorec pohybu / úchop v „žltých" zónach vzrušenia'),
+    { ...p('tempo_zmena_vzorca', 'Prepnúť vzorec pohybu / úchop v „žltých" zónach vzrušenia'), zbalitelna: true },
     {
       druh: 'otazka', id: 'tempo_pauza', typ: 'viac', inePovolene: true,
       text: 'Čo má zostať počas pauzy, aby napätie nezmizlo',
@@ -1358,7 +1359,7 @@ const TEMPO: Blok = {
         { v: 'nie', label: 'Pri vzrušení nechcem odovzdať kontrolu nad tempom' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'tempo_myty', nadpis: 'Mýty, ktoré zbytočne kazia hru', ton: 'info',
       telo:
         'Mýtus: čím viac oddialení, tým lepší výsledok. Realita: niekomu stačí jediná krátka pauza a priveľa návratov môže citlivosť alebo chuť oslabiť. Mýtus: edging musí skončiť silným orgazmom. Realita: pre časť ľudí je najvzrušujúcejšie práve napätie, vedenie a dlhé vnímanie tela — finále je možnosť, nie meradlo úspechu.',
@@ -1376,11 +1377,11 @@ const CELOTELOVA_MAPA: Blok = {
       druh: 'text', id: 'map_info', ton: 'info',
       telo: 'Rýchla mapa tela rozlišuje erotické, neutrálne a premenlivo citlivé zóny. Pomáha odhaliť aj miesta mimo genitálií, ktoré bývajú prehliadané.',
     },
-    { druh: 'otazka', id: 'map_eroticke', typ: 'text', text: '5 zón, ktoré sú pre mňa najviac erotické:' },
-    { druh: 'otazka', id: 'map_neutralne', typ: 'text', text: '5 zón, ktoré sú príjemné ako blízkosť, ale sex nespúšťajú:' },
-    { druh: 'otazka', id: 'map_citlive', typ: 'text', text: '5 zón, ktoré sú citlivé len niekedy (po športe, po sprche, pri únave, po orgazme) — a kedy presne:' },
-    { druh: 'otazka', id: 'map_nikdy', typ: 'text', text: g('3 zóny, ktoré ma zvyčajne nechávajú chladným:', '3 zóny, ktoré ma zvyčajne nechávajú chladnou:') },
-    { druh: 'otazka', id: 'map_booster', typ: 'text', text: 'Top 3 miesta mimo genitálií, ktoré ma najrýchlejšie vzrušia:' },
+    { povodnyText: true, inePovolene: true, moznosti: ZONY_TELA, druh: 'otazka', id: 'map_eroticke', typ: 'viac', text: "Ktoré zóny sú pre mňa najviac erotické?" },
+    { povodnyText: true, inePovolene: true, moznosti: ZONY_TELA, druh: 'otazka', id: 'map_neutralne', typ: 'viac', text: "Ktoré zóny sú príjemné ako blízkosť, ale nespúšťajú vzrušenie?" },
+    { povodnyText: true, inePovolene: true, moznosti: ZONY_TELA, druh: 'otazka', id: 'map_citlive', typ: 'viac', text: "Ktoré zóny majú premenlivú citlivosť podľa situácie?" },
+    { povodnyText: true, inePovolene: true, moznosti: ZONY_TELA, druh: 'otazka', id: 'map_nikdy', typ: 'viac', text: "Ktoré zóny ma zvyčajne nevzrušujú?" },
+    { povodnyText: true, inePovolene: true, moznosti: ZONY_TELA, druh: 'otazka', id: 'map_booster', typ: 'viac', text: "Ktoré miesta mimo genitálií ma najrýchlejšie vzrušia?" },
     {
       druh: 'otazka', id: 'map_signaly_prilis', typ: 'viac',
       text: 'Ako telo najčastejšie ukazuje, že chce zmenu rytmu alebo intenzity',

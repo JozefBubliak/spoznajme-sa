@@ -2,8 +2,11 @@
 
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import type { Blok, OtazkaBlok, Podmienka, Pohlavie, TemaObsah } from '@/lib/dotaznik/obsah/typ'
+import type { Blok, OtazkaBlok, Pohlavie, TemaObsah } from '@/lib/dotaznik/obsah/typ'
+import { splna } from '@/lib/dotaznik/podmienky'
 import { gtext } from '@/lib/dotaznik/obsah/typ'
+import { hodnotaPreOtazku, predoslaMoznost, prepniMoznost } from '@/lib/dotaznik/odpovede-ux'
+import { useI18n } from '@/components/IntlProvider'
 import { usePar } from './_par'
 import { useStavy, partnerZamok } from './_stav'
 import { useMojeOdpovede, ulozOdpoved } from './_odp'
@@ -13,24 +16,6 @@ const META = '_meta'
 
 type Hodnoty = Record<string, unknown>
 
-function splna(pod: Podmienka | undefined, ans: Hodnoty, pohlavie?: Pohlavie): boolean {
-  if (!pod) return true
-  if (pod.vsetky != null && !pod.vsetky.every((cast) => splna(cast, ans, pohlavie))) return false
-  if (pod.asponJedna != null && !pod.asponJedna.some((cast) => splna(cast, ans, pohlavie))) return false
-  if (pod.pohlavie != null && pod.pohlavie !== pohlavie) return false
-  if (pod.ot == null) return true
-  const h = ans[pod.ot] as { v?: unknown } | undefined
-  const v = h?.v
-  if (pod.je != null && v !== pod.je) return false
-  if (pod.jeNiektora != null && !(typeof v === 'string' && pod.jeNiektora.includes(v))) return false
-  if (pod.nie != null && v === pod.nie) return false
-  if (pod.obsahuje != null && !(Array.isArray(v) && v.includes(pod.obsahuje))) return false
-  if (pod.obsahujeNiektoru != null) {
-    const arr = Array.isArray(v) ? (v as string[]) : []
-    if (!pod.obsahujeNiektoru.some((x) => arr.includes(x))) return false
-  }
-  return true
-}
 
 // ── malé UI ────────────────────────────────────────────────────────────────
 function Prose({ nadpis, telo, ton }: { nadpis?: string; telo: string; ton?: string }) {
@@ -80,6 +65,7 @@ function Chips({
         const chip = (
           <button
             type="button"
+            aria-pressed={on}
             onClick={() => onPick(m.v)}
             className={`rounded-xl border px-3.5 py-2 text-left text-xs font-medium transition ${
               on
@@ -127,7 +113,9 @@ function OtazkaPole({
   onSave: (h: unknown) => void
 }) {
   const G = (t: Parameters<typeof gtext>[0]) => gtext(t, p)
+  const { t } = useI18n()
   const moznosti = (blok.moznosti ?? []).map((m) => ({ v: m.v, label: G(m.label) }))
+  const predosla = predoslaMoznost(blok, hodnota)
 
   return (
     <div className="rounded-2xl border border-border/70 bg-card/50 p-5">
@@ -140,6 +128,11 @@ function OtazkaPole({
       )}
 
       <div className="mt-3">
+        {predosla && (
+          <p className="mb-3 text-xs text-muted-foreground" role="status">
+            {t('dotaznik.ui.previousAnswer')}: {G(predosla.label)}. {t('dotaznik.ui.chooseNewScale')}
+          </p>
+        )}
         {(blok.typ === 'jeden' || blok.typ === 'skala') && (
           <div className="space-y-2">
             <Chips
@@ -149,8 +142,8 @@ function OtazkaPole({
             />
             {blok.inePovolene && (
               <input
-                defaultValue={hodnota?.ine ?? ''}
-                onBlur={(e) => onSave({ v: typeof hodnota?.v === 'string' ? hodnota.v : '', ine: e.target.value })}
+                value={hodnota?.ine ?? ''}
+                onChange={(e) => onSave({ v: typeof hodnota?.v === 'string' ? hodnota.v : '', ine: e.target.value })}
                 placeholder="Iné alebo doplnenie… (voliteľné)"
                 className="w-full rounded-xl border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary"
               />
@@ -166,9 +159,7 @@ function OtazkaPole({
               vybrane={new Set(Array.isArray(hodnota?.v) ? (hodnota.v as string[]) : [])}
               favorit={hodnota?.favorit}
               onPick={(v) => {
-                const cur = new Set(Array.isArray(hodnota?.v) ? (hodnota!.v as string[]) : [])
-                if (cur.has(v)) cur.delete(v)
-                else cur.add(v)
+                const cur = new Set(prepniMoznost(blok, Array.isArray(hodnota?.v) ? (hodnota.v as string[]) : [], v))
                 onSave({ v: [...cur], ine: hodnota?.ine, favorit: hodnota?.favorit === v && !cur.has(v) ? undefined : hodnota?.favorit })
               }}
               onFavorite={blok.favoritPovoleny ? (v) => {
@@ -179,8 +170,8 @@ function OtazkaPole({
             />
             {blok.inePovolene && (
               <input
-                defaultValue={hodnota?.ine ?? ''}
-                onBlur={(e) =>
+                value={hodnota?.ine ?? ''}
+                onChange={(e) =>
                   onSave({ v: Array.isArray(hodnota?.v) ? hodnota!.v : [], ine: e.target.value, favorit: hodnota?.favorit })
                 }
                 placeholder="Iné…"
@@ -247,6 +238,12 @@ function Bloky({
           if (!splna(b.podmienka, ans, p)) return null
           const telo = G(b.telo)
           if (!telo && !b.nadpis) return null
+          if (b.zbalitelny && b.nadpis) return (
+            <details key={b.id} className="rounded-2xl border border-border/60 p-4">
+              <summary className="cursor-pointer text-sm font-medium text-foreground">{G(b.nadpis)}</summary>
+              <Prose telo={telo} ton={b.ton} />
+            </details>
+          )
           return <Prose key={b.id} nadpis={b.nadpis ? G(b.nadpis) : undefined} telo={telo} ton={b.ton} />
         }
         if (b.druh === 'tabulka') {
@@ -299,15 +296,22 @@ function Bloky({
         }
         // otazka
         if (!splna(b.podmienka, ans, p)) return null
-        return (
+        const pole = (
           <OtazkaPole
-            key={b.id}
+            key={`${b.id}-${p}`}
             blok={b}
             p={p}
-            hodnota={ans[b.id] as { v?: unknown; ine?: string } | undefined}
+            hodnota={hodnotaPreOtazku(b, ans)}
             onSave={(h) => save(okruh, b, h)}
           />
         )
+        if (b.zbalitelna) return (
+          <details key={`${b.id}-${p}`} className="rounded-2xl border border-border/60 p-4">
+            <summary className="cursor-pointer text-sm font-medium text-foreground">{G(b.text)}</summary>
+            <div className="mt-3">{pole}</div>
+          </details>
+        )
+        return pole
       })}
     </>
   )

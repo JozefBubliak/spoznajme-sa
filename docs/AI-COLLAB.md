@@ -1,3 +1,7 @@
+# AUDIT DOCX → CODEX 2026-10-10
+
+Implementované vhodné odporúčania z úplne prečítanej `analýza dotazníka.docx`: štyri postoje s osobitnou ochotou pre partnera, významové škály, 55 inline doplnení so zachovaním starých odpovedí, 8 výberov namiesto prázdneho písania, 41 zbaliteľných vysvetlení, voliteľné detaily a konkrétne vetvenie. Rozhodnutia a obmedzenia: `docs/dotaznik-analyza-2026-10-10.md`. Existujúce partnerove túžby a skúsenostný kontrakt zachované; NEXT-003 vyhodnotenie zostáva vypnuté. Typecheck a všetky zdrojové/regresné kontroly vrátane React vykreslenia prešli. Používateľ následne schválil priame produkčné nasadenie cez main; úplný prepis DOCX zostáva lokálny.
+
 ## ZÁVÄZNÉ PRAVIDLÁ OBSAHU — používateľ 2026-09-30 (platí pre Codex aj Claude, má prednosť)
 
 1. **Plná personalizácia muž / žena.** Respondent je vždy konkrétne muž (má partnerku) alebo žena (má partnera). Žiadne „partner/ka", „partnerovi/partnerke", „chcel(a)", „rád/rada", „on/ona", „mu/jej", „zvedavý/á". Každý text, otázka aj možnosť cez `g(mužské, ženské)`. Otázka musí dávať zmysel tomu, kto ju číta; kde sa telá líšia, dať iné položky cez `podmienka: { pohlavie }` (rovnaké `id` pre zrkadlové párovanie). Používateľ to označil za **fatálnu chybu** — v obsahu je ~300 takých miest v 33 súboroch, treba ich systematicky opraviť.

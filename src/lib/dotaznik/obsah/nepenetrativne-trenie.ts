@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Nepenetratívne trenie — modul B7.
@@ -16,15 +17,15 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
   { v: 'tuzim', label: 'Túžim to zapojiť' },
   { v: 'ak_partner_chce', label: g('Rád to spravím, ak po tom partnerka túži', 'Rada to spravím, ak po tom partner túži') },
   { v: 'mozno', label: 'Možno, za istých okolností' },
   { v: 'nie', label: 'Nie, necítim sa komfortne' },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 // ── Petting ─────────────────────────────────────────────────────────
 const PETTING: Blok = {
@@ -65,39 +66,39 @@ const PETTING: Blok = {
         { v: 'kombinacia', label: 'Kombinácia oboch' },
       ],
     },
-    {
-      druh: 'otazka', id: 'pet_hladkanie', typ: 'jeden', moznosti: POSTOJ,
+    { doplnenieId: 'pet_hladkanie_ine', inePovolene: true,
+      druh: 'otazka', id: 'pet_hladkanie', typ: 'jeden', moznosti: CHUT, predosleMoznosti: POVODNY_POSTOJ,
       text: g(
         'Predstav si, že cítiš jej prsty, ako pomaly objavujú tvoje telo. Chcel by si, aby ťa partnerka hladila po tvári, rukách a chrbte počas vašich intímnych chvíľ?',
         'Predstav si, ako jeho ruky pomaly kĺžu po tvojom chrbte a ramenách. Chcela by si, aby ťa partner jemne hladil po tvári, rukách a chrbte ako súčasť pettingu?',
       ),
     },
-    { druh: 'otazka', id: 'pet_hladkanie_ine', typ: 'text', text: 'Vlastná odpoveď — hladkanie (voliteľné):' },
-    {
-      druh: 'otazka', id: 'pet_masaz', typ: 'jeden', moznosti: POSTOJ,
+
+    { doplnenieId: 'pet_masaz_ine', inePovolene: true,
+      druh: 'otazka', id: 'pet_masaz', typ: 'jeden', moznosti: CHUT, predosleMoznosti: POVODNY_POSTOJ,
       text: g(
         'Predstav si, že jej prsty pevne, no nežne masírujú tvoju šiju a ramená. Chcel by si, aby ti partnerka masírovala citlivé miesta počas predohry?',
         'Predstav si, že sa ti jeho dlane jemne zapierajú do ramien a šije. Chcela by si, aby ti partner masíroval šiju, ramená alebo kríž?',
       ),
     },
-    { druh: 'otazka', id: 'pet_masaz_ine', typ: 'text', text: 'Vlastná odpoveď — masáž (voliteľné):' },
-    {
-      druh: 'otazka', id: 'pet_erotogenne', typ: 'jeden', moznosti: POSTOJ,
+
+    { doplnenieId: 'pet_erotogenne_ine', inePovolene: true,
+      druh: 'otazka', id: 'pet_erotogenne', typ: 'jeden', moznosti: CHUT, predosleMoznosti: POVODNY_POSTOJ,
       text: g(
         'Predstav si, ako sa jej dotyky približujú k tvojim najcitlivejším miestam. Chcel by si, aby ti partnerka pri pettingu stimulovala erotogénne zóny?',
         'Predstav si jeho prsty, ktoré opatrne skúmajú tvoje vnútorné stehná a bradavky. Chcela by si, aby ti partner stimuloval erotogénne zóny?',
       ),
     },
-    { druh: 'otazka', id: 'pet_erotogenne_ine', typ: 'text', text: 'Vlastná odpoveď — erotogénne zóny (voliteľné):' },
-    {
-      druh: 'otazka', id: 'pet_trenie_nahi', typ: 'jeden', moznosti: POSTOJ,
+
+    { doplnenieId: 'pet_trenie_nahi_ine', inePovolene: true,
+      druh: 'otazka', id: 'pet_trenie_nahi', typ: 'jeden', moznosti: CHUT, predosleMoznosti: POVODNY_POSTOJ,
       text: g(
         'Predstav si, že jej nahé telo kĺže po tvojom. Chcel by si petting, kde sa len trieme o seba bez penetrácie?',
         'Predstav si, že ste obaja nahí a tvoje telo sa trie o jeho. Chcela by si zažiť petting s trením tiel bez penetrácie?',
       ),
     },
-    { druh: 'otazka', id: 'pet_trenie_nahi_ine', typ: 'text', text: 'Vlastná odpoveď — trenie nahých tiel (voliteľné):' },
-    {
+
+    { zbalitelny: true,
       druh: 'text', id: 'pet_tipy', nadpis: 'Tipy na experimentovanie', ton: 'info',
       telo:
         'Vyhraďte si čas iba na dotyky a objatia — bez očakávania sexu. Skúste petting pri sviečkach alebo hudbe. ' +
@@ -219,20 +220,20 @@ const TRIBBING: Blok = {
 const TITJOB: Blok = {
   druh: 'skupina', id: 'titjob', nadpis: 'Mammary intercourse (titjob)',
   bloky: [
-    {
+    { doplnenieId: 'tit_prijimam_ine', inePovolene: true,
       druh: 'otazka', id: 'tit_prijimam', typ: 'jeden',
       text: g(
         'Predstav si, že jej prsia obopínajú tvoj penis a ona sa dotýka špičkou jazyka. Chcel by si, aby ti partnerka poskytla titjob?',
         'Chcela by si, aby ťa partner dráždil penisom medzi tvojimi prsiami (titjob)?',
       ),
-      moznosti: POSTOJ,
+      moznosti: CHUT, predosleMoznosti: POVODNY_POSTOJ,
     },
-    { druh: 'otazka', id: 'tit_prijimam_ine', typ: 'text', text: 'Vlastná odpoveď — titjob (voliteľné):' },
+
 
     {
       druh: 'otazka', id: 'tit_poskytujem', typ: 'jeden',
       text: 'Poskytnúť partnerovi titjob',
-      moznosti: POSTOJ,
+      moznosti: CHUT, predosleMoznosti: POVODNY_POSTOJ,
     },
     p('tit_kombinacia_oral', 'Kombinácia titjobu s orálnou stimuláciou (striedavo/súčasne) ma láka'),
     {
@@ -286,7 +287,7 @@ const OUTERCOURSE: Blok = {
       druh: 'otazka', id: 'out_castejsie', typ: 'text',
       text: 'Ktoré dotyky chcem častejšie:',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'out_myty', nadpis: 'Mýty', ton: 'info',
       telo:
         'Mýtus: „Bez penetrácie to nie je skutočný sex." — Realita: pre veľkú časť žien je trenie klitorisu spoľahlivejšia cesta k orgazmu ako penetrácia. ' +
@@ -393,7 +394,7 @@ const HLBKOVA_MAPA: Blok = {
         { v: 'nie', label: 'Nechcem túto tému ďalej rozvíjať' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'nt_myty', nadpis: 'Mýty a tabu', ton: 'info',
       telo: 'Mýtus: trenie je iba tínedžerská predohra alebo náhradný sex. Realita: môže ponúknuť plný telesný rytmus, intenzívnu stimuláciu aj orgazmus a pre mnohých je cieľom samo osebe.\n\nMýtus: keď pár nepenetratuje, niečo mu chýba. Realita: frottage, tribbing, interkrurálna hra či trenie genitálií prinášajú iné vnemy a inú psychológiu než penetrácia — nie slabšiu verziu toho istého.',
     },

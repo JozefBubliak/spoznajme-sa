@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Tempo, intenzita a orgazmus — modul D4 „Tempo, rytmus a choreografia".
@@ -15,15 +16,15 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 // po pevný stisk a ťah; jednoduchá mapa spôsobov kontroly orgazmu.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
   { v: 'nie', label: 'Nie, neláka ma to' },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 const INTEN3: Moznost[] = [
   { v: 'jemna', label: 'Jemná' },
@@ -68,7 +69,7 @@ const ENERGIA_DOTYKU: Blok = {
   uvod:
     'Rovnaký dotyk môže pôsobiť úplné inak podľa energie: takmer neviditeľný pohyb, pevný stisk, pritiahnutie tela alebo prudký kontrast medzi nimi.',
   bloky: [
-    {
+    { doplnenieId: 'ene_jemnost_ine', inePovolene: true,
       druh: 'otazka', id: 'ene_jemnost', typ: 'jeden',
       text: 'Ako vnímam jemné pohyby počas intímnych chvíľ?',
       moznosti: [
@@ -77,8 +78,8 @@ const ENERGIA_DOTYKU: Blok = {
         { v: 'radsej_intenzivne', label: 'Skôr preferujem intenzívne a dôrazné pohyby' },
       ],
     },
-    { druh: 'otazka', id: 'ene_jemnost_ine', typ: 'text', text: 'Jemnosť a energia dotyku — vlastná odpoveď (voliteľné):' },
-    {
+
+    { doplnenieId: 'ene_jemne_prijimat_ine', inePovolene: true,
       druh: 'otazka', id: 'ene_jemne_prijimat', typ: 'jeden',
       text: 'Ako veľmi ma láka prijímať jemné dotyky',
       moznosti: [
@@ -87,8 +88,8 @@ const ENERGIA_DOTYKU: Blok = {
         { v: 'radsej_intenzivne', label: 'Radšej prijímam intenzívnejšie dotyky' },
       ],
     },
-    { druh: 'otazka', id: 'ene_jemne_prijimat_ine', typ: 'text', text: 'Jemné dotyky pri prijímaní — vlastná odpoveď (voliteľné):' },
-    {
+
+    { doplnenieId: 'ene_intenzivne_prijimat_ine', inePovolene: true,
       druh: 'otazka', id: 'ene_intenzivne_prijimat', typ: 'jeden',
       text: 'Ako veľmi ma láka prijímať intenzívne dotyky',
       moznosti: [
@@ -97,8 +98,8 @@ const ENERGIA_DOTYKU: Blok = {
         { v: 'radsej_jemne', label: 'Radšej prijímam jemné dotyky' },
       ],
     },
-    { druh: 'otazka', id: 'ene_intenzivne_prijimat_ine', typ: 'text', text: 'Intenzívne dotyky pri prijímaní — vlastná odpoveď (voliteľné):' },
-    {
+
+    { doplnenieId: 'ene_intenzivne_poskytovat_ine', inePovolene: true,
       druh: 'otazka', id: 'ene_intenzivne_poskytovat', typ: 'jeden',
       text: 'Ako veľmi ma láka poskytovať partnerovi/ke intenzívne dotyky',
       moznosti: [
@@ -107,7 +108,7 @@ const ENERGIA_DOTYKU: Blok = {
         { v: 'radsej_jemne', label: 'Radšej poskytujem jemné dotyky' },
       ],
     },
-    { druh: 'otazka', id: 'ene_intenzivne_poskytovat_ine', typ: 'text', text: 'Intenzívne dotyky pri poskytovaní — vlastná odpoveď (voliteľné):' },
+
     {
       druh: 'otazka', id: 'ene_prijimam', typ: 'jeden',
       text: 'Keď dotyk prijímam, najviac mi vyhovuje',
@@ -219,7 +220,7 @@ const ENERGIA_DOTYKU: Blok = {
         { v: 'striedanie', label: 'Prechod medzi jemnou a dynamickou polohou' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'ene_tipy_myty', nadpis: 'Tipy a mýty', ton: 'info',
       telo:
         'Skús kontrast: pierko alebo končeky prstov, potom pevný stisk stehien či zadku a napokon pomalý bozk. Dynamiku mení aj poloha — zozadu a v stoji sa ľahšie pracuje s ťahom, lyžičky a misionárska poloha podporujú pomalý tlak a očný kontakt. ' +
@@ -302,7 +303,7 @@ const TEMPO_RYTMUS: Blok = {
         { v: 'teasing', label: 'Pomalé trápenie, prerušenia a návraty' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'tmp_tipy_myty', nadpis: 'Tipy a mýty', ton: 'info',
       telo:
         'Skús jednu skladbu ako metronóm: prvú časť pomaly, v refréne zrýchliť a potom sa vrátiť k dlhým pohybom. Inokedy urob opak — začni prudko a zámerne spomaľ. ' +
@@ -385,7 +386,7 @@ const EDGING: Blok = {
         { v: 'bez_ciela', label: 'Nechcem sa sústrediť na počet orgazmov' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'edg_myty', nadpis: 'Mýty o kontrole orgazmu', ton: 'info',
       telo:
         'Mýtus: edging musí skončiť „silnejším" orgazmom, inak zlyhal. Realita: pre niekoho je hlavnou odmenou samotné napätie, dlhší zážitok alebo pocit kontroly. ' +
@@ -481,7 +482,7 @@ const SCENARE: Blok = {
         { v: 'nikdy', label: 'Nikdy' },
       ],
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'sce_tipy_stupnovane', nadpis: 'Tipy podľa skúsenosti', ton: 'info',
       telo:
         'Pre začiatok: začnite pomaly — očný kontakt, jemné dotyky; keď napätie stúpne, zrýchlite tempo a pridajte pevnejší dotyk. ' +

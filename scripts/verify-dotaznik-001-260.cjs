@@ -12,7 +12,7 @@ for (const file of files) {
   const source = fs.readFileSync(path.join(root, 'src/lib/dotaznik/obsah', file + '.ts'), 'utf8')
   const exports = {}
   const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText
-  vm.runInNewContext(compiled, { exports }, { timeout: 1000 })
+  vm.runInNewContext(compiled, { exports, require: name => require('./dotaznik-ts-loader.cjs')(path.resolve(root, 'src/lib/dotaznik/obsah', name + '.ts')) }, { timeout: 1000 })
   for (const topic of Object.values(exports)) {
     const ids = new Set()
     function walk(blocks) {
@@ -20,6 +20,7 @@ for (const file of files) {
         assert(!ids.has(b.id), `Duplicitné ID ${file}:${b.id}`)
         ids.add(b.id)
         bank.set(`${file}:${b.id}`, b)
+        if (b.doplnenieId) bank.set(`${file}:${b.doplnenieId}`, b)
         if (b.moznosti) assert.equal(new Set(b.moznosti.map(x => x.v)).size, b.moznosti.length, `Duplicitné voľby ${b.id}`)
         if (b.bloky) walk(b.bloky)
       }
@@ -46,7 +47,7 @@ function target(ref) {
     retiredMiesta = true
   }
   assert(b, `Neexistujúci blok ${ref}`)
-  if (value && !retiredMiesta) assert(b.moznosti?.some(x => x.v === value), `Neexistujúca voľba ${ref}`)
+  if (value && !retiredMiesta) assert([...(b.moznosti || []), ...(b.predosleMoznosti || [])].some(x => x.v === value), `Neexistujúca voľba ${ref}`)
   if (field && !retiredMiesta) assert(field === 'ine' && ['jeden', 'skala', 'viac'].includes(b.typ) && b.inePovolene, `Nezobraziteľné Iné ${ref}`)
   return b
 }
@@ -67,7 +68,7 @@ for (const [i, p] of map.paragraphs.entries()) {
   if (p.source.includes('✍️')) {
     assert(p.ownAnswer, `Stratená vlastná odpoveď P${p.p}`)
     const b = target(p.ownAnswer)
-    assert(p.ownAnswer.startsWith('miesta-prostredie:') || p.ownAnswer.endsWith('@ine') || p.ownAnswer.endsWith('_ine') || b.typ === 'text', `Vlastná odpoveď nemá textové pole P${p.p}`)
+    assert(p.ownAnswer.startsWith('miesta-prostredie:') || p.ownAnswer.endsWith('@ine') || p.ownAnswer.endsWith('_ine') || b.typ === 'text' || b.inePovolene, `Vlastná odpoveď nemá textové pole P${p.p}`)
     own++
   }
 }

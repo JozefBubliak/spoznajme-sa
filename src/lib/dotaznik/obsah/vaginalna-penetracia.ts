@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT, UCINOK } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Vaginálna penetrácia — modul D1 „Vaginálna penetrácia".
@@ -19,15 +20,15 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
   { v: 'skor_nie', label: 'Skôr nie' },
   { v: 'nie', label: 'Nie — neláka ma to' },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 // ── Penetrácia ako voľba ──────────────────────────────────────────────
@@ -91,7 +92,7 @@ const NABEH: Blok = {
         { v: 'zalezi', label: 'Záleží na chvíli' },
       ],
     },
-    p('nab_dych', 'Vedomé spomalenie dychu pri vstupe mi pomáha uvoľniť sa'),
+    p('nab_dych', 'Vedomé spomalenie dychu pri vstupe mi pomáha uvoľniť sa', UCINOK),
   ],
 }
 
@@ -111,7 +112,7 @@ const TECHNIKY: Blok = {
         { v: 'shallowing', label: '„Shallowing" — vedome plytšie vstupy (napr. na začiatku/pri edgingu)' },
       ],
     },
-    p('tec_kombinacia_klitoris', 'Kombinácia penetrácie s ručnou stimuláciou klitorisu ma výrazne zosilňuje'),
+    p('tec_kombinacia_klitoris', 'Kombinácia penetrácie s ručnou stimuláciou klitorisu ma výrazne zosilňuje', UCINOK),
     {
       druh: 'otazka', id: 'tec_pairing_kto', typ: 'jeden',
       text: '„Pairing" (súbežná stimulácia klitorisu počas penetrácie) — kto ju robí',
@@ -240,7 +241,7 @@ const FISTING: Blok = {
         'Vaginálny fisting môže priniesť pocit úplnej plnosti, hlbokého vnútorného tlaku a odovzdania, ktorý sa nepodobá bežnej penetrácii. Ruka môže zostať nehybná, jemne pulzovať, meniť svoj tvar alebo sa spojiť s klitorisom; vzrušujúce môže byť aj to, že partner cíti každý pohyb mojej panvy a svalov zvnútra.',
       ),
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'fis_myty', nadpis: 'Mýty a tipy', ton: 'info',
       telo:
         'Mýtus: fisting musí byť rýchly, násilný alebo vyzerať ako porno. Realita: jeho príťažlivosť môže stáť na pomalom pocite plnosti, nehybnom tlaku, malých pulzoch a pohybe panvy.\n\n' +
@@ -248,7 +249,7 @@ const FISTING: Blok = {
         'Mýtus: túžba po fistingu znamená, že partnerov penis nestačí. Realita: ruka prináša úplne iný tvar, tlak, pohyb a psychologický význam; nie je hodnotením veľkosti partnerovho tela.\n\n' +
         'Mýtus: záujem o intenzívnu plnosť robí ženu „príliš voľnou" alebo nenásytnou. Realita: je to jedna z konkrétnych erotických preferencií a nehovorí nič o jej hodnote ani o kvalite bežného sexu.',
     },
-    {
+    { doplnenieId: 'fis_postoj_ine', inePovolene: true,
       druh: 'otazka', id: 'fis_postoj', typ: 'jeden',
       text: g('Chcel by som skúsiť vložiť ruku do vagíny partnerky a pomaly experimentovať s hlbokou stimuláciou?', 'Chcela by som, aby partner vložil ruku do mojej vagíny a pomaly experimentoval s hlbokou stimuláciou?'),
       moznosti: [
@@ -295,7 +296,7 @@ const FISTING: Blok = {
         { v: 'drep', label: 'Hlboký drep' },
       ],
     },
-    { druh: 'otazka', id: 'fis_postoj_ine', typ: 'text', text: 'Vlastná odpoveď (voliteľné):' },
+
     {
       druh: 'otazka', id: 'fis_partner_tuzba', typ: 'jeden',
       text: g('Ako na mňa pôsobí, keď partnerka túži cítiť moju ruku hlboko v sebe?', 'Ako na mňa pôsobí, keď partner túži vložiť do mňa celú ruku?'),
@@ -371,7 +372,7 @@ const HLBKOVA_MAPA: Blok = {
       druh: 'otazka', id: 'vp_nova_verzia', typ: 'text',
       text: 'Jedna nová verzia penetrácie, ktorú chcem skúsiť — čo sa zmení na nálade, vedení, uhle alebo rytme:',
     },
-    {
+    { zbalitelny: true,
       druh: 'text', id: 'vp_myty', nadpis: 'Mýty, ktoré zbytočne zužujú penetráciu', ton: 'info',
       telo: 'Mýtus: penetrácia je automaticky hlavný alebo „skutočný“ sex. Realita: je jednou z mnohých plnohodnotných možností.\n\nMýtus: hlbšie a rýchlejšie znamená lepšie. Realita: pre niekoho je najsilnejší plytký tlak pri vstupe, stabilný rytmus, nehybné spojenie alebo kombinácia s klitorisom.\n\nMýtus: partneri by mali chcieť rovnakú podobu zakaždým. Realita: túžba po jemnosti, plnosti, kontrole či dravosti sa môže meniť podľa nálady bez toho, aby to hodnotilo partnera alebo jeho telo.',
     },

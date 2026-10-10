@@ -42,6 +42,16 @@ export type OtazkaBlok = {
   napoveda?: GText
   moznosti?: Moznost[] // jeden / viac / skala
   inePovolene?: boolean // 'jeden' / 'skala' / 'viac' → pridá voľné pole v tej istej karte
+  /** Pôvodné samostatné doplnenie; stará odpoveď sa číta v tej istej karte. */
+  doplnenieId?: string
+  /** Staré stupne sa nezamieňajú za nový význam bez rozhodnutia respondenta. */
+  predosleMoznosti?: Moznost[]
+  /** Pôvodný voľný text zostane ako doplnenie pri prechode na zoznam. */
+  povodnyText?: boolean
+  povodnyJeden?: boolean
+  vylucneMoznosti?: string[] // voľba vylučujúca ostatné možnosti
+  /** Nepovinné spresnenie; základný výber zostáva prehľadný. */
+  zbalitelna?: boolean
   /** Pri vhodnom viacnásobnom výbere možno zo zvolených možností označiť jednu najobľúbenejšiu. */
   favoritPovoleny?: boolean
   riadky?: Moznost[] // 'mrezka'
@@ -56,6 +66,7 @@ export type TextBlok = {
   nadpis?: GText
   telo: GText // odseky oddelené prázdnym riadkom
   ton?: 'info' | 'vystraha' | 'citat'
+  zbalitelny?: boolean
   podmienka?: Podmienka
 }
 

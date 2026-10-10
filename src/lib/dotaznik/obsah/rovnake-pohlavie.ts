@@ -1,4 +1,5 @@
-import type { TemaObsah, Blok, Moznost } from './typ'
+import { CHUT, VYSKYT_POCITU } from './skaly'
+import type { TemaObsah, Blok, Moznost, OtazkaBlok } from './typ'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Interakcie s rovnakým pohlavím — modul H1 „Bi-zvedavosť / rovnaké pohlavie".
@@ -11,7 +12,7 @@ import type { TemaObsah, Blok, Moznost } from './typ'
 
 const g = (m: string, z: string) => ({ m, z })
 
-const POSTOJ: Moznost[] = [
+const POVODNY_POSTOJ: Moznost[] = [
   { v: 'pacim', label: 'Páči sa mi to' },
   { v: 'skor_ano', label: 'Skôr áno' },
   { v: 'neutral', label: 'Neutrálne' },
@@ -19,8 +20,8 @@ const POSTOJ: Moznost[] = [
   { v: 'nie', label: 'Nie — hranica' },
   { v: 'zvedavy', label: g('Neskúšal som, zaujíma ma to', 'Neskúšala som, zaujíma ma to') },
 ]
-const p = (id: string, text: TemaObsah['nadpis']): Blok => ({
-  druh: 'otazka', id, typ: 'skala', text, moznosti: POSTOJ,
+const p = (id: string, text: TemaObsah['nadpis'], moznosti: Moznost[] = CHUT): OtazkaBlok => ({
+  druh: 'otazka', id, typ: 'skala', text, moznosti, predosleMoznosti: POVODNY_POSTOJ,
 })
 
 const SKUSENOST: Blok = {
@@ -125,7 +126,7 @@ const VYVOJ: Blok = {
 const POCITY: Blok = {
   druh: 'skupina', id: 'pocity', nadpis: 'Psychológia a zmiešané pocity',
   bloky: [
-    p('poc_vina', 'Vzrušenie premiešané s vinou alebo hanbou'),
+    p('poc_vina', 'Vzrušenie premiešané s vinou alebo hanbou', VYSKYT_POCITU),
     { druh: 'otazka', id: 'poc_identita', typ: 'text', text: 'Obavy z identity („čo to o mne hovorí?") — čo mi pomáha to zvládnuť:' },
     {
       druh: 'otazka', id: 'poc_rozdiel', typ: 'jeden',
