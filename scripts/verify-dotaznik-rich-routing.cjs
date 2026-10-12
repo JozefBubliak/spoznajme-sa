@@ -47,10 +47,10 @@ const REQUIRED_RICH_ROUTES = [
   'telesne-tekutiny/semeno',
   'telesne-tekutiny/menstrualna-krv',
   'telesne-tekutiny/watersports',
-  'dirty-talk-oslovenia/ton',
+
   'dirty-talk-oslovenia/obsah',
-  'dirty-talk-oslovenia/oslovenia',
-  'dirty-talk-oslovenia/jazyk-tela',
+
+
 ]
 for (const slug of REQUIRED_RICH_ROUTES) {
   if (!registeredSlugs.has(slug)) errors.push(`Povinná detailná route ${slug} nie je registrovaná.`)

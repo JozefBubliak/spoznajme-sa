@@ -142,12 +142,7 @@ const PREHLAD_SKUPINY: readonly PrehladSkupina[] = [
     polozky: [
       {
         nazov: 'Dirty talk',
-        slugs: [
-          'dirty-talk-oslovenia/ton',
-          'dirty-talk-oslovenia/obsah',
-          'dirty-talk-oslovenia/oslovenia',
-          'dirty-talk-oslovenia/jazyk-tela',
-        ],
+        slugs: ['dirty-talk-oslovenia/obsah'],
       },
       { nazov: 'Fantázie — screening a preklad do reality', slugs: ['fantazie-preklad-reality/fantazie-preklad-reality'] },
       { nazov: 'Digitálna a diaľková intimita', slugs: ['digitalna-dialkova/digitalna-dialkova'] },

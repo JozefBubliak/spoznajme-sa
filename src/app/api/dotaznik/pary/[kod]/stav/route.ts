@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { db, overPar, type Slot } from '@/lib/dotaznik/server'
+import { temyPreStav } from '@/lib/dotaznik/temy-aliasy'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -35,7 +36,7 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ kod: string
 
   const { error } = await db()
     .from('dotaznik_stav_temy')
-    .upsert(row, { onConflict: 'par_id,slot,modul,tema' })
+    .upsert(temyPreStav(row.modul, row.tema).map(tema => ({ ...row, tema })), { onConflict: 'par_id,slot,modul,tema' })
 
   if (error) {
     console.error('[dotaznik/stav] upsert', error.code, error.message)

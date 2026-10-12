@@ -501,10 +501,7 @@ export const MODULY: Modul[] = [
     slug: 'dirty-talk-oslovenia', cislo: 35, kod: 'F6', domena: 'F', zrkadlovy: true,
     nazov: 'Dirty talk, oslovenia a slovný priestor', popis: 'Tón, obsah, oslovenia, jazyk o tele partnera.', ikona: '🗣️', citlivost: 2,
     temy: [
-      o('ton', 'Tón, hlas a načasovanie', 'Ako slová znejú a kedy prichádzajú.', ['Šepot pri uchu', 'Nežný obdiv', 'Hravé provokovanie', 'Pokojný rozkazovací tón', 'Naliehavý alebo surový hlas', 'Budovanie očakávania v správach', 'Postupné zosilňovanie slov']),
-      o('obsah', 'Čo hovoriť a počuť', 'Túžba, pochvala, opis, vedenie a fantázia.', ['Pomenovanie túžby', 'Pochvala tela a reakcií', 'Opis toho, čo sa práve deje', 'Sľub ďalšieho kroku', 'Erotická fantázia alebo scenár', 'Príkazy a prosby', 'Vlastnícky jazyk', 'Uctievanie', 'Erotická degradácia', 'Slová pred orgazmom']),
-      o('oslovenia', 'Oslovenia a erotické roly', 'Od mena a nehy po vlastníctvo a degradáciu.', ['Meno alebo intímna prezývka', 'Nežné oslovenia', 'Pochvalné oslovenia', 'Dominantné tituly', 'Poslušný chlapec alebo dobré dievča', 'Vlastnícke oslovenia', 'Hračka alebo erotický objekt', 'Nenásytný milenec alebo nenásytná milenka', 'Anglické erotické roly', 'Slovenské degradačné oslovenia', 'Sluha, slúžka alebo otrok', 'Čo je úplne mimo']),
-      o('jazyk-tela', 'Jazyk tela a genitálií', 'Ako pomenovať telo bez straty vzrušenia.', ['Zmyselný obdiv tela', 'Konkrétny opis reakcií', 'Priame anatomické slová', 'Vulgárne pomenovania', 'Vlastnícky jazyk o tele', 'Pomenovania penisu', 'Pomenovania vulvy a vagíny', 'Pomenovania pŕs a zadku', 'Slová, ktoré ma vypínajú']),
+      o('obsah', 'Dirty talk', 'Tón, hlas, obsah, spoločné príbehy, oslovenia a jazyk tela v jednej téme.'),
     ],
   },
   {

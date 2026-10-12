@@ -15,6 +15,13 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     const r: { source: string; destination: string; permanent: boolean }[] = []
+    for (const tema of ['ton', 'oslovenia', 'jazyk-tela']) {
+      r.push({
+        source: `/:lang/dotaznik/m/dirty-talk-oslovenia/t/${tema}/:path*`,
+        destination: '/:lang/dotaznik/m/dirty-talk-oslovenia/t/obsah/:path*',
+        permanent: true,
+      })
+    }
     for (const l of SUP) {
       r.push({ source: `/${l}/pomocky`, destination: `/${l}/kompas`, permanent: true })
     }

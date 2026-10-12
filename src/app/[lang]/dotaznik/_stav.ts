@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ParLocal } from './_par'
+import { temyPreStav } from '@/lib/dotaznik/temy-aliasy'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Screening stav (Áno / Ešte nie / Nie / hotovo) + zámky od partnera.
@@ -56,7 +57,10 @@ export function najdiStav(
   tema: string | null,
 ): StavHodnota | undefined {
   const t = tema ?? ''
-  return stavy.find((s) => s.slot === slot && s.modul === modul && s.tema === t)?.stav
+  const temy = temyPreStav(modul, t)
+  const hodnoty = stavy.filter(s => s.slot === slot && s.modul === modul && temy.includes(s.tema)).map(s => s.stav)
+  // Zlúčenie nesmie potichu odomknúť predtým odmietnutú časť.
+  return hodnoty.includes('nie') ? 'nie' : hodnoty.includes('este_nie') ? 'este_nie' : hodnoty.includes('ano') ? 'ano' : hodnoty[0]
 }
 
 /** Zámok od partnera pre daný modul/tému. */

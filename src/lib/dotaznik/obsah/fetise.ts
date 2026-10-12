@@ -1547,7 +1547,6 @@ export const FETISE: TemaObsah = {
     NOHAVICKY,
     CASTI_TELA,
     VONE,
-    DIRTY_TALK,
     VOYEUR,
     ROLEPLAY,
     MESSY,
@@ -1631,56 +1630,13 @@ export const WATERSPORTS_TEMA: TemaObsah = {
   telo: [MOC],
 }
 
-// F6 má štyri samostatné používateľské stránky. Každá dostáva vlastný výrez
-// plného dirty-talk obsahu, aby nespadla na krátky seed zo stromu.
-export const DIRTY_TALK_TON_TEMA: TemaObsah = {
-  slug: 'dirty-talk-oslovenia/ton',
-  nadpis: 'Dirty talk — tón, hlas a načasovanie',
-  zdielanieDovod: true,
-  uvod: [
-    {
-      druh: 'text', id: 'dt_ton_tema_uvod', nadpis: 'Keď túžbu nesie hlas',
-      telo: 'Šepot pri uchu, nežný obdiv, hravé provokovanie aj pokojný rozkaz môžu z tej istej vety urobiť úplne iný zážitok. Táto časť mapuje hlas, chvíľu a postupné zosilňovanie slov.',
-    },
-  ],
-  telo: [DT_TON, DT_PARTNER, DT_MYTY],
-}
+// Jedna téma so všetkými časťami; pôvodné ID otázok aj okruhov zostávajú.
+
 
 export const DIRTY_TALK_OBSAH_TEMA: TemaObsah = {
   slug: 'dirty-talk-oslovenia/obsah',
-  nadpis: 'Dirty talk — čo chcem hovoriť a počuť',
+  nadpis: 'Dirty talk',
   zdielanieDovod: true,
-  uvod: [
-    {
-      druh: 'text', id: 'dt_obsah_tema_uvod', nadpis: 'Slová ako predohra, vedenie aj fantázia',
-      telo: 'Dirty talk môže pomenovať túžbu, obdivovať telo, opisovať prítomný okamih, sľubovať ďalší krok, viesť príkazom alebo otvoriť erotickú rolu. Nejde o jednu správnu vetu, ale o obsah, ktorý medzi dvoma ľuďmi znie pravdivo a vzrušujúco.',
-    },
-  ],
-  telo: [DT_OBSAH, DT_SLOVNE_PROVOKACIE, DT_PARTNER, DT_MYTY],
-}
-
-export const DIRTY_TALK_OSLOVENIA_TEMA: TemaObsah = {
-  slug: 'dirty-talk-oslovenia/oslovenia',
-  nadpis: 'Dirty talk — oslovenia',
-  zdielanieDovod: true,
-  uvod: [
-    {
-      druh: 'text', id: 'dt_oslovenia_tema_uvod', nadpis: 'Od mena po erotickú rolu',
-      telo: '„Miláčik“ je iba začiatok. Oslovenie môže niesť nehu, pochvalu, vlastníctvo, poslušnosť, sexuálny apetít, objektifikáciu aj vedome zvolenú degradáciu. Rozhodujú presné slová a význam, ktorý majú práve pre vás.',
-    },
-  ],
-  telo: [DT_OSLOVENIA, DT_PARTNER, DT_MYTY],
-}
-
-export const DIRTY_TALK_JAZYK_TELA_TEMA: TemaObsah = {
-  slug: 'dirty-talk-oslovenia/jazyk-tela',
-  nadpis: 'Dirty talk — jazyk tela a genitálií',
-  zdielanieDovod: true,
-  uvod: [
-    {
-      druh: 'text', id: 'dt_jazyk_tela_tema_uvod', nadpis: 'Slová, ktoré telo rozsvietia alebo vypnú',
-      telo: 'Niekto chce zmyselný obdiv, iný priame anatomické slová a ďalší surový slovník. Táto časť oddeľuje spôsob hovorenia o tele od konkrétnych pomenovaní, aby sa nestratilo to, čo znie eroticky — ani to, čo okamžite ruší náladu.',
-    },
-  ],
-  telo: [DT_JAZYK_TELA, DT_PARTNER, DT_MYTY],
+  uvod: [{ druh: 'text', id: 'dt_uvod', telo: DIRTY_TALK.uvod ?? '' }],
+  telo: DIRTY_TALK.bloky,
 }

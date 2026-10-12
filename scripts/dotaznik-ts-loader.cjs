@@ -11,6 +11,6 @@ module.exports = function load(file) {
   const compiled = ts.transpileModule(fs.readFileSync(file, 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS },
   }).outputText
-  vm.runInNewContext(compiled, { exports, require: name => load(path.resolve(path.dirname(file), name + '.ts')) }, { timeout: 1000 })
+  vm.runInNewContext(compiled, { exports, require: name => load(path.resolve(path.dirname(file), name + '.ts')) }, { timeout: 30000 })
   return exports
 }

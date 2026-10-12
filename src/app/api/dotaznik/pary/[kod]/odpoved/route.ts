@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { db, overPar, type Slot } from '@/lib/dotaznik/server'
+import { temyPreStav, odpovedePreModul } from '@/lib/dotaznik/temy-aliasy'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -21,11 +22,11 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ kod: string
     .eq('par_id', par.id)
     .eq('slot', slot)
   const modul = sp.get('modul')
-  if (modul) q = q.eq('modul', modul)
+  if (modul) q = q.in('modul', modul === 'dirty-talk-oslovenia' ? [modul, 'telesne-tekutiny'] : [modul])
 
   const { data, error } = await q
   if (error) return NextResponse.json({ error: 'db' }, { status: 500 })
-  return NextResponse.json({ odpovede: data ?? [] })
+  return NextResponse.json({ odpovede: odpovedePreModul(modul, data ?? []) })
 }
 
 // PUT /api/dotaznik/pary/[kod]/odpoved
@@ -73,15 +74,15 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ kod: string
   // kontrolu obíde. Skutočná oprava vyžaduje server-side odvodenie témy zo schémy, nie z toho,
   // čo si klient sám nahlási — pozri docs/AI-COLLAB.md, NEXT-003.
   const partnerSlot = b.slot === 'a' ? 'b' : 'a'
-  const { data: partnerStav } = await db()
+  const { data: partnerStav, error: stavError } = await db()
     .from('dotaznik_stav_temy')
     .select('stav')
     .eq('par_id', par.id)
     .eq('slot', partnerSlot)
     .eq('modul', b.modul)
-    .eq('tema', b.tema)
-    .maybeSingle()
-  if (partnerStav?.stav === 'nie' || partnerStav?.stav === 'este_nie') {
+    .in('tema', temyPreStav(b.modul, b.tema))
+  if (stavError) return NextResponse.json({ error: 'db' }, { status: 500 })
+  if (partnerStav?.some(s => s.stav === 'nie' || s.stav === 'este_nie')) {
     return NextResponse.json({ error: 'locked-by-partner' }, { status: 423 })
   }
 
