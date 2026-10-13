@@ -1,3 +1,7 @@
+# ÚPRAVA JAZYKA A PORADIA BOZKOV — 2026-10-13
+
+Podľa vložených pripomienok používateľa: priame krátke otázky namiesto „Predstav si“, jednoduchší jazyk, poradie štýl/sliny/nápoj → hryzenie pier/oči/rituál → krk/telo → intenzita/stopy/vedenie. Tipy a mýty zbaliteľné na konci časti; nepodložené tvrdenia o väčšine ľudí či preukázaných účinkoch neprevzaté. Duplicita `boz_hlava_vlasy` zlúčená do `boz_uchop_hlavy` cez `predosleId`; rozdielna druhá pôvodná odpoveď ostáva viditeľná. Presunuté otázky zachovávajú DB okruh cez `povodnyOkruh`, všetky hodnoty možností zostali. Nejasný termín snowballing nahradený konkrétnym opisom odovzdávania slín (pôvodná hodnota zachovaná). Kontrola: `scripts/verify-dotaznik-bozky-copy.cjs` a test React vykreslenia.
+
 # SEX VEDĽA INÉHO PÁRU BEZ VÝMENY — 2026-10-13
 
 Používateľ doplnil praktiku, ktorá chýbala: oba páry majú sex vedľa seba, každý iba so svojím partnerom. Jedna časť v existujúcej téme `voyeur-exhib/voyeur-exhib`, bez novej duplicitnej kategórie a bez závislosti na soft/full swape. Obsahuje vlastnú chuť, priestor/odstup, vnímanie/zvuky/pohľady, rytmus a samostatný postoj k partnerovej túžbe; plné m/ž texty. Existujúca voľba `paralelne` vo full swape naopak znamená sex po výmene, preto nebola premenovaná. Zdroje pri bloku; kontrola `scripts/verify-dotaznik-same-room.cjs`.

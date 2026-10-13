@@ -161,6 +161,7 @@
   "dotaznik": {
     "ui": {
       "previousAnswer": "Previous answer",
+      "mergedAnswer": "Previous answer from the other merged question",
       "chooseNewScale": "The scale has changed. You can choose your answer again; your previous answer remains saved."
     }
   }

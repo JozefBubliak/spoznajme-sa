@@ -84,20 +84,13 @@ const INT5: Moznost[] = [
 // fornix, orphan nadpisy „kombinácie a rituály", „prepojenie s masážou").
 const BOZKY_USTA: Blok = {
   druh: 'skupina', id: 'bozky_usta', nadpis: 'Bozky — ústa',
-  uvod: 'Bozk vie byť nežný ako pohladenie, drsný ako rozbúrené more, alebo provokatívny a hravý. Niekedy je predohrou, inokedy samotným centrom zážitku.',
+  uvod: 'Aké bozky ti vyhovujú — od jemných a krátkych po intenzívne a hravé?',
   bloky: [
-    {
-      druh: 'text', id: 'boz_typy', nadpis: 'Typy bozkov a ich energia',
-      telo:
-        'Jemné a romantické — pomalé, mäkké dotyky pier, vnímanie dychu a tepla; ideálne na začiatok. ' +
-        'Intenzívne a vášnivé — hlbšie spojenie pier a jazyka, rýchlejší rytmus, pevnejší tlak; prebúdzajú túžbu. ' +
-        'Agresívne a dráždivé — silné zovretie pier, jemné alebo intenzívne hryzenie, vzrušujúci kontrast bolesti a potešenia.',
-    },
     { doplnenieId: 'boz_usta_ine', inePovolene: true,
       druh: 'otazka', id: 'boz_usta', typ: 'jeden',
       text: g(
-        'Predstav si, že ju držíš za šiju a vaše pery sa spoja v hlbokom, hladnom bozku. Ako máš rád bozky na ústa?',
-        'Predstav si, že jeho pery len letmo prechádzajú po tvojich, zastavia sa a potom ťa nežne pobozkajú. Ako máš rada bozky na ústa?',
+        'Aké bozky na ústa máš najradšej?',
+        'Aké bozky na ústa máš najradšej?',
       ),
       moznosti: [
         { v: 'jemne', label: 'Jemné a krátke — nežnosť a romantika' },
@@ -106,13 +99,11 @@ const BOZKY_USTA: Blok = {
         { v: 'agresivne', label: 'Agresívnejšie — silný tlak, pritlačenie pier, zovretie, hryzenie' },
       ],
     },
-
-
     { doplnenieId: 'boz_francuzske_ine', inePovolene: true,
       druh: 'otazka', id: 'boz_francuzske', typ: 'jeden',
       text: g(
-        'Predstav si, že jej jazyk sa dotkne tvojho a váš dych sa spojí. Ako vnímaš francúzske bozky?',
-        'Predstav si, ako jeho jazyk jemne vkĺzne medzi tvoje pery a začne sa s tvojím hrať. Vzrušujú ťa francúzske bozky?',
+        'Ako ti vyhovujú bozky so zapojením jazyka?',
+        'Ako ti vyhovujú bozky so zapojením jazyka?',
       ),
       moznosti: [
         { v: 'ano', label: 'Áno, milujem ich — veľmi ma vzrušujú' },
@@ -120,13 +111,32 @@ const BOZKY_USTA: Blok = {
         { v: 'nie', label: 'Nie, nevyhľadávam ich' },
       ],
     },
-
-
+    {
+      druh: 'otazka', id: 'boz_miera_vlhkosti', typ: 'jeden',
+      text: 'Aké pery a množstvo slín mi pri bozku vyhovujú?',
+      moznosti: [
+        { v: 'suchsie', label: 'Skôr suchšie, jemné pery' },
+        { v: 'jemne_vlhke', label: 'Jemne vlhké' },
+        { v: 'velmi_vlhke', label: 'Veľmi vlhké, vášnivé' },
+        { v: 'snowballing', label: 'Vedomé odovzdávanie slín z úst do úst' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'boz_predavanie_tekutin', typ: 'jeden',
+      text: 'Ako vnímam odovzdanie dúšku nápoja z úst do úst?',
+      napoveda: 'Napríklad dúšku vína, šampanského alebo sladkého nápoja.',
+      moznosti: [
+        { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
+        { v: 'tuzim', label: 'Túžim to vyskúšať' },
+        { v: 'mozno', label: 'Možno, za istých okolností' },
+        { v: 'nie', label: 'Nie, neláka ma to' },
+      ],
+    },
     { doplnenieId: 'boz_hryzenie_pier_ine', inePovolene: true,
       druh: 'otazka', id: 'boz_hryzenie_pier', typ: 'jeden',
       text: g(
-        'Predstav si, že jej zuby sa zľahka zahryznú do tvojej pery. Láka ťa hryzenie pier?',
-        'Predstav si, že pri bozku jemne hryzne tvoju peru — len tak, aby si cítila jeho vášeň. Ako ti vyhovuje hryzenie pier?',
+        'Ako ti vyhovuje hryzenie pier pri bozku?',
+        'Ako ti vyhovuje hryzenie pier pri bozku?',
       ),
       moznosti: [
         { v: 'milujem', label: 'Jemné hryzenie milujem — mierne dráždenie' },
@@ -135,31 +145,15 @@ const BOZKY_USTA: Blok = {
         { v: 'nie', label: 'Nepreferujem hryzenie pier' },
       ],
     },
-
+    { ...p('boz_ocny_kontakt', 'Bozkávanie s hlbokým pohľadom do očí'), zbalitelna: true },
     p('boz_6_sekund', 'Denný „6-sekundový bozk" — dlhší bozk pri odchode a príchode, nie len cmuk'),
     { ...p('boz_pocas_sexu', 'Bozkávanie počas celého sexu, nielen na začiatku'), zbalitelna: true },
-    p('boz_po_orali', g('Bozk po oráli — ochutnať sa na perách partnerky', 'Bozk po oráli — ochutnať sa na perách partnera')),
-    p('boz_hlava_vlasy', 'Ťahanie za vlasy alebo držanie tváre pri bozku'),
-    { ...p('boz_ocny_kontakt', 'Bozkávanie s hlbokým pohľadom do očí'), zbalitelna: true },
     {
-      druh: 'otazka', id: 'boz_miera_vlhkosti', typ: 'jeden',
-      text: 'Miera „vlhkosti" bozku, ktorá mi je príjemná',
-      moznosti: [
-        { v: 'suchsie', label: 'Skôr suchšie, jemné pery' },
-        { v: 'jemne_vlhke', label: 'Jemne vlhké' },
-        { v: 'velmi_vlhke', label: 'Veľmi vlhké, vášnivé' },
-        { v: 'snowballing', label: '„Snowballing" — vedomé predávanie slín z úst do úst' },
-      ],
-    },
-    {
-      druh: 'otazka', id: 'boz_predavanie_tekutin', typ: 'jeden',
-      text: 'Predávanie tekutiny z úst do úst počas bozku (dúšok vína, šampanského, sladkého nápoja)',
-      moznosti: [
-        { v: 'robime', label: g('Už to robíme a som spokojný', 'Už to robíme a som spokojná') },
-        { v: 'tuzim', label: 'Túžim to vyskúšať' },
-        { v: 'mozno', label: 'Možno, za istých okolností' },
-        { v: 'nie', label: 'Nie, neláka ma to' },
-      ],
+      druh: 'text', id: 'boz_typy', nadpis: 'Štýly bozkávania', zbalitelny: true,
+      telo:
+        'Jemné a romantické — pomalé, mäkké dotyky pier, vnímanie dychu a tepla; ideálne na začiatok. ' +
+        'Intenzívne a vášnivé — hlbšie spojenie pier a jazyka, rýchlejší rytmus, pevnejší tlak; prebúdzajú túžbu. ' +
+        'Agresívne a dráždivé — silné zovretie pier, jemné alebo intenzívne hryzenie, vzrušujúci kontrast bolesti a potešenia.',
     },
   ],
 }
@@ -170,8 +164,8 @@ const BOZKY_TELO: Blok = {
     { doplnenieId: 'boz_krk_ine', inePovolene: true,
       druh: 'otazka', id: 'boz_krk', typ: 'jeden',
       text: g(
-        'Predstav si, že jej pery a zuby sa dotýkajú tvojho krku a ty len zavrieš oči. Ako vnímaš bozkávanie krku?',
-        'Predstav si, že ti pery blúdia po krku a sem-tam jemne nasajú pokožku. Ako máš rada bozky na krku?',
+        'Aké bozky na krku ti vyhovujú?',
+        'Aké bozky na krku ti vyhovujú?',
       ),
       moznosti: [
         { v: 'jemne', label: 'Jemné, šteklivé bozky — príjemné uvoľnenie' },
@@ -180,12 +174,10 @@ const BOZKY_TELO: Blok = {
         { v: 'nie', label: 'Nie, bozkávanie krku nevyhľadávam' },
       ],
     },
-
-
-    p('boz_znacenie', 'Značenie (cumlík / hryznutie, ktoré zanechá stopu)'),
     {
       druh: 'otazka', id: 'boz_zony', typ: 'viac', inePovolene: true,
-      text: g('Kde najradšej prijímam bozky', 'Ktoré miesta na tele mám rada, keď ma bozkáva'),
+      text: g('Na ktorých miestach najradšej prijímam bozky?', 'Na ktorých miestach najradšej prijímam bozky?'),
+      vylucneMoznosti: ['nie'],
       moznosti: [
         { v: 'usi', label: 'Uši (bozkávanie, dýchanie, hryzenie lalôčikov)' },
         { v: 'bradavky', label: 'Hrudník a bradavky (bozky, jemné hryzenie)' },
@@ -201,9 +193,39 @@ const BOZKY_TELO: Blok = {
         { v: 'nie', label: 'Nepreferujem bozky na iných miestach' },
       ],
     },
+  ],
+}
+
+const BOZKY_TIPY: Blok = {
+  druh: 'skupina', id: 'bozky_tipy', nadpis: 'Tipy a mýty o bozkávaní',
+  bloky: [
     {
+      druh: 'text', id: 'boz_vecer', nadpis: 'Nápad na večer: mapa bozkov', zbalitelny: true,
+      telo: g(
+        'Partnerka môže striedať bozky na ústa, krk, uši a hrudník podľa miest, ktoré ti vyhovujú. So zavretými očami môžeš skúmať, ako vnímaš rôzne miesta a tempo.',
+        'Partner môže striedať bozky na ústa, krk, uši a hrudník podľa miest, ktoré ti vyhovujú. So zavretými očami môžeš skúmať, ako vnímaš rôzne miesta a tempo.',
+      ),
+    },
+    { zbalitelny: true,
+      druh: 'text', id: 'boz_myty', nadpis: 'Mýty', ton: 'info',
+      telo:
+        '„Bozkávanie patrí iba na začiatok vzťahu.“ — Dlhší bozk môže zostať súčasťou spoločných rituálov aj po rokoch.\n\n' +
+        '„Viac jazyka znamená väčšiu vášeň.“ — Vyhovujúce množstvo jazyka, tlak pier aj tempo sú individuálne.\n\n' +
+        '„Bozk po oráli musí chcieť každý.“ — Pre niekoho je príjemný, pre iného nie. Obe odpovede majú v dotazníku miesto.\n\n' +
+        '„Stopa po bozku má pre každého rovnaký význam.“ — Niekto ju vníma ako erotickú pripomienku, inému nevyhovuje.',
+    },
+  ],
+}
+
+const BOZK_VEDENIE: Blok = {
+  druh: 'skupina', id: 'bozk_vedenie', nadpis: 'Intenzita, stopy a vedenie pri bozku',
+  bloky: [
+    { ...p('boz_po_orali', g('Bozk po oráli — ochutnať sa na perách partnerky', 'Bozk po oráli — ochutnať sa na perách partnera')), povodnyOkruh: 'bozky_usta' },
+    { ...p('boz_znacenie', 'Značenie (cumlík / hryznutie, ktoré zanechá stopu)'), povodnyOkruh: 'bozky_telo' },
+    { povodnyOkruh: 'bozky_telo',
       druh: 'otazka', id: 'boz_intenzivne_hryzenie', typ: 'viac',
-      text: 'Kde je intenzívne hryzenie OK',
+      text: 'Kde mi vyhovuje intenzívnejšie hryzenie?',
+      vylucneMoznosti: ['nikde'],
       moznosti: [
         { v: 'bradavky', label: 'Bradavky' },
         { v: 'stehna', label: 'Stehná' },
@@ -212,34 +234,7 @@ const BOZKY_TELO: Blok = {
         { v: 'nikde', label: 'Nikde' },
       ],
     },
-  ],
-}
-
-const BOZKY_TIPY: Blok = {
-  druh: 'skupina', id: 'bozky_tipy', nadpis: 'Tipy a mýty o bozkávaní',
-  bloky: [
-    {
-      druh: 'text', id: 'boz_vecer', nadpis: 'Večer bozkov',
-      telo: g(
-        'Predstav si večer, v ktorom sa partnerkine pery presúvajú z tvojich úst na krk, uši a hrudník. Nevidíš, kam príde ďalší bozk — raz je mäkký, potom hladný, s prisatím, zubami, dychom na koži alebo krátkym ťahom za vlasy.',
-        'Predstav si večer, v ktorom sa partnerove pery presúvajú z tvojich úst na krk, uši a hrudník. Nevidíš, kam príde ďalší bozk — raz je mäkký, potom hladný, s prisatím, zubami, dychom na koži alebo krátkym ťahom za vlasy.',
-      ),
-    },
-    { zbalitelny: true,
-      druh: 'text', id: 'boz_myty', nadpis: 'Mýty', ton: 'info',
-      telo:
-        'Mýtus: „Po rokoch vzťahu sa bozkávanie prirodzene vytratí." — Realita: páry, ktoré sa denne bozkávajú dlhšie ako pár sekúnd, hlásia vyššiu spokojnosť aj chuť na sex. Stačí to vedome obnoviť. ' +
-        'Mýtus: „Veľa jazyka = vášnivý bozk." — Realita: väčšina ľudí chce menej jazyka, než dostáva; vášeň robí tlak pier, tempo a pauzy. ' +
-        'Mýtus: „Ochutnať sa po oráli je nechutné." — Realita: pre mnohých je to jeden z najintímnejších a najvzrušujúcejších momentov. Nie je za čo sa hanbiť. ' +
-        'Mýtus: „Cumlík je trápny." — Realita: pre niekoho je stopa tajným znakom, ktorý pripomína noc ešte celý deň.',
-    },
-  ],
-}
-
-const BOZK_VEDENIE: Blok = {
-  druh: 'skupina', id: 'bozk_vedenie', nadpis: 'Bozk ako vedenie',
-  bloky: [
-    p('boz_uchop_hlavy', 'Pevný úchop hlavy alebo vlasov pri bozku'),
+    { ...p('boz_uchop_hlavy', 'Ako vnímam pevné držanie tváre či šije alebo ťahanie za vlasy pri bozku?'), predosleId: 'boz_hlava_vlasy' },
     p('boz_zaciatok_dominancie', '„Povedz, že ma chceš, potom ťa pobozkám" — bozk ako začiatok dominancie'),
   ],
 }
@@ -1464,8 +1459,8 @@ export const BOZKY_DOTYKY: TemaObsah = {
     },
     BOZKY_USTA,
     BOZKY_TELO,
-    BOZKY_TIPY,
     BOZK_VEDENIE,
+    BOZKY_TIPY,
     DOTYKY,
     MVN,
     MNP,

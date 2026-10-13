@@ -2,6 +2,12 @@ import type { OtazkaBlok } from './obsah/typ'
 
 export type HodnotaOtazky = { v?: unknown; ine?: string; favorit?: string }
 
+export function dalsiaZlucenaOdpoved(blok: OtazkaBlok, ans: Record<string, unknown>) {
+  if (!blok.predosleId || !ans[blok.id]) return undefined
+  const predosla = ans[blok.predosleId] as HodnotaOtazky | undefined
+  return predosla && JSON.stringify(predosla) !== JSON.stringify(ans[blok.id]) ? predosla : undefined
+}
+
 export function prepniMoznost(blok: OtazkaBlok, vybrane: string[], v: string): string[] {
   if (vybrane.includes(v)) return vybrane.filter(x => x !== v)
   if (blok.vylucneMoznosti?.includes(v)) return [v]
@@ -10,7 +16,7 @@ export function prepniMoznost(blok: OtazkaBlok, vybrane: string[], v: string): s
 
 /** Len zobrazenie pôvodných dát; nič sa neposiela na server bez vlastnej zmeny. */
 export function hodnotaPreOtazku(blok: OtazkaBlok, ans: Record<string, unknown>): HodnotaOtazky | undefined {
-  const saved = ans[blok.id] as HodnotaOtazky | undefined
+  const saved = (ans[blok.id] ?? (blok.predosleId ? ans[blok.predosleId] : undefined)) as HodnotaOtazky | undefined
   const extra = blok.doplnenieId ? ans[blok.doplnenieId] as HodnotaOtazky | undefined : undefined
   let hodnota = saved
   if (blok.povodnyText && typeof saved?.v === 'string') {

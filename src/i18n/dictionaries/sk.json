@@ -163,6 +163,7 @@
   "dotaznik": {
     "ui": {
       "previousAnswer": "Predošlá odpoveď",
+      "mergedAnswer": "Predošlá odpoveď z druhej zlúčenej otázky",
       "chooseNewScale": "Škála sa zmenila. Svoj postoj môžeš znovu vybrať; pôvodná odpoveď zostáva uložená."
     }
   }

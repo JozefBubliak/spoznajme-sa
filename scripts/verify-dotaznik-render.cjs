@@ -33,8 +33,8 @@ const Kniha = load(path.join(root, 'src/app/[lang]/dotaznik/_kniha.tsx')).defaul
 const { vsetkyObsahy } = load(path.join(root, 'src/lib/dotaznik/obsah/index.ts'))
 const theme = vsetkyObsahy().find(t => t.telo.some(b => b.id === 'bozky' || JSON.stringify(b).includes('boz_6_sekund')))
 assert.ok(theme)
-function render(pohlavie) {
-  saved = { pohlavie: { v: pohlavie }, boz_6_sekund: { v: 'neutral' }, map_eroticke: { v: 'Moja pôvodná zóna' } }
+function render(pohlavie, extra = {}) {
+  saved = { pohlavie: { v: pohlavie }, boz_6_sekund: { v: 'neutral' }, map_eroticke: { v: 'Moja pôvodná zóna' }, ...extra }
   return renderToStaticMarkup(React.createElement(Kniha, { lang: 'sk', modul: 'B1', tema: theme.slug, obsah: theme, spatHref: '/sk/dotaznik', dalejHref: '/sk/dotaznik' }))
 }
 const male = render('m')
@@ -45,4 +45,5 @@ assert.ok(male.includes('dotaznik.ui.previousAnswer'))
 assert.ok(male.includes('Moja pôvodná zóna'))
 assert.ok(male.includes('Rád, ak chceš ty'))
 assert.ok(female.includes('Rada, ak chceš ty'))
+assert.ok(render('m', { boz_uchop_hlavy: { v: 'pacim' }, boz_hlava_vlasy: { v: 'nie' } }).includes('dotaznik.ui.mergedAnswer'))
 console.log('PASS: vykreslenie knihy, pôvodná odpoveď a text, zbalenie detailov, prístupné voľby, obe pohlavia.')

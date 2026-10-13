@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Blok, OtazkaBlok, Pohlavie, TemaObsah } from '@/lib/dotaznik/obsah/typ'
 import { splna } from '@/lib/dotaznik/podmienky'
 import { gtext } from '@/lib/dotaznik/obsah/typ'
-import { hodnotaPreOtazku, predoslaMoznost, prepniMoznost } from '@/lib/dotaznik/odpovede-ux'
+import { hodnotaPreOtazku, predoslaMoznost, prepniMoznost, dalsiaZlucenaOdpoved, type HodnotaOtazky } from '@/lib/dotaznik/odpovede-ux'
 import { useI18n } from '@/components/IntlProvider'
 import { usePar } from './_par'
 import { useStavy, partnerZamok } from './_stav'
@@ -105,11 +105,13 @@ function OtazkaPole({
   blok,
   p,
   hodnota,
+  zlucena,
   onSave,
 }: {
   blok: OtazkaBlok
   p: Pohlavie
   hodnota: { v?: unknown; ine?: string; favorit?: string } | undefined
+  zlucena?: HodnotaOtazky
   onSave: (h: unknown) => void
 }) {
   const G = (t: Parameters<typeof gtext>[0]) => gtext(t, p)
@@ -128,6 +130,11 @@ function OtazkaPole({
       )}
 
       <div className="mt-3">
+        {zlucena && (
+          <p className="mb-3 text-xs text-muted-foreground" role="status">
+            {t('dotaznik.ui.mergedAnswer')}: {G([...blok.moznosti ?? [], ...blok.predosleMoznosti ?? []].find(m => m.v === zlucena.v)?.label) || String(zlucena.v ?? '')}
+          </p>
+        )}
         {predosla && (
           <p className="mb-3 text-xs text-muted-foreground" role="status">
             {t('dotaznik.ui.previousAnswer')}: {G(predosla.label)}. {t('dotaznik.ui.chooseNewScale')}
@@ -302,7 +309,8 @@ function Bloky({
             blok={b}
             p={p}
             hodnota={hodnotaPreOtazku(b, ans)}
-            onSave={(h) => save(okruh, b, h)}
+            zlucena={dalsiaZlucenaOdpoved(b, ans)}
+            onSave={(h) => save(b.povodnyOkruh ?? okruh, b, h)}
           />
         )
         if (b.zbalitelna) return (

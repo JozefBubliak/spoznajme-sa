@@ -21,6 +21,7 @@ for (const file of files) {
         ids.add(b.id)
         bank.set(`${file}:${b.id}`, b)
         if (b.doplnenieId) bank.set(`${file}:${b.doplnenieId}`, b)
+        if (b.predosleId) bank.set(`${file}:${b.predosleId}`, b)
         if (b.moznosti) assert.equal(new Set(b.moznosti.map(x => x.v)).size, b.moznosti.length, `Duplicitné voľby ${b.id}`)
         if (b.bloky) walk(b.bloky)
       }

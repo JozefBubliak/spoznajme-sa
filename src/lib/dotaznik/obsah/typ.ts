@@ -44,6 +44,8 @@ export type OtazkaBlok = {
   inePovolene?: boolean // 'jeden' / 'skala' / 'viac' → pridá voľné pole v tej istej karte
   /** Pôvodné samostatné doplnenie; stará odpoveď sa číta v tej istej karte. */
   doplnenieId?: string
+  predosleId?: string // zlúčená otázka; pôvodná odpoveď sa naďalej načíta
+  povodnyOkruh?: string // pri zmene poradia zachová kľúč uložených odpovedí
   /** Staré stupne sa nezamieňajú za nový význam bez rozhodnutia respondenta. */
   predosleMoznosti?: Moznost[]
   /** Pôvodný voľný text zostane ako doplnenie pri prechode na zoznam. */
