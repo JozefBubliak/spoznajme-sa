@@ -1,3 +1,7 @@
+# SEX VEDĽA INÉHO PÁRU BEZ VÝMENY — 2026-10-13
+
+Používateľ doplnil praktiku, ktorá chýbala: oba páry majú sex vedľa seba, každý iba so svojím partnerom. Jedna časť v existujúcej téme `voyeur-exhib/voyeur-exhib`, bez novej duplicitnej kategórie a bez závislosti na soft/full swape. Obsahuje vlastnú chuť, priestor/odstup, vnímanie/zvuky/pohľady, rytmus a samostatný postoj k partnerovej túžbe; plné m/ž texty. Existujúca voľba `paralelne` vo full swape naopak znamená sex po výmene, preto nebola premenovaná. Zdroje pri bloku; kontrola `scripts/verify-dotaznik-same-room.cjs`.
+
 # DIRTY TALK — JEDNA TÉMA, 2026-10-12
 
 Používateľ potvrdil, že Dirty talk musí byť iba raz. F6 má jednu tému `dirty-talk-oslovenia/obsah` so všetkými časťami (tón, obsah, príbehy, oslovenia, jazyk tela, partnerova túžba a mýty). Tri pôvodné route sa presmerujú; duplicita vo všeobecnej téme tekutín/fetišov odstránená. Pôvodné ID a možnosti zachované; staré odpovede zo širokej témy sa načítajú ako záloha, nové majú prednosť. Screening pracuje so všetkými starými časťami spoločne, takže zlúčenie neodomkne odmietnutie. Nový screening aktualizuje všetky aliasy. Regresná kontrola: `scripts/verify-dotaznik-dirty-talk.cjs` porovnáva celý pôvodný obsah s commitom 696db95 a kontroluje jedinečnosť aj zachovanie zámkov.

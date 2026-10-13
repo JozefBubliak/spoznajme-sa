@@ -1,4 +1,5 @@
 import type { TemaObsah, Blok } from './typ'
+import { CHUT } from './skaly'
 
 // Voyeurizmus a exhibicionizmus — modul H2.
 // XLSM P38890–38923: partner ako divák, iné páry/jednotlivci a semi-public.
@@ -11,6 +12,72 @@ import type { TemaObsah, Blok } from './typ'
 // pohľadu, rolí, publika, miery odhalenia a reakcie na túžbu partnera.
 
 const g = (m: string, z: string) => ({ m, z })
+
+// Same-room / parallel play bez výmeny; význam sa medzi komunitami líši,
+// preto opisujeme presnú aktivitu namiesto neurčitého „soft swing“.
+// https://www.swing.com/lifestyle/glossary/same-room
+// https://www.seeking.com/glossary/relationship-structure/soft-swinging
+const SEX_VEDLA_PARU: Blok = {
+  druh: 'skupina', id: 'sex_vedla_paru', nadpis: 'Sex vedľa iného páru — bez výmeny',
+  uvod: g(
+    'Ty máš sex so svojou partnerkou a druhý pár má sex vedľa vás. Každý zostáva vo svojom páre; bez bozkávania, dotykov či sexu s ľuďmi z druhého páru.',
+    'Ty máš sex so svojím partnerom a druhý pár má sex vedľa vás. Každý zostáva vo svojom páre; bez bozkávania, dotykov či sexu s ľuďmi z druhého páru.',
+  ),
+  bloky: [
+    {
+      druh: 'otazka', id: 'vedla_paru_chut', typ: 'skala', moznosti: CHUT,
+      text: g('Chcem mať sex so svojou partnerkou vedľa iného páru, bez výmeny?', 'Chcem mať sex so svojím partnerom vedľa iného páru, bez výmeny?'),
+    },
+    {
+      druh: 'skupina', id: 'vedla_paru_podoby', nadpis: 'Podoba spoločného priestoru',
+      podmienka: { ot: 'vedla_paru_chut', jeNiektora: ['pacim', 'ochota', 'mozno'] },
+      bloky: [
+        {
+          druh: 'otazka', id: 'vedla_paru_priestor', typ: 'viac', inePovolene: true,
+          text: 'Aký priestor mi pri sexe vedľa druhého páru vyhovuje?',
+          moznosti: [
+            { v: 'oddelene', label: 'Rovnaká miestnosť, ale každý pár na vlastnej posteli alebo matraci' },
+            { v: 'spolocna', label: 'Veľká spoločná posteľ, každý pár vo vlastnej časti' },
+            { v: 'odstup', label: 'Väčší odstup — vnímame prítomnosť druhého páru, ale zostávame sústredení na seba' },
+            { v: 'blizko', label: 'Blízko vedľa seba, stále bez dotykov medzi pármi' },
+          ],
+        },
+        {
+          druh: 'otazka', id: 'vedla_paru_vnimanie', typ: 'viac', inePovolene: true,
+          text: 'Čo ma na tejto predstave priťahuje?',
+          moznosti: [
+            { v: 'atmosfera', label: 'Spoločná erotická atmosféra, aj bez sledovania druhých' },
+            { v: 'zvuky', label: 'Počuť dych, hlasy a reakcie druhého páru' },
+            { v: 'pohlad', label: 'Občas sa pozrieť na druhý pár' },
+            { v: 'videny', label: g('Byť videný pri sexe s partnerkou', 'Byť videná pri sexe s partnerom') },
+            { v: 'vlastny_par', label: g('Prežívať s partnerkou niečo intenzívne a pritom zostať iba spolu', 'Prežívať s partnerom niečo intenzívne a pritom zostať iba spolu') },
+          ],
+        },
+        {
+          druh: 'otazka', id: 'vedla_paru_rytmus', typ: 'viac', inePovolene: true,
+          text: 'Ako chcem, aby naše dva páry vedľa seba fungovali?',
+          moznosti: [
+            { v: 'nezavisle', label: 'Každý pár vo vlastnom tempe, bez spoločného riadenia' },
+            { v: 'sucasne', label: 'Začať približne súčasne a vnímať vzájomné reakcie' },
+            { v: 'striedavo', label: 'Striedať vlastnú intimitu s chvíľami sledovania druhého páru' },
+            { v: 'bez_pohladu', label: 'Byť v spoločnom priestore, ale bez priameho sledovania' },
+          ],
+        },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'vedla_paru_partner_tuzi', typ: 'jeden', inePovolene: true,
+      text: g('Ak po sexe vedľa iného páru bez výmeny túži partnerka, aký mám postoj?', 'Ak po sexe vedľa iného páru bez výmeny túži partner, aký mám postoj?'),
+      moznosti: [
+        { v: 'spolu', label: 'Priťahuje ma to tiež' },
+        { v: 'ochota', label: g('Rád sa zapojím pre jej potešenie', 'Rada sa zapojím pre jeho potešenie') },
+        { v: 'rozhovor', label: 'Potrebujem si ujasniť konkrétnu podobu' },
+        { v: 'fantazia', label: 'Vyhovuje mi iba spoločná fantázia o tom' },
+        { v: 'nie', label: 'Nechcem sa do toho zapojiť' },
+      ],
+    },
+  ],
+}
 
 const SKUSENOST: Blok = {
   druh: 'otazka', id: 'skusenost', typ: 'jeden',
@@ -481,6 +548,7 @@ export const VOYEUR_EXHIB: TemaObsah = {
     KAPITOLA_SLEDOVANIE,
     KAPITOLA_BYT_SLEDOVANY,
     SPOLOCNA_CAST,
+    SEX_VEDLA_PARU,
   ],
   zaver: [
     {
