@@ -393,6 +393,7 @@ const PROSTATA_POSKYTUJEM: Blok = {
   druh: 'skupina',
   id: 'prostata_poskytujem',
   nadpis: 'Prostata — poskytujem',
+  podmienka: { pohlavie: 'z' },
   bloky: [
     postojOt('pro_poskytujem_postoj', 'Poskytnúť partnerovi masáž prostaty (prst / pomôcka)'),
     {

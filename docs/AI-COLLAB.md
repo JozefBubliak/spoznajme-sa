@@ -1,3 +1,7 @@
+# ZRKADLO V ADMIN PREHĽADE DOTAZNÍKA — 2026-10-14
+
+Používateľ spresnil, že zrkadlo znamená významovo opačnú rolu partnerov, nie iba dva rovnako vysoké stĺpce. V `/[lang]/dotaznik/obsah-prehlad` sa preto výslovne mapujú prijímacie/poskytovacie otázky (napr. jej „čo chcem počuť“ oproti jeho „čo chcem hovoriť partnerke“) a roly HORE/DOLE pri face sittingu. Voľby sú v spoločnom riadku podľa stabilného `v`; chýbajúci protikus sa prizná, nepredstiera sa zhoda. Ostatné otázky zostávajú vlastnou odpoveďou každého z dvojice. Mapa je v `src/lib/dotaznik/obsah/zrkadla.ts`, test v `__tests__/zrkadla.test.tsx`. Toto je admin simulácia; serverové Double-Blind vyhodnotenie NEXT-003 zostáva vypnuté. Admin notes vyžadujú migráciu `20261014_dotaznik_admin_poznamky.sql`, inak sa ukladajú len lokálne v prehliadači.
+
 # ÚPRAVA JAZYKA A PORADIA BOZKOV — 2026-10-13
 
 Podľa vložených pripomienok používateľa: priame krátke otázky namiesto „Predstav si“, jednoduchší jazyk, poradie štýl/sliny/nápoj → hryzenie pier/oči/rituál → krk/telo → intenzita/stopy/vedenie. Tipy a mýty zbaliteľné na konci časti; nepodložené tvrdenia o väčšine ľudí či preukázaných účinkoch neprevzaté. Duplicita `boz_hlava_vlasy` zlúčená do `boz_uchop_hlavy` cez `predosleId`; rozdielna druhá pôvodná odpoveď ostáva viditeľná. Presunuté otázky zachovávajú DB okruh cez `povodnyOkruh`, všetky hodnoty možností zostali. Nejasný termín snowballing nahradený konkrétnym opisom odovzdávania slín (pôvodná hodnota zachovaná). Kontrola: `scripts/verify-dotaznik-bozky-copy.cjs` a test React vykreslenia.
