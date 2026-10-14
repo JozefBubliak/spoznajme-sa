@@ -145,7 +145,7 @@ function OtazkaPole({
             <Chips
               moznosti={moznosti}
               vybrane={new Set(typeof hodnota?.v === 'string' ? [hodnota.v] : [])}
-              onPick={(v) => onSave({ v, ine: hodnota?.ine })}
+              onPick={(v) => onSave({ v: hodnota?.v === v ? '' : v, ine: hodnota?.ine })}
             />
             {blok.inePovolene && (
               <input
@@ -209,9 +209,12 @@ function OtazkaPole({
                     viac
                     moznosti={(blok.stlpce ?? []).map((c) => ({ v: c.v, label: G(c.label) }))}
                     vybrane={new Set(cur ? [cur] : [])}
-                    onPick={(cv) =>
-                      onSave({ v: { ...((hodnota?.v as object) ?? {}), [r.v]: cv } })
-                    }
+                    onPick={(cv) => {
+                      const rows = { ...((hodnota?.v as Record<string, string>) ?? {}) }
+                      if (cur === cv) delete rows[r.v]
+                      else rows[r.v] = cv
+                      onSave({ v: rows })
+                    }}
                   />
                 </div>
               )

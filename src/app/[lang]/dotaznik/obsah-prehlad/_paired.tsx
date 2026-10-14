@@ -63,7 +63,7 @@ function Question({ b, p, ans, save }: { b: OtazkaBlok; p: Pohlavie; ans: Odpove
     if (b.typ === 'viac') {
       const next = prepniMoznost(b, Array.isArray(h.v) ? h.v as string[] : [], v)
       save(b.id, { ...h, v: next, favorit: next.includes(h.favorit ?? '') ? h.favorit : undefined })
-    } else save(b.id, { ...h, v })
+    } else save(b.id, { ...h, v: h.v === v ? '' : v })
   }
   return <div>
     <p className="text-sm font-medium leading-relaxed text-foreground">{G(b.text)}</p>
@@ -88,7 +88,12 @@ function Question({ b, p, ans, save }: { b: OtazkaBlok; p: Pohlavie; ans: Odpove
       <p className="mb-1 text-xs text-muted-foreground">{G(r.label)}</p>
       <div className="flex flex-wrap gap-1">{(b.stlpce ?? []).map(c => {
         const selected = (h.v as Record<string, string> | undefined)?.[r.v] === c.v
-        return <button key={c.v} type="button" aria-pressed={selected} onClick={() => save(b.id, { v: { ...((h.v as object) ?? {}), [r.v]: c.v } })}
+        return <button key={c.v} type="button" aria-pressed={selected} onClick={() => {
+          const rows = { ...((h.v as Record<string, string>) ?? {}) }
+          if (selected) delete rows[r.v]
+          else rows[r.v] = c.v
+          save(b.id, { v: rows })
+        }}
           className={`rounded-lg border px-2 py-1 text-xs ${selected ? color.button : `border-white/15 ${color.hover}`}`}>{G(c.label)}</button>
       })}</div>
     </div>)}</div>}
