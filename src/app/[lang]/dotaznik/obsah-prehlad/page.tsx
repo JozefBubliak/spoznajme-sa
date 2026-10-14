@@ -1,6 +1,6 @@
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { vsetkyObsahy } from '@/lib/dotaznik/obsah'
-import ObsahPrehladClient from './_client'
+import ObsahPrehladClient from './_new-client'
 
 type P = { params: Promise<{ lang: string }> }
 
