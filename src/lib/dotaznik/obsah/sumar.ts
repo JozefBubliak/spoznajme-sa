@@ -31,8 +31,6 @@ export const BEZ_SUMARU = new Set<string>([
   'voyeur-exhib/voyeur-exhib',
   'trojky-skupiny/trojky-skupiny',
   'trojky-skupiny/treti-clovek',
-  'trojky-skupiny/trojka-mmf',
-  'trojky-skupiny/trojka-fmf',
   'trojky-skupiny/skupinovy-sex',
   'trojky-skupiny/gangbang',
   'trojky-skupiny/bukkake',

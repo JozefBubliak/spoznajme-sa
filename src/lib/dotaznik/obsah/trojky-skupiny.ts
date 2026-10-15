@@ -914,32 +914,178 @@ function temaSoSkusenostou({ slug, nadpis, prefix, skusenostText, uvod, zaujem, 
 
 export const TROJKY_SKUPINY: TemaObsah = {
   slug: POVODNY_OBSAH.slug,
-  nadpis: 'Trojky — prehľad formátov',
-  uvod: POVODNY_OBSAH.uvod.slice(0, 2),
-  telo: [povodny('troj_konfiguracie'), povodny('troj_dynamika'), povodny('troj_aktivita'), povodny('troj_roly')],
-  zaver: [{ druh: 'text', id: 'formaty_oddelene', nadpis: 'Každý formát zvlášť',
-    telo: 'Trojka s ďalším mužom, trojka s ďalšou ženou, väčšia skupina, gangbang a bukkake sú samostatné témy. Každá má vlastnú otázku na skúsenosť a samostatné vetvy.' }],
+  nadpis: 'Trojky',
+  zdielanieDovod: true,
+  uvod: [{ druh: 'text', id: 'troj_uvod', nadpis: 'Trojky',
+    telo: 'Trojka znamená spoločnú intímnu situáciu troch dospelých ľudí. Najprv sa rozhodneš, či chceš túto tému preskúmať. Fantázia ani zvedavosť nie sú súhlasom uskutočniť ju. MMF a FMF sú dve samostatné podtémy s vlastnou skúsenosťou a hranicami.' }],
+  telo: [
+    { druh: 'otazka', id: 'troj_skusenost', typ: 'jeden',
+      text: 'Máš osobnú skúsenosť s trojkou?',
+      moznosti: [
+        { v: 'mmf', label: 'Áno, s dvoma mužmi a jednou ženou (MMF)' },
+        { v: 'fmf', label: 'Áno, s dvoma ženami a jedným mužom (FMF)' },
+        { v: 'obe', label: 'Áno, s oboma podobami' },
+        { v: 'ziadna', label: 'Nie, zatiaľ nemám skúsenosť' },
+      ] },
+    trojkaPodtema('mmf', MMF, 'Dvaja muži a jedna žena (MMF)'),
+    trojkaPodtema('fmf', FMF, 'Dve ženy a jeden muž (FMF)'),
+  ],
 }
 
-export const TROJKA_MMF = temaSoSkusenostou({
-  slug: 'trojka-mmf', nadpis: 'Trojka s ďalším mužom (MMF)', prefix: 'mmf',
-  skusenostText: 'Máš skúsenosť s trojkou, v ktorej ste boli dvaja muži a jedna žena?',
-  uvod: [{ druh: 'text', id: 'mmf_uvod', nadpis: 'Dvaja muži a jedna žena',
-    telo: g('Pri MMF môže byť partnerka stredobodom pozornosti teba a ďalšieho muža. Kontakt medzi mužmi je samostatná voľba, nie automatická súčasť.',
-      'Pri MMF môžeš byť stredobodom pozornosti partnera a ďalšieho muža. Ich vzájomný kontakt je samostatná voľba, nie automatická súčasť.') }],
-  zaujem: staryOkruh(bloky(MMF)[0], 'mmf'), detaily: bloky(MMF).slice(1).map(b => staryOkruh(b, 'mmf')),
-  partner: g('Ak po trojke s ďalším mužom túži partnerka, aký mám postoj?', 'Ak po trojke s ďalším mužom túži partner, aký mám postoj?'),
-})
-
-export const TROJKA_FMF = temaSoSkusenostou({
-  slug: 'trojka-fmf', nadpis: 'Trojka s ďalšou ženou (FMF)', prefix: 'fmf',
-  skusenostText: 'Máš skúsenosť s trojkou, v ktorej boli dve ženy a jeden muž?',
-  uvod: [{ druh: 'text', id: 'fmf_uvod', nadpis: 'Dve ženy a jeden muž',
-    telo: g('Pri FMF môžeš byť stredobodom pozornosti partnerky a ďalšej ženy, alebo sledovať ich vzájomnú blízkosť. Kontakt medzi ženami je samostatná voľba.',
-      'Pri FMF sa môžeš zapojiť s partnerom a ďalšou ženou rôznymi spôsobmi. Kontakt medzi ženami je samostatná voľba, nie automatická súčasť.') }],
-  zaujem: staryOkruh(bloky(FMF)[0], 'fmf'), detaily: bloky(FMF).slice(1).map(b => staryOkruh(b, 'fmf')),
-  partner: g('Ak po trojke s ďalšou ženou túži partnerka, aký mám postoj?', 'Ak po trojke s ďalšou ženou túži partner, aký mám postoj?'),
-})
+// Obe podtémy majú vlastný vstup a vetvy, no spoločnú rodičovskú tému.
+// Pôvodné ID otázok v detailoch ostávajú zachované kvôli uloženým odpovediam.
+function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blok {
+  const vstup = `${prefix}_vstup`
+  const skusena = `${prefix}_skusena`
+  const hodnotenie = `${prefix}_hodnotenie_nove`
+  const opakovat = `${prefix}_opakovat`
+  const realita = `${prefix}_realita_nova`
+  const otvorena = { ot: vstup, je: 'ano' }
+  const maSkusenost = { ot: 'troj_skusenost', jeNiektora: [prefix, 'obe'] }
+  const bezSkusenosti = { ot: 'troj_skusenost', jeNiektora: ['ziadna', prefix === 'mmf' ? 'fmf' : 'mmf'] }
+  const pokracuje = { asponJedna: [
+    { vsetky: [maSkusenost, { ot: opakovat, jeNiektora: ['ano', 'mozno', 'fantazia'] }] },
+    { vsetky: [bezSkusenosti, { ot: realita, jeNiektora: ['chcem', 'mozno', 'fantazia'] }] },
+  ] }
+  const detail = bloky(povodna).slice(1).map(b => staryOkruh(b, prefix))
+  return {
+    druh: 'skupina', id: `${prefix}_podtema`, nadpis: nazov,
+    podmienka: { ot: 'troj_skusenost', jeNiektora: ['mmf', 'fmf', 'obe', 'ziadna'] },
+    bloky: [
+      { druh: 'otazka', id: vstup, typ: 'jeden',
+        text: `Chceš preskúmať podobu ${prefix.toUpperCase()}?`,
+        moznosti: [
+          { v: 'ano', label: 'Áno, chcem ju preskúmať' },
+          { v: 'neskor', label: 'Ešte nie — vrátim sa k nej neskôr' },
+          { v: 'nie', label: 'Nie, túto podobu nechcem skúmať' },
+        ] },
+      { druh: 'skupina', id: skusena, nadpis: 'Moja skutočná skúsenosť',
+        podmienka: { vsetky: [otvorena, maSkusenost] }, bloky: [
+          { druh: 'otazka', id: `${prefix}_s_kym`, typ: 'jeden',
+            text: g('Bola táto skúsenosť s terajšou partnerkou alebo pred týmto vzťahom?', 'Bola táto skúsenosť s terajším partnerom alebo pred týmto vzťahom?'),
+            moznosti: [
+              { v: 'teraz', label: g('S terajšou partnerkou', 'S terajším partnerom') },
+              { v: 'predtym', label: 'Pred terajším vzťahom' },
+              { v: 'oboje', label: 'V oboch situáciách' },
+            ] },
+          { druh: 'otazka', id: hodnotenie, typ: 'jeden', text: 'Ako na túto skúsenosť dnes spomínaš?',
+            moznosti: [
+              { v: 'velmi', label: 'Veľmi dobre' }, { v: 'skor', label: 'Skôr dobre' },
+              { v: 'zmiesane', label: 'So zmiešanými pocitmi' },
+              { v: 'neprijemne', label: 'Skôr nepríjemne' },
+            ] },
+          { druh: 'otazka', id: `${prefix}_fungovalo_nove`, typ: 'viac', inePovolene: true,
+            text: 'Čo ti v tejto skúsenosti vyhovovalo?',
+            podmienka: { ot: hodnotenie, jeNiektora: ['velmi', 'skor', 'zmiesane'] },
+            moznosti: [
+              { v: 'pozornost', label: 'Rozdelenie pozornosti' },
+              { v: 'partner', label: g('Blízkosť s partnerkou', 'Blízkosť s partnerom') },
+              { v: 'tretia', label: 'Kontakt s treťou osobou' },
+              { v: 'sledovanie', label: g('Sledovanie partnerky', 'Sledovanie partnera') },
+              { v: 'atmosfera', label: 'Spoločná atmosféra' },
+            ] },
+          { druh: 'otazka', id: `${prefix}_zmenit_nove`, typ: 'viac', inePovolene: true,
+            text: g('Čo ti nevyhovovalo alebo by si dnes potreboval inak?', 'Čo ti nevyhovovalo alebo by si dnes potrebovala inak?'),
+            podmienka: { ot: hodnotenie, jeNiektora: ['zmiesane', 'neprijemne'] },
+            moznosti: [
+              { v: 'pozornost', label: 'Rozdelenie pozornosti' },
+              { v: 'rola', label: 'Moja rola' }, { v: 'tretia', label: 'Výber tretej osoby' },
+              { v: 'hranice', label: 'Rešpektovanie hraníc' },
+              { v: 'potom', label: 'Pocity po zážitku' },
+            ] },
+          { druh: 'otazka', id: opakovat, typ: 'jeden',
+            text: g('Chcel by si podobnú skúsenosť niekedy zopakovať?', 'Chcela by si podobnú skúsenosť niekedy zopakovať?'),
+            moznosti: [
+              { v: 'ano', label: 'Áno' }, { v: 'mozno', label: 'Možno, za určitých podmienok' },
+              { v: 'fantazia', label: 'Už iba ako fantáziu' }, { v: 'nie', label: 'Nie' },
+            ] },
+        ] },
+      { druh: 'skupina', id: `${prefix}_bez_skusenosti_nove`, nadpis: 'Zatiaľ bez skúsenosti',
+        podmienka: { vsetky: [otvorena, bezSkusenosti] }, bloky: [
+          { druh: 'otazka', id: `${prefix}_fantazia_nova`, typ: 'jeden',
+            text: 'Objavuje sa táto podoba trojky v tvojich predstavách?',
+            moznosti: [
+              { v: 'casto', label: 'Často' }, { v: 'obcas', label: 'Občas' },
+              { v: 'zvedavost', label: g('Skôr som zvedavý, než že by som o nej fantazíroval', 'Skôr som zvedavá, než že by som o nej fantazírovala') },
+              { v: 'nie', label: 'Nie' },
+            ] },
+          { druh: 'otazka', id: `${prefix}_pocit`, typ: 'jeden',
+            text: 'Aký pocit v tebe táto predstava vyvoláva?',
+            moznosti: [
+              { v: 'prijemny', label: 'Príjemný' }, { v: 'zvedavost', label: 'Zvedavosť' },
+              { v: 'zmiesany', label: 'Zmiešané pocity' },
+              { v: 'neprijemny', label: 'Nepríjemný' }, { v: 'neviem', label: 'Zatiaľ neviem' },
+            ] },
+          { druh: 'otazka', id: realita, typ: 'jeden',
+            text: 'Chceš, aby zostala iba predstavou, alebo si vieš predstaviť aj skutočnú skúsenosť?',
+            moznosti: [
+              { v: 'chcem', label: 'Chcem to skúsiť' },
+              { v: 'mozno', label: 'Možno, za jasných podmienok' },
+              { v: 'fantazia', label: 'Chcem o tom iba hovoriť alebo fantazírovať' },
+              { v: 'nie', label: 'Nechcem to zažiť' },
+            ] },
+        ] },
+      { druh: 'skupina', id: `${prefix}_postoj_a_hranice`, nadpis: 'Vlastný postoj a partnerova túžba',
+        podmienka: { vsetky: [otvorena, pokracuje] }, bloky: [
+          { druh: 'otazka', id: `${prefix}_partner_tuzi_nove`, typ: 'jeden',
+            text: prefix === 'mmf'
+              ? g('Ako by si vnímal, keby partnerka túžila po trojke s ďalším mužom?', 'Ako by si vnímala, keby partner túžil po trojke s ďalším mužom?')
+              : g('Ako by si vnímal, keby partnerka túžila po trojke s ďalšou ženou?', 'Ako by si vnímala, keby partner túžil po trojke s ďalšou ženou?'),
+            moznosti: [
+              { v: 'spolu', label: g('Chcel by som to preskúmať spolu', 'Chcela by som to preskúmať spolu') },
+              { v: 'rozhovor', label: g('Vedel by som o tom hovoriť, ale nechcem to zažiť', 'Vedela by som o tom hovoriť, ale nechcem to zažiť') },
+              { v: 'zmiesane', label: g('Mal by som zmiešané pocity', 'Mala by som zmiešané pocity') },
+              { v: 'hranica', label: 'Je to moja hranica' },
+            ] },
+          { druh: 'otazka', id: `${prefix}_vlastny_postoj`, typ: 'jeden',
+            text: prefix === 'mmf'
+              ? g('Ako na teba pôsobí predstava trojky s partnerkou a ďalším mužom?', 'Ako na teba pôsobí predstava trojky s partnerom a ďalším mužom?')
+              : g('Ako na teba pôsobí predstava trojky s partnerkou a ďalšou ženou?', 'Ako na teba pôsobí predstava trojky s partnerom a ďalšou ženou?'),
+            moznosti: [
+              { v: 'pritahuje', label: 'Priťahuje ma' }, { v: 'zvedavost', label: g('Som zvedavý', 'Som zvedavá') },
+              { v: 'zmiesane', label: 'Mám zmiešané pocity' }, { v: 'neutralne', label: 'Je mi neutrálna' },
+            ] },
+          { druh: 'otazka', id: `${prefix}_kontakty`, typ: 'mrezka',
+            text: 'Ktoré kontakty medzi tromi ľuďmi si vieš predstaviť?',
+            riadky: [
+              { v: 's_partnerom', label: g('Môj intímny kontakt s partnerkou', 'Môj intímny kontakt s partnerom') },
+              { v: 's_tretou', label: prefix === 'mmf'
+                ? g('Môj intímny kontakt s ďalším mužom', 'Intímny kontakt partnera s ďalším mužom')
+                : g('Môj intímny kontakt s ďalšou ženou', 'Intímny kontakt partnera s ďalšou ženou') },
+              { v: 'partner_s_tretou', label: prefix === 'mmf'
+                ? g('Intímny kontakt partnerky s ďalším mužom', 'Môj intímny kontakt s ďalším mužom')
+                : g('Intímny kontakt partnerky s ďalšou ženou', 'Môj intímny kontakt s ďalšou ženou') },
+            ],
+            stlpce: [
+              { v: 'ano', label: 'Áno' }, { v: 'mozno', label: 'Možno' }, { v: 'nie', label: 'Nie' },
+            ] },
+          ...detail,
+          { druh: 'otazka', id: `${prefix}_hranice_nove`, typ: 'viac', inePovolene: true,
+            text: 'Čo by pre teba bolo hranicou?',
+            moznosti: [
+              { v: 'bozk', label: g('Bozk partnerky s treťou osobou', 'Bozk partnera s treťou osobou') },
+              { v: 'intimny_kontakt', label: g('Intímny kontakt partnerky s treťou osobou', 'Intímny kontakt partnera s treťou osobou') },
+              { v: 'moj_kontakt', label: 'Môj intímny kontakt s treťou osobou' },
+              { v: 'rovnake_pohlavie', label: 'Kontakt osôb rovnakého pohlavia' },
+              { v: 'pozornost', label: g('Keby som zostal bokom', 'Keby som zostala bokom') },
+            ] },
+          { druh: 'otazka', id: `${prefix}_podmienky_nove`, typ: 'viac', inePovolene: true,
+            text: g('Čo by muselo byť vopred dohodnuté, aby si sa cítil bezpečne?', 'Čo by muselo byť vopred dohodnuté, aby si sa cítila bezpečne?'),
+            podmienka: { asponJedna: [
+              { vsetky: [maSkusenost, { ot: opakovat, jeNiektora: ['ano', 'mozno'] }] },
+              { vsetky: [bezSkusenosti, { ot: realita, jeNiektora: ['chcem', 'mozno'] }] },
+            ] },
+            moznosti: [
+              { v: 'osoba', label: 'Kto bude tretia osoba' },
+              { v: 'kontakt', label: 'Kto sa môže s kým intímne zapojiť' },
+              { v: 'stop', label: 'Možnosť kedykoľvek skončiť' },
+              { v: 'sukromie', label: 'Súkromie' },
+              { v: 'potom', label: 'Ako sa k sebe vrátime po zážitku' },
+            ] },
+        ] },
+    ],
+  }
+}
 
 export const SKUPINOVY_SEX = temaSoSkusenostou({
   slug: 'skupinovy-sex', nadpis: 'Skupinový sex', prefix: 'skup',

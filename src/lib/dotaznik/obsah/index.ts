@@ -1,6 +1,6 @@
 import type { TemaObsah, Blok } from './typ'
 import { FACE_SITTING } from './face-sitting'
-import { TROJKY_SKUPINY, TROJKA_MMF, TROJKA_FMF, SKUPINOVY_SEX, GANGBANG_TEMA, BUKKAKE_TEMA, TRETIA_OSOBA, DVOJITA_PENETRACIA } from './trojky-skupiny'
+import { TROJKY_SKUPINY, SKUPINOVY_SEX, GANGBANG_TEMA, BUKKAKE_TEMA, TRETIA_OSOBA, DVOJITA_PENETRACIA } from './trojky-skupiny'
 import { ZDIELANIE_PARTNERA } from './zdielanie-partnera'
 import { SWINGING } from './swinging'
 import { ANALNA_PENETRACIA } from './analna-penetracia'
@@ -52,8 +52,6 @@ import { vetveniePre } from './vetvenie-skusenosti'
 const REGISTER: Record<string, TemaObsah> = {
   [FACE_SITTING.slug]: FACE_SITTING,
   [TROJKY_SKUPINY.slug]: TROJKY_SKUPINY,
-  [TROJKA_MMF.slug]: TROJKA_MMF,
-  [TROJKA_FMF.slug]: TROJKA_FMF,
   [SKUPINOVY_SEX.slug]: SKUPINOVY_SEX,
   [GANGBANG_TEMA.slug]: GANGBANG_TEMA,
   [BUKKAKE_TEMA.slug]: BUKKAKE_TEMA,

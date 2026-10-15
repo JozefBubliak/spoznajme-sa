@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { temaObsah } from '@/lib/dotaznik/obsah'
 import type { Pohlavie } from '@/lib/dotaznik/obsah/typ'
@@ -15,6 +15,8 @@ export default async function NahladTemy({ params, searchParams }: P) {
   const { lang: raw, modul, tema } = await params
   const { p } = await searchParams
   const lang = normalizeUrlLocale(raw)
+  if (modul === 'trojky-skupiny' && (tema === 'trojka-mmf' || tema === 'trojka-fmf'))
+    redirect(`/${lang}/dotaznik/nahlad/trojky-skupiny/trojky-skupiny${p ? `?p=${p}` : ''}`)
   const obsah = temaObsah(modul, tema)
   if (!obsah) notFound()
   const pohlavie: Pohlavie | undefined = p === 'm' || p === 'z' ? p : undefined

@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { normalizeUrlLocale } from '@/lib/i18n-routing'
 import { cesta, getTema, sekcieTemy, MODULY } from '@/lib/dotaznik/strom'
 import { maObsah, temaObsah } from '@/lib/dotaznik/obsah'
@@ -15,6 +15,8 @@ export function generateStaticParams() {
 export default async function TemaIntro({ params }: P) {
   const { lang: raw, modul: modulSlug, tema: temaSlug } = await params
   const lang = normalizeUrlLocale(raw)
+  if (modulSlug === 'trojky-skupiny' && (temaSlug === 'trojka-mmf' || temaSlug === 'trojka-fmf'))
+    redirect(`/${lang}/dotaznik/m/trojky-skupiny/t/trojky-skupiny`)
   const found = getTema(modulSlug, temaSlug)
   if (!found) notFound()
   const { modul, tema } = found

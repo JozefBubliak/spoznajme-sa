@@ -3,8 +3,8 @@ import { splna } from '../../podmienky'
 import { temaObsah } from '../index'
 import type { Blok, Podmienka, TemaObsah } from '../typ'
 
-const formaty = ['trojka-mmf', 'trojka-fmf', 'skupinovy-sex', 'gangbang', 'bukkake', 'dvojita-penetracia'] as const
-const prefixy = ['mmf', 'fmf', 'skup', 'gb', 'bk', 'dp'] as const
+const formaty = ['skupinovy-sex', 'gangbang', 'bukkake', 'dvojita-penetracia'] as const
+const prefixy = ['skup', 'gb', 'bk', 'dp'] as const
 
 function bloky(t: TemaObsah): Blok[] {
   const out: Blok[] = []
@@ -64,11 +64,32 @@ describe('samostatné témy trojok a skupín', () => {
     }
   })
 
-  it('prehľad neobsahuje podrobné otázky iných formátov', () => {
-    const overview = temaObsah('trojky-skupiny', 'trojky-skupiny')!
-    expect(bloky(overview).filter(b => b.druh === 'otazka').map(b => b.id)).toEqual([
-      'troj_konfiguracie', 'troj_dynamika', 'troj_aktivita', 'troj_roly',
-    ])
+  it('Trojky začínajú skúsenosťou a MMF/FMF majú nezávislé podtémy', () => {
+    const tema = temaObsah('trojky-skupiny', 'trojky-skupiny')!
+    const all = bloky(tema)
+    const ids = all.map(b => b.id)
+    expect(ids[1]).toBe('troj_skusenost')
+    expect(ids).not.toContain('troj_konfiguracie')
+    expect(ids).toContain('mmf_podtema')
+    expect(ids).toContain('fmf_podtema')
+    expect(new Set(ids).size).toBe(ids.length)
+    const questions = new Set(all.filter(b => b.druh === 'otazka').map(b => b.id))
+    for (const b of all) for (const ref of refs(b.podmienka)) expect(questions.has(ref)).toBe(true)
+    const byId = (id: string) => all.find(b => b.id === id)!
+    const odpovede = { troj_skusenost: { v: 'mmf' }, mmf_vstup: { v: 'ano' }, fmf_vstup: { v: 'ano' } }
+    expect(splna(byId('mmf_skusena').podmienka, odpovede, 'z')).toBe(true)
+    expect(splna(byId('mmf_bez_skusenosti_nove').podmienka, odpovede, 'z')).toBe(false)
+    expect(splna(byId('fmf_bez_skusenosti_nove').podmienka, odpovede, 'z')).toBe(true)
+    expect(splna(byId('fmf_skusena').podmienka, odpovede, 'z')).toBe(false)
+    expect(splna(byId('mmf_skusena').podmienka, { ...odpovede, mmf_vstup: { v: 'nie' } }, 'z')).toBe(false)
+    expect(splna(byId('fmf_skusena').podmienka, { ...odpovede, troj_skusenost: { v: 'obe' } }, 'z')).toBe(true)
+    const fantazia = { ...odpovede, fmf_realita_nova: { v: 'fantazia' } }
+    expect(splna(byId('fmf_postoj_a_hranice').podmienka, fantazia, 'z')).toBe(true)
+    expect(splna(byId('fmf_podmienky_nove').podmienka, fantazia, 'z')).toBe(false)
+    expect(splna(byId('fmf_postoj_a_hranice').podmienka,
+      { ...odpovede, fmf_realita_nova: { v: 'nie' } }, 'z')).toBe(false)
+    expect(splna(byId('mmf_postoj_a_hranice').podmienka,
+      { ...odpovede, mmf_opakovat: { v: 'nie' } }, 'z')).toBe(false)
   })
 
   it('odpovede sa medzi oddelenými témami neprepisujú cez spoločné ID', () => {
@@ -81,8 +102,8 @@ describe('samostatné témy trojok a skupín', () => {
 
   it('presunuté otázky zapisujú do pôvodných kľúčov uložených odpovedí', () => {
     const examples = [
-      ['trojka-mmf', 'mmf_postoj', 'mmf'],
-      ['trojka-fmf', 'fmf_prijat_ona', 'fmf'],
+      ['trojky-skupiny', 'mmf_prijat', 'mmf'],
+      ['trojky-skupiny', 'fmf_prijat_ona', 'fmf'],
       ['gangbang', 'gb_postoj', 'gangbang'],
       ['bukkake', 'bk_miesta', 'gangbang'],
       ['dvojita-penetracia', 'edge_dp', 'edge'],

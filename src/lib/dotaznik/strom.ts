@@ -630,9 +630,7 @@ export const MODULY: Modul[] = [
     slug: 'trojky-skupiny', cislo: 46, kod: 'H3', domena: 'H', rizikovy: true,
     nazov: 'Trojky, skupiny a gangbang', popis: 'Každý formát samostatne: trojky MMF a FMF, väčšia skupina, gangbang, bukkake a ďalšie témy.', ikona: '👥', citlivost: 3,
     temy: [
-      o('trojky-skupiny', 'Prehľad formátov', 'Vyber, ktoré zloženia ťa zaujímajú.', undefined, { rizikova: true }),
-      o('trojka-mmf', 'Trojka s ďalším mužom (MMF)', 'Vlastná skúsenosť, roly, predstava a konkrétne interakcie.', undefined, { rizikova: true }),
-      o('trojka-fmf', 'Trojka s ďalšou ženou (FMF)', 'Vlastná skúsenosť, roly, predstava a konkrétne interakcie.', undefined, { rizikova: true }),
+      o('trojky-skupiny', 'Trojky', 'Jedna téma: skúsenosť a dve samostatné podtémy MMF a FMF.', undefined, { rizikova: true }),
       o('skupinovy-sex', 'Skupinový sex', 'Viac než trojica, pozornosť a choreografia skupiny.', undefined, { rizikova: true }),
       o('gangbang', 'Gangbang', 'Viacerí muži a jedna žena; samostatná skúsenosť a podoba.', undefined, { rizikova: true }),
       o('bukkake', 'Bukkake', 'Samostatná vizuálna a erotická téma.', undefined, { rizikova: true }),
