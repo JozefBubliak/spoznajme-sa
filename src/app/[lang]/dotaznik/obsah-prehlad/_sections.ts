@@ -1,6 +1,6 @@
 import { gtext } from '@/lib/dotaznik/obsah/typ'
 
-type PrehladPolozka = { nazov: Parameters<typeof gtext>[0]; slugs: readonly string[] }
+type PrehladPolozka = { nazov: Parameters<typeof gtext>[0]; slugs: readonly string[]; popis?: string; poduroven?: boolean }
 type PrehladSkupina = { id: string; nazov: string; popis: string; polozky: readonly PrehladPolozka[] }
 
 export const PREHLAD_SKUPINY: readonly PrehladSkupina[] = [
@@ -99,6 +99,7 @@ export const PREHLAD_SKUPINY: readonly PrehladSkupina[] = [
       { nazov: 'Voyeurizmus a exhibicionizmus', slugs: ['voyeur-exhib/voyeur-exhib'] },
       { nazov: 'Face Sitting', slugs: ['oral-kombinacie-polohy/face-sitting'] },
       { nazov: 'Anál a stimulácia zadku', slugs: ['analna-penetracia/analna-penetracia'] },
+      { nazov: 'Dvojitá penetrácia', popis: 'Aj ako samostatná predstava bez ďalšej osoby.', slugs: ['trojky-skupiny/dvojita-penetracia'] },
       { nazov: 'BDSM a mocenská dynamika', slugs: ['dominancia-submisia/dominancia-submisia'] },
     ],
   },
@@ -127,9 +128,15 @@ export const PREHLAD_SKUPINY: readonly PrehladSkupina[] = [
     popis: 'Túžby a dohody, v ktorých do erotiky alebo vzťahu vstupujú ďalší ľudia.',
     polozky: [
       { nazov: 'CNM/ENM a vzťahové štruktúry', slugs: ['cnm-enm/cnm-enm'] },
-      { nazov: 'Zdieľanie partnera — hotwife / cuckold', slugs: ['zdielanie-partnera/zdielanie-partnera'] },
-      { nazov: 'Swinging a výmena partnerov', slugs: ['swinging/swinging'] },
-      { nazov: 'Trojky, skupiny a gangbang', slugs: ['trojky-skupiny/trojky-skupiny'] },
+      { nazov: 'Zdieľanie partnera — hotwife / cuckold', popis: 'Jeden z páru s ďalšou osobou; druhý môže sledovať alebo byť súčasťou dohody.', slugs: ['zdielanie-partnera/zdielanie-partnera'] },
+      { nazov: 'Swinging a výmena partnerov', popis: 'Dva páry a výmena medzi nimi.', slugs: ['swinging/swinging'] },
+      { nazov: 'Trojky a skupiny — prehľad', popis: 'Spoločná scéna troch alebo viacerých ľudí. Každý formát je samostatne nižšie.', slugs: ['trojky-skupiny/trojky-skupiny'] },
+      { nazov: 'Trojka: dvaja muži a žena (MMF)', slugs: ['trojky-skupiny/trojka-mmf'], poduroven: true },
+      { nazov: 'Trojka: dve ženy a muž (FMF)', slugs: ['trojky-skupiny/trojka-fmf'], poduroven: true },
+      { nazov: 'Skupinový sex — viac než trojica', slugs: ['trojky-skupiny/skupinovy-sex'], poduroven: true },
+      { nazov: 'Gangbang — viacerí muži a žena', slugs: ['trojky-skupiny/gangbang'], poduroven: true },
+      { nazov: 'Bukkake — samostatný scenár', slugs: ['trojky-skupiny/bukkake'], poduroven: true },
+      { nazov: 'Spoločné otázky: ďalšia osoba a emócie', slugs: ['trojky-skupiny/treti-clovek'], poduroven: true },
     ],
   },
   {
