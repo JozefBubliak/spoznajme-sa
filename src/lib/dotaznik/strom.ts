@@ -628,13 +628,16 @@ export const MODULY: Modul[] = [
   },
   {
     slug: 'trojky-skupiny', cislo: 46, kod: 'H3', domena: 'H', rizikovy: true,
-    nazov: 'Trojky, skupiny a gangbang', popis: 'Konfigurácie, tretí človek, pravidlá, emócie; skupinový sex a eventy.', ikona: '👥', citlivost: 3,
+    nazov: 'Trojky, skupiny a gangbang', popis: 'Každý formát samostatne: trojky MMF a FMF, väčšia skupina, gangbang, bukkake a ďalšie témy.', ikona: '👥', citlivost: 3,
     temy: [
-      o('trojky-skupiny', 'Trojky, skupiny a gangbang', 'Kompletný sprievodca (kniha + dotazník).', undefined, { rizikova: true }),
-      o('konfiguracia', 'Konfigurácia', 'Kto s kým.', ['MŽŽ', 'ŽMM', 'MŽM', 'ŽMŽ', 'Bi / hetero mix', 'Kto sa koho dotýka']),
-      o('treti-clovek', 'Tretí človek', 'Koho zapojiť.', ['Neznámy (klub / app)', 'Kamarát/ka (riziko na vzťah)', '„Unicorn"', 'Profesionál/ka']),
-      o('emocie', 'Emócie', 'Žiarlivosť a compersion.', ['Žiarlivosť', '„Compersion" (radosť z partnerovej radosti)', 'Po-debrief', 'Frekvencia']),
-      o('skupinova-choreografia', 'Skupinová choreografia a formáty zapojenia', EVIDOVANA_TEMA),
+      o('trojky-skupiny', 'Prehľad formátov', 'Vyber, ktoré zloženia ťa zaujímajú.', undefined, { rizikova: true }),
+      o('trojka-mmf', 'Trojka s ďalším mužom (MMF)', 'Vlastná skúsenosť, roly, predstava a konkrétne interakcie.', undefined, { rizikova: true }),
+      o('trojka-fmf', 'Trojka s ďalšou ženou (FMF)', 'Vlastná skúsenosť, roly, predstava a konkrétne interakcie.', undefined, { rizikova: true }),
+      o('skupinovy-sex', 'Skupinový sex', 'Viac než trojica, pozornosť a choreografia skupiny.', undefined, { rizikova: true }),
+      o('gangbang', 'Gangbang', 'Viacerí muži a jedna žena; samostatná skúsenosť a podoba.', undefined, { rizikova: true }),
+      o('bukkake', 'Bukkake', 'Samostatná vizuálna a erotická téma.', undefined, { rizikova: true }),
+      o('treti-clovek', 'Tretí človek a emócie', 'Výber osoby, pocity, žiarlivosť a dozvuk.', undefined, { rizikova: true }),
+      o('dvojita-penetracia', 'Dvojitá penetrácia', 'Samostatná fantázia, skúsenosť a varianty.', undefined, { rizikova: true }),
     ],
   },
   {

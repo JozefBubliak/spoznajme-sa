@@ -92,7 +92,14 @@ const bezVetvenia = (dovod: string): VetvenieSkusenosti => ({ rezim: 'nepouziva-
 
 export const VETVENIE_SKUSENOSTI: Record<string, VetvenieSkusenosti> = {
   'prostredie-atmosfera/prostredie-atmosfera': bezVetvenia('Prostredie je preferenčný kontext, nie menej častá praktika. Nemá mať všeobecný gatekeeper mám/nemám skúsenosť.'),
-  'trojky-skupiny/trojky-skupiny': bezVetvenia('Nepoužiť jednu spoločnú skúsenosť: MMF a FMF sú dva samostatné zážitky a potrebujú vlastné vetvenie.'),
+  'trojky-skupiny/trojky-skupiny': bezVetvenia('Iba rozcestník formátov; každá konkrétna téma má vlastnú skúsenostnú vetvu.'),
+  'trojky-skupiny/trojka-mmf': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
+  'trojky-skupiny/trojka-fmf': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
+  'trojky-skupiny/skupinovy-sex': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
+  'trojky-skupiny/gangbang': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
+  'trojky-skupiny/bukkake': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
+  'trojky-skupiny/dvojita-penetracia': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
+  'trojky-skupiny/treti-clovek': bezVetvenia('Spoločné postoje a emócie naprieč formátmi; samostatné skúsenosti sú vo formátových témach.'),
   'roleplay-scenare/roleplay-scenare': kostra('jedna-skusenost'),
   'telesne-tekutiny/telesne-tekutiny': bezVetvenia('Dočasne bez skúsenostnej kostry; používateľ sa má vyjadriť k vetveniu telesných tekutín.'),
   'telesne-tekutiny/prirodzenost': bezVetvenia('Dočasne bez skúsenostnej kostry; používateľ sa má vyjadriť k vetveniu telesných tekutín.'),

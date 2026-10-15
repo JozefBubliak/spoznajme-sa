@@ -29,4 +29,12 @@ export const BEZ_SUMARU = new Set<string>([
   'kontext-vztahu-zivotna-situacia/kontext-vztahu-zivotna-situacia',
   // Má vlastný krátky sumár bez duplicitných otázok na termín a plánovanie.
   'voyeur-exhib/voyeur-exhib',
+  'trojky-skupiny/trojky-skupiny',
+  'trojky-skupiny/treti-clovek',
+  'trojky-skupiny/trojka-mmf',
+  'trojky-skupiny/trojka-fmf',
+  'trojky-skupiny/skupinovy-sex',
+  'trojky-skupiny/gangbang',
+  'trojky-skupiny/bukkake',
+  'trojky-skupiny/dvojita-penetracia',
 ])

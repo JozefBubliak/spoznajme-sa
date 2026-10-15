@@ -204,8 +204,6 @@ const SKUPINY: Blok = {
       moznosti: [
         { v: 'viacero_parov', label: 'Viacero párov v jednej miestnosti s voľnou výmenou partnerov' },
         { v: 'striedanie', label: 'Striedanie partnerov v rámci skupiny (rotujúca výmena)' },
-        { v: 'gangbang', label: g('Gangbang — viacerí muži sústredení na partnerku', 'Gangbang — viacerí muži sústredení na mňa') },
-        { v: 'bukkake', label: 'Bukkake' },
         { v: 'oralny_gang', label: 'Skupinová hra s orálnym sexom' },
       ],
     },
@@ -329,7 +327,7 @@ const GANGBANG: Blok = {
       druh: 'otazka',
       id: 'gb_partner_rola',
       typ: 'jeden',
-      text: g('Akú rolu má mať partnerka pri gangbangu?', 'Akú rolu má mať partner pri gangbangu?'),
+      text: g('Akú rolu chcem mať ja pri gangbangu partnerky?', 'Akú rolu chcem pre partnera pri svojom gangbangu?'),
       moznosti: [
         { v: 'ucastnik', label: 'Zapojený účastník' },
         { v: 'pozorovatel', label: 'Pasívny pozorovateľ' },
@@ -355,12 +353,11 @@ const GANGBANG: Blok = {
       druh: 'otazka', id: 'gb_motivacia', typ: 'viac', inePovolene: true,
       text: 'Čo ma na gangbangu psychologicky priťahuje',
       moznosti: [
-        { v: 'stredobod', label: 'Byť stredobodom obrovskej pozornosti' },
-        { v: 'rozmaznavanie', label: 'Pocit rozmaznávania viacerými ľuďmi' },
+        { v: 'stredobod', label: g('Sledovať partnerku ako stredobod pozornosti', 'Byť stredobodom pozornosti') },
+        { v: 'rozmaznavanie', label: g('Vidieť, ako ju viacerí muži rozmaznávajú', 'Pocit rozmaznávania viacerými mužmi') },
         { v: 'intenzita', label: 'Fyzická intenzita a množstvo podnetov' },
         { v: 'objektivizacia', label: 'Erotická objektivizácia a „použitie"' },
         { v: 'voyeur', label: g('Sledovať partnerku a jej reakcie', 'Vnímať, že ma partner sleduje') },
-        { v: 'cuckold', label: 'Cuckold, hotwife alebo compersion dynamika' },
         { v: 'tabu', label: 'Tabu, odvážnosť a prekročenie bežného scenára' },
       ],
     },
@@ -623,7 +620,7 @@ const EDGE: Blok = {
   ],
 }
 
-export const TROJKY_SKUPINY: TemaObsah = {
+const POVODNY_OBSAH: TemaObsah = {
   slug: 'trojky-skupiny/trojky-skupiny',
   nadpis: 'Trojky, skupiny a gangbang',
   zdielanieDovod: true,
@@ -800,3 +797,191 @@ export const TROJKY_SKUPINY: TemaObsah = {
     },
   ],
 }
+
+// Každý formát má vlastnú route a vlastnú skúsenosť. Spoločné otázky nie sú
+// bránou k ostatným témam: MMF, FMF, skupina, gangbang a bukkake sa neodvodzujú
+// jedna z druhej. Pôvodné ID otázok ostávajú v príslušnej téme.
+const bloky = (skupina: Blok): Blok[] => skupina.druh === 'skupina' ? skupina.bloky : []
+const staryOkruh = (blok: Blok, okruh: string): Blok => blok.druh === 'otazka'
+  ? { ...blok, povodnyOkruh: okruh }
+  : blok
+const povodny = (id: string): Blok => {
+  const blok = POVODNY_OBSAH.telo.find(b => b.id === id)
+  if (!blok) throw new Error(`Chýba pôvodný blok ${id}`)
+  return blok
+}
+
+function temaSoSkusenostou({ slug, nadpis, prefix, skusenostText, uvod, zaujem, detaily, partner }: {
+  slug: string; nadpis: string; prefix: string; skusenostText: TemaObsah['nadpis']; uvod: Blok[]; zaujem: Blok;
+  detaily: Blok[]; partner: TemaObsah['nadpis']
+}): TemaObsah {
+  const skusenost = `${prefix}_skusenost`
+  const hodnotenie = `${prefix}_hodnotenie`
+  const realita = `${prefix}_realita`
+  return {
+    slug: `trojky-skupiny/${slug}`,
+    nadpis,
+    zdielanieDovod: true,
+    uvod,
+    telo: [
+      {
+        druh: 'otazka', id: skusenost, typ: 'jeden',
+        text: skusenostText,
+        napoveda: 'Skúsenosť v inom formáte sa sem nepočíta.',
+        moznosti: [
+          { v: 'ano', label: g('Áno, zažil som tento konkrétny formát', 'Áno, zažila som tento konkrétny formát') },
+          { v: 'ziadna', label: 'Nie, s týmto formátom nemám skúsenosť' },
+        ],
+      },
+      {
+        druh: 'skupina', id: `${prefix}_so_skusenostou`, nadpis: 'Moja skutočná skúsenosť',
+        podmienka: { ot: skusenost, je: 'ano' },
+        bloky: [
+          {
+            druh: 'otazka', id: hodnotenie, typ: 'jeden',
+            text: 'Ako na mňa tento zážitok pôsobil?',
+            moznosti: [
+              { v: 'velmi', label: 'Veľmi ma vzrušoval — chcem ho opakovať' },
+              { v: 'skor', label: g('Páčil sa mi, ale niečo by som zmenil', 'Páčil sa mi, ale niečo by som zmenila') },
+              { v: 'neutral', label: 'Bol v poriadku, nie je mojou prioritou' },
+              { v: 'zlepsit', label: 'Nesadol mi, no iná podoba by ma mohla zaujať' },
+              { v: 'nechcem_opakovat', label: 'Bol nepríjemný — nechcem ho opakovať' },
+            ],
+          },
+          { druh: 'otazka', id: `${prefix}_zmenit`, typ: 'text', text: g('Čo by som pri inom pokuse zmenil?', 'Čo by som pri inom pokuse zmenila?'),
+            podmienka: { ot: hodnotenie, jeNiektora: ['skor', 'zlepsit'] } },
+          { druh: 'otazka', id: `${prefix}_fungovalo`, typ: 'text', text: 'Čo konkrétne fungovalo a chcem zažiť znova?',
+            podmienka: { ot: hodnotenie, jeNiektora: ['velmi', 'skor', 'neutral'] } },
+          { druh: 'otazka', id: `${prefix}_frekvencia`, typ: 'jeden', text: g('Ako často by som to chcel zažívať?', 'Ako často by som to chcela zažívať?'),
+            podmienka: { ot: hodnotenie, jeNiektora: ['velmi', 'skor', 'neutral', 'zlepsit'] },
+            moznosti: [
+              { v: 'casto', label: 'Častejšie' }, { v: 'obcas', label: 'Občas' },
+              { v: 'vynimocne', label: 'Len výnimočne' }, { v: 'neviem', label: 'Zatiaľ neviem' },
+            ] },
+        ],
+      },
+      {
+        druh: 'skupina', id: `${prefix}_bez_skusenosti`, nadpis: 'Zatiaľ bez skúsenosti',
+        podmienka: { ot: skusenost, je: 'ziadna' },
+        bloky: [
+          { druh: 'text', id: `${prefix}_fantazia_info`, ton: 'info',
+            telo: g('Fantázia môže zostať fantáziou. Táto časť sa pýta na predstavu, nie na zážitok, ktorý si nemal.',
+              'Fantázia môže zostať fantáziou. Táto časť sa pýta na predstavu, nie na zážitok, ktorý si nemala.') },
+          { druh: 'otazka', id: `${prefix}_fantazia`, typ: 'jeden', text: 'Ako často sa mi táto predstava objavuje?',
+            moznosti: [
+              { v: 'silna', label: 'Je to silná alebo opakujúca sa fantázia' },
+              { v: 'obcas', label: 'Objaví sa občas' },
+              { v: 'zvedavost', label: g('Skôr som zvedavý než vzrušený', 'Skôr som zvedavá než vzrušená') },
+              { v: 'nelaka', label: 'Neláka ma' },
+            ] },
+          { druh: 'otazka', id: realita, typ: 'jeden', text: 'Chcem túto predstavu niekedy preniesť do reality?',
+            moznosti: [
+              { v: 'chcem', label: 'Áno, chcem to skúsiť' },
+              { v: 'mozno', label: 'Možno, záleží na konkrétnej podobe' },
+              { v: 'fantazia', label: 'Vzrušuje ma iba ako fantázia' },
+              { v: 'nie', label: 'Nie, nechcem to skúšať' },
+            ] },
+        ],
+      },
+      zaujem,
+      { druh: 'otazka', id: `${prefix}_partner_tuzi`, typ: 'jeden', inePovolene: true,
+        text: partner,
+        moznosti: [
+          { v: 'spolu', label: 'Vzrušuje ma to tiež' },
+          { v: 'ochota', label: g('Rád sa zapojím pre jej potešenie', 'Rada sa zapojím pre jeho potešenie') },
+          { v: 'fantazia', label: 'Chcem o tom len fantazírovať spolu' },
+          { v: 'neistota', label: 'Potrebujem rozlíšiť konkrétne roly a hranice' },
+          { v: 'nie', label: 'Nechcem sa do toho zapojiť' },
+        ] },
+      {
+        druh: 'skupina', id: `${prefix}_podoby`, nadpis: 'Konkrétna podoba, ktorá ma láka',
+        podmienka: {
+          vsetky: [
+            { ot: zaujem.id, jeNiektora: ['robime', 'tuzim', 'ak_chce', 'mozno', 'fantazia', 'ano'] },
+            { asponJedna: [
+              { vsetky: [{ ot: skusenost, je: 'ano' }, { ot: hodnotenie, nie: 'nechcem_opakovat' }] },
+              { vsetky: [{ ot: skusenost, je: 'ziadna' }, { ot: realita, jeNiektora: ['chcem', 'mozno', 'fantazia'] }] },
+            ] },
+          ],
+        },
+        bloky: detaily,
+      },
+    ],
+    zaver: [{ druh: 'otazka', id: `${prefix}_sumar`, typ: 'text',
+      text: g('Čo z tejto konkrétnej témy chcem s partnerkou preskúmať?', 'Čo z tejto konkrétnej témy chcem s partnerom preskúmať?') }],
+  }
+}
+
+export const TROJKY_SKUPINY: TemaObsah = {
+  slug: POVODNY_OBSAH.slug,
+  nadpis: 'Trojky — prehľad formátov',
+  uvod: POVODNY_OBSAH.uvod.slice(0, 2),
+  telo: [povodny('troj_konfiguracie'), povodny('troj_dynamika'), povodny('troj_aktivita'), povodny('troj_roly')],
+  zaver: [{ druh: 'text', id: 'formaty_oddelene', nadpis: 'Každý formát zvlášť',
+    telo: 'Trojka s ďalším mužom, trojka s ďalšou ženou, väčšia skupina, gangbang a bukkake sú samostatné témy. Každá má vlastnú otázku na skúsenosť a samostatné vetvy.' }],
+}
+
+export const TROJKA_MMF = temaSoSkusenostou({
+  slug: 'trojka-mmf', nadpis: 'Trojka s ďalším mužom (MMF)', prefix: 'mmf',
+  skusenostText: 'Máš skúsenosť s trojkou, v ktorej ste boli dvaja muži a jedna žena?',
+  uvod: [{ druh: 'text', id: 'mmf_uvod', nadpis: 'Dvaja muži a jedna žena',
+    telo: g('Pri MMF môže byť partnerka stredobodom pozornosti teba a ďalšieho muža. Kontakt medzi mužmi je samostatná voľba, nie automatická súčasť.',
+      'Pri MMF môžeš byť stredobodom pozornosti partnera a ďalšieho muža. Ich vzájomný kontakt je samostatná voľba, nie automatická súčasť.') }],
+  zaujem: staryOkruh(bloky(MMF)[0], 'mmf'), detaily: bloky(MMF).slice(1).map(b => staryOkruh(b, 'mmf')),
+  partner: g('Ak po trojke s ďalším mužom túži partnerka, aký mám postoj?', 'Ak po trojke s ďalším mužom túži partner, aký mám postoj?'),
+})
+
+export const TROJKA_FMF = temaSoSkusenostou({
+  slug: 'trojka-fmf', nadpis: 'Trojka s ďalšou ženou (FMF)', prefix: 'fmf',
+  skusenostText: 'Máš skúsenosť s trojkou, v ktorej boli dve ženy a jeden muž?',
+  uvod: [{ druh: 'text', id: 'fmf_uvod', nadpis: 'Dve ženy a jeden muž',
+    telo: g('Pri FMF môžeš byť stredobodom pozornosti partnerky a ďalšej ženy, alebo sledovať ich vzájomnú blízkosť. Kontakt medzi ženami je samostatná voľba.',
+      'Pri FMF sa môžeš zapojiť s partnerom a ďalšou ženou rôznymi spôsobmi. Kontakt medzi ženami je samostatná voľba, nie automatická súčasť.') }],
+  zaujem: staryOkruh(bloky(FMF)[0], 'fmf'), detaily: bloky(FMF).slice(1).map(b => staryOkruh(b, 'fmf')),
+  partner: g('Ak po trojke s ďalšou ženou túži partnerka, aký mám postoj?', 'Ak po trojke s ďalšou ženou túži partner, aký mám postoj?'),
+})
+
+export const SKUPINOVY_SEX = temaSoSkusenostou({
+  slug: 'skupinovy-sex', nadpis: 'Skupinový sex', prefix: 'skup',
+  skusenostText: 'Máš skúsenosť so sexom vo väčšej skupine než trojica?',
+  uvod: [{ druh: 'text', id: 'skup_uvod', nadpis: 'Viac než trojica',
+    telo: 'Pri väčšej skupine sa mení počet ľudí, rozdelenie pozornosti aj rola páru. Skúsenosť s trojkou preto neznamená skúsenosť so skupinou.' }],
+  zaujem: postojOtazka('skup_postoj', g('Chcel by si zažiť skupinový sex s partnerkou?', 'Chcela by si zažiť skupinový sex s partnerom?')),
+  detaily: [SKUPINY, CHOREOGRAFIA_SKUPINY],
+  partner: g('Ak po skupinovom sexe túži partnerka, aký mám postoj?', 'Ak po skupinovom sexe túži partner, aký mám postoj?'),
+})
+
+export const GANGBANG_TEMA = temaSoSkusenostou({
+  slug: 'gangbang', nadpis: 'Gangbang', prefix: 'gb',
+  skusenostText: g('Máš skúsenosť s gangbangom, v ktorom bola partnerka stredobodom?', 'Máš skúsenosť s gangbangom, v ktorom si bola stredobodom?'),
+  uvod: bloky(GANGBANG).filter(b => b.id === 'gb_bk_rozdiel'),
+  zaujem: staryOkruh(bloky(GANGBANG).find(b => b.id === 'gb_postoj')!, 'gangbang'),
+  detaily: bloky(GANGBANG).filter(b => b.id.startsWith('gb_') && !['gb_postoj', 'gb_bk_rozdiel', 'gb_bk_myty'].includes(b.id)).map(b => staryOkruh(b, 'gangbang')),
+  partner: g('Ak po gangbangu túži partnerka, aký mám postoj k jej zapojeniu?', 'Ak po gangbangu túži partner, aký mám postoj k jeho zapojeniu?'),
+})
+
+export const BUKKAKE_TEMA = temaSoSkusenostou({
+  slug: 'bukkake', nadpis: 'Bukkake', prefix: 'bk',
+  skusenostText: g('Máš skúsenosť s bukkake, pri ktorom bola partnerka stredobodom?', 'Máš skúsenosť s bukkake, pri ktorom si bola stredobodom?'),
+  uvod: bloky(GANGBANG).filter(b => b.id === 'gb_bk_rozdiel'),
+  zaujem: staryOkruh(bloky(GANGBANG).find(b => b.id === 'bk_postoj')!, 'gangbang'),
+  detaily: bloky(GANGBANG).filter(b => b.id.startsWith('bk_') && b.id !== 'bk_postoj').map(b => staryOkruh(b, 'gangbang')),
+  partner: g('Ak po bukkake túži partnerka, aký mám postoj k jej zapojeniu?', 'Ak po bukkake túži partner, aký mám postoj k jeho zapojeniu?'),
+})
+
+export const TRETIA_OSOBA: TemaObsah = {
+  slug: 'trojky-skupiny/treti-clovek', nadpis: 'Tretí človek, emócie a dozvuk',
+  uvod: [{ druh: 'text', id: 'treti_uvod',
+    telo: 'Táto časť platí naprieč formátmi s ďalšou osobou. Nehodnotí zážitok za teba; pomáha pomenovať, čo ťa pri ďalšom človeku priťahuje a čo ťa zraňuje.' }],
+  telo: [povodny('matica_interakcii'), povodny('hranice'), RAMEC, EMOCIE],
+}
+
+export const DVOJITA_PENETRACIA = temaSoSkusenostou({
+  slug: 'dvojita-penetracia', nadpis: 'Dvojitá penetrácia', prefix: 'dp',
+  skusenostText: 'Máš osobnú skúsenosť s dvojitou penetráciou alebo jej simuláciou?',
+  uvod: [{ druh: 'text', id: 'dp_uvod',
+    telo: 'Dvojitá penetrácia môže byť samostatná fantázia bez trojky a bez skupiny. Preto má vlastné otázky.' }],
+  zaujem: staryOkruh(bloky(EDGE)[0], 'edge'),
+  detaily: bloky(EDGE).slice(1).map(b => staryOkruh(b, 'edge')),
+  partner: g('Ak po dvojitej penetrácii túži partnerka, aký mám postoj?', 'Ak po dvojitej penetrácii túži partner, aký mám postoj?'),
+})
