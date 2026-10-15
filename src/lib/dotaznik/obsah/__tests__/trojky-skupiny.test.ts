@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals'
 import { splna } from '../../podmienky'
 import { temaObsah } from '../index'
-import type { Blok, Podmienka, TemaObsah } from '../typ'
+import { gtext, type Blok, type Podmienka, type TemaObsah } from '../typ'
 
 const formaty = ['skupinovy-sex', 'gangbang', 'bukkake', 'dvojita-penetracia'] as const
 const prefixy = ['skup', 'gb', 'bk', 'dp'] as const
@@ -68,10 +68,23 @@ describe('samostatné témy trojok a skupín', () => {
     const tema = temaObsah('trojky-skupiny', 'trojky-skupiny')!
     const all = bloky(tema)
     const ids = all.map(b => b.id)
-    expect(ids[1]).toBe('troj_skusenost')
+    expect(tema.telo[0].id).toBe('troj_skusenost')
     expect(ids).not.toContain('troj_konfiguracie')
     expect(ids).toContain('mmf_podtema')
     expect(ids).toContain('fmf_podtema')
+    for (const prefix of ['mmf', 'fmf']) {
+      expect(ids).toContain(`${prefix}_rozdelenie_zrkadlo`)
+      expect(ids).toContain(`${prefix}_roly_a_pozornost`)
+      expect(ids).toContain(`${prefix}_konkretne_kontakty`)
+      expect(ids).toContain(`${prefix}_pocity_a_motivacie`)
+      expect(ids).toContain(`${prefix}_realny_ramec`)
+      const kontakt = all.find(b => b.id === `${prefix}_par_treti_kontakty`)
+      expect(kontakt?.druh).toBe('otazka')
+      if (kontakt?.druh === 'otazka') expect(kontakt.riadky).toHaveLength(prefix === 'mmf' ? 7 : 6)
+      const rovnake = all.find(b => b.id === `${prefix}_rovnake_pohlavie_kontakty`)
+      expect(rovnake?.druh).toBe('otazka')
+      if (rovnake?.druh === 'otazka') expect(rovnake.riadky).toHaveLength(prefix === 'mmf' ? 4 : 5)
+    }
     expect(new Set(ids).size).toBe(ids.length)
     const questions = new Set(all.filter(b => b.druh === 'otazka').map(b => b.id))
     for (const b of all) for (const ref of refs(b.podmienka)) expect(questions.has(ref)).toBe(true)
@@ -86,10 +99,29 @@ describe('samostatné témy trojok a skupín', () => {
     const fantazia = { ...odpovede, fmf_realita_nova: { v: 'fantazia' } }
     expect(splna(byId('fmf_postoj_a_hranice').podmienka, fantazia, 'z')).toBe(true)
     expect(splna(byId('fmf_podmienky_nove').podmienka, fantazia, 'z')).toBe(false)
+    expect(splna(byId('fmf_realny_ramec').podmienka, fantazia, 'z')).toBe(false)
+    expect(splna(byId('fmf_realny_ramec').podmienka,
+      { ...odpovede, fmf_realita_nova: { v: 'mozno' } }, 'z')).toBe(true)
     expect(splna(byId('fmf_postoj_a_hranice').podmienka,
       { ...odpovede, fmf_realita_nova: { v: 'nie' } }, 'z')).toBe(false)
     expect(splna(byId('mmf_postoj_a_hranice').podmienka,
       { ...odpovede, mmf_opakovat: { v: 'nie' } }, 'z')).toBe(false)
+    expect(splna(byId('mmf_povodne_odpovede').podmienka, {}, 'm')).toBe(false)
+    expect(splna(byId('mmf_povodne_odpovede').podmienka,
+      { mmf_vstup: { v: 'ano' }, mmf_prijat: { v: ['bozk'] } }, 'm')).toBe(true)
+  })
+
+  it('riadky kontaktov opisujú tú istú situáciu žene aj mužovi', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    const mmf = all.find(b => b.id === 'mmf_par_treti_kontakty')
+    const fmf = all.find(b => b.id === 'fmf_par_treti_kontakty')
+    expect(mmf?.druh).toBe('otazka')
+    expect(fmf?.druh).toBe('otazka')
+    if (mmf?.druh !== 'otazka' || fmf?.druh !== 'otazka') return
+    expect(gtext(mmf.riadky![0].label, 'm')).toContain('Partnerka')
+    expect(gtext(mmf.riadky![0].label, 'z')).toContain('Bozkávam')
+    expect(gtext(fmf.riadky![0].label, 'm')).toContain('Bozkávam')
+    expect(gtext(fmf.riadky![0].label, 'z')).toContain('Partner')
   })
 
   it('odpovede sa medzi oddelenými témami neprepisujú cez spoločné ID', () => {
@@ -102,8 +134,8 @@ describe('samostatné témy trojok a skupín', () => {
 
   it('presunuté otázky zapisujú do pôvodných kľúčov uložených odpovedí', () => {
     const examples = [
-      ['trojky-skupiny', 'mmf_prijat', 'mmf'],
-      ['trojky-skupiny', 'fmf_prijat_ona', 'fmf'],
+      ['trojky-skupiny', 'mmf_rozdelenie_zrkadlo', 'mmf'],
+      ['trojky-skupiny', 'fmf_rozdelenie_zrkadlo', 'fmf'],
       ['gangbang', 'gb_postoj', 'gangbang'],
       ['bukkake', 'bk_miesta', 'gangbang'],
       ['dvojita-penetracia', 'edge_dp', 'edge'],

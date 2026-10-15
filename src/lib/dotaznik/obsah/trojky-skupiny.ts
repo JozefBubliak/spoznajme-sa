@@ -75,7 +75,7 @@ const MMF: Blok = {
       moznosti: [
         { v: 'len_jej', label: g('Dvaja muži sa venujú len partnerke, bez interakcie medzi sebou', 'Dvaja muži sa venujú len mne, bez interakcie medzi sebou') },
         { v: 'aj_sebe', label: g('Dvaja muži sa venujú partnerke aj sebe navzájom', 'Dvaja muži sa venujú mne aj sebe navzájom') },
-        { v: 'jeden_asistuje', label: 'Jeden muž je stredobodom, druhý mu asistuje a sleduje' },
+        { v: 'jeden_asistuje', label: g('Ja sledujem, ako sa ďalší muž venuje partnerke, a potom sa zapojím', 'Partner sleduje, ako sa mi venuje ďalší muž, a potom sa zapojí') },
         { v: 'kazdy_kazdemu', label: 'Každý sa venuje každému rovnocenne' },
       ],
     },
@@ -147,12 +147,13 @@ const FMF: Blok = {
       inePovolene: true,
       text: 'Aké rozdelenie pozornosti preferuješ? (Vyber všetky, ktoré ťa vzrušujú.)',
       moznosti: [
-        { v: 'dve_aj_sebe', label: g('Ty a druhá žena sa venujete partnerke aj sebe navzájom', 'Ty a druhá žena sa venujete partnerovi aj sebe navzájom') },
-        { v: 'dve_len_jemu', label: g('Ty a druhá žena sa venujete len partnerke, bez vzájomnej interakcie', 'Ty a druhá žena sa venujete len partnerovi, bez vzájomnej interakcie') },
-        { v: 'ja_stredobod', label: 'Ja som stredobodom pozornosti — obaja sa venujú len mne' },
-        { v: 'druha_stredobod', label: 'Druhá žena je stredobodom pozornosti' },
+        { v: 'dve_aj_sebe', label: g('Partnerka a ďalšia žena sa venujú mne aj sebe navzájom', 'Ja a ďalšia žena sa venujeme partnerovi aj sebe navzájom') },
+        { v: 'dve_len_jemu', label: g('Partnerka a ďalšia žena sa venujú len mne, bez vzájomného kontaktu', 'Ja a ďalšia žena sa venujeme len partnerovi, bez vzájomného kontaktu') },
+        { v: 'ja_stredobod', label: g('Ja som stredobodom pozornosti oboch žien', 'Partner je stredobodom pozornosti oboch žien') },
+        { v: 'druha_stredobod', label: g('Partnerka je stredobodom pozornosti', 'Ja som stredobodom pozornosti') },
+        { v: 'tretia_stredobod', label: 'Ďalšia žena je stredobodom pozornosti' },
         { v: 'kazdy_kazdemu', label: 'Každý sa venuje každému rovnocenne' },
-        { v: 'pozorovatel', label: g('Byť len pozorovateľom — vzrušuje ma tá predstava, ale ostávam neaktívny', 'Byť len pozorovateľkou — vzrušuje ma tá predstava, ale ostávam neaktívna') },
+        { v: 'pozorovatel', label: g('Ja sledujem partnerku s ďalšou ženou a nemusím sa zapojiť', 'Partner sleduje mňa s ďalšou ženou a nemusí sa zapojiť') },
       ],
     },
     {
@@ -917,7 +918,8 @@ export const TROJKY_SKUPINY: TemaObsah = {
   nadpis: 'Trojky',
   zdielanieDovod: true,
   uvod: [{ druh: 'text', id: 'troj_uvod', nadpis: 'Trojky',
-    telo: 'Trojka znamená spoločnú intímnu situáciu troch dospelých ľudí. Najprv sa rozhodneš, či chceš túto tému preskúmať. Fantázia ani zvedavosť nie sú súhlasom uskutočniť ju. MMF a FMF sú dve samostatné podtémy s vlastnou skúsenosťou a hranicami.' }],
+    telo: 'Trojka znamená spoločnú intímnu situáciu troch dospelých ľudí. Najprv sa rozhodneš, či chceš túto tému preskúmať. Fantázia ani zvedavosť nie sú súhlasom uskutočniť ju. MMF a FMF sú dve samostatné podtémy s vlastnou skúsenosťou a hranicami.' },
+    ...POVODNY_OBSAH.uvod.slice(0, 2)],
   telo: [
     { druh: 'otazka', id: 'troj_skusenost', typ: 'jeden',
       text: 'Máš osobnú skúsenosť s trojkou?',
@@ -947,7 +949,13 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
     { vsetky: [maSkusenost, { ot: opakovat, jeNiektora: ['ano', 'mozno', 'fantazia'] }] },
     { vsetky: [bezSkusenosti, { ot: realita, jeNiektora: ['chcem', 'mozno', 'fantazia'] }] },
   ] }
-  const detail = bloky(povodna).slice(1).map(b => staryOkruh(b, prefix))
+  // Pôvodné hodnoty „ja som stredobodom“ nemali rovnaký význam pre oboch.
+  // Nové ID zabráni, aby sa stará odpoveď interpretovala ako iná osoba.
+  const detail = bloky(povodna).slice(1, 2).map(b => b.druh === 'otazka'
+    ? { ...b, id: `${prefix}_rozdelenie_zrkadlo`, povodnyOkruh: prefix }
+    : b)
+  const stareOtazky = bloky(povodna).filter((b): b is Extract<Blok, { druh: 'otazka' }> => b.druh === 'otazka')
+  const staraOdpoved = (id: string) => ({ ot: id, nie: '__neexistujuca_hodnota__' })
   return {
     druh: 'skupina', id: `${prefix}_podtema`, nadpis: nazov,
     podmienka: { ot: 'troj_skusenost', jeNiektora: ['mmf', 'fmf', 'obe', 'ziadna'] },
@@ -959,6 +967,16 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
           { v: 'neskor', label: 'Ešte nie — vrátim sa k nej neskôr' },
           { v: 'nie', label: 'Nie, túto podobu nechcem skúmať' },
         ] },
+      { druh: 'text', id: `${prefix}_naladenie`, ton: 'citat',
+        podmienka: otvorena,
+        telo: prefix === 'mmf'
+          ? g('V trojke s partnerkou a ďalším mužom môže byť ona stredobodom vašej pozornosti, alebo sa môžete striedať v tom, kto vedie a kto sleduje. Kontakt medzi mužmi je vlastná voľba — nič sa nepredpokladá.',
+            'V trojke s partnerom a ďalším mužom môžeš prijímať pozornosť oboch, viesť ich alebo niektorého chvíľu len sledovať. Ich vzájomný kontakt je samostatná voľba. Rozhodujú aj tvoje vlastné hranice a pocity pri partnerovi s ďalším mužom.')
+          : g('V trojke s partnerkou a ďalšou ženou môžeš byť stredobodom ich pozornosti, sledovať ich vzájomnú blízkosť alebo sa zapájať striedavo. Kontakt medzi ženami je ich vlastná voľba.',
+            'V trojke s partnerom a ďalšou ženou môžeš skúmať blízkosť s ňou, sledovať partnera alebo byť stredobodom pozornosti. Kontakt s ďalšou ženou aj kontakt partnera s ňou sú dve odlišné rozhodnutia.') },
+      { druh: 'text', id: `${prefix}_povodny_intimny_pohlad`, nadpis: 'Intímny pohľad', ton: 'citat', zbalitelny: true,
+        podmienka: otvorena,
+        telo: povodna.druh === 'skupina' ? povodna.uvod ?? '' : '' },
       { druh: 'skupina', id: skusena, nadpis: 'Moja skutočná skúsenosť',
         podmienka: { vsetky: [otvorena, maSkusenost] }, bloky: [
           { druh: 'otazka', id: `${prefix}_s_kym`, typ: 'jeden',
@@ -1045,30 +1063,117 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
               { v: 'pritahuje', label: 'Priťahuje ma' }, { v: 'zvedavost', label: g('Som zvedavý', 'Som zvedavá') },
               { v: 'zmiesane', label: 'Mám zmiešané pocity' }, { v: 'neutralne', label: 'Je mi neutrálna' },
             ] },
-          { druh: 'otazka', id: `${prefix}_kontakty`, typ: 'mrezka',
-            text: 'Ktoré kontakty medzi tromi ľuďmi si vieš predstaviť?',
-            riadky: [
-              { v: 's_partnerom', label: g('Môj intímny kontakt s partnerkou', 'Môj intímny kontakt s partnerom') },
-              { v: 's_tretou', label: prefix === 'mmf'
-                ? g('Môj intímny kontakt s ďalším mužom', 'Intímny kontakt partnera s ďalším mužom')
-                : g('Môj intímny kontakt s ďalšou ženou', 'Intímny kontakt partnera s ďalšou ženou') },
-              { v: 'partner_s_tretou', label: prefix === 'mmf'
-                ? g('Intímny kontakt partnerky s ďalším mužom', 'Môj intímny kontakt s ďalším mužom')
-                : g('Intímny kontakt partnerky s ďalšou ženou', 'Môj intímny kontakt s ďalšou ženou') },
-            ],
-            stlpce: [
-              { v: 'ano', label: 'Áno' }, { v: 'mozno', label: 'Možno' }, { v: 'nie', label: 'Nie' },
-            ] },
           ...detail,
+          { druh: 'skupina', id: `${prefix}_roly_a_pozornost`, nadpis: 'Roly a rozdelenie pozornosti', bloky: [
+            { druh: 'otazka', id: `${prefix}_vedenie`, typ: 'viac', inePovolene: true,
+              text: 'Kto môže viesť tempo a rozhodovať o striedaní pozornosti?',
+              moznosti: [
+                { v: 'muz_paru', label: g('Ja', 'Môj partner') },
+                { v: 'zena_paru', label: g('Moja partnerka', 'Ja') },
+                { v: 'tretia', label: prefix === 'mmf' ? 'Ďalší muž' : 'Ďalšia žena' },
+                { v: 'striedanie', label: 'Vedenie sa strieda' },
+                { v: 'bez_vedenia', label: 'Nikto nevedie; deje sa to prirodzene' },
+              ] },
+            { druh: 'otazka', id: `${prefix}_pozorovatel`, typ: 'viac', inePovolene: true,
+              text: 'Kto by mohol byť chvíľu iba pozorovateľom?',
+              moznosti: [
+                { v: 'muz_paru', label: prefix === 'mmf'
+                  ? g('Ja sledujem partnerku s ďalším mužom', 'Partner sleduje mňa s ďalším mužom')
+                  : g('Ja sledujem partnerku s ďalšou ženou', 'Partner sleduje mňa s ďalšou ženou') },
+                { v: 'zena_paru', label: prefix === 'mmf'
+                  ? g('Partnerka sleduje mňa s ďalším mužom', 'Ja sledujem partnera s ďalším mužom')
+                  : g('Partnerka sleduje mňa s ďalšou ženou', 'Ja sledujem partnera s ďalšou ženou') },
+                { v: 'tretia', label: prefix === 'mmf'
+                  ? g('Ďalší muž chvíľu sleduje nás dvoch', 'Ďalší muž chvíľu sleduje nás dvoch')
+                  : 'Ďalšia žena chvíľu sleduje nás dvoch' },
+                { v: 'nikto', label: 'Nechcem, aby niekto zostal bokom' },
+              ] },
+          ] },
+          { druh: 'skupina', id: `${prefix}_konkretne_kontakty`, nadpis: 'Kto s kým — konkrétne kontakty',
+            uvod: 'Pri každej situácii môžeš zvoliť áno, možno alebo nie. Rovnaký riadok na obrazovke ženy a muža opisuje tú istú interakciu.',
+            bloky: [
+              { druh: 'otazka', id: `${prefix}_par_treti_kontakty`, typ: 'mrezka',
+                text: prefix === 'mmf' ? 'Kontakt ženy z páru s ďalším mužom' : 'Kontakt muža z páru s ďalšou ženou',
+                riadky: prefix === 'mmf' ? [
+                  { v: 'bozk', label: g('Partnerka sa bozkáva s ďalším mužom', 'Bozkávam sa s ďalším mužom') },
+                  { v: 'dotyky', label: g('Ďalší muž sa dotýka partnerky', 'Ďalší muž sa ma dotýka') },
+                  { v: 'oral_prijima', label: g('Partnerka prijíma orál od ďalšieho muža', 'Prijímam orál od ďalšieho muža') },
+                  { v: 'oral_poskytuje', label: g('Partnerka poskytuje orál ďalšiemu mužovi', 'Poskytujem orál ďalšiemu mužovi') },
+                  { v: 'penetracia', label: g('Partnerka má pohlavný styk s ďalším mužom', 'Mám pohlavný styk s ďalším mužom') },
+                  { v: 'pomocka', label: g('Ďalší muž používa pomôcku na partnerke', 'Ďalší muž používa pomôcku na mne') },
+                  { v: 'dvojita_penetracia', label: g('Partnerka prijíma dvojitú penetráciu od oboch mužov', 'Prijímam dvojitú penetráciu od oboch mužov') },
+                ] : [
+                  { v: 'bozk', label: g('Bozkávam sa s ďalšou ženou', 'Partner sa bozkáva s ďalšou ženou') },
+                  { v: 'dotyky', label: g('Ďalšia žena sa ma dotýka', 'Ďalšia žena sa dotýka partnera') },
+                  { v: 'oral_prijima', label: g('Prijímam orál od ďalšej ženy', 'Partner prijíma orál od ďalšej ženy') },
+                  { v: 'oral_poskytuje', label: g('Poskytujem orál ďalšej žene', 'Partner poskytuje orál ďalšej žene') },
+                  { v: 'penetracia', label: g('Mám pohlavný styk s ďalšou ženou', 'Partner má pohlavný styk s ďalšou ženou') },
+                  { v: 'pomocka', label: g('Ďalšia žena používa pomôcku na mne', 'Ďalšia žena používa pomôcku na partnerovi') },
+                ],
+                stlpce: [{ v: 'ano', label: 'Áno' }, { v: 'mozno', label: 'Možno' }, { v: 'nie', label: 'Nie' }] },
+              { druh: 'otazka', id: `${prefix}_rovnake_pohlavie_kontakty`, typ: 'mrezka',
+                text: prefix === 'mmf' ? 'Kontakt medzi dvoma mužmi' : 'Kontakt medzi dvoma ženami',
+                riadky: prefix === 'mmf' ? [
+                  { v: 'bozk', label: g('Bozkávam sa s ďalším mužom', 'Partner sa bozkáva s ďalším mužom') },
+                  { v: 'dotyky', label: g('Dotýkame sa s ďalším mužom', 'Partner sa dotýka s ďalším mužom') },
+                  { v: 'oral_prijima', label: g('Prijímam orál od ďalšieho muža', 'Partner prijíma orál od ďalšieho muža') },
+                  { v: 'oral_poskytuje', label: g('Poskytujem orál ďalšiemu mužovi', 'Partner poskytuje orál ďalšiemu mužovi') },
+                ] : [
+                  { v: 'bozk', label: g('Partnerka sa bozkáva s ďalšou ženou', 'Bozkávam sa s ďalšou ženou') },
+                  { v: 'dotyky', label: g('Partnerka a ďalšia žena sa dotýkajú', 'Dotýkame sa s ďalšou ženou') },
+                  { v: 'oral_prijima', label: g('Partnerka prijíma orál od ďalšej ženy', 'Prijímam orál od ďalšej ženy') },
+                  { v: 'oral_poskytuje', label: g('Partnerka poskytuje orál ďalšej žene', 'Poskytujem orál ďalšej žene') },
+                  { v: 'pomocka', label: g('Partnerka a ďalšia žena používajú pomôcku jedna na druhej', 'Používame s ďalšou ženou pomôcku jedna na druhej') },
+                ],
+                stlpce: [{ v: 'ano', label: 'Áno' }, { v: 'mozno', label: 'Možno' }, { v: 'nie', label: 'Nie' }] },
+            ] },
+          { druh: 'skupina', id: `${prefix}_pocity_a_motivacie`, nadpis: 'Čo ma láka a čo by ma zasiahlo', bloky: [
+            { druh: 'otazka', id: `${prefix}_co_laka`, typ: 'viac', inePovolene: true,
+              text: 'Čo ťa na tejto podobe trojky priťahuje alebo zaujíma?',
+              moznosti: [
+                { v: 'novost', label: 'Novosť spoločného zážitku' },
+                { v: 'pozornost', label: 'Viac pozornosti od dvoch ľudí' },
+                { v: 'partnerova_rozkos', label: g('Sledovať rozkoš partnerky', 'Sledovať rozkoš partnera') },
+                { v: 'sledovanie', label: g('Byť chvíľu pozorovateľom', 'Byť chvíľu pozorovateľkou') },
+                { v: 'rovnake_pohlavie', label: prefix === 'mmf' ? 'Možnosť kontaktu medzi mužmi' : 'Možnosť kontaktu medzi ženami' },
+                { v: 'roly', label: 'Striedanie rolí a rozdelenia pozornosti' },
+                { v: 'iba_rozhovor', label: 'Zatiaľ ma zaujíma len rozprávanie o fantázii' },
+              ] },
+            { druh: 'otazka', id: `${prefix}_partner_s_tretou_pocit`, typ: 'jeden',
+              text: prefix === 'mmf'
+                ? g('Ako by si vnímal partnerku v intímnom kontakte s ďalším mužom?', 'Ako by si vnímala partnera v intímnom kontakte s ďalším mužom?')
+                : g('Ako by si vnímal partnerku v intímnom kontakte s ďalšou ženou?', 'Ako by si vnímala partnera v intímnom kontakte s ďalšou ženou?'),
+              moznosti: [
+                { v: 'vzrusuje', label: 'Príjemne ma to vzrušuje' },
+                { v: 'zmiesane', label: 'Vzrušenie aj zraniteľnosť naraz' },
+                { v: 'neistota', label: 'Skôr neistota alebo žiarlivosť' },
+                { v: 'neprijemne', label: 'Je mi to nepríjemné' },
+                { v: 'neviem', label: 'Zatiaľ neviem' },
+              ] },
+            { druh: 'otazka', id: `${prefix}_obavy`, typ: 'viac', inePovolene: true,
+              text: 'Čo by v tebe mohlo vyvolať neistotu alebo žiarlivosť?',
+              moznosti: [
+                { v: 'pozornost', label: g('Partnerka by venovala viac pozornosti tretej osobe než mne', 'Partner by venoval viac pozornosti tretej osobe než mne') },
+                { v: 'bokom', label: g('Zostal by som bokom', 'Zostala by som bokom') },
+                { v: 'blizkost', label: g('Citová blízkosť partnerky s treťou osobou', 'Citová blízkosť partnera s treťou osobou') },
+                { v: 'porovnavanie', label: 'Porovnávanie s treťou osobou' },
+                { v: 'po', label: 'Pocity po skončení zážitku' },
+                { v: 'bez_obav', label: 'Zatiaľ nevidím konkrétnu obavu' },
+              ] },
+          ] },
           { druh: 'otazka', id: `${prefix}_hranice_nove`, typ: 'viac', inePovolene: true,
             text: 'Čo by pre teba bolo hranicou?',
             moznosti: [
               { v: 'bozk', label: g('Bozk partnerky s treťou osobou', 'Bozk partnera s treťou osobou') },
-              { v: 'intimny_kontakt', label: g('Intímny kontakt partnerky s treťou osobou', 'Intímny kontakt partnera s treťou osobou') },
-              { v: 'moj_kontakt', label: 'Môj intímny kontakt s treťou osobou' },
-              { v: 'rovnake_pohlavie', label: 'Kontakt osôb rovnakého pohlavia' },
+              { v: 'oral', label: g('Orálny sex partnerky s treťou osobou', 'Orálny sex partnera s treťou osobou') },
+              { v: 'penetracia', label: g('Pohlavný styk partnerky s treťou osobou', 'Pohlavný styk partnera s treťou osobou') },
+              { v: 'rovnake_pohlavie', label: prefix === 'mmf' ? 'Kontakt medzi mužmi' : 'Kontakt medzi ženami' },
               { v: 'pozornost', label: g('Keby som zostal bokom', 'Keby som zostala bokom') },
+              { v: 'dominancia', label: 'Mocenské alebo dominantné prvky' },
+              { v: 'zaznam', label: 'Fotografie alebo video' },
             ] },
+          { druh: 'text', id: `${prefix}_myty`, nadpis: 'Čo trojka nemusí znamenať', ton: 'info', zbalitelny: true,
+            telo: 'Trojka nemusí znamenať, že sa každý dotýka každého. Pozorovanie môže byť plnohodnotná rola, nie povinný predstupeň. Fantázia môže zostať iba fantáziou a súhlas s jedným kontaktom neznamená súhlas s ďalšími.' },
           { druh: 'otazka', id: `${prefix}_podmienky_nove`, typ: 'viac', inePovolene: true,
             text: g('Čo by muselo byť vopred dohodnuté, aby si sa cítil bezpečne?', 'Čo by muselo byť vopred dohodnuté, aby si sa cítila bezpečne?'),
             podmienka: { asponJedna: [
@@ -1082,7 +1187,37 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
               { v: 'sukromie', label: 'Súkromie' },
               { v: 'potom', label: 'Ako sa k sebe vrátime po zážitku' },
             ] },
+          { druh: 'skupina', id: `${prefix}_realny_ramec`, nadpis: 'Tretia osoba a návrat k sebe',
+            podmienka: { asponJedna: [
+              { vsetky: [maSkusenost, { ot: opakovat, jeNiektora: ['ano', 'mozno'] }] },
+              { vsetky: [bezSkusenosti, { ot: realita, jeNiektora: ['chcem', 'mozno'] }] },
+            ] }, bloky: [
+              { druh: 'otazka', id: `${prefix}_vyber_tretieho`, typ: 'viac', inePovolene: true,
+                text: prefix === 'mmf' ? 'Aký ďalší muž by prichádzal do úvahy?' : 'Aká ďalšia žena by prichádzala do úvahy?',
+                moznosti: [
+                  { v: 'znamy', label: 'Človek, ktorého obaja poznáme' },
+                  { v: 'novy', label: 'Nový človek mimo nášho okruhu' },
+                  { v: 'klub', label: 'Človek spoznaný v klube alebo komunite' },
+                  { v: 'nerozhodnute', label: 'Zatiaľ si to neviem predstaviť konkrétne' },
+                ] },
+              { druh: 'otazka', id: `${prefix}_po_zazitku`, typ: 'viac', inePovolene: true,
+                text: g('Čo by si chcel po spoločnom zážitku zažiť s partnerkou?', 'Čo by si chcela po spoločnom zážitku zažiť s partnerom?'),
+                moznosti: [
+                  { v: 'blizkost', label: 'Byť chvíľu iba spolu a cítiť blízkosť' },
+                  { v: 'rozhovor', label: 'Hovoriť o pocitoch a tom, čo fungovalo' },
+                  { v: 'detaily', label: 'Rozprávať si detaily, ktoré nás vzrušili' },
+                  { v: 'ticho', label: 'Najprv ticho a čas na spracovanie' },
+                  { v: 'neskor', label: 'Vrátiť sa k tomu až neskôr' },
+                ] },
+            ] },
         ] },
+      { druh: 'skupina', id: `${prefix}_povodne_odpovede`, nadpis: 'Moje odpovede zo staršej verzie',
+            uvod: g('Táto časť sa objaví iba vtedy, ak si predtým vyplnil staršie otázky. Odpovede zostávajú dostupné a môžeš ich zmeniť.',
+              'Táto časť sa objaví iba vtedy, ak si predtým vyplnila staršie otázky. Odpovede zostávajú dostupné a môžeš ich zmeniť.'),
+            podmienka: { vsetky: [otvorena, { asponJedna: stareOtazky.map(b => staraOdpoved(b.id)) }] },
+            bloky: stareOtazky.map(b => ({ ...b, povodnyOkruh: prefix, zbalitelna: true,
+              podmienka: { vsetky: [b.podmienka ?? {}, staraOdpoved(b.id)] } })),
+      },
     ],
   }
 }
