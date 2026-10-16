@@ -80,10 +80,10 @@ describe('samostatné témy trojok a skupín', () => {
       expect(ids).toContain(`${prefix}_realny_ramec`)
       const kontakt = all.find(b => b.id === `${prefix}_par_treti_kontakty`)
       expect(kontakt?.druh).toBe('otazka')
-      if (kontakt?.druh === 'otazka') expect(kontakt.riadky).toHaveLength(prefix === 'mmf' ? 7 : 6)
+      if (kontakt?.druh === 'otazka') expect(kontakt.riadky).toHaveLength(prefix === 'mmf' ? 9 : 8)
       const rovnake = all.find(b => b.id === `${prefix}_rovnake_pohlavie_kontakty`)
       expect(rovnake?.druh).toBe('otazka')
-      if (rovnake?.druh === 'otazka') expect(rovnake.riadky).toHaveLength(prefix === 'mmf' ? 4 : 5)
+      if (rovnake?.druh === 'otazka') expect(rovnake.riadky).toHaveLength(prefix === 'mmf' ? 6 : 7)
     }
     expect(new Set(ids).size).toBe(ids.length)
     const questions = new Set(all.filter(b => b.druh === 'otazka').map(b => b.id))
@@ -98,17 +98,46 @@ describe('samostatné témy trojok a skupín', () => {
     expect(splna(byId('fmf_skusena').podmienka, { ...odpovede, troj_skusenost: { v: 'obe' } }, 'z')).toBe(true)
     const fantazia = { ...odpovede, fmf_realita_nova: { v: 'fantazia' } }
     expect(splna(byId('fmf_postoj_a_hranice').podmienka, fantazia, 'z')).toBe(true)
+    expect(splna(byId('fmf_fantazia_iba_rozsah').podmienka, fantazia, 'z')).toBe(true)
     expect(splna(byId('fmf_podmienky_nove').podmienka, fantazia, 'z')).toBe(false)
     expect(splna(byId('fmf_realny_ramec').podmienka, fantazia, 'z')).toBe(false)
     expect(splna(byId('fmf_realny_ramec').podmienka,
       { ...odpovede, fmf_realita_nova: { v: 'mozno' } }, 'z')).toBe(true)
-    expect(splna(byId('fmf_postoj_a_hranice').podmienka,
+    expect(splna(byId('fmf_preferencie_spolocne').podmienka,
       { ...odpovede, fmf_realita_nova: { v: 'nie' } }, 'z')).toBe(false)
-    expect(splna(byId('mmf_postoj_a_hranice').podmienka,
+    expect(splna(byId('mmf_preferencie_spolocne').podmienka,
       { ...odpovede, mmf_miera_vzrusenia: { v: 'nechcem_opakovat' } }, 'z')).toBe(false)
     expect(splna(byId('mmf_povodne_odpovede').podmienka, {}, 'm')).toBe(false)
     expect(splna(byId('mmf_povodne_odpovede').podmienka,
       { mmf_vstup: { v: 'ano' }, mmf_prijat: { v: ['bozk'] } }, 'm')).toBe(true)
+  })
+
+  it('preferencie majú rovnakú vetvu po skúsenosti aj bez nej, odmietnutie ponechá postoj k partnerovej túžbe', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    const byId = (id: string) => all.find(b => b.id === id)!
+    for (const prefix of ['mmf', 'fmf']) {
+      for (const [skusenost, dalsiaOdpoved] of [
+        [prefix, { [`${prefix}_miera_vzrusenia`]: { v: 'skor' } }],
+        ['ziadna', { [`${prefix}_realita_nova`]: { v: 'mozno' } }],
+      ] as const) {
+        const answers = { troj_skusenost: { v: skusenost }, [`${prefix}_vstup`]: { v: 'ano' }, ...dalsiaOdpoved }
+        expect(splna(byId(`${prefix}_postoj_a_hranice`).podmienka, answers, 'z')).toBe(true)
+        expect(splna(byId(`${prefix}_preferencie_spolocne`).podmienka, answers, 'z')).toBe(true)
+      }
+      const stopped = { troj_skusenost: { v: prefix }, [`${prefix}_vstup`]: { v: 'ano' }, [`${prefix}_miera_vzrusenia`]: { v: 'nechcem_opakovat' } }
+      expect(splna(byId(`${prefix}_postoj_a_hranice`).podmienka, stopped, 'z')).toBe(true)
+      expect(splna(byId(`${prefix}_preferencie_spolocne`).podmienka, stopped, 'z')).toBe(false)
+      const noviceNo = { troj_skusenost: { v: 'ziadna' }, [`${prefix}_vstup`]: { v: 'ano' }, [`${prefix}_realita_nova`]: { v: 'nie' } }
+      expect(splna(byId(`${prefix}_postoj_a_hranice`).podmienka, noviceNo, 'z')).toBe(true)
+      expect(splna(byId(`${prefix}_preferencie_spolocne`).podmienka, noviceNo, 'z')).toBe(false)
+      expect(all.map(b => b.id)).toContain(`${prefix}_miera_zapojenia`)
+      expect(all.map(b => b.id)).toContain(`${prefix}_styl_rol`)
+      const centre = byId(`${prefix}_pocit_stredobod`)
+      const chosenCentre = prefix === 'mmf' ? 'len_jej' : 'druha_stredobod'
+      const possible = { troj_skusenost: { v: 'ziadna' }, [`${prefix}_vstup`]: { v: 'ano' }, [`${prefix}_realita_nova`]: { v: 'mozno' }, [`${prefix}_rozdelenie_zrkadlo`]: { v: [chosenCentre] } }
+      expect(splna(centre.podmienka, possible, 'z')).toBe(true)
+      expect(splna(centre.podmienka, { ...possible, [`${prefix}_rozdelenie_zrkadlo`]: { v: ['kazdy_kazdemu'] } }, 'z')).toBe(false)
+    }
   })
 
   it('MMF aj FMF majú päťstupňovú mieru vzrušenia a podotázku iba pri zlepšiteľnej skúsenosti', () => {
@@ -116,7 +145,7 @@ describe('samostatné témy trojok a skupín', () => {
     for (const prefix of ['mmf', 'fmf']) {
       const rating = all.find(b => b.id === `${prefix}_miera_vzrusenia`)
       const improve = all.find(b => b.id === `${prefix}_mozne_zlepsenie`)
-      const details = all.find(b => b.id === `${prefix}_postoj_a_hranice`)
+      const details = all.find(b => b.id === `${prefix}_preferencie_spolocne`)
       const practical = all.find(b => b.id === `${prefix}_realny_ramec`)
       expect(rating?.druh).toBe('otazka')
       expect(improve?.druh).toBe('otazka')
