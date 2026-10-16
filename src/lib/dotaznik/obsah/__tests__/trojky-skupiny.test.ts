@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals'
 import { splna } from '../../podmienky'
 import { temaObsah } from '../index'
-import { gtext, type Blok, type Podmienka, type TemaObsah } from '../typ'
+import { gtext, nazovSkupiny, type Blok, type Podmienka, type TemaObsah } from '../typ'
 
 const formaty = ['skupinovy-sex', 'gangbang', 'bukkake', 'dvojita-penetracia'] as const
 const prefixy = ['skup', 'gb', 'bk', 'dp'] as const
@@ -137,6 +137,25 @@ describe('samostatné témy trojok a skupín', () => {
       const possible = { troj_skusenost: { v: 'ziadna' }, [`${prefix}_vstup`]: { v: 'ano' }, [`${prefix}_realita_nova`]: { v: 'mozno' }, [`${prefix}_rozdelenie_zrkadlo`]: { v: [chosenCentre] } }
       expect(splna(centre.podmienka, possible, 'z')).toBe(true)
       expect(splna(centre.podmienka, { ...possible, [`${prefix}_rozdelenie_zrkadlo`]: { v: ['kazdy_kazdemu'] } }, 'z')).toBe(false)
+    }
+  })
+
+  it('všetky nadväzujúce otázky ostávajú v bubline označenej podľa skúsenosti', () => {
+    const tema = temaObsah('trojky-skupiny', 'trojky-skupiny')!
+    for (const prefix of ['mmf', 'fmf'] as const) {
+      const podtema = tema.telo.find(b => b.id === `${prefix}_podtema`)
+      expect(podtema?.druh).toBe('skupina')
+      if (podtema?.druh !== 'skupina') continue
+      const vetva = podtema.bloky.find(b => b.id === `${prefix}_moja_vetva`)
+      expect(vetva?.druh).toBe('skupina')
+      if (vetva?.druh !== 'skupina') continue
+      expect(vetva.bloky.map(b => b.id)).toEqual([
+        `${prefix}_skusena`, `${prefix}_bez_skusenosti_nove`, `${prefix}_postoj_a_hranice`,
+      ])
+      const experienced = { troj_skusenost: { v: prefix } }
+      const novice = { troj_skusenost: { v: prefix === 'mmf' ? 'fmf' : 'mmf' } }
+      expect(nazovSkupiny(vetva, experienced, 'z')).toBe('Mám skúsenosť')
+      expect(nazovSkupiny(vetva, novice, 'm')).toBe('Nemám skúsenosť')
     }
   })
 

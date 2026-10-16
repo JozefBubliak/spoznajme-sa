@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Blok, OtazkaBlok, Pohlavie, TemaObsah } from '@/lib/dotaznik/obsah/typ'
 import { splna } from '@/lib/dotaznik/podmienky'
-import { gtext } from '@/lib/dotaznik/obsah/typ'
+import { gtext, nazovSkupiny } from '@/lib/dotaznik/obsah/typ'
 import { hodnotaPreOtazku, predoslaMoznost, prepniMoznost, dalsiaZlucenaOdpoved, type HodnotaOtazky } from '@/lib/dotaznik/odpovede-ux'
 import { useI18n } from '@/components/IntlProvider'
 import { usePar } from './_par'
@@ -294,9 +294,9 @@ function Bloky({
           if (!splna(b.podmienka, ans, p)) return null
           return (
             <div key={b.id} className="space-y-4 rounded-2xl border border-border/60 bg-card/20 p-4">
-              {b.nadpis && (
+              {(b.nadpis || b.nadpisPodlaOdpovede) && (
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80">
-                  {G(b.nadpis)}
+                  {nazovSkupiny(b, ans, p)}
                 </div>
               )}
               {b.uvod && <p className="text-sm leading-relaxed text-muted-foreground">{G(b.uvod)}</p>}

@@ -85,6 +85,8 @@ export type SkupinaBlok = {
   druh: 'skupina'
   id: string
   nadpis?: GText
+  /** Nadpis viditeľnej vetvy podľa už zvolenej odpovede; obsah a ID otázok zostávajú spoločné. */
+  nadpisPodlaOdpovede?: { ot: string; hodnoty: Record<string, GText> }
   uvod?: GText
   podmienka?: Podmienka
   bloky: Blok[]
@@ -144,4 +146,10 @@ export type TemaObsah = {
 export function gtext(t: GText | undefined, p: Pohlavie): string {
   if (t == null) return ''
   return typeof t === 'string' ? t : t[p]
+}
+
+export function nazovSkupiny(b: SkupinaBlok, ans: Record<string, unknown>, p: Pohlavie): string {
+  const pravidlo = b.nadpisPodlaOdpovede
+  const v = pravidlo ? (ans[pravidlo.ot] as { v?: unknown } | undefined)?.v : undefined
+  return gtext(typeof v === 'string' ? pravidlo?.hodnoty[v] ?? b.nadpis : b.nadpis, p)
 }

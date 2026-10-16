@@ -977,6 +977,14 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
       { druh: 'text', id: `${prefix}_povodny_intimny_pohlad`, nadpis: 'Intímny pohľad', ton: 'citat', zbalitelny: true,
         podmienka: otvorena,
         telo: povodna.druh === 'skupina' ? povodna.uvod ?? '' : '' },
+      { druh: 'skupina', id: `${prefix}_moja_vetva`, nadpis: 'Moja skúsenosť a preferencie',
+        nadpisPodlaOdpovede: { ot: 'troj_skusenost', hodnoty: {
+          mmf: prefix === 'mmf' ? 'Mám skúsenosť' : 'Nemám skúsenosť',
+          fmf: prefix === 'fmf' ? 'Mám skúsenosť' : 'Nemám skúsenosť',
+          obe: 'Mám skúsenosť',
+          ziadna: 'Nemám skúsenosť',
+        } },
+        podmienka: otvorena, bloky: [
       { druh: 'skupina', id: skusena, nadpis: 'Moja skutočná skúsenosť',
         podmienka: { vsetky: [otvorena, maSkusenost] }, bloky: [
           { druh: 'text', id: `${prefix}_miera_vzrusenia_uvod`, nadpis: 'Miera vzrušenia',
@@ -1238,6 +1246,7 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
                   { v: 'neskor', label: 'Vrátiť sa k tomu až neskôr' },
                 ] },
             ] },
+        ] },
         ] },
         ] },
       { druh: 'skupina', id: `${prefix}_povodne_odpovede`, nadpis: 'Moje odpovede zo staršej verzie',

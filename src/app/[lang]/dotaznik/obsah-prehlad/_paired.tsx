@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { Blok, OtazkaBlok, Pohlavie, TemaObsah } from '@/lib/dotaznik/obsah/typ'
-import { gtext } from '@/lib/dotaznik/obsah/typ'
+import { gtext, nazovSkupiny } from '@/lib/dotaznik/obsah/typ'
 import { splna } from '@/lib/dotaznik/podmienky'
 import { prepniMoznost } from '@/lib/dotaznik/odpovede-ux'
 import { zrkadlaTémy, zrkadloveSkupiny } from '@/lib/dotaznik/obsah/zrkadla'
@@ -151,7 +151,7 @@ function Side({ b, p, ans, showAll, parentActive }: { b: Blok; p: Pohlavie; ans:
   if (b.druh === 'otazka') return null
   if (b.druh === 'text') return <div className={dim}>{b.zbalitelny ? <details><summary className="cursor-pointer text-sm font-medium">{G(b.nadpis)}</summary><p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-foreground/80">{G(b.telo)}</p></details> : <><p className="text-sm font-semibold">{G(b.nadpis)}</p><p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-foreground/80">{G(b.telo)}</p></>}</div>
   if (b.druh === 'tabulka') return <div className={`${dim} overflow-x-auto`}><p className="mb-2 text-sm font-semibold">{G(b.nadpis)}</p><table className="w-full text-xs"><thead><tr>{b.hlavicka.map((h, i) => <th key={i} className="border-b border-white/20 p-2 text-left">{G(h)}</th>)}</tr></thead><tbody>{b.riadky.map((row, i) => <tr key={i}>{row.map((cell, j) => <td key={j} className="border-b border-white/10 p-2 align-top">{G(cell)}</td>)}</tr>)}</tbody></table></div>
-  return <div className={dim}><p className="text-sm font-semibold">{G(b.nadpis)}</p>{b.uvod && <p className="mt-2 text-sm text-foreground/75">{G(b.uvod)}</p>}</div>
+  return <div className={dim}><p className="text-sm font-semibold">{nazovSkupiny(b, ans, p)}</p>{b.uvod && <p className="mt-2 text-sm text-foreground/75">{G(b.uvod)}</p>}</div>
 }
 
 function Rows({ blocks, maleBlocks = blocks, path, tema, answers, save, notes, setNote, showAll, active = { z: true, m: true }, mirrors = new Map(), mirrorGroups = new Map() }: {
@@ -170,6 +170,11 @@ function Rows({ blocks, maleBlocks = blocks, path, tema, answers, save, notes, s
   maleBlocks.forEach((male, index) => { if (!usedMale.has(index)) pairs.push({ male, index }) })
   return <div className="space-y-3">{pairs.map(({ female, male, index }) => {
     const key = female ? `${path}/${index}-${female.id}` : `${path}/m-${index}-${male?.id}`
+    // Pri presune bloku do inej vetvy ponechaj viditeľnú aj staršiu Admin note.
+    const noteId = female?.id ?? male?.id
+    const noteValue = notes[key] ?? (noteId
+      ? Object.entries(notes).find(([oldKey]) => oldKey.endsWith(`-${noteId}`))?.[1]
+      : undefined) ?? ''
     const childActive = { z: !!female && active.z && splna(female.podmienka, answers.z, 'z'), m: !!male && active.m && splna(male.podmienka, answers.m, 'm') }
     const visible = showAll || childActive.z || childActive.m
     if (!visible) return null
@@ -186,7 +191,7 @@ function Rows({ blocks, maleBlocks = blocks, path, tema, answers, save, notes, s
               : <p className="text-xs italic text-amber-200/70">Bez zrkadlovej časti</p>}
           </div>
         })}</div>}
-      <Note tema={tema} blok={key} value={notes[key] ?? ''} onSaved={value => setNote(key, value)} />
+      <Note tema={tema} blok={key} value={noteValue} onSaved={value => setNote(key, value)} />
       {(female?.druh === 'skupina' || male?.druh === 'skupina') && <div className="mt-3 border-l border-white/15 pl-2 sm:pl-4">
         <Rows blocks={female?.druh === 'skupina' ? female.bloky : []} maleBlocks={male?.druh === 'skupina' ? male.bloky : []}
           path={key} tema={tema} answers={answers} save={save} notes={notes} setNote={setNote} showAll={showAll}
