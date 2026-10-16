@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals'
 import { splna } from '../../podmienky'
 import { temaObsah } from '../index'
-import { gtext, nazovSkupiny, type Blok, type Podmienka, type TemaObsah } from '../typ'
+import { gtext, type Blok, type Podmienka, type TemaObsah } from '../typ'
 
 const formaty = ['skupinovy-sex', 'gangbang', 'bukkake', 'dvojita-penetracia'] as const
 const prefixy = ['skup', 'gb', 'bk', 'dp'] as const
@@ -90,21 +90,14 @@ describe('samostatné témy trojok a skupín', () => {
     for (const b of all) for (const ref of refs(b.podmienka)) expect(questions.has(ref)).toBe(true)
     const byId = (id: string) => all.find(b => b.id === id)!
     const odpovede = { troj_skusenost: { v: 'mmf' }, mmf_vstup: { v: 'ano' }, fmf_vstup: { v: 'ano' } }
-    expect(splna(byId('mmf_skusena').podmienka, odpovede, 'z')).toBe(true)
+    expect(splna(byId('troj_mam_skusenost').podmienka, odpovede, 'z')).toBe(true)
+    expect(splna(byId('mmf_podtema').podmienka, odpovede, 'z')).toBe(true)
     expect(splna(byId('mmf_bez_skusenosti_nove').podmienka, odpovede, 'z')).toBe(false)
     expect(splna(byId('fmf_bez_skusenosti_nove').podmienka, odpovede, 'z')).toBe(true)
-    expect(splna(byId('fmf_skusena').podmienka, odpovede, 'z')).toBe(false)
-    expect(splna(byId('mmf_skusena').podmienka, { ...odpovede, mmf_vstup: { v: 'nie' } }, 'z')).toBe(false)
-    expect(splna(byId('fmf_skusena').podmienka, { ...odpovede, troj_skusenost: { v: 'obe' } }, 'z')).toBe(true)
-    const fantazia = { ...odpovede, fmf_realita_nova: { v: 'fantazia' } }
-    expect(splna(byId('fmf_postoj_a_hranice').podmienka, fantazia, 'z')).toBe(true)
-    expect(splna(byId('fmf_fantazia_iba_rozsah').podmienka, fantazia, 'z')).toBe(true)
-    expect(splna(byId('fmf_podmienky_nove').podmienka, fantazia, 'z')).toBe(false)
-    expect(splna(byId('fmf_realny_ramec').podmienka, fantazia, 'z')).toBe(false)
-    expect(splna(byId('fmf_realny_ramec').podmienka,
-      { ...odpovede, fmf_realita_nova: { v: 'mozno' } }, 'z')).toBe(true)
+    expect(splna(byId('fmf_podtema').podmienka, odpovede, 'z')).toBe(false)
+    expect(splna(byId('fmf_podtema').podmienka, { ...odpovede, troj_skusenost: { v: 'obe' } }, 'z')).toBe(true)
     expect(splna(byId('fmf_preferencie_spolocne').podmienka,
-      { ...odpovede, fmf_realita_nova: { v: 'nie' } }, 'z')).toBe(false)
+      { ...odpovede, fmf_realita_nova: { v: 'mozno' } }, 'z')).toBe(false)
     expect(splna(byId('mmf_preferencie_spolocne').podmienka,
       { ...odpovede, mmf_miera_vzrusenia: { v: 'nechcem_opakovat' } }, 'z')).toBe(false)
     expect(splna(byId('mmf_povodne_odpovede').podmienka, {}, 'm')).toBe(false)
@@ -112,50 +105,45 @@ describe('samostatné témy trojok a skupín', () => {
       { mmf_vstup: { v: 'ano' }, mmf_prijat: { v: ['bozk'] } }, 'm')).toBe(true)
   })
 
-  it('preferencie majú rovnakú vetvu po skúsenosti aj bez nej, odmietnutie ponechá postoj k partnerovej túžbe', () => {
+  it('skúsená vetva má celé pokračovanie a pri odmietnutí zostáva postoj k partnerovej túžbe', () => {
     const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
     const byId = (id: string) => all.find(b => b.id === id)!
     for (const prefix of ['mmf', 'fmf']) {
-      for (const [skusenost, dalsiaOdpoved] of [
-        [prefix, { [`${prefix}_miera_vzrusenia`]: { v: 'skor' } }],
-        ['ziadna', { [`${prefix}_realita_nova`]: { v: 'mozno' } }],
-      ] as const) {
-        const answers = { troj_skusenost: { v: skusenost }, [`${prefix}_vstup`]: { v: 'ano' }, ...dalsiaOdpoved }
-        expect(splna(byId(`${prefix}_postoj_a_hranice`).podmienka, answers, 'z')).toBe(true)
-        expect(splna(byId(`${prefix}_preferencie_spolocne`).podmienka, answers, 'z')).toBe(true)
-      }
+      const answers = { troj_skusenost: { v: prefix }, [`${prefix}_vstup`]: { v: 'ano' }, [`${prefix}_miera_vzrusenia`]: { v: 'skor' } }
+      expect(splna(byId(`${prefix}_postoj_a_hranice`).podmienka, answers, 'z')).toBe(true)
+      expect(splna(byId(`${prefix}_preferencie_spolocne`).podmienka, answers, 'z')).toBe(true)
       const stopped = { troj_skusenost: { v: prefix }, [`${prefix}_vstup`]: { v: 'ano' }, [`${prefix}_miera_vzrusenia`]: { v: 'nechcem_opakovat' } }
       expect(splna(byId(`${prefix}_postoj_a_hranice`).podmienka, stopped, 'z')).toBe(true)
       expect(splna(byId(`${prefix}_preferencie_spolocne`).podmienka, stopped, 'z')).toBe(false)
-      const noviceNo = { troj_skusenost: { v: 'ziadna' }, [`${prefix}_vstup`]: { v: 'ano' }, [`${prefix}_realita_nova`]: { v: 'nie' } }
-      expect(splna(byId(`${prefix}_postoj_a_hranice`).podmienka, noviceNo, 'z')).toBe(true)
-      expect(splna(byId(`${prefix}_preferencie_spolocne`).podmienka, noviceNo, 'z')).toBe(false)
       expect(all.map(b => b.id)).toContain(`${prefix}_miera_zapojenia`)
       expect(all.map(b => b.id)).toContain(`${prefix}_styl_rol`)
       const centre = byId(`${prefix}_pocit_stredobod`)
       const chosenCentre = prefix === 'mmf' ? 'len_jej' : 'druha_stredobod'
-      const possible = { troj_skusenost: { v: 'ziadna' }, [`${prefix}_vstup`]: { v: 'ano' }, [`${prefix}_realita_nova`]: { v: 'mozno' }, [`${prefix}_rozdelenie_zrkadlo`]: { v: [chosenCentre] } }
+      const possible = { ...answers, [`${prefix}_rozdelenie_zrkadlo`]: { v: [chosenCentre] } }
       expect(splna(centre.podmienka, possible, 'z')).toBe(true)
       expect(splna(centre.podmienka, { ...possible, [`${prefix}_rozdelenie_zrkadlo`]: { v: ['kazdy_kazdemu'] } }, 'z')).toBe(false)
     }
   })
 
-  it('všetky nadväzujúce otázky ostávajú v bubline označenej podľa skúsenosti', () => {
+  it('celá skúsená vetva obsahuje obe podoby a žiadna otázka bez skúsenosti v nej nie je', () => {
     const tema = temaObsah('trojky-skupiny', 'trojky-skupiny')!
+    const experienced = tema.telo.find(b => b.id === 'troj_mam_skusenost')
+    const novice = tema.telo.find(b => b.id === 'troj_nemam_skusenost')
+    expect(experienced?.druh).toBe('skupina')
+    expect(novice?.druh).toBe('skupina')
+    if (experienced?.druh !== 'skupina' || novice?.druh !== 'skupina') return
+    expect(experienced.bloky.map(b => b.id)).toEqual(['mmf_podtema', 'fmf_podtema'])
+    expect(novice.bloky.map(b => b.id)).toEqual(['mmf_bez_skusenosti_nove', 'fmf_bez_skusenosti_nove'])
     for (const prefix of ['mmf', 'fmf'] as const) {
-      const podtema = tema.telo.find(b => b.id === `${prefix}_podtema`)
+      const podtema = experienced.bloky.find(b => b.id === `${prefix}_podtema`)
       expect(podtema?.druh).toBe('skupina')
       if (podtema?.druh !== 'skupina') continue
-      const vetva = podtema.bloky.find(b => b.id === `${prefix}_moja_vetva`)
-      expect(vetva?.druh).toBe('skupina')
-      if (vetva?.druh !== 'skupina') continue
-      expect(vetva.bloky.map(b => b.id)).toEqual([
-        `${prefix}_skusena`, `${prefix}_bez_skusenosti_nove`, `${prefix}_postoj_a_hranice`,
-      ])
-      const experienced = { troj_skusenost: { v: prefix } }
-      const novice = { troj_skusenost: { v: prefix === 'mmf' ? 'fmf' : 'mmf' } }
-      expect(nazovSkupiny(vetva, experienced, 'z')).toBe('Mám skúsenosť')
-      expect(nazovSkupiny(vetva, novice, 'm')).toBe('Nemám skúsenosť')
+      expect(podtema.bloky.map(b => b.id)).toContain(`${prefix}_miera_vzrusenia`)
+      expect(podtema.bloky.map(b => b.id)).toContain(`${prefix}_postoj_a_hranice`)
+      expect(podtema.bloky.map(b => b.id)).not.toContain(`${prefix}_bez_skusenosti_nove`)
+      const postoj = podtema.bloky.find(b => b.id === `${prefix}_postoj_a_hranice`)
+      expect(postoj?.druh).toBe('skupina')
+      if (postoj?.druh === 'skupina') expect(postoj.bloky.map(b => b.id)).toContain(`${prefix}_preferencie_spolocne`)
     }
   })
 
