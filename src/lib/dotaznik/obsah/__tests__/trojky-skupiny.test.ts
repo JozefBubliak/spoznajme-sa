@@ -235,7 +235,7 @@ describe('samostatné témy trojok a skupín', () => {
       }
       expect(prepniMoznost(forbidden, ['rovnake_bozk'], 'rovnake_oral_prijima'))
         .toEqual(['rovnake_bozk', 'rovnake_oral_prijima'])
-      expect(prepniMoznost(forbidden, ['rovnake_pohlavie'], 'rovnake_bozk')).toEqual(['rovnake_bozk'])
+      expect(prepniMoznost(forbidden, ['bozk'], 'rovnake_pohlavie')).toEqual(['bozk', 'rovnake_pohlavie'])
     }
   })
 
@@ -268,6 +268,104 @@ describe('samostatné témy trojok a skupín', () => {
       if (question?.druh !== 'otazka') continue
       expect(gtext(question.text, 'm')).not.toMatch(/rada|bola ochotná/)
       expect(gtext(question.text, 'z')).toMatch(/rada|bola ochotná/)
+    }
+  })
+
+  it('MMF aj FMF sa pýtajú na vzrušenie v skúsenej aj neskúsenej vetve', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    for (const prefix of ['mmf', 'fmf']) {
+      const experienced = all.find(b => b.id === `${prefix}_miera_vzrusenia`)
+      const novice = all.find(b => b.id === `${prefix}_vzrusenie_bez`)
+      const motiveExperienced = all.find(b => b.id === `${prefix}_co_laka`)
+      const motiveNovice = all.find(b => b.id === `${prefix}_co_vzrusuje_bez`)
+      for (const question of [experienced, novice, motiveExperienced, motiveNovice]) {
+        expect(question?.druh).toBe('otazka')
+        if (question?.druh !== 'otazka') continue
+        for (const sex of ['m', 'z'] as const) expect(gtext(question.text, sex)).toMatch(/vzruš|tvrdenie/)
+      }
+      expect(novice?.druh === 'otazka' && novice.moznosti?.map(m => m.v))
+        .toEqual(['velmi', 'skor', 'zmiesane', 'nevzrusuje', 'neprijemne'])
+    }
+  })
+
+  it('neskúsená vetva otvorí fantáziu bez plánovania a okolnosti až pri ochote', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    const byId = (id: string) => all.find(b => b.id === id)!
+    for (const prefix of ['mmf', 'fmf']) {
+      const fantasy = byId(`${prefix}_predstava_bez`)
+      const circumstances = byId(`${prefix}_okolnosti_bez`)
+      const relief = byId(`${prefix}_co_pomoze_bez`)
+      const partner = byId(`${prefix}_partner_tuzi_bez`)
+      expect(partner.druh).toBe('otazka')
+      expect(partner.podmienka).toBeUndefined()
+      for (const value of ['fantazia', 'mozno', 'chcem', 'nie']) {
+        const answers = { [`${prefix}_realita_nova`]: { v: value } }
+        expect(splna(fantasy.podmienka, answers, 'm')).toBe(value !== 'nie')
+        expect(splna(circumstances.podmienka, answers, 'z')).toBe(value === 'mozno' || value === 'chcem')
+      }
+      expect(splna(relief.podmienka, { [`${prefix}_obavy_bez`]: { v: ['bokom'] } }, 'm')).toBe(true)
+      expect(splna(relief.podmienka, { [`${prefix}_obavy_bez`]: { v: ['bez_obav'] } }, 'z')).toBe(false)
+      expect(all.map(b => b.id)).not.toContain(`${prefix}_s_kym_to_bolo`)
+    }
+  })
+
+  it('nové predstavy a hranice sú po jednotlivých dejoch zrkadlové', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    const question = (id: string) => all.find(b => b.id === id)
+    for (const prefix of ['mmf', 'fmf']) {
+      for (const [possibleId, tabooId] of [
+        [`${prefix}_par_treti_bez`, `${prefix}_tabu_par_bez`],
+        [`${prefix}_rovnake_bez`, `${prefix}_tabu_rovnake_bez`],
+      ]) {
+        const possible = question(possibleId)
+        const taboo = question(tabooId)
+        expect(possible?.druh).toBe('otazka')
+        expect(taboo?.druh).toBe('otazka')
+        if (possible?.druh !== 'otazka' || taboo?.druh !== 'otazka') continue
+        for (const option of possible.moznosti!.filter(m => m.v !== 'ziadne')) {
+          const matching = taboo.moznosti!.find(m => m.v === option.v)
+          expect(matching).toBeDefined()
+          for (const sex of ['m', 'z'] as const) expect(gtext(matching!.label, sex)).toBe(gtext(option.label, sex))
+        }
+        const experiencedId = possibleId.includes('par_treti')
+          ? `${prefix}_par_treti_aktivity_vyber` : `${prefix}_rovnake_pohlavie_vyber`
+        const experienced = question(experiencedId)
+        expect(experienced?.druh).toBe('otazka')
+        if (experienced?.druh === 'otazka') {
+          for (const option of possible.moznosti!.filter(m => m.v !== 'ziadne')) {
+            const matching = experienced.moznosti!.find(m => m.v === option.v)
+            expect(matching).toBeDefined()
+            for (const sex of ['m', 'z'] as const) expect(gtext(matching!.label, sex)).toBe(gtext(option.label, sex))
+          }
+        }
+        expect(prepniMoznost(taboo, ['bozk'], 'bozk')).toEqual([])
+      }
+      expect(question(`${prefix}_kto_bez`)?.druh).toBe('otazka')
+      expect(question(`${prefix}_miesto_bez`)?.druh).toBe('otazka')
+      expect(question(`${prefix}_opakovat_bez`)?.druh).toBe('otazka')
+      expect(question(`${prefix}_po_bez`)?.druh).toBe('otazka')
+      expect(question(`${prefix}_miesto`)?.druh).toBe('otazka')
+      expect(question(`${prefix}_frekvencia_nova`)?.druh).toBe('otazka')
+      expect(question(`${prefix}_vedenie_bez`)?.druh).toBe('otazka')
+      expect(question(`${prefix}_pocit_rovnake_bez`)?.druh).toBe('otazka')
+    }
+  })
+
+  it('skúsená vetva má hranicu pre každý ponúkaný kontakt s ďalším človekom', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    for (const prefix of ['mmf', 'fmf']) {
+      const possible = all.find(b => b.id === `${prefix}_par_treti_aktivity_vyber`)
+      const taboo = all.find(b => b.id === `${prefix}_hranice_vyber`)
+      expect(possible?.druh).toBe('otazka')
+      expect(taboo?.druh).toBe('otazka')
+      if (possible?.druh !== 'otazka' || taboo?.druh !== 'otazka') continue
+      for (const option of possible.moznosti!.filter(m => m.v !== 'ziadne')) {
+        const tabooValue = option.v === 'pomocka' ? 'pomocky' : option.v
+        const matching = taboo.moznosti!.find(m => m.v === tabooValue)
+        expect(matching).toBeDefined()
+        for (const sex of ['m', 'z'] as const) expect(gtext(matching!.label, sex)).toBe(gtext(option.label, sex))
+      }
+      expect(all.find(b => b.id === `${prefix}_co_pomoze`)?.druh).toBe('otazka')
     }
   })
 
