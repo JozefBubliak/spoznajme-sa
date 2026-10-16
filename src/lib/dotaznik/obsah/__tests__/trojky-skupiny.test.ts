@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 import { splna } from '../../podmienky'
+import { prepniMoznost } from '../../odpovede-ux'
 import { temaObsah } from '../index'
 import { gtext, type Blok, type Podmienka, type TemaObsah } from '../typ'
 
@@ -78,12 +79,18 @@ describe('samostatné témy trojok a skupín', () => {
       expect(ids).toContain(`${prefix}_konkretne_kontakty`)
       expect(ids).toContain(`${prefix}_pocity_a_motivacie`)
       expect(ids).toContain(`${prefix}_realny_ramec`)
-      const kontakt = all.find(b => b.id === `${prefix}_par_treti_kontakty`)
+      const kontakt = all.find(b => b.id === `${prefix}_par_treti_aktivity_vyber`)
       expect(kontakt?.druh).toBe('otazka')
-      if (kontakt?.druh === 'otazka') expect(kontakt.riadky).toHaveLength(prefix === 'mmf' ? 9 : 8)
-      const rovnake = all.find(b => b.id === `${prefix}_rovnake_pohlavie_kontakty`)
+      if (kontakt?.druh === 'otazka') {
+        expect(kontakt.typ).toBe('viac')
+        expect(kontakt.moznosti).toHaveLength(prefix === 'mmf' ? 12 : 11)
+      }
+      const rovnake = all.find(b => b.id === `${prefix}_rovnake_pohlavie_vyber`)
       expect(rovnake?.druh).toBe('otazka')
-      if (rovnake?.druh === 'otazka') expect(rovnake.riadky).toHaveLength(prefix === 'mmf' ? 6 : 7)
+      if (rovnake?.druh === 'otazka') {
+        expect(rovnake.typ).toBe('viac')
+        expect(rovnake.moznosti).toHaveLength(prefix === 'mmf' ? 7 : 8)
+      }
     }
     expect(new Set(ids).size).toBe(ids.length)
     const questions = new Set(all.filter(b => b.druh === 'otazka').map(b => b.id))
@@ -170,17 +177,46 @@ describe('samostatné témy trojok a skupín', () => {
     }
   })
 
-  it('riadky kontaktov opisujú tú istú situáciu žene aj mužovi', () => {
+  it('klikateľné situácie a hranice pomenúvajú rovnaký dej žene aj mužovi', () => {
     const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
-    const mmf = all.find(b => b.id === 'mmf_par_treti_kontakty')
-    const fmf = all.find(b => b.id === 'fmf_par_treti_kontakty')
+    const mmf = all.find(b => b.id === 'mmf_par_treti_aktivity_vyber')
+    const fmf = all.find(b => b.id === 'fmf_par_treti_aktivity_vyber')
     expect(mmf?.druh).toBe('otazka')
     expect(fmf?.druh).toBe('otazka')
     if (mmf?.druh !== 'otazka' || fmf?.druh !== 'otazka') return
-    expect(gtext(mmf.riadky![0].label, 'm')).toContain('Partnerka')
-    expect(gtext(mmf.riadky![0].label, 'z')).toContain('Bozkávam')
-    expect(gtext(fmf.riadky![0].label, 'm')).toContain('Bozkávam')
-    expect(gtext(fmf.riadky![0].label, 'z')).toContain('Partner')
+    expect(gtext(mmf.moznosti![0].label, 'm')).toContain('Partnerka')
+    expect(gtext(mmf.moznosti![0].label, 'z')).toContain('Bozkávam')
+    expect(gtext(fmf.moznosti![0].label, 'm')).toContain('Bozkávam')
+    expect(gtext(fmf.moznosti![0].label, 'z')).toContain('Partner')
+    for (const prefix of ['mmf', 'fmf']) {
+      const allowed = all.find(b => b.id === `${prefix}_par_treti_aktivity_vyber`)
+      const forbidden = all.find(b => b.id === `${prefix}_hranice_vyber`)
+      const feeling = all.find(b => b.id === `${prefix}_pocit_par_treti`)
+      const feelingSameGender = all.find(b => b.id === `${prefix}_pocit_rovnake_pohlavie`)
+      expect(allowed?.druh).toBe('otazka')
+      expect(forbidden?.druh).toBe('otazka')
+      expect(feeling?.druh).toBe('otazka')
+      expect(feelingSameGender?.druh).toBe('otazka')
+      if (allowed?.druh !== 'otazka' || forbidden?.druh !== 'otazka' || feeling?.druh !== 'otazka' || feelingSameGender?.druh !== 'otazka') continue
+      expect(allowed.typ).toBe('viac')
+      expect(forbidden.typ).toBe('viac')
+      expect(feeling.typ).toBe('jeden')
+      expect(feelingSameGender.typ).toBe('jeden')
+      expect(feeling.moznosti?.map(m => m.v)).toEqual(['vzrusuje', 'mozno', 'zmiesane', 'neprijemne', 'nepredstavim'])
+      expect(gtext(feeling.text, 'm')).toContain(prefix === 'mmf' ? 'partnerku s ďalším mužom' : 'pri kontakte s ďalšou ženou')
+      expect(gtext(feeling.text, 'z')).toContain(prefix === 'mmf' ? 'pri kontakte s ďalším mužom' : 'partnera s ďalšou ženou')
+      expect(gtext(feelingSameGender.text, 'm')).toContain(prefix === 'mmf' ? 'pri kontakte s ďalším mužom' : 'partnerku s ďalšou ženou')
+      expect(gtext(feelingSameGender.text, 'z')).toContain(prefix === 'mmf' ? 'partnera s ďalším mužom' : 'pri kontakte s ďalšou ženou')
+      expect(allowed.moznosti?.map(m => m.v)).toEqual(expect.arrayContaining(['bozk', 'oral_prijima', 'oral_poskytuje', 'penetracia', 'pomocka', 'partner_sleduje', 'partner_aktivne']))
+      expect(forbidden.moznosti?.map(m => m.v)).toEqual(expect.arrayContaining(['bozk', 'oral_prijima', 'oral_poskytuje', 'penetracia', 'pomocky', 'pozornost', 'rovnake_pohlavie', 'dominancia']))
+      expect(prepniMoznost(allowed, ['bozk'], 'bozk')).toEqual([])
+      expect(prepniMoznost(forbidden, ['bozk'], 'ziadne')).toEqual(['ziadne'])
+      expect(prepniMoznost(forbidden, ['ziadne'], 'oral_prijima')).toEqual(['oral_prijima'])
+      for (const option of [...allowed.moznosti!, ...forbidden.moznosti!]) {
+        expect(gtext(option.label, 'm')).not.toMatch(/treti[aeu]|tretia osob|treťou osob|tretej osob/i)
+        expect(gtext(option.label, 'z')).not.toMatch(/treti[aeu]|tretia osob|treťou osob|tretej osob/i)
+      }
+    }
   })
 
   it('odpovede sa medzi oddelenými témami neprepisujú cez spoločné ID', () => {
