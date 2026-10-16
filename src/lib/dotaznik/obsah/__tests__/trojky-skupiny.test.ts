@@ -105,10 +105,33 @@ describe('samostatné témy trojok a skupín', () => {
     expect(splna(byId('fmf_postoj_a_hranice').podmienka,
       { ...odpovede, fmf_realita_nova: { v: 'nie' } }, 'z')).toBe(false)
     expect(splna(byId('mmf_postoj_a_hranice').podmienka,
-      { ...odpovede, mmf_opakovat: { v: 'nie' } }, 'z')).toBe(false)
+      { ...odpovede, mmf_miera_vzrusenia: { v: 'nechcem_opakovat' } }, 'z')).toBe(false)
     expect(splna(byId('mmf_povodne_odpovede').podmienka, {}, 'm')).toBe(false)
     expect(splna(byId('mmf_povodne_odpovede').podmienka,
       { mmf_vstup: { v: 'ano' }, mmf_prijat: { v: ['bozk'] } }, 'm')).toBe(true)
+  })
+
+  it('MMF aj FMF majú päťstupňovú mieru vzrušenia a podotázku iba pri zlepšiteľnej skúsenosti', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    for (const prefix of ['mmf', 'fmf']) {
+      const rating = all.find(b => b.id === `${prefix}_miera_vzrusenia`)
+      const improve = all.find(b => b.id === `${prefix}_mozne_zlepsenie`)
+      const details = all.find(b => b.id === `${prefix}_postoj_a_hranice`)
+      const practical = all.find(b => b.id === `${prefix}_realny_ramec`)
+      expect(rating?.druh).toBe('otazka')
+      expect(improve?.druh).toBe('otazka')
+      if (rating?.druh !== 'otazka') continue
+      expect(rating.moznosti?.map(m => m.v)).toEqual(['velmi', 'skor', 'neutral', 'zlepsit', 'nechcem_opakovat'])
+      expect(all.map(b => b.id)).not.toContain(`${prefix}_s_kym`)
+      expect(all.map(b => b.id)).not.toContain(`${prefix}_fungovalo_nove`)
+      expect(all.map(b => b.id)).not.toContain(`${prefix}_opakovat`)
+      for (const value of ['velmi', 'skor', 'neutral', 'zlepsit', 'nechcem_opakovat']) {
+        const answers = { troj_skusenost: { v: prefix }, [`${prefix}_vstup`]: { v: 'ano' }, [`${prefix}_miera_vzrusenia`]: { v: value } }
+        expect(splna(improve?.podmienka, answers, 'z')).toBe(value === 'zlepsit')
+        expect(splna(details?.podmienka, answers, 'z')).toBe(value !== 'nechcem_opakovat')
+        expect(splna(practical?.podmienka, answers, 'z')).toBe(['velmi', 'skor', 'zlepsit'].includes(value))
+      }
+    }
   })
 
   it('riadky kontaktov opisujú tú istú situáciu žene aj mužovi', () => {

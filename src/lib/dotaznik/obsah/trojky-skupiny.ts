@@ -939,14 +939,14 @@ export const TROJKY_SKUPINY: TemaObsah = {
 function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blok {
   const vstup = `${prefix}_vstup`
   const skusena = `${prefix}_skusena`
-  const hodnotenie = `${prefix}_hodnotenie_nove`
-  const opakovat = `${prefix}_opakovat`
+  // Nové ID: staré „ako spomínaš“ neznamená mieru vzrušenia.
+  const hodnotenie = `${prefix}_miera_vzrusenia`
   const realita = `${prefix}_realita_nova`
   const otvorena = { ot: vstup, je: 'ano' }
   const maSkusenost = { ot: 'troj_skusenost', jeNiektora: [prefix, 'obe'] }
   const bezSkusenosti = { ot: 'troj_skusenost', jeNiektora: ['ziadna', prefix === 'mmf' ? 'fmf' : 'mmf'] }
   const pokracuje = { asponJedna: [
-    { vsetky: [maSkusenost, { ot: opakovat, jeNiektora: ['ano', 'mozno', 'fantazia'] }] },
+    { vsetky: [maSkusenost, { ot: hodnotenie, jeNiektora: ['velmi', 'skor', 'neutral', 'zlepsit'] }] },
     { vsetky: [bezSkusenosti, { ot: realita, jeNiektora: ['chcem', 'mozno', 'fantazia'] }] },
   ] }
   // Pôvodné hodnoty „ja som stredobodom“ nemali rovnaký význam pre oboch.
@@ -979,43 +979,26 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
         telo: povodna.druh === 'skupina' ? povodna.uvod ?? '' : '' },
       { druh: 'skupina', id: skusena, nadpis: 'Moja skutočná skúsenosť',
         podmienka: { vsetky: [otvorena, maSkusenost] }, bloky: [
-          { druh: 'otazka', id: `${prefix}_s_kym`, typ: 'jeden',
-            text: g('Bola táto skúsenosť s terajšou partnerkou alebo pred týmto vzťahom?', 'Bola táto skúsenosť s terajším partnerom alebo pred týmto vzťahom?'),
+          { druh: 'text', id: `${prefix}_miera_vzrusenia_uvod`, nadpis: 'Miera vzrušenia',
+            telo: g('Ako si prežíval túto podobu trojky?', 'Ako si prežívala túto podobu trojky?') },
+          { druh: 'otazka', id: hodnotenie, typ: 'jeden', text: 'Ktoré tvrdenie najviac sedí?',
             moznosti: [
-              { v: 'teraz', label: g('S terajšou partnerkou', 'S terajším partnerom') },
-              { v: 'predtym', label: 'Pred terajším vzťahom' },
-              { v: 'oboje', label: 'V oboch situáciách' },
+              { v: 'velmi', label: 'Veľmi ma to vzrušovalo – chcem to opakovať / zaradiť' },
+              { v: 'skor', label: g('Skôr ma to vzrušovalo – rád to zopakujem, ak budú vhodné podmienky', 'Skôr ma to vzrušovalo – rada to zopakujem, ak budú vhodné podmienky') },
+              { v: 'neutral', label: 'Neutrálne – je to v poriadku, ale nie je to moja priorita' },
+              { v: 'zlepsit', label: 'Skôr mi to nesedelo, ale môže sa to zlepšiť – ak upravíme osobu / techniku / komunikáciu' },
+              { v: 'nechcem_opakovat', label: 'Bolo mi to nepríjemné / mimo mojich hraníc – nechcem to opakovať' },
             ] },
-          { druh: 'otazka', id: hodnotenie, typ: 'jeden', text: 'Ako na túto skúsenosť dnes spomínaš?',
+          { druh: 'otazka', id: `${prefix}_mozne_zlepsenie`, typ: 'viac', inePovolene: true,
+            text: 'Čo by to podľa teba mohlo zlepšiť?',
+            podmienka: { ot: hodnotenie, je: 'zlepsit' },
             moznosti: [
-              { v: 'velmi', label: 'Veľmi dobre' }, { v: 'skor', label: 'Skôr dobre' },
-              { v: 'zmiesane', label: 'So zmiešanými pocitmi' },
-              { v: 'neprijemne', label: 'Skôr nepríjemne' },
-            ] },
-          { druh: 'otazka', id: `${prefix}_fungovalo_nove`, typ: 'viac', inePovolene: true,
-            text: 'Čo ti v tejto skúsenosti vyhovovalo?',
-            podmienka: { ot: hodnotenie, jeNiektora: ['velmi', 'skor', 'zmiesane'] },
-            moznosti: [
-              { v: 'pozornost', label: 'Rozdelenie pozornosti' },
-              { v: 'partner', label: g('Blízkosť s partnerkou', 'Blízkosť s partnerom') },
-              { v: 'tretia', label: 'Kontakt s treťou osobou' },
-              { v: 'sledovanie', label: g('Sledovanie partnerky', 'Sledovanie partnera') },
-              { v: 'atmosfera', label: 'Spoločná atmosféra' },
-            ] },
-          { druh: 'otazka', id: `${prefix}_zmenit_nove`, typ: 'viac', inePovolene: true,
-            text: g('Čo ti nevyhovovalo alebo by si dnes potreboval inak?', 'Čo ti nevyhovovalo alebo by si dnes potrebovala inak?'),
-            podmienka: { ot: hodnotenie, jeNiektora: ['zmiesane', 'neprijemne'] },
-            moznosti: [
-              { v: 'pozornost', label: 'Rozdelenie pozornosti' },
-              { v: 'rola', label: 'Moja rola' }, { v: 'tretia', label: 'Výber tretej osoby' },
-              { v: 'hranice', label: 'Rešpektovanie hraníc' },
-              { v: 'potom', label: 'Pocity po zážitku' },
-            ] },
-          { druh: 'otazka', id: opakovat, typ: 'jeden',
-            text: g('Chcel by si podobnú skúsenosť niekedy zopakovať?', 'Chcela by si podobnú skúsenosť niekedy zopakovať?'),
-            moznosti: [
-              { v: 'ano', label: 'Áno' }, { v: 'mozno', label: 'Možno, za určitých podmienok' },
-              { v: 'fantazia', label: 'Už iba ako fantáziu' }, { v: 'nie', label: 'Nie' },
+              { v: 'osoba', label: 'Iná tretia osoba' },
+              { v: 'priebeh', label: 'Iný priebeh alebo tempo' },
+              { v: 'pozornost', label: 'Iné rozdelenie pozornosti' },
+              { v: 'rola', label: 'Iná moja rola' },
+              { v: 'komunikacia', label: 'Lepšia komunikácia' },
+              { v: 'hranice', label: 'Jasnejšie hranice' },
             ] },
         ] },
       { druh: 'skupina', id: `${prefix}_bez_skusenosti_nove`, nadpis: 'Zatiaľ bez skúsenosti',
@@ -1177,7 +1160,7 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
           { druh: 'otazka', id: `${prefix}_podmienky_nove`, typ: 'viac', inePovolene: true,
             text: g('Čo by muselo byť vopred dohodnuté, aby si sa cítil bezpečne?', 'Čo by muselo byť vopred dohodnuté, aby si sa cítila bezpečne?'),
             podmienka: { asponJedna: [
-              { vsetky: [maSkusenost, { ot: opakovat, jeNiektora: ['ano', 'mozno'] }] },
+              { vsetky: [maSkusenost, { ot: hodnotenie, jeNiektora: ['velmi', 'skor', 'zlepsit'] }] },
               { vsetky: [bezSkusenosti, { ot: realita, jeNiektora: ['chcem', 'mozno'] }] },
             ] },
             moznosti: [
@@ -1189,7 +1172,7 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
             ] },
           { druh: 'skupina', id: `${prefix}_realny_ramec`, nadpis: 'Tretia osoba a návrat k sebe',
             podmienka: { asponJedna: [
-              { vsetky: [maSkusenost, { ot: opakovat, jeNiektora: ['ano', 'mozno'] }] },
+              { vsetky: [maSkusenost, { ot: hodnotenie, jeNiektora: ['velmi', 'skor', 'zlepsit'] }] },
               { vsetky: [bezSkusenosti, { ot: realita, jeNiektora: ['chcem', 'mozno'] }] },
             ] }, bloky: [
               { druh: 'otazka', id: `${prefix}_vyber_tretieho`, typ: 'viac', inePovolene: true,

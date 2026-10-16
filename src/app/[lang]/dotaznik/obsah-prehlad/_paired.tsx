@@ -200,7 +200,7 @@ export default function PairedPreview({ tema }: { tema: TemaObsah }) {
   const trojky = tema.slug === 'trojky-skupiny/trojky-skupiny'
   const trojScreening: OtazkaBlok = {
     druh: 'otazka', id: 'troj_screening_admin', typ: 'jeden',
-    text: 'Chceš tému Trojky ďalej skúmať?',
+    text: 'Chceš tému Trojky preskúmať?',
     moznosti: [
       { v: 'ano', label: 'Áno, chcem ju preskúmať' },
       { v: 'neskor', label: 'Ešte nie' },
