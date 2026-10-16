@@ -84,6 +84,7 @@ const MMF: Blok = {
         { v: 'len_jej', label: g('Dvaja muži sa venujú len partnerke, bez interakcie medzi sebou', 'Dvaja muži sa venujú len mne, bez interakcie medzi sebou') },
         { v: 'aj_sebe', label: g('Dvaja muži sa venujú partnerke aj sebe navzájom', 'Dvaja muži sa venujú mne aj sebe navzájom') },
         { v: 'jeden_asistuje', label: g('Ja sledujem, ako sa ďalší muž venuje partnerke, a potom sa zapojím', 'Partner sleduje, ako sa mi venuje ďalší muž, a potom sa zapojí') },
+        { v: 'pozorovatel', label: g('Ja sledujem partnerku s ďalším mužom a zostanem len pozorovať', 'Partner sleduje mňa s ďalším mužom a zostane len pozorovať') },
         { v: 'kazdy_kazdemu', label: 'Každý sa venuje každému rovnocenne' },
       ],
     },
@@ -161,7 +162,8 @@ const FMF: Blok = {
         { v: 'druha_stredobod', label: g('Partnerka je stredobodom pozornosti', 'Ja som stredobodom pozornosti') },
         { v: 'tretia_stredobod', label: 'Ďalšia žena je stredobodom pozornosti' },
         { v: 'kazdy_kazdemu', label: 'Každý sa venuje každému rovnocenne' },
-        { v: 'pozorovatel', label: g('Ja sledujem partnerku s ďalšou ženou a nemusím sa zapojiť', 'Partner sleduje mňa s ďalšou ženou a nemusí sa zapojiť') },
+        { v: 'pozorovatel', label: g('Ja sledujem partnerku s ďalšou ženou a zostanem len pozorovať', 'Partner sleduje mňa s ďalšou ženou a zostane len pozorovať') },
+        { v: 'jeden_asistuje', label: g('Ja sledujem, ako sa ďalšia žena venuje partnerke, a potom sa zapojím', 'Partner sleduje, ako sa mi venuje ďalšia žena, a potom sa zapojí') },
       ],
     },
     {
@@ -169,13 +171,12 @@ const FMF: Blok = {
       id: 'fmf_prijat_ona',
       typ: 'viac',
       inePovolene: true,
-      text: 'Čo by si si rada užila od druhej ženy?',
-      podmienka: { pohlavie: 'z' },
+      text: g('Čo by si rád zažil s ďalšou ženou?', 'Čo by si si rada užila od druhej ženy?'),
       moznosti: [
         { v: 'bozk', label: 'Bozkávanie — jemné, vášnivé, skúmavé' },
-        { v: 'hladenie', label: 'Hladenie pŕs, tela, vnímanie jej dotykov' },
-        { v: 'oral', label: 'Orálna stimulácia vulvy a klitorisu jej ústami a jazykom' },
-        { v: 'drazdenie', label: 'Dráždenie rukou alebo erotickou pomôckou na vulve, klitorise alebo vo vagíne' },
+        { v: 'hladenie', label: g('Hladenie tela a vnímanie jej dotykov', 'Hladenie pŕs, tela, vnímanie jej dotykov') },
+        { v: 'oral', label: g('Orálna stimulácia od ďalšej ženy', 'Orálna stimulácia vulvy a klitorisu jej ústami a jazykom') },
+        { v: 'drazdenie', label: g('Dráždenie rukou alebo erotickou pomôckou od ďalšej ženy', 'Dráždenie rukou alebo erotickou pomôckou na vulve, klitorise alebo vo vagíne') },
         { v: 'ziadna', label: 'Nepreferujem žiadnu interakciu s druhou ženou' },
       ],
     },
@@ -184,13 +185,12 @@ const FMF: Blok = {
       id: 'fmf_poskytnut_ona',
       typ: 'viac',
       inePovolene: true,
-      text: 'A čo by si bola ochotná spraviť ty?',
-      podmienka: { pohlavie: 'z' },
+      text: g('A čo by si bol ochotný spraviť ty?', 'A čo by si bola ochotná spraviť ty?'),
       moznosti: [
         { v: 'bozk', label: 'Bozkávanie — vášnivo, zvedavo, hravo' },
-        { v: 'hladenie', label: 'Hladenie jej pŕs, tela, sledovanie jej reakcií' },
-        { v: 'oral', label: 'Orálna stimulácia jej vulvy a klitorisu' },
-        { v: 'drazdenie', label: 'Dráždenie jej vulvy, klitorisu alebo vagíny rukou či erotickou pomôckou' },
+        { v: 'hladenie', label: g('Hladenie jej tela a sledovanie jej reakcií', 'Hladenie jej pŕs, tela, sledovanie jej reakcií') },
+        { v: 'oral', label: g('Orálna stimulácia ďalšej ženy', 'Orálna stimulácia jej vulvy a klitorisu') },
+        { v: 'drazdenie', label: g('Dráždenie ďalšej ženy rukou či erotickou pomôckou', 'Dráždenie jej vulvy, klitorisu alebo vagíny rukou či erotickou pomôckou') },
         { v: 'ziadna', label: 'Nepreferujem žiadnu interakciu s druhou ženou' },
       ],
     },
@@ -360,7 +360,7 @@ const GANGBANG: Blok = {
     },
     {
       druh: 'otazka', id: 'gb_motivacia', typ: 'viac', inePovolene: true,
-      text: 'Čo ma na gangbangu psychologicky priťahuje',
+      text: 'Čo ma na gangbangu psychologicky vzrušuje',
       moznosti: [
         { v: 'stredobod', label: g('Sledovať partnerku ako stredobod pozornosti', 'Byť stredobodom pozornosti') },
         { v: 'rozmaznavanie', label: g('Vidieť, ako ju viacerí muži rozmaznávajú', 'Pocit rozmaznávania viacerými mužmi') },
@@ -391,7 +391,7 @@ const GANGBANG: Blok = {
     },
     {
       druh: 'otazka', id: 'bk_vizual', typ: 'viac', inePovolene: true,
-      text: 'Čo ma na bukkake priťahuje',
+      text: 'Čo ma na bukkake vzrušuje',
       moznosti: [
         { v: 'vizual', label: 'Vizuál semena na tele' },
         { v: 'ocakavanie', label: 'Očakávanie spoločného finále' },
@@ -521,7 +521,7 @@ const RAMEC: Blok = {
         { v: 'pozorovanim', label: 'Najprv tú osobu iba sledovať v skupine' },
       ],
     },
-    { druh: 'otazka', id: 'ramec_preco_osoba', typ: 'text', text: 'Koho si predstavujem ako tretiu osobu — a čo konkrétne ma na nej priťahuje?' },
+    { druh: 'otazka', id: 'ramec_preco_osoba', typ: 'text', text: 'Koho si predstavujem ako tretiu osobu — a čo konkrétne ma na nej vzrušuje?' },
     {
       druh: 'otazka',
       id: 'ramec_miesto',
@@ -641,7 +641,7 @@ const POVODNY_OBSAH: TemaObsah = {
       telo:
         'Novosť a vzrušenie — zapojenie tretej osoby pridáva nový rozmer k známej dynamike.\n\n' +
         'Sústredenie pozornosti — byť stredobodom dvoch osôb posilňuje sebavedomie.\n\n' +
-        'Pozorovanie partnerovej rozkoše — voyeurizmus, compersion alebo príjemná dávka žiarlivosti.\n\n' +
+        'Pozorovanie partnerovej rozkoše — môže vzrušovať samotný pohľad, radosť z potešenia druhého aj príjemná dávka žiarlivosti.\n\n' +
         'Objavenie nových túžob — roly, príťažlivosť k rovnakému pohlaviu, služba, dominancia alebo pasívne sledovanie.\n\n' +
         'Trojka nie je test kvality vzťahu. Môže zostať fantáziou, jednorazovou skúsenosťou alebo obľúbenou formou spoločnej sexuality.',
     },
@@ -665,7 +665,7 @@ const POVODNY_OBSAH: TemaObsah = {
       telo:
         'Mýtus: fantázia o trojke znamená, že partner nestačí. Realita: často ide o novosť, množstvo pozornosti, sledovanie partnerovej rozkoše alebo objavenie inej stránky vlastnej sexuality.\n\n' +
         'Mýtus: v dobrej trojke musí každý robiť všetko s každým. Realita: niekoho vzrušuje stredobod, iného pozorovanie a ďalšieho kontakt iba s jednou osobou. Choreografia môže byť „dvaja pre jedného", striedanie aj erotické 2+1.\n\n' +
-        'Mýtus: žiarlivosť znamená, že človek trojku nechce. Realita: vzrušenie, zraniteľnosť, compersion aj žiarlivosť sa môžu objaviť naraz.\n\n' +
+        'Mýtus: žiarlivosť znamená, že človek trojku nechce. Realita: vzrušenie, zraniteľnosť, radosť z partnerovho potešenia aj žiarlivosť sa môžu objaviť naraz.\n\n' +
         'Mýtus: dotyk osoby rovnakého pohlavia automaticky určuje sexuálnu orientáciu. Realita: konkrétna fantázia, zvedavosť alebo skupinová skúsenosť nemusí byť novou identitou.\n\n' +
         'Trojky patria medzi rozšírené sexuálne fantázie. Túžba po nich nie je dôvodom na hanbu a rovnako nie je zlyhaním, ak človeka lákajú iba v predstavách.',
     },
@@ -801,7 +801,7 @@ const POVODNY_OBSAH: TemaObsah = {
       id: 'zaver',
       nadpis: 'Záver sekcie — trojka ako cesta k novým zážitkom',
       telo:
-        'Trojka môže odhaliť, že vás oboch priťahuje rovnaké zloženie, no odlišná rola — jeden chce byť stredobodom, druhý pozorovať alebo viesť. ' +
+        'Trojka môže odhaliť, že vás oboch vzrušuje rovnaké zloženie, no odlišná rola — jeden chce byť stredobodom, druhý pozorovať alebo viesť. ' +
         'Rovnako hodnotný výsledok je zistenie, že vás viac vzrušuje rozprávanie fantázie, spoločné sledovanie, hra s pomôckami alebo pozorovanie partnera než samotné zapojenie tretej osoby.',
     },
   ],
@@ -963,6 +963,22 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
   const detail = bloky(povodna).slice(1, 2).map(b => b.druh === 'otazka'
     ? { ...b, id: `${prefix}_rozdelenie_zrkadlo`, povodnyOkruh: prefix }
     : b)
+  const rovnakeKontakty: Moznost[] = prefix === 'mmf' ? [
+    { v: 'bozk', label: g('Bozkávam sa s ďalším mužom', 'Partner sa bozkáva s ďalším mužom') },
+    { v: 'dotyky', label: g('Dotýkame sa s ďalším mužom', 'Partner sa dotýka s ďalším mužom') },
+    { v: 'rucne_prijima', label: g('Ďalší muž ma dráždi rukou', 'Ďalší muž dráždi partnera rukou') },
+    { v: 'rucne_poskytuje', label: g('Dráždim ďalšieho muža rukou', 'Partner dráždi ďalšieho muža rukou') },
+    { v: 'oral_prijima', label: g('Prijímam orál od ďalšieho muža', 'Partner prijíma orál od ďalšieho muža') },
+    { v: 'oral_poskytuje', label: g('Poskytujem orál ďalšiemu mužovi', 'Partner poskytuje orál ďalšiemu mužovi') },
+  ] : [
+    { v: 'bozk', label: g('Partnerka sa bozkáva s ďalšou ženou', 'Bozkávam sa s ďalšou ženou') },
+    { v: 'dotyky', label: g('Partnerka a ďalšia žena sa dotýkajú', 'Dotýkame sa s ďalšou ženou') },
+    { v: 'rucne_prijima', label: g('Ďalšia žena dráždi partnerku rukou', 'Ďalšia žena ma dráždi rukou') },
+    { v: 'rucne_poskytuje', label: g('Partnerka dráždi ďalšiu ženu rukou', 'Dráždim ďalšiu ženu rukou') },
+    { v: 'oral_prijima', label: g('Partnerka prijíma orál od ďalšej ženy', 'Prijímam orál od ďalšej ženy') },
+    { v: 'oral_poskytuje', label: g('Partnerka poskytuje orál ďalšej žene', 'Poskytujem orál ďalšej žene') },
+    { v: 'pomocka', label: g('Partnerka a ďalšia žena používajú pomôcku jedna na druhej', 'Používame s ďalšou ženou pomôcku jedna na druhej') },
+  ]
   const stareOtazky = bloky(povodna).filter((b): b is Extract<Blok, { druh: 'otazka' }> => b.druh === 'otazka')
   const staraOdpoved = (id: string) => ({ ot: id, nie: '__neexistujuca_hodnota__' })
   return {
@@ -986,7 +1002,7 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
       { druh: 'text', id: `${prefix}_povodny_intimny_pohlad`, nadpis: 'Intímny pohľad', ton: 'citat', zbalitelny: true,
         podmienka: otvorena,
         telo: povodna.druh === 'skupina' ? povodna.uvod ?? '' : '' },
-          { druh: 'text', id: `${prefix}_miera_vzrusenia_uvod`, nadpis: 'Ako som to prežíval/a',
+          { druh: 'text', id: `${prefix}_miera_vzrusenia_uvod`, nadpis: g('Ako som to prežíval', 'Ako som to prežívala'),
             podmienka: otvorena,
             telo: g('Ako si prežíval túto podobu trojky?', 'Ako si prežívala túto podobu trojky?') },
           { druh: 'otazka', id: hodnotenie, typ: 'jeden', text: 'Ktoré tvrdenie najviac sedí?',
@@ -1028,7 +1044,7 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
               ? g('Ako na teba pôsobí predstava trojky s partnerkou a ďalším mužom?', 'Ako na teba pôsobí predstava trojky s partnerom a ďalším mužom?')
               : g('Ako na teba pôsobí predstava trojky s partnerkou a ďalšou ženou?', 'Ako na teba pôsobí predstava trojky s partnerom a ďalšou ženou?'),
             moznosti: [
-              { v: 'pritahuje', label: 'Priťahuje ma' }, { v: 'zvedavost', label: g('Som zvedavý', 'Som zvedavá') },
+              { v: 'pritahuje', label: 'Vzrušuje ma' }, { v: 'zvedavost', label: g('Som zvedavý', 'Som zvedavá') },
               { v: 'zmiesane', label: 'Mám zmiešané pocity' }, { v: 'neutralne', label: 'Je mi neutrálna' },
             ] },
           { druh: 'otazka', id: `${prefix}_miera_zapojenia`, typ: 'jeden',
@@ -1036,7 +1052,8 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
             moznosti: [
               { v: 'aktivne', label: 'Aktívne, chcem byť jej súčasťou' },
               { v: 'striedavo', label: 'Striedať zapojenie a pozorovanie' },
-              { v: 'pozorovat', label: 'Najmä pozorovať, prípadne sa jemne zapojiť' },
+              { v: 'pozorovat', label: 'Najmä pozorovať, s možnosťou jemného zapojenia' },
+              { v: 'len_pozorovat', label: 'Len pozorovať, bez zapojenia' },
               { v: 'neviem', label: 'Zatiaľ neviem, potrebujem o tom hovoriť' },
             ] },
           ...detail,
@@ -1071,7 +1088,7 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
                 { v: 'bez_moci', label: 'Nechcem v tom mocenskú hru' },
               ] },
             { druh: 'otazka', id: `${prefix}_pozorovatel`, typ: 'viac', inePovolene: true,
-              text: 'Kto by mohol byť chvíľu iba pozorovateľom?',
+              text: 'Kto by mohol byť pozorovateľom, či už chvíľu alebo celý čas?',
               moznosti: [
                 { v: 'muz_paru', label: prefix === 'mmf'
                   ? g('Ja sledujem partnerku s ďalším mužom', 'Partner sleduje mňa s ďalším mužom')
@@ -1125,29 +1142,12 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
                 text: prefix === 'mmf'
                   ? 'Ktoré kontakty medzi oboma mužmi si vieš predstaviť?'
                   : 'Ktoré kontakty medzi oboma ženami si vieš predstaviť?',
-                moznosti: prefix === 'mmf' ? [
-                  { v: 'bozk', label: g('Bozkávam sa s ďalším mužom', 'Partner sa bozkáva s ďalším mužom') },
-                  { v: 'dotyky', label: g('Dotýkame sa s ďalším mužom', 'Partner sa dotýka s ďalším mužom') },
-                  { v: 'rucne_prijima', label: g('Ďalší muž ma dráždi rukou', 'Ďalší muž dráždi partnera rukou') },
-                  { v: 'rucne_poskytuje', label: g('Dráždim ďalšieho muža rukou', 'Partner dráždi ďalšieho muža rukou') },
-                  { v: 'oral_prijima', label: g('Prijímam orál od ďalšieho muža', 'Partner prijíma orál od ďalšieho muža') },
-                  { v: 'oral_poskytuje', label: g('Poskytujem orál ďalšiemu mužovi', 'Partner poskytuje orál ďalšiemu mužovi') },
-                  { v: 'ziadne', label: 'Žiadny z uvedených kontaktov' },
-                ] : [
-                  { v: 'bozk', label: g('Partnerka sa bozkáva s ďalšou ženou', 'Bozkávam sa s ďalšou ženou') },
-                  { v: 'dotyky', label: g('Partnerka a ďalšia žena sa dotýkajú', 'Dotýkame sa s ďalšou ženou') },
-                  { v: 'rucne_prijima', label: g('Ďalšia žena dráždi partnerku rukou', 'Ďalšia žena ma dráždi rukou') },
-                  { v: 'rucne_poskytuje', label: g('Partnerka dráždi ďalšiu ženu rukou', 'Dráždim ďalšiu ženu rukou') },
-                  { v: 'oral_prijima', label: g('Partnerka prijíma orál od ďalšej ženy', 'Prijímam orál od ďalšej ženy') },
-                  { v: 'oral_poskytuje', label: g('Partnerka poskytuje orál ďalšej žene', 'Poskytujem orál ďalšej žene') },
-                  { v: 'pomocka', label: g('Partnerka a ďalšia žena používajú pomôcku jedna na druhej', 'Používame s ďalšou ženou pomôcku jedna na druhej') },
-                  { v: 'ziadne', label: 'Žiadny z uvedených kontaktov' },
-                ],
+                moznosti: [...rovnakeKontakty, { v: 'ziadne', label: 'Žiadny z uvedených kontaktov' }],
               },
             ] },
           { druh: 'skupina', id: `${prefix}_pocity_a_motivacie`, nadpis: 'Čo ma láka a čo by ma zasiahlo', bloky: [
             { druh: 'otazka', id: `${prefix}_co_laka`, typ: 'viac', inePovolene: true,
-              text: 'Čo ťa na tejto podobe trojky priťahuje alebo zaujíma?',
+              text: 'Čo ťa na tejto podobe trojky vzrušuje alebo zaujíma?',
               moznosti: [
                 { v: 'novost', label: 'Novosť spoločného zážitku' },
                 { v: 'pozornost', label: 'Viac pozornosti od dvoch ľudí' },
@@ -1183,7 +1183,7 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
               ] },
           ] },
           { druh: 'otazka', id: `${prefix}_hranice_vyber`, typ: 'viac', inePovolene: true,
-            vylucneMoznosti: ['ziadne'],
+            vylucneMoznosti: ['ziadne', 'rovnake_pohlavie'],
             text: prefix === 'mmf' ? 'Čo je pre teba pri trojke s ďalším mužom tabu?' : 'Čo je pre teba pri trojke s ďalšou ženou tabu?',
             moznosti: [
               { v: 'bozk', label: prefix === 'mmf'
@@ -1201,7 +1201,8 @@ function trojkaPodtema(prefix: 'mmf' | 'fmf', povodna: Blok, nazov: string): Blo
               { v: 'pomocky', label: prefix === 'mmf'
                 ? g('Ďalší muž používa pomôcku na partnerke', 'Ďalší muž používa pomôcku na mne')
                 : g('Ďalšia žena používa pomôcku na mne', 'Ďalšia žena používa pomôcku na partnerovi') },
-              { v: 'rovnake_pohlavie', label: prefix === 'mmf' ? 'Kontakt medzi mužmi' : 'Kontakt medzi ženami' },
+              { v: 'rovnake_pohlavie', label: prefix === 'mmf' ? 'Akýkoľvek kontakt medzi mužmi' : 'Akýkoľvek kontakt medzi ženami' },
+              ...rovnakeKontakty.map(({ v, label }) => ({ v: `rovnake_${v}`, label })),
               { v: 'pozornost', label: prefix === 'mmf'
                 ? g('Partnerka venuje ďalšiemu mužovi viac pozornosti než mne', 'Venujem ďalšiemu mužovi viac pozornosti než partnerovi')
                 : g('Venujem ďalšej žene viac pozornosti než partnerke', 'Partner venuje ďalšej žene viac pozornosti než mne') },
@@ -1318,7 +1319,7 @@ export const BUKKAKE_TEMA = temaSoSkusenostou({
 export const TRETIA_OSOBA: TemaObsah = {
   slug: 'trojky-skupiny/treti-clovek', nadpis: 'Tretí človek, emócie a dozvuk',
   uvod: [{ druh: 'text', id: 'treti_uvod',
-    telo: 'Táto časť platí naprieč formátmi s ďalšou osobou. Nehodnotí zážitok za teba; pomáha pomenovať, čo ťa pri ďalšom človeku priťahuje a čo ťa zraňuje.' }],
+    telo: 'Táto časť platí naprieč formátmi s ďalšou osobou. Nehodnotí zážitok za teba; pomáha pomenovať, čo ťa pri ďalšom človeku vzrušuje a čo ťa zraňuje.' }],
   telo: [povodny('matica_interakcii'), povodny('hranice'), RAMEC, EMOCIE],
 }
 

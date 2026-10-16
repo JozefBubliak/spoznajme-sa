@@ -219,6 +219,58 @@ describe('samostatné témy trojok a skupín', () => {
     }
   })
 
+  it('kontakty medzi mužmi a ženami majú rovnako podrobné možnosti a hranice', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    for (const prefix of ['mmf', 'fmf']) {
+      const allowed = all.find(b => b.id === `${prefix}_rovnake_pohlavie_vyber`)
+      const forbidden = all.find(b => b.id === `${prefix}_hranice_vyber`)
+      expect(allowed?.druh).toBe('otazka')
+      expect(forbidden?.druh).toBe('otazka')
+      if (allowed?.druh !== 'otazka' || forbidden?.druh !== 'otazka') continue
+      for (const option of allowed.moznosti!.filter(m => m.v !== 'ziadne')) {
+        const taboo = forbidden.moznosti!.find(m => m.v === `rovnake_${option.v}`)
+        expect(taboo).toBeDefined()
+        expect(gtext(taboo!.label, 'm')).toBe(gtext(option.label, 'm'))
+        expect(gtext(taboo!.label, 'z')).toBe(gtext(option.label, 'z'))
+      }
+      expect(prepniMoznost(forbidden, ['rovnake_bozk'], 'rovnake_oral_prijima'))
+        .toEqual(['rovnake_bozk', 'rovnake_oral_prijima'])
+      expect(prepniMoznost(forbidden, ['rovnake_pohlavie'], 'rovnake_bozk')).toEqual(['rovnake_bozk'])
+    }
+  })
+
+  it('obe zloženia rozlišujú trvalé pozorovanie od neskoršieho zapojenia', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    for (const prefix of ['mmf', 'fmf']) {
+      const split = all.find(b => b.id === `${prefix}_rozdelenie_zrkadlo`)
+      const involvement = all.find(b => b.id === `${prefix}_miera_zapojenia`)
+      expect(split?.druh).toBe('otazka')
+      expect(involvement?.druh).toBe('otazka')
+      if (split?.druh !== 'otazka') continue
+      if (involvement?.druh === 'otazka') {
+        expect(involvement.moznosti?.map(m => m.v)).toContain('len_pozorovat')
+        expect(involvement.moznosti?.map(m => m.v)).toContain('pozorovat')
+      }
+      const watch = split.moznosti!.find(m => m.v === 'pozorovatel')!
+      const join = split.moznosti!.find(m => m.v === 'jeden_asistuje')!
+      for (const sex of ['m', 'z'] as const) {
+        expect(gtext(watch.label, sex)).toContain('zostan')
+        expect(gtext(join.label, sex)).toContain('potom sa zapoj')
+      }
+    }
+  })
+
+  it('staré odpovede FMF majú mužské aj ženské znenie', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    for (const id of ['fmf_prijat_ona', 'fmf_poskytnut_ona']) {
+      const question = all.find(b => b.id === id)
+      expect(question?.druh).toBe('otazka')
+      if (question?.druh !== 'otazka') continue
+      expect(gtext(question.text, 'm')).not.toMatch(/rada|bola ochotná/)
+      expect(gtext(question.text, 'z')).toMatch(/rada|bola ochotná/)
+    }
+  })
+
   it('odpovede sa medzi oddelenými témami neprepisujú cez spoločné ID', () => {
     const routes = ['trojky-skupiny', ...formaty, 'treti-clovek']
     const all = routes.flatMap(slug => bloky(temaObsah('trojky-skupiny', slug)!)
