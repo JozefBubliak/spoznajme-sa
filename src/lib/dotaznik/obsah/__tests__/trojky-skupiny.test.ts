@@ -112,6 +112,41 @@ describe('samostatné témy trojok a skupín', () => {
       { mmf_vstup: { v: 'ano' }, mmf_prijat: { v: ['bozk'] } }, 'm')).toBe(true)
   })
 
+  it('znenie skúsenosti a pozornosti zahŕňa respondenta v oboch rodových verziách', () => {
+    const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
+    const question = (id: string) => {
+      const b = all.find(item => item.id === id)
+      expect(b?.druh).toBe('otazka')
+      if (b?.druh !== 'otazka') throw new Error(`Chýba otázka ${id}`)
+      return b
+    }
+    const experience = question('troj_skusenost')
+    expect(experience.moznosti!.map(item => item.v)).toEqual(['mmf', 'fmf', 'obe', 'ziadna'])
+    expect(gtext(experience.moznosti![0].label, 'm')).toBe('Áno, bol som v trojke so ženou a ďalším mužom (MMF)')
+    expect(gtext(experience.moznosti![0].label, 'z')).toBe('Áno, bola som v trojke s dvoma mužmi (MMF)')
+    expect(gtext(experience.moznosti![1].label, 'm')).toBe('Áno, bol som v trojke s dvoma ženami (FMF)')
+    expect(gtext(experience.moznosti![1].label, 'z')).toBe('Áno, bola som v trojke s mužom a ďalšou ženou (FMF)')
+    for (const [prefix, male, female] of [
+      ['mmf', 'ja, žena a ďalší muž', 'ja a dvaja muži'],
+      ['fmf', 'ja a dve ženy', 'ja, muž a ďalšia žena'],
+    ]) {
+      const group = all.find(item => item.id === `${prefix}_podtema`)
+      expect(group?.druh).toBe('skupina')
+      if (group?.druh !== 'skupina') throw new Error(`Chýba podtéma ${prefix}`)
+      expect(gtext(group.nadpis, 'm')).toContain(male)
+      expect(gtext(group.nadpis, 'z')).toContain(female)
+      expect(group.bloky.findIndex(item => item.id === `${prefix}_miera_vzrusenia`))
+        .toBeLessThan(group.bloky.findIndex(item => item.id === `${prefix}_naladenie`))
+    }
+    for (const id of ['mmf_rozdelenie_zrkadlo', 'mmf_rozdelenie_bez']) {
+      const first = question(id).moznosti!.find(item => item.v === 'len_jej')!
+      expect(gtext(first.label, 'm')).toContain('Ja a ďalší muž')
+      expect(gtext(first.label, 'z')).toContain('Partner a ďalší muž')
+    }
+    expect(gtext(question('fmf_pocit_stredobod').text, 'm'))
+      .toBe('Ako na teba pôsobí predstava, že sa ty a ďalšia žena venujete partnerke?')
+  })
+
   it('skúsená vetva má celé pokračovanie a pri odmietnutí zostáva postoj k partnerovej túžbe', () => {
     const all = bloky(temaObsah('trojky-skupiny', 'trojky-skupiny')!)
     const byId = (id: string) => all.find(b => b.id === id)!
