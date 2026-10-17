@@ -14,10 +14,18 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ kod: string
   const par = await overPar(kod, secret)
   if (!par) return NextResponse.json({ error: 'not-found' }, { status: 404 })
 
-  const { data: stav } = await db()
+  // Zdieľanie dôvodu zámku (migrácia 20261017); bez nej sa vráti len základný stav.
+  const rozsirene = await db()
     .from('dotaznik_stav_temy')
-    .select('slot, modul, tema, stav')
+    .select('slot, modul, tema, stav, zdielanie, dovod')
     .eq('par_id', par.id)
+  const stav = rozsirene.error
+    ? (await db().from('dotaznik_stav_temy').select('slot, modul, tema, stav').eq('par_id', par.id)).data
+    : rozsirene.data?.map(r => ({
+        slot: r.slot, modul: r.modul, tema: r.tema, stav: r.stav,
+        zdielanie: r.zdielanie ?? null,
+        dovod: r.zdielanie === 'aj_dovod' ? r.dovod ?? null : null,
+      }))
 
   return NextResponse.json({
     kod: par.kod,

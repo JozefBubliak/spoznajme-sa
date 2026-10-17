@@ -8,7 +8,7 @@ import { gtext, nazovSkupiny } from '@/lib/dotaznik/obsah/typ'
 import { hodnotaPreOtazku, predoslaMoznost, prepniMoznost, dalsiaZlucenaOdpoved, type HodnotaOtazky } from '@/lib/dotaznik/odpovede-ux'
 import { useI18n } from '@/components/IntlProvider'
 import { usePar } from './_par'
-import { useStavy, partnerZamok } from './_stav'
+import { useStavy, partnerZamok, ulozStav } from './_stav'
 import { useMojeOdpovede, ulozOdpoved } from './_odp'
 import { Krok, Volba } from './_ui'
 
@@ -373,6 +373,12 @@ export default function Kniha({
   function saveRaw(okruh: string, polozka: string, typ: string, hodnota: unknown, rola?: string) {
     setOverride((o) => ({ ...o, [polozka]: hodnota }))
     if (nahlad || !par) return
+    // Stopka v obsahu témy = trvalý zámok pre partnera; zmena odpovede ho zase uvoľní.
+    const stopka = obsah.stopky?.find((x) => x.ot === polozka)
+    if (stopka) {
+      const v = (hodnota as { v?: unknown } | undefined)?.v
+      void ulozStav(par, modul, tema, typeof v === 'string' && stopka.hodnoty.includes(v) ? 'nie' : 'ano')
+    }
     window.clearTimeout(timers.current[polozka])
     setUkladam(true)
     timers.current[polozka] = window.setTimeout(async () => {

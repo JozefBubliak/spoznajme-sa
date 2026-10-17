@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { TemaObsah } from '@/lib/dotaznik/obsah/typ'
 import { gtext } from '@/lib/dotaznik/obsah/typ'
@@ -11,7 +11,11 @@ function normalize(s: string) { return s.normalize('NFD').replace(/[\u0300-\u036
 
 export default function ObsahPrehladClient({ lang, temy }: { lang: string; temy: TemaObsah[] }) {
   const [query, setQuery] = useState('')
-  const [selected, setSelected] = useState(temy[0]?.slug ?? '')
+  // Bez výberu sa nič automaticky neotvára; vybraná téma sa pamätá v #hash.
+  const [selected, setSelected] = useState('')
+  useEffect(() => {
+    try { setSelected(decodeURIComponent(window.location.hash.slice(1))) } catch { /* ignore */ }
+  }, [])
   const q = normalize(query.trim())
   const ordered = useMemo(() => {
     const bySlug = new Map(temy.map(t => [t.slug, t]))
@@ -23,7 +27,7 @@ export default function ObsahPrehladClient({ lang, temy }: { lang: string; temy:
     const item = PREHLAD_SKUPINY.flatMap(group => group.polozky).find(p => p.slugs.includes(t.slug))
     return normalize(`${gtext(t.nadpis, 'z')} ${gtext(t.nadpis, 'm')} ${t.slug} ${item ? gtext(item.nazov, 'z') : ''} ${item?.popis ?? ''}`).includes(q)
   })
-  const current = ordered.find(t => t.slug === selected) ?? ordered[0]
+  const current = ordered.find(t => t.slug === selected)
   const currentGroup = PREHLAD_SKUPINY.find(group => group.polozky.some(item => item.slugs.includes(current?.slug ?? '')))
   const currentItem = currentGroup?.polozky.find(item => item.slugs.includes(current?.slug ?? ''))
   const ungrouped = results.filter(t => !PREHLAD_SKUPINY.some(group => group.polozky.some(item => item.slugs.includes(t.slug))))
@@ -66,6 +70,7 @@ export default function ObsahPrehladClient({ lang, temy }: { lang: string; temy:
         {results.length === 0 && <p className="text-sm text-muted-foreground">Žiadna téma sa nenašla.</p>}
       </aside>
       <main className="min-w-0">
+        {!current && <p className="rounded-2xl border border-white/10 bg-card/30 p-5 text-sm text-muted-foreground">Vyber tému zo zoznamu vľavo.</p>}
         {current && <>
           <div className="mb-5 rounded-2xl border border-white/10 bg-card/30 p-5">
             <p className="text-[11px] uppercase tracking-widest text-amber-200">{currentGroup?.nazov ?? 'Vybraná téma'}{currentItem?.poduroven ? ' › Trojky a skupiny' : ''}</p>

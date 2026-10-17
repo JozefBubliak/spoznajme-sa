@@ -15,8 +15,8 @@ export function generateStaticParams() {
 export default async function TemaIntro({ params }: P) {
   const { lang: raw, modul: modulSlug, tema: temaSlug } = await params
   const lang = normalizeUrlLocale(raw)
-  if (modulSlug === 'trojky-skupiny' && (temaSlug === 'trojka-mmf' || temaSlug === 'trojka-fmf'))
-    redirect(`/${lang}/dotaznik/m/trojky-skupiny/t/trojky-skupiny`)
+  if (modulSlug === 'trojky-skupiny' && temaSlug === 'trojky-skupiny')
+    redirect(`/${lang}/dotaznik/m/trojky-skupiny`)
   const found = getTema(modulSlug, temaSlug)
   if (!found) notFound()
   const { modul, tema } = found
@@ -31,6 +31,7 @@ export default async function TemaIntro({ params }: P) {
       ? cesta.temaRola(modul.slug, tema.slug)
       : cesta.temaSekcia(modul.slug, tema.slug, prvaSekcia.id)
 
+  const zdielanie = !!temaObsah(modul.slug, tema.slug)?.zdielanieDovod
   const uvodText = rich
     ? gtext(temaObsah(modul.slug, tema.slug)!.uvod.find((b) => b.druh === 'text')?.telo, 'z').split('\n\n')[0]
     : undefined
@@ -42,8 +43,10 @@ export default async function TemaIntro({ params }: P) {
       tema={tema.slug}
       nazov={tema.nazov}
       krok={`${modul.nazov} — téma`}
-      nadpis={tema.nazov}
-      lead={[uvodText ?? tema.popis, 'Chceš túto tému skúmať? „Nie“ alebo „Ešte nie“ ju zamkne aj partnerovi; dôvod sa nezobrazí.']
+      nadpis={zdielanie ? `Chceš tému „${tema.nazov}“ preskúmať?` : tema.nazov}
+      lead={[uvodText ?? tema.popis, zdielanie
+        ? '„Nie“ alebo „Ešte nie“ ju zamkne aj partnerovi; dôvod uvidí len vtedy, ak ho napíšeš.'
+        : 'Chceš túto tému skúmať? „Nie“ alebo „Ešte nie“ ju zamkne aj partnerovi; dôvod sa nezobrazí.']
         .filter(Boolean)
         .join(' — ')}
       spatHref={cesta.modul(modul.slug)}
@@ -52,6 +55,7 @@ export default async function TemaIntro({ params }: P) {
       cielNie={`${cesta.temaHotovo(modul.slug, tema.slug)}?stav=trvaly`}
       neskorHref={cesta.modul(modul.slug)}
       neskorLabel="Rozhodnem sa neskôr — späť na zoznam tém"
+      zdielanieDovod={zdielanie}
       extra={
         !rich && (tema.zrkadlova || tema.rizikova) ? (
           <>

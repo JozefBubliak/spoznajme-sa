@@ -13,10 +13,9 @@ describe('navigácia admin prehľadu', () => {
   it('trojky majú jednu položku; ostatné formáty ostávajú samostatné', () => {
     const group = PREHLAD_SKUPINY.find(g => g.id === 'dalsi-ludia')!
     const slugs = group.polozky.flatMap(p => p.slugs)
-    const overview = slugs.indexOf('trojky-skupiny/trojky-skupiny')
+    const overview = slugs.indexOf('trojky-skupiny/trojka-fmf')
     expect(overview).toBeGreaterThanOrEqual(0)
-    expect(slugs).not.toContain('trojky-skupiny/trojka-mmf')
-    expect(slugs).not.toContain('trojky-skupiny/trojka-fmf')
+    expect(slugs).toContain('trojky-skupiny/trojka-mmf')
     for (const slug of ['skupinovy-sex', 'gangbang', 'bukkake', 'treti-clovek']) {
       const item = group.polozky.find(p => p.slugs.includes(`trojky-skupiny/${slug}`))
       expect(item).toBeDefined()

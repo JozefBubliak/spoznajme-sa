@@ -20,6 +20,8 @@ export const dynamic = 'force-dynamic'
 const FALLBACK_ADMINS = ['rezvalia@gmail.com', 'jozef.bubliak@gmail.com']
 
 async function guardAdmin() {
+  // Lokálny vývoj (npm run dev) nevyžaduje prihlásenie; na produkcii platí gate.
+  if (process.env.NODE_ENV === 'development') return
   const session = await getSession()
   const email = session?.user?.email?.toLowerCase()
   const ok = !!email && (isAdminEmail(email) || FALLBACK_ADMINS.includes(email))

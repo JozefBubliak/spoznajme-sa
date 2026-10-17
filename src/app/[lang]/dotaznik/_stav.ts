@@ -10,7 +10,11 @@ import { temyPreStav } from '@/lib/dotaznik/temy-aliasy'
 // ─────────────────────────────────────────────────────────────────────────────
 
 export type StavHodnota = 'ano' | 'este_nie' | 'nie' | 'hotovo'
-export type StavRiadok = { slot: 'a' | 'b'; modul: string; tema: string; stav: StavHodnota }
+export type Zdielanie = 'len_zamok' | 'aj_dovod'
+export type StavRiadok = {
+  slot: 'a' | 'b'; modul: string; tema: string; stav: StavHodnota
+  zdielanie?: Zdielanie | null; dovod?: string | null
+}
 
 export type Zamok = null | 'trvaly' | 'docasny'
 
@@ -77,17 +81,27 @@ export function partnerZamok(
   return null
 }
 
+/** Dôvod zámku, ktorý partner dovolil zobraziť (iba pri zdielaní „aj_dovod“). */
+export function partnerDovod(stavy: StavRiadok[], par: ParLocal, modul: string, tema: string | null): string | null {
+  const partnerSlot = par.slot === 'a' ? 'b' : 'a'
+  const temy = temyPreStav(modul, tema ?? '')
+  const r = stavy.find(s => s.slot === partnerSlot && s.modul === modul && temy.includes(s.tema)
+    && (s.stav === 'nie' || s.stav === 'este_nie') && s.zdielanie === 'aj_dovod' && s.dovod)
+  return r?.dovod ?? null
+}
+
 export async function ulozStav(
   par: ParLocal,
   modul: string,
   tema: string | null,
   stav: StavHodnota,
+  zdielanie?: { zdielanie: Zdielanie; dovod?: string },
 ): Promise<boolean> {
   try {
     const r = await fetch(`/api/dotaznik/pary/${par.kod}/stav`, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ secret: par.secret, slot: par.slot, modul, tema: tema ?? '', stav }),
+      body: JSON.stringify({ secret: par.secret, slot: par.slot, modul, tema: tema ?? '', stav, ...zdielanie }),
     })
     return r.ok
   } catch {
