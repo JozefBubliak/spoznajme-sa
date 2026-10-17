@@ -135,6 +135,8 @@ export type TemaObsah = {
   uvod: Blok[]
   /** Screening ponúkne pod-voľbu „partner uvidí dôvod v 1 vete". */
   zdielanieDovod?: boolean
+  /** Stopka: odpoveď z `hodnoty` zamkne tému aj partnerovi (stav „nie“) a ďalšie otázky sa neotvoria. */
+  stopky?: { ot: string; hodnoty: string[] }[]
   /** Vetviaci dotazník. */
   telo: Blok[]
   /** Evidencia a celé obsahové vetvy podľa skúsenosti, ak sú pre tému zmysluplné. */

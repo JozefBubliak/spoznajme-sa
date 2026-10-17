@@ -15,8 +15,8 @@ export default async function NahladTemy({ params, searchParams }: P) {
   const { lang: raw, modul, tema } = await params
   const { p } = await searchParams
   const lang = normalizeUrlLocale(raw)
-  if (modul === 'trojky-skupiny' && (tema === 'trojka-mmf' || tema === 'trojka-fmf'))
-    redirect(`/${lang}/dotaznik/nahlad/trojky-skupiny/trojky-skupiny${p ? `?p=${p}` : ''}`)
+  if (modul === 'trojky-skupiny' && tema === 'trojky-skupiny')
+    redirect(`/${lang}/dotaznik/nahlad/trojky-skupiny/trojka-mmf${p ? `?p=${p}` : ''}`)
   const obsah = temaObsah(modul, tema)
   if (!obsah) notFound()
   const pohlavie: Pohlavie | undefined = p === 'm' || p === 'z' ? p : undefined

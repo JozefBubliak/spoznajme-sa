@@ -92,7 +92,8 @@ const bezVetvenia = (dovod: string): VetvenieSkusenosti => ({ rezim: 'nepouziva-
 
 export const VETVENIE_SKUSENOSTI: Record<string, VetvenieSkusenosti> = {
   'prostredie-atmosfera/prostredie-atmosfera': bezVetvenia('Prostredie je preferenčný kontext, nie menej častá praktika. Nemá mať všeobecný gatekeeper mám/nemám skúsenosť.'),
-  'trojky-skupiny/trojky-skupiny': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
+  'trojky-skupiny/trojka-mmf': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
+  'trojky-skupiny/trojka-fmf': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
   'trojky-skupiny/skupinovy-sex': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
   'trojky-skupiny/gangbang': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },
   'trojky-skupiny/bukkake': { rezim: 'jedna-skusenost', stav: 'aktivne', bezSkusenosti: [], soSkusenostou: [], paroveZobrazenie: 'vsetko-relevantne-okrem-nie' },

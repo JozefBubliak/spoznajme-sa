@@ -202,16 +202,23 @@ function Rows({ blocks, maleBlocks = blocks, path, tema, answers, save, notes, s
 }
 
 export default function PairedPreview({ tema }: { tema: TemaObsah }) {
-  const trojky = tema.slug === 'trojky-skupiny/trojky-skupiny'
-  const trojScreening: OtazkaBlok = {
-    druh: 'otazka', id: 'troj_screening_admin', typ: 'jeden',
-    text: 'Chceš tému Trojky preskúmať?',
-    moznosti: [
-      { v: 'ano', label: 'Áno, chcem ju preskúmať' },
-      { v: 'neskor', label: 'Ešte nie' },
-      { v: 'nie', label: 'Nie, nechcem' },
-    ],
-  }
+  const trojky = tema.slug.startsWith('trojky-skupiny/trojka-')
+  const trojScreening: OtazkaBlok[] = [
+    {
+      druh: 'otazka', id: 'troj_screening_admin', typ: 'jeden',
+      text: 'Chceš preskúmať túto tému?',
+      moznosti: [
+        { v: 'ano', label: 'Áno — chcem preskúmať túto tému' },
+        { v: 'neskor', label: 'Ešte nie — chcem sa k nej vrátiť neskôr, keď bude správny čas' },
+        { v: 'nie', label: 'Nie — nechcem túto tému skúmať (trvalé uzamknutie)' },
+      ],
+    },
+    {
+      druh: 'otazka', id: 'troj_screening_dovod', typ: 'text',
+      text: 'Dôvod v 1 vete (nepovinné; ak ho vyplníš, druhá osoba ho uvidí)',
+      podmienka: { ot: 'troj_screening_admin', jeNiektora: ['neskor', 'nie'] },
+    },
+  ]
   const mirrors = useMemo(() => zrkadlaTémy(tema), [tema])
   const mirrorGroups = useMemo(() => zrkadloveSkupiny(tema), [tema])
   const [answers, setAnswers] = useState<Record<Pohlavie, Odpovede>>({ z: {}, m: {} })
@@ -243,7 +250,7 @@ export default function PairedPreview({ tema }: { tema: TemaObsah }) {
     {([['uvod', tema.uvod], ['telo', tema.telo], ['zaver', tema.zaver ?? []]] as const).map(([id, blocks]) => blocks.length > 0 && <section key={id} className="mt-7">
       <h3 className="mb-3 border-b border-white/15 pb-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-200">{id === 'uvod' ? 'Úvod' : id === 'telo' ? 'Otázky a vetvy' : 'Záver'}</h3>
       <Note tema={tema.slug} blok={id} value={notes[id] ?? ''} onSaved={value => setNote(id, value)} />
-      {trojky && id === 'telo' && <div className="mt-3"><Rows blocks={[trojScreening]} path="screening" tema={tema.slug} answers={answers} save={save} notes={notes} setNote={setNote} showAll={showAll} /></div>}
+      {trojky && id === 'telo' && <div className="mt-3"><Rows blocks={trojScreening} path="screening" tema={tema.slug} answers={answers} save={save} notes={notes} setNote={setNote} showAll={showAll} /></div>}
       <div className="mt-3"><Rows blocks={blocks} path={id} tema={tema.slug} answers={answers} save={save} notes={notes} setNote={setNote} showAll={showAll} mirrors={mirrors} mirrorGroups={mirrorGroups}
         active={trojky && id === 'telo' ? { z: answers.z.troj_screening_admin?.v === 'ano', m: answers.m.troj_screening_admin?.v === 'ano' } : undefined} /></div>
     </section>)}

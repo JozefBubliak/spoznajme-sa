@@ -14,8 +14,8 @@ export function generateStaticParams() {
 export default async function TemaKniha({ params }: P) {
   const { lang: raw, modul: modulSlug, tema: temaSlug } = await params
   const lang = normalizeUrlLocale(raw)
-  if (modulSlug === 'trojky-skupiny' && (temaSlug === 'trojka-mmf' || temaSlug === 'trojka-fmf'))
-    redirect(`/${lang}/dotaznik/m/trojky-skupiny/t/trojky-skupiny/kniha`)
+  if (modulSlug === 'trojky-skupiny' && temaSlug === 'trojky-skupiny')
+    redirect(`/${lang}/dotaznik/m/trojky-skupiny`)
   const found = getTema(modulSlug, temaSlug)
   if (!found) notFound()
   const obsah = temaObsah(found.modul.slug, found.tema.slug)

@@ -11,7 +11,7 @@ const STAVY = ['ano', 'este_nie', 'nie', 'hotovo']
 //  { secret, slot, modul, tema?, stav }   → upsert screening stavu
 export async function PUT(req: NextRequest, ctx: { params: Promise<{ kod: string }> }) {
   const { kod } = await ctx.params
-  let b: { secret?: string; slot?: string; modul?: string; tema?: string | null; stav?: string }
+  let b: { secret?: string; slot?: string; modul?: string; tema?: string | null; stav?: string; zdielanie?: string; dovod?: string }
   try {
     b = await req.json()
   } catch {
@@ -25,6 +25,10 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ kod: string
     return NextResponse.json({ error: 'bad-input' }, { status: 400 })
   }
 
+  const zdielanie = b.zdielanie === 'len_zamok' || b.zdielanie === 'aj_dovod' ? b.zdielanie : null
+  const dovod = zdielanie === 'aj_dovod' ? (b.dovod ?? '').trim().slice(0, 200) || null : null
+  const lock = b.stav === 'nie' || b.stav === 'este_nie'
+
   const row = {
     par_id: par.id,
     slot: b.slot as Slot,
@@ -32,6 +36,8 @@ export async function PUT(req: NextRequest, ctx: { params: Promise<{ kod: string
     tema: b.tema ?? '',
     stav: b.stav,
     updated_at: new Date().toISOString(),
+    // Stĺpce z migrácie 20261017 sa posielajú len pri zámku s nastaveným zdieľaním.
+    ...(lock && zdielanie ? { zdielanie, dovod } : {}),
   }
 
   const { error } = await db()
